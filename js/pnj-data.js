@@ -11,7 +11,7 @@ const PNJ_DATA = [
     naissance: "vers 1689 — avril 1717 (?)",
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Antonio"],
-    portrait: null,
+    portrait: "pnj/portraits/Samuel_Bellamy.jpg",
     bio: `Le Prince des Pirates — le surnom est mérité, mais pas pour les raisons qu'on croit. Bellamy ne gagne pas les batailles : il gagne les gens, ce qui est bien plus rare. Stratège approximatif, marin médiocre, sa légende repose sur ce qu'on oublie de ses échecs et ce qu'on retient de ses coups d'éclat — et ils sont réels. Il ne s'adresse à son équipage que par ces mots : "Mes amis." Et ils le croient.
 
 C'est lui qui a libéré Antonio lors de son transfert vers La Havane, sur information des contrebandiers anglais. Sans calcul apparent — l'idée de contrarier un gouverneur espagnol l'amusait, un bretteur de talent pouvait toujours servir. À la séparation, il a restitué les effets personnels d'Antonio et versé une solde.
