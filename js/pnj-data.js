@@ -370,4 +370,243 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     portrait: "pnj/portraits/mist.jpg",
     bio: `Réseau de correspondants qui documente les événements et personnages extraordinaires des Indes Occidentales pour un commanditaire londonien. Robert Arundel en est le correspondant de terrain — approché avant son départ pour les Caraïbes par un certain Nathaniel Mist, qui se présentait comme "membre de l'équipage du Capitaine Charles Johnson".`
   }
-];
+{
+    id: "morgan",
+    visible: false,
+    nom: "Henry Morgan",
+    alias: "Sir Henry Morgan",
+    statut: "mort",
+    naissance: "vers 1635 — 25 août 1688",
+    origine: "Gallois",
+    tags: ["Caraïbes", "Jamaïque"],
+    portrait: null,
+    bio: `Flibustier gallois devenu planteur et Lieutenant-Gouverneur de Jamaïque. Auteur du sac de Panama en 1671. Mort le 25 août 1688. Sa pierre tombale a été engloutie lors du séisme de Port-Royal en 1692. Figure légendaire des Caraïbes.`
+  },
+ 
+  {
+    id: "avery",
+    visible: false,
+    nom: "Henry Avery",
+    alias: null,
+    statut: "inconnu",
+    naissance: "vers 1659 — après 1696",
+    origine: "Anglais",
+    tags: ["Caraïbes", "The Pirate Round"],
+    portrait: null,
+    bio: `Pirate légendaire disparu après 1696. A capturé le Gang-i-Sawai du Grand Moghol en 1695, coup le plus spectaculaire de l'âge d'or de la piraterie. Sa trace se perd après. Certains disent mort, d'autres caché.`
+  },
+ 
+  {
+    id: "halley",
+    visible: false,
+    nom: "Edmund Halley",
+    alias: null,
+    statut: "vivant",
+    naissance: "1656 — 1742",
+    origine: "Anglais",
+    tags: ["Europe"],
+    portrait: null,
+    bio: `Astronome de réputation européenne. A découvert la comète qui porte son nom. Correspondant savant de nombreux personnages illustres de son époque.`
+  },
+ 
+  {
+    id: "anne-dieu-le-veut",
+    visible: false,
+    nom: "Anne Dieu-le-veut",
+    alias: "Marie Dieuleveult",
+    statut: "mort",
+    naissance: "1661 — 11 janvier 1710",
+    origine: "Française (Morbihan)",
+    tags: ["Caraïbes", "Saint-Domingue"],
+    portrait: null,
+    bio: `Née Marie Dieuleveult à Gourin, Morbihan. Trois mariages successifs, dont Laurens de Graaf dit Lorencillo qu'elle est allée trouver pistolet à la main. A accompagné son mari en mer — l'équipage la considérait comme un porte-bonheur. Capturée avec ses enfants par les Anglais en 1695, libérée en 1698. Morte le 11 janvier 1710 au Cap-Français. Mère de Catherine de Graaf.`
+  },
+ 
+  {
+    id: "catherine-de-graaf",
+    visible: false,
+    nom: "Catherine de Graaf",
+    alias: null,
+    statut: "vivant",
+    naissance: "mai 1694 — 1762",
+    origine: "Française (Saint-Domingue)",
+    tags: ["Caraïbes", "Saint-Domingue", "Satiété engendre Démesure"],
+    portrait: null,
+    bio: `Née en mai 1694 au Cap-Français, fille de Laurens de Graaf et d'Anne Dieu-le-veut. Héritière à 16 ans d'une fortune considérable — sucrerie, plus de 120 esclaves. Indépendante d'esprit, a refusé une tutelle, échappé à une lettre de cachet, défié un homme en duel. Rencontrée lors du banquet de SED (janvier 1714).
+ 
+Femme qui vit délibérément avec des gens de mauvais commerce — par choix, pas par nécessité.`
+  },
+ 
+  {
+    id: "conti",
+    visible: false,
+    nom: "Père Ubaldo Conti",
+    alias: null,
+    statut: "vivant",
+    naissance: "vers 1665",
+    origine: "Italien",
+    tags: ["Caraïbes"],
+    portrait: null,
+    bio: `Se présente comme vicaire apostolique aux Caraïbes. Entré en scène à La Tortue après la mort de Ruggiero della Scala. Tout de noir vêtu sauf un large col de dentelles blanches — l'apparence d'un spadassin bien plus que d'un ecclésiastique. Petit, cheveux poivre et sel, fine moustache, accent italien marqué, porte une rapière.`
+  },
+ 
+  {
+    id: "sanna",
+    visible: false,
+    nom: "Mystérieux assassin",
+    alias: null,
+    statut: "inconnu",
+    naissance: null,
+    origine: "Italien (présumé)",
+    tags: ["Caraïbes", "Antonio"],
+    portrait: null,
+    bio: `Tueur non identifié. Responsable de la mort de Ruggiero della Scala à La Tortue. Description physique : homme de taille moyenne, cheveux courts poivre et sel, fine moustache, accent italien, porte une rapière. Disparu après les faits.`
+  },
+ 
+  {
+    id: "bortodano",
+    visible: false,
+    nom: "Alfonso Bortodano",
+    alias: null,
+    statut: "vivant",
+    naissance: null,
+    origine: "Espagnol",
+    tags: ["Caraïbes"],
+    portrait: null,
+    bio: `Gouverneur espagnol de Porto Rico (1716–1720). A mis un vaisseau de guerre et ses hommes à disposition pour une opération dans les Caraïbes.`
+  },
+ 
+  {
+    id: "thorn",
+    visible: false,
+    nom: "Edmund Thorn",
+    alias: null,
+    statut: "vivant",
+    naissance: "vers 1680",
+    origine: "Anglais",
+    tags: ["Jamaïque", "Kingston"],
+    portrait: null,
+    bio: `Officier anglais stationné en Jamaïque. Aide de camp du gouverneur et Deputy Naval Officer à Kingston. Froid, patibulaire, sans charme social. Porte à Portobelo un sabre de belle facture qui attire l'œil.`
+  },
+ 
+  {
+    id: "mascarano",
+    visible: false,
+    nom: "Simon Mascarano",
+    alias: null,
+    statut: "vivant",
+    naissance: "vers 1680 — après 1721",
+    origine: "Portugais",
+    tags: ["Caraïbes"],
+    portrait: null,
+    bio: `Pirate portugais, corsaire au service de l'Espagne. Actif dans les Caraïbes de 1701 à 1721. Équipage de toutes nations et couleurs. Qualifié de "notable scélérat" par la Royal Navy.`
+  },
+ 
+  {
+    id: "harrington",
+    visible: false,
+    nom: "James Harrington",
+    alias: null,
+    statut: "inconnu",
+    naissance: null,
+    origine: "Anglais",
+    tags: ["Jamaïque"],
+    portrait: null,
+    bio: `Tailleur de pierre anglais. A réalisé le mausolée de Henry Morgan à Port-Royal selon des spécifications inhabituelles et très précises. A laissé des carnets détaillant son travail.`
+  },
+ 
+  {
+    id: "barbot-de-villeneuve",
+    visible: false,
+    nom: "Gabrielle-Suzanne Barbot de Villeneuve",
+    alias: null,
+    statut: "vivant",
+    naissance: "1685 — 1755",
+    origine: "Française (La Rochelle)",
+    tags: ["Caraïbes"],
+    portrait: null,
+    bio: `Romancière française, en transit vers les colonies en 1718. Prise en otage lors du blocus de Charleston par Barbe-Noire. Femme de tempérament, observatrice attentive.`
+  },
+ 
+  // ── Factions ─────────────────────────────────────────────────
+ 
+  {
+    id: "piagnoni",
+    visible: false,
+    nom: "Les Piagnoni",
+    alias: null,
+    statut: "vivant",
+    naissance: null,
+    origine: "Italienne",
+    tags: ["Caraïbes", "Europe", "Piagnoni"],
+    portrait: null,
+    bio: `Secte aux origines et objectifs encore mal cernés. Des agents au profil similaire ont été signalés dans plusieurs ports des Caraïbes. Manifeste une hostilité envers certains objets et documents anciens. Ruggiero della Scala a été tué par l'un d'eux.`
+  },
+ 
+  {
+    id: "trident",
+    visible: false,
+    nom: "Le Trident de Neptune",
+    alias: null,
+    statut: "vivant",
+    naissance: null,
+    origine: "Caraïbes / Irlande / Espagne",
+    tags: ["Caraïbes", "Trident"],
+    portrait: null,
+    bio: `Réseau de contrebande actif dans l'ensemble des Caraïbes. Absorbe ou élimine les réseaux artisanaux existants. Corrompt systématiquement les fonctionnaires coloniaux de toutes nationalités. Direction inconnue. Nicholas Woodall en est une victime.`
+  },
+ 
+  {
+    id: "jesuites",
+    visible: false,
+    nom: "Les Jésuites",
+    alias: null,
+    statut: "vivant",
+    naissance: null,
+    origine: "Internationale",
+    tags: ["Caraïbes", "Europe", "Saint-Domingue"],
+    portrait: null,
+    bio: `Réseau jésuite aux Caraïbes, visible à travers la présence du Père Morelet d'Aboville à Cap-Français et de personnages gravitant dans son orbite. Étendue et objectifs réels : inconnus.`
+  },
+ 
+  // ── Candidats en réserve ─────────────────────────────────────
+ 
+  {
+    id: "keroualle",
+    visible: false,
+    nom: "Louise de Kéroualle, duchesse de Portsmouth",
+    alias: null,
+    statut: "vivant",
+    naissance: "1649 — 1734",
+    origine: "Bretonne (France)",
+    tags: ["Europe", "Robert"],
+    portrait: null,
+    bio: `Bretonne, ancienne maîtresse officielle de Charles II d'Angleterre, agent d'influence de Louis XIV à la cour anglaise. En 1715, 65 ans, retirée à Aubigny. Femme de mémoire longue qui a survécu à trois règnes.`
+  },
+ 
+  {
+    id: "frederik-ruysch",
+    visible: false,
+    nom: "Frederik Ruysch",
+    alias: null,
+    statut: "vivant",
+    naissance: "1638 — 1731",
+    origine: "Hollandais (Amsterdam)",
+    tags: ["Europe", "Fanch"],
+    portrait: null,
+    bio: `Anatomiste et botaniste hollandais. Créateur du cabinet de curiosités le plus célèbre d'Europe — plus de 2 000 spécimens. A vendu l'intégralité de sa collection à Pierre le Grand en 1717 pour 30 000 guilders.`
+  },
+ 
+  {
+    id: "rachel-ruysch",
+    visible: false,
+    nom: "Rachel Ruysch",
+    alias: null,
+    statut: "vivant",
+    naissance: "1664 — 1750",
+    origine: "Hollandaise (Amsterdam / Düsseldorf)",
+    tags: ["Europe"],
+    portrait: null,
+    bio: `Peintre néerlandaise de natures mortes florales, fille de Frederik Ruysch. Première femme admise à la Confrérie Pictura de La Haye. Peintre de cour de Johann Wilhelm, électeur palatin à Düsseldorf, jusqu'en 1716. Fortune et réputation indépendantes.`
+  },
+    ];
