@@ -5,6 +5,7 @@
 const PNJ_DATA = [
   {
     id: "bellamy",
+    epingle: true,
     nom: "Samuel Bellamy",
     alias: "Black Sam, le Prince des Pirates, Robin des mers",
     statut: "actif",
@@ -21,6 +22,7 @@ A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associe
   {
     id: "hornigold",
     nom: "Benjamin Hornigold",
+    epingle: true,
     alias: null,
     statut: "actif",
     naissance: "vers 1670-80",
@@ -35,6 +37,7 @@ Portrait : allure aristocratique, larges favoris grisonnants, longue redingote s
   },
   {
     id: "jennings",
+    epingle: true,
     nom: "Henry Jennings",
     alias: null,
     statut: "actif",
@@ -50,6 +53,7 @@ Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle pr
   },
   {
     id: "teach",
+    epingle: true,
     nom: "Edward Teach",
     alias: "Barbe-Noire",
     statut: "actif",
