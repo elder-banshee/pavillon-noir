@@ -75,7 +75,7 @@ Portrait : la barbe noire est réelle, et son effet soigné. C'est un colosse : 
     naissance: "vers 1675",
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "La Marianne", "Les épaves de la Flotte au Trésor"],
-    portrait: null,
+    portrait: "pnj/portraits/paulsgrave.jpg",
     bio: `Associé de Bellamy — compagnon d'armes, pas subordonné. Devenu pirate sur le tard, avec derrière lui une vie apparemment confortable, comme si Bellamy l'avait un jour convaincu qu'une vie d'aventures était la seule digne d'être vécue, et que l'argument avait suffi.
 
 En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le propre d'un homme faible, mais d'un homme qui n'a aucune ambition de premier rôle et n'en ressent pas le besoin. Les PJ l'ont à peine remarqué lors de leurs interactions — ce qui est à peu près l'effet qu'il produit sur tout le monde. Toujours affable et courtois dans le peu qu'ils ont échangé.`
@@ -608,5 +608,5 @@ Femme qui vit délibérément avec des gens de mauvais commerce — par choix, p
     tags: ["Europe"],
     portrait: null,
     bio: `Peintre néerlandaise de natures mortes florales, fille de Frederik Ruysch. Première femme admise à la Confrérie Pictura de La Haye. Peintre de cour de Johann Wilhelm, électeur palatin à Düsseldorf, jusqu'en 1716. Fortune et réputation indépendantes.`
-  },
+  }
     ];
