@@ -369,7 +369,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     tags: ["Europe", "Robert"],
     portrait: "pnj/portraits/mist.jpg",
     bio: `Réseau de correspondants qui documente les événements et personnages extraordinaires des Indes Occidentales pour un commanditaire londonien. Robert Arundel en est le correspondant de terrain — approché avant son départ pour les Caraïbes par un certain Nathaniel Mist, qui se présentait comme "membre de l'équipage du Capitaine Charles Johnson".`
-  }
+  },
 {
     id: "morgan",
     visible: false,
@@ -608,5 +608,5 @@ Femme qui vit délibérément avec des gens de mauvais commerce — par choix, p
     tags: ["Europe"],
     portrait: null,
     bio: `Peintre néerlandaise de natures mortes florales, fille de Frederik Ruysch. Première femme admise à la Confrérie Pictura de La Haye. Peintre de cour de Johann Wilhelm, électeur palatin à Düsseldorf, jusqu'en 1716. Fortune et réputation indépendantes.`
-  }
+  },
     ];
