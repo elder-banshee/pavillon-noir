@@ -15,14 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
 // ─── Construction des filtres de tags ────────────────────────
 function buildTagFilters() {
   const allTags = new Set();
-  PNJ_DATA.forEach(p => p.tags.forEach(t => allTags.add(t)));
+  PNJ_DATA.filter(p => p.visible !== false).forEach(p => p.tags.forEach(t => allTags.add(t)));
 
-  // Ordre préférentiel
+  // Ordre préférentiel — reflète la liste des tags actifs
   const priority = [
-    'Nassau', 'Cap-Français', 'La Tortue', 'Caraïbes', 'Europe',
-    'Jamaïque', 'Kingston', 'Trinidad',
-    'SED', 'Île-des-Ombres', 'Épaves-Flotte-au-Trésor',
-    'Antonio', 'Robert', 'Fanch', 'Edward', 'Dusmatis', 'Luca'
+    'Nassau', 'Caraïbes', 'Europe',
+    'Jamaïque', 'Kingston', 'Trinidad', 'Saint-Domingue',
+    'Flying Gang', 'The Pirate Round',
+    'L\'Île des Ombres', 'La Marianne', 'Les épaves de la Flotte au Trésor', 'Satiété engendre Démesure',
+    'Antonio', 'Robert', 'Fanch', 'Edward', 'Dusmatis'
   ];
 
   const sorted = [
@@ -82,10 +83,11 @@ function getFiltered() {
 function updateCount() {
   const el = document.getElementById('pnj-count');
   if (el) {
+    const total = PNJ_DATA.filter(p => p.visible !== false).length;
     const n = getFiltered().length;
-    el.textContent = n === PNJ_DATA.length
+    el.textContent = n === total
       ? `${n} personnages`
-      : `${n} sur ${PNJ_DATA.length}`;
+      : `${n} sur ${total}`;
   }
 }
 
@@ -102,7 +104,12 @@ function renderGrid() {
     return;
   }
 
-  filtered.forEach((pnj, i) => {
+  // Épinglés en premier, dans leur ordre de déclaration
+  const epingles = filtered.filter(p => p.epingle === true);
+  const reste    = filtered.filter(p => p.epingle !== true)
+                           .sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
+
+  [...epingles, ...reste].forEach((pnj, i) => {
     const card = buildCard(pnj, i);
     grid.appendChild(card);
   });
