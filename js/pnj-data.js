@@ -56,7 +56,7 @@ Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle pr
     naissance: "vers 1680 — 22 novembre 1718",
     origine: "Anglais",
     tags: ["Nassau", "Épaves-Flotte-au-Trésor"],
-    portrait: "pnj/portraits/",
+    portrait: "pnj/portraits/teach.jpg",
     bio: `Second d'Hornigold lors des Épaves et de la Marianne. C'est lui qui a remis aux PJ la lettre de Ruggiero della Scala — sans explication sur la manière dont elle lui était parvenue. Scandalisé par le massacre ordonné par Jennings sur la plage.
 
 Septembre 1717 : Hornigold lui confie officiellement le commandement d'une sloop. Novembre 1717 : capture seul La Concorde, la rebaptise Queen Anne's Revenge. Devient capitaine indépendant à part entière.
@@ -71,7 +71,7 @@ Portrait : la barbe noire est réelle, et son effet soigné. Stature imposante, 
     naissance: "vers 1680",
     origine: "Anglais",
     tags: ["Nassau", "Jamaïque", "Épaves-Flotte-au-Trésor"],
-    portrait: "pnj/portraits/",
+    portrait: "pnj/portraits/vane.jpg",
     bio: `Pilote d'Henry Jennings — navigateur réputé talentueux, ce qui explique seul qu'il occupe ce poste. En présence des PJ, toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
 Pendant le massacre des prisonniers après la Marianne, il regardait avec un demi-sourire amusé — pas de répugnance, pas de retenue. L'air de quelqu'un qui reconnaît une méthode qu'il connaît bien et n'a pas besoin de valider. Son amusement était probablement moins dirigé vers les excès de Jennings que vers deux cents hommes réputés redoutables, incapables de se dresser contre un seul individu.`
@@ -84,7 +84,7 @@ Pendant le massacre des prisonniers après la Marianne, il regardait avec un dem
     naissance: "vers 1682",
     origine: "Anglais",
     tags: ["Nassau", "Jamaïque", "Épaves-Flotte-au-Trésor"],
-    portrait: "pnj/portraits/",
+    portrait: "pnj/portraits/rackham.jpg",
     bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les PJ, quoique limitées, ont toujours été cordiales.
 
 Pendant le massacre des prisonniers après la Marianne, il était visiblement mal à l'aise — désapprobation lisible, trahie par la posture et le regard, tout en ayant le devoir de justifier les actes de son capitaine.
@@ -186,7 +186,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "vers 1685 — vers 1720",
     origine: "Irlandais",
     tags: ["Nassau", "Épaves-Flotte-au-Trésor"],
-    portrait: "pnj/portraits/",
+    portrait: "pnj/portraits/england.jpg",
     bio: `Pirate irlandais de son vrai nom Edward Seegar. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Dégoûté par ce qu'il a vu, a quitté les Caraïbes pour l'océan Indien. Connu pour sa clémence envers les vaincus — l'exact opposé de Jennings.`
   },
   {
@@ -209,7 +209,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Anglais",
     tags: ["Île-des-Ombres"],
-    portrait: "pnj/portraits/",
+    portrait: "pnj/portraits/hobbs.jpg",
     bio: `Maître charpentier du Téméraire. Massif, barbe grise, jambe droite brisée, le visage creusé de cicatrices. Bourru dans la forme, loyal dans les actes — c'est lui qui a guidé l'équipage dans la réparation du sloop après l'échouage. Mort durant les événements de l'île.`
   },
   {
@@ -220,7 +220,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Espagnol",
     tags: ["Île-des-Ombres", "Antonio"],
-    portrait: "pnj/portraits/",
+    portrait: "pnj/portraits/alarcon.jpg",
     bio: `Grand, élancé, une cicatrice sur la joue gauche et un regard d'acier. Cousin du noble tué en duel par Antonio à Trinidad — une rancœur ancienne qu'il n'a pas cherché à dissimuler. Obstiné jusqu'à l'absurde : a refusé d'évacuer l'île avec les forces espagnoles. Dévoré par les Indiens Bravos.`
   },
   {
@@ -231,7 +231,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Espagnol",
     tags: ["Île-des-Ombres"],
-    portrait: "pnj/portraits/",
+    portrait: "pnj/portraits/velazquez.jpg",
     bio: `Élégant, mince, l'allure aristocratique. Superstitieux malgré son éducation, ambitieux mais pas téméraire. A choisi de quitter l'île avec ses troupes plutôt que de partager l'obstination fatale de Don Francisco.`
   },
   // PNJ SED
@@ -344,7 +344,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Nassau (Bahamas)",
     tags: ["Nassau"],
-    portrait: null,
+    portrait: "pnj/portraits/nassau.jpg",
     bio: `La République Pirate de Nassau, fondée par Hornigold et ses pairs. Cinq magistrats élus en janvier 1716 à l'issue des affaires de la Flotte au Trésor : Hornigold, Teach, Jennings, Cockram, Burgess. Structure fragile, personnelle, sans constitution écrite — elle tient par les hommes qui la composent autant que par les principes qu'elle défend.`
   },
   {
@@ -355,7 +355,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Britannique",
     tags: ["Europe", "Robert"],
-    portrait: null,
+    portrait: "pnj/portraits/mist.jpg",
     bio: `Réseau de correspondants qui documente les événements et personnages extraordinaires des Indes Occidentales pour un commanditaire londonien. Robert Arundel en est le correspondant de terrain — approché avant son départ pour les Caraïbes par un certain Nathaniel Mist, qui se présentait comme "membre de l'équipage du Capitaine Charles Johnson".`
   }
 ];
