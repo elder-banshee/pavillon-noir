@@ -64,6 +64,19 @@ Septembre 1717 : Hornigold lui confie officiellement le commandement d'une sloop
 Portrait : la barbe noire est réelle, et son effet soigné. Stature imposante, présence physique immédiate.`
   },
   {
+    id: "williams",
+    nom: "Paulsgrave Williams",
+    alias: null,
+    statut: "inconnu",
+    naissance: "vers 1675 — après 1723",
+    origine: "Anglais",
+    tags: ["Nassau", "Caraïbes"],
+    portrait: null,
+    bio: `Associé de Bellamy — compagnon d'armes, pas subordonné. Devenu pirate sur le tard, avec derrière lui une vie apparemment confortable, comme si Bellamy l'avait un jour convaincu qu'une vie d'aventures était la seule digne d'être vécue, et que l'argument avait suffi.
+
+En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le propre d'un homme faible, mais d'un homme qui n'a aucune ambition de premier rôle et n'en ressent pas le besoin. Les PJ l'ont à peine remarqué lors de leurs interactions — ce qui est à peu près l'effet qu'il produit sur tout le monde. Toujours affable et courtois dans le peu qu'ils ont échangé.`
+  },
+  {
     id: "vane",
     nom: "Charles Vane",
     alias: null,
