@@ -158,7 +158,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     naissance: "vers 1678–1685",
     origine: "Anglais (Irlande)",
     tags: ["Europe", "Robert", "Fanch"],
-    portrait: pnj/portraits/wnadesford.jpg,
+    portrait: pnj/portraits/wandesford.jpg,
     bio: `Lord anglais rencontré à Saint-Malo en 1711 par Robert Arundel, dans des circonstances hautement équivoques pour les deux parties. Le duel qui a suivi s'est conclu par la mutilation de sa main droite — un coup de pistolet tiré dans le dos, dévié in extremis. Fañch, appelé en urgence pour le soigner, a dû amputer la main complète après installation de la gangrène.
 
 Wandesford lui en tient toujours rigueur. Il a ruiné la réputation de Fañch à Saint-Malo et réclame Clonakilty, baronnie irlandaise ancestrale des Arundel.
