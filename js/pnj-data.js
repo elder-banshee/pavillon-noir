@@ -423,7 +423,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     visible: true,
     nom: "Catherine de Graaf",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "mai 1694 — 1762",
     origine: "Française (Saint-Domingue)",
     tags: ["Caraïbes", "Saint-Domingue", "Satiété engendre Démesure"],
