@@ -55,7 +55,7 @@ Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle pr
     statut: "actif",
     naissance: "vers 1680",
     origine: "Anglais",
-    tags: ["Nassau", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
+    tags: ["Nassau", "Caraïbes", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/teach.jpg",
     bio: `Second et Quartier-Maître d'Hornigold lors des Épaves et de la Marianne. D’une discipline et d’une loyauté exemplaires pour exécuter les ordres de son Capitaine, son courage et sa fougue au combat lui valent le respect et l’admiration de ses hommes.
 
@@ -83,7 +83,7 @@ En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le pr
     statut: "actif",
     naissance: "vers 1685",
     origine: "Anglais",
-    tags: ["Nassau", "Jamaïque", "La Marianne", "Les épaves de la Flotte au Trésor"],
+    tags: ["Nassau", "Caraïbes", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/vane.jpg",
     bio: `Pilote d'Henry Jennings — navigateur réputé talentueux, ce qui explique seul qu'il occupe ce poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
@@ -96,7 +96,7 @@ Pendant le massacre des prisonniers après la Marianne, il regardait avec un dem
     statut: "actif",
     naissance: "vers 1682",
     origine: "Anglais",
-    tags: ["Nassau", "Jamaïque", "Épaves-Flotte-au-Trésor"],
+    tags: ["Nassau", "Caraïbes", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/rackham.jpg",
     bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les PJ, quoique limitées, ont toujours été cordiales.
 
@@ -147,70 +147,64 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     statut: "actif",
     naissance: "1682",
     origine: "Anglais",
-    tags: ["Nassau", "Cap-Français", "SED"],
+    tags: ["Nassau", "Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/woodall.jpg",
-    bio: `Pirate et contrebandier anglais, capitaine du sloop Wolf (30 tonneaux). Les PJ l'ont rencontré à Cap-Français lors du banquet — c'est lui qui a évoqué en premier devant eux l'existence d'un réseau de contrebande organisé qu'il appelle "le Trident", et dont il est clairement une victime.`
+    bio: `Pirate et contrebandier anglais, capitaine du Wolf (sloop de 30 tonneaux). Rencontré au large de Cap-Français quelques jours avant le banquet.`
   },
   {
     id: "elliot",
     nom: "Thomas Elliot",
     alias: null,
     statut: "actif",
-    naissance: "vers 1675",
+    naissance: "1686",
     origine: "Anglais",
-    tags: ["Caraïbes", "Antonio"],
+    tags: ["Trinidad", "Caraïbes", "Antonio"],
     portrait: "pnj/portraits/elliot.jpg",
-    bio: `Contrebandier anglais, contact d'Antonio depuis Trinidad. C'est lui qui a fourni à Bellamy les informations permettant l'interception du Santa Laura de Córdoba et la libération d'Antonio — un geste pragmatique, une opportunité saisie, pas un sacrifice. Aide les PJ contre rémunération raisonnable.`
+    bio: `Contrebandier anglais, contact d'Antonio depuis Trinidad. C'est probablement lui qui a fourni à Bellamy les informations permettant l'interception du Santa Laura de Córdoba et la libération d'Antonio.`
   },
   {
     id: "wandesford",
     nom: "Thurston Wandesford",
     alias: null,
     statut: "actif",
-    naissance: "vers 1678–1685",
+    naissance: "1684",
     origine: "Anglais (Irlande)",
     tags: ["Europe", "Robert", "Fanch"],
     portrait: "pnj/portraits/wandesford.jpg",
-    bio: `Lord anglais rencontré à Saint-Malo en 1711 par Robert Arundel, dans des circonstances hautement équivoques pour les deux parties. Le duel qui a suivi s'est conclu par la mutilation de sa main droite — un coup de pistolet tiré dans le dos, dévié in extremis. Fañch, appelé en urgence pour le soigner, a dû amputer la main complète après installation de la gangrène.
-
-Wandesford lui en tient toujours rigueur. Il a ruiné la réputation de Fañch à Saint-Malo et réclame Clonakilty, baronnie irlandaise ancestrale des Arundel.
-
-Il réapprend depuis l'escrime main gauche. Ambitieux, opportuniste, la manche droite pendant vide et soigneusement arrangée.`
+    bio: `Fils cadet de Christopher Wandesford, 1er Vicomte Castlecomer (1656-1707). Son père a reçu la baronnie de Clonakilty (demeure ancestrale des Arundel) en récompense de son soutien à la répression de la révolution jacobite irlandaise après la bataille de la Boyne. Thurston en a hérité, le Vicomté de Castlecomer allant à son frère aîné Christopher, 2e Vicomte Castlecomer.`
   },
   {
     id: "gaspar",
     nom: "Gaspar de la Serna",
     alias: null,
     statut: "actif",
-    naissance: "vers 1690",
+    naissance: "1688",
     origine: "Espagnol (Trinidad)",
     tags: ["Trinidad", "Caraïbes", "Antonio"],
     portrait: "pnj/portraits/gaspar.jpg",
-    bio: `Oficial de la Real Hacienda espagnole, croisé de façon inattendue. Rival d'enfance d'Antonio à Trinidad : issu de la famille dont la plantation voisine a prospéré quand celle des Caballero stagnait. C'est lui qui a fait emprisonner Antonio après le duel, avant que Bellamy n'intervienne.
-
-Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur lui au-delà de ce passé commun.`
+    bio: `Rival de jeunesse d'Antonio à Trinidad : issu de la famille dont la plantation voisine a prospéré quand celle des Caballero stagnait. A fait emprisonner Antonio après avoir été vaincu en duel, et l’aurait fait pendre si Bellamy n'était intervenu.`
   },
   {
     id: "edward-england",
     nom: "Edward England",
-    alias: "Edward Seegar (vrai nom)",
+    alias: "Edward Seegar",
     statut: "inconnu",
     naissance: "vers 1685 — vers 1720",
     origine: "Irlandais",
-    tags: ["Nassau", "Épaves-Flotte-au-Trésor"],
+    tags: ["Nassau", "The Pirate Round", "La Marianne"],
     portrait: "pnj/portraits/england.jpg",
-    bio: `Pirate irlandais de son vrai nom Edward Seegar. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Dégoûté par ce qu'il a vu, a quitté les Caraïbes pour l'océan Indien. Connu pour sa clémence envers les vaincus — l'exact opposé de Jennings.`
+    bio: `Pirate irlandais de son vrai nom Edward Seegar. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Révolté par ce qu'il a vu, a quitté les Caraïbes pour l'océan Indien. Connu pour sa clémence envers les vaincus — l'exact opposé de Jennings.`
   },
   {
     id: "silver",
-    nom: "Long John Silver",
-    alias: null,
+    nom: "John Silver",
+    alias: "Long John Silver, Barbecue",
     statut: "inconnu",
-    naissance: null,
-    origine: "Anglais (reconstitution littéraire)",
-    tags: ["Nassau", "Épaves-Flotte-au-Trésor"],
+    naissance: "1685",
+    origine: "Anglais (Bristol)",
+    tags: ["Nassau", "The Pirate Round", "La Marianne"],
     portrait: "pnj/portraits/silver.jpg",
-    bio: `Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Observait la scène avec une fascination froide, sans intervenir. Personnage de Bjorn Larsson (roman John Silver, 1995) plutôt que de Stevenson.`
+    bio: `Quartier-Maître d’Edward England. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Observait la scène avec une fascination froide, sans intervenir.`
   },
   // PNJ Île des Ombres
   {
@@ -218,31 +212,31 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     nom: "Nathaniel Hobbs",
     alias: null,
     statut: "mort",
-    naissance: null,
+    naissance: "1671",
     origine: "Anglais",
-    tags: ["Île-des-Ombres"],
+    tags: ["L'Île des Ombres"],
     portrait: "pnj/portraits/hobbs.jpg",
-    bio: `Maître charpentier du Téméraire. Massif, barbe grise, jambe droite brisée, le visage creusé de cicatrices. Bourru dans la forme, loyal dans les actes — c'est lui qui a guidé l'équipage dans la réparation du sloop après l'échouage. Mort durant les événements de l'île.`
+    bio: `Maître charpentier du Téméraire. Massif, barbe grise, jambe droite brisée, le visage creusé de cicatrices. Bourru dans la forme, loyal dans les actes — a guidé l'équipage dans la réparation du sloop après le naufrage. Mort durant les événements de l'île.`
   },
   {
     id: "alarcon",
     nom: "Don Francisco de Alarcon",
     alias: null,
     statut: "mort",
-    naissance: null,
+    naissance: "1682 - 1714",
     origine: "Espagnol",
-    tags: ["Île-des-Ombres", "Antonio"],
+    tags: ["L'Île des Ombres"],
     portrait: "pnj/portraits/alarcon.jpg",
-    bio: `Grand, élancé, une cicatrice sur la joue gauche et un regard d'acier. Cousin du noble tué en duel par Antonio à Trinidad — une rancœur ancienne qu'il n'a pas cherché à dissimuler. Obstiné jusqu'à l'absurde : a refusé d'évacuer l'île avec les forces espagnoles. Dévoré par les Indiens Bravos.`
+    bio: `Grand, élancé, une cicatrice sur la joue gauche et un regard d'acier. Cousin de Don Gaspar de la Serna, vaincu en duel par Antonio à Trinidad — une rancœur ancienne qu'il n'a pas cherché à dissimuler. Obstiné jusqu'à l'absurde : a refusé d'évacuer l'île avec les forces espagnoles. Dévoré par les Indiens Bravos.`
   },
   {
     id: "velazquez",
     nom: "Commandant Diego Velazquez",
     alias: null,
-    statut: "actif",
-    naissance: null,
+    statut: "inconnu",
+    naissance: "1677",
     origine: "Espagnol",
-    tags: ["Île-des-Ombres"],
+    tags: ["L'Île des Ombres"],
     portrait: "pnj/portraits/velazquez.jpg",
     bio: `Élégant, mince, l'allure aristocratique. Superstitieux malgré son éducation, ambitieux mais pas téméraire. A choisi de quitter l'île avec ses troupes plutôt que de partager l'obstination fatale de Don Francisco.`
   },
@@ -252,42 +246,42 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     nom: "Guillaume Lefèvre",
     alias: null,
     statut: "actif",
-    naissance: "vers 1680",
+    naissance: "vers 1691",
     origine: "Français",
-    tags: ["Cap-Français", "SED"],
+    tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/lefevre.jpg",
-    bio: `Chef cuisinier français, rescapé de naufrage. A supervisé le grand banquet de Cap-Français avec un sérieux de praticien et une générosité de rescapé. A offert son livre de recettes à Amédée en souvenir.`
+    bio: `Chef cuisinier français, rescapé de naufrage. A supervisé le grand banquet de Cap-Français avec la rigueur d’un professionnel et la générosité d’un rescapé. A offert son livre de recettes à Amédée en souvenir.`
   },
   {
     id: "blackwood",
     nom: "Lord Blackwood",
     alias: null,
     statut: "inconnu",
-    naissance: null,
+    naissance: "1677",
     origine: "Anglais",
-    tags: ["Cap-Français", "SED", "Antonio", "Robert"],
+    tags: ["Saint-Domingue", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/blackwood.jpg",
-    bio: `Agent britannique infiltré dans la délégation du banquet de Cap-Français. A recruté Antonio et Robert comme gardes du corps pour les compromettre. Responsable de l'empoisonnement de la délégation espagnole — Dom Rodrigo Oliveira est mort. Interpellé par le Gouverneur Blénac alors qu'il quittait Cap-Français, les faux documents de Rochambeau trouvés sur lui l'ont confondu. Sort inconnu depuis.`
+    bio: `Agent britannique infiltré dans la délégation du banquet de Cap-Français. A recruté Antonio et Robert comme gardes du corps pour les compromettre. Responsable de l'empoisonnement de la délégation espagnole. Interpellé par le Gouverneur Blénac alors qu'il quittait Cap-Français, les faux documents de Rochambeau trouvés sur lui l'ont confondu. Sort inconnu depuis.`
   },
   {
     id: "rochambeau",
     nom: "Chevalier de Rochambeau",
     alias: null,
     statut: "actif",
-    naissance: "vers 1660",
+    naissance: "1675",
     origine: "Français",
-    tags: ["Cap-Français", "SED"],
+    tags: ["Saint-Domingue", "Europe" "Satiété engendre Démesure"],
     portrait: "pnj/portraits/rochambeau.jpg",
-    bio: `Diplomate français aguerri, opposé au traité de libre-échange hispano-français. Avait préparé ses propres manœuvres pour saboter les négociations — une diversion par herbes légères, des clauses falsifiées. A renoncé après la révélation du complot de Blackwood, qui a rendu toute manœuvre supplémentaire superflue.`
+    bio: `Diplomate français aguerri, opposé au traité de libre-échange au Banquet du Cap-Français. Avait préparé ses propres manœuvres pour saboter les négociations — substitution de faux documents, avec des clauses inacceptables. A renoncé après la révélation du complot de Blackwood, qui a rendu toute manœuvre supplémentaire superflue.`
   },
   {
     id: "blenac",
     nom: "Louis de Courbon, comte de Blénac",
     alias: null,
-    statut: "mort",
-    naissance: "1644 — 1719",
+    statut: "actif",
+    naissance: "1644",
     origine: "Français",
-    tags: ["Cap-Français", "SED", "Antonio", "Robert"],
+    tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/blenac.jpg",
     bio: `Gouverneur de Saint-Domingue au moment du banquet de Cap-Français. Administrateur perspicace, favorable au traité. C'est sur la foi d'Antonio qu'il a fait intercepter Blackwood — et c'est lui qui a libéré Robert et Antonio avec une injonction sans équivoque : ne plus paraître à Cap-Français. Ton pragmatique plutôt que vengeur.`
   },
@@ -296,31 +290,31 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     nom: "Père Morelet d'Aboville",
     alias: null,
     statut: "actif",
-    naissance: "vers 1665",
+    naissance: "vers 1651",
     origine: "Français",
-    tags: ["Cap-Français", "SED"],
+    tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/daboville.jpg",
-    bio: `Vicaire général, chef de la communauté jésuite à Saint-Domingue. Hôte du banquet dans les jardins du couvent. Présence discrète et bienveillante ce soir-là — l'homme d'Église qui met son espace à disposition sans se mêler du reste.`
+    bio: `Vicaire général, chef de la communauté jésuite à Saint-Domingue. Hôte du banquet dans les jardins du couvent. Présence bienveillante, discrète et attentive.`
   },
   {
     id: "vandergroot",
     nom: "Johannes Van der Groot",
     alias: null,
     statut: "actif",
-    naissance: "vers 1665",
+    naissance: "1655",
     origine: "Hollandais",
-    tags: ["Cap-Français", "SED"],
+    tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/vandergroot.jpg",
-    bio: `Marchand hollandais représentant la WIC, passionné de botanique et de cartographie. A servi d'intermédiaire pour mettre les PJ en contact avec Rochambeau. Accompagné de Mademoiselle Claudine, jeune femme métisse présentée comme sa nièce.`
+    bio: `Marchand hollandais représentant la WIC, passionné de botanique et de cartographie, dont la serre et la bibliothèque ont fait la joie de Fañch et d’Edward. A servi d'intermédiaire pour mettre les PJ en contact avec Blackwood.`
   },
   {
     id: "montblanc",
     nom: "Monsieur de Montblanc",
     alias: null,
     statut: "actif",
-    naissance: "vers 1660",
+    naissance: "1672",
     origine: "Français",
-    tags: ["Cap-Français", "SED"],
+    tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/montblanc.jpg",
     bio: `Riche planteur français. Redevable envers les PJ pour un service rendu concernant sa plantation. Présent au banquet de Cap-Français.`
   },
@@ -330,11 +324,11 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     nom: "Diego",
     alias: null,
     statut: "actif",
-    naissance: "vers 1695",
+    naissance: "1699",
     origine: "Espagnol (Trinidad)",
-    tags: ["Épaves-Flotte-au-Trésor", "Trinidad", "Antonio"],
+    tags: ["Trinidad", "Caraïbes", "Les épaves de la Flotte au Trésor", "Antonio"],
     portrait: "pnj/portraits/diego.jpg",
-    bio: `Jeune soldat de conscription espagnol, originaire de Trinidad. A reconnu Antonio parmi les prisonniers lors des Épaves de la Flotte au Trésor. C'est lui qui a appris aux PJ que la plantation Caballero avait changé de mains, et que l'aînée des sœurs d'Antonio serait entrée au service des Mendez de la Serna.`
+    bio: `Jeune soldat de conscription espagnol, originaire de Trinidad. A reconnu Antonio parmi les pirates lors des Épaves de la Flotte au Trésor. C'est lui qui a appris à Antonio que la plantation Caballero avait périclité. Sauvé par les PJ, il les a accompagné à Nassau.`
   },
   {
     id: "kabo",
@@ -343,9 +337,9 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     statut: "actif",
     naissance: "vers 1700",
     origine: "Mosquito (Nicaragua)",
-    tags: ["Épaves-Flotte-au-Trésor", "Dusmatis"],
+    tags: ["Caraïbes", "Les épaves de la Flotte au Trésor", "Dusmatis"],
     portrait: "pnj/portraits/kabo.jpg",
-    bio: `Plongeur Mosquito, originaire du rivage nicaraguayen. A été recruté parmi les libérés lors des Épaves de la Flotte au Trésor. A reconnu Dusmatis comme originaire de la même région — une connivence tranquille, sans effusion.`
+    bio: `Plongeur Mosquito, originaire du rivage nicaraguayen. A été recruté parmi les esclaves libérés lors du pillage des épaves de la Flotte au Trésor.`
   },
   // Factions
   {
@@ -355,7 +349,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     statut: "actif",
     naissance: null,
     origine: "Nassau (Bahamas)",
-    tags: ["Nassau"],
+    tags: ["Nassau", "Caraïbes", "Flying Gang"],
     portrait: "pnj/portraits/nassau.jpg",
     bio: `La République Pirate de Nassau, fondée par Hornigold et ses pairs. Cinq magistrats élus en janvier 1716 à l'issue des affaires de la Flotte au Trésor : Hornigold, Teach, Jennings, Cockram, Burgess. Structure fragile, personnelle, sans constitution écrite — elle tient par les hommes qui la composent autant que par les principes qu'elle défend.`
   },
