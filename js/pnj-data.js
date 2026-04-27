@@ -40,7 +40,7 @@ Portrait : allure aristocratique, larges favoris grisonnants, longue redingote s
     statut: "actif",
     naissance: "vers 1680",
     origine: "Anglais (Bermudes)",
-    tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "La Marianne", "Les épaves de la Flotte au Trésor"],
+    tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/jennings.jpg",
     bio: `Corsaire devenu pirate, commissionné par le gouverneur de Jamaïque. Figure mafieuse plus qu'aventurière : n'intervient que lorsque le rapport de force est écrasant en sa faveur. C'est lui qui a ordonné le massacre de prisonniers sur la plage après la prise de la Marianne (décembre 1715).
 
