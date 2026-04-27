@@ -382,8 +382,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     portrait: null,
     bio: `Flibustier gallois devenu planteur et Lieutenant-Gouverneur de Jamaïque. Auteur du sac de Panama en 1671. Mort le 25 août 1688. Sa pierre tombale a été engloutie lors du séisme de Port-Royal en 1692. Figure légendaire des Caraïbes.`
   },
- 
-  {
+   {
     id: "avery",
     visible: false,
     nom: "Henry Avery",
@@ -395,8 +394,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     portrait: null,
     bio: `Pirate légendaire disparu après 1696. A capturé le Gang-i-Sawai du Grand Moghol en 1695, coup le plus spectaculaire de l'âge d'or de la piraterie. Sa trace se perd après. Certains disent mort, d'autres caché.`
   },
- 
-  {
+   {
     id: "halley",
     visible: false,
     nom: "Edmund Halley",
@@ -408,8 +406,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     portrait: null,
     bio: `Astronome de réputation européenne. A découvert la comète qui porte son nom. Correspondant savant de nombreux personnages illustres de son époque.`
   },
- 
-  {
+   {
     id: "anne-dieu-le-veut",
     visible: false,
     nom: "Anne Dieu-le-veut",
@@ -421,23 +418,19 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     portrait: null,
     bio: `Née Marie Dieuleveult à Gourin, Morbihan. Trois mariages successifs, dont Laurens de Graaf dit Lorencillo qu'elle est allée trouver pistolet à la main. A accompagné son mari en mer — l'équipage la considérait comme un porte-bonheur. Capturée avec ses enfants par les Anglais en 1695, libérée en 1698. Morte le 11 janvier 1710 au Cap-Français. Mère de Catherine de Graaf.`
   },
- 
-  {
+   {
     id: "catherine-de-graaf",
-    visible: false,
+    visible: true,
     nom: "Catherine de Graaf",
     alias: null,
     statut: "vivant",
     naissance: "mai 1694 — 1762",
     origine: "Française (Saint-Domingue)",
     tags: ["Caraïbes", "Saint-Domingue", "Satiété engendre Démesure"],
-    portrait: null,
-    bio: `Née en mai 1694 au Cap-Français, fille de Laurens de Graaf et d'Anne Dieu-le-veut. Héritière à 16 ans d'une fortune considérable — sucrerie, plus de 120 esclaves. Indépendante d'esprit, a refusé une tutelle, échappé à une lettre de cachet, défié un homme en duel. Rencontrée lors du banquet de SED (janvier 1714).
- 
-Femme qui vit délibérément avec des gens de mauvais commerce — par choix, pas par nécessité.`
+    portrait: "pnj/portraits/catherine.jpg",
+    bio: `Née au Cap-Français en mai 1694 de Laurens de Graaf et d'Anne Dieu-le-veut. Son père meurt en 1704, laissant une fortune estimée à 190 000 livres : une sucrerie au quartier Morin avec cinq chaudières et plus de 120 esclaves. Sa mère administre activement ce patrimoine jusqu'à sa mort en janvier 1710. Catherine hérite d'une fortune constituée et opérationnelle à 16 ans. A depuis refusé une tutelle, échappé à une lettre de cachet, défié un homme en duel et affranchi tous ses esclaves. Rencontrée lors du banquet de Cap-Français (janvier 1714).`
   },
- 
-  {
+   {
     id: "conti",
     visible: false,
     nom: "Père Ubaldo Conti",
@@ -449,8 +442,7 @@ Femme qui vit délibérément avec des gens de mauvais commerce — par choix, p
     portrait: null,
     bio: `Se présente comme vicaire apostolique aux Caraïbes. Entré en scène à La Tortue après la mort de Ruggiero della Scala. Tout de noir vêtu sauf un large col de dentelles blanches — l'apparence d'un spadassin bien plus que d'un ecclésiastique. Petit, cheveux poivre et sel, fine moustache, accent italien marqué, porte une rapière.`
   },
- 
-  {
+   {
     id: "sanna",
     visible: false,
     nom: "Mystérieux assassin",
