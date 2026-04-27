@@ -395,7 +395,7 @@ main {
   background: var(--mist);
 }
 
-.pnj-status-dot.vivant  { background: #4a9e6a; box-shadow: 0 0 6px rgba(74,158,106,0.5); }
+.pnj-status-dot.actif  { background: #4a9e6a; box-shadow: 0 0 6px rgba(74,158,106,0.5); }
 .pnj-status-dot.mort    { background: var(--rust); }
 .pnj-status-dot.disparu { background: var(--gold); }
 .pnj-status-dot.inconnu { background: var(--mist); }
