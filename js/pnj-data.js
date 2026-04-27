@@ -6,45 +6,45 @@ const PNJ_DATA = [
   {
     id: "bellamy",
     nom: "Samuel Bellamy",
-    alias: "Black Sam, le Prince des Pirates",
-    statut: "inconnu",
-    naissance: "vers 1689 — avril 1717 (?)",
-    origine: "Anglais",
-    tags: ["Nassau", "Caraïbes", "Antonio"],
+    alias: "Black Sam, le Prince des Pirates, Robin des mers",
+    statut: "actif",
+    naissance: "1689",
+    origine: "Anglais (Cape Cod)",
+    tags: ["Nassau", "Caraïbes", "L'Île des Ombres", "La Marianne", "Les épaves de la Flotte au Trésor", "Antonio"],
     portrait: "pnj/portraits/bellamy.jpg",
-    bio: `Le Prince des Pirates — le surnom est mérité, mais pas pour les raisons qu'on croit. Bellamy ne gagne pas les batailles : il gagne les gens, ce qui est bien plus rare. Stratège approximatif, marin médiocre, sa légende repose sur ce qu'on oublie de ses échecs et ce qu'on retient de ses coups d'éclat — et ils sont réels. Il ne s'adresse à son équipage que par ces mots : "Mes amis." Et ils le croient.
+    bio: `Sauveur d’Antonio, interceptant le navire qui le conduisait à la potence. Sauveur à nouveau d’Antonio, Fañch et Dusmãtis, alors qu’ils dérivaient en mer sur une épave non loin de Nassau. Son charisme surnaturel lui permet de discuter d’égal à égal avec les plus humbles comme les plus puissant, et lui assure la loyauté de tous.
 
-C'est lui qui a libéré Antonio lors de son transfert vers La Havane, sur information des contrebandiers anglais. Sans calcul apparent — l'idée de contrarier un gouverneur espagnol l'amusait, un bretteur de talent pouvait toujours servir. À la séparation, il a restitué les effets personnels d'Antonio et versé une solde.
+A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associer à nouveau avec lui quelques semaines plus tard pour piller les Épaves de la Flotte au Trésor.
 
-Naufrage du Whydah en avril 1717. Sort officiel : inconnu.`
+`
   },
   {
     id: "hornigold",
     nom: "Benjamin Hornigold",
     alias: null,
-    statut: "mort",
-    naissance: "vers 1680 — 1719",
+    statut: "actif",
+    naissance: "vers 1670-80",
     origine: "Anglais",
-    tags: ["Nassau", "Caraïbes"],
+    tags: ["Nassau", "Caraïbes", "Flying Gang", "L'Île des Ombres", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/hornigold.jpg",
     bio: `Fondateur de la République Pirate de Nassau et du Flying Gang. Il y a chez lui quelque chose de l'ancien officier de la Royal Navy qu'il n'a jamais tout à fait quitté : la discipline, la tenue, l'autorité sans éclat. Il commande par l'exemple, sans crier. On le suit parce qu'il dégage la certitude d'être à sa place.
 
-A pris la Marianne (frégate française, 32 canons) par ruse juste avant l'arrivée de Jennings — épisode fondateur de leur animosité durable. C'est via lui que la lettre de Ruggiero della Scala est parvenue aux PJ, transmise par Teach.
+A pris la Marianne (frégate française, 32 canons) au nez et à la barbe de Jennings — épisode fondateur de leur animosité durable. Magistrat du Conseil de Nassau.
 
-Portrait : allure aristocratique sans noblesse de sang, larges favoris grisonnants, longue redingote sobre. Ne porte jamais de tricorne.`
+Portrait : allure aristocratique, larges favoris grisonnants, longue redingote sobre. Ne porte jamais de tricorne.`
   },
   {
     id: "jennings",
     nom: "Henry Jennings",
     alias: null,
-    statut: "vivant",
-    naissance: "vers 1680 — après 1730",
+    statut: "actif",
+    naissance: "vers 1680",
     origine: "Anglais (Bermudes)",
-    tags: ["Nassau", "Jamaïque", "Kingston", "Épaves-Flotte-au-Trésor"],
+    tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/jennings.jpg",
     bio: `Corsaire devenu pirate, commissionné par le gouverneur de Jamaïque. Figure mafieuse plus qu'aventurière : n'intervient que lorsque le rapport de force est écrasant en sa faveur. C'est lui qui a ordonné le massacre de prisonniers sur la plage après la prise de la Marianne (décembre 1715).
 
-Il ne s'adresse pratiquement jamais directement à ses hommes — Rackham sert d'interface. Les PJ ont existé dans sa mémoire comme le menu fretin de l'équipage de Bellamy : à peine remarqués, vite oubliés.
+Il ne s'adresse pratiquement jamais directement à ses hommes — Rackham sert d'interface. Les PJ ont existé dans sa mémoire comme le menu fretin de l'équipage de Bellamy : à peine remarqués, vite oubliés. Élu magistrat au Conseil de Nassau.
 
 Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle presque translucides qui ne clignent pas. Ne hausse jamais la voix — chaque mot semble extrait d'une violence contenue.`
   },
@@ -52,25 +52,25 @@ Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle pr
     id: "teach",
     nom: "Edward Teach",
     alias: "Barbe-Noire",
-    statut: "mort",
-    naissance: "vers 1680 — 22 novembre 1718",
+    statut: "actif",
+    naissance: "vers 1680",
     origine: "Anglais",
-    tags: ["Nassau", "Épaves-Flotte-au-Trésor"],
+    tags: ["Nassau", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/teach.jpg",
-    bio: `Second d'Hornigold lors des Épaves et de la Marianne. C'est lui qui a remis aux PJ la lettre de Ruggiero della Scala — sans explication sur la manière dont elle lui était parvenue. Scandalisé par le massacre ordonné par Jennings sur la plage.
+    bio: `Second et Quartier-Maître d'Hornigold lors des Épaves et de la Marianne. D’une discipline et d’une loyauté exemplaires pour exécuter les ordres de son Capitaine, son courage et sa fougue au combat lui valent le respect et l’admiration de ses hommes.
 
-Septembre 1717 : Hornigold lui confie officiellement le commandement d'une sloop. Novembre 1717 : capture seul La Concorde, la rebaptise Queen Anne's Revenge. Devient capitaine indépendant à part entière.
+Scandalisé par le massacre ordonné par Jennings après la Marianne. Élu magistrat au Conseil de Nassau et membre fondateur du Flying Gang, il doit néanmoins composer avec lui.
 
-Portrait : la barbe noire est réelle, et son effet soigné. Stature imposante, présence physique immédiate.`
+Portrait : la barbe noire est réelle, et son effet soigné. C'est un colosse : stature imposante, présence physique immédiate.`
   },
   {
     id: "williams",
     nom: "Paulsgrave Williams",
     alias: null,
-    statut: "inconnu",
-    naissance: "vers 1675 — après 1723",
+    statut: "actif",
+    naissance: "vers 1675",
     origine: "Anglais",
-    tags: ["Nassau", "Caraïbes"],
+    tags: ["Nassau", "Caraïbes", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: null,
     bio: `Associé de Bellamy — compagnon d'armes, pas subordonné. Devenu pirate sur le tard, avec derrière lui une vie apparemment confortable, comme si Bellamy l'avait un jour convaincu qu'une vie d'aventures était la seule digne d'être vécue, et que l'argument avait suffi.
 
@@ -80,12 +80,12 @@ En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le pr
     id: "vane",
     nom: "Charles Vane",
     alias: null,
-    statut: "vivant",
-    naissance: "vers 1680",
+    statut: "actif",
+    naissance: "vers 1685",
     origine: "Anglais",
-    tags: ["Nassau", "Jamaïque", "Épaves-Flotte-au-Trésor"],
+    tags: ["Nassau", "Jamaïque", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/vane.jpg",
-    bio: `Pilote d'Henry Jennings — navigateur réputé talentueux, ce qui explique seul qu'il occupe ce poste. En présence des PJ, toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
+    bio: `Pilote d'Henry Jennings — navigateur réputé talentueux, ce qui explique seul qu'il occupe ce poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
 Pendant le massacre des prisonniers après la Marianne, il regardait avec un demi-sourire amusé — pas de répugnance, pas de retenue. L'air de quelqu'un qui reconnaît une méthode qu'il connaît bien et n'a pas besoin de valider. Son amusement était probablement moins dirigé vers les excès de Jennings que vers deux cents hommes réputés redoutables, incapables de se dresser contre un seul individu.`
   },
@@ -93,7 +93,7 @@ Pendant le massacre des prisonniers après la Marianne, il regardait avec un dem
     id: "rackham",
     nom: "John Rackham",
     alias: "Calico Jack, Rackham le Rouge",
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1682",
     origine: "Anglais",
     tags: ["Nassau", "Jamaïque", "Épaves-Flotte-au-Trésor"],
@@ -102,40 +102,39 @@ Pendant le massacre des prisonniers après la Marianne, il regardait avec un dem
 
 Pendant le massacre des prisonniers après la Marianne, il était visiblement mal à l'aise — désapprobation lisible, trahie par la posture et le regard, tout en ayant le devoir de justifier les actes de son capitaine.
 
-Le surnom "Calico Jack" vient de ses goûts vestimentaires — calicot rayé, inhabituel pour un pirate.`
+Le surnom "Calico Jack" lui vient de son goût immodéré pour les étoffes précieuses venues d'Orient — lui conférant une allure éminemment reconnaissable au sein d'un équipage de pirates.`
   },
   {
     id: "ruggiero",
     nom: "Ruggiero della Scala",
     alias: "Scarpa (alias utilisé en fuite)",
-    statut: "mort",
-    naissance: "vers 1640 — vers 1714",
-    origine: "Italien (Génois)",
-    tags: ["La Tortue", "Trinidad", "Antonio"],
+    statut: "actif",
+    naissance: "vers 1640",
+    origine: "Italien",
+    tags: ["Trinidad", "Caraïbes", "Antonio"],
     portrait: "pnj/portraits/ruggiero.jpg",
     bio: `Vieux maître d'armes italien. Ancien précepteur d'Antonio à Trinidad : un alcoolique de génie, payé en gîte, couvert et tafia, qui était véritablement brillant quand il parvenait à rester sobre. A transmis à Antonio un style d'escrime unique, mélange de techniques italiennes et de fougue espagnole.
-
-A fui Trinidad dans des circonstances troublantes, laissant derrière lui une lettre à Antonio. A été retrouvé mort à La Tortue, tué dans la rue par un homme non identifié. Boîtait légèrement de la jambe gauche.`
+`
   },
   {
     id: "sloane",
     nom: "Hans Sloane",
     alias: null,
-    statut: "vivant",
-    naissance: "1660 — 1753",
+    statut: "actif",
+    naissance: "1660",
     origine: "Irlandais (installé en Angleterre)",
     tags: ["Europe", "Fanch", "Edward"],
     portrait: "pnj/portraits/sloane.jpg",
     bio: `Médecin naturaliste, secrétaire de la Royal Society. Professeur de Fañch au Royal College of Physicians de Londres — une influence décisive dans sa formation, transmettant autant une philosophie qu'un savoir : voir dans chaque spécimen végétal une potentielle source de guérison.
 
-C'est également lui qui a remis à Edward Sutherland sa lettre de mission — rédigée en urgence, encore non signée par le Président, avant de l'envoyer obtenir lui-même le précieux visa d'Isaac Newton.`
+C'est également lui qui a remis à Edward Sutherland sa lettre de mission — rédigée en urgence, encore non signée par le Président, avant de l'envoyer obtenir lui-même le précieux visa.`
   },
   {
     id: "newton",
     nom: "Isaac Newton",
     alias: null,
-    statut: "vivant",
-    naissance: "1643 — 1727",
+    statut: "actif",
+    naissance: "1643",
     origine: "Anglais",
     tags: ["Europe", "Edward"],
     portrait: "pnj/portraits/newton.jpg",
@@ -145,8 +144,8 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     id: "woodall",
     nom: "Nicholas Woodall",
     alias: null,
-    statut: "inconnu",
-    naissance: null,
+    statut: "actif",
+    naissance: "1682",
     origine: "Anglais",
     tags: ["Nassau", "Cap-Français", "SED"],
     portrait: "pnj/portraits/woodall.jpg",
@@ -156,7 +155,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     id: "elliot",
     nom: "Thomas Elliot",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1675",
     origine: "Anglais",
     tags: ["Caraïbes", "Antonio"],
@@ -167,7 +166,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     id: "wandesford",
     nom: "Thurston Wandesford",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1678–1685",
     origine: "Anglais (Irlande)",
     tags: ["Europe", "Robert", "Fanch"],
@@ -182,7 +181,7 @@ Il réapprend depuis l'escrime main gauche. Ambitieux, opportuniste, la manche d
     id: "gaspar",
     nom: "Gaspar de la Serna",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1690",
     origine: "Espagnol (Trinidad)",
     tags: ["Trinidad", "Caraïbes", "Antonio"],
@@ -195,7 +194,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "edward-england",
     nom: "Edward England",
     alias: "Edward Seegar (vrai nom)",
-    statut: "disparu",
+    statut: "inconnu",
     naissance: "vers 1685 — vers 1720",
     origine: "Irlandais",
     tags: ["Nassau", "Épaves-Flotte-au-Trésor"],
@@ -240,7 +239,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "velazquez",
     nom: "Commandant Diego Velazquez",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: null,
     origine: "Espagnol",
     tags: ["Île-des-Ombres"],
@@ -252,7 +251,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "lefevre",
     nom: "Guillaume Lefèvre",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1680",
     origine: "Français",
     tags: ["Cap-Français", "SED"],
@@ -274,7 +273,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "rochambeau",
     nom: "Chevalier de Rochambeau",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1660",
     origine: "Français",
     tags: ["Cap-Français", "SED"],
@@ -296,7 +295,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "morelet",
     nom: "Père Morelet d'Aboville",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1665",
     origine: "Français",
     tags: ["Cap-Français", "SED"],
@@ -307,7 +306,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "vandergroot",
     nom: "Johannes Van der Groot",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1665",
     origine: "Hollandais",
     tags: ["Cap-Français", "SED"],
@@ -318,7 +317,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "montblanc",
     nom: "Monsieur de Montblanc",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1660",
     origine: "Français",
     tags: ["Cap-Français", "SED"],
@@ -330,7 +329,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "diego",
     nom: "Diego",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1695",
     origine: "Espagnol (Trinidad)",
     tags: ["Épaves-Flotte-au-Trésor", "Trinidad", "Antonio"],
@@ -341,7 +340,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "kabo",
     nom: "Kabo",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: "vers 1700",
     origine: "Mosquito (Nicaragua)",
     tags: ["Épaves-Flotte-au-Trésor", "Dusmatis"],
@@ -353,7 +352,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "flying-gang",
     nom: "Flying Gang / Conseil de Nassau",
     alias: null,
-    statut: "disparu",
+    statut: "actif",
     naissance: null,
     origine: "Nassau (Bahamas)",
     tags: ["Nassau"],
@@ -364,7 +363,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     id: "equipage-johnson",
     nom: "L'Équipage du Capitaine Charles Johnson",
     alias: null,
-    statut: "vivant",
+    statut: "actif",
     naissance: null,
     origine: "Britannique",
     tags: ["Europe", "Robert"],
