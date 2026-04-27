@@ -270,7 +270,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     statut: "actif",
     naissance: "1675",
     origine: "Français",
-    tags: ["Saint-Domingue", "Europe" "Satiété engendre Démesure"],
+    tags: ["Saint-Domingue", "Europe", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/rochambeau.jpg",
     bio: `Diplomate français aguerri, opposé au traité de libre-échange au Banquet du Cap-Français. Avait préparé ses propres manœuvres pour saboter les négociations — substitution de faux documents, avec des clauses inacceptables. A renoncé après la révélation du complot de Blackwood, qui a rendu toute manœuvre supplémentaire superflue.`
   },
