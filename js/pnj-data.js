@@ -47,7 +47,7 @@ Portrait : allure aristocratique, larges favoris grisonnants, longue redingote s
     portrait: "pnj/portraits/jennings.jpg",
     bio: `Corsaire devenu pirate, commissionné par le gouverneur de Jamaïque. Figure mafieuse plus qu'aventurière : n'intervient que lorsque le rapport de force est écrasant en sa faveur. C'est lui qui a ordonné le massacre de prisonniers sur la plage après la prise de la Marianne (décembre 1715).
 
-Il ne s'adresse pratiquement jamais directement à ses hommes — Rackham sert d'interface. Les PJ ont existé dans sa mémoire comme le menu fretin de l'équipage de Bellamy : à peine remarqués, vite oubliés. Élu magistrat au Conseil de Nassau.
+Il ne s'adresse pratiquement jamais directement à ses hommes — Rackham sert d'interface. Les aventuriers ont existé dans sa mémoire comme le menu fretin de l'équipage de Bellamy : à peine remarqués, vite oubliés. Élu magistrat au Conseil de Nassau.
 
 Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle presque translucides qui ne clignent pas. Ne hausse jamais la voix — chaque mot semble extrait d'une violence contenue.`
   },
@@ -78,7 +78,7 @@ Portrait : la barbe noire est réelle, et son effet soigné. C'est un colosse : 
     portrait: "pnj/portraits/paulsgrave.jpg",
     bio: `Associé de Bellamy — compagnon d'armes, pas subordonné. Devenu pirate sur le tard, avec derrière lui une vie apparemment confortable, comme si Bellamy l'avait un jour convaincu qu'une vie d'aventures était la seule digne d'être vécue, et que l'argument avait suffi.
 
-En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le propre d'un homme faible, mais d'un homme qui n'a aucune ambition de premier rôle et n'en ressent pas le besoin. Les PJ l'ont à peine remarqué lors de leurs interactions — ce qui est à peu près l'effet qu'il produit sur tout le monde. Toujours affable et courtois dans le peu qu'ils ont échangé.`
+En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le propre d'un homme faible, mais d'un homme qui n'a aucune ambition de premier rôle et n'en ressent pas le besoin. Les aventuriers l'ont à peine remarqué lors de leurs interactions — ce qui est à peu près l'effet qu'il produit sur tout le monde. Toujours affable et courtois dans le peu qu'ils ont échangé.`
   },
   {
     id: "vane",
@@ -102,7 +102,7 @@ Pendant le massacre des prisonniers après la Marianne, il regardait avec un dem
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/rackham.jpg",
-    bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les PJ, quoique limitées, ont toujours été cordiales.
+    bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les aventuriers, quoique limitées, ont toujours été cordiales.
 
 Pendant le massacre des prisonniers après la Marianne, il était visiblement mal à l'aise — désapprobation lisible, trahie par la posture et le regard, tout en ayant le devoir de justifier les actes de son capitaine.
 
@@ -309,7 +309,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Hollandais",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/vandergroot.jpg",
-    bio: `Marchand hollandais représentant la WIC, passionné de botanique et de cartographie, dont la serre et la bibliothèque ont fait la joie de Fañch et d’Edward. A servi d'intermédiaire pour mettre les PJ en contact avec Blackwood.`
+    bio: `Marchand hollandais représentant la WIC, passionné de botanique et de cartographie, dont la serre et la bibliothèque ont fait la joie de Fañch et d’Edward. A servi d'intermédiaire pour mettre les aventuriers en contact avec Blackwood.`
   },
   {
     id: "montblanc",
@@ -320,7 +320,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Français",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/montblanc.jpg",
-    bio: `Riche planteur français. Redevable envers les PJ pour un service rendu concernant sa plantation. Présent au banquet de Cap-Français.`
+    bio: `Riche planteur français. Redevable envers les aventuriers pour un service rendu concernant sa plantation. Présent au banquet de Cap-Français.`
   },
   // PNJ Épaves
   {
@@ -332,7 +332,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Espagnol (Trinidad)",
     tags: ["Trinidad", "Caraïbes", "Les épaves de la Flotte au Trésor", "Antonio"],
     portrait: "pnj/portraits/diego.jpg",
-    bio: `Jeune soldat de conscription espagnol, originaire de Trinidad. A reconnu Antonio parmi les pirates lors des Épaves de la Flotte au Trésor. C'est lui qui a appris à Antonio que la plantation Caballero avait périclité. Sauvé par les PJ, il les a accompagné à Nassau.`
+    bio: `Jeune soldat de conscription espagnol, originaire de Trinidad. A reconnu Antonio parmi les pirates lors des Épaves de la Flotte au Trésor. C'est lui qui a appris à Antonio que la plantation Caballero avait périclité. Sauvé par les aventuriers, il les a accompagné à Nassau.`
   },
   {
     id: "kabo",
