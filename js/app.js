@@ -70,6 +70,7 @@ function setupSearch() {
 // ─── Filtrage ────────────────────────────────────────────────
 function getFiltered() {
   return PNJ_DATA.filter(p => {
+    if (p.visible === false) return false;
     const matchTag  = !activeTag || p.tags.includes(activeTag);
     const haystack  = [p.nom, p.alias, p.origine, p.bio, ...p.tags]
       .filter(Boolean).join(' ').toLowerCase();
