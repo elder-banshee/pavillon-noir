@@ -601,4 +601,32 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     portrait: null,
     bio: `Peintre néerlandaise de natures mortes florales, fille de Frederik Ruysch. Première femme admise à la Confrérie Pictura de La Haye. Peintre de cour de Johann Wilhelm, électeur palatin à Düsseldorf, jusqu'en 1716. Fortune et réputation indépendantes.`
   },
+  {
+    id: "winthorpe",
+    nom: "Capitaine Winthorpe",
+    alias: null,
+    statut: "actif",
+    naissance: "vers 1680",
+    origine: "Anglais",
+    tags: ["Nassau", "Caraïbes", "Le dernier voyage de l'Hippogriffe"],
+    portrait: "pnj/portraits/winthorpe.jpg",
+    bio: `Capitaine anglais au long passé de flibuste, rencontré naufragé sur la côte nord-est de Little Savannah — brigantin et moitié d'équipage perdus sur les récifs lors d'une tornade. Blond, carré, rire tonitruant : donne l'impression d'un homme à l'aise partout, ce qui est exactement le registre qu'il cultive. Excellent commandant : autorité naturelle, charisme réel. Ne fait confiance à personne et n'attend pas qu'on lui fasse confiance.
+
+Les aventuriers ont mené une expédition en partenariat avec lui — réussie. Ils ont su mettre un terme à l'association avant que les relations ne se gâtent, pressentant que la concorde ne durerait pas. S'ils croisent de nouveau sa route, sa réputation à Nassau aura peut-être eu le temps de leur parvenir.`
+  },
+  {
+    id: "gazelle-borgne",
+    nom: "La Gazelle et Le Borgne",
+    alias: null,
+    statut: "actif",
+    naissance: "vers 1675 (Le Borgne) & vers 1680 (La Gazelle)",
+    origine: "Français (Saint-Domingue)",
+    tags: ["Caraïbes", "Saint-Domingue", "Le dernier voyage de l'Hippogriffe"],
+    portrait:"pnj/portraits/gazelle-borgne.jpg",
+    bio: `Deux boucaniers de Saint-Domingue, matelots au sens pirate du terme — associés par contrat autant que par tempérament. Arrivés à Little Savannah après qu'une tempête a détruit leur embarcation alors qu'ils cherchaient de nouveaux territoires de chasse. Projet d'origine : s'enfoncer dans les terres américaines pour chasser le bison.
+
+La Gazelle est le meneur de fait — le plus féroce des deux. Le Borgne est réputé meilleur tireur du groupe, et sa réputation est méritée. Combattants endurés au corps à corps tous les deux, novices en matière navale. Nature violente mais franche, peu portés à la duplicité — dans leur code, la camaraderie compte autant que le butin. Loyauté mutuelle totale.
+
+Recrues de valeur, mais leur trajectoire naturelle les tire vers le continent américain — ils reprendront probablement leur route tôt ou tard.`
+  },
     ];
