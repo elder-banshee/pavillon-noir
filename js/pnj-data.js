@@ -99,7 +99,7 @@ Le surnom "Calico Jack" vient de ses goûts vestimentaires — calicot rayé, in
     naissance: "vers 1640 — vers 1714",
     origine: "Italien (Génois)",
     tags: ["La Tortue", "Trinidad", "Antonio"],
-    portrait: null,
+    portrait: pnj/portraits/ruggiero.jpg,
     bio: `Vieux maître d'armes italien. Ancien précepteur d'Antonio à Trinidad : un alcoolique de génie, payé en gîte, couvert et tafia, qui était véritablement brillant quand il parvenait à rester sobre. A transmis à Antonio un style d'escrime unique, mélange de techniques italiennes et de fougue espagnole.
 
 A fui Trinidad dans des circonstances troublantes, laissant derrière lui une lettre à Antonio. A été retrouvé mort à La Tortue, tué dans la rue par un homme non identifié. Boîtait légèrement de la jambe gauche.`
@@ -158,7 +158,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     naissance: "vers 1678–1685",
     origine: "Anglais (Irlande)",
     tags: ["Europe", "Robert", "Fanch"],
-    portrait: null,
+    portrait: pnj/portraits/wnadesford.jpg,
     bio: `Lord anglais rencontré à Saint-Malo en 1711 par Robert Arundel, dans des circonstances hautement équivoques pour les deux parties. Le duel qui a suivi s'est conclu par la mutilation de sa main droite — un coup de pistolet tiré dans le dos, dévié in extremis. Fañch, appelé en urgence pour le soigner, a dû amputer la main complète après installation de la gangrène.
 
 Wandesford lui en tient toujours rigueur. Il a ruiné la réputation de Fañch à Saint-Malo et réclame Clonakilty, baronnie irlandaise ancestrale des Arundel.
@@ -173,7 +173,7 @@ Il réapprend depuis l'escrime main gauche. Ambitieux, opportuniste, la manche d
     naissance: "vers 1690",
     origine: "Espagnol (Trinidad)",
     tags: ["Trinidad", "Caraïbes", "Antonio"],
-    portrait: null,
+    portrait: pnj/portraits/gaspar.jpg,
     bio: `Oficial de la Real Hacienda espagnole, croisé de façon inattendue. Rival d'enfance d'Antonio à Trinidad : issu de la famille dont la plantation voisine a prospéré quand celle des Caballero stagnait. C'est lui qui a fait emprisonner Antonio après le duel, avant que Bellamy n'intervienne.
 
 Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur lui au-delà de ce passé commun.`
@@ -197,7 +197,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Anglais (reconstitution littéraire)",
     tags: ["Nassau", "Épaves-Flotte-au-Trésor"],
-    portrait: null,
+    portrait: pnj/portraits/silver.jpg,
     bio: `Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Observait la scène avec une fascination froide, sans intervenir. Personnage de Bjorn Larsson (roman John Silver, 1995) plutôt que de Stevenson.`
   },
   // PNJ Île des Ombres
