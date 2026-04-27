@@ -130,8 +130,8 @@ function buildCard(pnj, index) {
 
   const statusClass = pnj.statut.toLowerCase();
   const statusLabel = {
-    vivant: 'Vivant', mort: 'Mort', disparu: 'Disparu', inconnu: 'Inconnu'
-  }[statusClass] || pnj.statut;
+    actif: 'Actif', mort: 'Mort', disparu: 'Disparu', inconnu: 'Inconnu'
+}[statusClass] || pnj.statut;
 
   card.innerHTML = `
     ${pnj.portrait
