@@ -19,12 +19,17 @@ function buildTagFilters() {
 
   // Ordre préférentiel — reflète la liste des tags actifs
   const priority = [
-    'Nassau', 'Caraïbes', 'Europe',
-    'Jamaïque', 'Kingston', 'Trinidad', 'Saint-Domingue',
-    'Flying Gang', 'The Pirate Round',
-    'L\'Île des Ombres', 'La Marianne', 'Les épaves de la Flotte au Trésor', 'Satiété engendre Démesure',
-    'Antonio', 'Robert', 'Fanch', 'Edward', 'Dusmatis'
-  ];
+  // Lieux
+  'Nassau', 'Caraïbes', 'Europe',
+  'Jamaïque', 'Kingston', 'Trinidad', 'Saint-Domingue',
+  'The Pirate Round',
+  // Factions
+  'Flying Gang', 'Piagnoni', 'Trident',
+  // Scénarios
+  'L\'Île des Ombres', 'La Marianne', 'Les épaves de la Flotte au Trésor', 'Satiété engendre Démesure',
+  // Personnages
+  'Antonio', 'Robert', 'Fanch', 'Edward', 'Dusmatis'
+];
 
   const sorted = [
     ...priority.filter(t => allTags.has(t)),
