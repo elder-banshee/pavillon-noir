@@ -344,6 +344,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   // Factions
   {
     id: "flying-gang",
+    visible: false
     nom: "Flying Gang / Conseil de Nassau",
     alias: null,
     statut: "actif",
@@ -355,6 +356,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   },
   {
     id: "equipage-johnson",
+    visible: false
     nom: "L'Équipage du Capitaine Charles Johnson",
     alias: null,
     statut: "actif",
