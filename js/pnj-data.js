@@ -26,7 +26,7 @@ Naufrage du Whydah en avril 1717. Sort officiel : inconnu.`
     naissance: "vers 1680 — 1719",
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes"],
-    portrait: null,
+    portrait: "pnj/portraits/hornigold.jpg",
     bio: `Fondateur de la République Pirate de Nassau et du Flying Gang. Il y a chez lui quelque chose de l'ancien officier de la Royal Navy qu'il n'a jamais tout à fait quitté : la discipline, la tenue, l'autorité sans éclat. Il commande par l'exemple, sans crier. On le suit parce qu'il dégage la certitude d'être à sa place.
 
 A pris la Marianne (frégate française, 32 canons) par ruse juste avant l'arrivée de Jennings — épisode fondateur de leur animosité durable. C'est via lui que la lettre de Ruggiero della Scala est parvenue aux PJ, transmise par Teach.
@@ -41,7 +41,7 @@ Portrait : allure aristocratique sans noblesse de sang, larges favoris grisonnan
     naissance: "vers 1680 — après 1730",
     origine: "Anglais (Bermudes)",
     tags: ["Nassau", "Jamaïque", "Kingston", "Épaves-Flotte-au-Trésor"],
-    portrait: null,
+    portrait: "pnj/portraits/jennings.jpg",
     bio: `Corsaire devenu pirate, commissionné par le gouverneur de Jamaïque. Figure mafieuse plus qu'aventurière : n'intervient que lorsque le rapport de force est écrasant en sa faveur. C'est lui qui a ordonné le massacre de prisonniers sur la plage après la prise de la Marianne (décembre 1715).
 
 Il ne s'adresse pratiquement jamais directement à ses hommes — Rackham sert d'interface. Les PJ ont existé dans sa mémoire comme le menu fretin de l'équipage de Bellamy : à peine remarqués, vite oubliés.
@@ -56,7 +56,7 @@ Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle pr
     naissance: "vers 1680 — 22 novembre 1718",
     origine: "Anglais",
     tags: ["Nassau", "Épaves-Flotte-au-Trésor"],
-    portrait: null,
+    portrait: "pnj/portraits/",
     bio: `Second d'Hornigold lors des Épaves et de la Marianne. C'est lui qui a remis aux PJ la lettre de Ruggiero della Scala — sans explication sur la manière dont elle lui était parvenue. Scandalisé par le massacre ordonné par Jennings sur la plage.
 
 Septembre 1717 : Hornigold lui confie officiellement le commandement d'une sloop. Novembre 1717 : capture seul La Concorde, la rebaptise Queen Anne's Revenge. Devient capitaine indépendant à part entière.
@@ -71,7 +71,7 @@ Portrait : la barbe noire est réelle, et son effet soigné. Stature imposante, 
     naissance: "vers 1680",
     origine: "Anglais",
     tags: ["Nassau", "Jamaïque", "Épaves-Flotte-au-Trésor"],
-    portrait: null,
+    portrait: "pnj/portraits/",
     bio: `Pilote d'Henry Jennings — navigateur réputé talentueux, ce qui explique seul qu'il occupe ce poste. En présence des PJ, toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
 Pendant le massacre des prisonniers après la Marianne, il regardait avec un demi-sourire amusé — pas de répugnance, pas de retenue. L'air de quelqu'un qui reconnaît une méthode qu'il connaît bien et n'a pas besoin de valider. Son amusement était probablement moins dirigé vers les excès de Jennings que vers deux cents hommes réputés redoutables, incapables de se dresser contre un seul individu.`
@@ -84,7 +84,7 @@ Pendant le massacre des prisonniers après la Marianne, il regardait avec un dem
     naissance: "vers 1682",
     origine: "Anglais",
     tags: ["Nassau", "Jamaïque", "Épaves-Flotte-au-Trésor"],
-    portrait: null,
+    portrait: "pnj/portraits/",
     bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les PJ, quoique limitées, ont toujours été cordiales.
 
 Pendant le massacre des prisonniers après la Marianne, il était visiblement mal à l'aise — désapprobation lisible, trahie par la posture et le regard, tout en ayant le devoir de justifier les actes de son capitaine.
@@ -112,7 +112,7 @@ A fui Trinidad dans des circonstances troublantes, laissant derrière lui une le
     naissance: "1660 — 1753",
     origine: "Irlandais (installé en Angleterre)",
     tags: ["Europe", "Fanch", "Edward"],
-    portrait: null,
+    portrait: "pnj/portraits/sloane.jpg",
     bio: `Médecin naturaliste, secrétaire de la Royal Society. Professeur de Fañch au Royal College of Physicians de Londres — une influence décisive dans sa formation, transmettant autant une philosophie qu'un savoir : voir dans chaque spécimen végétal une potentielle source de guérison.
 
 C'est également lui qui a remis à Edward Sutherland sa lettre de mission — rédigée en urgence, encore non signée par le Président, avant de l'envoyer obtenir lui-même le précieux visa d'Isaac Newton.`
@@ -125,7 +125,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     naissance: "1643 — 1727",
     origine: "Anglais",
     tags: ["Europe", "Edward"],
-    portrait: null,
+    portrait: "pnj/portraits/newton.jpg",
     bio: `Président de la Royal Society (1703–1727). A signé la lettre de mission d'Edward Sutherland lors d'une rencontre improvisée dans son jardin — où il l'avait contraint à planter des pommiers pendant qu'il l'écoutait. La lettre vaut passe-droit auprès des gouverneurs coloniaux.`
   },
   {
@@ -136,7 +136,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     naissance: null,
     origine: "Anglais",
     tags: ["Nassau", "Cap-Français", "SED"],
-    portrait: null,
+    portrait: "pnj/portraits/woodall.jpg",
     bio: `Pirate et contrebandier anglais, capitaine du sloop Wolf (30 tonneaux). Les PJ l'ont rencontré à Cap-Français lors du banquet — c'est lui qui a évoqué en premier devant eux l'existence d'un réseau de contrebande organisé qu'il appelle "le Trident", et dont il est clairement une victime.`
   },
   {
@@ -147,7 +147,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     naissance: "vers 1675",
     origine: "Anglais",
     tags: ["Caraïbes", "Antonio"],
-    portrait: null,
+    portrait: "pnj/portraits/elliot.jpg",
     bio: `Contrebandier anglais, contact d'Antonio depuis Trinidad. C'est lui qui a fourni à Bellamy les informations permettant l'interception du Santa Laura de Córdoba et la libération d'Antonio — un geste pragmatique, une opportunité saisie, pas un sacrifice. Aide les PJ contre rémunération raisonnable.`
   },
   {
@@ -186,7 +186,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "vers 1685 — vers 1720",
     origine: "Irlandais",
     tags: ["Nassau", "Épaves-Flotte-au-Trésor"],
-    portrait: null,
+    portrait: "pnj/portraits/",
     bio: `Pirate irlandais de son vrai nom Edward Seegar. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Dégoûté par ce qu'il a vu, a quitté les Caraïbes pour l'océan Indien. Connu pour sa clémence envers les vaincus — l'exact opposé de Jennings.`
   },
   {
@@ -209,7 +209,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Anglais",
     tags: ["Île-des-Ombres"],
-    portrait: null,
+    portrait: "pnj/portraits/",
     bio: `Maître charpentier du Téméraire. Massif, barbe grise, jambe droite brisée, le visage creusé de cicatrices. Bourru dans la forme, loyal dans les actes — c'est lui qui a guidé l'équipage dans la réparation du sloop après l'échouage. Mort durant les événements de l'île.`
   },
   {
@@ -220,7 +220,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Espagnol",
     tags: ["Île-des-Ombres", "Antonio"],
-    portrait: null,
+    portrait: "pnj/portraits/",
     bio: `Grand, élancé, une cicatrice sur la joue gauche et un regard d'acier. Cousin du noble tué en duel par Antonio à Trinidad — une rancœur ancienne qu'il n'a pas cherché à dissimuler. Obstiné jusqu'à l'absurde : a refusé d'évacuer l'île avec les forces espagnoles. Dévoré par les Indiens Bravos.`
   },
   {
@@ -231,7 +231,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Espagnol",
     tags: ["Île-des-Ombres"],
-    portrait: null,
+    portrait: "pnj/portraits/",
     bio: `Élégant, mince, l'allure aristocratique. Superstitieux malgré son éducation, ambitieux mais pas téméraire. A choisi de quitter l'île avec ses troupes plutôt que de partager l'obstination fatale de Don Francisco.`
   },
   // PNJ SED
@@ -243,7 +243,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "vers 1680",
     origine: "Français",
     tags: ["Cap-Français", "SED"],
-    portrait: null,
+    portrait: "pnj/portraits/lefevre.jpg",
     bio: `Chef cuisinier français, rescapé de naufrage. A supervisé le grand banquet de Cap-Français avec un sérieux de praticien et une générosité de rescapé. A offert son livre de recettes à Amédée en souvenir.`
   },
   {
@@ -254,7 +254,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: null,
     origine: "Anglais",
     tags: ["Cap-Français", "SED", "Antonio", "Robert"],
-    portrait: null,
+    portrait: "pnj/portraits/blackwood.jpg",
     bio: `Agent britannique infiltré dans la délégation du banquet de Cap-Français. A recruté Antonio et Robert comme gardes du corps pour les compromettre. Responsable de l'empoisonnement de la délégation espagnole — Dom Rodrigo Oliveira est mort. Interpellé par le Gouverneur Blénac alors qu'il quittait Cap-Français, les faux documents de Rochambeau trouvés sur lui l'ont confondu. Sort inconnu depuis.`
   },
   {
@@ -265,7 +265,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "vers 1660",
     origine: "Français",
     tags: ["Cap-Français", "SED"],
-    portrait: null,
+    portrait: "pnj/portraits/rochambeau.jpg",
     bio: `Diplomate français aguerri, opposé au traité de libre-échange hispano-français. Avait préparé ses propres manœuvres pour saboter les négociations — une diversion par herbes légères, des clauses falsifiées. A renoncé après la révélation du complot de Blackwood, qui a rendu toute manœuvre supplémentaire superflue.`
   },
   {
@@ -276,7 +276,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "1644 — 1719",
     origine: "Français",
     tags: ["Cap-Français", "SED", "Antonio", "Robert"],
-    portrait: null,
+    portrait: "pnj/portraits/blenac.jpg",
     bio: `Gouverneur de Saint-Domingue au moment du banquet de Cap-Français. Administrateur perspicace, favorable au traité. C'est sur la foi d'Antonio qu'il a fait intercepter Blackwood — et c'est lui qui a libéré Robert et Antonio avec une injonction sans équivoque : ne plus paraître à Cap-Français. Ton pragmatique plutôt que vengeur.`
   },
   {
@@ -287,7 +287,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "vers 1665",
     origine: "Français",
     tags: ["Cap-Français", "SED"],
-    portrait: null,
+    portrait: "pnj/portraits/daboville.jpg",
     bio: `Vicaire général, chef de la communauté jésuite à Saint-Domingue. Hôte du banquet dans les jardins du couvent. Présence discrète et bienveillante ce soir-là — l'homme d'Église qui met son espace à disposition sans se mêler du reste.`
   },
   {
@@ -298,7 +298,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "vers 1665",
     origine: "Hollandais",
     tags: ["Cap-Français", "SED"],
-    portrait: null,
+    portrait: "pnj/portraits/vandergroot.jpg",
     bio: `Marchand hollandais représentant la WIC, passionné de botanique et de cartographie. A servi d'intermédiaire pour mettre les PJ en contact avec Rochambeau. Accompagné de Mademoiselle Claudine, jeune femme métisse présentée comme sa nièce.`
   },
   {
@@ -309,7 +309,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "vers 1660",
     origine: "Français",
     tags: ["Cap-Français", "SED"],
-    portrait: null,
+    portrait: "pnj/portraits/montblanc.jpg",
     bio: `Riche planteur français. Redevable envers les PJ pour un service rendu concernant sa plantation. Présent au banquet de Cap-Français.`
   },
   // PNJ Épaves
@@ -321,7 +321,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "vers 1695",
     origine: "Espagnol (Trinidad)",
     tags: ["Épaves-Flotte-au-Trésor", "Trinidad", "Antonio"],
-    portrait: null,
+    portrait: "pnj/portraits/diego.jpg",
     bio: `Jeune soldat de conscription espagnol, originaire de Trinidad. A reconnu Antonio parmi les prisonniers lors des Épaves de la Flotte au Trésor. C'est lui qui a appris aux PJ que la plantation Caballero avait changé de mains, et que l'aînée des sœurs d'Antonio serait entrée au service des Mendez de la Serna.`
   },
   {
@@ -332,7 +332,7 @@ Son poste actuel : Panama City, Real Hacienda. Les PJ en savent encore peu sur l
     naissance: "vers 1700",
     origine: "Mosquito (Nicaragua)",
     tags: ["Épaves-Flotte-au-Trésor", "Dusmatis"],
-    portrait: null,
+    portrait: "pnj/portraits/kabo.jpg",
     bio: `Plongeur Mosquito, originaire du rivage nicaraguayen. A été recruté parmi les libérés lors des Épaves de la Flotte au Trésor. A reconnu Dusmatis comme originaire de la même région — une connivence tranquille, sans effusion.`
   },
   // Factions
