@@ -6,7 +6,6 @@
 const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzqKOStqZtFKXnP3o-6Uu6NGcGujiFxpzZWwuWSEA0WHED6NL442mEworPIPWZbmUP3G-RtQH_p1BI/pub?gid=0&single=true&output=csv';
 
 // ─── Composition de l'équipage ───────────────────────────────
-// Mettre à jour après chaque recrutement ou perte
 const COMPOSITION = [
   { categorie: "Pirates",                     effectif: 5 },
   { categorie: "Boucaniers",                  effectif: 5 },
@@ -16,17 +15,14 @@ const COMPOSITION = [
 ];
 
 // ─── Appréciation qualitative ────────────────────────────────
-// À mettre à jour manuellement selon l'évolution de l'équipage
 const APPRECIATION = "Équipage hétéroclite mais combatif — les pirates et boucaniers forment un noyau dur expérimenté, compensant les lacunes navales des déserteurs et recrues récentes. La cohésion reste à construire.";
 
-// ─── Libellés et ordre des compétences ───────────────────────
-// Doit correspondre à l'ordre des colonnes dans Google Sheets
-// (après Groupe, Nombre, Proportion)
+// ─── Libellés des compétences (ordre = colonnes Sheets) ──────
 const COMPETENCES = [
   "Manœuvre",
   "Canonnade",
   "Recharge",
-  "Corps à Corps",
+  "Combat",
   "Tir",
   "Ruse"
 ];
@@ -45,7 +41,6 @@ function renderComposition() {
   const total = COMPOSITION.reduce((s, c) => s + c.effectif, 0);
   const container = document.getElementById('crew-table');
   const totalEl   = document.getElementById('crew-total');
-
   if (!container) return;
 
   container.innerHTML = COMPOSITION.map(c => {
@@ -119,21 +114,49 @@ async function loadStats() {
   }
 }
 
-// ─── Parser CSV — lit la ligne "Moy./Total" ──────────────────
-// Structure du tableau : Groupe, Nombre, Proportion, puis 6 valeurs
-// La ligne Moy./Total contient les moyennes pondérées finales
+// ─── Parser CSV ───────────────────────────────────────────────
+// Cherche la ligne "Moy./Total" et extrait les 6 valeurs numériques.
+// La colonne Proportion contient des % avec virgule ("27,78%"),
+// ce qui crée des cellules supplémentaires lors du split naïf.
+// On parse donc en respectant les guillemets CSV (RFC 4180).
 function parseCSV(text) {
   const lines = text.trim().split('\n');
   for (const line of lines) {
-    // Cherche la ligne commençant par "Moy."
-    if (line.startsWith('Moy.')) {
-      const cells = line.split(',').map(c => c.trim().replace(/"/g, ''));
-      // Colonnes 0=Groupe, 1=Nombre, 2=Proportion, 3..8=valeurs
-      const values = cells.slice(3).map(c => parseFloat(c));
-      if (values.length >= 6 && values.slice(0, 6).every(n => !isNaN(n))) {
-        return values.slice(0, 6);
-      }
+    if (!line.startsWith('Moy.')) continue;
+
+    // Parser CSV respectant les champs entre guillemets
+    const cells = parseCSVLine(line);
+
+    // Cherche les 6 premières valeurs numériques après les colonnes texte
+    const nums = [];
+    for (const cell of cells) {
+      if (nums.length >= 6) break;
+      const n = parseFloat(cell.replace(',', '.'));
+      if (!isNaN(n) && cell.trim() !== '') nums.push(n);
     }
+
+    if (nums.length >= 6) return nums;
   }
   return null;
+}
+
+// Parser CSV ligne par ligne, respectant les guillemets RFC 4180
+function parseCSVLine(line) {
+  const cells = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      inQuotes = !inQuotes;
+    } else if (ch === ',' && !inQuotes) {
+      cells.push(current.trim());
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  cells.push(current.trim());
+  return cells;
 }
