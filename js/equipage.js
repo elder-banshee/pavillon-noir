@@ -6,7 +6,7 @@
 const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzqKOStqZtFKXnP3o-6Uu6NGcGujiFxpzZWwuWSEA0WHED6NL442mEworPIPWZbmUP3G-RtQH_p1BI/pub?gid=53989143&single=true&output=csv';
 
 // ─── Appréciation qualitative ────────────────────────────────
-const APPRECIATION = "Équipage hétéroclite mais combatif — les pirates et boucaniers forment un noyau dur expérimenté, compensant les lacunes navales des déserteurs et recrues récentes. La cohésion reste à construire.";
+const APPRECIATION = "Équipage hétéroclite mais combatif — les pirates et déserteurs de la Navy forment un noyau dur expérimenté, compensant les lacunes navales des boucaniers et recrues récentes. La cohésion reste à construire.";
 
 // ─── Libellés des compétences (ordre = colonnes ligne 1) ─────
 const COMPETENCES = [
