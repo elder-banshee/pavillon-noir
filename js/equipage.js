@@ -6,6 +6,7 @@
 const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzqKOStqZtFKXnP3o-6Uu6NGcGujiFxpzZWwuWSEA0WHED6NL442mEworPIPWZbmUP3G-RtQH_p1BI/pub?gid=0&single=true&output=csv';
 
 // ─── Composition de l'équipage ───────────────────────────────
+// Mettre à jour après chaque recrutement ou perte
 const COMPOSITION = [
   { categorie: "Pirates",                     effectif: 5 },
   { categorie: "Boucaniers",                  effectif: 5 },
@@ -15,16 +16,19 @@ const COMPOSITION = [
 ];
 
 // ─── Appréciation qualitative ────────────────────────────────
+// À mettre à jour manuellement selon l'évolution de l'équipage
 const APPRECIATION = "Équipage hétéroclite mais combatif — les pirates et boucaniers forment un noyau dur expérimenté, compensant les lacunes navales des déserteurs et recrues récentes. La cohésion reste à construire.";
 
-// ─── Libellés des compétences ────────────────────────────────
+// ─── Libellés et ordre des compétences ───────────────────────
+// Doit correspondre à l'ordre des colonnes dans Google Sheets
+// (après Groupe, Nombre, Proportion)
 const COMPETENCES = [
   "Manœuvre",
-  "Ruse",
-  "Tir",
-  "Corps à Corps",
   "Canonnade",
-  "Recharge"
+  "Recharge",
+  "Corps à Corps",
+  "Tir",
+  "Ruse"
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -115,13 +119,21 @@ async function loadStats() {
   }
 }
 
-// ─── Parser CSV simple ────────────────────────────────────────
+// ─── Parser CSV — lit la ligne "Moy./Total" ──────────────────
+// Structure du tableau : Groupe, Nombre, Proportion, puis 6 valeurs
+// La ligne Moy./Total contient les moyennes pondérées finales
 function parseCSV(text) {
   const lines = text.trim().split('\n');
   for (const line of lines) {
-    const cells = line.split(',').map(c => c.trim().replace(/"/g, ''));
-    const nums  = cells.map(c => parseFloat(c));
-    if (nums.every(n => !isNaN(n))) return nums;
+    // Cherche la ligne commençant par "Moy."
+    if (line.startsWith('Moy.')) {
+      const cells = line.split(',').map(c => c.trim().replace(/"/g, ''));
+      // Colonnes 0=Groupe, 1=Nombre, 2=Proportion, 3..8=valeurs
+      const values = cells.slice(3).map(c => parseFloat(c));
+      if (values.length >= 6 && values.slice(0, 6).every(n => !isNaN(n))) {
+        return values.slice(0, 6);
+      }
+    }
   }
   return null;
 }
