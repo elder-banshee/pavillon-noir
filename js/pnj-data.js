@@ -131,11 +131,11 @@ Le surnom "Calico Jack" lui vient de son goût immodéré pour les étoffes pré
   {
     id: "sloane",
     nom: "Hans Sloane",
-    accroche: "Secrétaire de la Royal Society of Science",
+    accroche: "Médecin, naturaliste et collectionneur<br>Secrétaire de la Royal Society of Science",
     alias: null,
     statut: "actif",
     naissance: "1660",
-    origine: "Irlandais (installé en Angleterre)",
+    origine: "Écossais (né en Irlande, installé en Angleterre)",
     tags: ["Europe", "Fanch", "Edward"],
     portrait: "pnj/portraits/sloane.jpg",
     bio: `Médecin naturaliste, secrétaire de la Royal Society. Professeur de Fañch au Royal College of Physicians de Londres — une influence décisive dans sa formation, transmettant autant une philosophie qu'un savoir : voir dans chaque spécimen végétal une potentielle source de guérison.
@@ -145,7 +145,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "newton",
     nom: "Isaac Newton",
-    accroche: "Président de la Royal Society of Science",
+    accroche: "Mathématicien, physicien, philosophe, alchimiste, astronome et théologien<br>Président de la Royal Society of Science",
     alias: null,
     statut: "actif",
     naissance: "1643",
