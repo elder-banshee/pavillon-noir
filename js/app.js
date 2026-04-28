@@ -19,10 +19,10 @@ function buildTagFilters() {
 
   // Ordre préférentiel — reflète la liste des tags actifs
   const priority = [
-    'Nassau', 'Caraïbes', 'Europe',
-    'Jamaïque', 'Kingston', 'Trinidad', 'Saint-Domingue',
-    'Flying Gang', 'The Pirate Round',
-    'L\'Île des Ombres', 'La Marianne', 'Les épaves de la Flotte au Trésor', 'Satiété engendre Démesure',
+    'Caraïbes', 'Europe',
+    'Nassau', 'Trinidad', 'Saint-Domingue', 'Jamaïque', 'Kingston', 'The Pirate Round',
+    'Flying Gang', 'Équipage du Capitaine Charles Johnson',
+    'L\'Île des Ombres', 'Satiété engendre Démesure', 'Le dernier voyage de l\'Hippogriffe', 'La Marianne', 'Les épaves de la Flotte au Trésor',
     'Antonio', 'Robert', 'Fanch', 'Edward', 'Dusmatis'
   ];
 
