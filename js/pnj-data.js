@@ -456,7 +456,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     id: "halley",
     visible: false,
     nom: "Edmund Halley",
-    accroche: "Astronome, scientifique, ingénieur, océanologue"
+    accroche: "Astronome, scientifique, ingénieur, océanologue<br>Membre de la Royal Society of Science",
     alias: null,
     statut: "actif",
     naissance: "1656",
