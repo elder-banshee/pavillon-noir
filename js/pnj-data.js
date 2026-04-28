@@ -7,6 +7,7 @@ const PNJ_DATA = [
     id: "bellamy",
     epingle: true,
     nom: "Samuel Bellamy",
+    accroche: null,
     alias: "Black Sam, le Prince des Pirates, Robin des mers",
     statut: "actif",
     naissance: "1689",
@@ -21,8 +22,9 @@ A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associe
   },
   {
     id: "hornigold",
-    nom: "Benjamin Hornigold",
     epingle: true,
+    nom: "Benjamin Hornigold",
+    accroche: "Magistrat au Conseil de Nassau, Capitaine du Ranger",
     alias: null,
     statut: "actif",
     naissance: "vers 1670-80",
@@ -39,6 +41,7 @@ Portrait : allure aristocratique, larges favoris grisonnants, longue redingote s
     id: "jennings",
     epingle: true,
     nom: "Henry Jennings",
+    accroche: "Magistrat au Conseil de Nassau, Capitaine du Bersheeba",
     alias: null,
     statut: "actif",
     naissance: "vers 1680",
@@ -55,6 +58,7 @@ Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle pr
     id: "teach",
     epingle: true,
     nom: "Edward Teach",
+    accroche: "Magistrat au Conseil de Nassau, Second de Horniglod",
     alias: "Barbe-Noire",
     statut: "actif",
     naissance: "vers 1680",
@@ -70,6 +74,7 @@ Portrait : la barbe noire est réelle, et son effet soigné. C'est un colosse : 
   {
     id: "williams",
     nom: "Paulsgrave Williams",
+    accroche: "Associé de Bellamy",
     alias: null,
     statut: "actif",
     naissance: "vers 1675",
@@ -83,19 +88,21 @@ En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le pr
   {
     id: "vane",
     nom: "Charles Vane",
+    accroche: "Pilote de Jennings",
     alias: null,
     statut: "actif",
     naissance: "vers 1685",
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingtson", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/vane.jpg",
-    bio: `Pilote d'Henry Jennings — navigateur réputé talentueux, ne serait-ce que parce que Jennings lui a confié ce poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
+    bio: `PNavigateur réputé talentueux, ne serait-ce que parce que Jennings lui a confié son poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
 Pendant le massacre des prisonniers après la Marianne, il regardait avec un demi-sourire amusé — pas de répugnance, pas de retenue. L'air de quelqu'un qui reconnaît une méthode qu'il connaît bien et n'a pas besoin de valider. Son amusement était probablement moins dirigé vers les excès de Jennings que vers deux cents hommes réputés redoutables, incapables de se dresser contre un seul individu.`
   },
   {
     id: "rackham",
-    nom: "John Rackham",
+    nom: "John « Calico Jack » Rackham",
+    accroche: "Quartier-maître de Jennings",
     alias: "Calico Jack, Rackham le Rouge",
     statut: "actif",
     naissance: "vers 1682",
@@ -111,6 +118,7 @@ Le surnom "Calico Jack" lui vient de son goût immodéré pour les étoffes pré
   {
     id: "ruggiero",
     nom: "Ruggiero della Scala",
+    accroche: "Maître d'armes",
     alias: null,
     statut: "inconnu",
     naissance: "vers 1640",
@@ -123,6 +131,7 @@ Le surnom "Calico Jack" lui vient de son goût immodéré pour les étoffes pré
   {
     id: "sloane",
     nom: "Hans Sloane",
+    accroche: "Secrétaire de la Royal Society of Science",
     alias: null,
     statut: "actif",
     naissance: "1660",
@@ -136,6 +145,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "newton",
     nom: "Isaac Newton",
+    accroche: "Président de la Royal Society of Science",
     alias: null,
     statut: "actif",
     naissance: "1643",
@@ -147,6 +157,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "woodall",
     nom: "Nicholas Woodall",
+    accroche: "Contrebandier",
     alias: null,
     statut: "actif",
     naissance: "1682",
@@ -158,6 +169,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "elliot",
     nom: "Thomas Elliot",
+    accroche: "Contrebandier",
     alias: null,
     statut: "actif",
     naissance: "1686",
@@ -169,6 +181,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "wandesford",
     nom: "Thurston Wandesford",
+    accroche: "Baron de Clonakilty",
     alias: null,
     statut: "actif",
     naissance: "1684",
@@ -180,6 +193,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "gaspar",
     nom: "Gaspar de la Serna",
+    accroche: "Planteur de cacao",
     alias: null,
     statut: "actif",
     naissance: "1688",
@@ -191,6 +205,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "edward-england",
     nom: "Edward England",
+    accroche: "Capitaine du Fancy",
     alias: "Edward Seegar",
     statut: "inconnu",
     naissance: "vers 1685 — vers 1720",
@@ -202,6 +217,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "silver",
     nom: "John Silver",
+    accroche: "Quartier-maître d'Edward England",
     alias: "Long John Silver, Barbecue",
     statut: "inconnu",
     naissance: "1685",
@@ -214,6 +230,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "hobbs",
     nom: "Nathaniel Hobbs",
+    accroche: "Maître-charpentier du Téméraire",
     alias: null,
     statut: "mort",
     naissance: "1671",
@@ -225,6 +242,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "alarcon",
     nom: "Don Francisco de Alarcon",
+    accroche: "Capitaine de l'Infantería de Marina",
     alias: null,
     statut: "mort",
     naissance: "1682 - 1714",
@@ -236,6 +254,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "velazquez",
     nom: "Commandant Diego Velazquez",
+    accroche: "Capitaine de frégate de la Real Armada",
     alias: null,
     statut: "inconnu",
     naissance: "1677",
@@ -248,6 +267,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "lefevre",
     nom: "Guillaume Lefèvre",
+    accroche: "Maître queux",
     alias: null,
     statut: "actif",
     naissance: "vers 1691",
@@ -259,6 +279,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "blackwood",
     nom: "Lord Blackwood",
+    accroche: "Diplomate radical",
     alias: null,
     statut: "inconnu",
     naissance: "1677",
@@ -270,6 +291,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "rochambeau",
     nom: "Chevalier de Rochambeau",
+    accroche: "Diplomate retors",
     alias: null,
     statut: "actif",
     naissance: "1675",
@@ -281,6 +303,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "blenac",
     nom: "Louis de Courbon, comte de Blénac",
+    accroche: "Gouverneur de Saint-Domingue",
     alias: null,
     statut: "actif",
     naissance: "1644",
@@ -292,28 +315,31 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "morelet",
     nom: "Père Morelet d'Aboville",
+    accroche: "Vicaire général de la Compagnie de Jésus",
     alias: null,
     statut: "actif",
     naissance: "vers 1651",
     origine: "Français",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/daboville.jpg",
-    bio: `Vicaire général, chef de la communauté jésuite à Saint-Domingue. Hôte du banquet dans les jardins du couvent. Présence bienveillante, discrète et attentive.`
+    bio: `Chef de la communauté jésuite à Saint-Domingue. Hôte du banquet dans les jardins du couvent. Présence bienveillante, discrète et attentive.`
   },
   {
     id: "vandergroot",
     nom: "Johannes Van der Groot",
+    accroche: "Négociant retraité",
     alias: null,
     statut: "actif",
     naissance: "1655",
     origine: "Hollandais",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/vandergroot.jpg",
-    bio: `Marchand hollandais représentant la WIC, passionné de botanique et de cartographie, dont la serre et la bibliothèque ont fait la joie de Fañch et d’Edward. A servi d'intermédiaire pour mettre les aventuriers en contact avec Blackwood.`
+    bio: `Ancien marchand hollandais représentant la WIC, passionné de botanique et de cartographie, dont la serre et la bibliothèque ont fait la joie de Fañch et d’Edward. A servi d'intermédiaire pour mettre les aventuriers en contact avec Blackwood.`
   },
   {
     id: "montblanc",
     nom: "Monsieur de Montblanc",
+    accroche: "Planteur de canne à sucre",
     alias: null,
     statut: "actif",
     naissance: "1672",
@@ -326,6 +352,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "diego",
     nom: "Diego",
+    accroche: "Conscrit déserteur",
     alias: null,
     statut: "actif",
     naissance: "1699",
@@ -337,6 +364,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "kabo",
     nom: "Kabo",
+    accroche: "Guerrier Miskito",
     alias: null,
     statut: "actif",
     naissance: "vers 1700",
@@ -349,32 +377,61 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "flying-gang",
     visible: false,
-    nom: "Flying Gang / Conseil de Nassau",
+    nom: "Flying Gang",
+    accroche: null,
     alias: null,
     statut: "actif",
     naissance: null,
     origine: "Nassau (Bahamas)",
     tags: ["Nassau", "Caraïbes", "Flying Gang"],
-    portrait: "pnj/portraits/nassau.jpg",
-    bio: `La République Pirate de Nassau, fondée par Hornigold et ses pairs. Cinq magistrats élus en janvier 1716 à l'issue des affaires de la Flotte au Trésor : Hornigold, Teach, Jennings, Cockram, Burgess. Structure fragile, personnelle, sans constitution écrite — elle tient par les hommes qui la composent autant que par les principes qu'elle défend.`
+    portrait: null,
+    bio: ``
+  },
+   {
+    id: "conseil-nassau",
+    visible: true,
+    nom: "Conseil de Nassau",
+    accroche: "Structure administrative de la République Pirate",
+    alias: null,
+    statut: "actif",
+    naissance: null,
+    origine: "Nassau (Bahamas)",
+    tags: ["Nassau", "Caraïbes", "Flying Gang"],
+    portrait: null,
+    bio: `La République Pirate de Nassau est fondée par Hornigold et ses pairs. Cinq magistrats élus en janvier 1716 à l'issue des évènements de la Flotte au Trésor : Benjami Hornigold, Edward Teach, Henry Jennings, John Cockram, Josiah Burgess. Structure fragile, personnelle, sans constitution écrite — elle tient par les hommes qui la composent autant que par les principes qu'elle défend.`
   },
   {
     id: "equipage-johnson",
     visible: false,
     nom: "L'Équipage du Capitaine Charles Johnson",
+    accroche: "Mystérieuse société secrète britannique",
     alias: null,
     statut: "actif",
     naissance: null,
-    origine: "Britannique",
-    tags: ["Europe", "Robert"],
+    origine: "Anglais",
+    tags: ["Europe", "Robert", "Équipage du Capitaine Charles Johnson"],
+    portrait: null,
+    bio: `Réseau d'entraide ayant exfiltré et mandaté Robert pour documenter les événements et personnages extraordinaires des Indes Occidentales.`
+  },
+  {
+    id: "mist",
+    visible: true,
+    nom: "Nathaniel Mist",
+    accroche: "Journaliste, membre de l'équipage du Capitaine Charles Johnson",
+    alias: null,
+    statut: "actif",
+    naissance: 1685,
+    origine: "Anglais (Londres)",
+    tags: ["Europe", "Robert", "Équipage du Capitaine Charles Johnson"],
     portrait: "pnj/portraits/mist.jpg",
-    bio: `Réseau de correspondants qui documente les événements et personnages extraordinaires des Indes Occidentales pour un commanditaire londonien. Robert Arundel en est le correspondant de terrain — approché avant son départ pour les Caraïbes par un certain Nathaniel Mist, qui se présentait comme "membre de l'équipage du Capitaine Charles Johnson".`
+    bio: `Journaliste et imprimeur londonien, jacobite actif, pas encore connu du grand public — il n'a pas encore lancé le journal qui fera sa réputation. C'est un homme de réseau avant d'être un homme de presse. Il a approché Robert peu avant son départ pour les Indes Occidentales et l'a mandaté comme correspondant de terrain pour l'équipage du Capitaine Charles Johnson, en échange d'une rémunération par compte rendu livré.`
   },
 {
     id: "morgan",
     visible: false,
     nom: "Henry Morgan",
-    alias: "Sir Henry Morgan",
+    accroche: "Roi de la Flibuste devenu Gouverneur de la Jamaïque",
+    alias: "Sir Henry Morgan, Hari Morgan",
     statut: "mort",
     naissance: "vers 1635 — 25 août 1688",
     origine: "Gallois",
@@ -386,7 +443,8 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     id: "avery",
     visible: false,
     nom: "Henry Avery",
-    alias: null,
+    accroche: "Le Roi des pirates",
+    alias: "Henry Every, Black Ben, Benjamin Stonebridge",
     statut: "inconnu",
     naissance: "vers 1659 — après 1696",
     origine: "Anglais",
@@ -398,9 +456,10 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     id: "halley",
     visible: false,
     nom: "Edmund Halley",
+    accroche: "Astronome, scientifique, ingénieur, océanologue"
     alias: null,
     statut: "actif",
-    naissance: "1656 — 1742",
+    naissance: "1656",
     origine: "Anglais",
     tags: ["Europe"],
     portrait: null,
