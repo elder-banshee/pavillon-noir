@@ -41,7 +41,7 @@ async function loadAll() {
         grid.innerHTML = '';
         COMPETENCES.forEach((label, i) => {
           const val = vals[i];
-          const pct = Math.round((val / 9) * 100);
+          const pct = Math.round((val / 6) * 100);
           const block = document.createElement('div');
           block.className = 'stat-block';
           block.innerHTML = `
