@@ -19,17 +19,12 @@ function buildTagFilters() {
 
   // Ordre préférentiel — reflète la liste des tags actifs
   const priority = [
-  // Lieux
-  'Nassau', 'Caraïbes', 'Europe',
-  'Jamaïque', 'Kingston', 'Trinidad', 'Saint-Domingue',
-  'The Pirate Round',
-  // Factions
-  'Flying Gang', 'Piagnoni', 'Trident',
-  // Scénarios
-  'L\'Île des Ombres', 'La Marianne', 'Les épaves de la Flotte au Trésor', 'Satiété engendre Démesure',
-  // Personnages
-  'Antonio', 'Robert', 'Fanch', 'Edward', 'Dusmatis'
-];
+    'Nassau', 'Caraïbes', 'Europe',
+    'Jamaïque', 'Kingston', 'Trinidad', 'Saint-Domingue',
+    'Flying Gang', 'The Pirate Round',
+    'L\'Île des Ombres', 'La Marianne', 'Les épaves de la Flotte au Trésor', 'Satiété engendre Démesure',
+    'Antonio', 'Robert', 'Fanch', 'Edward', 'Dusmatis'
+  ];
 
   const sorted = [
     ...priority.filter(t => allTags.has(t)),
@@ -105,24 +100,52 @@ function renderGrid() {
   grid.innerHTML = '';
 
   if (filtered.length === 0) {
-    grid.innerHTML = '<p class="empty-state">Aucun personnage ne correspond à cette recherche.</p>';
+    const empty = document.createElement('p');
+    empty.className = 'empty-state';
+    empty.textContent = 'Aucun personnage ne correspond à cette recherche.';
+    grid.appendChild(empty);
     return;
   }
 
-  // Épinglés en premier, dans leur ordre de déclaration
   const epingles = filtered.filter(p => p.epingle === true);
   const reste    = filtered.filter(p => p.epingle !== true)
                            .sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
 
-  [...epingles, ...reste].forEach((pnj, i) => {
-    const card = buildCard(pnj, i);
-    grid.appendChild(card);
-  });
+  // Section "Caribbean's Most Wanted"
+  if (epingles.length > 0) {
+    const wantedHeader = document.createElement('div');
+    wantedHeader.className = 'wanted-header';
+    wantedHeader.innerHTML = `
+      <div class="wanted-header-line"></div>
+      <span class="wanted-title">Caribbean's Most Wanted</span>
+      <div class="wanted-header-line"></div>
+    `;
+    grid.appendChild(wantedHeader);
+
+    const wantedGrid = document.createElement('div');
+    wantedGrid.className = 'pnj-grid wanted-grid';
+    epingles.forEach((pnj, i) => wantedGrid.appendChild(buildCard(pnj, i, true)));
+    grid.appendChild(wantedGrid);
+
+    if (reste.length > 0) {
+      const divider = document.createElement('div');
+      divider.className = 'wanted-divider';
+      grid.appendChild(divider);
+    }
+  }
+
+  // Grille principale
+  if (reste.length > 0) {
+    const mainGrid = document.createElement('div');
+    mainGrid.className = 'pnj-grid';
+    reste.forEach((pnj, i) => mainGrid.appendChild(buildCard(pnj, i, false)));
+    grid.appendChild(mainGrid);
+  }
 }
 
-function buildCard(pnj, index) {
+function buildCard(pnj, index, epingle = false) {
   const card = document.createElement('article');
-  card.className = 'pnj-card';
+  card.className = epingle ? 'pnj-card pnj-card--wanted' : 'pnj-card';
   card.style.animationDelay = `${index * 0.04}s`;
   card.setAttribute('role', 'button');
   card.setAttribute('tabindex', '0');
@@ -131,7 +154,7 @@ function buildCard(pnj, index) {
   const statusClass = pnj.statut.toLowerCase();
   const statusLabel = {
     actif: 'Actif', mort: 'Mort', disparu: 'Disparu', inconnu: 'Inconnu'
-}[statusClass] || pnj.statut;
+  }[statusClass] || pnj.statut;
 
   card.innerHTML = `
     ${pnj.portrait
@@ -144,7 +167,7 @@ function buildCard(pnj, index) {
         ${statusLabel}
       </div>
       <h2 class="pnj-name">${pnj.nom}</h2>
-      ${pnj.alias ? `<div class="pnj-alias">${pnj.alias}</div>` : ''}
+      ${pnj.accroche ? `<div class="pnj-alias">${pnj.accroche}</div>` : ''}
       ${pnj.origine ? `<div class="pnj-origin">${pnj.origine}</div>` : ''}
       <div class="pnj-tags">
         ${pnj.tags.slice(0, 4).map(t => `<span class="pnj-tag">${t}</span>`).join('')}
@@ -179,7 +202,7 @@ function openModal(pnj) {
 
   const statusClass = pnj.statut.toLowerCase();
   const statusLabel = {
-    vivant: 'Vivant', mort: 'Mort', disparu: 'Disparu', inconnu: 'Inconnu'
+    actif: 'Actif', mort: 'Mort', disparu: 'Disparu', inconnu: 'Inconnu'
   }[statusClass] || pnj.statut;
 
   // Formatage biographie : paragraphes
@@ -205,7 +228,8 @@ function openModal(pnj) {
       </div>
 
       <h2 class="modal-name">${pnj.nom}</h2>
-      ${pnj.alias ? `<div class="modal-alias">${pnj.alias}</div>` : ''}
+      ${pnj.accroche ? `<div class="modal-alias">${pnj.accroche}</div>` : ''}
+      ${pnj.alias ? `<div class="modal-alias" style="font-size:0.95rem; opacity:0.7;">${pnj.alias}</div>` : ''}
 
       <div class="modal-meta">
         ${pnj.origine ? `
