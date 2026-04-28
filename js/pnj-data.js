@@ -111,7 +111,7 @@ Le surnom "Calico Jack" lui vient de son goût immodéré pour les étoffes pré
   {
     id: "ruggiero",
     nom: "Ruggiero della Scala",
-    alias: "Scarpa (alias utilisé en fuite)",
+    alias: null,
     statut: "inconnu",
     naissance: "vers 1640",
     origine: "Italien",
