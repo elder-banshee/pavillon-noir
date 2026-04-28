@@ -30,9 +30,19 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border);
+}
+
+.card-hint {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--mist);
+  opacity: 0.7;
+  margin-bottom: 1.25rem;
+  display: block;
 }
 
 /* ─── Stats compétences ─────────────────────────────────────── */
@@ -114,6 +124,7 @@
 }
 
 .crew-row {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -122,6 +133,10 @@
 }
 
 .crew-row:last-child { border-bottom: none; }
+
+.crew-row--has-tooltip {
+  cursor: default;
+}
 
 .crew-category {
   font-family: 'Crimson Text', serif;
@@ -152,6 +167,51 @@
   background: linear-gradient(90deg, var(--sea-light), var(--gold-light));
   border-radius: 2px;
   transition: width 0.8s ease;
+}
+
+/* ─── Infobulle compétences ─────────────────────────────────── */
+.crew-tooltip {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 6px);
+  background: linear-gradient(160deg, #141009 0%, #0e0c09 100%);
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  gap: 0.8rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 50;
+  white-space: nowrap;
+}
+
+.crew-row--has-tooltip:hover .crew-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.crew-tooltip-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.crew-tooltip-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+
+.crew-tooltip-val {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold-light);
 }
 
 .crew-total {
@@ -205,7 +265,6 @@
   transition: border-color 0.2s;
 }
 
-/* Trois couleurs : doré (PJ), bleu (PNJ), gris (vacant) */
 .org-node--pj  { border-color: rgba(200,151,58,0.5);  background: rgba(200,151,58,0.06); }
 .org-node--pnj { border-color: rgba(42,90,114,0.7);   background: rgba(42,90,114,0.1); }
 .org-node--vacant {
@@ -215,7 +274,6 @@
   pointer-events: none;
 }
 
-/* Classe utilitaire pour les surnuméraires */
 .surnum-node { width: 100%; }
 
 .org-poste {
@@ -237,7 +295,6 @@
 .org-node--pnj .org-titulaire    { color: #7ab8d4; }
 .org-node--vacant .org-titulaire { color: var(--mist); font-style: italic; }
 
-/* Légende */
 .org-legend {
   display: flex;
   gap: 2rem;

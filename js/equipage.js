@@ -2,10 +2,10 @@
 // ÉQUIPAGE — Données et rendu
 // ═══════════════════════════════════════════════════════════
 
-// ─── URL Google Sheets CSV (Feuille 3 — valeurs site) ────────
+// ─── URL Google Sheets CSV (Feuille 3 — valeurs site) ────
 const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzqKOStqZtFKXnP3o-6Uu6NGcGujiFxpzZWwuWSEA0WHED6NL442mEworPIPWZbmUP3G-RtQH_p1BI/pub?gid=53989143&single=true&output=csv';
 
-// ─── Appréciation qualitative ────────────────────────────────
+// ─── Appréciation qualitative ───────────────────────────────
 const APPRECIATION = "Équipage hétéroclite mais combatif — les pirates et déserteurs de la Navy forment un noyau dur expérimenté, compensant les lacunes navales des boucaniers et recrues récentes. La cohésion reste à construire.";
 
 // ─── Libellés des compétences (ordre = colonnes ligne 1) ─────
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadAll();
 });
 
-// ─── Chargement unique depuis Google Sheets ───────────────────
+// ─── Chargement unique depuis Google Sheets ─────────────────
 async function loadAll() {
   const grid      = document.getElementById('stats-grid');
   const appr      = document.getElementById('stats-appreciation');
@@ -42,7 +42,7 @@ async function loadAll() {
     const text = await response.text();
     const lines = text.trim().split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-    // ── Ligne 1 : compétences ──────────────────────────────
+    // ── Ligne 1 : compétences moyennes ──────────────────────
     if (grid && lines.length >= 1) {
       const competenceValues = lines[0].split(',').map(c => parseFloat(c.trim()));
 
@@ -62,7 +62,6 @@ async function loadAll() {
           `;
           grid.appendChild(block);
         });
-
         requestAnimationFrame(() => {
           grid.querySelectorAll('.stat-bar-fill').forEach(bar => {
             bar.style.width = bar.dataset.target + '%';
@@ -73,29 +72,43 @@ async function loadAll() {
       }
     }
 
-    // ── Lignes 2+ : composition ────────────────────────────
+    // ── Lignes 2+ : composition + valeurs détaillées ──────────
+    // Structure attendue par ligne : nom, effectif, man, can, rec, com, tir, ruse
     if (crewTable && lines.length >= 2) {
       const composition = [];
       for (let i = 1; i < lines.length; i++) {
         const cells = lines[i].split(',').map(c => c.trim());
         const nom = cells[0];
         const effectif = parseInt(cells[1]);
-        if (nom && !isNaN(effectif) && effectif > 0) {
-          composition.push({ categorie: nom, effectif });
-        }
+        if (!nom || isNaN(effectif) || effectif <= 0) continue;
+
+        // Valeurs détaillées (colonnes 2 à 7), optionnelles
+        const stats = cells.slice(2, 8).map(c => parseFloat(c));
+        const hasStats = stats.length >= 6 && !stats.some(isNaN);
+
+        composition.push({ categorie: nom, effectif, stats: hasStats ? stats : null });
       }
 
       const total = composition.reduce((s, c) => s + c.effectif, 0);
 
       crewTable.innerHTML = composition.map(c => {
         const pct = Math.round((c.effectif / total) * 100);
+
+        // Contenu de l'infobulle si stats disponibles
+        const tooltipContent = c.stats
+          ? COMPETENCES.map((label, i) =>
+              `<span class="crew-tooltip-stat"><span class="crew-tooltip-label">${label}</span><span class="crew-tooltip-val">${c.stats[i]}</span></span>`
+            ).join('')
+          : '';
+
         return `
-          <div class="crew-row">
+          <div class="crew-row${c.stats ? ' crew-row--has-tooltip' : ''}">
             <span class="crew-category">${c.categorie}</span>
             <div class="crew-bar-wrap">
               <div class="crew-bar-fill" style="width: ${pct}%"></div>
             </div>
             <span class="crew-count">${c.effectif}</span>
+            ${c.stats ? `<div class="crew-tooltip">${tooltipContent}</div>` : ''}
           </div>
         `;
       }).join('');
