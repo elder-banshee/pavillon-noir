@@ -205,11 +205,9 @@
   transition: border-color 0.2s;
 }
 
-/* Deux couleurs seulement : PJ (doré) et PNJ (gris) */
+/* Trois couleurs : doré (PJ), bleu (PNJ), gris (vacant) */
 .org-node--pj  { border-color: rgba(200,151,58,0.5);  background: rgba(200,151,58,0.06); }
-.org-node--pnj { border-color: rgba(107,124,138,0.4); background: rgba(107,124,138,0.05); }
-
-/* Vacant : grisé, clairement inactif */
+.org-node--pnj { border-color: rgba(42,90,114,0.7);   background: rgba(42,90,114,0.1); }
 .org-node--vacant {
   border-color: rgba(107,124,138,0.25);
   background: transparent;
@@ -217,7 +215,7 @@
   pointer-events: none;
 }
 
-/* Classe utilitaire pour les surnuméraires (remplace style inline) */
+/* Classe utilitaire pour les surnuméraires */
 .surnum-node { width: 100%; }
 
 .org-poste {
@@ -236,7 +234,8 @@
 }
 
 .org-node--pj .org-titulaire     { color: var(--gold-light); }
-.org-node--vacant .org-titulaire  { color: var(--mist); font-style: italic; }
+.org-node--pnj .org-titulaire    { color: #7ab8d4; }
+.org-node--vacant .org-titulaire { color: var(--mist); font-style: italic; }
 
 /* Légende */
 .org-legend {
@@ -269,7 +268,7 @@
 }
 
 .legend-dot--pj     { border-color: rgba(200,151,58,0.8); background: rgba(200,151,58,0.2); }
-.legend-dot--pnj    { border-color: rgba(107,124,138,0.6); background: rgba(107,124,138,0.1); }
+.legend-dot--pnj    { border-color: rgba(42,90,114,0.9);  background: rgba(42,90,114,0.3); }
 .legend-dot--vacant { border-color: rgba(107,124,138,0.3); background: transparent; }
 
 /* ─── Surnuméraires ─────────────────────────────────────────── */
