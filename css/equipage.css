@@ -23,6 +23,7 @@
 
 .section-card--full { grid-column: 1 / -1; }
 
+/* Titre seul (usage standard) */
 .card-title {
   font-family: 'Cinzel', serif;
   font-size: 0.75rem;
@@ -30,9 +31,25 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border);
+}
+
+/* Titre + indication sur la même ligne */
+.card-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-title-row .card-title {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .card-hint {
@@ -41,8 +58,6 @@
   font-size: 0.8rem;
   color: var(--mist);
   opacity: 0.7;
-  margin-bottom: 1.25rem;
-  display: block;
 }
 
 /* ─── Stats compétences ─────────────────────────────────────── */
@@ -124,7 +139,6 @@
 }
 
 .crew-row {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -134,15 +148,17 @@
 
 .crew-row:last-child { border-bottom: none; }
 
-.crew-row--has-tooltip {
-  cursor: default;
-}
-
+/* L'infobulle est portée par le span texte, pas par la ligne */
 .crew-category {
+  position: relative;
   font-family: 'Crimson Text', serif;
   font-size: 1rem;
   color: var(--parchment2);
   flex: 1;
+}
+
+.crew-category--has-tooltip {
+  cursor: default;
 }
 
 .crew-count {
@@ -187,7 +203,8 @@
   white-space: nowrap;
 }
 
-.crew-row--has-tooltip:hover .crew-tooltip {
+/* Déclenché au survol du texte uniquement */
+.crew-category--has-tooltip:hover .crew-tooltip {
   opacity: 1;
   transform: translateY(0);
 }
@@ -383,4 +400,5 @@
 @media (max-width: 560px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .org-node { min-width: 120px; }
+  .card-hint { display: none; }
 }

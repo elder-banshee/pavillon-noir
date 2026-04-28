@@ -2,13 +2,10 @@
 // ÉQUIPAGE — Données et rendu
 // ═══════════════════════════════════════════════════════════
 
-// ─── URL Google Sheets CSV (Feuille 3 — valeurs site) ────
 const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzqKOStqZtFKXnP3o-6Uu6NGcGujiFxpzZWwuWSEA0WHED6NL442mEworPIPWZbmUP3G-RtQH_p1BI/pub?gid=53989143&single=true&output=csv';
 
-// ─── Appréciation qualitative ───────────────────────────────
 const APPRECIATION = "Équipage hétéroclite mais combatif — les pirates et déserteurs de la Navy forment un noyau dur expérimenté, compensant les lacunes navales des boucaniers et recrues récentes. La cohésion reste à construire.";
 
-// ─── Libellés des compétences (ordre = colonnes ligne 1) ─────
 const COMPETENCES = [
   "Manœuvre",
   "Canonnade",
@@ -18,15 +15,10 @@ const COMPETENCES = [
   "Ruse"
 ];
 
-// ═══════════════════════════════════════════════════════════
-// RENDU
-// ═══════════════════════════════════════════════════════════
-
 document.addEventListener('DOMContentLoaded', () => {
   loadAll();
 });
 
-// ─── Chargement unique depuis Google Sheets ─────────────────
 async function loadAll() {
   const grid      = document.getElementById('stats-grid');
   const appr      = document.getElementById('stats-appreciation');
@@ -42,38 +34,33 @@ async function loadAll() {
     const text = await response.text();
     const lines = text.trim().split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-    // ── Ligne 1 : compétences moyennes ──────────────────────
+    // ── Ligne 1 : compétences moyennes
     if (grid && lines.length >= 1) {
-      const competenceValues = lines[0].split(',').map(c => parseFloat(c.trim()));
-
-      if (competenceValues.length >= 6 && !competenceValues.slice(0,6).some(isNaN)) {
+      const vals = lines[0].split(',').map(c => parseFloat(c.trim()));
+      if (vals.length >= 6 && !vals.slice(0,6).some(isNaN)) {
         grid.innerHTML = '';
         COMPETENCES.forEach((label, i) => {
-          const val = competenceValues[i];
+          const val = vals[i];
           const pct = Math.round((val / 9) * 100);
           const block = document.createElement('div');
           block.className = 'stat-block';
           block.innerHTML = `
             <span class="stat-label">${label}</span>
             <span class="stat-value">${val % 1 === 0 ? val : val.toFixed(1)}</span>
-            <div class="stat-bar">
-              <div class="stat-bar-fill" style="width: 0%" data-target="${pct}"></div>
-            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:0%" data-target="${pct}"></div></div>
           `;
           grid.appendChild(block);
         });
         requestAnimationFrame(() => {
-          grid.querySelectorAll('.stat-bar-fill').forEach(bar => {
-            bar.style.width = bar.dataset.target + '%';
-          });
+          grid.querySelectorAll('.stat-bar-fill').forEach(b => { b.style.width = b.dataset.target + '%'; });
         });
       } else {
-        grid.innerHTML = `<div class="stat-loading">Format des compétences inattendu.</div>`;
+        grid.innerHTML = `<div class="stat-loading">Format inattendu.</div>`;
       }
     }
 
-    // ── Lignes 2+ : composition + valeurs détaillées ──────────
-    // Structure attendue par ligne : nom, effectif, man, can, rec, com, tir, ruse
+    // ── Lignes 2+ : composition + stats détaillées
+    // Colonnes : nom, effectif, man, can, rec, com, tir, ruse
     if (crewTable && lines.length >= 2) {
       const composition = [];
       for (let i = 1; i < lines.length; i++) {
@@ -81,11 +68,8 @@ async function loadAll() {
         const nom = cells[0];
         const effectif = parseInt(cells[1]);
         if (!nom || isNaN(effectif) || effectif <= 0) continue;
-
-        // Valeurs détaillées (colonnes 2 à 7), optionnelles
         const stats = cells.slice(2, 8).map(c => parseFloat(c));
         const hasStats = stats.length >= 6 && !stats.some(isNaN);
-
         composition.push({ categorie: nom, effectif, stats: hasStats ? stats : null });
       }
 
@@ -93,31 +77,26 @@ async function loadAll() {
 
       crewTable.innerHTML = composition.map(c => {
         const pct = Math.round((c.effectif / total) * 100);
-
-        // Contenu de l'infobulle si stats disponibles
-        const tooltipContent = c.stats
-          ? COMPETENCES.map((label, i) =>
-              `<span class="crew-tooltip-stat"><span class="crew-tooltip-label">${label}</span><span class="crew-tooltip-val">${c.stats[i]}</span></span>`
-            ).join('')
+        const tooltipHtml = c.stats
+          ? `<div class="crew-tooltip">${COMPETENCES.map((label, i) =>
+              `<span class="crew-tooltip-stat">
+                <span class="crew-tooltip-label">${label}</span>
+                <span class="crew-tooltip-val">${c.stats[i]}</span>
+              </span>`).join('')}</div>`
           : '';
-
         return `
-          <div class="crew-row${c.stats ? ' crew-row--has-tooltip' : ''}">
-            <span class="crew-category">${c.categorie}</span>
-            <div class="crew-bar-wrap">
-              <div class="crew-bar-fill" style="width: ${pct}%"></div>
-            </div>
+          <div class="crew-row">
+            <span class="crew-category${c.stats ? ' crew-category--has-tooltip' : ''}">
+              ${c.categorie}
+              ${tooltipHtml}
+            </span>
+            <div class="crew-bar-wrap"><div class="crew-bar-fill" style="width:${pct}%"></div></div>
             <span class="crew-count">${c.effectif}</span>
-            ${c.stats ? `<div class="crew-tooltip">${tooltipContent}</div>` : ''}
-          </div>
-        `;
+          </div>`;
       }).join('');
 
       if (crewTotal) {
-        crewTotal.innerHTML = `
-          <span>Total</span>
-          <span class="crew-total-value">${total} hommes</span>
-        `;
+        crewTotal.innerHTML = `<span>Total</span><span class="crew-total-value">${total} hommes</span>`;
       }
     }
 
