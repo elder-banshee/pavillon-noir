@@ -253,7 +253,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   },
   {
     id: "velazquez",
-    nom: "Commandant Diego Velazquez",
+    nom: "Commandant Velazquez",
     accroche: "Capitaine de frégate de la Real Armada",
     alias: null,
     statut: "inconnu",
