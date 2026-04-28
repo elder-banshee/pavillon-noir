@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pavillon Noir — Le Cúchulainn</title>
+  <meta name="description" content="Équipage et état du bord — Le Cúchulainn">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/equipage.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>">
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">Pavillon <span>Noir</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#registre">Registre</a></li>
+      <li><a href="equipage.html" class="active">Équipage</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <header class="hero hero--ship">
+      <div class="hero-content">
+        <p class="hero-eyebrow">État du bord</p>
+        <h1 class="hero-title">Le <em>Cúchulainn</em></h1>
+        <div class="hero-divider">
+          <span class="hero-divider-icon">☠</span>
+        </div>
+        <p class="hero-subtitle">Cotre · sous pavillon de Robert Arundel</p>
+      </div>
+    </header>
+
+    <div class="equipage-layout">
+
+      <!-- Compétences -->
+      <section class="section-card" id="competences">
+        <h2 class="card-title">Compétences d'équipage</h2>
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-loading">Chargement…</div>
+        </div>
+        <p class="stats-appreciation" id="stats-appreciation"></p>
+      </section>
+
+      <!-- Composition -->
+      <section class="section-card" id="composition">
+        <h2 class="card-title">Composition</h2>
+        <div class="crew-table" id="crew-table"></div>
+        <div class="crew-total" id="crew-total"></div>
+      </section>
+
+      <!-- Commandement -->
+      <section class="section-card section-card--full" id="commandement">
+        <h2 class="card-title">Chaîne de commandement</h2>
+
+        <div class="org-chart">
+
+          <div class="org-row org-row--top">
+            <div class="org-node org-node--pj">
+              <span class="org-poste">Capitaine</span>
+              <span class="org-titulaire">[À renseigner]</span>
+            </div>
+          </div>
+
+          <div class="org-row">
+            <div class="org-node org-node--vacant">
+              <span class="org-poste">Second</span>
+              <span class="org-titulaire">Vacant</span>
+            </div>
+            <div class="org-node org-node--pj">
+              <span class="org-poste">Quartier-Maître</span>
+              <span class="org-titulaire">[À renseigner]</span>
+            </div>
+          </div>
+
+          <div class="org-row">
+            <div class="org-node org-node--pnj">
+              <span class="org-poste">Maître d'équipage</span>
+              <span class="org-titulaire">[À renseigner]</span>
+            </div>
+            <div class="org-node org-node--pj">
+              <span class="org-poste">Maître-Canonnier</span>
+              <span class="org-titulaire">[À renseigner]</span>
+            </div>
+            <div class="org-node org-node--pnj">
+              <span class="org-poste">Canonnier</span>
+              <span class="org-titulaire">[À renseigner]</span>
+            </div>
+          </div>
+
+          <div class="org-legend">
+            <span class="legend-item"><span class="legend-dot legend-dot--pj"></span>Personnage joueur</span>
+            <span class="legend-item"><span class="legend-dot legend-dot--matelot"></span>Matelot</span>
+            <span class="legend-item"><span class="legend-dot legend-dot--pnj"></span>PNJ d'équipage</span>
+            <span class="legend-item"><span class="legend-dot legend-dot--vacant"></span>Poste vacant</span>
+          </div>
+
+        </div>
+
+        <!-- Surnuméraires -->
+        <div class="surnumeraires">
+          <h3 class="surnumeraires-title">Surnuméraires</h3>
+          <div class="surnumeraires-grid">
+
+            <div class="surnum-group">
+              <div class="org-node org-node--pj" style="width:100%;">
+                <span class="org-poste">Pilote</span>
+                <span class="org-titulaire">[À renseigner]</span>
+              </div>
+              <div class="org-node org-node--pj" style="width:100%;">
+                <span class="org-poste">Chirurgien</span>
+                <span class="org-titulaire">[À renseigner]</span>
+              </div>
+              <div class="org-node org-node--pnj" style="width:100%;">
+                <span class="org-poste">Coq</span>
+                <span class="org-titulaire">[À renseigner]</span>
+              </div>
+            </div>
+
+            <div class="surnum-group surnum-group--maitres">
+              <p class="surnum-group-label">Les trois Maîtres</p>
+              <div class="org-node org-node--pnj" style="width:100%;">
+                <span class="org-poste">Maître-Charpentier</span>
+                <span class="org-titulaire">[À renseigner]</span>
+              </div>
+              <div class="org-node org-node--pnj" style="width:100%;">
+                <span class="org-poste">Maître-Voilier</span>
+                <span class="org-titulaire">[À renseigner]</span>
+              </div>
+              <div class="org-node org-node--pnj" style="width:100%;">
+                <span class="org-poste">Maître-Calfat</span>
+                <span class="org-titulaire">[À renseigner]</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>Pavillon Noir &mdash; Campagne de jeu de rôle &mdash; Votre MJ est génial &mdash; ...et Claude m'a un peu aidé</p>
+  </footer>
+
+  <script src="js/equipage.js"></script>
+
+</body>
+</html>
