@@ -397,7 +397,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     naissance: null,
     origine: "Nassau (Bahamas)",
     tags: ["Nassau", "Caraïbes", "Flying Gang"],
-    portrait: null,
+    portrait:  "pnj/portraits/conseil-nassau.jpg",
     bio: `La République Pirate de Nassau est fondée par Hornigold et ses pairs. Cinq magistrats élus en janvier 1716 à l'issue des évènements de la Flotte au Trésor : Benjami Hornigold, Edward Teach, Henry Jennings, John Cockram, Josiah Burgess. Structure fragile, personnelle, sans constitution écrite — elle tient par les hommes qui la composent autant que par les principes qu'elle défend.`
   },
   {
