@@ -21,7 +21,6 @@
 
   <main>
 
-    <!-- Hero -->
     <header class="hero hero--ship">
       <div class="hero-content">
         <p class="hero-eyebrow">Rôle d'équipage</p>
@@ -35,7 +34,6 @@
 
     <div class="equipage-layout">
 
-      <!-- Compétences -->
       <section class="section-card" id="competences">
         <h2 class="card-title">Compétences d'équipage</h2>
         <div class="stats-grid" id="stats-grid">
@@ -44,14 +42,12 @@
         <p class="stats-appreciation" id="stats-appreciation"></p>
       </section>
 
-      <!-- Composition -->
       <section class="section-card" id="composition">
         <h2 class="card-title">Composition</h2>
         <div class="crew-table" id="crew-table"></div>
         <div class="crew-total" id="crew-total"></div>
       </section>
 
-      <!-- Commandement -->
       <section class="section-card section-card--full" id="commandement">
         <h2 class="card-title">Chaîne de commandement</h2>
 
@@ -65,13 +61,13 @@
             </div>
           </div>
 
-          <!-- Rang 2 : Second et Canonnier (même niveau hiérarchique) -->
+          <!-- Rang 2 : Second et Canonnier -->
           <div class="org-row">
             <div class="org-node org-node--vacant">
               <span class="org-poste">Second</span>
               <span class="org-titulaire">Vacant</span>
             </div>
-            <div class="org-node org-node--matelot">
+            <div class="org-node org-node--pj">
               <span class="org-poste">Canonnier</span>
               <span class="org-titulaire">Bertrand Le Levant</span>
             </div>
@@ -79,48 +75,46 @@
 
           <!-- Rang 3 : Maître d'équipage et Maître-Canonnier -->
           <div class="org-row">
-            <div class="org-node org-node--pnj">
+            <div class="org-node org-node--pj">
               <span class="org-poste">Maître d'équipage</span>
-              <span class="org-titulaire">Vacant</span>
+              <span class="org-titulaire">Dusmãtis Tahka</span>
             </div>
-            <div class="org-node org-node--matelot">
+            <div class="org-node org-node--pj">
               <span class="org-poste">Maître-Canonnier</span>
               <span class="org-titulaire">Felix Rikkers dit La Barrique</span>
             </div>
           </div>
 
-          <!-- Quartier-Maître : à part, rôle pirate spécifique -->
+          <!-- Quartier-Maître : à part -->
           <div class="org-row">
-            <div class="org-node org-node--pj org-node--qm">
+            <div class="org-node org-node--pj">
               <span class="org-poste">Quartier-Maître</span>
-              <span class="org-titulaire">Dusmãtis Tahka</span>
+              <span class="org-titulaire">Vacant</span>
             </div>
           </div>
 
           <div class="org-legend">
-            <span class="legend-item"><span class="legend-dot legend-dot--pj"></span>Personnage joueur</span>
-            <span class="legend-item"><span class="legend-dot legend-dot--matelot"></span>Matelot</span>
+            <span class="legend-item"><span class="legend-dot legend-dot--pj"></span>Personnage joueur / matelot</span>
             <span class="legend-item"><span class="legend-dot legend-dot--pnj"></span>PNJ d'équipage</span>
             <span class="legend-item"><span class="legend-dot legend-dot--vacant"></span>Poste vacant</span>
           </div>
 
         </div>
 
-        <!-- Surnuméraires -->
         <div class="surnumeraires">
           <h3 class="surnumeraires-title">Surnuméraires</h3>
           <div class="surnumeraires-grid">
 
             <div class="surnum-group">
-              <div class="org-node org-node--pj" style="width:100%;">
+              <div class="org-node org-node--pj surnum-node">
                 <span class="org-poste">Pilote</span>
                 <span class="org-titulaire">Edward Sutherland</span>
               </div>
-              <div class="org-node org-node--pj" style="width:100%;">
+              <div class="org-node org-node--pj surnum-node">
                 <span class="org-poste">Chirurgien</span>
                 <span class="org-titulaire">Fañch Le Bihan</span>
               </div>
-              <div class="org-node org-node--matelot" style="width:100%;">
+              <div class="org-node org-node--pj surnum-node">
                 <span class="org-poste">Coq</span>
                 <span class="org-titulaire">Amédée</span>
               </div>
@@ -128,15 +122,15 @@
 
             <div class="surnum-group surnum-group--maitres">
               <p class="surnum-group-label">Les trois Maîtres</p>
-              <div class="org-node org-node--vacant" style="width:100%;">
+              <div class="org-node org-node--vacant surnum-node">
                 <span class="org-poste">Maître-Charpentier</span>
                 <span class="org-titulaire">Vacant</span>
               </div>
-              <div class="org-node org-node--vacant" style="width:100%;">
+              <div class="org-node org-node--vacant surnum-node">
                 <span class="org-poste">Maître-Voilier</span>
                 <span class="org-titulaire">Vacant</span>
               </div>
-              <div class="org-node org-node--vacant" style="width:100%;">
+              <div class="org-node org-node--vacant surnum-node">
                 <span class="org-poste">Maître-Calfat</span>
                 <span class="org-titulaire">Vacant</span>
               </div>
