@@ -135,7 +135,7 @@ Le surnom "Calico Jack" lui vient de son goût immodéré pour les étoffes pré
     alias: null,
     statut: "actif",
     naissance: "1660",
-    origine: "Écossais (né en Irlande, installé en Angleterre)",
+    origine: "Irlandais (installé en Angleterre)",
     tags: ["Europe", "Fanch", "Edward"],
     portrait: "pnj/portraits/sloane.jpg",
     bio: `Médecin naturaliste, secrétaire de la Royal Society. Professeur de Fañch au Royal College of Physicians de Londres — une influence décisive dans sa formation, transmettant autant une philosophie qu'un savoir : voir dans chaque spécimen végétal une potentielle source de guérison.
