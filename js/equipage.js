@@ -2,8 +2,8 @@
 // ÉQUIPAGE — Données et rendu
 // ═══════════════════════════════════════════════════════════
 
-// ─── URL Google Sheets CSV ───────────────────────────────────
-const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzqKOStqZtFKXnP3o-6Uu6NGcGujiFxpzZWwuWSEA0WHED6NL442mEworPIPWZbmUP3G-RtQH_p1BI/pub?gid=0&single=true&output=csv';
+// ─── URL Google Sheets CSV (Feuille 3 — valeurs site) ────────
+const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzqKOStqZtFKXnP3o-6Uu6NGcGujiFxpzZWwuWSEA0WHED6NL442mEworPIPWZbmUP3G-RtQH_p1BI/pub?gid=53989143&single=true&output=csv';
 
 // ─── Composition de l'équipage ───────────────────────────────
 const COMPOSITION = [
@@ -17,7 +17,7 @@ const COMPOSITION = [
 // ─── Appréciation qualitative ────────────────────────────────
 const APPRECIATION = "Équipage hétéroclite mais combatif — les pirates et boucaniers forment un noyau dur expérimenté, compensant les lacunes navales des déserteurs et recrues récentes. La cohésion reste à construire.";
 
-// ─── Libellés des compétences (ordre = colonnes Sheets) ──────
+// ─── Libellés des compétences (ordre = colonnes Feuille 3) ───
 const COMPETENCES = [
   "Manœuvre",
   "Canonnade",
@@ -77,16 +77,15 @@ async function loadStats() {
     if (!response.ok) throw new Error('Erreur réseau');
 
     const text = await response.text();
-    const values = parseCSV(text);
 
-    if (!values || values.length === 0) throw new Error('Données vides');
+    // Feuille 3 : une seule ligne avec 6 valeurs numériques brutes
+    const cells = text.trim().split(',').map(c => parseFloat(c.trim()));
+    if (cells.length < 6 || cells.some(isNaN)) throw new Error('Format inattendu');
 
     grid.innerHTML = '';
 
     COMPETENCES.forEach((label, i) => {
-      const val = parseFloat(values[i]);
-      if (isNaN(val)) return;
-
+      const val = cells[i];
       const pct = Math.round((val / 9) * 100);
 
       const block = document.createElement('div');
@@ -112,51 +111,4 @@ async function loadStats() {
     grid.innerHTML = `<div class="stat-loading">Impossible de charger les statistiques.</div>`;
     console.warn('Erreur chargement stats :', err);
   }
-}
-
-// ─── Parser CSV ───────────────────────────────────────────────
-// Cherche la ligne "Moy./Total" et extrait les 6 valeurs numériques.
-// La colonne Proportion contient des % avec virgule ("27,78%"),
-// ce qui crée des cellules supplémentaires lors du split naïf.
-// On parse donc en respectant les guillemets CSV (RFC 4180).
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  for (const line of lines) {
-    if (!line.startsWith('Moy.')) continue;
-
-    // Parser CSV respectant les champs entre guillemets
-    const cells = parseCSVLine(line);
-
-    // Cherche les 6 premières valeurs numériques après les colonnes texte
-    const nums = [];
-    for (const cell of cells) {
-      if (nums.length >= 6) break;
-      const n = parseFloat(cell.replace(',', '.'));
-      if (!isNaN(n) && cell.trim() !== '') nums.push(n);
-    }
-
-    if (nums.length >= 6) return nums;
-  }
-  return null;
-}
-
-// Parser CSV ligne par ligne, respectant les guillemets RFC 4180
-function parseCSVLine(line) {
-  const cells = [];
-  let current = '';
-  let inQuotes = false;
-
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (ch === '"') {
-      inQuotes = !inQuotes;
-    } else if (ch === ',' && !inQuotes) {
-      cells.push(current.trim());
-      current = '';
-    } else {
-      current += ch;
-    }
-  }
-  cells.push(current.trim());
-  return cells;
 }
