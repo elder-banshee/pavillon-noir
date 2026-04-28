@@ -5,19 +5,10 @@
 // ─── URL Google Sheets CSV (Feuille 3 — valeurs site) ────────
 const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzqKOStqZtFKXnP3o-6Uu6NGcGujiFxpzZWwuWSEA0WHED6NL442mEworPIPWZbmUP3G-RtQH_p1BI/pub?gid=53989143&single=true&output=csv';
 
-// ─── Composition de l'équipage ───────────────────────────────
-const COMPOSITION = [
-  { categorie: "Pirates",                     effectif: 5 },
-  { categorie: "Boucaniers",                  effectif: 5 },
-  { categorie: "Engagés",                     effectif: 3 },
-  { categorie: "Déserteurs de la Royal Navy", effectif: 5 },
-  { categorie: "Esclaves marrons",            effectif: 3 },
-];
-
 // ─── Appréciation qualitative ────────────────────────────────
 const APPRECIATION = "Équipage hétéroclite mais combatif — les pirates et boucaniers forment un noyau dur expérimenté, compensant les lacunes navales des déserteurs et recrues récentes. La cohésion reste à construire.";
 
-// ─── Libellés des compétences (ordre = colonnes Feuille 3) ───
+// ─── Libellés des compétences (ordre = colonnes ligne 1) ─────
 const COMPETENCES = [
   "Manœuvre",
   "Canonnade",
@@ -32,83 +23,93 @@ const COMPETENCES = [
 // ═══════════════════════════════════════════════════════════
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderComposition();
-  loadStats();
+  loadAll();
 });
 
-// ─── Composition ─────────────────────────────────────────────
-function renderComposition() {
-  const total = COMPOSITION.reduce((s, c) => s + c.effectif, 0);
-  const container = document.getElementById('crew-table');
-  const totalEl   = document.getElementById('crew-total');
-  if (!container) return;
-
-  container.innerHTML = COMPOSITION.map(c => {
-    const pct = Math.round((c.effectif / total) * 100);
-    return `
-      <div class="crew-row">
-        <span class="crew-category">${c.categorie}</span>
-        <div class="crew-bar-wrap">
-          <div class="crew-bar-fill" style="width: ${pct}%"></div>
-        </div>
-        <span class="crew-count">${c.effectif}</span>
-      </div>
-    `;
-  }).join('');
-
-  if (totalEl) {
-    totalEl.innerHTML = `
-      <span>Total</span>
-      <span class="crew-total-value">${total} hommes</span>
-    `;
-  }
-}
-
-// ─── Statistiques depuis Google Sheets ───────────────────────
-async function loadStats() {
-  const grid = document.getElementById('stats-grid');
-  const appr = document.getElementById('stats-appreciation');
+// ─── Chargement unique depuis Google Sheets ───────────────────
+async function loadAll() {
+  const grid      = document.getElementById('stats-grid');
+  const appr      = document.getElementById('stats-appreciation');
+  const crewTable = document.getElementById('crew-table');
+  const crewTotal = document.getElementById('crew-total');
 
   if (appr) appr.textContent = APPRECIATION;
-  if (!grid) return;
 
   try {
     const response = await fetch(SHEETS_URL);
     if (!response.ok) throw new Error('Erreur réseau');
 
     const text = await response.text();
+    const lines = text.trim().split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-    // Feuille 3 : une seule ligne avec 6 valeurs numériques brutes
-    const cells = text.trim().split(',').map(c => parseFloat(c.trim()));
-    if (cells.length < 6 || cells.some(isNaN)) throw new Error('Format inattendu');
+    // ── Ligne 1 : compétences ──────────────────────────────
+    if (grid && lines.length >= 1) {
+      const competenceValues = lines[0].split(',').map(c => parseFloat(c.trim()));
 
-    grid.innerHTML = '';
+      if (competenceValues.length >= 6 && !competenceValues.slice(0,6).some(isNaN)) {
+        grid.innerHTML = '';
+        COMPETENCES.forEach((label, i) => {
+          const val = competenceValues[i];
+          const pct = Math.round((val / 9) * 100);
+          const block = document.createElement('div');
+          block.className = 'stat-block';
+          block.innerHTML = `
+            <span class="stat-label">${label}</span>
+            <span class="stat-value">${val % 1 === 0 ? val : val.toFixed(1)}</span>
+            <div class="stat-bar">
+              <div class="stat-bar-fill" style="width: 0%" data-target="${pct}"></div>
+            </div>
+          `;
+          grid.appendChild(block);
+        });
 
-    COMPETENCES.forEach((label, i) => {
-      const val = cells[i];
-      const pct = Math.round((val / 9) * 100);
+        requestAnimationFrame(() => {
+          grid.querySelectorAll('.stat-bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.target + '%';
+          });
+        });
+      } else {
+        grid.innerHTML = `<div class="stat-loading">Format des compétences inattendu.</div>`;
+      }
+    }
 
-      const block = document.createElement('div');
-      block.className = 'stat-block';
-      block.innerHTML = `
-        <span class="stat-label">${label}</span>
-        <span class="stat-value">${val % 1 === 0 ? val : val.toFixed(1)}</span>
-        <div class="stat-bar">
-          <div class="stat-bar-fill" style="width: 0%"
-               data-target="${pct}"></div>
-        </div>
-      `;
-      grid.appendChild(block);
-    });
+    // ── Lignes 2+ : composition ────────────────────────────
+    if (crewTable && lines.length >= 2) {
+      const composition = [];
+      for (let i = 1; i < lines.length; i++) {
+        const cells = lines[i].split(',').map(c => c.trim());
+        const nom = cells[0];
+        const effectif = parseInt(cells[1]);
+        if (nom && !isNaN(effectif) && effectif > 0) {
+          composition.push({ categorie: nom, effectif });
+        }
+      }
 
-    requestAnimationFrame(() => {
-      grid.querySelectorAll('.stat-bar-fill').forEach(bar => {
-        bar.style.width = bar.dataset.target + '%';
-      });
-    });
+      const total = composition.reduce((s, c) => s + c.effectif, 0);
+
+      crewTable.innerHTML = composition.map(c => {
+        const pct = Math.round((c.effectif / total) * 100);
+        return `
+          <div class="crew-row">
+            <span class="crew-category">${c.categorie}</span>
+            <div class="crew-bar-wrap">
+              <div class="crew-bar-fill" style="width: ${pct}%"></div>
+            </div>
+            <span class="crew-count">${c.effectif}</span>
+          </div>
+        `;
+      }).join('');
+
+      if (crewTotal) {
+        crewTotal.innerHTML = `
+          <span>Total</span>
+          <span class="crew-total-value">${total} hommes</span>
+        `;
+      }
+    }
 
   } catch (err) {
-    grid.innerHTML = `<div class="stat-loading">Impossible de charger les statistiques.</div>`;
-    console.warn('Erreur chargement stats :', err);
+    if (grid) grid.innerHTML = `<div class="stat-loading">Impossible de charger les données.</div>`;
+    console.warn('Erreur chargement :', err);
   }
 }
