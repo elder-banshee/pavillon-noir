@@ -1,0 +1,386 @@
+/* ═══════════════════════════════════════════════════════════
+   CHRONIQUES — styles spécifiques
+   Dépend de style.css pour les variables et composants de base
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Conteneur frise ───────────────────────────────────────── */
+.frise {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 2rem 5rem;
+}
+
+/* Ligne verticale centrale */
+.frise::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, var(--gold) 8%, var(--gold) 92%, transparent 100%);
+  opacity: 0.3;
+  transform: translateX(-50%);
+}
+
+/* ─── Entrée de frise ───────────────────────────────────────── */
+.frise-entree {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  align-items: start;
+  margin-bottom: 4rem;
+  animation: fadeIn 0.6s ease both;
+}
+
+/* Point sur la ligne */
+.frise-point {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding-top: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.frise-point-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--ink);
+  box-shadow: 0 0 8px rgba(200,151,58,0.5);
+  flex-shrink: 0;
+}
+
+.frise-point-date {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+/* Carte gauche (indices pairs) */
+.frise-entree--gauche .frise-carte {
+  grid-column: 1;
+  grid-row: 1;
+  margin-right: 1.5rem;
+}
+
+.frise-entree--gauche .frise-point {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.frise-entree--gauche .frise-vide {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+/* Carte droite (indices impairs) */
+.frise-entree--droite .frise-vide {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.frise-entree--droite .frise-point {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.frise-entree--droite .frise-carte {
+  grid-column: 3;
+  grid-row: 1;
+  margin-left: 1.5rem;
+}
+
+/* ─── Carte de scénario ─────────────────────────────────────── */
+.frise-carte {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  overflow: hidden;
+  position: relative;
+}
+
+.frise-carte::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(200,151,58,0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.frise-carte:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(200,151,58,0.2);
+  border-color: rgba(200,151,58,0.5);
+}
+
+.frise-carte:hover::before { opacity: 1; }
+
+/* Illustration 4:3 */
+.frise-illustration {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: sepia(0.15) contrast(1.05);
+}
+
+.frise-illustration-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, var(--sea) 0%, var(--ink) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,151,58,0.15);
+  font-size: 3rem;
+}
+
+/* Corps de carte */
+.frise-body {
+  padding: 1.2rem;
+}
+
+.frise-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 0.3rem;
+}
+
+.frise-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--parchment);
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+}
+
+.frise-extrait {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--mist);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Métadonnées compactes */
+.frise-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.frise-meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid rgba(200,151,58,0.15);
+  background: rgba(200,151,58,0.03);
+  min-width: 48px;
+}
+
+.frise-meta-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mist);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.frise-meta-val {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  text-align: center;
+}
+
+/* Bouton lire */
+.frise-lire {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(200,151,58,0.3);
+  padding: 0.4rem 0.8rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  background: none;
+}
+
+.frise-lire:hover {
+  background: rgba(200,151,58,0.08);
+  border-color: var(--gold);
+}
+
+/* ─── Modal chronique ───────────────────────────────────────── */
+.modal--chronique {
+  max-width: 900px;
+  grid-template-columns: 1fr;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-chrono-banner {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: sepia(0.1) contrast(1.05);
+}
+
+.modal-chrono-banner-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, var(--sea) 0%, var(--ink) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,151,58,0.1);
+  font-size: 5rem;
+}
+
+.modal-chrono-body {
+  padding: 2rem;
+}
+
+.modal-chrono-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 0.4rem;
+}
+
+.modal-chrono-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--parchment);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+/* Métadonnées complètes */
+.modal-chrono-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-chrono-meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(200,151,58,0.2);
+  background: rgba(200,151,58,0.04);
+  min-width: 60px;
+}
+
+.modal-chrono-meta-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.modal-chrono-meta-val {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
+/* Texte de la chronique */
+.modal-chrono-texte {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  color: var(--parchment2);
+  line-height: 1.85;
+}
+
+.modal-chrono-texte p + p { margin-top: 1.2em; }
+
+.modal-chrono-texte h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 2em 0 0.8em;
+}
+
+/* ─── Responsive ────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .frise::before { left: 20px; }
+
+  .frise-entree {
+    grid-template-columns: 40px 1fr;
+  }
+
+  .frise-entree--gauche .frise-carte,
+  .frise-entree--droite .frise-carte {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0 0 0 1rem;
+  }
+
+  .frise-entree--gauche .frise-point,
+  .frise-entree--droite .frise-point {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .frise-entree--gauche .frise-vide,
+  .frise-entree--droite .frise-vide {
+    display: none;
+  }
+
+  .frise-point-date {
+    writing-mode: horizontal-tb;
+    font-size: 0.5rem;
+  }
+}
