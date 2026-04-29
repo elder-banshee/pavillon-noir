@@ -24,7 +24,7 @@ A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associe
     id: "hornigold",
     epingle: true,
     nom: "Benjamin Hornigold",
-    accroche: "Magistrat au Conseil de Nassau<br>Capitaine du Ranger",
+    accroche: "Magistrat au Conseil de Nassau<br>Commandant du Ranger",
     alias: null,
     statut: "actif",
     naissance: "vers 1670-80",
@@ -41,7 +41,7 @@ Portrait : allure aristocratique, larges favoris grisonnants, longue redingote s
     id: "jennings",
     epingle: true,
     nom: "Henry Jennings",
-    accroche: "Magistrat au Conseil de Nassau<br>Capitaine du Bersheeba",
+    accroche: "Magistrat au Conseil de Nassau<br>Commandant du Bersheeba",
     alias: null,
     statut: "actif",
     naissance: "vers 1680",
@@ -95,7 +95,7 @@ En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le pr
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingtson", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/vane.jpg",
-    bio: `PNavigateur réputé talentueux, ne serait-ce que parce que Jennings lui a confié son poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
+    bio: `Navigateur réputé talentueux, ne serait-ce que parce que Jennings lui a confié son poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
 Pendant le massacre des prisonniers après la Marianne, il regardait avec un demi-sourire amusé — pas de répugnance, pas de retenue. L'air de quelqu'un qui reconnaît une méthode qu'il connaît bien et n'a pas besoin de valider. Son amusement était probablement moins dirigé vers les excès de Jennings que vers deux cents hommes réputés redoutables, incapables de se dresser contre un seul individu.`
   },
@@ -164,7 +164,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Anglais",
     tags: ["Nassau", "Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/woodall.jpg",
-    bio: `Pirate et contrebandier anglais, capitaine du Wolf (sloop de 30 tonneaux). Rencontré au large de Cap-Français quelques jours avant le banquet.`
+    bio: `Pirate et contrebandier anglais, Commandant du Wolf (sloop de 30 tonneaux). Rencontré au large de Cap-Français quelques jours avant le banquet.`
   },
   {
     id: "elliot",
@@ -205,7 +205,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "edward-england",
     nom: "Edward England",
-    accroche: "Capitaine du Fancy",
+    accroche: "Commandant du Fancy",
     alias: "Edward Seegar",
     statut: "inconnu",
     naissance: "vers 1685 — vers 1720",
@@ -403,13 +403,13 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   {
     id: "equipage-johnson",
     visible: false,
-    nom: "L'Équipage du Capitaine Charles Johnson",
+    nom: "L'équipage du Capitaine Charles Johnson",
     accroche: "Mystérieuse société secrète britannique",
     alias: null,
     statut: "actif",
     naissance: null,
     origine: "Anglais",
-    tags: ["Europe", "Robert", "Équipage du Capitaine Charles Johnson"],
+    tags: ["Europe", "Robert", "Captain Charles Johnson's crew"],
     portrait: null,
     bio: `Réseau d'entraide ayant exfiltré et mandaté Robert pour documenter les événements et personnages extraordinaires des Indes Occidentales.`
   },
@@ -422,7 +422,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     statut: "actif",
     naissance: 1685,
     origine: "Anglais (Londres)",
-    tags: ["Europe", "Robert", "Équipage du Capitaine Charles Johnson"],
+    tags: ["Europe", "Robert", "Captain Charles Johnson's crew"],
     portrait: "pnj/portraits/mist.jpg",
     bio: `Journaliste et imprimeur londonien, jacobite actif, pas encore connu du grand public — il n'a pas encore lancé le journal qui fera sa réputation. C'est un homme de réseau avant d'être un homme de presse. Il a approché Robert peu avant son départ pour les Indes Occidentales et l'a mandaté comme correspondant de terrain pour l'équipage du Capitaine Charles Johnson, en échange d'une rémunération par compte rendu livré.`
   },
@@ -663,8 +663,8 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   },
   {
     id: "winthorpe",
-    nom: "Capitaine Winthorpe",
-    accroche: "Capitaine du Crocodile",
+    nom: "Lawrence Winthorpe",
+    accroche: "Commandant du Crocodile",
     alias: null,
     statut: "actif",
     naissance: "vers 1680",
