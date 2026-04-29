@@ -8,7 +8,7 @@ const CHRONIQUES = [
     numero: "Scénario I",
     titre: "L'Île des Ombres",
     date_campagne: "Avril 1713",
-    illustration: null,
+    illustration: "chroniques/covers/en-cours.jpg",
     extrait: "Une île sans nom, des ruines espagnoles et des Indiens Bravos tapis dans la forêt. Le premier écart entre ce qu'on cherchait et ce qu'on a trouvé.",
     meta: {
       xp: 8,
