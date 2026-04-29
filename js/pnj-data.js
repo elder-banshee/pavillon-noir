@@ -93,7 +93,7 @@ En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le pr
     statut: "actif",
     naissance: "vers 1685",
     origine: "Anglais",
-    tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingtson", "La Marianne", "Les épaves de la Flotte au Trésor"],
+    tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/vane.jpg",
     bio: `Navigateur réputé talentueux, ne serait-ce que parce que Jennings lui a confié son poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
@@ -107,7 +107,7 @@ Pendant le massacre des prisonniers après la Marianne, il regardait avec un dem
     statut: "actif",
     naissance: "vers 1682",
     origine: "Anglais",
-    tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingtson", "Les épaves de la Flotte au Trésor"],
+    tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/rackham.jpg",
     bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les aventuriers, quoique limitées, ont toujours été cordiales.
 
