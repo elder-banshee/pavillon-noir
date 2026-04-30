@@ -89,8 +89,8 @@ function renderCartes() {
       const carteEl = piste.querySelector('.chrono-carte');
       const carteH  = carteEl ? carteEl.offsetHeight : 0;
       const vh      = window.innerHeight;
-      const espaceBasSouhaite = Math.max(0, Math.round((vh - carteH) / 2));
-      const paddingBas = Math.max(110, espaceBasSouhaite);
+      const navH = 64; // hauteur nav fixe
+      const paddingBas = Math.max(110, Math.round((vh - navH - carteH) / 2) + navH);
       wrap.style.height = (piste.offsetHeight + paddingBas) + 'px';
     }
   });
@@ -184,13 +184,8 @@ function setupScroll() {
   }, { passive: true });
 
   // Molette verticale → scroll horizontal (uniquement dans la zone de la piste)
-  wrap.addEventListener('wheel', e => {
+  piste.addEventListener('wheel', e => {
     if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-    const carteEl = piste.querySelector('.chrono-carte');
-    if (!carteEl) { e.preventDefault(); wrap.scrollLeft += e.deltaY; return; }
-    const wrapTop  = wrap.getBoundingClientRect().top;
-    const carteBot = wrapTop + 48 + carteEl.offsetHeight;
-    if (e.clientY > carteBot) return;
     e.preventDefault();
     wrap.scrollLeft += e.deltaY;
   }, { passive: false });
