@@ -87,7 +87,7 @@ function renderCartes() {
     if (piste && wrap) {
       // Hauteur des cartes + padding haut + marge rail (130px)
       const carteH = piste.offsetHeight;
-      wrap.style.height = (carteH + 130) + 'px';
+      wrap.style.height = (carteH + 0) + 'px';
     }
   });
 
