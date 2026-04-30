@@ -89,7 +89,8 @@ function renderCartes() {
       const carteEl = piste.querySelector('.chrono-carte');
       const carteH  = carteEl ? carteEl.offsetHeight : 0;
       const vh      = window.innerHeight;
-      const paddingBas = 210;
+      const navH = 64; // hauteur nav fixe
+      const paddingBas = Math.max(110, Math.round((vh - navH - carteH) / 2) + navH);
       wrap.style.height = (piste.offsetHeight + paddingBas) + 'px';
     }
   });
