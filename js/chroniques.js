@@ -86,8 +86,12 @@ function renderCartes() {
     const wrap  = document.getElementById('chrono-piste-wrap');
     if (piste && wrap) {
       // Hauteur des cartes + padding haut + marge rail (130px)
-      const carteH = piste.offsetHeight;
-      wrap.style.height = (carteH + 0) + 'px';
+      const carteEl = piste.querySelector('.chrono-carte');
+      const carteH  = carteEl ? carteEl.offsetHeight : 0;
+      const vh      = window.innerHeight;
+      const espaceBasSouhaite = Math.max(0, Math.round((vh - carteH) / 2));
+      const paddingBas = Math.max(110, espaceBasSouhaite);
+      wrap.style.height = (piste.offsetHeight + paddingBas) + 'px';
     }
   });
 
@@ -181,10 +185,14 @@ function setupScroll() {
 
   // Molette verticale → scroll horizontal (uniquement dans la zone de la piste)
   wrap.addEventListener('wheel', e => {
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-      e.preventDefault();
-      wrap.scrollLeft += e.deltaY;
-    }
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    const carteEl = piste.querySelector('.chrono-carte');
+    if (!carteEl) { e.preventDefault(); wrap.scrollLeft += e.deltaY; return; }
+    const wrapTop  = wrap.getBoundingClientRect().top;
+    const carteBot = wrapTop + 48 + carteEl.offsetHeight;
+    if (e.clientY > carteBot) return;
+    e.preventDefault();
+    wrap.scrollLeft += e.deltaY;
   }, { passive: false });
 
   // Drag piste
