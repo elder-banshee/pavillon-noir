@@ -41,7 +41,7 @@ function renderCartes() {
       { label: 'XP',          val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : null },
       { label: 'Gloire',      val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : null },
       { label: 'Infamie',     val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : null },
-      { label: 'Pièces de 8', val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
+      { label: 'Pi\u00e8ces de 8', val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
       { label: 'Recrues',     val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : null },
       { label: 'Pertes',      val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : null },
     ].filter(m => m.val !== null);
@@ -55,8 +55,7 @@ function renderCartes() {
             </div>`).join('')}</div>
           <button class="chrono-lire" data-id="${c.id}">Lire \u2192</button>
         </div>`
-      : `<div class="chrono-meta-lire">
-          <div></div>
+      : `<div class="chrono-meta-lire"><div></div>
           <button class="chrono-lire" data-id="${c.id}">Lire \u2192</button>
         </div>`;
 
@@ -81,6 +80,17 @@ function renderCartes() {
       <div class="chrono-piste" id="chrono-piste">${cartesHtml}</div>
     </div>`;
 
+  // Ajuste la hauteur du wrap dynamiquement après rendu
+  requestAnimationFrame(() => {
+    const piste = document.getElementById('chrono-piste');
+    const wrap  = document.getElementById('chrono-piste-wrap');
+    if (piste && wrap) {
+      // Hauteur des cartes + padding haut + marge rail (130px)
+      const carteH = piste.offsetHeight;
+      wrap.style.height = (carteH + 130) + 'px';
+    }
+  });
+
   section.querySelectorAll('.chrono-carte').forEach(el => {
     el.addEventListener('click', () => {
       const c = CHRONIQUES.find(c => c.id === el.dataset.id);
@@ -98,11 +108,9 @@ function renderCartes() {
 
 // ─── Rail marin ──────────────────────────────────────────────
 function buildRail() {
-  const wrap  = document.getElementById('chrono-piste-wrap');
-  const piste = document.getElementById('chrono-piste');
-  if (!wrap || !piste) return;
-  const visibles = CHRONIQUES.filter(c => c.visible !== false);
   const W = window.innerWidth;
+  const XMIN = W * 0.10;
+  const XMAX = W * 0.90;
 
   const railEl = document.createElement('div');
   railEl.className = 'chrono-rail';
@@ -119,16 +127,12 @@ function buildRail() {
     </svg>`;
   document.body.appendChild(railEl);
 
-  // Repères de dates positionnés proportionnellement
-  const CARTE_W  = 520 + 24; // largeur carte + gap
-  const PADDING  = 64;       // padding-left piste
-  const N        = visibles.length;
-  const XMIN     = W * 0.10;
-  const XMAX     = W * 0.90;
-
+  // Repères de dates répartis entre XMIN et XMAX
+  const visibles = CHRONIQUES.filter(c => c.visible !== false);
+  const N = visibles.length;
   visibles.forEach((c, i) => {
-    const ratio = N > 1 ? i / (N - 1) : 0.5;
-    const x     = XMIN + ratio * (XMAX - XMIN);
+    const ratio  = N > 1 ? i / (N - 1) : 0.5;
+    const x      = XMIN + ratio * (XMAX - XMIN);
     const repere = document.createElement('div');
     repere.className = 'chrono-repere';
     repere.style.left = x + 'px';
@@ -160,11 +164,10 @@ function setupScroll() {
   function syncNavire() {
     const max   = piste.scrollWidth - wrap.clientWidth;
     const ratio = max > 0 ? wrap.scrollLeft / max : 0;
-    const x     = XMIN + ratio * (XMAX - XMIN);
-    navire.style.left = x + 'px';
+    navire.style.left = (XMIN + ratio * (XMAX - XMIN)) + 'px';
   }
 
-  // Scroll de la piste
+  // Scroll piste → navire suit
   wrap.addEventListener('scroll', () => {
     syncNavire();
     rail.classList.add('scrolling');
@@ -176,7 +179,7 @@ function setupScroll() {
     }, 600);
   }, { passive: true });
 
-  // Molette verticale → scroll horizontal
+  // Molette verticale → scroll horizontal (uniquement dans la zone de la piste)
   wrap.addEventListener('wheel', e => {
     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       e.preventDefault();
@@ -211,6 +214,7 @@ function setupScroll() {
     shipStartX = e.clientX;
     shipStartScroll = wrap.scrollLeft;
     navire.classList.remove('flottant');
+    navire.classList.add('dragging');
     rail.classList.add('scrolling');
   });
   window.addEventListener('mousemove', e => {
@@ -223,6 +227,7 @@ function setupScroll() {
   window.addEventListener('mouseup', () => {
     if (shipDragging) {
       shipDragging = false;
+      navire.classList.remove('dragging');
       setTimeout(() => {
         rail.classList.remove('scrolling');
         navire.classList.add('flottant');
@@ -247,13 +252,13 @@ function openModal(c) {
   if (!overlay || !modal) return;
 
   const metaHtml = [
-    { label: 'Date',         val: c.date_campagne },
-    { label: 'XP',           val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : '\u2014' },
-    { label: 'Gloire',       val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : '\u2014' },
-    { label: 'Infamie',      val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : '\u2014' },
+    { label: 'Date',          val: c.date_campagne },
+    { label: 'XP',            val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : '\u2014' },
+    { label: 'Gloire',        val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : '\u2014' },
+    { label: 'Infamie',       val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : '\u2014' },
     { label: 'Pi\u00e8ces de 8', val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : '\u2014' },
-    { label: 'Recrues',      val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : '\u2014' },
-    { label: 'Pertes',       val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : '\u2014' },
+    { label: 'Recrues',       val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : '\u2014' },
+    { label: 'Pertes',        val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : '\u2014' },
   ].map(m => `
     <div class="modal-chrono-meta-item">
       <span class="modal-chrono-meta-label">${m.label}</span>

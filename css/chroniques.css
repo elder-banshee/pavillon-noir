@@ -10,10 +10,10 @@
 
 /* ─── Piste de défilement ───────────────────────────────────── */
 .chrono-piste-wrap {
+  /* Hauteur limitée à la zone des cartes, calculée dynamiquement par JS */
   overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: 130px; /* espace pour le rail */
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
   -ms-overflow-style: none;
 }
 .chrono-piste-wrap::-webkit-scrollbar { display: none; }
@@ -30,7 +30,7 @@
 
 /* ─── Carte ─────────────────────────────────────────────────── */
 .chrono-carte {
-  width: 520px;
+  width: 600px;
   flex-shrink: 0;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border);
@@ -228,10 +228,10 @@
   50%      { transform: translateY(-3px); }
 }
 
-/* Repères de dates */
+/* Repères de dates — sous la ligne de flottaison */
 .chrono-repere {
   position: absolute;
-  bottom: 58px;
+  bottom: 8px;  /* bien en dessous de la ligne (y=52 dans le SVG 110px) */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -242,17 +242,17 @@
 
 .chrono-repere-tiret {
   width: 1px;
-  height: 10px;
+  height: 8px;
   background: rgba(200,151,58,0.4);
 }
 
 .chrono-repere-date {
   font-family: 'Cinzel', serif;
-  font-size: 0.5rem;
+  font-size: 0.48rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
-  opacity: 0.7;
+  opacity: 0.65;
   white-space: nowrap;
 }
 
@@ -264,12 +264,9 @@
   pointer-events: all;
   cursor: grab;
   filter: drop-shadow(0 2px 8px rgba(200,151,58,0.3));
-  /* transition douce sur left pour éviter les sauts */
   transition: left 0.05s linear;
 }
 .chrono-navire:active { cursor: grabbing; }
-
-/* Pendant le drag : pas de transition pour suivre la souris en temps réel */
 .chrono-navire.dragging { transition: none; }
 
 .chrono-navire.flottant {
