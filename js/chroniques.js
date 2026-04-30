@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupModal();
 });
 
+// ─── Rendu des cartes ────────────────────────────────────────
 function renderCartes() {
   const section = document.getElementById('chroniques');
   if (!section) return;
@@ -42,30 +43,35 @@ function renderCartes() {
       { label: 'Infamie',     val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : null },
       { label: 'Pièces de 8', val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
       { label: 'Recrues',     val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : null },
-      { label: 'Pertes',      val: c.meta.pertes      > 0 ? '−' + c.meta.pertes             : null },
+      { label: 'Pertes',      val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : null },
     ].filter(m => m.val !== null);
 
     const metaHtml = metaItems.length
-      ? `<div class="chrono-meta">${metaItems.map(m =>
-          `<div class="chrono-meta-item">
-            <span class="chrono-meta-label">${m.label}</span>
-            <span class="chrono-meta-val">${m.val}</span>
-          </div>`).join('')}</div>`
-      : '';
+      ? `<div class="chrono-meta-lire">
+          <div class="chrono-meta">${metaItems.map(m =>
+            `<div class="chrono-meta-item">
+              <span class="chrono-meta-label">${m.label}</span>
+              <span class="chrono-meta-val">${m.val}</span>
+            </div>`).join('')}</div>
+          <button class="chrono-lire" data-id="${c.id}">Lire \u2192</button>
+        </div>`
+      : `<div class="chrono-meta-lire">
+          <div></div>
+          <button class="chrono-lire" data-id="${c.id}">Lire \u2192</button>
+        </div>`;
 
     const illustrationHtml = c.illustration
       ? `<img class="chrono-illustration" src="${c.illustration}" alt="${c.titre}" loading="lazy" draggable="false">`
-      : `<div class="chrono-illustration-placeholder">☠</div>`;
+      : `<div class="chrono-illustration-placeholder">\u2620</div>`;
 
     return `
       <div class="chrono-carte" data-id="${c.id}" style="animation-delay:${i * 0.08}s">
+        <div class="chrono-num-sur-image">${c.numero}</div>
         ${illustrationHtml}
         <div class="chrono-body">
-          <div class="chrono-num">${c.numero}</div>
           <h2 class="chrono-titre">${c.titre}</h2>
           ${c.extrait ? `<p class="chrono-extrait">${c.extrait}</p>` : ''}
           ${metaHtml}
-          <button class="chrono-lire" data-id="${c.id}">Lire la chronique →</button>
         </div>
       </div>`;
   }).join('');
@@ -90,6 +96,7 @@ function renderCartes() {
   });
 }
 
+// ─── Rail marin ──────────────────────────────────────────────
 function buildRail() {
   const wrap  = document.getElementById('chrono-piste-wrap');
   const piste = document.getElementById('chrono-piste');
@@ -112,15 +119,16 @@ function buildRail() {
     </svg>`;
   document.body.appendChild(railEl);
 
-  const pisteW    = piste.scrollWidth;
-  const viewportW = wrap.clientWidth;
-  const carteW    = 360 + 32;
-  const paddingL  = 64;
+  // Repères de dates positionnés proportionnellement
+  const CARTE_W  = 520 + 24; // largeur carte + gap
+  const PADDING  = 64;       // padding-left piste
+  const N        = visibles.length;
+  const XMIN     = W * 0.10;
+  const XMAX     = W * 0.90;
 
   visibles.forEach((c, i) => {
-    const carteCenter = paddingL + i * carteW + carteW / 2;
-    const ratio = pisteW > viewportW ? carteCenter / pisteW : (i + 0.5) / visibles.length;
-    const x = ratio * W;
+    const ratio = N > 1 ? i / (N - 1) : 0.5;
+    const x     = XMIN + ratio * (XMAX - XMIN);
     const repere = document.createElement('div');
     repere.className = 'chrono-repere';
     repere.style.left = x + 'px';
@@ -132,10 +140,11 @@ function buildRail() {
   navire.className = 'chrono-navire flottant';
   navire.id = 'chrono-navire';
   navire.innerHTML = NAVIRE_SVG;
-  navire.style.left = '60px';
+  navire.style.left = XMIN + 'px';
   railEl.appendChild(navire);
 }
 
+// ─── Scroll et navire ────────────────────────────────────────
 function setupScroll() {
   const wrap   = document.getElementById('chrono-piste-wrap');
   const piste  = document.getElementById('chrono-piste');
@@ -143,16 +152,19 @@ function setupScroll() {
   const navire = document.getElementById('chrono-navire');
   if (!wrap || !piste || !rail || !navire) return;
 
-  const W = window.innerWidth;
-  const XMIN = 80, XMAX = W - 80;
+  const W    = window.innerWidth;
+  const XMIN = W * 0.10;
+  const XMAX = W * 0.90;
   let scrollTimer = null;
 
   function syncNavire() {
     const max   = piste.scrollWidth - wrap.clientWidth;
     const ratio = max > 0 ? wrap.scrollLeft / max : 0;
-    navire.style.left = (XMIN + ratio * (XMAX - XMIN)) + 'px';
+    const x     = XMIN + ratio * (XMAX - XMIN);
+    navire.style.left = x + 'px';
   }
 
+  // Scroll de la piste
   wrap.addEventListener('scroll', () => {
     syncNavire();
     rail.classList.add('scrolling');
@@ -164,6 +176,7 @@ function setupScroll() {
     }, 600);
   }, { passive: true });
 
+  // Molette verticale → scroll horizontal
   wrap.addEventListener('wheel', e => {
     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       e.preventDefault();
@@ -175,39 +188,52 @@ function setupScroll() {
   let isDragging = false, startX = 0, startScroll = 0;
   piste.addEventListener('mousedown', e => {
     if (!e.target.closest('.chrono-lire')) {
-      isDragging = true; startX = e.clientX; startScroll = wrap.scrollLeft;
+      isDragging = true;
+      startX = e.clientX;
+      startScroll = wrap.scrollLeft;
       piste.style.cursor = 'grabbing';
     }
   });
   window.addEventListener('mousemove', e => {
     if (isDragging) wrap.scrollLeft = startScroll - (e.clientX - startX);
   });
-  window.addEventListener('mouseup', () => { isDragging = false; piste.style.cursor = 'grab'; });
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    piste.style.cursor = 'grab';
+  });
 
-  // Drag navire
+  // Drag navire → scroll suit
   let shipDragging = false, shipStartX = 0, shipStartScroll = 0;
   navire.addEventListener('mousedown', e => {
-    e.preventDefault(); e.stopPropagation();
-    shipDragging = true; shipStartX = e.clientX; shipStartScroll = wrap.scrollLeft;
+    e.preventDefault();
+    e.stopPropagation();
+    shipDragging = true;
+    shipStartX = e.clientX;
+    shipStartScroll = wrap.scrollLeft;
     navire.classList.remove('flottant');
     rail.classList.add('scrolling');
   });
   window.addEventListener('mousemove', e => {
     if (!shipDragging) return;
-    const ratio = (e.clientX - shipStartX) / (XMAX - XMIN);
+    const dx    = e.clientX - shipStartX;
+    const ratio = dx / (XMAX - XMIN);
     const max   = piste.scrollWidth - wrap.clientWidth;
     wrap.scrollLeft = Math.max(0, Math.min(max, shipStartScroll + ratio * max));
   });
   window.addEventListener('mouseup', () => {
     if (shipDragging) {
       shipDragging = false;
-      setTimeout(() => { rail.classList.remove('scrolling'); navire.classList.add('flottant'); }, 600);
+      setTimeout(() => {
+        rail.classList.remove('scrolling');
+        navire.classList.add('flottant');
+      }, 600);
     }
   });
 
   syncNavire();
 }
 
+// ─── Modal ───────────────────────────────────────────────────
 function setupModal() {
   const overlay = document.getElementById('modal-overlay');
   if (!overlay) return;
@@ -222,12 +248,12 @@ function openModal(c) {
 
   const metaHtml = [
     { label: 'Date',         val: c.date_campagne },
-    { label: 'XP',           val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : '—' },
-    { label: 'Gloire',       val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : '—' },
-    { label: 'Infamie',      val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : '—' },
-    { label: 'Pièces de 8',  val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : '—' },
-    { label: 'Recrues',      val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : '—' },
-    { label: 'Pertes',       val: c.meta.pertes      > 0 ? '−' + c.meta.pertes             : '—' },
+    { label: 'XP',           val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : '\u2014' },
+    { label: 'Gloire',       val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : '\u2014' },
+    { label: 'Infamie',      val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : '\u2014' },
+    { label: 'Pi\u00e8ces de 8', val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : '\u2014' },
+    { label: 'Recrues',      val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : '\u2014' },
+    { label: 'Pertes',       val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : '\u2014' },
   ].map(m => `
     <div class="modal-chrono-meta-item">
       <span class="modal-chrono-meta-label">${m.label}</span>
@@ -236,10 +262,10 @@ function openModal(c) {
 
   const bannerHtml = c.illustration
     ? `<img class="modal-chrono-banner" src="${c.illustration}" alt="${c.titre}">`
-    : `<div class="modal-chrono-banner-placeholder">☠</div>`;
+    : `<div class="modal-chrono-banner-placeholder">\u2620</div>`;
 
   modal.innerHTML = `
-    <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
+    <button class="modal-close" onclick="closeModal()" aria-label="Fermer">\u2715</button>
     ${bannerHtml}
     <div class="modal-chrono-body">
       <div class="modal-chrono-num">${c.numero}</div>

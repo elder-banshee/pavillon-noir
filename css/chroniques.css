@@ -8,29 +8,29 @@
   max-width: none;
 }
 
-/* ─── Piste de défilement des cartes ────────────────────────── */
+/* ─── Piste de défilement ───────────────────────────────────── */
 .chrono-piste-wrap {
-  overflow: hidden;
-  position: relative;
-  /* Laisse de la place pour le rail en bas */
-  padding-bottom: 120px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 130px; /* espace pour le rail */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
 }
+.chrono-piste-wrap::-webkit-scrollbar { display: none; }
 
 .chrono-piste {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   padding: 3rem 4rem 2rem;
-  /* Largeur calculée par JS selon le nombre de cartes */
   width: max-content;
   cursor: grab;
   user-select: none;
 }
-
 .chrono-piste:active { cursor: grabbing; }
 
-/* ─── Carte de chronique ────────────────────────────────────── */
+/* ─── Carte ─────────────────────────────────────────────────── */
 .chrono-carte {
-  width: 360px;
+  width: 520px;
   flex-shrink: 0;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border);
@@ -56,8 +56,17 @@
   box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,151,58,0.25);
   border-color: rgba(200,151,58,0.5);
 }
-
 .chrono-carte:hover::before { opacity: 1; }
+
+/* Numéro au-dessus de l'illustration */
+.chrono-num-sur-image {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mist);
+  padding: 0.7rem 1.25rem 0.4rem;
+}
 
 /* Illustration 4:3 */
 .chrono-illustration {
@@ -81,48 +90,44 @@
   font-size: 4rem;
 }
 
-/* Corps de carte */
-.chrono-body {
-  padding: 1.25rem;
-}
-
-.chrono-num {
-  font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--mist);
-  margin-bottom: 0.3rem;
-}
+/* Corps */
+.chrono-body { padding: 1.1rem 1.25rem 1.25rem; }
 
 .chrono-titre {
   font-family: 'Cinzel', serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--parchment);
   line-height: 1.2;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.65rem;
 }
 
 .chrono-extrait {
   font-family: 'IM Fell English', serif;
   font-style: italic;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--mist);
   line-height: 1.55;
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Métadonnées */
+/* Ligne métadonnées + bouton lire */
+.chrono-meta-lire {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+}
+
 .chrono-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 1rem;
 }
 
 .chrono-meta-item {
@@ -153,11 +158,9 @@
   color: var(--gold-light);
 }
 
-/* Bouton lire */
+/* Bouton lire — aligné à droite */
 .chrono-lire {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
+  flex-shrink: 0;
   font-family: 'Cinzel', serif;
   font-size: 0.58rem;
   letter-spacing: 0.15em;
@@ -168,8 +171,8 @@
   transition: all 0.2s;
   cursor: pointer;
   background: none;
+  white-space: nowrap;
 }
-
 .chrono-lire:hover {
   background: rgba(200,151,58,0.08);
   border-color: var(--gold);
@@ -183,28 +186,24 @@
   right: 0;
   height: 110px;
   z-index: 50;
-  pointer-events: none; /* le rail lui-même ne capture pas les événements */
+  pointer-events: none;
   background: linear-gradient(180deg, transparent 0%, rgba(14,12,9,0.95) 40%);
 }
 
-/* SVG de la mer — pleine largeur */
 .chrono-mer {
   position: absolute;
   bottom: 0;
   left: 0;
-  right: 0;
   width: 100%;
   height: 110px;
 }
 
-/* Ligne de flottaison */
 .mer-ligne {
   stroke: rgba(200,151,58,0.35);
   stroke-width: 1;
   fill: none;
 }
 
-/* Vagues animées — 3 états CSS */
 .mer-vague {
   fill: none;
   stroke: rgba(200,151,58,0.18);
@@ -212,16 +211,9 @@
   stroke-linecap: round;
 }
 
-/* Animation pendant le scroll (classe ajoutée par JS) */
-.chrono-rail.scrolling .mer-vague-1 {
-  animation: vague1 1.2s ease-in-out infinite;
-}
-.chrono-rail.scrolling .mer-vague-2 {
-  animation: vague2 1.6s ease-in-out infinite 0.3s;
-}
-.chrono-rail.scrolling .mer-vague-3 {
-  animation: vague3 1s ease-in-out infinite 0.15s;
-}
+.chrono-rail.scrolling .mer-vague-1 { animation: vague1 1.2s ease-in-out infinite; }
+.chrono-rail.scrolling .mer-vague-2 { animation: vague2 1.6s ease-in-out infinite 0.3s; }
+.chrono-rail.scrolling .mer-vague-3 { animation: vague3 1s ease-in-out infinite 0.15s; }
 
 @keyframes vague1 {
   0%,100% { transform: translateX(0); }
@@ -236,10 +228,10 @@
   50%      { transform: translateY(-3px); }
 }
 
-/* Repères de dates sur le rail */
+/* Repères de dates */
 .chrono-repere {
   position: absolute;
-  bottom: 58px; /* au-dessus de la ligne de mer */
+  bottom: 58px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -264,27 +256,29 @@
   white-space: nowrap;
 }
 
-/* ─── Navire SVG draggable ──────────────────────────────────── */
+/* ─── Navire ─────────────────────────────────────────────────── */
 .chrono-navire {
   position: absolute;
-  bottom: 42px; /* assis sur la ligne de mer */
+  bottom: 42px;
   transform: translateX(-50%);
-  pointer-events: all; /* capture les événements de drag */
+  pointer-events: all;
   cursor: grab;
-  transition: bottom 0.1s;
   filter: drop-shadow(0 2px 8px rgba(200,151,58,0.3));
+  /* transition douce sur left pour éviter les sauts */
+  transition: left 0.05s linear;
 }
-
 .chrono-navire:active { cursor: grabbing; }
 
-/* Légère oscillation quand pas en drag */
+/* Pendant le drag : pas de transition pour suivre la souris en temps réel */
+.chrono-navire.dragging { transition: none; }
+
 .chrono-navire.flottant {
   animation: flottaison 3s ease-in-out infinite;
 }
 
 @keyframes flottaison {
-  0%,100% { transform: translateX(var(--ship-x, -50%)) translateY(0); }
-  50%      { transform: translateX(var(--ship-x, -50%)) translateY(-3px); }
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-3px); }
 }
 
 /* ─── Modal chronique ───────────────────────────────────────── */
@@ -378,9 +372,7 @@
   color: var(--parchment2);
   line-height: 1.85;
 }
-
 .modal-chrono-texte p + p { margin-top: 1.2em; }
-
 .modal-chrono-texte h3 {
   font-family: 'Cinzel', serif;
   font-size: 0.8rem;
@@ -392,14 +384,8 @@
 
 /* ─── Responsive mobile ─────────────────────────────────────── */
 @media (max-width: 700px) {
-  .chrono-piste {
-    padding: 2rem 1.5rem 1.5rem;
-    gap: 1.25rem;
-  }
-
-  .chrono-carte { width: 300px; }
-
-  /* Sur mobile : rail simplifié, navire non draggable */
+  .chrono-piste { padding: 2rem 1.5rem 1.5rem; gap: 1rem; }
+  .chrono-carte { width: 85vw; }
   .chrono-navire { pointer-events: none; cursor: default; }
   .chrono-navire.flottant { animation: none; }
 }
