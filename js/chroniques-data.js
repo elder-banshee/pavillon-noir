@@ -26,7 +26,7 @@ const CHRONIQUES = [
     numero: "Scénario II",
     titre: "Satiété engendre Démesure",
     date_campagne: "Janvier 1714",
-    illustration: null,
+    illustration: "chroniques/covers/en-cours.jpg",
     extrait: "Un banquet à Cap-Français, une délégation espagnole empoisonnée, et deux recrues involontaires comme gardes du corps d'un agent britannique.",
     meta: {
       xp: 10,
@@ -44,7 +44,7 @@ const CHRONIQUES = [
     numero: "Scénario III",
     titre: "Le dernier voyage de l'Hippogriffe",
     date_campagne: "Septembre—Décembre 1715",
-    illustration: null,
+    illustration: "chroniques/covers/en-cours.jpg",
     extrait: "Un naufrage providentiel, un cadavre aux plats d'or précolombiens, et la Flotte au Trésor quelque part sous les eaux. Il suffisait d'y arriver les premiers.",
     meta: {
       xp: 12,
@@ -62,7 +62,7 @@ const CHRONIQUES = [
     numero: "Scénario IV",
     titre: "La prise de la Marianne",
     date_campagne: "Décembre 1715",
-    illustration: null,
+    illustration: "chroniques/covers/en-cours.jpg",
     extrait: "La frégate française Marianne, trente-deux canons, prise par ruse sous le nez de Jennings. Le massacre qui a suivi ne figurera dans aucune chanson.",
     meta: {
       xp: 10,
@@ -80,7 +80,7 @@ const CHRONIQUES = [
     numero: "Scénario V",
     titre: "Les épaves de la Flotte au Trésor",
     date_campagne: "Janvier 1716",
-    illustration: null,
+    illustration: "chroniques/covers/en-cours.jpg",
     extrait: "Huit millions de pièces de huit gisaient entre ciel et fond. Ils en ont remis quatre-vingt mille. Un tiens vaut mieux que deux tu l'auras.",
     meta: {
       xp: 12,
@@ -98,7 +98,7 @@ const CHRONIQUES = [
     numero: "Scénario VI",
     titre: "Courses à Trinidad",
     date_campagne: "Février 1716",
-    illustration: null,
+    illustration: "chroniques/covers/en-cours.jpg",
     extrait: "",
     meta: {
       xp: 0,
