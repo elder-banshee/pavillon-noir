@@ -24,7 +24,7 @@ const NAVIRE_SVG = `
 </svg>`;
 
 const RAIL_W      = 1120;  // zone navire + repères (1400px mer − 2×10%)
-const RAIL_MARGIN = 0;  // marge intérieure de chaque côté
+const RAIL_MARGIN = 0.01;  // marge intérieure de chaque côté
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCartes();
