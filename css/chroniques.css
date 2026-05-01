@@ -11,7 +11,6 @@
 
 /* ─── Piste de défilement ───────────────────────────────────── */
 .chrono-piste-wrap {
-  /* Hauteur limitée à la zone des cartes, calculée dynamiquement par JS */
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
@@ -191,12 +190,16 @@
   background: linear-gradient(180deg, transparent 0%, rgba(14,12,9,0.95) 40%);
 }
 
+/* SVG de la mer : centré, largeur contrainte, estompé aux extrémités */
 .chrono-mer {
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1400px, 100%);
   height: 110px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
 .mer-ligne {
@@ -232,7 +235,7 @@
 /* Repères de dates — sous la ligne de flottaison */
 .chrono-repere {
   position: absolute;
-  bottom: 8px;  /* bien en dessous de la ligne (y=52 dans le SVG 110px) */
+  bottom: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
