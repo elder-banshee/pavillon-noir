@@ -23,6 +23,9 @@ const NAVIRE_SVG = `
   <line x1="32" y1="16" x2="50" y2="42" stroke="rgba(200,151,58,0.15)" stroke-width="0.5"/>
 </svg>`;
 
+const RAIL_W      = 1120;  // zone navire + repères (1400px mer − 2×10%)
+const RAIL_MARGIN = 0.10;  // marge intérieure de chaque côté
+
 document.addEventListener('DOMContentLoaded', () => {
   renderCartes();
   buildRail();
@@ -111,10 +114,18 @@ function renderCartes() {
 }
 
 // ─── Rail marin ──────────────────────────────────────────────
+function getRailBounds() {
+  const W     = window.innerWidth;
+  const zoneW = Math.min(RAIL_W, W);
+  const zoneL = (W - zoneW) / 2;
+  const XMIN  = zoneL + zoneW * RAIL_MARGIN;
+  const XMAX  = zoneL + zoneW * (1 - RAIL_MARGIN);
+  return { XMIN, XMAX };
+}
+
 function buildRail() {
   const W = window.innerWidth;
-  const XMIN = W * 0.10;
-  const XMAX = W * 0.90;
+  const { XMIN, XMAX } = getRailBounds();
 
   const railEl = document.createElement('div');
   railEl.className = 'chrono-rail';
@@ -160,9 +171,7 @@ function setupScroll() {
   const navire = document.getElementById('chrono-navire');
   if (!wrap || !piste || !rail || !navire) return;
 
-  const W    = window.innerWidth;
-  const XMIN = W * 0.10;
-  const XMAX = W * 0.90;
+  const { XMIN, XMAX } = getRailBounds();
   let scrollTimer = null;
 
   function syncNavire() {
