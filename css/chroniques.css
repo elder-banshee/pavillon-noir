@@ -6,6 +6,8 @@
 #chroniques {
   padding: 0;
   max-width: none;
+  margin-bottom: -100px;
+}
 }
 
 /* ─── Piste de défilement ───────────────────────────────────── */
