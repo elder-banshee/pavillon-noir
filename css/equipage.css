@@ -110,7 +110,7 @@
   top: 0; right: 0; bottom: 0;
   height: 100%;
   width: 100%;
-  background: rgba(255,255,255,0.05)
+  background: #181410
   transition: width 0.8s ease;
 }
 
