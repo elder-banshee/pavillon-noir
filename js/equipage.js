@@ -29,13 +29,12 @@ function buildStatBar(val) {
   }
 
   const t = transitionPct;
-  const gradient = `linear-gradient(90deg,
-    #1a3a52 0%,
-    var(--sea-light) ${t * 0.5}%,
-    #9a7a28 ${t}%,
-    var(--gold) ${Math.min(t + 20, 100)}%
-  )`;
-
+  const gradient = 'linear-gradient(90deg,' +
+    '#1a3a52 0%,' +
+    'var(--sea-light) ' + (t * 0.5) + '%,' +
+    '#9a7a28 ' + t + '%,' +
+    'var(--gold) ' + Math.min(t + 20, 100) + '%)';
+  
   return `
     <div class="stat-bar" style="background:${gradient}">
       <div class="stat-bar-reveal" data-target="${revealPct}" style="width:0%"></div>
