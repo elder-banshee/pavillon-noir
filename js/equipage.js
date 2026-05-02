@@ -47,7 +47,6 @@ function buildStatBar(val) {
       </div>
     </div>`;
 }
-}
 
 // ─── Barre de composition (échelle 0–100%) ────────────────────
 function buildCrewBar(pct) {
