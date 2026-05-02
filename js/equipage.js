@@ -28,23 +28,17 @@ function buildStatBar(val) {
     transitionPct = Math.max(0, 65 - (val - MAX_NORMAL) * 10);
   }
 
-  // Le gradient est étiré sur 500% de la largeur du fill
-  // Ainsi à 40% de révélation, on voit les 40% gauches d'un gradient
-  // qui correspond aux 40% gauches de la barre totale
-  const t = transitionPct * 5; // convertit % de barre en % de background-size 500%
+  const t = transitionPct;
   const gradient = `linear-gradient(90deg,
     #1a3a52 0%,
     var(--sea-light) ${t * 0.5}%,
     #9a7a28 ${t}%,
-    var(--gold) ${Math.min(t + 100, 500)}%
+    var(--gold) ${Math.min(t + 20, 100)}%
   )`;
 
   return `
-    <div class="stat-bar">
-      <div class="stat-bar-reveal"
-           data-target="${revealPct}"
-           style="width:0%;background:${gradient};background-size:500% 100%">
-      </div>
+    <div class="stat-bar" style="background:${gradient}">
+      <div class="stat-bar-reveal" data-target="${revealPct}" style="width:0%"></div>
     </div>`;
 }
 
@@ -89,7 +83,7 @@ async function loadAll() {
           block.innerHTML = `
             <span class="stat-label">${label}</span>
             <span class="stat-value">${val % 1 === 0 ? val : val.toFixed(1)}</span>
-            ${buildStatBar(val)}
+            ${(val)}
           `;
           grid.appendChild(block);
         });
