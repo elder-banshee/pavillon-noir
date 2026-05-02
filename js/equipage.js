@@ -82,7 +82,7 @@ async function loadAll() {
           block.innerHTML = `
             <span class="stat-label">${label}</span>
             <span class="stat-value">${val % 1 === 0 ? val : val.toFixed(1)}</span>
-            ${(val)}
+            ${buildStatBar(val)}
           `;
           grid.appendChild(block);
         });
