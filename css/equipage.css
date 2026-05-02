@@ -280,17 +280,16 @@
 
 .org-section-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
-  letter-spacing: 0.22em;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0.7;
+  color: var(--mist);
   width: 100%;
   text-align: center;
   padding-top: 1.5rem;
   margin-top: 0.5rem;
   border-top: 1px solid var(--border);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .org-section-label--first {
