@@ -89,7 +89,7 @@ async function loadAll() {
         });
         requestAnimationFrame(() => requestAnimationFrame(() => {
           grid.querySelectorAll('.stat-bar-reveal').forEach(b => {
-            b.style.width = b.dataset.target + '%';
+            b.style.width = (100 - parseInt(b.dataset.target)) + '%';
           });
         }));
       } else {
