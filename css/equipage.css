@@ -376,6 +376,7 @@
 .surnumeraires-title {
   font-family: 'Cinzel', serif;
   font-size: 0.65rem;
+  font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--mist);
