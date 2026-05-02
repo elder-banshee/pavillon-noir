@@ -1,0 +1,438 @@
+/* ═══════════════════════════════════════════════════════════
+   CHRONIQUES — scroll horizontal + rail marin
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Layout page ───────────────────────────────────────────── */
+#chroniques {
+  padding: 0;
+  max-width: none;
+  margin-bottom: -100px;
+}
+
+/* ─── Piste de défilement ───────────────────────────────────── */
+.chrono-piste-wrap {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chrono-piste-wrap::-webkit-scrollbar { display: none; }
+
+.chrono-piste {
+  display: flex;
+  gap: 1.5rem;
+  padding: 3rem 4rem 2rem;
+  width: max-content;
+  cursor: grab;
+  user-select: none;
+}
+.chrono-piste:active { cursor: grabbing; }
+
+/* ─── Carte ─────────────────────────────────────────────────── */
+.chrono-carte {
+  width: 600px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  overflow: hidden;
+  position: relative;
+  animation: fadeIn 0.5s ease both;
+}
+
+.chrono-carte::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(200,151,58,0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.chrono-carte:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,151,58,0.25);
+  border-color: rgba(200,151,58,0.5);
+}
+.chrono-carte:hover::before { opacity: 1; }
+
+/* Numéro au-dessus de l'illustration */
+.chrono-num-sur-image {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mist);
+  padding: 0.7rem 1.25rem 0.4rem;
+}
+
+/* Illustration 4:3 */
+.chrono-illustration {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: sepia(0.15) contrast(1.05);
+  pointer-events: none;
+}
+
+.chrono-illustration-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, var(--sea) 0%, var(--ink) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,151,58,0.12);
+  font-size: 4rem;
+}
+
+/* Corps */
+.chrono-body { padding: 1.1rem 1.25rem 1.25rem; }
+
+.chrono-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--parchment);
+  line-height: 1.2;
+  margin-bottom: 0.65rem;
+}
+
+.chrono-extrait {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--mist);
+  line-height: 1.55;
+  margin-bottom: 0.9rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Ligne métadonnées + bouton lire */
+.chrono-meta-lire {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+}
+
+.chrono-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chrono-meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid rgba(200,151,58,0.15);
+  background: rgba(200,151,58,0.03);
+  min-width: 44px;
+}
+
+.chrono-meta-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mist);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.chrono-meta-val {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+
+/* Bouton lire — aligné à droite */
+.chrono-lire {
+  flex-shrink: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(200,151,58,0.3);
+  padding: 0.4rem 0.8rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  background: none;
+  white-space: nowrap;
+}
+.chrono-lire:hover {
+  background: rgba(200,151,58,0.08);
+  border-color: var(--gold);
+}
+
+/* ─── Rail marin ─────────────────────────────────────────────── */
+.chrono-rail {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+  z-index: 50;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(14,12,9,0.95) 40%);
+}
+
+/* SVG de la mer : centré, largeur contrainte, estompé aux extrémités */
+.chrono-mer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1400px, 100%);
+  height: 110px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.mer-ligne {
+  stroke: rgba(200,151,58,0.35);
+  stroke-width: 1;
+  fill: none;
+}
+
+.mer-vague {
+  fill: none;
+  stroke: rgba(200,151,58,0.18);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.chrono-rail.scrolling .mer-vague-1 { animation: vague1 1.2s ease-in-out infinite; }
+.chrono-rail.scrolling .mer-vague-2 { animation: vague2 1.6s ease-in-out infinite 0.3s; }
+.chrono-rail.scrolling .mer-vague-3 { animation: vague3 1s ease-in-out infinite 0.15s; }
+
+@keyframes vague1 {
+  0%,100% { transform: translateX(0); }
+  50%      { transform: translateX(-12px); }
+}
+@keyframes vague2 {
+  0%,100% { transform: translateX(0); }
+  50%      { transform: translateX(10px); }
+}
+@keyframes vague3 {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+/* ─── Navire ─────────────────────────────────────────────────── */
+.chrono-navire {
+  position: absolute;
+  bottom: 42px;
+  transform: translateX(-50%) scaleX(-1);
+  pointer-events: all;
+  cursor: grab;
+  filter: drop-shadow(0 2px 8px rgba(200,151,58,0.3));
+  transition: left 0.05s linear;
+}
+.chrono-navire:active { cursor: grabbing; }
+.chrono-navire.dragging { transition: none; }
+
+.chrono-navire.flottant {
+  animation: flottaison 3s ease-in-out infinite;
+}
+
+@keyframes flottaison {
+  0%,100% { transform: translateX(-50%) scaleX(-1) translateY(0); }
+  50%      { transform: translateX(-50%) scaleX(-1) translateY(-3px); }
+}
+
+/* ─── Modal chronique ───────────────────────────────────────── */
+.modal--chronique {
+  max-width: 900px;
+  grid-template-columns: 1fr;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* En-tête : numéro + titre à gauche, date à droite */
+.modal-chrono-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 2rem 0;
+}
+
+.modal-chrono-header-left { flex: 1; }
+
+.modal-chrono-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 0.3rem;
+}
+
+.modal-chrono-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--parchment);
+  line-height: 1.1;
+}
+
+.modal-chrono-date {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--gold-light);
+  white-space: nowrap;
+  padding-bottom: 0.2rem;
+}
+
+/* Navigation par pages */
+.modal-chrono-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 1rem 2rem 0;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+  margin-bottom: 0;
+}
+
+.chrono-nav-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+  border: 1px solid rgba(200,151,58,0.2);
+  padding: 0.35rem 0.75rem;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chrono-nav-btn:hover {
+  color: var(--gold);
+  border-color: rgba(200,151,58,0.5);
+  background: rgba(200,151,58,0.05);
+}
+
+.chrono-nav-btn.active {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(200,151,58,0.08);
+}
+
+.modal-chrono-banner {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: sepia(0.1) contrast(1.05);
+}
+
+.modal-chrono-banner-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, var(--sea) 0%, var(--ink) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,151,58,0.1);
+  font-size: 5rem;
+}
+
+.modal-chrono-body {
+  padding: 1.5rem 2rem 2rem;
+}
+
+/* Encadrés méta centrés */
+.modal-chrono-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.modal-chrono-meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(200,151,58,0.2);
+  background: rgba(200,151,58,0.04);
+  min-width: 60px;
+}
+
+.modal-chrono-meta-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.modal-chrono-meta-val {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
+/* Résumé page d'accueil */
+.modal-chrono-resume {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--mist);
+  line-height: 1.65;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Corps chapitre : plus d'espace */
+.modal-chrono-body--chapitre {
+  padding-top: 2rem;
+}
+
+.modal-chrono-texte {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  color: var(--parchment2);
+  line-height: 1.85;
+}
+.modal-chrono-texte p + p { margin-top: 1.2em; }
+.modal-chrono-texte h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 2em 0 0.8em;
+}
+
+/* ─── Responsive mobile ─────────────────────────────────────── */
+@media (max-width: 700px) {
+  .chrono-piste { padding: 2rem 1.5rem 1.5rem; gap: 1rem; }
+  .chrono-carte { width: 85vw; }
+  .chrono-navire { pointer-events: none; cursor: default; }
+  .chrono-navire.flottant { animation: none; }
+}
