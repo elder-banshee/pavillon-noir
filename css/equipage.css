@@ -287,9 +287,16 @@
   opacity: 0.7;
   width: 100%;
   text-align: center;
-  padding-top: 0.5rem;
-  border-top: 1px solid rgba(200,151,58,0.15);
-  margin-bottom: -0.5rem;
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  margin-bottom: 0.5rem;
+}
+
+.org-section-label--first {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
 }
 
 .org-row {
