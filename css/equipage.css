@@ -107,7 +107,7 @@
 
 .stat-bar-reveal {
   position: absolute;
-  top: 0; right: -2px; bottom: 0;
+  top: 0; right: -4px; bottom: 0;
   height: 100%;
   width: 100%;
   background: linear-gradient(90deg, transparent 0px, #32302D 4px);
