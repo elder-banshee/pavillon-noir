@@ -49,6 +49,7 @@ function buildCrewBar(pct) {
       </div>
     </div>`;
 }
+document.addEventListener('DOMContentLoaded', () => {
   loadAll();
 });
 
