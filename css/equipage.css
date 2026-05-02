@@ -100,21 +100,15 @@
   width: 100%;
   height: 3px;
   border-radius: 2px;
-  background: rgba(255,255,255,0.06);
   position: relative;
-  overflow: hidden;
 }
 
-/* Fill qui avance depuis la gauche */
 .stat-bar-reveal {
   position: absolute;
-  top: 0; left: 0; bottom: 0;
-  width: 0%;
-  border-radius: 2px;
+  top: 0; right: 0; bottom: 0;
+  width: 100%;
+  background: #181410;
   transition: width 0.8s ease;
-  /* Le gradient est étiré sur 500% pour que sa largeur réelle
-     corresponde toujours à celle du .stat-bar parent */
-  background-size: 500% 100%;
 }
 
 .stat-bar-fill { display: none; }
