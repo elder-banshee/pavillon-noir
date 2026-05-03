@@ -272,7 +272,7 @@
   grid-template-columns: 1fr;
   max-height: 90vh;
   overflow-y: auto;
-  display: flex;
+  display: grid;
   flex-direction: column;
 }
 
