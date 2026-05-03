@@ -268,18 +268,28 @@ function renderModal() {
     );
   });
 
-  // ── En-tête permanent ────────────────────────────────────
-  const header = `
-    <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
-    <div class="modal-chrono-header">
-      <div class="modal-chrono-header-left">
-        <div class="modal-chrono-num">${c.numero}</div>
-        <h2 class="modal-chrono-titre">${c.titre}</h2>
-      </div>
-      <div class="modal-chrono-date">${c.date_campagne}</div>
+// ── En-tête permanent ────────────────────────────────────────
+const header = `
+  <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
+  <div class="modal-chrono-header">
+    <div class="modal-chrono-header-left">
+      <div class="modal-chrono-num">${c.numero}</div>
+      <h2 class="modal-chrono-titre">${c.titre}</h2>
     </div>
-    <nav class="modal-chrono-nav">${navBtns.join('')}</nav>`;
+    <div class="modal-chrono-date">${c.date_campagne}</div>
+  </div>`;
 
+// ── Nav chapitres (sans bouton Accueil) ──────────────────────
+const navBtns = chapitres.map(([num]) =>
+  `<button class="chrono-nav-btn${modalPage === Number(num) ? ' active' : ''}"
+    ${modalPage === Number(num) ? 'disabled' : `onclick="goToPage(${num})"`}>
+    Chapitre ${num}
+  </button>`
+).join('');
+
+const navHaut = `<nav class="modal-chrono-nav">${navBtns}</nav>`;
+const navBas  = `<nav class="modal-chrono-nav modal-chrono-nav--bas">${navBtns}</nav>`;
+  
   // ── Contenu selon la page ────────────────────────────────
   let contenu = '';
 
@@ -328,7 +338,11 @@ function renderModal() {
       </div>`;
   }
 
-  modal.innerHTML = header + contenu;
+if (modalPage === null) {
+  modal.innerHTML = header + contenu + (chapitres.length ? navBas : '');
+} else {
+  modal.innerHTML = header + navHaut + contenu;
+}
   modal.scrollTop = 0;
 }
 
