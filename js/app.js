@@ -178,7 +178,7 @@ function buildCard(pnj, index, epingle = false) {
              <path d="M898.35 1c87.83 0 166.26 8.55 239.71 26.14v758.65c-73.48-17.55-151.9-26.08-239.71-26.08-109.66 0-221.14 13.4-328.94 26.36-107.74 12.95-219.16 26.34-328.7 26.34-87.83 0-166.26-8.55-239.71-26.14V27.62C74.48 45.17 152.9 53.7 240.71 53.7c109.66 0 221.13-13.4 328.94-26.36C677.39 14.39 788.8 1 898.35 1"/>
            </clipPath>
            <filter id="flag-shadow-${pnj.id}" x="-10%" y="-10%" width="120%" height="120%">
-             <feDropShadow dx="-3" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.6"/>
+             <feDropShadow dx="-3" dy="2" stdDeviation="3" flood-color="#c8973a" flood-opacity="0.4"/>
            </filter>
          </defs>
          <g filter="url(#flag-shadow-${pnj.id})">
