@@ -374,7 +374,7 @@ main {
 
 .pnj-portrait-placeholder svg { width: 60px; opacity: 0.15; }
 
-.pnj-body { padding: 1.2rem 1.2rem 1rem; }
+.pnj-body { padding: 1.2rem 1.2rem 0.6rem; }
 
 .pnj-status {
   display: inline-flex;
@@ -435,7 +435,7 @@ main {
 .pnj-flag-wrap {
   display: flex;
   justify-content: center;
-  padding: 0.6rem 1.2rem 1rem;
+  padding: 0.4rem 1.2rem 1rem;
 }
 
 .pnj-flag-svg {
