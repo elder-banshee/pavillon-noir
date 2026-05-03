@@ -601,7 +601,7 @@ main {
   display: block;
   filter: sepia(0.1) contrast(1.05);
   border-top: 0px solid var(--border);
-  padding: 3rem 1rem;
+  padding: 2.5rem;
   box-sizing: border-box;
 }
 
