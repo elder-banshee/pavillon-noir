@@ -32,7 +32,7 @@ A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associe
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Flying Gang", "L'Île des Ombres", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/hornigold.jpg",
-    pavillon: null,
+    pavillon: "pnj/pavillons/hornigold.svg",
     bio: `Fondateur de la République Pirate de Nassau et du Flying Gang. Il y a chez lui quelque chose de l'ancien officier de la Royal Navy qu'il n'a jamais tout à fait quitté : la discipline, la tenue, l'autorité sans éclat. Il commande par l'exemple, sans crier. On le suit parce qu'il dégage la certitude d'être à sa place.
 
 A pris la Marianne (frégate française, 32 canons) au nez et à la barbe de Jennings — épisode fondateur de leur animosité durable. Magistrat du Conseil de Nassau.
@@ -68,7 +68,7 @@ Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle pr
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/teach.jpg",
-    pavillon: null,
+    pavillon: "pnj/pavillons/hornigold.svg",
     bio: `Second et Quartier-Maître d'Hornigold lors des Épaves et de la Marianne. D’une discipline et d’une loyauté exemplaires pour exécuter les ordres de son Capitaine, son courage et sa fougue au combat lui valent le respect et l’admiration de ses hommes.
 
 Scandalisé par le massacre ordonné par Jennings après la Marianne. Élu magistrat au Conseil de Nassau et membre fondateur du Flying Gang, il doit néanmoins composer avec lui.
@@ -400,7 +400,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Nassau (Bahamas)",
     tags: ["Nassau", "Caraïbes", "Flying Gang"],
     portrait: null,
-    pavillon: "pnj/pavillons/generic.svg",
+    pavillon: "pnj/pavillons/nassau.svg",
     bio: ``
   },
    {
@@ -414,7 +414,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Nassau (Bahamas)",
     tags: ["Nassau", "Caraïbes", "Flying Gang"],
     portrait:  "pnj/portraits/conseil-nassau.jpg",
-    pavillon: "pnj/pavillons/generic.svg",
+    pavillon: "pnj/pavillons/nassau.svg",
     bio: `La République Pirate de Nassau est fondée par Hornigold et ses pairs. Cinq magistrats élus en janvier 1716 à l'issue des évènements de la Flotte au Trésor : Benjami Hornigold, Edward Teach, Henry Jennings, John Cockram, Josiah Burgess. Structure fragile, personnelle, sans constitution écrite — elle tient par les hommes qui la composent autant que par les principes qu'elle défend.`
   },
   {
@@ -689,7 +689,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Le dernier voyage de l'Hippogriffe"],
     portrait: "pnj/portraits/winthorpe.jpg",
-    pavillon: "pnj/pavillons/generic.svg",
+    pavillon: "pnj/pavillons/winthorpe.svg",
     bio: `Capitaine anglais au long passé de flibuste, rencontré naufragé sur la côte nord-est de Little Savannah — brigantin et moitié d'équipage perdus sur les récifs lors d'une tornade. Blond, carré, rire tonitruant : donne l'impression d'un homme à l'aise partout, ce qui est exactement le registre qu'il cultive. Excellent commandant : autorité naturelle, charisme réel. Ne fait confiance à personne et n'attend pas qu'on lui fasse confiance.
 
 Les aventuriers ont mené une expédition en partenariat avec lui — réussie. Ils ont su mettre un terme à l'association avant que les relations ne se gâtent, pressentant que la concorde ne durerait pas. Interdit de séjour à Nassau, il n'est pas impossible pour autant qu'ils ne croisent sa route à nouveau un jour..`
