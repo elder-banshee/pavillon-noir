@@ -241,6 +241,8 @@
   cursor: grab;
   filter: drop-shadow(0 2px 8px rgba(200,151,58,0.3));
   transition: left 0.05s linear;
+  mask-image: linear-gradient(to bottom, black 75%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 95%);
 }
 .chrono-navire:active { cursor: grabbing; }
 .chrono-navire.dragging { transition: none; }
@@ -260,8 +262,6 @@
   grid-template-columns: 1fr;
   max-height: 90vh;
   overflow-y: auto;
-  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 95%);
-  mask-image: linear-gradient(to bottom, black 75%, transparent 95%);
 }
 
 /* En-tête : numéro + titre à gauche, date à droite */
