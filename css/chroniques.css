@@ -23,8 +23,8 @@
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  -webkit-mask-image: radial-gradient(ellipse 70% 90% at center, black 40%, transparent 80%);
-   mask-image: radial-gradient(ellipse 70% 90% at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 55% 90% at center, black 35%, transparent 75%);
+   mask-image: radial-gradient(ellipse 55% 90% at center, black 35%, transparent 75%);
 }
 .chrono-piste-wrap::-webkit-scrollbar { display: none; }
 
