@@ -9,12 +9,22 @@
   margin-bottom: -100px;
 }
 
+.chrono-piste-outer {
+  display: flex;
+  justify-content: center;
+  padding: 0 0 2rem;
+}
+
 /* ─── Piste de défilement ───────────────────────────────────── */
 .chrono-piste-wrap {
+  width: 78%;
+  max-width: 1400px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 .chrono-piste-wrap::-webkit-scrollbar { display: none; }
 
