@@ -428,9 +428,6 @@ main {
   gap: 0.3rem;
 }
 
-/* Tags masqués sur la carte, visibles uniquement dans la modal */
-.pnj-card .pnj-tags { display: none; }
-
 /* ─── Pavillon ───────────────────────────────────────────────── */
 .pnj-flag-wrap {
   display: flex;
