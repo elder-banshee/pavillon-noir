@@ -321,6 +321,7 @@ const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
       <div class="modal-chrono-body">
         ${metaHtml}
         ${resumeHtml}
+        ${chapitres.length ? navBas : ''}
       </div>`;
 
   } else {
