@@ -439,8 +439,8 @@ main {
 }
 
 .pnj-flag-svg {
-  width: 180px;
-  height: 129px;
+  width: 90px;
+  height: 65px;
   display: block;
   transition: filter 0.25s;
 }
