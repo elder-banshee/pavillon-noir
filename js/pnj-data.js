@@ -14,7 +14,7 @@ const PNJ_DATA = [
     origine: "Anglais (Cape Cod)",
     tags: ["Nassau", "Caraïbes", "L'Île des Ombres", "La Marianne", "Les épaves de la Flotte au Trésor", "Antonio"],
     portrait: "pnj/portraits/bellamy.jpg",
-    pavillon: "pnj/pavillons/bellamy.svg",
+    pavillon: null,
     bio: `Sauveur d’Antonio, interceptant le navire qui le conduisait à la potence. Sauveur à nouveau d’Antonio, Fañch et Dusmãtis, alors qu’ils dérivaient en mer sur une épave non loin de Nassau. Son charisme surnaturel lui permet de discuter d’égal à égal avec les plus humbles comme les plus puissant, et lui assure la loyauté de tous.
 
 A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associer à nouveau avec lui quelques semaines plus tard pour piller les Épaves de la Flotte au Trésor.
@@ -32,7 +32,7 @@ A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associe
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Flying Gang", "L'Île des Ombres", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/hornigold.jpg",
-    pavillon: "pnj/pavillons/hornigold.png",
+    pavillon: null,
     bio: `Fondateur de la République Pirate de Nassau et du Flying Gang. Il y a chez lui quelque chose de l'ancien officier de la Royal Navy qu'il n'a jamais tout à fait quitté : la discipline, la tenue, l'autorité sans éclat. Il commande par l'exemple, sans crier. On le suit parce qu'il dégage la certitude d'être à sa place.
 
 A pris la Marianne (frégate française, 32 canons) au nez et à la barbe de Jennings — épisode fondateur de leur animosité durable. Magistrat du Conseil de Nassau.
@@ -67,7 +67,7 @@ Portrait : taille moyenne, bloc massif, cheveux très courts, yeux bleu pâle pr
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/teach.jpg",
-    pavillon: "pnj/pavillons/teach.png",
+    pavillon: null,
     bio: `Second et Quartier-Maître d'Hornigold lors des Épaves et de la Marianne. D’une discipline et d’une loyauté exemplaires pour exécuter les ordres de son Capitaine, son courage et sa fougue au combat lui valent le respect et l’admiration de ses hommes.
 
 Scandalisé par le massacre ordonné par Jennings après la Marianne. Élu magistrat au Conseil de Nassau et membre fondateur du Flying Gang, il doit néanmoins composer avec lui.
@@ -98,7 +98,7 @@ En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le pr
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/vane.jpg",
-    pavillon: "pnj/pavillons/vane.png",
+    pavillon: null,
     bio: `Navigateur réputé talentueux, ne serait-ce que parce que Jennings lui a confié son poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
 Pendant le massacre des prisonniers après la Marianne, il regardait avec un demi-sourire amusé — pas de répugnance, pas de retenue. L'air de quelqu'un qui reconnaît une méthode qu'il connaît bien et n'a pas besoin de valider. Son amusement était probablement moins dirigé vers les excès de Jennings que vers deux cents hommes réputés redoutables, incapables de se dresser contre un seul individu.`
@@ -113,7 +113,7 @@ Pendant le massacre des prisonniers après la Marianne, il regardait avec un dem
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/rackham.jpg",
-    pavillon: "pnj/pavillons/rackham.png",
+    pavillon: null,
     bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les aventuriers, quoique limitées, ont toujours été cordiales.
 
 Pendant le massacre des prisonniers après la Marianne, il était visiblement mal à l'aise — désapprobation lisible, trahie par la posture et le regard, tout en ayant le devoir de justifier les actes de son capitaine.
