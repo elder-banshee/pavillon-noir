@@ -334,7 +334,7 @@ const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
   }
 
 if (modalPage === null) {
-  modal.innerHTML = header + contenu + (chapitres.length ? navBas : '');
+  modal.innerHTML = header + contenu;
 } else {
   modal.innerHTML = header + navHaut + contenu;
 }
