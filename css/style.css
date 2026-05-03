@@ -596,6 +596,15 @@ main {
   border-top: 1px solid var(--border);
 }
 
+.modal-pavillon {
+  width: 100%;
+  display: block;
+  filter: sepia(0.1) contrast(1.05);
+  border-top: 1px solid var(--border);
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
 /* ─── Empty state ───────────────────────────────────────────── */
 .empty-state {
   text-align: center;
