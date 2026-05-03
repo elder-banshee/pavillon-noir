@@ -256,18 +256,6 @@ function renderModal() {
     ? Object.entries(c.chapitres).filter(([, v]) => v !== null)
     : [];
 
-  // ── Barre de navigation ──────────────────────────────────
-  const navBtns = [
-    `<button class="chrono-nav-btn ${modalPage === null ? 'active' : ''}"
-       onclick="goToPage(null)">Accueil</button>`
-  ];
-  chapitres.forEach(([num]) => {
-    navBtns.push(
-      `<button class="chrono-nav-btn ${modalPage === Number(num) ? 'active' : ''}"
-         onclick="goToPage(${num})">Chapitre ${num}</button>`
-    );
-  });
-
 // ── En-tête permanent ────────────────────────────────────────
 const header = `
   <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
