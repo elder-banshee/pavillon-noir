@@ -458,7 +458,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
   },
    {
     id: "avery",
-    visible: false,
+    visible: true,
     nom: "Henry Avery",
     accroche: "Le Roi des pirates",
     alias: "Henry Every, Black Ben, Benjamin Stonebridge",
