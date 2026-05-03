@@ -311,7 +311,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Français",
     tags: ["Saint-Domingue", "Europe", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/rochambeau.jpg",
-    pavillon: "pnj/pavillons/fr.svg",
+    pavillon: "pnj/pavillons/fr_banniere.svg",
     bio: `Diplomate français aguerri, opposé au traité de libre-échange au Banquet du Cap-Français. Avait préparé ses propres manœuvres pour saboter les négociations — substitution de faux documents, avec des clauses inacceptables. A renoncé après la révélation du complot de Blackwood, qui a rendu toute manœuvre supplémentaire superflue.`
   },
   {
@@ -324,7 +324,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Français",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/blenac.jpg",
-    pavillon: "pnj/pavillons/fr.svg",
+    pavillon: "pnj/pavillons/fr_banniere.svg",
     bio: `Gouverneur de Saint-Domingue au moment du banquet de Cap-Français. Administrateur perspicace, favorable au traité. C'est sur la foi d'Antonio qu'il a fait intercepter Blackwood — et c'est lui qui a libéré Robert et Antonio avec une injonction sans équivoque : ne plus paraître à Cap-Français. Ton pragmatique plutôt que vengeur.`
   },
   {
