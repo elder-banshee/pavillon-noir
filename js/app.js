@@ -168,10 +168,7 @@ function buildCard(pnj, index, epingle = false) {
       </div>
       <h2 class="pnj-name">${pnj.nom}</h2>
       ${pnj.accroche ? `<div class="pnj-alias">${pnj.accroche}</div>` : ''}
-      ${pnj.origine ? `<div class="pnj-origin">${pnj.origine}</div>` : ''}
-      <div class="pnj-tags">
-        ${pnj.tags.slice(0, 4).map(t => `<span class="pnj-tag">${t}</span>`).join('')}
-      </div>
+      ${pnj.origine ? `<div class="pnj-origin">${pnj.origine}</div>` : ''}      
     </div>
     ${pnj.pavillon
   ? `<div class="pnj-flag-wrap">
