@@ -272,6 +272,8 @@
   grid-template-columns: 1fr;
   max-height: 90vh;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* En-tête : numéro + titre à gauche, date à droite */
@@ -350,9 +352,9 @@
 .modal-chrono-nav--bas {
   border-top: 1px solid var(--border);
   border-bottom: none;
-  margin-top: 0;
   padding-top: 1rem;
   padding-bottom: 1.5rem;
+  margin-top: auto;
 }
 
 .chrono-nav-btn.active {
