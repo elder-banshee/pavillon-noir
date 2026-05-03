@@ -267,16 +267,22 @@ const header = `
     <div class="modal-chrono-date">${c.date_campagne}</div>
   </div>`;
 
-// ── Nav chapitres (sans bouton Accueil) ──────────────────────
-const navBtns = chapitres.map(([num]) =>
-  `<button class="chrono-nav-btn${modalPage === Number(num) ? ' active' : ''}"
-    ${modalPage === Number(num) ? 'disabled' : `onclick="goToPage(${num})"`}>
-    Chapitre ${num}
-  </button>`
+// ── Nav pour page Accueil (bas, sans bouton Accueil) ─────────
+const navBtnsAccueil = chapitres.map(([num]) =>
+  `<button class="chrono-nav-btn" onclick="goToPage(${num})">Chapitre ${num}</button>`
 ).join('');
+const navBas = `<nav class="modal-chrono-nav modal-chrono-nav--bas">${navBtnsAccueil}</nav>`;
 
-const navHaut = `<nav class="modal-chrono-nav">${navBtns}</nav>`;
-const navBas  = `<nav class="modal-chrono-nav modal-chrono-nav--bas">${navBtns}</nav>`;
+// ── Nav pour chapitres (haut, avec bouton Accueil) ───────────
+const navBtnsChapitre = [
+  `<button class="chrono-nav-btn" onclick="goToPage(null)">Accueil</button>`,
+  ...chapitres.map(([num]) =>
+    `<button class="chrono-nav-btn${modalPage === Number(num) ? ' active' : ''}"
+      ${modalPage === Number(num) ? 'disabled' : `onclick="goToPage(${num})"`}>
+      Chapitre ${num}</button>`
+  )
+].join('');
+const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
   
   // ── Contenu selon la page ────────────────────────────────
   let contenu = '';
