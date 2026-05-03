@@ -241,11 +241,15 @@ function openModal(pnj) {
 
   modal.innerHTML = `
     <div class="modal-portrait-col">
-      ${pnj.portrait
-        ? `<img class="modal-portrait" src="${pnj.portrait}" alt="Portrait de ${pnj.nom}">`
-        : `<div class="modal-portrait-placeholder">${silhouetteSVG()}</div>`
-      }
-    </div>
+  ${pnj.portrait
+    ? `<img class="modal-portrait" src="${pnj.portrait}" alt="Portrait de ${pnj.nom}">`
+    : `<div class="modal-portrait-placeholder">${silhouetteSVG()}</div>`
+  }
+  ${pnj.pavillon
+    ? `<img class="modal-pavillon" src="${pnj.pavillon}" alt="Pavillon de ${pnj.nom}" loading="lazy">`
+    : ''
+  }
+</div>
     <div class="modal-body">
       <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
 
