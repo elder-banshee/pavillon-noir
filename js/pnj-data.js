@@ -414,7 +414,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     statut: "actif",
     naissance: null,
     origine: "Anglais",
-    tags: ["Europe", "Robert", "Captain Charles Johnson's crew"],
+    tags: ["Europe", "Robert", "Équipage du Captain Charles Johnson"],
     portrait: null,
     bio: `Réseau d'entraide ayant exfiltré et mandaté Robert pour documenter les événements et personnages extraordinaires des Indes Occidentales.`
   },
@@ -427,7 +427,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     statut: "actif",
     naissance: 1685,
     origine: "Anglais (Londres)",
-    tags: ["Europe", "Robert", "Captain Charles Johnson's crew"],
+    tags: ["Europe", "Robert", "Équipage du Captain Charles Johnson"],
     portrait: "pnj/portraits/mist.jpg",
     bio: `Journaliste et imprimeur londonien, jacobite actif, pas encore connu du grand public — il n'a pas encore lancé le journal qui fera sa réputation. C'est un homme de réseau avant d'être un homme de presse. Il a approché Robert peu avant son départ pour les Indes Occidentales et l'a mandaté comme correspondant de terrain pour l'équipage du Capitaine Charles Johnson, en échange d'une rémunération par compte rendu livré.`
   },
