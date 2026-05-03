@@ -59,7 +59,8 @@ function renderCartes() {
       </div>`;
   }).join('');
 
-  section.innerHTML = `
+  const outer = section.querySelector('.chrono-piste-outer');
+  outer.innerHTML = `
     <div class="chrono-piste-wrap" id="chrono-piste-wrap">
       <div class="chrono-piste" id="chrono-piste">${cartesHtml}</div>
     </div>`;
@@ -167,7 +168,7 @@ function setupScroll() {
   }, { passive: true });
 
   // Molette verticale → scroll horizontal (uniquement dans la zone de la piste)
-  piste.addEventListener('wheel', e => {
+  wrap.addEventListener('wheel', e => {
     if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
     e.preventDefault();
     wrap.scrollLeft += e.deltaY;
