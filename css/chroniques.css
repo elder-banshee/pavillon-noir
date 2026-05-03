@@ -383,7 +383,12 @@
 }
 
 .modal-chrono-body {
-  padding: 1.5rem 2rem 2rem;
+  padding: 0 0 2rem;
+}
+
+.modal-chrono-banner,
+.modal-chrono-banner-placeholder {
+  margin-bottom: 1.5rem;
 }
 
 /* Encadrés méta centrés */
