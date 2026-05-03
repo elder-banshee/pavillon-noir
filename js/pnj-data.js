@@ -50,6 +50,7 @@ Portrait : allure aristocratique, larges favoris grisonnants, longue redingote s
     origine: "Anglais (Bermudes)",
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/jennings.jpg",
+    pavillon: "pnj/pavillons/jennings.svg",
     bio: `Corsaire devenu pirate, commissionné par le gouverneur de Jamaïque. Figure mafieuse plus qu'aventurière : n'intervient que lorsque le rapport de force est écrasant en sa faveur. C'est lui qui a ordonné le massacre de prisonniers sur la plage après la prise de la Marianne (décembre 1715).
 
 Il ne s'adresse pratiquement jamais directement à ses hommes — Rackham sert d'interface. Les aventuriers ont existé dans sa mémoire comme le menu fretin de l'équipage de Bellamy : à peine remarqués, vite oubliés. Élu magistrat au Conseil de Nassau.
@@ -84,6 +85,7 @@ Portrait : la barbe noire est réelle, et son effet soigné. C'est un colosse : 
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/paulsgrave.jpg",
+    pavillon: "pnj/pavillons/bellamy.svg",
     bio: `Associé de Bellamy — compagnon d'armes, pas subordonné. Devenu pirate sur le tard, avec derrière lui une vie apparemment confortable, comme si Bellamy l'avait un jour convaincu qu'une vie d'aventures était la seule digne d'être vécue, et que l'argument avait suffi.
 
 En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le propre d'un homme faible, mais d'un homme qui n'a aucune ambition de premier rôle et n'en ressent pas le besoin. Les aventuriers l'ont à peine remarqué lors de leurs interactions — ce qui est à peu près l'effet qu'il produit sur tout le monde. Toujours affable et courtois dans le peu qu'ils ont échangé.`
@@ -98,7 +100,7 @@ En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le pr
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/vane.jpg",
-    pavillon: null,
+    pavillon: "pnj/pavillons/jennings.svg",
     bio: `Navigateur réputé talentueux, ne serait-ce que parce que Jennings lui a confié son poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
 Pendant le massacre des prisonniers après la Marianne, il regardait avec un demi-sourire amusé — pas de répugnance, pas de retenue. L'air de quelqu'un qui reconnaît une méthode qu'il connaît bien et n'a pas besoin de valider. Son amusement était probablement moins dirigé vers les excès de Jennings que vers deux cents hommes réputés redoutables, incapables de se dresser contre un seul individu.`
@@ -113,7 +115,7 @@ Pendant le massacre des prisonniers après la Marianne, il regardait avec un dem
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/rackham.jpg",
-    pavillon: null,
+    pavillon: "pnj/pavillons/jennings.svg",
     bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les aventuriers, quoique limitées, ont toujours été cordiales.
 
 Pendant le massacre des prisonniers après la Marianne, il était visiblement mal à l'aise — désapprobation lisible, trahie par la posture et le regard, tout en ayant le devoir de justifier les actes de son capitaine.
@@ -216,7 +218,8 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     naissance: "vers 1685 — vers 1720",
     origine: "Irlandais",
     tags: ["Nassau", "The Pirate Round", "La Marianne"],
-    portrait: "pnj/portraits/england.jpg",
+    portrait: "pnj/portraits/england.jpg",    
+    pavillon: "pnj/pavillons/generic.svg",
     bio: `Pirate irlandais de son vrai nom Edward Seegar. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Révolté par ce qu'il a vu, a quitté les Caraïbes pour l'océan Indien. Connu pour sa clémence envers les vaincus — l'exact opposé de Jennings.`
   },
   {
@@ -229,6 +232,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Anglais (Bristol)",
     tags: ["Nassau", "The Pirate Round", "La Marianne"],
     portrait: "pnj/portraits/silver.jpg",
+    pavillon: "pnj/pavillons/generic.svg",
     bio: `Quartier-Maître d’Edward England. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Observait la scène avec une fascination froide, sans intervenir.`
   },
   // PNJ Île des Ombres
@@ -242,6 +246,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Anglais",
     tags: ["L'Île des Ombres"],
     portrait: "pnj/portraits/hobbs.jpg",
+    pavillon: "pnj/pavillons/generic.svg",
     bio: `Maître charpentier du Téméraire. Massif, barbe grise, jambe droite brisée, le visage creusé de cicatrices. Bourru dans la forme, loyal dans les actes — a guidé l'équipage dans la réparation du sloop après le naufrage. Mort durant les événements de l'île.`
   },
   {
@@ -254,6 +259,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Espagnol",
     tags: ["L'Île des Ombres"],
     portrait: "pnj/portraits/alarcon.jpg",
+    pavillon: "pnj/pavillons/es.svg",
     bio: `Grand, élancé, une cicatrice sur la joue gauche et un regard d'acier. Cousin de Don Gaspar de la Serna, vaincu en duel par Antonio à Trinidad — une rancœur ancienne qu'il n'a pas cherché à dissimuler. Obstiné jusqu'à l'absurde : a refusé d'évacuer l'île avec les forces espagnoles. Dévoré par les Indiens Bravos.`
   },
   {
@@ -266,6 +272,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Espagnol",
     tags: ["L'Île des Ombres"],
     portrait: "pnj/portraits/velazquez.jpg",
+    pavillon: "pnj/pavillons/es.svg",
     bio: `Élégant, mince, l'allure aristocratique. Superstitieux malgré son éducation, ambitieux mais pas téméraire. A choisi de quitter l'île avec ses troupes plutôt que de partager l'obstination fatale de Don Francisco.`
   },
   // PNJ SED
@@ -291,6 +298,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Anglais",
     tags: ["Saint-Domingue", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/blackwood.jpg",
+    pavillon: "pnj/pavillons/gb.svg",
     bio: `Agent britannique infiltré dans la délégation du banquet de Cap-Français. A recruté Antonio et Robert comme gardes du corps pour les compromettre. Responsable de l'empoisonnement de la délégation espagnole. Interpellé par le Gouverneur Blénac alors qu'il quittait Cap-Français, les faux documents de Rochambeau trouvés sur lui l'ont confondu. Sort inconnu depuis.`
   },
   {
@@ -303,6 +311,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Français",
     tags: ["Saint-Domingue", "Europe", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/rochambeau.jpg",
+    pavillon: "pnj/pavillons/fr.svg",
     bio: `Diplomate français aguerri, opposé au traité de libre-échange au Banquet du Cap-Français. Avait préparé ses propres manœuvres pour saboter les négociations — substitution de faux documents, avec des clauses inacceptables. A renoncé après la révélation du complot de Blackwood, qui a rendu toute manœuvre supplémentaire superflue.`
   },
   {
@@ -315,6 +324,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Français",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/blenac.jpg",
+    pavillon: "pnj/pavillons/fr.svg",
     bio: `Gouverneur de Saint-Domingue au moment du banquet de Cap-Français. Administrateur perspicace, favorable au traité. C'est sur la foi d'Antonio qu'il a fait intercepter Blackwood — et c'est lui qui a libéré Robert et Antonio avec une injonction sans équivoque : ne plus paraître à Cap-Français. Ton pragmatique plutôt que vengeur.`
   },
   {
@@ -390,6 +400,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Nassau (Bahamas)",
     tags: ["Nassau", "Caraïbes", "Flying Gang"],
     portrait: null,
+    pavillon: "pnj/pavillons/generic.svg",
     bio: ``
   },
    {
@@ -403,6 +414,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Nassau (Bahamas)",
     tags: ["Nassau", "Caraïbes", "Flying Gang"],
     portrait:  "pnj/portraits/conseil-nassau.jpg",
+    pavillon: "pnj/pavillons/generic.svg",
     bio: `La République Pirate de Nassau est fondée par Hornigold et ses pairs. Cinq magistrats élus en janvier 1716 à l'issue des évènements de la Flotte au Trésor : Benjami Hornigold, Edward Teach, Henry Jennings, John Cockram, Josiah Burgess. Structure fragile, personnelle, sans constitution écrite — elle tient par les hommes qui la composent autant que par les principes qu'elle défend.`
   },
   {
@@ -455,6 +467,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Anglais",
     tags: ["Caraïbes", "The Pirate Round"],
     portrait: null,
+    pavillon: "pnj/pavillons/avery_red.svg",
     bio: `Pirate légendaire disparu après 1696. A capturé le Gang-i-Sawai du Grand Moghol en 1695, coup le plus spectaculaire de l'âge d'or de la piraterie. Sa trace se perd après. Certains disent mort, d'autres caché.`
   },
    {
@@ -676,6 +689,7 @@ C'est également lui qui a remis à Edward Sutherland sa lettre de mission — r
     origine: "Anglais",
     tags: ["Nassau", "Caraïbes", "Le dernier voyage de l'Hippogriffe"],
     portrait: "pnj/portraits/winthorpe.jpg",
+    pavillon: "pnj/pavillons/generic.svg",
     bio: `Capitaine anglais au long passé de flibuste, rencontré naufragé sur la côte nord-est de Little Savannah — brigantin et moitié d'équipage perdus sur les récifs lors d'une tornade. Blond, carré, rire tonitruant : donne l'impression d'un homme à l'aise partout, ce qui est exactement le registre qu'il cultive. Excellent commandant : autorité naturelle, charisme réel. Ne fait confiance à personne et n'attend pas qu'on lui fasse confiance.
 
 Les aventuriers ont mené une expédition en partenariat avec lui — réussie. Ils ont su mettre un terme à l'association avant que les relations ne se gâtent, pressentant que la concorde ne durerait pas. Interdit de séjour à Nassau, il n'est pas impossible pour autant qu'ils ne croisent sa route à nouveau un jour..`
