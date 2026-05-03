@@ -433,7 +433,7 @@ main {
 .pnj-flag-wrap {
   display: flex;
   justify-content: center;
-  padding: 0.4rem 1.2rem 1rem;
+  padding: 0.4rem 1.2rem 1.2rem;
 }
 
 .pnj-flag-svg {
