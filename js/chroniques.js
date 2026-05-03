@@ -317,8 +317,8 @@ const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
       : '';
 
     contenu = `
-      ${bannerHtml}
       <div class="modal-chrono-body">
+        ${bannerHtml}
         ${metaHtml}
         ${resumeHtml}
         ${chapitres.length ? navBas : ''}
