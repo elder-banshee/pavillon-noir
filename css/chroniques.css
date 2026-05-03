@@ -241,8 +241,8 @@
   cursor: grab;
   filter: drop-shadow(0 2px 8px rgba(200,151,58,0.3));
   transition: left 0.05s linear;
-  mask-image: linear-gradient(to bottom, black 75%, transparent 95%);
-  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 95%);
+  mask-image: linear-gradient(to bottom, black 75%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 85%);
 }
 .chrono-navire:active { cursor: grabbing; }
 .chrono-navire.dragging { transition: none; }
