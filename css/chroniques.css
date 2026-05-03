@@ -236,7 +236,7 @@
 .chrono-navire {
   position: absolute;
   bottom: 42px;
-  transform: translateX(-50%) scaleX(-1);
+  transform: translateX(-50%);
   pointer-events: all;
   cursor: grab;
   filter: drop-shadow(0 2px 8px rgba(200,151,58,0.3));
@@ -250,8 +250,8 @@
 }
 
 @keyframes flottaison {
-  0%,100% { transform: translateX(-50%) scaleX(-1) translateY(0); }
-  50%      { transform: translateX(-50%) scaleX(-1) translateY(-3px); }
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-3px); }
 }
 
 /* ─── Modal chronique ───────────────────────────────────────── */
