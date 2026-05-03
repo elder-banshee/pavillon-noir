@@ -260,6 +260,8 @@
   grid-template-columns: 1fr;
   max-height: 90vh;
   overflow-y: auto;
+  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 95%);
+  mask-image: linear-gradient(to bottom, black 75%, transparent 95%);
 }
 
 /* En-tête : numéro + titre à gauche, date à droite */
