@@ -14,7 +14,7 @@ const PNJ_DATA = [
     origine: "Anglais (Cape Cod)",
     tags: ["Nassau", "Caraïbes", "L'Île des Ombres", "La Marianne", "Les épaves de la Flotte au Trésor", "Antonio"],
     portrait: "pnj/portraits/bellamy.jpg",
-    pavillon: null,
+    pavillon: "pnj/pavillons/bellamy.svg",
     bio: `Sauveur d’Antonio, interceptant le navire qui le conduisait à la potence. Sauveur à nouveau d’Antonio, Fañch et Dusmãtis, alors qu’ils dérivaient en mer sur une épave non loin de Nassau. Son charisme surnaturel lui permet de discuter d’égal à égal avec les plus humbles comme les plus puissant, et lui assure la loyauté de tous.
 
 A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associer à nouveau avec lui quelques semaines plus tard pour piller les Épaves de la Flotte au Trésor.
