@@ -111,24 +111,30 @@ function buildRail() {
   const railEl = document.createElement('div');
   railEl.className = 'chrono-rail';
   railEl.id = 'chrono-rail';
-  railEl.innerHTML = `
-    <svg class="chrono-mer" viewBox="0 0 ${W} 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="mer-ligne" x1="0" y1="52" x2="${W}" y2="52"/>
-      <path class="mer-vague mer-vague-1"
-        d="M0 48 Q${W*.08} 44 ${W*.16} 48 Q${W*.24} 52 ${W*.32} 48 Q${W*.40} 44 ${W*.48} 48 Q${W*.56} 52 ${W*.64} 48 Q${W*.72} 44 ${W*.80} 48 Q${W*.88} 52 ${W*.96} 48 Q${W} 44 ${W} 48"/>
-      <path class="mer-vague mer-vague-2"
-        d="M0 56 Q${W*.10} 52 ${W*.20} 56 Q${W*.30} 60 ${W*.40} 56 Q${W*.50} 52 ${W*.60} 56 Q${W*.70} 60 ${W*.80} 56 Q${W*.90} 52 ${W} 56"/>
-      <path class="mer-vague mer-vague-3"
-        d="M0 44 Q${W*.12} 40 ${W*.25} 44 Q${W*.38} 48 ${W*.50} 44 Q${W*.62} 40 ${W*.75} 44 Q${W*.88} 48 ${W} 44"/>
-    </svg>`;
   document.body.appendChild(railEl);
 
+  // Navire en premier — sera sous la mer
   const navire = document.createElement('div');
   navire.className = 'chrono-navire flottant';
   navire.id = 'chrono-navire';
   navire.innerHTML = NAVIRE_SVG;
   navire.style.left = XMIN + 'px';
   railEl.appendChild(navire);
+
+  // SVG de la mer en second — recouvrira le bas du navire
+  const merSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  merSvg.setAttribute('class', 'chrono-mer');
+  merSvg.setAttribute('viewBox', `0 0 ${W} 110`);
+  merSvg.setAttribute('preserveAspectRatio', 'none');
+  merSvg.innerHTML = `
+    <line class="mer-ligne" x1="0" y1="52" x2="${W}" y2="52"/>
+    <path class="mer-vague mer-vague-1"
+      d="M0 48 Q${W*.08} 44 ${W*.16} 48 Q${W*.24} 52 ${W*.32} 48 Q${W*.40} 44 ${W*.48} 48 Q${W*.56} 52 ${W*.64} 48 Q${W*.72} 44 ${W*.80} 48 Q${W*.88} 52 ${W*.96} 48 Q${W} 44 ${W} 48"/>
+    <path class="mer-vague mer-vague-2"
+      d="M0 56 Q${W*.10} 52 ${W*.20} 56 Q${W*.30} 60 ${W*.40} 56 Q${W*.50} 52 ${W*.60} 56 Q${W*.70} 60 ${W*.80} 56 Q${W*.90} 52 ${W} 56"/>
+    <path class="mer-vague mer-vague-3"
+      d="M0 44 Q${W*.12} 40 ${W*.25} 44 Q${W*.38} 48 ${W*.50} 44 Q${W*.62} 40 ${W*.75} 44 Q${W*.88} 48 ${W} 44"/>`;
+  railEl.appendChild(merSvg);
 }
 
 // ─── Scroll et navire ────────────────────────────────────────
