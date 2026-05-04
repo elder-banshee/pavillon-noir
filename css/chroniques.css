@@ -315,7 +315,6 @@
 
 /* Navigation par pages */
 .modal-chrono-nav {
-  position: static;
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
