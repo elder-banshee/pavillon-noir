@@ -348,8 +348,9 @@
 .modal-chrono-nav--bas {
   border-top: 1px solid var(--border);
   border-bottom: none;
-  padding: 1rem 2rem;
+  padding: 1.25rem 2rem;
   margin-top: 1rem;
+  align-items: center;
 }
 
 .chrono-nav-btn.active {
