@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pavillon Noir — Campagne</title>
+  <meta name="description" content="Site de campagne Pavillon Noir — Caraïbes, 1713–17XX.">
+  <link rel="stylesheet" href="css/pnj.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>">
+  <style>
+    /* ─── Grille de navigation ───────────────────────────────── */
+    .accueil-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 2rem 2rem;
+    }
+
+    .accueil-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .accueil-carte {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      animation: fadeIn 0.5s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .accueil-carte::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(200,151,58,0.04) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
+
+    .accueil-carte:hover::before { opacity: 1; }
+
+    .accueil-carte:not(.accueil-carte--inactive):hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,151,58,0.25);
+      border-color: rgba(200,151,58,0.5);
+    }
+
+    .accueil-carte--inactive {
+      opacity: 0.4;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .accueil-carte-icone {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      color: var(--gold);
+      opacity: 0.7;
+    }
+
+    .accueil-carte-titre {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .accueil-carte-desc {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--mist);
+      line-height: 1.55;
+    }
+
+    .accueil-carte--inactive .accueil-carte-titre::after {
+      content: ' — bientôt';
+      font-family: 'IM Fell English', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: var(--mist);
+      text-transform: none;
+    }
+
+    /* ─── Prochaine session ──────────────────────────────────── */
+    .accueil-session {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 2rem 0 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .accueil-session-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .accueil-session-date {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--mist);
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .accueil-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a class="nav-brand" href="index.html">Pavillon <span>Noir</span></a>
+    <ul class="nav-links">
+      <li><a href="pnj.html">Personnalités</a></li>
+      <li><a href="equipage.html">Équipage</a></li>
+      <li><a href="chroniques.html">Journal de bord</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <header class="hero">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Caraïbes · 1713–17XX</p>
+        <h1 class="hero-title">Pavillon <em>Noir</em></h1>
+        <div class="hero-divider">
+          <span class="hero-divider-icon">☠</span>
+        </div>
+        <p class="hero-subtitle">Campagne de jeu de rôle</p>
+      </div>
+    </header>
+
+    <section class="accueil-section">
+
+      <div class="accueil-grid">
+
+        <a class="accueil-carte" href="pnj.html" style="animation-delay: 0.1s">
+          <div class="accueil-carte-icone">☽</div>
+          <div class="accueil-carte-titre">Personnalités notables</div>
+          <p class="accueil-carte-desc">Les figures rencontrées au fil de la campagne</p>
+        </a>
+
+        <a class="accueil-carte" href="equipage.html" style="animation-delay: 0.2s">
+          <div class="accueil-carte-icone">⚓</div>
+          <div class="accueil-carte-titre">Équipage</div>
+          <p class="accueil-carte-desc">État du bord du Cúchulainn</p>
+        </a>
+
+        <div class="accueil-carte accueil-carte--inactive" style="animation-delay: 0.3s">
+          <div class="accueil-carte-icone">✦</div>
+          <div class="accueil-carte-titre">Journal de bord</div>
+          <p class="accueil-carte-desc">Le fil des aventures, de l'île des Ombres à ce jour</p>
+        </div>
+
+      </div>
+
+      <div class="accueil-session">
+        <span class="accueil-session-label">Prochaine session</span>
+        <span class="accueil-session-date">Indéterminée</span>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Pavillon Noir &mdash; Campagne de jeu de rôle &mdash; Votre MJ est génial &mdash; ...et Claude m'a un peu aidé</p>
+  </footer>
+
+  <script src="js/audio.js"></script>
+  <script>audioInit(null);</script>
+
+</body>
+</html>
