@@ -321,7 +321,6 @@
   gap: 0.4rem;
   padding: 1rem 2rem 0;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 1rem;
   justify-content: flex-start;
 }
 
