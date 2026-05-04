@@ -177,20 +177,15 @@ function buildCard(pnj, index, epingle = false) {
            <clipPath id="flag-clip-${pnj.id}">
              <path d="M898.35 1c87.83 0 166.26 8.55 239.71 26.14v758.65c-73.48-17.55-151.9-26.08-239.71-26.08-109.66 0-221.14 13.4-328.94 26.36-107.74 12.95-219.16 26.34-328.7 26.34-87.83 0-166.26-8.55-239.71-26.14V27.62C74.48 45.17 152.9 53.7 240.71 53.7c109.66 0 221.13-13.4 328.94-26.36C677.39 14.39 788.8 1 898.35 1"/>
            </clipPath>
-           <filter id="flag-shadow-${pnj.id}" x="-10%" y="-10%" width="120%" height="120%">
-             <feDropShadow dx="-3" dy="2" stdDeviation="3" flood-color="#c8973a" flood-opacity="0.4"/>
-           </filter>
            <linearGradient id="flag-shine-${pnj.id}" x1="0%" y1="0%" x2="100%" y2="100%">
              <stop offset="0%" stop-color="white" stop-opacity="0.1"/>
              <stop offset="45%" stop-color="white" stop-opacity="0"/>
              <stop offset="100%" stop-color="black" stop-opacity="0.25"/>
            </linearGradient>
          </defs>
-         <g filter="url(#flag-shadow-${pnj.id})">
          <image href="${pnj.pavillon}" x="0" y="0" width="1139.06" height="813.41"
            preserveAspectRatio="xMidYMid slice"
            clip-path="url(#flag-clip-${pnj.id})"/>
-         </g>
          <rect x="0" y="0" width="1139.06" height="813.41"
            clip-path="url(#flag-clip-${pnj.id})"
            fill="url(#flag-shine-${pnj.id})"/>  
