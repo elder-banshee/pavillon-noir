@@ -330,8 +330,8 @@
   font-size: 0.58rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--mist);
-  border: 1px solid rgba(200,151,58,0.2);
+  color: var(--gold);
+  border: 1px solid rgba(200,151,58,0.3);
   padding: 0.35rem 0.75rem;
   background: none;
   cursor: pointer;
