@@ -17,28 +17,19 @@ const COMPETENCES = [
 
 // ─── Barre de compétence (échelle 0–5, cas spécial 6+) ───────
 function buildStatBar(val) {
-  const MAX_NORMAL = 5;
-  let revealPct, transitionPct;
+  const clampedVal = Math.max(0.1, Math.min(val, 5));
+  const widthPct   = (clampedVal / 5) * 100;
+  const bgSizePct  = (5 / clampedVal) * 100;
 
-  if (val <= MAX_NORMAL) {
-    revealPct     = Math.round((val / MAX_NORMAL) * 100);
-    transitionPct = 65;
-  } else {
-    revealPct     = 100;
-    transitionPct = Math.max(0, 65 - (val - MAX_NORMAL) * 10);
-  }
+  const gradient = `linear-gradient(90deg,
+    var(--sea) 0%,
+    var(--sea-light) 30%,
+    #9a7a28 50%,
+    var(--gold) 70%,
+    var(--gold-light) 100%)`;
 
-  const t = transitionPct;
-  const gradient = 'linear-gradient(90deg,' +
-    '#1a3a52 0%,' +
-    'var(--sea-light) ' + (t * 0.5) + '%,' +
-    '#9a7a28 ' + t + '%,' +
-    'var(--gold) ' + Math.min(t + 20, 100) + '%)';
-  
   return `
-    <div class="stat-bar" style="background:${gradient}">
-      <div class="stat-bar-reveal" data-target="${revealPct}" style="width:0%"></div>
-    </div>`;
+    <div class="stat-fill" style="width:${widthPct.toFixed(1)}%;background:${gradient};background-size:${bgSizePct.toFixed(1)}% 100%;background-repeat:no-repeat;"></div>`;
 }
 
 // ─── Barre de composition (échelle 0–100%) ────────────────────
