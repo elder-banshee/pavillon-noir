@@ -74,7 +74,12 @@ function renderCartes() {
       const carteEl = piste.querySelector('.chrono-carte');
       const carteH  = carteEl ? carteEl.offsetHeight : 0;
       const vh      = window.innerHeight;
-      wrap.style.height = piste.offsetHeight + 'px';
+      wrap.style.height = (piste.offsetHeight) + 'px';
+      
+      const spacer = document.createElement('div');
+      spacer.style.height = Math.max(110, Math.round((vh - carteH) / 2)) + 'px';
+      spacer.style.pointerEvents = 'none';
+      wrap.parentNode.insertAfter(spacer, wrap);
     }
   });
 
