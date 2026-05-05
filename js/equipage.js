@@ -17,21 +17,46 @@ const COMPETENCES = [
 
 // ─── Barre de compétence (échelle 0–5, cas spécial 6+) ───────
 function buildStatBar(val) {
-  const clampedVal = Math.max(0.1, Math.min(val, 5));
-  const widthPct   = (clampedVal / 5) * 100;
-  const bgSizePct  = (5 / clampedVal) * 100;
+  let gradient;
 
-  const gradient = `linear-gradient(90deg,
-    var(--sea) 0%,
-    var(--sea-light) 40%,
-    #9a7a28 65%,
-    var(--gold) 80%,
-    var(--gold-light) 100%)`;
+  if (val <= 5) {
+    const clampedVal = Math.max(0.1, val);
+    const widthPct   = (clampedVal / 5) * 100;
+    const bgSizePct  = (5 / clampedVal) * 100;
 
-  return `
-    <div class="stat-bar">
-      <div class="stat-fill" style="width:${widthPct.toFixed(1)}%;background:${gradient};background-size:${bgSizePct.toFixed(1)}% 100%;background-repeat:no-repeat;"></div>
-    </div>`;
+    gradient = `linear-gradient(90deg,
+      var(--sea) 0%,
+      var(--sea-light) 40%,
+      #9a7a28 65%,
+      var(--gold) 80%,
+      var(--gold-light) 100%)`;
+
+    return `
+      <div class="stat-bar">
+        <div class="stat-fill" style="width:${widthPct.toFixed(1)}%;background:${gradient};background-size:${bgSizePct.toFixed(1)}% 100%;background-repeat:no-repeat;"></div>
+      </div>`;
+
+  } else {
+    const excess  = Math.min(val - 5, 5); // au-delà de 10, plafonné
+    const shift   = excess * 10;          // décalage en %
+
+    const p1 = Math.max(0,        0  - shift);
+    const p2 = Math.max(0,       40  - shift);
+    const p3 = Math.max(0,       65  - shift);
+    const p4 = Math.max(0,       80  - shift);
+
+    gradient = `linear-gradient(90deg,
+      var(--sea) ${p1}%,
+      var(--sea-light) ${p2}%,
+      #9a7a28 ${p3}%,
+      var(--gold) ${p4}%,
+      var(--gold-light) 100%)`;
+
+    return `
+      <div class="stat-bar">
+        <div class="stat-fill" style="width:100%;background:${gradient};background-repeat:no-repeat;"></div>
+      </div>`;
+  }
 }
 
 // ─── Barre de composition (échelle 0–100%) ────────────────────
