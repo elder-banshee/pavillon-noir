@@ -80,6 +80,7 @@ function renderCartes() {
       spacer.style.height = Math.max(110, Math.round((vh - carteH) / 2)) + 'px';
       spacer.style.pointerEvents = 'none';
       spacer.style.flexShrink = '0';
+      spacer.style.background = 'red';
       wrap.insertAdjacentElement('afterend', spacer);
     }
   });
