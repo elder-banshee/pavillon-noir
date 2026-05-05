@@ -538,4 +538,8 @@ footer {
   #mob-nav-top {
     color: var(--gold) !important;
   }
+
+  #mob-nav-links li:last-child {
+    border-top: 3px double rgba(200,151,58,0.3);
+  }
 }
