@@ -423,3 +423,113 @@ footer {
 @media (max-width: 640px) {
   .site-nav { display: none; }
 }
+
+/* ─── Navigation mobile flottante ──────────────────────────── */
+#mob-nav-wrapper {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  #mob-nav-wrapper {
+    display: block;
+    position: fixed;
+    bottom: 2rem;
+    right: 1.5rem;
+    z-index: 300;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  #mob-nav-wrapper.mob-nav--visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Bouton principal */
+  #mob-nav-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-left: auto;
+  }
+
+  #mob-nav-wrapper.mob-nav--open #mob-nav-btn {
+    border-color: var(--gold);
+    box-shadow: 0 4px 24px rgba(200,151,58,0.25);
+  }
+
+  /* Panneau */
+  #mob-nav-panel {
+    position: absolute;
+    bottom: calc(100% + 0.75rem);
+    right: 0;
+    background: linear-gradient(160deg, #141009 0%, #0e0c09 100%);
+    border: 1px solid var(--border);
+    padding: 0.5rem 0;
+    min-width: 180px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    transform: translateY(8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  #mob-nav-wrapper.mob-nav--open #mob-nav-panel {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  /* Liens du panneau */
+  #mob-nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #mob-nav-links li {
+    border-bottom: 1px solid rgba(200,151,58,0.08);
+  }
+
+  #mob-nav-links li:last-child {
+    border-bottom: none;
+  }
+
+  #mob-nav-links a,
+  #mob-nav-links button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1.25rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mist);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  #mob-nav-links a:hover,
+  #mob-nav-links button:hover {
+    color: var(--gold-light);
+  }
+
+  #mob-nav-top {
+    color: var(--gold) !important;
+  }
+}
