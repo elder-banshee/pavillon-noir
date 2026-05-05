@@ -2,6 +2,10 @@
    CHRONIQUES — scroll horizontal + rail marin
    ═══════════════════════════════════════════════════════════ */
 
+.hero {
+   padding-bottom: 3rem;
+}
+
 /* ─── Layout page ───────────────────────────────────────────── */
 #chroniques {
   padding: 0;
