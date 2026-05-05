@@ -23,9 +23,9 @@ function buildStatBar(val) {
 
   const gradient = `linear-gradient(90deg,
     var(--sea) 0%,
-    var(--sea-light) 30%,
-    #9a7a28 50%,
-    var(--gold) 70%,
+    var(--sea-light) 40%,
+    #9a7a28 65%,
+    var(--gold) 80%,
     var(--gold-light) 100%)`;
 
   return `
@@ -79,11 +79,6 @@ async function loadAll() {
           `;
           grid.appendChild(block);
         });
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          grid.querySelectorAll('.stat-bar-reveal').forEach(b => {
-            b.style.width = (100 - parseInt(b.dataset.target)) + '%';
-          });
-        }));
       } else {
         grid.innerHTML = `<div class="stat-loading">Format inattendu.</div>`;
       }
