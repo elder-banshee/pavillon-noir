@@ -21,9 +21,10 @@
   wrapper.innerHTML = `
     <div id="mob-nav-panel" aria-hidden="true">
       <ul id="mob-nav-links">
-        ${NAV_LINKS.map(l =>
-          `<li><a href="${l.href}">${l.label}</a></li>`
-        ).join('')}
+        ${NAV_LINKS.map(l => {
+            const isActive = window.location.pathname.endsWith(l.href);
+            return `<li><a href="${l.href}"${isActive ? ' class="mob-nav--active"' : ''}>${l.label}</a></li>`;
+        }).join('')}
         <li><button id="mob-nav-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button></li>
       </ul>
     </div>
