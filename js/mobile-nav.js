@@ -5,12 +5,16 @@
 (function () {
 
   if (window.innerWidth > 640) return;
+  if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') return;
 
   const NAV_LINKS = [
     { label: 'Accueil',      href: 'index.html'    },
     { label: 'Registre',     href: 'pnj.html'      },
     { label: 'Équipage',     href: 'equipage.html' },
   ];
+
+  const ICON_CLOSED = '⚓';  // remplacer par SVG coffre fermé
+  const ICON_OPEN   = '⛵';  // remplacer par SVG coffre ouvert
 
   const wrapper = document.createElement('div');
   wrapper.id = 'mob-nav-wrapper';
@@ -24,7 +28,7 @@
       </ul>
     </div>
     <button id="mob-nav-btn" aria-label="Navigation" aria-expanded="false">
-      <span id="mob-nav-icon">⚓</span>
+      <span id="mob-nav-icon">${ICON_CLOSED}</span>
     </button>
   `;
   document.body.appendChild(wrapper);
@@ -40,6 +44,7 @@
     btn.setAttribute('aria-expanded', open);
     panel.setAttribute('aria-hidden', !open);
     wrapper.classList.toggle('mob-nav--open', open);
+    document.getElementById('mob-nav-icon').innerHTML = open ? ICON_OPEN : ICON_CLOSED;
     // Panneau ouvert : annule le timer de disparition
     if (open) cancelHide();
   });
