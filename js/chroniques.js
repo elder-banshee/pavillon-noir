@@ -81,11 +81,8 @@ function renderCartes() {
     spacer.style.pointerEvents = 'none';
     spacer.style.flexShrink = '0';
     spacer.style.flexBasis = '100%';
-    spacer.style.background = 'red';
     const outer = document.querySelector('.chrono-piste-outer');
     outer.insertAdjacentElement('afterend', spacer);
-    console.log('spacer inséré :', spacer);
-    console.log('parent du spacer :', spacer.parentNode);
     }
   });
 
