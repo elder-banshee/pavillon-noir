@@ -29,7 +29,9 @@ function buildStatBar(val) {
     var(--gold-light) 100%)`;
 
   return `
-    <div class="stat-fill" style="width:${widthPct.toFixed(1)}%;background:${gradient};background-size:${bgSizePct.toFixed(1)}% 100%;background-repeat:no-repeat;"></div>`;
+    <div class="stat-bar">
+      <div class="stat-fill" style="width:${widthPct.toFixed(1)}%;background:${gradient};background-size:${bgSizePct.toFixed(1)}% 100%;background-repeat:no-repeat;"></div>
+    </div>`;
 }
 
 // ─── Barre de composition (échelle 0–100%) ────────────────────
