@@ -79,7 +79,7 @@ function renderCartes() {
       const spacer = document.createElement('div');
       spacer.style.height = Math.max(110, Math.round((vh - carteH) / 2)) + 'px';
       spacer.style.pointerEvents = 'none';
-      wrap.parentNode.insertAfter(spacer, wrap);
+      wrap.insertAdjacentElement('afterend', spacer);
     }
   });
 
