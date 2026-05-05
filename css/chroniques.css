@@ -18,7 +18,7 @@
 /* ─── Piste de défilement ───────────────────────────────────── */
 .chrono-piste-wrap {
   width: 78%;
-  max-width: 1400px;
+  max-width: 1200px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
@@ -31,7 +31,7 @@
 .chrono-piste {
   display: flex;
   gap: 1.5rem;
-  padding: 3rem calc(50% - 240px) 2rem;
+  padding: 0 calc(50% - 240px) 0;
   width: max-content;
   cursor: grab;
   user-select: none;
