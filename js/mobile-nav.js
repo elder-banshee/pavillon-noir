@@ -33,12 +33,15 @@
   const panel = document.getElementById('mob-nav-panel');
   let   open  = false;
 
+  // ─── Toggle panneau ───────────────────────────────────────
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
     open = !open;
     btn.setAttribute('aria-expanded', open);
     panel.setAttribute('aria-hidden', !open);
     wrapper.classList.toggle('mob-nav--open', open);
+    // Panneau ouvert : annule le timer de disparition
+    if (open) cancelHide();
   });
 
   document.addEventListener('click', (e) => {
@@ -47,26 +50,67 @@
       btn.setAttribute('aria-expanded', false);
       panel.setAttribute('aria-hidden', true);
       wrapper.classList.remove('mob-nav--open');
+      // Panneau fermé : relance le timer
+      scheduleHide();
     }
   });
 
-  const SCROLL_THRESHOLD = 200;
+  // ─── Logique d'apparition / disparition ──────────────────
+  const SCROLL_INITIAL  = 200;   // seuil première apparition (px depuis le haut)
+  const SCROLL_DELTA    = 150;   // déplacement pour réapparition (px)
+  const HIDE_DELAY      = 3000;  // délai avant disparition (ms)
+
+  let hideTimer      = null;
+  let lastScrollY    = window.scrollY;
+  let scrolledSince  = 0;       // cumul de déplacement depuis dernière apparition
+  let everShown      = false;   // a-t-on déjà montré le bouton ?
+
+  function show() {
+    wrapper.classList.add('mob-nav--visible');
+    scrolledSince = 0;
+    if (!open) scheduleHide();
+  }
+
+  function hide() {
+    if (open) return; // ne pas cacher si panneau déployé
+    wrapper.classList.remove('mob-nav--visible');
+    // Referme le panneau au cas où
+    open = false;
+    btn.setAttribute('aria-expanded', false);
+    panel.setAttribute('aria-hidden', true);
+    wrapper.classList.remove('mob-nav--open');
+  }
+
+  function scheduleHide() {
+    cancelHide();
+    hideTimer = setTimeout(hide, HIDE_DELAY);
+  }
+
+  function cancelHide() {
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+  }
 
   function onScroll() {
-    if (window.scrollY > SCROLL_THRESHOLD) {
-      wrapper.classList.add('mob-nav--visible');
-    } else {
-      wrapper.classList.remove('mob-nav--visible');
-      if (open) {
-        open = false;
-        btn.setAttribute('aria-expanded', false);
-        panel.setAttribute('aria-hidden', true);
-        wrapper.classList.remove('mob-nav--open');
+    const current = window.scrollY;
+    const delta   = Math.abs(current - lastScrollY);
+    lastScrollY   = current;
+
+    // Première apparition : seuil de position absolue
+    if (!everShown && current > SCROLL_INITIAL) {
+      everShown = true;
+      show();
+      return;
+    }
+
+    // Réapparition : cumul de déplacement depuis la dernière apparition
+    if (everShown) {
+      scrolledSince += delta;
+      if (scrolledSince >= SCROLL_DELTA) {
+        show(); // réinitialise scrolledSince et relance le timer
       }
     }
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 
 })();
