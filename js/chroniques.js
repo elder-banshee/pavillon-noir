@@ -79,7 +79,6 @@ function renderCartes() {
     const spacer = document.createElement('div');
     spacer.style.height = Math.max(110, Math.round((vh - carteH) / 2)) + 'px';
     spacer.style.pointerEvents = 'none';
-    spacer.style.flexShrink = '0';
     spacer.style.flexBasis = '100%';
     const outer = document.querySelector('.chrono-piste-outer');
     outer.insertAdjacentElement('afterend', spacer);
