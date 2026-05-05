@@ -82,6 +82,8 @@ function renderCartes() {
       spacer.style.flexShrink = '0';
       spacer.style.background = 'red';
       wrap.insertAdjacentElement('afterend', spacer);
+      console.log('spacer inséré :', spacer);
+      console.log('parent du spacer :', spacer.parentNode);
     }
   });
 
