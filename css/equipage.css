@@ -228,7 +228,6 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mist);
-  white-space: nowrap;
 }
 
 .crew-tooltip-val {
@@ -439,4 +438,13 @@
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .org-node { min-width: 120px; }
   .card-hint { display: none; }
+}
+
+@media (max-width: 640px) {
+  .crew-tooltip {
+    grid-template-columns: repeat(3, 68px);
+    left: 0;
+    bottom: calc(100% + 6px);
+    white-space: normal;
+  }
 }

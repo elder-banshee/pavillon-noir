@@ -434,7 +434,7 @@ footer {
     display: block;
     position: fixed;
     bottom: 2rem;
-    left: calc(100vw - 52px - 1.5rem);
+    right: 1.5rem;
     z-index: 300;
     opacity: 0;
     pointer-events: none;
