@@ -450,23 +450,23 @@ footer {
   #mob-nav-btn {
     width: 52px;
     height: 52px;
-    border-radius: 50%;
+    /* border-radius: 50%; */
     background: var(--ink);
-    border: 1px solid var(--border);
+    /* border: 1px solid var(--border); */
     color: var(--gold);
     font-size: 1.4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    /* box-shadow: 0 4px 20px rgba(0,0,0,0.6); */
     transition: border-color 0.2s, box-shadow 0.2s;
     margin-left: auto;
   }
 
   #mob-nav-wrapper.mob-nav--open #mob-nav-btn {
-    border-color: var(--gold);
-    box-shadow: 0 4px 24px rgba(200,151,58,0.25);
+    /* border-color: var(--gold); */
+    /* box-shadow: 0 4px 24px rgba(200,151,58,0.25); */
   }
 
   /* Panneau */
