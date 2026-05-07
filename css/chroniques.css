@@ -465,11 +465,16 @@
 
 /* ─── Responsive mobile ─────────────────────────────────────── */
 @media (max-width: 700px) {
-  .chrono-piste { padding: 2rem 1.5rem 1.5rem; gap: 1rem; }
+  .chrono-piste { padding: 2rem 1rem 1.5rem; }
   .chrono-carte { width: 85vw; }
   .chrono-navire { pointer-events: none; cursor: default; }
   .chrono-navire.flottant { animation: none; }
-
+  .chrono-piste-wrap {
+   width: 100%;
+   -webkit-mask-image: none;
+   mask-image: none;
+  }
+  
 /* ─── Modal mobile ───────────────────────────────────────── */
   .modal-overlay { padding: 0; align-items: flex-end; }
   .modal--chronique {
