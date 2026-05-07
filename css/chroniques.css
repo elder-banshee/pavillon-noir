@@ -475,10 +475,18 @@
    mask-image: none;
   }
    .chrono-meta-lire {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+   .chrono-meta {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    width: 100%;
   }
   .chrono-lire {
-    margin-left: auto;
+    align-self: flex-end;
   }
   
 /* ─── Modal mobile ───────────────────────────────────────── */
