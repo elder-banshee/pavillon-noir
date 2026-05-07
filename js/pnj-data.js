@@ -125,7 +125,7 @@ const PNJ_DATA = [
     statut: "actif",
     naissance: "vers 1682",
     origine: "Anglais",
-    tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Flying Gang", "Les épaves de la Flotte au Trésor"],
+    tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/rackham.jpg",
     pavillon: "pnj/pavillons/jennings.svg",
     bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les aventuriers, quoique limitées, ont toujours été cordiales.
