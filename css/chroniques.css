@@ -465,31 +465,45 @@
 
 /* ─── Responsive mobile ─────────────────────────────────────── */
 @media (max-width: 700px) {
-  .chrono-piste { padding: 2rem 1rem 1.5rem; }
-  .chrono-carte { width: 85vw; }
-  .chrono-navire { pointer-events: none; cursor: default; }
-  .chrono-navire.flottant { animation: none; }
+
+  /* ─── Piste ─────────────────────────────────────────────── */
   .chrono-piste-wrap {
-   width: 100%;
-   -webkit-mask-image: none;
-   mask-image: none;
+    width: 100%;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
-   .chrono-meta-lire {
+  .chrono-piste { padding: 2rem 1rem 1.5rem; }
+
+  /* ─── Carte ─────────────────────────────────────────────── */
+  .chrono-carte {
+    width: 85vw;
+    display: flex;
+    flex-direction: column;
+  }
+  .chrono-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1rem 1rem 1rem;
+  }
+  .chrono-extrait { margin-bottom: 0.75rem; }
+
+  /* ─── Métadonnées + bouton lire ──────────────────────────── */
+  .chrono-meta-lire {
     flex-direction: column;
     align-items: flex-end;
     gap: 0.5rem;
+    margin-top: auto;
   }
-   .chrono-meta {
+  .chrono-meta {
     display: grid;
     grid-template-columns: repeat(3, auto);
     justify-content: center;
     width: 100%;
   }
-  .chrono-lire {
-    align-self: flex-end;
-  }
-  
-/* ─── Modal mobile ───────────────────────────────────────── */
+  .chrono-lire { align-self: flex-end; }
+
+  /* ─── Modal ──────────────────────────────────────────────── */
   .modal-overlay { padding: 0; align-items: flex-end; }
   .modal--chronique {
     max-width: 100%;
