@@ -9,6 +9,7 @@ const CHRONIQUES = [
     titre: "L'Île des Ombres",
     date_campagne: "Avril 1713",
     illustration: "chroniques/covers/île_des_ombres.jpg",
+    align: 50,
     piste: "ost/ile-des-ombres.mp3",
     extrait: "Une île sans nom, des soldats espagnols et des Indiens Bravos tapis dans la forêt. Le premier écart entre ce qu'on cherchait et ce qu'on a trouvé.",
     meta: {
@@ -33,6 +34,7 @@ const CHRONIQUES = [
     titre: "Satiété engendre Démesure",
     date_campagne: "Janvier 1714",
     illustration: "chroniques/covers/sed.jpg",
+    align: 50,
     piste: "ost/sed.mp3",
     extrait: "Une improbable succession de festins culminant par un banquet à Cap-Français, deux gardes du corps d'un agent britannique, et une délégation espagnole empoisonnée.",
     meta: {
@@ -53,6 +55,7 @@ const CHRONIQUES = [
     titre: "Le dernier voyage de l'Hippogriffe",
     date_campagne: "Septembre—Décembre 1715",
     illustration: "chroniques/covers/hippogriffe.jpg",
+    align: 50,
     piste: "ost/hippogriffe.mp3",
     extrait: "Un naufrage providentiel, un cadavre aux plats d'or précolombiens, et la Flotte au Trésor quelque part sous les eaux. Il suffisait d'y arriver les premiers.",
     meta: {
@@ -73,6 +76,7 @@ const CHRONIQUES = [
     titre: "La prise de la Marianne",
     date_campagne: "Décembre 1715",
     illustration: "chroniques/covers/marianne.jpg",
+    align: 55,
     piste: "ost/marianne.mp3",
     extrait: "La frégate française Marianne, trente-deux canons, prise par audace sous le nez de Jennings. Le massacre qui a suivi ne figurera dans aucune chanson.",
     meta: {
@@ -93,6 +97,7 @@ const CHRONIQUES = [
     titre: "Les épaves de la Flotte au Trésor",
     date_campagne: "Janvier 1716",
     illustration: "chroniques/covers/epaves.jpg",
+    align: 65,
     piste: "ost/epaves.mp3",
     extrait: "Huit millions de pièces de huit gisaient entre ciel et fond. Ils en ont remonté quatre-vingt mille. Un tiens vaut mieux que deux tu l'auras.",
     meta: {
@@ -113,6 +118,7 @@ const CHRONIQUES = [
     titre: "Courses à Trinidad",
     date_campagne: "Février 1716",
     illustration: "chroniques/covers/en-cours.jpg",
+    align: 50,
     piste: "ost/courses-trinidad.mp3",
     extrait: "",
     meta: {

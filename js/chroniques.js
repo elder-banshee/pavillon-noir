@@ -42,7 +42,7 @@ function renderCartes() {
 
     const illustrationHtml = c.illustration
       ? `<img class="chrono-illustration" src="${c.illustration}" alt="${c.titre}" loading="lazy" draggable="false">`
-      : `<div class="chrono-illustration-placeholder">\u2620</div>`;
+      : `<img class="chrono-illustration" src="chroniques/covers/en_cours.jpg" alt="Illustration à venir" loading="lazy" draggable="false">`;
 
     return `
       <div class="chrono-carte" data-id="${c.id}" style="animation-delay:${i * 0.08}s">
@@ -302,8 +302,8 @@ const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
          </div>`;
 
     const bannerHtml = c.illustration
-      ? `<img class="modal-chrono-banner" src="${c.illustration}" alt="${c.titre}">`
-      : `<div class="modal-chrono-banner-placeholder">☠</div>`;
+      ? `<img class="modal-chrono-banner" src="${c.illustration}" alt="${c.titre}" style="object-position: center ${c.align ?? 50}%;">`
+      : `<img class="modal-chrono-banner" src="chroniques/covers/en_cours.jpg" alt="Illustration à venir" style="object-position: center 50%;">`;
 
     const resumeHtml = c.extrait
       ? `<p class="modal-chrono-resume">${c.extrait}</p>`
