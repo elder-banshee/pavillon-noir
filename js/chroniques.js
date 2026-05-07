@@ -32,18 +32,15 @@ function renderCartes() {
       { label: 'Pertes',      val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : null },
     ].filter(m => m.val !== null);
 
-    const metaHtml = metaItems.length
-      ? `<div class="chrono-meta-lire">
-          <div class="chrono-meta">${metaItems.map(m =>
+const metaHtml = metaItems.length
+      ? `<div class="chrono-meta">
+          ${metaItems.map(m =>
             `<div class="chrono-meta-item">
               <span class="chrono-meta-label">${m.label}</span>
               <span class="chrono-meta-val">${m.val}</span>
-            </div>`).join('')}</div>
-          <button class="chrono-lire" data-id="${c.id}">Lire \u2192</button>
+            </div>`).join('')}
         </div>`
-      : `<div class="chrono-meta-lire"><div></div>
-          <button class="chrono-lire" data-id="${c.id}">Lire \u2192</button>
-        </div>`;
+      : '';
 
     const illustrationHtml = c.illustration
       ? `<img class="chrono-illustration" src="${c.illustration}" alt="${c.titre}" loading="lazy" draggable="false">`
@@ -87,12 +84,6 @@ function renderCartes() {
     }
   });
 
-  section.querySelectorAll('.chrono-carte').forEach(el => {
-    el.addEventListener('click', () => {
-      const c = CHRONIQUES.find(c => c.id === el.dataset.id);
-      if (c) openModal(c);
-    });
-  });
   section.querySelectorAll('.chrono-lire').forEach(el => {
     el.addEventListener('click', e => {
       e.stopPropagation();
