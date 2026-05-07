@@ -21,9 +21,9 @@ function buildTagFilters() {
   const priority = [
     'Caraïbes', 'Europe',
     'Nassau', 'Trinidad', 'Saint-Domingue', 'Jamaïque', 'Kingston', 'The Pirate Round',
-    'Flying Gang', 'Équipage du Captain Charles Johnson',
+    'Conseil de Nassau', 'Flying Gang', 'Équipage du Captain Charles Johnson',
     'L\'Île des Ombres', 'Satiété engendre Démesure', 'Le dernier voyage de l\'Hippogriffe', 'La Marianne', 'Les épaves de la Flotte au Trésor',
-    'Antonio', 'Robert', 'Fanch', 'Edward', 'Dusmatis'
+    'Amédée', 'Antonio', 'Bertrand', 'Dusmatis', 'Edward', 'Fanch', 'Jérémy', 'La Barrique', 'Luca', 'Robert', 'William'
   ];
 
   const sorted = [
