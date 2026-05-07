@@ -8,7 +8,7 @@ const CHRONIQUES = [
     numero: "Scénario I",
     titre: "L'Île des Ombres",
     date_campagne: "Avril 1713",
-    illustration: "chroniques/covers/en-cours.jpg",
+    illustration: "chroniques/covers/île_des_ombres.jpg",
     piste: "ost/ile-des-ombres.mp3",
     extrait: "Une île sans nom, des ruines espagnoles et des Indiens Bravos tapis dans la forêt. Le premier écart entre ce qu'on cherchait et ce qu'on a trouvé.",
     meta: {
@@ -32,7 +32,7 @@ const CHRONIQUES = [
     numero: "Scénario II",
     titre: "Satiété engendre Démesure",
     date_campagne: "Janvier 1714",
-    illustration: "chroniques/covers/en-cours.jpg",
+    illustration: "chroniques/covers/sed.jpg",
     piste: "ost/sed.mp3",
     extrait: "Un banquet à Cap-Français, une délégation espagnole empoisonnée, et deux recrues involontaires comme gardes du corps d'un agent britannique.",
     meta: {
