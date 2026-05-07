@@ -90,6 +90,7 @@ const metaHtml = metaItems.length
       if (c) openModal(c);
     });
   });
+}
 
 // ─── Rail marin ──────────────────────────────────────────────
 function getRailBounds() {
