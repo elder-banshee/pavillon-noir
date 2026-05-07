@@ -76,7 +76,7 @@ const CHRONIQUES = [
     titre: "La prise de la Marianne",
     date_campagne: "Décembre 1715",
     illustration: "chroniques/covers/marianne.jpg",
-    align: 55,
+    align: 45,
     piste: "ost/marianne.mp3",
     extrait: "La frégate française Marianne, trente-deux canons, prise par audace sous le nez de Jennings. Le massacre qui a suivi ne figurera dans aucune chanson.",
     meta: {
@@ -97,7 +97,7 @@ const CHRONIQUES = [
     titre: "Les épaves de la Flotte au Trésor",
     date_campagne: "Janvier 1716",
     illustration: "chroniques/covers/epaves.jpg",
-    align: 65,
+    align: 35,
     piste: "ost/epaves.mp3",
     extrait: "Huit millions de pièces de huit gisaient entre ciel et fond. Ils en ont remonté quatre-vingt mille. Un tiens vaut mieux que deux tu l'auras.",
     meta: {
