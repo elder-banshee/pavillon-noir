@@ -366,7 +366,7 @@
 
 .modal-chrono-banner {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center;
   display: block;
@@ -461,6 +461,11 @@
   text-transform: uppercase;
   color: var(--gold);
   margin: 2em 0 0.8em;
+}
+
+.chrono-meta-item--vide,
+.modal-chrono-meta-item--vide {
+  opacity: 0.3;
 }
 
 /* ─── Responsive mobile ─────────────────────────────────────── */

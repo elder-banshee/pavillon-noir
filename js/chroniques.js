@@ -30,17 +30,15 @@ function renderCartes() {
       { label: 'Pi\u00e8ces de 8', val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
       { label: 'Recrues',     val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : null },
       { label: 'Pertes',      val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : null },
-    ].filter(m => m.val !== null);
+    ];
 
-const metaHtml = metaItems.length
-      ? `<div class="chrono-meta">
+  metaHtml = `<div class="chrono-meta">
           ${metaItems.map(m =>
-            `<div class="chrono-meta-item">
+            `<div class="chrono-meta-item${m.val === null ? ' chrono-meta-item--vide' : ''}">
               <span class="chrono-meta-label">${m.label}</span>
-              <span class="chrono-meta-val">${m.val}</span>
+              <span class="chrono-meta-val">${m.val !== null ? m.val : '—'}</span>
             </div>`).join('')}
-        </div>`
-      : '';
+        </div>`;
 
     const illustrationHtml = c.illustration
       ? `<img class="chrono-illustration" src="${c.illustration}" alt="${c.titre}" loading="lazy" draggable="false">`
@@ -290,20 +288,18 @@ const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
       { label: 'XP',            val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : null },
       { label: 'Gloire',        val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : null },
       { label: 'Infamie',       val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : null },
-      { label: 'Pièces de 8',   val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
+      { label: 'Pièces de huit',   val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
       { label: 'Recrues',       val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : null },
       { label: 'Pertes',        val: c.meta.pertes      > 0 ? '−' + c.meta.pertes             : null },
-    ].filter(m => m.val !== null);
+    ];
 
-    const metaHtml = metaItems.length
-      ? `<div class="modal-chrono-meta">
+    const metaHtml = `<div class="modal-chrono-meta">
           ${metaItems.map(m => `
-            <div class="modal-chrono-meta-item">
+            <div class="modal-chrono-meta-item${m.val === null ? ' modal-chrono-meta-item--vide' : ''}">
               <span class="modal-chrono-meta-label">${m.label}</span>
-              <span class="modal-chrono-meta-val">${m.val}</span>
+              <span class="modal-chrono-meta-val">${m.val !== null ? m.val : '—'}</span>
             </div>`).join('')}
-         </div>`
-      : '';
+         </div>`;
 
     const bannerHtml = c.illustration
       ? `<img class="modal-chrono-banner" src="${c.illustration}" alt="${c.titre}">`
