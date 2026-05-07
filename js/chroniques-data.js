@@ -76,7 +76,7 @@ const CHRONIQUES = [
     titre: "La prise de la Marianne",
     date_campagne: "Décembre 1715",
     illustration: "chroniques/covers/marianne.jpg",
-    align: 45,
+    align: 40,
     piste: "ost/marianne.mp3",
     extrait: "La frégate française Marianne, trente-deux canons, prise par audace sous le nez de Jennings. Le massacre qui a suivi ne figurera dans aucune chanson.",
     meta: {
@@ -97,7 +97,7 @@ const CHRONIQUES = [
     titre: "Les épaves de la Flotte au Trésor",
     date_campagne: "Janvier 1716",
     illustration: "chroniques/covers/epaves.jpg",
-    align: 35,
+    align: 30,
     piste: "ost/epaves.mp3",
     extrait: "Huit millions de pièces de huit gisaient entre ciel et fond. Ils en ont remonté quatre-vingt mille. Un tiens vaut mieux que deux tu l'auras.",
     meta: {
@@ -113,14 +113,14 @@ const CHRONIQUES = [
   },
   {
     id: "courses-trinidad",
-    visible: false,
+    visible: true,
     numero: "Scénario VI",
     titre: "Courses à Trinidad",
     date_campagne: "Février 1716",
-    illustration: "chroniques/covers/en-cours.jpg",
+    illustration: null,
     align: 50,
     piste: "ost/courses-trinidad.mp3",
-    extrait: "",
+    extrait: "La sobriété du ton ne laissait pas moins entendre que la situation était grave : la lettre de Ruggiero bouleversait les projets immédiats.",
     meta: {
       xp: 0,
       gloire: 0,
