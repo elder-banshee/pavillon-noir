@@ -248,6 +248,9 @@
 .chrono-navire {
   position: absolute;
   bottom: 42px;
+  width: 110px;
+  height: 99px;
+  transform: translateX(-50%);
   pointer-events: all;
   cursor: grab;
   filter: drop-shadow(0 2px 8px rgba(200,151,58,0.3));
@@ -258,17 +261,13 @@
 .chrono-navire:active { cursor: grabbing; }
 .chrono-navire.dragging { transition: none; }
 
-.chrono-navire-inner {
-  transform: translateX(-50%);
-}
-
 .chrono-navire-inner.flottant {
   animation: flottaison 3s ease-in-out infinite;
 }
 
 @keyframes flottaison {
-  0%,100% { transform: translateX(-50%) translateY(0); }
-  50%      { transform: translateX(-50%) translateY(-3px); }
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
 }
 
 /* ─── Modal chronique ───────────────────────────────────────── */
