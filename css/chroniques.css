@@ -469,4 +469,27 @@
   .chrono-carte { width: 85vw; }
   .chrono-navire { pointer-events: none; cursor: default; }
   .chrono-navire.flottant { animation: none; }
+
+/* ─── Modal mobile ───────────────────────────────────────── */
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal--chronique {
+    max-width: 100%;
+    max-height: 92vh;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+  .modal-chrono-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    padding: 1.25rem 1.25rem 0;
+  }
+  .modal-chrono-date { white-space: normal; padding-bottom: 0; }
+  .modal-chrono-nav { padding: 0.75rem 1.25rem; }
+  .modal-chrono-banner,
+  .modal-chrono-banner-placeholder { margin-bottom: 1rem; }
+  .modal-chrono-meta { gap: 0.4rem; }
+  .modal-chrono-resume { font-size: 0.95rem; }
+  .modal-chrono-texte { font-size: 1rem; }
 }
