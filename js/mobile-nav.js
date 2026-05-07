@@ -69,6 +69,7 @@
     document.getElementById('mob-nav-icon').innerHTML = open ? ICON_OPEN : ICON_CLOSED;
     // Panneau ouvert : annule le timer de disparition
     if (open) cancelHide();
+    else scheduleHide();
   });
 
   document.addEventListener('click', (e) => {
