@@ -10,7 +10,7 @@ const CHRONIQUES = [
     date_campagne: "Avril 1713",
     illustration: "chroniques/covers/île_des_ombres.jpg",
     piste: "ost/ile-des-ombres.mp3",
-    extrait: "Une île sans nom, des ruines espagnoles et des Indiens Bravos tapis dans la forêt. Le premier écart entre ce qu'on cherchait et ce qu'on a trouvé.",
+    extrait: "Une île sans nom, des soldats espagnols et des Indiens Bravos tapis dans la forêt. Le premier écart entre ce qu'on cherchait et ce qu'on a trouvé.",
     meta: {
       xp: 8,
       gloire: 20,
@@ -34,7 +34,7 @@ const CHRONIQUES = [
     date_campagne: "Janvier 1714",
     illustration: "chroniques/covers/sed.jpg",
     piste: "ost/sed.mp3",
-    extrait: "Un banquet à Cap-Français, une délégation espagnole empoisonnée, et deux recrues involontaires comme gardes du corps d'un agent britannique.",
+    extrait: "Une improbable succession de festins culminant par un banquet à Cap-Français, deux gardes du corps d'un agent britannique, et une délégation espagnole empoisonnée.",
     meta: {
       xp: 10,
       gloire: 35,
@@ -74,7 +74,7 @@ const CHRONIQUES = [
     date_campagne: "Décembre 1715",
     illustration: "chroniques/covers/marianne.jpg",
     piste: "ost/marianne.mp3",
-    extrait: "La frégate française Marianne, trente-deux canons, prise par ruse sous le nez de Jennings. Le massacre qui a suivi ne figurera dans aucune chanson.",
+    extrait: "La frégate française Marianne, trente-deux canons, prise par audace sous le nez de Jennings. Le massacre qui a suivi ne figurera dans aucune chanson.",
     meta: {
       xp: 10,
       gloire: 40,
@@ -92,9 +92,9 @@ const CHRONIQUES = [
     numero: "Scénario V",
     titre: "Les épaves de la Flotte au Trésor",
     date_campagne: "Janvier 1716",
-    illustration: "chroniques/covers/en-cours.jpg",
+    illustration: "chroniques/covers/epaves.jpg",
     piste: "ost/epaves.mp3",
-    extrait: "Huit millions de pièces de huit gisaient entre ciel et fond. Ils en ont remis quatre-vingt mille. Un tiens vaut mieux que deux tu l'auras.",
+    extrait: "Huit millions de pièces de huit gisaient entre ciel et fond. Ils en ont remonté quatre-vingt mille. Un tiens vaut mieux que deux tu l'auras.",
     meta: {
       xp: 12,
       gloire: 60,
