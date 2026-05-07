@@ -193,24 +193,6 @@
   gap: 0.3rem;
 }
 
-/* ─── Pavillon ───────────────────────────────────────────────── */
-.pnj-flag-wrap {
-  display: flex;
-  justify-content: center;
-  padding: 0.4rem 1.2rem 1.2rem;
-}
-
-.pnj-flag-svg {
-  width: 90px;
-  height: 65px;
-  display: block;
-  transition: filter 0.25s;
-}
-
-.pnj-card:hover .pnj-flag-svg {
-  filter: brightness(1.1);
-}
-
 .pnj-tag {
   font-family: 'Cinzel', serif;
   font-size: 0.55rem;
