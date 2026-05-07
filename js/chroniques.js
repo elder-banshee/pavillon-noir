@@ -84,14 +84,12 @@ const metaHtml = metaItems.length
     }
   });
 
-  section.querySelectorAll('.chrono-lire').forEach(el => {
-    el.addEventListener('click', e => {
-      e.stopPropagation();
+  section.querySelectorAll('.chrono-carte').forEach(el => {
+    el.addEventListener('click', () => {
       const c = CHRONIQUES.find(c => c.id === el.dataset.id);
       if (c) openModal(c);
     });
   });
-}
 
 // ─── Rail marin ──────────────────────────────────────────────
 function getRailBounds() {
