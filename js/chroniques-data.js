@@ -36,10 +36,10 @@ const CHRONIQUES = [
     piste: "ost/sed.mp3",
     extrait: "Une improbable succession de festins culminant par un banquet à Cap-Français, deux gardes du corps d'un agent britannique, et une délégation espagnole empoisonnée.",
     meta: {
-      xp: 10,
+      xp: 12,
       gloire: 35,
       infamie: 10,
-      pieces_huit: 0,
+      pieces_huit: 600,
       recrues: 0,
       pertes: 0
     },
@@ -56,12 +56,12 @@ const CHRONIQUES = [
     piste: "ost/hippogriffe.mp3",
     extrait: "Un naufrage providentiel, un cadavre aux plats d'or précolombiens, et la Flotte au Trésor quelque part sous les eaux. Il suffisait d'y arriver les premiers.",
     meta: {
-      xp: 12,
+      xp: 8,
       gloire: 50,
       infamie: 15,
-      pieces_huit: 80000,
-      recrues: 0,
-      pertes: 0
+      pieces_huit: 12500,
+      recrues: 25,
+      pertes: 7
     },
     texte: `<p>Chronique à venir.</p>`,
     chapitres: {}
@@ -78,8 +78,8 @@ const CHRONIQUES = [
     meta: {
       xp: 10,
       gloire: 40,
-      infamie: 20,
-      pieces_huit: 0,
+      infamie: 60,
+      pieces_huit: 700,
       recrues: 0,
       pertes: 0
     },
@@ -96,11 +96,11 @@ const CHRONIQUES = [
     piste: "ost/epaves.mp3",
     extrait: "Huit millions de pièces de huit gisaient entre ciel et fond. Ils en ont remonté quatre-vingt mille. Un tiens vaut mieux que deux tu l'auras.",
     meta: {
-      xp: 12,
-      gloire: 60,
-      infamie: 10,
-      pieces_huit: 80000,
-      recrues: 8,
+      xp: 8,
+      gloire: 20,
+      infamie: 20,
+      pieces_huit: 3000,
+      recrues: 3,
       pertes: 0
     },
     texte: `<p>Chronique à venir.</p>`,
