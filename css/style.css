@@ -451,7 +451,12 @@ footer {
     width: 52px;
     height: 52px;
     /* border-radius: 50%; */
-    background: var(--ink);
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
     /* border: 1px solid var(--border); */
     color: var(--gold);
     font-size: 1.4rem;
