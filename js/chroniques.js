@@ -9,8 +9,10 @@ const RAIL_MARGIN = 0.01;  // marge intérieure de chaque côté
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCartes();
-  buildRail();
-  setupScroll();
+  if (window.innerWidth > 700) {
+    buildRail();
+    setupScroll();
+  }
   setupModal();
 });
 
