@@ -75,6 +75,20 @@ Scandalisé par le massacre ordonné par Jennings après la Marianne. Élu magis
 
 Portrait : la barbe noire est réelle, et son effet soigné. C'est un colosse : stature imposante, présence physique immédiate.`
   },
+    {
+    id: "levasseur",
+    epingle: false,
+    nom: "La Buse",
+    accroche: "Jeune capitaine intrépide",
+    alias: "Olivier Levasseur",
+    statut: "actif",
+    naissance: "1695",
+    origine: "Français (Calais)",
+    tags: ["Nassau", "Caraïbes", "Flying Gang", "Satiété engendre Démesure", "Les épaves de la Flotte au Trésor"],
+    portrait: "pnj/portraits/levasseur.jpg",
+    pavillon: "pnj/pavillons/levasseur.svg",
+    bio: `Pirate français, capitaine du brick le Portillon. Son surnom vient de la rapidité avec laquelle il fond sur ses proies. S’il a participé à la guerre de Succession d’Espagne, il n’avait alors qu’une quinzaine d’années — il est donc l’un des plus jeunes capitaines pirates de sa génération`
+  },
   {
     id: "williams",
     nom: "Paulsgrave Williams",
