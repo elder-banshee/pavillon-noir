@@ -259,7 +259,7 @@
 .chrono-navire:active { cursor: grabbing; }
 .chrono-navire.dragging { transition: none; }
 
-.chrono-navire.flottant {
+.chrono-navire-inner.flottant {
   animation: flottaison 3s ease-in-out infinite;
 }
 

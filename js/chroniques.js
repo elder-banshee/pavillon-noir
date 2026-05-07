@@ -111,10 +111,14 @@ function buildRail() {
 
   // Navire en premier — sera sous la mer
   const navire = document.createElement('div');
-  navire.className = 'chrono-navire flottant';
+  navire.className = 'chrono-navire';
   navire.id = 'chrono-navire';
-  navire.innerHTML = NAVIRE_SVG;
   navire.style.left = XMIN + 'px';
+
+  const navireInner = document.createElement('div');
+  navireInner.className = 'chrono-navire-inner flottant';
+  navireInner.innerHTML = NAVIRE_SVG;
+  navire.appendChild(navireInner);
   railEl.appendChild(navire);
 
   // SVG de la mer en second — recouvrira le bas du navire
@@ -154,11 +158,11 @@ function setupScroll() {
   wrap.addEventListener('scroll', () => {
     syncNavire();
     rail.classList.add('scrolling');
-    navire.classList.remove('flottant');
+    navire.querySelector('.chrono-navire-inner').classList.remove('flottant');
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(() => {
       rail.classList.remove('scrolling');
-      navire.classList.add('flottant');
+      navire.querySelector('.chrono-navire-inner').classList.add('flottant');
     }, 600);
   }, { passive: true });
 
@@ -212,7 +216,7 @@ function setupScroll() {
       navire.classList.remove('dragging');
       setTimeout(() => {
         rail.classList.remove('scrolling');
-        navire.classList.add('flottant');
+        navire.querySelector('.chrono-navire-inner').classList.add('flottant');;
       }, 600);
     }
   });

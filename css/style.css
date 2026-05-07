@@ -469,10 +469,10 @@ footer {
     margin-left: auto;
   }
 
-  #mob-nav-wrapper.mob-nav--open #mob-nav-btn {
+  /* #mob-nav-wrapper.mob-nav--open #mob-nav-btn { */
     /* border-color: var(--gold); */
     /* box-shadow: 0 4px 24px rgba(200,151,58,0.25); */
-  }
+  /* } */
 
   /* Panneau */
   #mob-nav-panel {
