@@ -52,7 +52,7 @@ const CHRONIQUES = [
     numero: "Scénario III",
     titre: "Le dernier voyage de l'Hippogriffe",
     date_campagne: "Septembre—Décembre 1715",
-    illustration: "chroniques/covers/en-cours.jpg",
+    illustration: "chroniques/covers/hippogriffe.jpg",
     piste: "ost/hippogriffe.mp3",
     extrait: "Un naufrage providentiel, un cadavre aux plats d'or précolombiens, et la Flotte au Trésor quelque part sous les eaux. Il suffisait d'y arriver les premiers.",
     meta: {
