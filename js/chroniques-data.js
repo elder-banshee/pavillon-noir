@@ -72,7 +72,7 @@ const CHRONIQUES = [
     numero: "Scénario IV",
     titre: "La prise de la Marianne",
     date_campagne: "Décembre 1715",
-    illustration: "chroniques/covers/en-cours.jpg",
+    illustration: "chroniques/covers/marianne.jpg",
     piste: "ost/marianne.mp3",
     extrait: "La frégate française Marianne, trente-deux canons, prise par ruse sous le nez de Jennings. Le massacre qui a suivi ne figurera dans aucune chanson.",
     meta: {
