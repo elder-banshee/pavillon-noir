@@ -154,7 +154,9 @@ const PNJ_DATA = [
     origine: "Italien",
     tags: ["Trinidad", "Caraïbes", "Antonio"],
     portrait: "pnj/portraits/ruggiero.jpg",
-    source: null,
+    source: [
+      { objet: 'portrait', credit: 'Librement inspiré de Mandy Patinkin' }
+      ],
     bio: `Vieux maître d'armes italien. Ancien précepteur d'Antonio à Trinidad : un alcoolique de génie, payé en gîte, couvert et tafia, qui était véritablement brillant quand il parvenait à rester sobre. A transmis à Antonio un style d'escrime unique, mélange de techniques italiennes et de fougue espagnole.
 `
   },
@@ -654,7 +656,7 @@ const PNJ_DATA = [
     tags: ["Caraïbes", "Les épaves de la Flotte au Trésor", "Dusmatis"],
     portrait: "pnj/portraits/kabo.jpg",
     source: [
-      { objet: 'portrait', credit: 'd'après Evan Schneider (UN Photo), 2015 — United Nations', url: 'https://media.un.org/photo/en/asset/oun7/oun718669' }
+      { objet: 'portrait', credit: 'd'après Evan Schneider `(UN Photo)`, 2015 — United Nations', url: 'https://media.un.org/photo/en/asset/oun7/oun718669' }
       ],
     bio: `Plongeur Mosquito, originaire du rivage nicaraguayen. A été recruté parmi les esclaves libérés lors du pillage des épaves de la Flotte au Trésor.`
   },
