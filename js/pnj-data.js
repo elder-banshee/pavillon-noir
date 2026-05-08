@@ -186,8 +186,8 @@ const PNJ_DATA = [
     tags: ["Europe", "Edward"],
     portrait: "pnj/portraits/newton.jpg",
     source: [
-    { objet: 'portrait', credit: 'James Thornhill, c.1709-1712 — Woolsthorpe Manor', url: 'https://commons.wikimedia.org/wiki/File:James_Thornhill_Portrait_of_Sir_Isaac_Newton.jpg' }
-    ],
+      { objet: 'portrait', credit: 'James Thornhill, c.1709-1712 — Woolsthorpe Manor', url: 'https://commons.wikimedia.org/wiki/File:James_Thornhill_Portrait_of_Sir_Isaac_Newton.jpg' }
+      ],
     bio: `Président de la Royal Society (1703–1727). A signé la lettre de mission d'Edward Sutherland lors d'une rencontre improvisée dans son jardin — où il l'avait contraint à planter des pommiers pendant qu'il l'écoutait. La lettre vaut passe-droit auprès des gouverneurs coloniaux.`
   },
   {
@@ -253,9 +253,9 @@ const PNJ_DATA = [
     tags: ["Nassau", "The Pirate Round", "La Marianne"],
     portrait: "pnj/portraits/england.jpg",    
     pavillon: "pnj/pavillons/generic.svg",
-     source: [
-    { objet: 'portrait', credit: 'Auteur inconnu — lithographie XVIIIe', url: 'https://commons.wikimedia.org/wiki/File:England,_Edward.JPG' }
-    ],
+    source: [
+      { objet: 'portrait', credit: 'Auteur inconnu — lithographie XVIIIe', url: 'https://commons.wikimedia.org/wiki/File:England,_Edward.JPG' }
+      ],
     bio: `Pirate irlandais de son vrai nom Edward Seegar. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Révolté par ce qu'il a vu, a quitté les Caraïbes pour l'océan Indien. Connu pour sa clémence envers les vaincus — l'exact opposé de Jennings.`
   },
   {
@@ -270,8 +270,8 @@ const PNJ_DATA = [
     portrait: "pnj/portraits/silver.jpg",
     pavillon: "pnj/pavillons/generic.svg",
     source: [
-    { objet: 'portrait', credit: 'Auteur inconnu — Museo Puerta de Tierra', url: 'https://commons.wikimedia.org/wiki/File:Cornelis_%E2%80%9CPegleg%E2%80%9D_Jol.jpg' }
-    ],
+      { objet: 'portrait', credit: 'Auteur inconnu — Museo Puerta de Tierra', url: 'https://commons.wikimedia.org/wiki/File:Cornelis_%E2%80%9CPegleg%E2%80%9D_Jol.jpg' }
+      ],
     bio: `Quartier-Maître d’Edward England. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Observait la scène avec une fascination froide, sans intervenir.`
   },
 
