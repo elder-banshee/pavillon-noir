@@ -653,7 +653,9 @@ const PNJ_DATA = [
     origine: "Mosquito (Nicaragua)",
     tags: ["Caraïbes", "Les épaves de la Flotte au Trésor", "Dusmatis"],
     portrait: "pnj/portraits/kabo.jpg",
-    source: null,
+    source: [
+      { objet: 'portrait', credit: 'd'après Evan Schneider ('UN Photo'), 2015 — United Nations', url: 'https://media.un.org/photo/en/asset/oun7/oun718669' }
+      ],
     bio: `Plongeur Mosquito, originaire du rivage nicaraguayen. A été recruté parmi les esclaves libérés lors du pillage des épaves de la Flotte au Trésor.`
   },
   // Factions
