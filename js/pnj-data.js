@@ -253,7 +253,9 @@ const PNJ_DATA = [
     tags: ["Nassau", "The Pirate Round", "La Marianne"],
     portrait: "pnj/portraits/england.jpg",    
     pavillon: "pnj/pavillons/generic.svg",
-    source: null,
+     source: [
+    { objet: 'portrait', credit: 'Auteur inconnu — lithographie XVIIIe', url: 'https://commons.wikimedia.org/wiki/File:England,_Edward.JPG' }
+    ],
     bio: `Pirate irlandais de son vrai nom Edward Seegar. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Révolté par ce qu'il a vu, a quitté les Caraïbes pour l'océan Indien. Connu pour sa clémence envers les vaincus — l'exact opposé de Jennings.`
   },
   {
