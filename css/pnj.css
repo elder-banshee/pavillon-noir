@@ -304,6 +304,31 @@
   box-sizing: border-box;
 }
 
+/* ─── Crédit source ─────────────────────────────────────────── */
+.modal-source {
+  padding: 0.4rem 0.75rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  color: var(--mist);
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+.modal-source-link {
+  display: inline-block;
+  margin-left: 0.3rem;
+  color: var(--mist);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: color 0.2s;
+  vertical-align: middle;
+}
+
+.modal-source-link:hover {
+  color: var(--gold);
+}
+
 /* ─── Empty state ───────────────────────────────────────────── */
 .empty-state {
   text-align: center;
