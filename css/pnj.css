@@ -307,10 +307,10 @@
 /* ─── Crédit source ─────────────────────────────────────────── */
 .modal-source {
   padding: 0.4rem 0.75rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Crimson Text', serif;
   font-size: 0.6rem;
-  letter-spacing: 0.05em;
-  color: var(--mist);
+  letter-spacing: 0;
+  color: var(--parchment2);
   line-height: 1.4;
   opacity: 0.8;
 }
