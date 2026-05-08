@@ -215,10 +215,12 @@ function openModal(pnj) {
     ? `<img class="modal-portrait" src="${pnj.portrait}" alt="Portrait de ${pnj.nom}">`
     : `<div class="modal-portrait-placeholder">${silhouetteSVG()}</div>`
   }
+  ${sourceCredit(pnj, 'portrait')}
   ${pnj.pavillon
     ? `<img class="modal-pavillon" src="${pnj.pavillon}" alt="Pavillon de ${pnj.nom}" loading="lazy">`
     : ''
   }
+  ${sourceCredit(pnj, 'pavillon')}
 </div>
     <div class="modal-body">
       <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
@@ -272,4 +274,15 @@ function silhouetteSVG() {
     <circle cx="40" cy="28" r="16" fill="currentColor"/>
     <path d="M8 95c0-17.673 14.327-32 32-32s32 14.327 32 32" fill="currentColor"/>
   </svg>`;
+}
+
+// ─── Crédit source ───────────────────────────────────────────
+function sourceCredit(pnj, objet) {
+  if (!pnj.source || !pnj.source.length) return '';
+  const s = pnj.source.find(s => s.objet === objet);
+  if (!s) return '';
+  return `<div class="modal-source">
+    ${s.credit}
+    <a class="modal-source-link" href="${s.url}" target="_blank" rel="noopener" aria-label="Voir la source">↗</a>
+  </div>`;
 }

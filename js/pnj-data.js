@@ -15,6 +15,9 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Flying Gang", "L'Île des Ombres", "La Marianne", "Les épaves de la Flotte au Trésor", "Antonio"],
     portrait: "pnj/portraits/bellamy.jpg",
     pavillon: "pnj/pavillons/bellamy.svg",
+    source: [
+      { objet: 'pavillon', credit: 'ET Fox, 2020', url: 'https://commons.wikimedia.org/wiki/File:Samuel_Bellamy_Flag.svg' }
+      ],
     bio: `Sauveur d’Antonio, interceptant le navire qui le conduisait à la potence. Sauveur à nouveau d’Antonio, Fañch et Dusmãtis, alors qu’ils dérivaient en mer sur une épave non loin de Nassau. Son charisme surnaturel lui permet de discuter d’égal à égal avec les plus humbles comme les plus puissant, et lui assure la loyauté de tous.
     
     A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associer à nouveau avec lui quelques semaines plus tard pour piller les Épaves de la Flotte au Trésor.`
@@ -31,6 +34,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Conseil de Nassau", "Flying Gang", "L'Île des Ombres", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/hornigold.jpg",
     pavillon: "pnj/pavillons/hornigold.svg",
+    source: null,
     bio: `Fondateur de la République Pirate de Nassau et du Flying Gang. Il y a chez lui quelque chose de l'ancien officier de la Royal Navy qu'il n'a jamais tout à fait quitté : la discipline, la tenue, l'autorité sans éclat. Il commande par l'exemple, sans crier. On le suit parce qu'il dégage la certitude d'être à sa place.
     
     A pris la Marianne (frégate française, 32 canons) au nez et à la barbe de Jennings — épisode fondateur de leur animosité durable. Magistrat du Conseil de Nassau.
@@ -49,6 +53,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Conseil de Nassau", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/jennings.jpg",
     pavillon: "pnj/pavillons/jennings.svg",
+    source: null,
     bio: `Corsaire devenu pirate, commissionné par le gouverneur de Jamaïque. Figure mafieuse plus qu'aventurière : n'intervient que lorsque le rapport de force est écrasant en sa faveur. C'est lui qui a ordonné le massacre de prisonniers sur la plage après la prise de la Marianne (décembre 1715).
     
     Il ne s'adresse pratiquement jamais directement à ses hommes — Rackham sert d'interface. Les aventuriers ont existé dans sa mémoire comme le menu fretin de l'équipage de Bellamy : à peine remarqués, vite oubliés. Élu magistrat au Conseil de Nassau.
@@ -67,6 +72,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Conseil de Nassau", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/teach.jpg",
     pavillon: "pnj/pavillons/hornigold.svg",
+    source: null,
     bio: `Second et Quartier-Maître d'Hornigold lors des Épaves et de la Marianne. D’une discipline et d’une loyauté exemplaires pour exécuter les ordres de son Capitaine, son courage et sa fougue au combat lui valent le respect et l’admiration de ses hommes.
     
     Scandalisé par le massacre ordonné par Jennings après la Marianne. Élu magistrat au Conseil de Nassau et membre fondateur du Flying Gang, il doit néanmoins composer avec lui.
@@ -85,6 +91,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Flying Gang", "Satiété engendre Démesure", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/levasseur.jpg",
     pavillon: "pnj/pavillons/levasseur.svg",
+    source: null,
     bio: `Pirate français, capitaine du brick le Portillon. Son surnom vient de la rapidité avec laquelle il fond sur ses proies. S’il a participé à la guerre de Succession d’Espagne, il n’avait alors qu’une quinzaine d’années — il est donc l’un des plus jeunes capitaines pirates de sa génération`
   },
   {
@@ -98,6 +105,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/paulsgrave.jpg",
     pavillon: "pnj/pavillons/bellamy.svg",
+    source: null,
     bio: `Associé de Bellamy — compagnon d'armes, pas subordonné. Devenu pirate sur le tard, avec derrière lui une vie apparemment confortable, comme si Bellamy l'avait un jour convaincu qu'une vie d'aventures était la seule digne d'être vécue, et que l'argument avait suffi.
     
     En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le propre d'un homme faible, mais d'un homme qui n'a aucune ambition de premier rôle et n'en ressent pas le besoin. Les aventuriers l'ont à peine remarqué lors de leurs interactions — ce qui est à peu près l'effet qu'il produit sur tout le monde. Toujours affable et courtois dans le peu qu'ils ont échangé.`
@@ -113,6 +121,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/vane.jpg",
     pavillon: "pnj/pavillons/jennings.svg",
+    source: null,
     bio: `Navigateur réputé talentueux, ne serait-ce que parce que Jennings lui a confié son poste. Toujours en retrait, dans l'ombre de Jennings dont il n'a aucune raison de disputer l'espace.
 
     Pendant le massacre des prisonniers après la Marianne, il regardait avec un demi-sourire amusé — pas de répugnance, pas de retenue. L'air de quelqu'un qui reconnaît une méthode qu'il connaît bien et n'a pas besoin de valider. Son amusement était probablement moins dirigé vers les excès de Jennings que vers deux cents hommes réputés redoutables, incapables de se dresser contre un seul individu.`
@@ -128,6 +137,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Jamaïque", "Kingston", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/rackham.jpg",
     pavillon: "pnj/pavillons/jennings.svg",
+    source: null,
     bio: `Quartier-maître d'Henry Jennings — interlocuteur obligé de quiconque souhaite communiquer avec lui. Lien entre Jennings et son équipage, probablement garant de la cohésion d'un groupe qu'on ne peut pas diriger éternellement par la seule terreur. Ses relations avec les aventuriers, quoique limitées, ont toujours été cordiales.
 
     Pendant le massacre des prisonniers après la Marianne, il était visiblement mal à l'aise — désapprobation lisible, trahie par la posture et le regard, tout en ayant le devoir de justifier les actes de son capitaine.
@@ -144,6 +154,7 @@ const PNJ_DATA = [
     origine: "Italien",
     tags: ["Trinidad", "Caraïbes", "Antonio"],
     portrait: "pnj/portraits/ruggiero.jpg",
+    source: null,
     bio: `Vieux maître d'armes italien. Ancien précepteur d'Antonio à Trinidad : un alcoolique de génie, payé en gîte, couvert et tafia, qui était véritablement brillant quand il parvenait à rester sobre. A transmis à Antonio un style d'escrime unique, mélange de techniques italiennes et de fougue espagnole.
 `
   },
@@ -157,6 +168,9 @@ const PNJ_DATA = [
     origine: "Irlandais (installé en Angleterre)",
     tags: ["Europe", "Fanch", "Edward"],
     portrait: "pnj/portraits/sloane.jpg",
+    source: [
+      { objet: 'portrait', credit: 'Stephen Slaughter, 1736 — National Portrait Gallery', url: 'https://commons.wikimedia.org/wiki/File:Stephen_Slaughter_(1697-1765)_-_Sir_Hans_Sloane,_Bt_-_NPG_569_-_National_Portrait_Gallery.jpg' }
+      ],
     bio: `Médecin naturaliste, secrétaire de la Royal Society. Professeur de Fañch au Royal College of Physicians de Londres — une influence décisive dans sa formation, transmettant autant une philosophie qu'un savoir : voir dans chaque spécimen végétal une potentielle source de guérison.
 
     C'est également lui qui a remis à Edward Sutherland sa lettre de mission — rédigée en urgence, encore non signée par le Président, avant de l'envoyer obtenir lui-même le précieux visa.`
@@ -171,6 +185,9 @@ const PNJ_DATA = [
     origine: "Anglais (Lincolnshire)",
     tags: ["Europe", "Edward"],
     portrait: "pnj/portraits/newton.jpg",
+    source: [
+    { objet: 'portrait', credit: 'James Thornhill, c.1709-1712 — Woolsthorpe Manor', url: 'https://commons.wikimedia.org/wiki/File:James_Thornhill_Portrait_of_Sir_Isaac_Newton.jpg' }
+    ],
     bio: `Président de la Royal Society (1703–1727). A signé la lettre de mission d'Edward Sutherland lors d'une rencontre improvisée dans son jardin — où il l'avait contraint à planter des pommiers pendant qu'il l'écoutait. La lettre vaut passe-droit auprès des gouverneurs coloniaux.`
   },
   {
@@ -183,6 +200,7 @@ const PNJ_DATA = [
     origine: "Anglais",
     tags: ["Nassau", "Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/woodall.jpg",
+    source: null,
     bio: `Pirate et contrebandier anglais, Commandant du Wolf (sloop de 30 tonneaux). Rencontré au large de Cap-Français quelques jours avant le banquet.`
   },
   {
@@ -195,6 +213,7 @@ const PNJ_DATA = [
     origine: "Anglais",
     tags: ["Trinidad", "Caraïbes", "Antonio"],
     portrait: "pnj/portraits/elliot.jpg",
+    source: null,
     bio: `Contrebandier anglais, contact d'Antonio depuis Trinidad. C'est probablement lui qui a fourni à Bellamy les informations permettant l'interception du Santa Laura de Córdoba et la libération d'Antonio.`
   },
   {
@@ -207,6 +226,7 @@ const PNJ_DATA = [
     origine: "Anglais (installé en Irlande)",
     tags: ["Europe", "Robert", "Fanch"],
     portrait: "pnj/portraits/wandesford.jpg",
+    source: null,
     bio: `Fils cadet de Christopher Wandesford, 1er Vicomte Castlecomer (1656-1707). Son père a reçu la baronnie de Clonakilty (demeure ancestrale des Arundel) en récompense de son soutien à la répression de la révolution jacobite irlandaise après la bataille de la Boyne. Thurston en a hérité, le Vicomté de Castlecomer allant à son frère aîné Christopher, 2e Vicomte Castlecomer.`
   },
   {
@@ -219,6 +239,7 @@ const PNJ_DATA = [
     origine: "Espagnol (Trinidad)",
     tags: ["Trinidad", "Caraïbes", "Antonio"],
     portrait: "pnj/portraits/gaspar.jpg",
+    source: null,
     bio: `Rival de jeunesse d'Antonio à Trinidad : issu de la famille dont la plantation voisine a prospéré quand celle des Caballero stagnait. A fait emprisonner Antonio après avoir été vaincu en duel, et l’aurait fait pendre si Bellamy n'était intervenu.`
   },
   {
@@ -232,6 +253,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "The Pirate Round", "La Marianne"],
     portrait: "pnj/portraits/england.jpg",    
     pavillon: "pnj/pavillons/generic.svg",
+    source: null,
     bio: `Pirate irlandais de son vrai nom Edward Seegar. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Révolté par ce qu'il a vu, a quitté les Caraïbes pour l'océan Indien. Connu pour sa clémence envers les vaincus — l'exact opposé de Jennings.`
   },
   {
@@ -245,6 +267,9 @@ const PNJ_DATA = [
     tags: ["Nassau", "The Pirate Round", "La Marianne"],
     portrait: "pnj/portraits/silver.jpg",
     pavillon: "pnj/pavillons/generic.svg",
+    source: [
+    { objet: 'portrait', credit: 'Auteur inconnu — Museo Puerta de Tierra', url: 'https://commons.wikimedia.org/wiki/File:Cornelis_%E2%80%9CPegleg%E2%80%9D_Jol.jpg' }
+    ],
     bio: `Quartier-Maître d’Edward England. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Observait la scène avec une fascination froide, sans intervenir.`
   },
 
@@ -259,6 +284,7 @@ const PNJ_DATA = [
     origine: "Anglais (Londres)",
     tags: ["Europe", "Robert", "Équipage du Captain Charles Johnson"],
     portrait: "pnj/portraits/mist.jpg",
+    source: null,
     bio: `Journaliste et imprimeur londonien, jacobite actif, pas encore connu du grand public — il n'a pas encore lancé le journal qui fera sa réputation. C'est un homme de réseau avant d'être un homme de presse. Il a approché Robert peu avant son départ pour les Indes Occidentales et l'a mandaté comme correspondant de terrain pour l'équipage du Capitaine Charles Johnson, en échange d'une rémunération par compte rendu livré.`
   },
 
@@ -273,6 +299,7 @@ const PNJ_DATA = [
     origine: "Gallois (Monmouthshire)",
     tags: ["Caraïbes", "Jamaïque"],
     portrait: null,
+    source: null,
     bio: `Flibustier gallois devenu planteur et Lieutenant-Gouverneur de Jamaïque. Auteur du sac de Panama en 1671. Mort le 25 août 1688. Sa pierre tombale a été engloutie lors du séisme de Port-Royal en 1692. Figure légendaire des Caraïbes.`
   },
   {
@@ -287,6 +314,7 @@ const PNJ_DATA = [
     tags: ["Caraïbes", "The Pirate Round"],
     portrait: null,
     pavillon: "pnj/pavillons/avery_red.svg",
+    source: null,
     bio: `Pirate légendaire disparu après 1696. A capturé le Gang-i-Sawai du Grand Moghol en 1695, coup le plus spectaculaire de l'âge d'or de la piraterie. Sa trace se perd après. Certains disent mort, d'autres caché.`
   },
    {
@@ -300,6 +328,7 @@ const PNJ_DATA = [
     origine: "Anglais",
     tags: ["Europe"],
     portrait: null,
+    source: null,
     bio: `Astronome de réputation européenne. A découvert la comète qui porte son nom. Correspondant savant de nombreux personnages illustres de son époque.`
   },
    {
@@ -312,6 +341,7 @@ const PNJ_DATA = [
     origine: "Française (Gourin)",
     tags: ["Caraïbes", "Saint-Domingue"],
     portrait: null,
+    source: null,
     bio: `Née Marie Dieuleveult à Gourin, Morbihan. Trois mariages successifs, dont Laurens de Graaf dit Lorencillo qu'elle est allée trouver pistolet à la main. A accompagné son mari en mer — l'équipage la considérait comme un porte-bonheur. Capturée avec ses enfants par les Anglais en 1695, libérée en 1698. Morte le 11 janvier 1710 au Cap-Français. Mère de Catherine de Graaf.`
   },
    {
@@ -325,6 +355,7 @@ const PNJ_DATA = [
     origine: "Française (Saint-Domingue)",
     tags: ["Caraïbes", "Saint-Domingue", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/catherine.jpg",
+    source: null,
     bio: `Née au Cap-Français en mai 1694 de Laurens de Graaf et d'Anne Dieu-le-veut. Son père meurt en 1704, laissant une fortune estimée à 190 000 livres : une sucrerie au quartier Morin avec cinq chaudières et plus de 120 esclaves. Sa mère administre activement ce patrimoine jusqu'à sa mort en janvier 1710. Catherine hérite d'une fortune constituée et opérationnelle à 16 ans. A depuis refusé une tutelle, échappé à une lettre de cachet, défié un homme en duel et affranchi tous ses esclaves. Rencontrée lors du banquet de Cap-Français (janvier 1714).`
   },
    {
@@ -337,6 +368,7 @@ const PNJ_DATA = [
     origine: "Italien",
     tags: ["Caraïbes"],
     portrait: null,
+    source: null,
     bio: `Se présente comme vicaire apostolique aux Caraïbes. Entré en scène à La Tortue après la mort de Ruggiero della Scala. Tout de noir vêtu sauf un large col de dentelles blanches — l'apparence d'un spadassin bien plus que d'un ecclésiastique. Petit, cheveux poivre et sel, fine moustache, accent italien marqué, porte une rapière.`
   },
    {
@@ -349,6 +381,7 @@ const PNJ_DATA = [
     origine: "Italien (présumé)",
     tags: ["Caraïbes", "Antonio"],
     portrait: null,
+    source: null,
     bio: `Tueur non identifié. Responsable de la mort de Ruggiero della Scala à La Tortue. Description physique : homme de taille moyenne, cheveux courts poivre et sel, fine moustache, accent italien, porte une rapière. Disparu après les faits.`
   },
  
@@ -362,6 +395,7 @@ const PNJ_DATA = [
     origine: "Espagnol",
     tags: ["Caraïbes"],
     portrait: null,
+    source: null,
     bio: `Gouverneur espagnol de Porto Rico (1716–1720). A mis un vaisseau de guerre et ses hommes à disposition pour une opération dans les Caraïbes.`
   },
  
@@ -375,6 +409,7 @@ const PNJ_DATA = [
     origine: "Anglais",
     tags: ["Jamaïque", "Kingston"],
     portrait: null,
+    source: null,
     bio: `Officier anglais stationné en Jamaïque. Aide de camp du gouverneur et Deputy Naval Officer à Kingston. Froid, patibulaire, sans charme social. Porte à Portobelo un sabre de belle facture qui attire l'œil.`
   },
  
@@ -388,6 +423,7 @@ const PNJ_DATA = [
     origine: "Portugais",
     tags: ["Caraïbes"],
     portrait: null,
+    source: null,
     bio: `Pirate portugais, corsaire au service de l'Espagne. Actif dans les Caraïbes de 1701 à 1721. Équipage de toutes nations et couleurs. Qualifié de "notable scélérat" par la Royal Navy.`
   },
  
@@ -401,6 +437,7 @@ const PNJ_DATA = [
     origine: "Anglais",
     tags: ["Jamaïque"],
     portrait: null,
+    source: null,
     bio: `Tailleur de pierre anglais. A réalisé le mausolée de Henry Morgan à Port-Royal selon des spécifications inhabituelles et très précises. A laissé des carnets détaillant son travail.`
   },
  
@@ -414,6 +451,7 @@ const PNJ_DATA = [
     origine: "Française (La Rochelle)",
     tags: ["Caraïbes"],
     portrait: null,
+    source: null,
     bio: `Romancière française, en transit vers les colonies en 1718. Prise en otage lors du blocus de Charleston par Barbe-Noire. Femme de tempérament, observatrice attentive.`
   },
   // PNJ Île des Ombres
@@ -428,6 +466,7 @@ const PNJ_DATA = [
     tags: ["L'Île des Ombres"],
     portrait: "pnj/portraits/hobbs.jpg",
     pavillon: "pnj/pavillons/generic.svg",
+    source: null,
     bio: `Maître charpentier du Téméraire. Massif, barbe grise, jambe droite brisée, le visage creusé de cicatrices. Bourru dans la forme, loyal dans les actes — a guidé l'équipage dans la réparation du sloop après le naufrage. Mort durant les événements de l'île.`
   },
   {
@@ -441,6 +480,7 @@ const PNJ_DATA = [
     tags: ["L'Île des Ombres"],
     portrait: "pnj/portraits/alarcon.jpg",
     pavillon: "pnj/pavillons/es.svg",
+    source: null,
     bio: `Grand, élancé, une cicatrice sur la joue gauche et un regard d'acier. Cousin de Don Gaspar de la Serna, vaincu en duel par Antonio à Trinidad — une rancœur ancienne qu'il n'a pas cherché à dissimuler. Obstiné jusqu'à l'absurde : a refusé d'évacuer l'île avec les forces espagnoles. Dévoré par les Indiens Bravos.`
   },
   {
@@ -454,6 +494,7 @@ const PNJ_DATA = [
     tags: ["L'Île des Ombres"],
     portrait: "pnj/portraits/velazquez.jpg",
     pavillon: "pnj/pavillons/es.svg",
+    source: null,
     bio: `Élégant, mince, l'allure aristocratique. Superstitieux malgré son éducation, ambitieux mais pas téméraire. A choisi de quitter l'île avec ses troupes plutôt que de partager l'obstination fatale de Don Francisco.`
   },
   // PNJ SED
@@ -467,6 +508,7 @@ const PNJ_DATA = [
     origine: "Français",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/lefevre.jpg",
+    source: null,
     bio: `Chef cuisinier français, rescapé de naufrage. A supervisé le grand banquet de Cap-Français avec la rigueur d’un professionnel et la générosité d’un rescapé. A offert son livre de recettes à Amédée en souvenir.`
   },
   {
@@ -480,6 +522,7 @@ const PNJ_DATA = [
     tags: ["Saint-Domingue", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/blackwood.jpg",
     pavillon: "pnj/pavillons/gb.svg",
+    source: null,
     bio: `Agent britannique infiltré dans la délégation du banquet de Cap-Français. A recruté Antonio et Robert comme gardes du corps pour les compromettre. Responsable de l'empoisonnement de la délégation espagnole. Interpellé par le Gouverneur Blénac alors qu'il quittait Cap-Français, les faux documents de Rochambeau trouvés sur lui l'ont confondu. Sort inconnu depuis.`
   },
   {
@@ -493,6 +536,7 @@ const PNJ_DATA = [
     tags: ["Saint-Domingue", "Europe", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/rochambeau.jpg",
     pavillon: "pnj/pavillons/fr_banniere.svg",
+    source: null,
     bio: `Diplomate français aguerri, opposé au traité de libre-échange au Banquet du Cap-Français. Avait préparé ses propres manœuvres pour saboter les négociations — substitution de faux documents, avec des clauses inacceptables. A renoncé après la révélation du complot de Blackwood, qui a rendu toute manœuvre supplémentaire superflue.`
   },
   {
@@ -506,6 +550,7 @@ const PNJ_DATA = [
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/blenac.jpg",
     pavillon: "pnj/pavillons/fr_banniere.svg",
+    source: null,
     bio: `Gouverneur de Saint-Domingue au moment du banquet de Cap-Français. Administrateur perspicace, favorable au traité. C'est sur la foi d'Antonio qu'il a fait intercepter Blackwood — et c'est lui qui a libéré Robert et Antonio avec une injonction sans équivoque : ne plus paraître à Cap-Français. Ton pragmatique plutôt que vengeur.`
   },
   {
@@ -518,6 +563,7 @@ const PNJ_DATA = [
     origine: "Français",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/daboville.jpg",
+    source: null,
     bio: `Chef de la communauté jésuite à Saint-Domingue. Hôte du banquet dans les jardins du couvent. Présence bienveillante, discrète et attentive.`
   },
   {
@@ -530,6 +576,7 @@ const PNJ_DATA = [
     origine: "Hollandais",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/vandergroot.jpg",
+    source: null,
     bio: `Ancien marchand hollandais représentant la WIC, passionné de botanique et de cartographie, dont la serre et la bibliothèque ont fait la joie de Fañch et d’Edward. A servi d'intermédiaire pour mettre les aventuriers en contact avec Blackwood.`
   },
   {
@@ -542,6 +589,7 @@ const PNJ_DATA = [
     origine: "Français",
     tags: ["Saint-Domingue", "Caraïbes", "Satiété engendre Démesure"],
     portrait: "pnj/portraits/montblanc.jpg",
+    source: null,
     bio: `Riche planteur français. Redevable envers les aventuriers pour un service rendu concernant sa plantation. Présent au banquet de Cap-Français.`
   },
   // PNJ Hippogriffe
@@ -556,6 +604,7 @@ const PNJ_DATA = [
     tags: ["Caraïbes", "Le dernier voyage de l'Hippogriffe"],
     portrait: "pnj/portraits/winthorpe.jpg",
     pavillon: "pnj/pavillons/winthorpe.svg",
+    source: null,
     bio: `Capitaine anglais au long passé de flibuste, rencontré naufragé sur la côte nord-est de Little Savannah — brigantin et moitié d'équipage perdus sur les récifs lors d'une tornade. Blond, carré, rire tonitruant : donne l'impression d'un homme à l'aise partout, ce qui est exactement le registre qu'il cultive. Excellent commandant : autorité naturelle, charisme réel. Ne fait confiance à personne et n'attend pas qu'on lui fasse confiance.
 
     Les aventuriers ont mené une expédition en partenariat avec lui — réussie. Ils ont su mettre un terme à l'association avant que les relations ne se gâtent, pressentant que la concorde ne durerait pas. Interdit de séjour à Nassau, il n'est pas impossible pour autant qu'ils ne croisent sa route à nouveau un jour..`
@@ -571,6 +620,7 @@ const PNJ_DATA = [
     origine: "Français (Saint-Domingue)",
     tags: ["Caraïbes", "Saint-Domingue", "Le dernier voyage de l'Hippogriffe"],
     portrait:"pnj/portraits/gazelle-borgne.jpg",
+    source: null,
     bio: `Deux boucaniers de Saint-Domingue, matelots au sens pirate du terme — associés par contrat autant que par tempérament. Arrivés à Little Savannah après qu'une tempête a détruit leur embarcation alors qu'ils cherchaient de nouveaux territoires de chasse. Projet d'origine : s'enfoncer dans les terres américaines pour chasser le bison.
 
     La Gazelle est le meneur de fait — le plus féroce des deux. Le Borgne est réputé meilleur tireur du groupe, et sa réputation est méritée. Combattants endurcis au corps à corps tous les deux, novices en matière navale. Nature violente mais franche, peu portés à la duplicité — dans leur code, la camaraderie compte autant que le butin. Loyauté mutuelle totale.
@@ -588,6 +638,7 @@ const PNJ_DATA = [
     origine: "Espagnol (Trinidad)",
     tags: ["Trinidad", "Caraïbes", "Les épaves de la Flotte au Trésor", "Antonio"],
     portrait: "pnj/portraits/diego.jpg",
+    source: null,
     bio: `Jeune soldat de conscription espagnol, originaire de Trinidad. A reconnu Antonio parmi les pirates lors des Épaves de la Flotte au Trésor. C'est lui qui a appris à Antonio que la plantation Caballero avait périclité. Sauvé par les aventuriers, il les a accompagné à Nassau.`
   },
   {
@@ -600,6 +651,7 @@ const PNJ_DATA = [
     origine: "Mosquito (Nicaragua)",
     tags: ["Caraïbes", "Les épaves de la Flotte au Trésor", "Dusmatis"],
     portrait: "pnj/portraits/kabo.jpg",
+    source: null,
     bio: `Plongeur Mosquito, originaire du rivage nicaraguayen. A été recruté parmi les esclaves libérés lors du pillage des épaves de la Flotte au Trésor.`
   },
   // Factions
@@ -615,6 +667,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Flying Gang"],
     portrait: null,
     pavillon: "pnj/pavillons/nassau.svg",
+    source: null,
     bio: ``
   },
    {
@@ -629,6 +682,7 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Conseil de Nassau", "Flying Gang"],
     portrait:  "pnj/portraits/conseil-nassau.jpg",
     pavillon: "pnj/pavillons/nassau.svg",
+    source: null,
     bio: `La République Pirate de Nassau est fondée par Hornigold et ses pairs. Cinq magistrats élus en janvier 1716 à l'issue des évènements de la Flotte au Trésor : Benjami Hornigold, Edward Teach, Henry Jennings, John Cockram, Josiah Burgess. Structure fragile, personnelle, sans constitution écrite — elle tient par les hommes qui la composent autant que par les principes qu'elle défend.`
   },
   {
@@ -642,6 +696,7 @@ const PNJ_DATA = [
     origine: "Anglais",
     tags: ["Europe", "Robert", "Équipage du Captain Charles Johnson"],
     portrait: null,
+    source: null,
     bio: `Réseau d'entraide ayant exfiltré et mandaté Robert pour documenter les événements et personnages extraordinaires des Indes Occidentales.`
   },
 
@@ -658,6 +713,7 @@ const PNJ_DATA = [
     origine: "Italienne",
     tags: ["Caraïbes", "Europe", "Piagnoni"],
     portrait: null,
+    source: null,
     bio: `Secte aux origines et objectifs encore mal cernés. Des agents au profil similaire ont été signalés dans plusieurs ports des Caraïbes. Manifeste une hostilité envers certains objets et documents anciens. Ruggiero della Scala a été tué par l'un d'eux.`
   },
  
@@ -671,6 +727,7 @@ const PNJ_DATA = [
     origine: "Caraïbes / Irlande / Espagne",
     tags: ["Caraïbes", "Trident"],
     portrait: null,
+    source: null,
     bio: `Réseau de contrebande actif dans l'ensemble des Caraïbes. Absorbe ou élimine les réseaux artisanaux existants. Corrompt systématiquement les fonctionnaires coloniaux de toutes nationalités. Direction inconnue. Nicholas Woodall en est une victime.`
   },
  
@@ -684,6 +741,7 @@ const PNJ_DATA = [
     origine: "Internationale",
     tags: ["Caraïbes", "Europe", "Saint-Domingue"],
     portrait: null,
+    source: null,
     bio: `Réseau jésuite aux Caraïbes, visible à travers la présence du Père Morelet d'Aboville à Cap-Français et de personnages gravitant dans son orbite. Étendue et objectifs réels : inconnus.`
   },
  
@@ -699,6 +757,7 @@ const PNJ_DATA = [
     origine: "Bretonne (France)",
     tags: ["Europe", "Robert"],
     portrait: null,
+    source: null,
     bio: `Bretonne, ancienne maîtresse officielle de Charles II d'Angleterre, agent d'influence de Louis XIV à la cour anglaise. En 1715, 65 ans, retirée à Aubigny. Femme de mémoire longue qui a survécu à trois règnes.`
   },
  
@@ -712,6 +771,7 @@ const PNJ_DATA = [
     origine: "Hollandais (Amsterdam)",
     tags: ["Europe", "Fanch"],
     portrait: null,
+    source: null,
     bio: `Anatomiste et botaniste hollandais. Créateur du cabinet de curiosités le plus célèbre d'Europe — plus de 2 000 spécimens. A vendu l'intégralité de sa collection à Pierre le Grand en 1717 pour 30 000 guilders.`
   },
  
@@ -725,6 +785,7 @@ const PNJ_DATA = [
     origine: "Hollandaise (Amsterdam / Düsseldorf)",
     tags: ["Europe"],
     portrait: null,
+    source: null,
     bio: `Peintre néerlandaise de natures mortes florales, fille de Frederik Ruysch. Première femme admise à la Confrérie Pictura de La Haye. Peintre de cour de Johann Wilhelm, électeur palatin à Düsseldorf, jusqu'en 1716. Fortune et réputation indépendantes.`
   },
     ];
