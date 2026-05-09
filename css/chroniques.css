@@ -277,6 +277,8 @@
   overflow-y: auto;
   display: grid;
   flex-direction: column;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 /* En-tête : numéro + titre à gauche, date à droite */
@@ -324,6 +326,8 @@
   padding: 1rem 2rem 1rem;
   border-bottom: 1px solid var(--border);
   justify-content: flex-start;
+  container-type: inline-size;
+  container-name: modal-nav;
 }
 
 .chrono-nav-btn {
@@ -364,6 +368,14 @@
 
 .chrono-nav-btn:disabled {
   pointer-events: none;
+}
+
+/* Version abrégée des boutons — visible uniquement si débordement */
+.chrono-nav-court { display: none; }
+
+@container modal-nav (max-width: 875px) {
+  .chrono-nav-long  { display: none; }
+  .chrono-nav-court { display: inline; }
 }
 
 .modal-chrono-banner {

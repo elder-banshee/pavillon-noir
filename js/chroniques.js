@@ -378,21 +378,21 @@ function renderModal() {
 
   // ── Navigation chapitres (haut, pour les pages chapitre) ───
   const navBtnsChapitre = [
-    `<button class="chrono-nav-btn" onclick="goToPage(null)">Accueil</button>`,
+    `<button class="chrono-nav-btn" onclick="goToPage(null)"><span class="chrono-nav-long">Accueil</span><span class="chrono-nav-court">Acc.</span></button>`,
     ...chapitresDispos.map((ch, idx) => {
-      const label = 'Chapitre ' + (ch.roman || toRoman(idx + 1));
+      const roman = ch.roman || toRoman(idx + 1);
       const actif = modalPage === idx;
       return `<button class="chrono-nav-btn${actif ? ' active' : ''}"
         ${actif ? 'disabled' : `onclick="goToPage(${idx})"`}>
-        ${label}</button>`;
+        <span class="chrono-nav-long">Chapitre ${roman}</span><span class="chrono-nav-court">Ch.&nbsp;${roman}</span></button>`;
     })
   ].join('');
   const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
 
   // ── Navigation chapitres (bas, pour la page accueil) ───────
   const navBtnsAccueil = chapitresDispos.map((ch, idx) => {
-    const label = 'Chapitre ' + (ch.roman || toRoman(idx + 1));
-    return `<button class="chrono-nav-btn" onclick="goToPage(${idx})">${label}</button>`;
+    const roman = ch.roman || toRoman(idx + 1);
+    return `<button class="chrono-nav-btn" onclick="goToPage(${idx})"><span class="chrono-nav-long">Chapitre ${roman}</span><span class="chrono-nav-court">Ch.&nbsp;${roman}</span></button>`;
   }).join('');
 
   // ── Indicateur de chargement si rapport pas encore prêt ────
@@ -455,7 +455,7 @@ function renderModal() {
       : '';
 
     const preambuleHtml = ch.preambule
-      ? `<div class="rapport-md modal-chrono-preambule">${ch.preambule}</div>`
+      ? `<div class="modal-chrono-texte rapport-md modal-chrono-preambule">${ch.preambule}</div>`
       : '';
 
     contenu = `
