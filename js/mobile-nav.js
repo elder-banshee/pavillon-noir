@@ -8,9 +8,10 @@
   if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') return;
 
   const NAV_LINKS = [
-    { label: 'Accueil',      href: 'index.html'    },
-    { label: 'Registre',     href: 'pnj.html'      },
-    { label: 'Équipage',     href: 'equipage.html' },
+    { label: 'Accueil',      href: 'index.html'      },
+    { label: 'Registre',     href: 'pnj.html'        },
+    { label: 'Équipage',     href: 'equipage.html'   },
+    { label: 'Chroniques',   href: 'chroniques.html' },
   ];
 
   const ICON_CLOSED = `<svg xmlns="http://www.w3.org/2000/svg" id="chest_closed" viewBox="0 0 141.73 141.73" width="52" height="52"><defs><style>.cls-1{fill: #c8973a;}.cls-2{fill: #0e0c09;}</style></defs>
