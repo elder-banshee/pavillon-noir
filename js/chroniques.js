@@ -316,6 +316,7 @@ const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
     contenu = `
       <div class="modal-chrono-body">
         ${bannerHtml}
+        ${sourceCredit(c)}
         ${metaHtml}
         ${resumeHtml}
         ${chapitres.length ? navBas : ''}
@@ -353,4 +354,12 @@ function closeModal() {
 function formatNombre(n) {
   if (n >= 1000) return (n / 1000).toFixed(0) + '\u202fk';
   return n.toString();
+}
+
+function sourceCredit(c) {
+  if (!c.source) return '';
+  return `<div class="modal-source">
+    ${c.source.credit}
+    ${c.source.url ? `<a class="modal-source-link" href="${c.source.url}" target="_blank" rel="noopener" aria-label="Voir la source">↗</a>` : ''}
+  </div>`;
 }

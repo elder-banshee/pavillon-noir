@@ -492,6 +492,28 @@
   color: var(--mist);
 }
 
+.modal-source {
+  padding: 0.4rem 2rem 0;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0;
+  color: var(--parchment2);
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+.modal-source-link {
+  display: inline-block;
+  margin-left: 0.3rem;
+  color: var(--mist);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: color 0.2s;
+  vertical-align: middle;
+}
+
+.modal-source-link:hover { color: var(--gold); }
+
 /* ─── Responsive mobile ─────────────────────────────────────── */
 @media (max-width: 700px) {
 

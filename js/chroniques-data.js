@@ -10,6 +10,7 @@ const CHRONIQUES = [
     date_campagne: "Avril 1713",
     illustration: "chroniques/covers/île_des_ombres.jpg",
     align: 50,
+    source: null,
     piste: "ost/ile-des-ombres.mp3",
     extrait: "Une île sans nom, des soldats espagnols et des Indiens Bravos tapis dans la forêt. Le premier écart entre ce qu'on cherchait et ce qu'on a trouvé.",
     meta: {
@@ -35,6 +36,7 @@ const CHRONIQUES = [
     date_campagne: "Janvier 1714",
     illustration: "chroniques/covers/sed.jpg",
     align: 50,
+    source: { credit: 'D\'après Floris van Schooten, 1626 — Musée du Louvre', url: 'https://collections.louvre.fr/ark:/53355/cl010064656' },
     piste: "ost/sed.mp3",
     extrait: "Une improbable succession de festins culminant par un banquet à Cap-Français, deux gardes du corps d'un agent britannique, et une délégation espagnole empoisonnée.",
     meta: {
@@ -56,6 +58,7 @@ const CHRONIQUES = [
     date_campagne: "Septembre—Décembre 1715",
     illustration: "chroniques/covers/hippogriffe.jpg",
     align: 50,
+    source: null,
     piste: "ost/hippogriffe.mp3",
     extrait: "Un naufrage providentiel, un cadavre aux plats d'or précolombiens, et la Flotte au Trésor quelque part sous les eaux. Il suffisait d'y arriver les premiers.",
     meta: {
@@ -77,6 +80,7 @@ const CHRONIQUES = [
     date_campagne: "Décembre 1715",
     illustration: "chroniques/covers/marianne.jpg",
     align: 40,
+    source: null,
     piste: "ost/marianne.mp3",
     extrait: "La frégate française Marianne, trente-deux canons, prise par audace sous le nez de Jennings. Le massacre qui a suivi ne figurera dans aucune chanson.",
     meta: {
@@ -98,6 +102,7 @@ const CHRONIQUES = [
     date_campagne: "Janvier 1716",
     illustration: "chroniques/covers/epaves.jpg",
     align: 30,
+    source: null,
     piste: "ost/epaves.mp3",
     extrait: "Huit millions de pièces de huit gisaient entre ciel et fond. Ils en ont remonté quatre-vingt mille. Un tiens vaut mieux que deux tu l'auras.",
     meta: {
@@ -119,6 +124,7 @@ const CHRONIQUES = [
     date_campagne: "Février 1716",
     illustration: null,
     align: 50,
+    source: null,
     piste: "ost/courses-trinidad.mp3",
     extrait: "La sobriété du ton ne laissait pas moins entendre que la situation était grave : la lettre de Ruggiero bouleversait les projets immédiats.",
     meta: {
