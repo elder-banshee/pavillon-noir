@@ -122,8 +122,8 @@ function parseRapport(texte) {
   // Repérer les indices de chaque ## (chapitre)
   const coupes = []; // { index, titre }
   lignes.forEach((ligne, i) => {
-    if (/^## /.test(ligne)) {
-      coupes.push({ index: i, titre: ligne.replace(/^## /, '').trim() });
+    if (/^# /.test(ligne)) {
+      coupes.push({ index: i, titre: ligne.replace(/^# /, '').trim() });
     }
   });
 
@@ -175,7 +175,6 @@ function mdToHtml(md) {
 
   // On filtre les lignes H1 (# ) et les séparateurs --- avant conversion
   const filtre = md.split('\n')
-    .filter(l => !/^# [^#]/.test(l))          // supprime les H1
     .filter(l => !/^-{3,}\s*$/.test(l))       // supprime les ---
     .join('\n');
 

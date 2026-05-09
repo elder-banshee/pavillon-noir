@@ -1,16 +1,10 @@
-# Chroniques du Nouveau-Monde
-### Correspondance de Robert Arundel à l'intention de M. Nathaniel Mist, imprimeur, Londres
-
----
-
-# L'Île des Ombres
-### Anno Domini 1713
+*Anno Domini 1713*
 
 *Les récits qui suivent me furent communiqués en plusieurs entretiens avec les trois protagonistes de cette affaire : Antonio, bretteur espagnol en rupture avec son passé colonial ; Fañch Le Bihan, médecin breton aux idées peu conformes à l'ordre établi ; et Dusmãtis, jeune homme de la nation Miskito dont la présence parmi nous ne cesse d'étonner et d'instruire. Je les ai recueillis aussi fidèlement qu'il m'a été possible, réconciliant les versions là où elles divergeaient, et signalant les incertitudes qui demeuraient.*
 
 ---
 
-## I. Naufragés
+# I. Naufragés
 
 Il faut d'abord dire un mot du *Téméraire* et de son capitaine, un certain Wesley Morris, dit *Black Dog*, ancien corsaire britannique reconverti dans la flibuste après que la paix eut rendu ses lettres de marque sans objet. C'était un navire de médiocre qualité confié à un équipage de circonstance — mais c'était leur navire, et il leur avait suffi.
 
@@ -28,15 +22,15 @@ Dans les jours qui suivirent, la priorité fut la survie immédiate. Une source 
 
 ---
 
-## II. Mystères de l'île
+# II. Mystères de l'île
 
-### La grotte
+## La grotte
 
 Après un jour ou deux d'exploration prudente, ils découvrirent l'entrée d'une grotte dissimulée par la végétation. À l'intérieur, les traces d'une occupation récente : des outils de charpenterie abandonnés, une carte grossière de l'île couverte d'annotations, et un journal de bord rédigé par un certain capitaine Owens.
 
 La carte fut immédiatement utile. Le journal, en revanche, résista. L'écriture de Owens était difficile à déchiffrer, le papier maculé de taches de moisissure, et si Fañch maîtrisait l'anglais, la lecture de ce document se fit par fragments, dans les rares moments de répit que lui laissaient ses autres obligations. Ce qu'il en tira dans un premier temps était mince mais suffisant : un équipage avait séjourné dans cette grotte un peu plus d'un an auparavant, ce qui correspondait à leurs estimations, et une crique mentionnée dans les pages les plus lisibles semblait mériter attention. La carte confirmait son existence et en indiquait approximativement la position. Ce serait leur prochaine destination.
 
-### La rencontre dans la jungle
+## La rencontre dans la jungle
 
 Ils n'y arrivèrent pas sans encombre. Progressant prudemment sous le couvert des arbres, ils se retrouvèrent soudain à quelques pas de deux soldats espagnols en patrouille.
 
@@ -58,13 +52,13 @@ Antonio ne s'accorda pas le temps de la moindre hésitation. Il fondit de l'arbr
 
 Ne sachant ce qui avait provoqué la terreur des soldats, et peu désireux de le découvrir, ils quittèrent les lieux sans concertation. Les cris avaient peut-être été étouffés par la jungle ; les deux détonations, certainement pas.
 
-### La crique aux ossements
+## La crique aux ossements
 
 C'est peu de temps après qu'ils découvrirent la crique. Ce qu'ils y trouvèrent — un petit cotre à demi réparé, entouré d'ossements humains disposés en cercles concentriques avec une symétrie qui excluait tout accident — n'était plus guère qu'une confirmation de ce qu'ils savaient déjà. Owens et ses hommes n'avaient manifestement pas quitté l'île à bord de ce navire. Et l'île n'était pas déserte. La signification précise de l'agencement des ossements échappait à Dusmãtis, qui n'était pas familier des pratiques des Indiens de ces côtes — mais le message général se passait d'interprète.
 
 Ce déplaisir fut néanmoins compensé par l'espoir que représentait l'embarcation. Ils procédèrent à une inspection aussi rigoureuse que leurs connaissances navales le permettaient, évaluèrent la nature et l'étendue des réparations nécessaires, et délibérèrent sur la question du campement. La grotte était plus proche du camp espagnol, mais mieux dissimulée et plus sûre. Ils résolurent d'y demeurer, quitte à multiplier les allers-retours jusqu'à la crique pour les travaux.
 
-### Hobbs
+## Hobbs
 
 C'est vers la tombée du jour, alors qu'Antonio et Fañch étaient repartis en corvée de vivres et que Dusmãtis était resté seul à fouiller le cotre, que sa vue accrocha quelque chose à la sortie de la crique. Un objet à la dérive — et bientôt, une silhouette qui s'y agrippait.
 
@@ -80,7 +74,7 @@ Il leur raconta alors comment les choses s'étaient passées. Touché au bout de
 
 ---
 
-## III. Le chantier
+# III. Le chantier
 
 Dans les jours qui suivirent, ils travaillèrent d'arrache-pied, redoutant à chaque instant d'être surpris. Fañch ne ménageait pas sa peine, se partageant entre le dégauchissage des pièces de bois et les soins de Hobbs — car maintenir le charpentier en état de prodiguer ses conseils était aussi indispensable que de tailler le gouvernail. Dusmãtis se révéla un apprenti charpentier d'une adresse remarquable, capable de donner aux pièces la forme que Hobbs exigeait, et arrachant à ce dernier une approbation qui ne lui venait pas facilement. Rester à la crique plutôt que de regagner la grotte lui permit également de faire bénéficier ses compagnons de son expertise de pêcheur : l'approvisionnement s'en trouva grandement facilité, et le groupe put consacrer davantage de temps au chantier. Antonio, l'ancien planteur de canne à sucre, n'avait pas de talent particulier pour la charpenterie ni pour la pêche. Il se cantonna donc aux rôles les plus ingrats — fourrageur, porteur d'eau, homme à tout faire — et, comme il l'avait fait toute sa vie, s'efforça d'accomplir à lui seul la tâche de deux hommes.
 
@@ -100,7 +94,7 @@ Un roulement sourd et continu, venant du sud-ouest de l'île. Les expressions s'
 
 ---
 
-## IV. Le camp espagnol
+# IV. Le camp espagnol
 
 Les tambours résonnèrent toute la nuit. Ils dormirent mal, mais lorsqu'ils se réveillèrent une heure ou deux avant le lever du jour, le silence était revenu. Ils ne prirent avec eux que l'essentiel et se mirent en route vers le nord.
 
@@ -116,7 +110,7 @@ Antonio regagna le promontoire et fit son rapport. Ils avaient désormais une im
 
 Les choses prenaient un tour intéressant.
 
-### La nuit des Bravos
+## La nuit des Bravos
 
 Le *San Cristóbal* hissa les voiles en fin d'après-midi, le Commandant Velázquez exhortant une dernière fois Don Francisco à revenir à la raison depuis son gaillard d'arrière. Ce dernier fit la sourde oreille. Il s'éloigna en direction de la lisière des bois et, tournant ostensiblement le dos au navire, demeura dans cette position jusqu'à ce qu'il estimât certain que la frégate ne fût plus visible. Puis il distribua ses consignes aux six hommes qu'il avait retenus et se retira sous sa tente.
 
@@ -136,7 +130,7 @@ Les trois hommes, piégés, passèrent la nuit dans la coque du *Téméraire*.
 
 ---
 
-## V. La fuite et la tempête
+# V. La fuite et la tempête
 
 Les festivités s'interrompirent progressivement avec les premières lueurs de l'aube. En osant jeter un œil au-dehors, à la lumière du jour, on pouvait voir entre cent et deux cents indigènes, la plupart allongés là où bon leur avait semblé. Certains titubaient encore, comme ivres. D'autres achevaient de faire griller des viandes dont la nature n'appelait pas à s'attarder. Un mollet abandonné sur la plage — peut-être celui de Don Francisco de Alarcón — semblait être le dernier relief d'un infâme festin.
 
@@ -166,7 +160,7 @@ Ils n'étaient pourtant pas tirés d'affaire. Le gréement s'arracha pièce par 
 
 ---
 
-## VI. La proclamation
+# VI. La proclamation
 
 Des heures passèrent. Peut-être une journée entière. Finalement, le vent tomba et la mer se calma. Antonio passa la tête par l'écoutille : ciel dégagé, mer d'huile, et plus aucun mât. Il redescendit. Dusmãtis lui annonça laconiquement : *Hobbs est mort.*
 
