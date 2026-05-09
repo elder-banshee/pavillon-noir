@@ -554,6 +554,13 @@
   opacity: 0.6;
 }
 
+.modal-chrono-preambule {
+  color: #8fa5b4;           /* plus clair que --mist (#6b7c8a), même gamme */
+  font-style: italic;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  /*border-bottom: 1px solid var(--border);*/
+}
 .modal-chrono-chapitre-titre {
   font-family: 'Cinzel', serif;
   font-size: 1rem;
@@ -562,19 +569,19 @@
   text-transform: uppercase;
   color: var(--gold);
   padding: 2rem 2rem 0;
-  margin-bottom: 1;
+  margin-bottom: 1rem;
 }
 
 .modal-chrono-body--chapitre {
   padding: 0 2rem 2rem;     /* marges latérales du corps */
 }
 
-.modal-chrono-preambule {
-  color: #8fa5b4;           /* plus clair que --mist (#6b7c8a), même gamme */
-  font-style: italic;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  /*border-bottom: 1px solid var(--border);*/
+.modal-chrono-texte {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  color: var(--parchment2);
+  line-height: 1.85;
+  text-align: justify;      /* justification */
 }
 
 /* ─── Responsive mobile ─────────────────────────────────────── */
