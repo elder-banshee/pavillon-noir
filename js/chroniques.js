@@ -473,7 +473,6 @@ function renderModal() {
   // Détection de débordement de la nav
   setTimeout(() => {
     document.querySelectorAll('.modal-chrono-nav').forEach(nav => {
-      console.log('nav scrollWidth:', nav.scrollWidth, 'clientWidth:', nav.clientWidth);
       const deborde = nav.scrollWidth > nav.clientWidth;
       nav.classList.toggle('nav--compacte', deborde);
     });

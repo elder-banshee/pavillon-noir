@@ -322,6 +322,7 @@
 .modal-chrono-nav {
   display: flex;
   flex-wrap: nowrap;
+  overflow: hidden;
   gap: 0.4rem;
   padding: 1rem 2rem 1rem;
   border-bottom: 1px solid var(--border);
