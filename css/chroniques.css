@@ -565,6 +565,14 @@
   margin-bottom: 0;
 }
 
+.modal-chrono-preambule {
+  color: var(--mist);
+  font-style: italic;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
 /* ─── Responsive mobile ─────────────────────────────────────── */
 @media (max-width: 700px) {
 

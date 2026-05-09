@@ -140,15 +140,17 @@ function parseRapport(texte) {
     const fin   = idx + 1 < coupes.length ? coupes[idx + 1].index : lignes.length;
     let contenu = lignes.slice(debut, fin).join('\n');
 
-    // Coller le préambule à la fin du premier chapitre (après son contenu)
+    // Coller le préambule au début du premier chapitre (avant son contenu)
     if (idx === 0 && preambule.trim()) {
-      contenu = contenu + '\n\n' + preambule;
+      contenu = preambule + '\n\n' + contenu;
     }
 
     return {
-      titre:  coupe.titre,           // titre complet ex. "I. Naufragés"
-      roman:  toRoman(idx + 1),      // chiffre romain ex. "I"
-      html:   mdToHtml(contenu),
+      titre:     coupe.titre,
+      roman:     toRoman(idx + 1),
+      html:      mdToHtml(contenu),
+      preambule: idx === 0 && preambule.trim() ? mdToHtml(preambule) : null,
+      corps:     mdToHtml(lignes.slice(debut, fin).join('\n')),
     };
   });
 
@@ -448,16 +450,19 @@ function renderModal() {
     const ch = chapitresDispos[modalPage];
     if (!ch) { modal.innerHTML = header + navHaut; return; }
 
-    // Titre du chapitre en tête — reconstruit depuis le champ titre brut
-    // ex. "I. Naufragés" → affiché comme sous-titre avant le corps
     const titreHtml = ch.titre
       ? `<h3 class="modal-chrono-chapitre-titre">${ch.titre}</h3>`
       : '';
 
+    const preambuleHtml = ch.preambule
+      ? `<div class="modal-chrono-texte rapport-md modal-chrono-preambule">${ch.preambule}</div>`
+      : '';
+
     contenu = `
       <div class="modal-chrono-body modal-chrono-body--chapitre">
+        ${preambuleHtml}
         ${titreHtml}
-        <div class="modal-chrono-texte rapport-md">${ch.html}</div>
+        <div class="modal-chrono-texte rapport-md">${ch.corps || ch.html}</div>
       </div>`;
 
     modal.innerHTML = header + navHaut + contenu;
