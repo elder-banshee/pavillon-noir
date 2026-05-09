@@ -279,6 +279,9 @@
   flex-direction: column;
   overflow-y: auto;
   scrollbar-gutter: stable;
+  container-type: inline-size;    
+  container-name: modal-nav;
+
 }
 
 /* En-tête : numéro + titre à gauche, date à droite */
@@ -326,8 +329,6 @@
   padding: 1rem 2rem 1rem;
   border-bottom: 1px solid var(--border);
   justify-content: flex-start;
-  container-type: inline-size;
-  container-name: modal-nav;
 }
 
 .chrono-nav-btn {
@@ -461,22 +462,6 @@
   padding-top: 2rem;
 }
 
-.modal-chrono-texte {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.1rem;
-  color: var(--parchment2);
-  line-height: 1.85;
-}
-.modal-chrono-texte p + p { margin-top: 1.2em; }
-.modal-chrono-texte h3 {
-  font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin: 2em 0 0.8em;
-}
-
 .chrono-meta-item,
 .modal-chrono-meta-item {
   border-color: rgba(200,151,58,0.4);
@@ -572,6 +557,15 @@
   color: var(--parchment2);
   line-height: 1.85;
   text-align: justify;
+}
+.modal-chrono-texte p + p { margin-top: 1.2em; }
+.modal-chrono-texte h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 2em 0 0.8em;
 }
 
 .modal-chrono-preambule {
