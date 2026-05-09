@@ -59,7 +59,7 @@
   background: transparent;
   border: 1px solid var(--border);
   border-radius: 2px;
-  color: var(--mist);
+  color: var(--mist-light);
   font-family: 'Cinzel', serif;
   font-size: 0.65rem;
   letter-spacing: 0.12em;
@@ -149,7 +149,7 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   margin-bottom: 0.6rem;
-  color: var(--mist);
+  color: var(--mist-light);
 }
 
 .pnj-status-dot {
@@ -271,7 +271,7 @@
   font-size: 0.6rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--mist);
+  color: var(--mist-light);
 }
 
 .modal-meta-value { font-size: 0.95rem; color: var(--parchment2); }

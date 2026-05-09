@@ -88,7 +88,7 @@ body::before {
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--mist);
+  color: var(--mist-light);
   text-decoration: none;
   transition: color 0.2s;
 }
