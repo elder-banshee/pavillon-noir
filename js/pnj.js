@@ -283,6 +283,6 @@ function sourceCredit(pnj, objet) {
   if (!s) return '';
   return `<div class="modal-source">
     ${s.credit}
-    <a class="modal-source-link" href="${s.url}" target="_blank" rel="noopener" aria-label="Voir la source">↗</a>
+    ${s.url ? `<a class="modal-source-link" href="${s.url}" target="_blank" rel="noopener" aria-label="Voir la source">↗</a>` : ''}
   </div>`;
 }
