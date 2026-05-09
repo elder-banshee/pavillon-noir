@@ -4,23 +4,37 @@ Site statique de la campagne de jeu de rôle **Pavillon Noir**, se déroulant da
 
 ## Pages
 
-- **`index.html`** — Registre des PNJ : galerie des personnages rencontrés au fil de la campagne, avec recherche plein texte et filtres par tags
+- **`index.html`** — Page d'accueil : portail de navigation vers les trois sections du site
+- **`pnj.html`** — Registre des PNJ : galerie des personnages rencontrés au fil de la campagne, avec recherche plein texte et filtres par tags
 - **`equipage.html`** — État du bord : chaîne de commandement, composition et compétences de l'équipage
+- **`chroniques.html`** — Journal de bord : fil des aventures, navigation horizontale par scénario avec rail marin animé
 
 ## Structure des fichiers
 
 ```
-├── index.html              # Registre des PNJ
-├── equipage.html           # Page équipage
+├── index.html              # Page d'accueil — portail de navigation
+├── pnj.html                # Registre des PNJ
+├── equipage.html           # État du bord
+├── chroniques.html         # Journal de bord
 ├── css/
-│   ├── style.css           # Feuille de style principale (partagée)
-│   └── equipage.css        # Styles spécifiques à la page équipage
+│   ├── style.css           # Styles globaux partagés (variables, nav, hero, modal de base)
+│   ├── pnj.css             # Styles spécifiques au registre PNJ
+│   ├── equipage.css        # Styles spécifiques à la page équipage
+│   └── chroniques.css      # Styles spécifiques au journal de bord
 ├── js/
-│   ├── pnj-data.js         # Données des personnages (source de vérité)
-│   ├── app.js              # Logique du registre (filtres, recherche, modal)
-│   └── equipage.js         # Logique de la page équipage (fetch Sheets, rendu)
-└── pnj/
-    └── portraits/          # Portraits des personnages (JPG/WebP, ratio 3:4)
+│   ├── pnj-data.js         # Données PNJ (source de vérité)
+│   ├── pnj.js              # Logique registre (filtres, recherche, modal)
+│   ├── equipage.js         # Logique équipage (fetch Sheets, rendu, jauges)
+│   ├── chroniques-data.js  # Données chroniques (source de vérité)
+│   ├── chroniques.js       # Logique chroniques (rail marin, modal, navigation)
+│   ├── audio.js            # Module audio ambiant (inactif — AUDIO_ENABLED = false)
+│   └── mobile-nav.js       # Navigation mobile flottante
+├── pnj/
+│   ├── portraits/          # Portraits PNJ (JPG/WebP, ratio 3:4, 600×800px)
+│   └── pavillons/          # Pavillons SVG/PNG
+├── chroniques/
+│   └── covers/             # Illustrations chroniques (ratio 4:3 minimum)
+└── ost/                    # Pistes audio ambiantes (MP3 — dossier vide)
 ```
 
 ## Mettre à jour les personnages
@@ -40,6 +54,11 @@ Les données sont dans `js/pnj-data.js`. Chaque entrée suit ce format :
   origine: "Nationalité / Origine",
   tags: ["Tag1", "Tag2"],
   portrait: "pnj/portraits/fichier.jpg",  // null si pas de portrait
+  pavillon: "pnj/pavillons/fichier.svg",  // optionnel — affiché dans la modal uniquement
+  source: [                               // optionnel — crédits des illustrations
+    { objet: 'portrait', credit: 'Auteur, année — Institution', url: 'https://...' },
+    { objet: 'pavillon', credit: 'Auteur, licence', url: 'https://...' }
+  ],
   bio: `Biographie destinée aux joueurs…`
 }
 ```
@@ -48,13 +67,45 @@ Les données sont dans `js/pnj-data.js`. Chaque entrée suit ce format :
 
 **Rendre une fiche visible en session** : passer `visible: false` à `visible: true` (ou supprimer le champ).
 
+## Mettre à jour les chroniques
+
+Les données sont dans `js/chroniques-data.js`. Chaque entrée suit ce format :
+
+```javascript
+{
+  id: "identifiant-unique",
+  visible: true,
+  numero: "Scénario I",
+  titre: "Titre du scénario",
+  date_campagne: "Mois AAAA",
+  illustration: "chroniques/covers/fichier.jpg",  // null si pas d'illustration
+  align: 50,                // position verticale de l'image en % (object-position)
+  piste: "ost/fichier.mp3", // piste audio associée
+  extrait: "Accroche courte affichée sur la carte et en modal.",
+  source: {                 // optionnel — crédit de l'illustration
+    credit: 'Auteur, année — Institution',
+    url: 'https://...'      // optionnel
+  },
+  meta: {
+    xp: 0, gloire: 0, infamie: 0,
+    pieces_huit: 0, recrues: 0, pertes: 0
+  },
+  chapitres: {
+    1: `<p>Texte du chapitre 1…</p>`,
+    2: null   // null = chapitre non encore rédigé
+  }
+}
+```
+
+**Ajouter une illustration** : déposer le fichier dans `chroniques/covers/` (format 4:3 minimum, conçu avec des zones calmes en haut et en bas pour le recadrage 16:9 de la modal) et renseigner le champ `illustration`. Régler `align` pour cadrer la zone d'intérêt.
+
 ## Page équipage — source de données
 
 La page équipage lit ses données depuis **Google Sheets** via une URL CSV publique pointant vers la **Feuille 3** du classeur "Équipage".
 
 Structure de la Feuille 3 :
 - **Ligne 1** : six valeurs numériques (moyennes pondérées des compétences d'équipage), dans l'ordre : Manœuvre, Canonnade, Recharge, Combat, Tir, Ruse
-- **Lignes 2+** : composition de l'équipage — colonne A = intitulé du groupe, colonne B = effectif
+- **Lignes 2+** : composition de l'équipage — colonne A = intitulé du groupe, colonne B = effectif, colonnes C–H = valeurs des six compétences pour ce groupe
 
 Toutes les cellules de la Feuille 3 sont des formules renvoyant vers la Feuille 1 (calculs détaillés). Pour mettre à jour l'équipage après une session, modifier uniquement la Feuille 1 — la Feuille 3 et le site se mettent à jour automatiquement.
 
