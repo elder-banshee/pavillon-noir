@@ -455,7 +455,7 @@ function renderModal() {
       : '';
 
     const preambuleHtml = ch.preambule
-      ? `<div class="modal-chrono-texte rapport-md modal-chrono-preambule">${ch.preambule}</div>`
+      ? `<div class="rapport-md modal-chrono-preambule">${ch.preambule}</div>`
       : '';
 
     contenu = `
