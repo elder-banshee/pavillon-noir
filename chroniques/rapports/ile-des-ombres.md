@@ -1,5 +1,5 @@
 # Chroniques du Nouveau-Monde
-## Correspondance de Robert Arundel à l'intention de M. Nathaniel Mist, imprimeur, Londres
+### Correspondance de Robert Arundel à l'intention de M. Nathaniel Mist, imprimeur, Londres
 
 ---
 
