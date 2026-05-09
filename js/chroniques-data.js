@@ -21,12 +21,7 @@ const CHRONIQUES = [
       recrues: 0,
       pertes: 0
     },
-    texte: `<p>Chronique à venir.</p>`,
-    chapitres: {
-      1: `<p>Premier chapitre de test — L'île des Ombres, chapitre I.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>`,
-      2: `<p>Deuxième chapitre de test — L'île des Ombres, chapitre II.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>`,
-      3: null
-    }
+    rapport: "chroniques/rapports/ile-des-ombres.md",
   },
   {
     id: "sed",
@@ -47,7 +42,6 @@ const CHRONIQUES = [
       recrues: 0,
       pertes: 0
     },
-    texte: `<p>Chronique à venir.</p>`,
     chapitres: {}
   },
   {
@@ -69,7 +63,6 @@ const CHRONIQUES = [
       recrues: 25,
       pertes: 7
     },
-    texte: `<p>Chronique à venir.</p>`,
     chapitres: {}
   },
   {
@@ -91,7 +84,6 @@ const CHRONIQUES = [
       recrues: 0,
       pertes: 0
     },
-    texte: `<p>Chronique à venir.</p>`,
     chapitres: {}
   },
   {
@@ -113,7 +105,6 @@ const CHRONIQUES = [
       recrues: 3,
       pertes: 0
     },
-    texte: `<p>Chronique à venir.</p>`,
     chapitres: {}
   },
   {
@@ -135,7 +126,6 @@ const CHRONIQUES = [
       recrues: 0,
       pertes: 0
     },
-    texte: `<p>Chronique à venir.</p>`,
     chapitres: {}
   }
 ];
