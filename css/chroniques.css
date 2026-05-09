@@ -373,7 +373,7 @@
 /* Version abrégée des boutons — visible uniquement si débordement */
 .chrono-nav-court { display: none; }
 
-@container modal-nav (max-width: 875px) {
+@container modal-nav (max-width: 898px) {
   .chrono-nav-long  { display: none; }
   .chrono-nav-court { display: inline; }
 }
