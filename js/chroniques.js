@@ -140,18 +140,28 @@ function parseRapport(texte) {
     const fin   = idx + 1 < coupes.length ? coupes[idx + 1].index : lignes.length;
     let contenu = lignes.slice(debut, fin).join('\n');
 
-    // Coller le préambule au premier chapitre
+    // Coller le préambule à la fin du premier chapitre (après son contenu)
     if (idx === 0 && preambule.trim()) {
-      contenu = preambule + '\n\n' + contenu;
+      contenu = contenu + '\n\n' + preambule;
     }
 
     return {
-      titre: coupe.titre,
-      html:  mdToHtml(contenu),
+      titre:  coupe.titre,           // titre complet ex. "I. Naufragés"
+      roman:  toRoman(idx + 1),      // chiffre romain ex. "I"
+      html:   mdToHtml(contenu),
     };
   });
 
   return chapitres;
+}
+
+// ─── Chiffres romains ────────────────────────────────────────
+function toRoman(n) {
+  const vals = [1000,900,500,400,100,90,50,40,10,9,5,4,1];
+  const syms = ['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I'];
+  let r = '';
+  vals.forEach((v, i) => { while (n >= v) { r += syms[i]; n -= v; } });
+  return r;
 }
 
 // ─── Conversion Markdown → HTML (via marked.js) ─────────────
@@ -369,7 +379,7 @@ function renderModal() {
   const navBtnsChapitre = [
     `<button class="chrono-nav-btn" onclick="goToPage(null)">Accueil</button>`,
     ...chapitresDispos.map((ch, idx) => {
-      const label = ch.titre || `Chapitre ${idx + 1}`;
+      const label = 'Chapitre ' + (ch.roman || toRoman(idx + 1));
       const actif = modalPage === idx;
       return `<button class="chrono-nav-btn${actif ? ' active' : ''}"
         ${actif ? 'disabled' : `onclick="goToPage(${idx})"`}>
@@ -380,7 +390,7 @@ function renderModal() {
 
   // ── Navigation chapitres (bas, pour la page accueil) ───────
   const navBtnsAccueil = chapitresDispos.map((ch, idx) => {
-    const label = ch.titre || `Chapitre ${idx + 1}`;
+    const label = 'Chapitre ' + (ch.roman || toRoman(idx + 1));
     return `<button class="chrono-nav-btn" onclick="goToPage(${idx})">${label}</button>`;
   }).join('');
 
@@ -439,8 +449,15 @@ function renderModal() {
     const ch = chapitresDispos[modalPage];
     if (!ch) { modal.innerHTML = header + navHaut; return; }
 
+    // Titre du chapitre en tête — reconstruit depuis le champ titre brut
+    // ex. "I. Naufragés" → affiché comme sous-titre avant le corps
+    const titreHtml = ch.titre
+      ? `<h3 class="modal-chrono-chapitre-titre">${ch.titre}</h3>`
+      : '';
+
     contenu = `
       <div class="modal-chrono-body modal-chrono-body--chapitre">
+        ${titreHtml}
         <div class="modal-chrono-texte rapport-md">${ch.html}</div>
       </div>`;
 
