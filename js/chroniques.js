@@ -470,13 +470,13 @@ function renderModal() {
 
   modal.scrollTop = 0;
 
-  // Détection de débordement de la nav — après rendu DOM
-  requestAnimationFrame(() => {
+  // Détection de débordement de la nav — double rAF pour laisser le layout se stabiliser
+  requestAnimationFrame(() => requestAnimationFrame(() => {
     document.querySelectorAll('.modal-chrono-nav').forEach(nav => {
       const deborde = nav.scrollWidth > nav.clientWidth;
       nav.classList.toggle('nav--compacte', deborde);
     });
-  });
+  }));
 }
 
 function goToPage(page) {
