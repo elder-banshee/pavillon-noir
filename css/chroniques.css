@@ -279,9 +279,6 @@
   flex-direction: column;
   overflow-y: auto;
   scrollbar-gutter: stable;
-  container-type: inline-size;    
-  container-name: modal-nav;
-
 }
 
 /* En-tête : numéro + titre à gauche, date à droite */
