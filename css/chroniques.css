@@ -562,15 +562,19 @@
   text-transform: uppercase;
   color: var(--gold);
   padding: 2rem 2rem 0;
-  margin-bottom: 0;
+  margin-bottom: 1;
+}
+
+.modal-chrono-body--chapitre {
+  padding: 0 2rem 2rem;     /* marges latérales du corps */
 }
 
 .modal-chrono-preambule {
-  color: var(--mist);
+  color: #8fa5b4;           /* plus clair que --mist (#6b7c8a), même gamme */
   font-style: italic;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
+  /*border-bottom: 1px solid var(--border);*/
 }
 
 /* ─── Responsive mobile ─────────────────────────────────────── */
