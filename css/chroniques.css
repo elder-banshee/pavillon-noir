@@ -494,6 +494,7 @@
 
 .modal-source {
   padding: 0.2rem 2rem 1rem;
+  margin-top: -1.2rem;
   font-family: 'Crimson Text', serif;
   font-size: 0.8rem;
   letter-spacing: 0;
