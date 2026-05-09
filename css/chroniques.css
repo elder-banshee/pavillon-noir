@@ -339,7 +339,7 @@
   text-transform: uppercase;
   color: var(--gold);
   border: 1px solid rgba(200,151,58,0.3);
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.5rem;
   background: none;
   cursor: pointer;
   transition: all 0.2s;
