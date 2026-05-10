@@ -274,6 +274,7 @@
   max-width: 900px;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-gutter: stable;
   display: grid;
   grid-template-columns: 1fr;
@@ -326,7 +327,7 @@
   border-bottom: 1px solid var(--border);
   justify-content: flex-start;
   overflow: hidden;
-  max-width: 100%;
+  /* max-width: 100%; */
 }
 
 .chrono-nav-btn {
