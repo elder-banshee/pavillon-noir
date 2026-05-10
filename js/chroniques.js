@@ -378,7 +378,7 @@ function renderModal() {
 
   // ── Navigation chapitres (haut, pour les pages chapitre) ───
   const navBtnsChapitre = [
-    `<button class="chrono-nav-btn" onclick="goToPage(null)"><span class="chrono-nav-long">Accueil</span><span class="chrono-nav-court">Acc.</span></button>`,
+    `<button class="chrono-nav-btn" onclick="goToPage(null)"><span class="chrono-nav-long">Accueil</span><span class="chrono-nav-court">↩</span></button>`,
     ...chapitresDispos.map((ch, idx) => {
       const roman = ch.roman || toRoman(idx + 1);
       const actif = modalPage === idx;
@@ -401,7 +401,7 @@ function renderModal() {
     : '';
 
   const navBas = nbChapitres > 0
-    ? `<nav class="modal-chrono-nav modal-chrono-nav--bas"><span class="modal-chrono-sommaire">Sommaire</span>${navBtnsAccueil}</nav>`
+    ? `<nav class="modal-chrono-nav modal-chrono-nav--bas">${navBtnsAccueil}</nav>`
     : chargementHtml;
 
   // ── Contenu selon la page ───────────────────────────────────
@@ -444,7 +444,6 @@ function renderModal() {
       </div>`;
 
     modal.innerHTML = header + contenu;
-    setTimeout(detecterDebordementNav, 50);
 
   } else {
     // Page chapitre
@@ -484,8 +483,7 @@ function goToPage(page) {
 // ─── Détection débordement nav ──────────────────────────────
 function detecterDebordementNav() {
   document.querySelectorAll('.modal-chrono-nav').forEach(nav => {
-    const mobile = window.innerWidth <= 700;
-    const deborde = mobile ? true : nav.scrollWidth > nav.clientWidth;
+    const deborde = nav.scrollWidth > nav.clientWidth;
     nav.classList.toggle('nav--compacte', deborde);
   });
 }

@@ -272,13 +272,11 @@
 /* ─── Modal chronique ───────────────────────────────────────── */
 .modal--chronique {
   max-width: 900px;
-  grid-template-columns: 1fr;
   max-height: 90vh;
   overflow-y: auto;
-  display: grid;
-  flex-direction: column;
-  overflow-y: auto;
   scrollbar-gutter: stable;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 /* En-tête : numéro + titre à gauche, date à droite */
@@ -324,7 +322,7 @@
   flex-wrap: nowrap;
   overflow: hidden;
   gap: 0.4rem;
-  padding: 1rem 2rem 1rem;
+  padding: 1rem 2rem;
   border-bottom: 1px solid var(--border);
   justify-content: flex-start;
 }
@@ -352,8 +350,7 @@
 .modal-chrono-nav--bas {
   border-top: 1px solid var(--border);
   border-bottom: none;
-  padding: 1rem 2rem 1rem;
-  margin-top: 1;
+  padding: 1rem 2rem;
   align-items: center;
 }
 
@@ -369,11 +366,14 @@
   pointer-events: none;
 }
 
-/* Version abrégée des boutons — visible uniquement si débordement */
+/* Version abrégée des boutons */
 .chrono-nav-court { display: none; }
 
 .nav--compacte .chrono-nav-long  { display: none; }
 .nav--compacte .chrono-nav-court { display: inline; }
+
+/* Sommaire — masqué par défaut, visible en mobile uniquement */
+.modal-chrono-sommaire { display: none; }
 
 .modal-chrono-banner {
   width: 100%;
@@ -451,11 +451,6 @@
   text-align: center;
   max-width: 640px;
   margin: 0 auto;
-}
-
-/* Corps chapitre : plus d'espace */
-.modal-chrono-body--chapitre {
-  padding-top: 2rem;
 }
 
 .chrono-meta-item,
@@ -571,7 +566,6 @@
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
-  /*border-bottom: 1px solid var(--border);*/
 }
 
 .modal-chrono-chapitre-titre {
@@ -588,8 +582,6 @@
 .modal-chrono-body--chapitre {
   padding: 0 2rem 2rem;
 }
-
-.modal-chrono-sommaire { display: none; }
 
 /* ─── Responsive mobile ─────────────────────────────────────── */
 @media (max-width: 700px) {
@@ -650,15 +642,20 @@
   .modal-chrono-nav { padding: 0.75rem 1.25rem; }
   .modal-chrono-banner,
   .modal-chrono-banner-placeholder { margin-bottom: 1rem; }
-  .modal-chrono-meta { gap: 0.4rem; display: grid; grid-template-columns: repeat(3, minmax(min-content, max-content)); justify-content: center; }
+  .modal-chrono-meta {
+    gap: 0.4rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(min-content, max-content));
+    justify-content: center;
+  }
+  .modal-chrono-meta-item { padding: 0.3rem 0.5rem; min-width: 0; }
+  .modal-chrono-meta-label { font-size: 0.48rem; }
+  .modal-chrono-meta-val { font-size: 0.9rem; }
   .modal-chrono-resume { font-size: 0.95rem; }
   .modal-chrono-texte { font-size: 1rem; }
   .modal-source { padding: 0.2rem 1rem 1rem; }
   .modal-source-link { display: inline; }
-  .modal-chrono-meta-item { padding: 0.3rem 0.5rem; min-width: 0; }
-  .modal-chrono-meta-label { font-size: 0.48rem; }
-  .modal-chrono-meta-val { font-size: 0.9rem; }
-  .modal-chrono-nav--bas { flex-wrap: wrap;}
+  .modal-chrono-nav--bas { flex-wrap: wrap; }
   .modal-chrono-sommaire {
     display: block;
     width: 100%;
