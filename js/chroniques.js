@@ -484,7 +484,8 @@ function goToPage(page) {
 // ─── Détection débordement nav ──────────────────────────────
 function detecterDebordementNav() {
   document.querySelectorAll('.modal-chrono-nav').forEach(nav => {
-    const deborde = nav.scrollWidth > nav.clientWidth;
+    const mobile = window.innerWidth <= 700;
+    const deborde = mobile ? true : nav.scrollWidth > nav.clientWidth;
     nav.classList.toggle('nav--compacte', deborde);
   });
 }
