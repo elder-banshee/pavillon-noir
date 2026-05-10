@@ -8,7 +8,6 @@ const RAIL_W      = 1120;
 const RAIL_MARGIN = 0.01;
 
 // ─── Cache des rapports déjà chargés ────────────────────────
-// Clé : id de la chronique, valeur : tableau de { titre, html }
 const rapportCache = {};
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -31,7 +30,7 @@ function renderCartes() {
       { label: 'XP',               val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : null },
       { label: 'Gloire',           val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : null },
       { label: 'Infamie',          val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : null },
-      { label: 'Pi\u00e8ces de 8', val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
+      { label: 'Pièces de 8',      val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
       { label: 'Recrues',          val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : null },
       { label: 'Pertes',           val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : null },
     ];
@@ -92,10 +91,7 @@ function renderCartes() {
 }
 
 // ─── Chargement et parsing d'un rapport Markdown ─────────────
-// Retourne une promesse qui résout en tableau de chapitres :
-// [{ titre: "I. Naufragés", html: "<p>…</p>" }, …]
 async function chargerRapport(c) {
-  // Déjà en cache ?
   if (rapportCache[c.id]) return rapportCache[c.id];
 
   const response = await fetch(c.rapport);
@@ -108,19 +104,10 @@ async function chargerRapport(c) {
 }
 
 // ─── Découpage du Markdown en chapitres ─────────────────────
-// Règles :
-//   - On ignore tout ce qui précède le premier "## " (titre H1, date, etc.)
-//   - Chaque "## " ouvre un nouveau chapitre
-//   - Le contenu précédant le premier "## " (préambule) est collé au chapitre I
-//   - La note finale après le dernier "## " reste dans le dernier chapitre
-//   - Les "### " deviennent des <h3> dans le corps du chapitre
-//   - Les "# " (H1) sont ignorés
 function parseRapport(texte) {
-  // Supprimer les lignes H1 (# Titre) et les séparateurs ---
   const lignes = texte.split('\n');
 
-  // Repérer les indices de chaque ## (chapitre)
-  const coupes = []; // { index, titre }
+  const coupes = [];
   lignes.forEach((ligne, i) => {
     if (/^# /.test(ligne)) {
       coupes.push({ index: i, titre: ligne.replace(/^# /, '').trim() });
@@ -128,19 +115,16 @@ function parseRapport(texte) {
   });
 
   if (coupes.length === 0) {
-    // Pas de ## trouvé : tout le document = un seul chapitre sans titre
     return [{ titre: null, html: mdToHtml(texte) }];
   }
 
-  // Texte avant le premier ## = préambule → rattaché au premier chapitre
   const preambule = lignes.slice(0, coupes[0].index).join('\n');
 
   const chapitres = coupes.map((coupe, idx) => {
-    const debut = coupe.index + 1; // ligne après le ##
+    const debut = coupe.index + 1;
     const fin   = idx + 1 < coupes.length ? coupes[idx + 1].index : lignes.length;
     let contenu = lignes.slice(debut, fin).join('\n');
 
-    // Coller le préambule au début du premier chapitre (avant son contenu)
     if (idx === 0 && preambule.trim()) {
       contenu = preambule + '\n\n' + contenu;
     }
@@ -169,15 +153,12 @@ function toRoman(n) {
 // ─── Conversion Markdown → HTML (via marked.js) ─────────────
 function mdToHtml(md) {
   if (typeof marked === 'undefined') {
-    // Fallback minimal si marked n'est pas chargé
     return '<p>' + md.trim().replace(/\n\n/g, '</p><p>') + '</p>';
   }
-  // Configuration marked : pas de saut de ligne automatique
   marked.setOptions({ breaks: false, gfm: true });
 
-  // On filtre les lignes H1 (# ) et les séparateurs --- avant conversion
   const filtre = md.split('\n')
-    .filter(l => !/^-{3,}\s*$/.test(l))       // supprime les ---
+    .filter(l => !/^-{3,}\s*$/.test(l))
     .join('\n');
 
   return marked.parse(filtre);
@@ -317,33 +298,78 @@ function setupModal() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 }
 
-let modalPage = null;   // null = accueil, Number = index chapitre (0-based)
-let modalData = null;   // chronique courante
-let modalChapitres = []; // chapitres chargés { titre, html }
+let modalPage      = null;  // null = accueil, Number = index chapitre (0-based)
+let modalData      = null;  // chronique courante
+let modalChapitres = [];    // chapitres chargés { titre, roman, html, preambule, corps }
+let navGroupeDebut = 0;     // index du premier chapitre affiché dans le groupe de navigation
+
+const NAV_GROUPE = 5; // nombre de chapitres affichés simultanément dans la nav
 
 function openModal(c) {
-  modalData = c;
-  modalPage = null;
+  modalData      = c;
+  modalPage      = null;
   modalChapitres = [];
+  navGroupeDebut = 0;
 
-  // Afficher l'accueil immédiatement
   renderModal();
   const overlay = document.getElementById('modal-overlay');
   if (overlay) overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Si la chronique a un rapport, le charger en arrière-plan
   if (c.rapport) {
     chargerRapport(c)
       .then(chapitres => {
         modalChapitres = chapitres;
-        // Re-rendre seulement si on est toujours sur cette chronique
         if (modalData && modalData.id === c.id) renderModal();
       })
       .catch(err => {
         console.warn('Erreur chargement rapport :', err);
       });
   }
+}
+
+// ─── Construction de la barre de navigation paginée ─────────
+// avecAccueil : affiche le bouton "Accueil" (pages chapitre uniquement)
+function buildNav(chapitresDispos, avecAccueil) {
+  const nb = chapitresDispos.length;
+
+  // Recalcul du groupe centré sur le chapitre actif (pages chapitre)
+  if (avecAccueil && modalPage !== null && nb > NAV_GROUPE) {
+    let debut = modalPage - Math.floor(NAV_GROUPE / 2);
+    debut = Math.max(0, Math.min(debut, nb - NAV_GROUPE));
+    // Ne pas forcer le recalcul si navGroupeDebut a été déplacé manuellement
+    // → on le respecte tant que l'actif reste dans la fenêtre
+    const actifDansGroupe = modalPage >= navGroupeDebut && modalPage < navGroupeDebut + NAV_GROUPE;
+    if (!actifDansGroupe) navGroupeDebut = debut;
+  }
+
+  const groupeDebut = navGroupeDebut;
+  const groupeFin   = Math.min(groupeDebut + NAV_GROUPE, nb);
+  const avantGroupe = groupeDebut > 0;
+  const apresGroupe = groupeFin < nb;
+
+  const btnAccueil = avecAccueil
+    ? `<button class="chrono-nav-btn chrono-nav-btn--accueil" onclick="goToPage(null)">Accueil</button>`
+    : '';
+
+  const btnPrev = avantGroupe
+    ? `<button class="chrono-nav-btn chrono-nav-btn--fleche" onclick="navGroupe(-1)" aria-label="Groupe précédent">←</button>`
+    : '';
+
+  const btnsSerie = chapitresDispos.slice(groupeDebut, groupeFin).map((ch, i) => {
+    const idx   = groupeDebut + i;
+    const roman = ch.roman || toRoman(idx + 1);
+    const actif = modalPage === idx;
+    return `<button class="chrono-nav-btn${actif ? ' active' : ''}"
+      ${actif ? 'disabled' : `onclick="goToPage(${idx})"`}>
+      ${roman}</button>`;
+  }).join('');
+
+  const btnNext = apresGroupe
+    ? `<button class="chrono-nav-btn chrono-nav-btn--fleche" onclick="navGroupe(1)" aria-label="Groupe suivant">→</button>`
+    : '';
+
+  return btnAccueil + btnPrev + btnsSerie + btnNext;
 }
 
 function renderModal() {
@@ -354,10 +380,8 @@ function renderModal() {
   // Chapitres disponibles selon la source de données
   let chapitresDispos = [];
   if (c.rapport) {
-    // Rapport Markdown : chapitres chargés dynamiquement
-    chapitresDispos = modalChapitres; // peut être vide si pas encore chargé
+    chapitresDispos = modalChapitres;
   } else if (c.chapitres) {
-    // Ancien format : objet { 1: html, 2: html, … }
     chapitresDispos = Object.entries(c.chapitres)
       .filter(([, v]) => v !== null)
       .map(([num, html]) => ({ titre: 'Chapitre ' + num, html }));
@@ -376,46 +400,24 @@ function renderModal() {
       <div class="modal-chrono-date">${c.date_campagne}</div>
     </div>`;
 
-  // ── Navigation chapitres (haut, pour les pages chapitre) ───
-  const navBtnsChapitre = [
-    `<button class="chrono-nav-btn" onclick="goToPage(null)"><span class="chrono-nav-long">Accueil</span><span class="chrono-nav-court">↩</span></button>`,
-    ...chapitresDispos.map((ch, idx) => {
-      const roman = ch.roman || toRoman(idx + 1);
-      const actif = modalPage === idx;
-      return `<button class="chrono-nav-btn${actif ? ' active' : ''}"
-        ${actif ? 'disabled' : `onclick="goToPage(${idx})"`}>
-        <span class="chrono-nav-long">Chapitre ${roman}</span><span class="chrono-nav-court">${roman}</span></button>`;
-    })
-  ].join('');
-  const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
-
-  // ── Navigation chapitres (bas, pour la page accueil) ───────
-  const navBtnsAccueil = chapitresDispos.map((ch, idx) => {
-    const roman = ch.roman || toRoman(idx + 1);
-    return `<button class="chrono-nav-btn" onclick="goToPage(${idx})"><span class="chrono-nav-long">Chapitre ${roman}</span><span class="chrono-nav-court">${roman}</span></button>`;
-  }).join('');
-
   // ── Indicateur de chargement si rapport pas encore prêt ────
   const chargementHtml = c.rapport && nbChapitres === 0
     ? `<p class="modal-chrono-chargement">Chargement…</p>`
     : '';
 
-  const navBas = nbChapitres > 0
-    ? `<nav class="modal-chrono-nav modal-chrono-nav--bas"><span class="modal-chrono-sommaire">Sommaire</span>${navBtnsAccueil}</nav>`
-    : chargementHtml;
-
-  // ── Contenu selon la page ───────────────────────────────────
-  let contenu = '';
-
+  // ── Page accueil ───────────────────────────────────────────
   if (modalPage === null) {
-    // Page d'accueil
+    const navBas = nbChapitres > 0
+      ? `<nav class="modal-chrono-nav modal-chrono-nav--bas">${buildNav(chapitresDispos, false)}</nav>`
+      : chargementHtml;
+
     const metaItems = [
-      { label: 'XP',            val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : null },
-      { label: 'Gloire',        val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : null },
-      { label: 'Infamie',       val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : null },
-      { label: 'Pièces de huit',val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
-      { label: 'Recrues',       val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : null },
-      { label: 'Pertes',        val: c.meta.pertes      > 0 ? '−' + c.meta.pertes             : null },
+      { label: 'XP',             val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : null },
+      { label: 'Gloire',         val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : null },
+      { label: 'Infamie',        val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : null },
+      { label: 'Pièces de huit', val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
+      { label: 'Recrues',        val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : null },
+      { label: 'Pertes',         val: c.meta.pertes      > 0 ? '−' + c.meta.pertes             : null },
     ];
 
     const metaHtml = `<div class="modal-chrono-meta">
@@ -434,7 +436,7 @@ function renderModal() {
       ? `<p class="modal-chrono-resume">${c.extrait}</p>`
       : '';
 
-    contenu = `
+    modal.innerHTML = header + `
       <div class="modal-chrono-body">
         ${bannerHtml}
         ${sourceCredit(c)}
@@ -443,12 +445,12 @@ function renderModal() {
         ${navBas}
       </div>`;
 
-    modal.innerHTML = header + contenu;
-
+  // ── Page chapitre ──────────────────────────────────────────
   } else {
-    // Page chapitre
     const ch = chapitresDispos[modalPage];
-    if (!ch) { modal.innerHTML = header + navHaut; return; }
+    if (!ch) { modal.innerHTML = header; return; }
+
+    const navHaut = `<nav class="modal-chrono-nav">${buildNav(chapitresDispos, true)}</nav>`;
 
     const titreHtml = ch.titre
       ? `<h3 class="modal-chrono-chapitre-titre">${ch.titre}</h3>`
@@ -458,20 +460,28 @@ function renderModal() {
       ? `<div class="modal-chrono-texte rapport-md modal-chrono-preambule">${ch.preambule}</div>`
       : '';
 
-    contenu = `
+    // Liens de navigation séquentielle en fin de chapitre
+    const prevIdx = modalPage > 0 ? modalPage - 1 : null;
+    const nextIdx = modalPage < chapitresDispos.length - 1 ? modalPage + 1 : null;
+    const prevRoman = prevIdx !== null ? (chapitresDispos[prevIdx].roman || toRoman(prevIdx + 1)) : null;
+    const nextRoman = nextIdx !== null ? (chapitresDispos[nextIdx].roman || toRoman(nextIdx + 1)) : null;
+
+    const navSeqHtml = (prevIdx !== null || nextIdx !== null) ? `
+      <nav class="modal-chrono-nav-seq">
+        ${prevIdx !== null ? `<button class="chrono-nav-seq-btn chrono-nav-seq-btn--prev" onclick="goToPage(${prevIdx})">← Chapitre ${prevRoman}</button>` : '<span></span>'}
+        ${nextIdx !== null ? `<button class="chrono-nav-seq-btn chrono-nav-seq-btn--next" onclick="goToPage(${nextIdx})">Chapitre ${nextRoman} →</button>` : '<span></span>'}
+      </nav>` : '';
+
+    modal.innerHTML = header + navHaut + `
       <div class="modal-chrono-body modal-chrono-body--chapitre">
         ${preambuleHtml}
         ${titreHtml}
         <div class="modal-chrono-texte rapport-md">${ch.corps || ch.html}</div>
+        ${navSeqHtml}
       </div>`;
-
-    modal.innerHTML = header + navHaut + contenu;
   }
 
   modal.scrollTop = 0;
-
-  // Détection de débordement de la nav
-  setTimeout(detecterDebordementNav, 50);
 }
 
 function goToPage(page) {
@@ -480,21 +490,21 @@ function goToPage(page) {
   document.getElementById('modal').scrollTop = 0;
 }
 
-// ─── Détection débordement nav ──────────────────────────────
-function detecterDebordementNav() {
-  document.querySelectorAll('.modal-chrono-nav').forEach(nav => {
-    const deborde = nav.scrollWidth > nav.clientWidth;
-    nav.classList.toggle('nav--compacte', deborde);
-  });
+// ─── Déplacement du groupe de navigation ────────────────────
+function navGroupe(direction) {
+  const nb = modalChapitres.length;
+  navGroupeDebut = Math.max(0, Math.min(navGroupeDebut + direction * NAV_GROUPE, nb - NAV_GROUPE));
+  renderModal();
 }
 
 function closeModal() {
   const overlay = document.getElementById('modal-overlay');
   if (overlay) overlay.classList.remove('open');
   document.body.style.overflow = '';
-  modalData     = null;
-  modalPage     = null;
+  modalData      = null;
+  modalPage      = null;
   modalChapitres = [];
+  navGroupeDebut = 0;
 }
 
 function formatNombre(n) {
