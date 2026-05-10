@@ -398,7 +398,7 @@ function calculerGroupe(chapitresDispos, avecAccueil) {
     const auDelaDernier = i + 1 < btns.length;
     // Flèche gauche si pas premier groupe (navGroupeDebut > 0 éventuellement)
     // Flèche droite si des chapitres restent après ce groupe
-    const reserveFleches = (groupe > 0 ? largeurFleche + gapPx : 0)
+    const reserveFleches = (navGroupeDebut > 0 ? largeurFleche + gapPx : 0)
                          + (auDelaDernier ? largeurFleche + gapPx : 0);
     const ajout = btns[i] + (estPremier ? 0 : gapPx);
 
