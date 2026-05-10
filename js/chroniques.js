@@ -363,14 +363,6 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
 
   } else {
     // ── Mode paginé : groupe fixe de NAV_GROUPE chapitres ─────
-    // S'assurer que le chapitre actif est dans le groupe affiché
-    if (modalPage !== null) {
-      const groupeActif = Math.floor(modalPage / NAV_GROUPE) * NAV_GROUPE;
-      if (modalPage < navGroupeDebut || modalPage >= navGroupeDebut + NAV_GROUPE) {
-        navGroupeDebut = groupeActif;
-      }
-    }
-
     const groupeDebut = navGroupeDebut;
     const groupeFin   = Math.min(groupeDebut + NAV_GROUPE, nb);
     const avantGroupe = groupeDebut > 0;
@@ -532,7 +524,10 @@ function renderModal() {
 
 function goToPage(page) {
   modalPage = page === null ? null : Number(page);
-  // On conserve navPaginee entre les pages : une fois activée, elle reste active
+  // En mode paginé, recaler le groupe sur le chapitre actif
+  if (navPaginee && modalPage !== null) {
+    navGroupeDebut = Math.floor(modalPage / NAV_GROUPE) * NAV_GROUPE;
+  }
   renderModal();
   document.getElementById('modal').scrollTop = 0;
 }
