@@ -727,17 +727,19 @@
   .chrono-nav-seq-btn { font-size: 0.65rem; }
 
   /* Sommaire */
-  .modal-chrono-sommaire-wrap {
-    display: block;
-    border-top: 1px solid var(--border);
-  }
-  .modal-chrono-sommaire {
-    font-family: 'Cinzel', serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    padding: 0.5rem 1.25rem 0;
-  }
+   .modal-chrono-sommaire-wrap {
+     display: block;
+     border-top: 1px solid var(--border);
+     border-bottom: 1px solid var(--border);
+     padding: 0.4rem 1.25rem;
+     margin-bottom: -1px; /* fusionne avec la bordure haute de la nav */
+   }
+   .modal-chrono-sommaire {
+     font-family: 'Cinzel', serif;
+     font-size: 0.65rem;
+     font-weight: 700;
+     letter-spacing: 0.2em;
+     text-transform: uppercase;
+     color: var(--gold);
+   }
 }
