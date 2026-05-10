@@ -476,9 +476,9 @@ function renderModal() {
 
     // Détection de débordement sur la nav du bas
     if (nbChapitres > 0 && !navPaginee) {
-      requestAnimationFrame(() =>
+      setTimeout(() =>
         detecterEtPaginer(chapitresDispos, false, document.getElementById('modal-nav-bas'))
-      );
+      , 100);
     }
 
   // ── Page chapitre ──────────────────────────────────────────
