@@ -355,7 +355,7 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
       const actif = modalPage === idx;
       const label = mobile ? roman : `Chapitre ${roman}`;
       return `<button class="chrono-nav-btn${actif ? ' active' : ''}"
-        ${actif ? 'disabled' : `onclick="goToPage(${idx})"`}>
+        ${actif ? 'disabled' : `onclick="goToPage(${idx},'nav')"`}>
         ${label}</button>`;
     }).join('');
 
@@ -378,7 +378,7 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
       const actif = modalPage === idx;
       const label = mobile ? roman : `Chapitre ${roman}`;
       return `<button class="chrono-nav-btn${actif ? ' active' : ''}"
-        ${actif ? 'disabled' : `onclick="goToPage(${idx})"`}>
+        ${actif ? 'disabled' : `onclick="goToPage(${idx},'nav')"`}>
         ${label}</button>`;
     }).join('');
 
@@ -500,8 +500,8 @@ function renderModal() {
 
     const navSeqHtml = (prevIdx !== null || nextIdx !== null) ? `
       <nav class="modal-chrono-nav-seq">
-        ${prevIdx !== null ? `<button class="chrono-nav-seq-btn chrono-nav-seq-btn--prev" onclick="goToPage(${prevIdx})">← Chapitre ${prevRoman}</button>` : '<span></span>'}
-        ${nextIdx !== null ? `<button class="chrono-nav-seq-btn chrono-nav-seq-btn--next" onclick="goToPage(${nextIdx})">Chapitre ${nextRoman} →</button>` : '<span></span>'}
+        ${prevIdx !== null ? `<button class="chrono-nav-seq-btn chrono-nav-seq-btn--prev" onclick="goToPage(${prevIdx},'seq')">← Chapitre ${prevRoman}</button>` : '<span></span>'}
+        ${nextIdx !== null ? `<button class="chrono-nav-seq-btn chrono-nav-seq-btn--next" onclick="goToPage(${nextIdx},'seq')">Chapitre ${nextRoman} →</button>` : '<span></span>'}
       </nav>` : '';
 
     modal.innerHTML = header +
@@ -522,12 +522,21 @@ function renderModal() {
   modal.scrollTop = 0;
 }
 
-function goToPage(page) {
+// source : 'nav' (bouton nav) | 'seq' (lien séquentiel) | undefined (accueil/init)
+function goToPage(page, source) {
   modalPage = page === null ? null : Number(page);
-  // En mode paginé, recaler le groupe sur le chapitre actif
+
   if (navPaginee && modalPage !== null) {
-    navGroupeDebut = Math.floor(modalPage / NAV_GROUPE) * NAV_GROUPE;
+    if (source === 'seq') {
+      // Depuis un lien séquentiel : centrer la fenêtre sur le chapitre actif
+      const nb    = modalChapitres.length || modalPage + 1;
+      const demi  = Math.floor(NAV_GROUPE / 2);
+      let debut   = modalPage - demi;
+      navGroupeDebut = Math.max(0, Math.min(debut, nb - NAV_GROUPE));
+    }
+    // Depuis la nav ('nav') ou la page accueil : navGroupeDebut inchangé
   }
+
   renderModal();
   document.getElementById('modal').scrollTop = 0;
 }

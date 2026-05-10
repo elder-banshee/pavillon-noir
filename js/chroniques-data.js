@@ -42,7 +42,7 @@ const CHRONIQUES = [
       recrues: 0,
       pertes: 0
     },
-    chapitres: {}
+    rapport: "chroniques/rapports/satiete-engendre-demesure.md"
   },
   {
     id: "hippogriffe",
