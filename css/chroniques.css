@@ -658,6 +658,7 @@
   .modal-chrono-meta-item { padding: 0.3rem 0.5rem; min-width: 0; }
   .modal-chrono-meta-label { font-size: 0.48rem; }
   .modal-chrono-meta-val { font-size: 0.9rem; }
+  .modal-chrono-nav--bas { flex-wrap: wrap;}
   .modal-chrono-sommaire {
     display: block;
     width: 100%;
