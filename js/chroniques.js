@@ -336,7 +336,7 @@ function navDeborde(chapitresDispos, avecAccueil) {
   const dispo    = navWidth - padding;
 
   const lAccueil  = avecAccueil ? (mobile ? 32 : 88) + gap : 0;
-  const lChapitre = mobile ? 34 : 116;
+  const lChapitre = mobile ? 32 : 108;
   const nb        = chapitresDispos.length;
   const largeur   = lAccueil + nb * lChapitre + (nb - 1) * gap;
 
