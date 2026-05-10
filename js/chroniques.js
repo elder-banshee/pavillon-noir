@@ -398,19 +398,15 @@ function calculerGroupe(chapitresDispos, avecAccueil) {
     const auDelaDernier = i + 1 < btns.length;
     // Flèche gauche si pas premier groupe (navGroupeDebut > 0 éventuellement)
     // Flèche droite si des chapitres restent après ce groupe
-    const reserveFleches = (navGroupeDebut > 0 ? largeurFleche + gapPx : 0)
-                        + (auDelaDernier ? largeurFleche + gapPx : 0);
+    const reserveFleches = (auDelaDernier ? largeurFleche + gapPx : 0)
+                         + (auDelaDernier && groupe >= 1 ? largeurFleche + gapPx : 0);
     const ajout = btns[i] + (estPremier ? 0 : gapPx);
     if (total + ajout + reserveFleches > dispo) break;
     total += ajout;
     groupe++;
   }
 
-  // Réduire d'un pour les groupes du milieu (← et → présentes simultanément)
-  const tailleFinale = groupe < chapitresDispos.length && navGroupeDebut > 0
-  ? Math.max(groupe - 1, 1)
-  : groupe;
-  return { taille: Math.max(tailleFinale, 1), deborde: true };
+  return { taille: Math.max(groupe, 1), deborde: true };
 }
 
 // ─── Construction des boutons bruts (sans groupe ni wrapper) ─
