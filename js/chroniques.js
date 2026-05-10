@@ -338,7 +338,7 @@ function mesurerNav(chapitresDispos, avecAccueil) {
 
   // Styles de la nav réelle, reproduits fidèlement
   const mobile = window.innerWidth <= 700;
-  const padding = mobile ? '0.75rem 1.25rem' : '1rem 1.5rem';
+  const padding = mobile ? '0.75rem 1.25rem' : '1rem 2rem';
   const gap     = mobile ? '0.3rem' : '0.4rem';
 
   // ── Fantôme 1 : tous les chapitres (mode non paginé) ──────
@@ -380,9 +380,8 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
   const nb     = chapitresDispos.length;
   const mobile = window.innerWidth <= 700;
 
-  const labelAccueil = mobile ? '↩' : 'Accueil';
-  const btnAccueil   = avecAccueil
-    ? `<button class="chrono-nav-btn chrono-nav-btn--accueil" onclick="goToPage(null)">${labelAccueil}</button>`
+  const btnAccueil = !mobile && avecAccueil
+    ? `<button class="chrono-nav-btn chrono-nav-btn--accueil" onclick="goToPage(null)">Accueil</button>`
     : '';
 
   if (!paginee) {
@@ -459,8 +458,8 @@ function renderModal() {
     <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
     <div class="modal-chrono-header">
       <div class="modal-chrono-header-left">
-        <div class="modal-chrono-num">${c.numero}</div>
-        <h2 class="modal-chrono-titre">${c.titre}</h2>
+        <div class="modal-chrono-num" onclick="if(window.innerWidth<=700)goToPage(null)" style="cursor:pointer">${c.numero}</div>
+        <h2 class="modal-chrono-titre" onclick="if(window.innerWidth<=700)goToPage(null)" style="cursor:pointer">${c.titre}</h2>
       </div>
       <div class="modal-chrono-date">${c.date_campagne}</div>
     </div>`;
