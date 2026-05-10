@@ -498,7 +498,10 @@ function renderModal() {
       : '';
 
     const navBasHtml = nbChapitres > 0
-      ? `<nav class="modal-chrono-nav modal-chrono-nav--bas${navPaginee ? ' modal-chrono-nav--paginee' : ''}">${buildNav(chapitresDispos, false, navPaginee)}</nav>`
+      ? `<div class="modal-chrono-sommaire-wrap">
+          <div class="modal-chrono-sommaire">Sommaire</div>
+          <nav class="modal-chrono-nav modal-chrono-nav--bas${navPaginee ? ' modal-chrono-nav--paginee' : ''}">${buildNav(chapitresDispos, false, navPaginee)}</nav>
+        </div>`
       : chargementHtml;
 
     modal.innerHTML = header + `

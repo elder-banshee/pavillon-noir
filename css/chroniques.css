@@ -645,6 +645,9 @@
   padding: 0 2rem 2rem;
 }
 
+/* Sommaire — mobile uniquement */
+.modal-chrono-sommaire-wrap { display: none; }
+
 /* ─── Responsive mobile ─────────────────────────────────────── */
 @media (max-width: 700px) {
 
@@ -722,4 +725,19 @@
   /* Nav séquentielle en mobile */
   .modal-chrono-nav-seq { padding: 1.5rem 0 0; margin-top: 1.5rem; }
   .chrono-nav-seq-btn { font-size: 0.65rem; }
+
+  /* Sommaire */
+  .modal-chrono-sommaire-wrap {
+    display: block;
+    border-top: 1px solid var(--border);
+  }
+  .modal-chrono-sommaire {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 0.5rem 1.25rem 0;
+  }
 }
