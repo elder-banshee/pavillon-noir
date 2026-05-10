@@ -338,7 +338,7 @@ function mesurerNav(chapitresDispos, avecAccueil) {
 
   // Styles de la nav réelle, reproduits fidèlement
   const mobile = window.innerWidth <= 700;
-  const padding = mobile ? '0.75rem 1.25rem' : '1rem 2rem';
+  const padding = mobile ? '0.75rem 1.25rem' : '1rem 1.5rem';
   const gap     = mobile ? '0.3rem' : '0.4rem';
 
   // ── Fantôme 1 : tous les chapitres (mode non paginé) ──────
