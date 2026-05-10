@@ -407,7 +407,7 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
 
     // Séparateur invisible pour pousser le groupe vers le centre
     // quand le bouton Accueil est présent
-    return btnAccueil + btnPrev + btnsSerie + btnNext;
+    return btnAccueil + `<div class="chrono-nav-groupe">${btnPrev}${btnsSerie}${btnNext}</div>`;
   }
 }
 
