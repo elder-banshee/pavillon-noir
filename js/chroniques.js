@@ -478,7 +478,7 @@ function renderModal() {
     if (nbChapitres > 0 && !navPaginee) {
       setTimeout(() =>
         detecterEtPaginer(chapitresDispos, false, document.getElementById('modal-nav-bas'))
-      , 100);
+      , 200);
     }
 
   // ── Page chapitre ──────────────────────────────────────────
