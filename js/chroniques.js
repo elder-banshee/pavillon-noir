@@ -477,7 +477,7 @@ function renderModal() {
     // Détection de débordement sur la nav du bas
     if (nbChapitres > 0 && !navPaginee) {
       requestAnimationFrame(() =>
-        detecterEtPaginer(chapitresDispos, false, document.getElementById('modal-nav-bas'));
+        detecterEtPaginer(chapitresDispos, false, document.getElementById('modal-nav-bas'))
       );
     }
 
@@ -518,7 +518,7 @@ function renderModal() {
     // Détection de débordement sur la nav du haut
     if (!navPaginee) {
       requestAnimationFrame(() =>
-        detecterEtPaginer(chapitresDispos, true, document.getElementById('modal-nav-haut'));
+        detecterEtPaginer(chapitresDispos, true, document.getElementById('modal-nav-haut'))
       );
     }
   }
