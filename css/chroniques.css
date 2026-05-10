@@ -656,6 +656,7 @@
   .modal-source { padding: 0.2rem 1rem 1rem; }
   .modal-source-link { display: inline; }
   .modal-chrono-nav--bas { flex-wrap: wrap; }
+  .nav--compacte.modal-chrono-nav--bas { flex-wrap: nowrap; }
   .modal-chrono-sommaire {
     display: block;
     width: 100%;
