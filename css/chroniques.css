@@ -396,6 +396,18 @@
   padding: 1rem 2rem;
 }
 
+/* Centrage en mode paginé */
+.modal-chrono-nav--paginee {
+  justify-content: center;
+}
+
+.chrono-nav-groupe {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ─── Navigation séquentielle (bas de chapitre) ─────────────── */
 .modal-chrono-nav-seq {
   display: flex;
