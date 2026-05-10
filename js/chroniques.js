@@ -384,7 +384,7 @@ function renderModal() {
       const actif = modalPage === idx;
       return `<button class="chrono-nav-btn${actif ? ' active' : ''}"
         ${actif ? 'disabled' : `onclick="goToPage(${idx})"`}>
-        <span class="chrono-nav-long">Chapitre ${roman}</span><span class="chrono-nav-court">Ch.&nbsp;${roman}</span></button>`;
+        <span class="chrono-nav-long">Chapitre ${roman}</span><span class="chrono-nav-court">${roman}</span></button>`;
     })
   ].join('');
   const navHaut = `<nav class="modal-chrono-nav">${navBtnsChapitre}</nav>`;
@@ -392,7 +392,7 @@ function renderModal() {
   // ── Navigation chapitres (bas, pour la page accueil) ───────
   const navBtnsAccueil = chapitresDispos.map((ch, idx) => {
     const roman = ch.roman || toRoman(idx + 1);
-    return `<button class="chrono-nav-btn" onclick="goToPage(${idx})"><span class="chrono-nav-long">Chapitre ${roman}</span><span class="chrono-nav-court">Ch.&nbsp;${roman}</span></button>`;
+    return `<button class="chrono-nav-btn" onclick="goToPage(${idx})"><span class="chrono-nav-long">Chapitre ${roman}</span><span class="chrono-nav-court">${roman}</span></button>`;
   }).join('');
 
   // ── Indicateur de chargement si rapport pas encore prêt ────
