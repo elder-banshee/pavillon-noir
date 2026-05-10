@@ -326,6 +326,7 @@
   border-bottom: 1px solid var(--border);
   justify-content: flex-start;
   overflow: hidden;
+  min-width: 0;
 }
 
 .chrono-nav-btn {
