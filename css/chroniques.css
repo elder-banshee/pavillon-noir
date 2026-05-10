@@ -323,7 +323,7 @@
   flex-wrap: nowrap;
   align-items: center;
   gap: 0.4rem;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--border);
   justify-content: flex-start;
   /* overflow: hidden; */
@@ -366,34 +366,33 @@
 /* Boutons flèche ← → */
 .chrono-nav-btn--fleche {
   font-size: 1rem;
-  letter-spacing: 0;
-  padding: 0.35rem 0.55rem;
-  color: var(--mist-light);
-  border-color: rgba(107,124,138,0.3);
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  border-color: rgba(200,151,58,0.3);
 }
 .chrono-nav-btn--fleche:hover {
-  color: var(--parchment);
-  border-color: rgba(107,124,138,0.5);
-  background: rgba(107,124,138,0.06);
+  color: var(--gold-light);
+  border-color: rgba(200,151,58,0.5);
+  background: rgba(200,151,58,0.05);
 }
 
 /* Bouton Accueil */
 .chrono-nav-btn--accueil {
-  color: var(--mist-light);
-  border-color: rgba(107,124,138,0.3);
+  color: var(--gold);
+  border-color: rgba(200,151,58,0.3);
   margin-right: 0.4rem;
 }
 .chrono-nav-btn--accueil:hover {
-  color: var(--parchment);
-  background: rgba(107,124,138,0.08);
-  border-color: rgba(107,124,138,0.5);
+  color: var(--gold-light);
+  background: rgba(200,151,58,0.05);
+  border-color: rgba(200,151,58,0.5);
 }
 
 /* Nav du bas (page accueil) */
 .modal-chrono-nav--bas {
   border-top: 1px solid var(--border);
   border-bottom: none;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
 }
 
 /* Centrage en mode paginé */
