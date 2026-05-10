@@ -589,6 +589,8 @@
   padding: 0 2rem 2rem;
 }
 
+.modal-chrono-sommaire { display: none; }
+
 /* ─── Responsive mobile ─────────────────────────────────────── */
 @media (max-width: 700px) {
 
@@ -656,4 +658,17 @@
   .modal-chrono-meta-item { padding: 0.3rem 0.5rem; min-width: 0; }
   .modal-chrono-meta-label { font-size: 0.48rem; }
   .modal-chrono-meta-val { font-size: 0.9rem; }
+  .modal-chrono-sommaire {
+    display: block;
+    width: 100%;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 0 0 0.6rem 0.25rem;
+    margin-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
 }
