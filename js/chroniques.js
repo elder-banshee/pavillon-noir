@@ -401,7 +401,7 @@ function renderModal() {
     : '';
 
   const navBas = nbChapitres > 0
-    ? `<nav class="modal-chrono-nav modal-chrono-nav--bas">${navBtnsAccueil}</nav>`
+    ? `<nav class="modal-chrono-nav modal-chrono-nav--bas"><span class="modal-chrono-sommaire">Sommaire</span>${navBtnsAccueil}</nav>`
     : chargementHtml;
 
   // ── Contenu selon la page ───────────────────────────────────
