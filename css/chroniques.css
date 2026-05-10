@@ -659,15 +659,15 @@
   .nav--compacte.modal-chrono-nav--bas { flex-wrap: nowrap; }
   .modal-chrono-sommaire {
     display: block;
-    width: calc(100% + 2.5rem);  /* compense le padding de la nav (0.75rem × 2 + un peu) */
-    margin: -0.5rem -1.25rem 0.5rem -1.25rem;  /* marges négatives pour déborder du padding */
+    width: calc(100% + 2.5rem);
+    margin: -0.75rem -1.25rem 0.2rem -1.25rem;
     font-family: 'Cinzel', serif;
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--gold);
-    padding: 0.4rem 1.25rem 0.4rem;
+    padding: 0.1rem 1.25rem;
     border-bottom: 1px solid var(--border);
   }
 }
