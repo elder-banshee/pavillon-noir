@@ -311,7 +311,7 @@ function openModal(c) {
       .then(chapitres => {
         modalChapitres = chapitres;
         if (modalData && modalData.id === c.id) {
-          navPaginee = false; // recalcul au prochain renderModal
+          navPaginee = false; // recalcul à la prochaine renderModal
           renderModal();
         }
       })
@@ -320,27 +320,36 @@ function openModal(c) {
 }
 
 // ─── Estimation du débordement de la nav ─────────────────────
-// Calcule si les boutons dépasseraient la largeur disponible,
-// sans mesure DOM (scrollWidth inutilisable avec overflow:hidden).
+// Décide si la pagination doit s'activer, par calcul (pas mesure DOM).
 //
-// Largeurs estimées Cinzel 0.8rem, letter-spacing 0.12em, padding 0.35/0.6rem :
-//   Desktop : "Accueil" ≈ 88px, "Chapitre VIII" ≈ 116px, "←/→" ≈ 36px
+// Logique : on pagine si tous les chapitres ne tiennent pas ET que
+// le groupe paginé (NAV_GROUPE chapitres + 2 flèches) tient bien.
+//
+// Largeurs réelles mesurées (Cinzel 0.8rem, letter-spacing 0.12em) :
+//   Desktop : "Accueil" ≈ 88px, "Chapitre VIII" ≈ 125px, "←/→" ≈ 36px
 //   Mobile  : "↩" ≈ 32px, "VIII" ≈ 34px, "←/→" ≈ 32px
-// Padding nav : 1rem 2rem desktop (≈64px total) / 0.75rem 1.25rem mobile (≈40px)
+// Padding nav : 2rem×2 desktop (≈64px) / 1.25rem×2 mobile (≈40px)
 function navDeborde(chapitresDispos, avecAccueil) {
   const mobile   = window.innerWidth <= 700;
   const modal    = document.getElementById('modal');
   const navWidth = modal ? modal.clientWidth : window.innerWidth;
-  const padding  = mobile ? 40 : 64;
-  const gap      = mobile ? 5  : 6;
+  const padding  = mobile ? 40  : 64;
+  const gap      = mobile ? 5   : 6;
   const dispo    = navWidth - padding;
 
   const lAccueil  = avecAccueil ? (mobile ? 32 : 88) + gap : 0;
-  const lChapitre = mobile ? 32 : 108;
+  const lChapitre = mobile ? 34  : 125;
+  const lFleche   = mobile ? 32  : 36;
   const nb        = chapitresDispos.length;
-  const largeur   = lAccueil + nb * lChapitre + (nb - 1) * gap;
 
-  return largeur > dispo;
+  // Largeur si tous les chapitres affichés sans flèches
+  const largeurTous   = lAccueil + nb * lChapitre + (nb - 1) * gap;
+  // Largeur du groupe paginé : NAV_GROUPE chapitres + 2 flèches (pire cas)
+  const largeurPagine = lAccueil + NAV_GROUPE * lChapitre + (NAV_GROUPE - 1) * gap
+                      + 2 * (lFleche + gap);
+
+  // Paginer seulement si tous ne tiennent pas ET que le groupe paginé tient
+  return largeurTous > dispo && largeurPagine <= dispo;
 }
 
 // ─── Construction de la barre de navigation ──────────────────
@@ -348,7 +357,8 @@ function navDeborde(chapitresDispos, avecAccueil) {
 // paginee     : true si navDeborde() l'a décidé
 //
 // Mode non paginé : tous les chapitres, "Chapitre I" desktop / "I" mobile
-// Mode paginé     : groupe fixe de NAV_GROUPE + ← → si nécessaire
+// Mode paginé     : groupe fixe de NAV_GROUPE + ← → si nécessaire,
+//                   centré dans la nav
 function buildNav(chapitresDispos, avecAccueil, paginee) {
   const nb     = chapitresDispos.length;
   const mobile = window.innerWidth <= 700;
@@ -359,7 +369,7 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
     : '';
 
   if (!paginee) {
-    // ── Tous les chapitres ────────────────────────────────────
+    // ── Tous les chapitres, alignés à gauche ──────────────────
     const btnsSerie = chapitresDispos.map((ch, idx) => {
       const roman = ch.roman || toRoman(idx + 1);
       const actif = modalPage === idx;
@@ -371,7 +381,7 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
     return btnAccueil + btnsSerie;
 
   } else {
-    // ── Groupe fixe de NAV_GROUPE chapitres ───────────────────
+    // ── Groupe paginé, centré ─────────────────────────────────
     const groupeDebut = navGroupeDebut;
     const groupeFin   = Math.min(groupeDebut + NAV_GROUPE, nb);
     const avantGroupe = groupeDebut > 0;
@@ -395,6 +405,8 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
       ? `<button class="chrono-nav-btn chrono-nav-btn--fleche" onclick="navGroupe(1)" aria-label="Groupe suivant">→</button>`
       : '';
 
+    // Séparateur invisible pour pousser le groupe vers le centre
+    // quand le bouton Accueil est présent
     return btnAccueil + btnPrev + btnsSerie + btnNext;
   }
 }
@@ -416,7 +428,7 @@ function renderModal() {
 
   const nbChapitres = chapitresDispos.length;
 
-  // Décision de pagination par calcul (pas par mesure DOM)
+  // Décision de pagination par calcul (pas mesure DOM)
   if (!navPaginee && nbChapitres > 0) {
     const avecAccueil = modalPage !== null;
     if (navDeborde(chapitresDispos, avecAccueil)) navPaginee = true;
@@ -466,7 +478,7 @@ function renderModal() {
       : '';
 
     const navBasHtml = nbChapitres > 0
-      ? `<nav class="modal-chrono-nav modal-chrono-nav--bas">${buildNav(chapitresDispos, false, navPaginee)}</nav>`
+      ? `<nav class="modal-chrono-nav modal-chrono-nav--bas${navPaginee ? ' modal-chrono-nav--paginee' : ''}">${buildNav(chapitresDispos, false, navPaginee)}</nav>`
       : chargementHtml;
 
     modal.innerHTML = header + `
@@ -503,7 +515,7 @@ function renderModal() {
       </nav>` : '';
 
     modal.innerHTML = header +
-      `<nav class="modal-chrono-nav">${buildNav(chapitresDispos, true, navPaginee)}</nav>` +
+      `<nav class="modal-chrono-nav${navPaginee ? ' modal-chrono-nav--paginee' : ''}">${buildNav(chapitresDispos, true, navPaginee)}</nav>` +
       `<div class="modal-chrono-body modal-chrono-body--chapitre">
         ${preambuleHtml}
         ${titreHtml}
@@ -520,7 +532,9 @@ function goToPage(page, source) {
   modalPage = page === null ? null : Number(page);
 
   if (modalPage === null) {
-    navGroupeDebut = 0; // retour accueil : début du premier groupe
+    navGroupeDebut = 0;
+    // Recalculer la pagination sans bouton Accueil (page accueil)
+    navPaginee = false;
   } else if (navPaginee && source === 'seq') {
     // Lien séquentiel : recentrer la fenêtre sur le chapitre actif
     const nb   = modalChapitres.length || modalPage + 1;
@@ -534,13 +548,18 @@ function goToPage(page, source) {
 }
 
 // ─── Déplacement du groupe de navigation ─────────────────────
+// Préserve la position de scroll : les flèches servent à naviguer
+// dans la nav, pas à changer de page — la modal ne remonte pas.
 function navGroupe(direction) {
+  const modal    = document.getElementById('modal');
+  const scrollPos = modal ? modal.scrollTop : 0;
   const nb = modalChapitres.length;
   navGroupeDebut = Math.max(0, Math.min(
     navGroupeDebut + direction * NAV_GROUPE,
     nb - NAV_GROUPE
   ));
   renderModal();
+  if (modal) modal.scrollTop = scrollPos;
 }
 
 function closeModal() {
