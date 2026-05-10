@@ -325,6 +325,7 @@
   padding: 1rem 2rem;
   border-bottom: 1px solid var(--border);
   justify-content: flex-start;
+  overflow: hidden;
 }
 
 .chrono-nav-btn {
