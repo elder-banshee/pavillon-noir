@@ -27,12 +27,12 @@ function renderCartes() {
 
   const cartesHtml = visibles.map((c, i) => {
     const metaItems = [
-      { label: 'XP',               val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : null },
-      { label: 'Gloire',           val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : null },
-      { label: 'Infamie',          val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : null },
-      { label: 'Pièces de 8',      val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
-      { label: 'Recrues',          val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : null },
-      { label: 'Pertes',           val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : null },
+      { label: 'XP',          val: c.meta.xp         > 0 ? '+' + c.meta.xp                  : null },
+      { label: 'Gloire',      val: c.meta.gloire      > 0 ? '+' + c.meta.gloire              : null },
+      { label: 'Infamie',     val: c.meta.infamie     > 0 ? '+' + c.meta.infamie             : null },
+      { label: 'Pièces de 8', val: c.meta.pieces_huit > 0 ? formatNombre(c.meta.pieces_huit) : null },
+      { label: 'Recrues',     val: c.meta.recrues     > 0 ? '+' + c.meta.recrues             : null },
+      { label: 'Pertes',      val: c.meta.pertes      > 0 ? '\u2212' + c.meta.pertes        : null },
     ];
 
     const metaHtml = `<div class="chrono-meta">
@@ -93,11 +93,9 @@ function renderCartes() {
 // ─── Chargement et parsing d'un rapport Markdown ─────────────
 async function chargerRapport(c) {
   if (rapportCache[c.id]) return rapportCache[c.id];
-
   const response = await fetch(c.rapport);
   if (!response.ok) throw new Error(`Impossible de charger ${c.rapport}`);
   const texte = await response.text();
-
   const chapitres = parseRapport(texte);
   rapportCache[c.id] = chapitres;
   return chapitres;
@@ -106,7 +104,6 @@ async function chargerRapport(c) {
 // ─── Découpage du Markdown en chapitres ─────────────────────
 function parseRapport(texte) {
   const lignes = texte.split('\n');
-
   const coupes = [];
   lignes.forEach((ligne, i) => {
     if (/^# /.test(ligne)) {
@@ -120,14 +117,11 @@ function parseRapport(texte) {
 
   const preambule = lignes.slice(0, coupes[0].index).join('\n');
 
-  const chapitres = coupes.map((coupe, idx) => {
+  return coupes.map((coupe, idx) => {
     const debut = coupe.index + 1;
     const fin   = idx + 1 < coupes.length ? coupes[idx + 1].index : lignes.length;
     let contenu = lignes.slice(debut, fin).join('\n');
-
-    if (idx === 0 && preambule.trim()) {
-      contenu = preambule + '\n\n' + contenu;
-    }
+    if (idx === 0 && preambule.trim()) contenu = preambule + '\n\n' + contenu;
 
     return {
       titre:     coupe.titre,
@@ -137,8 +131,6 @@ function parseRapport(texte) {
       corps:     mdToHtml(lignes.slice(debut, fin).join('\n')),
     };
   });
-
-  return chapitres;
 }
 
 // ─── Chiffres romains ────────────────────────────────────────
@@ -156,11 +148,7 @@ function mdToHtml(md) {
     return '<p>' + md.trim().replace(/\n\n/g, '</p><p>') + '</p>';
   }
   marked.setOptions({ breaks: false, gfm: true });
-
-  const filtre = md.split('\n')
-    .filter(l => !/^-{3,}\s*$/.test(l))
-    .join('\n');
-
+  const filtre = md.split('\n').filter(l => !/^-{3,}\s*$/.test(l)).join('\n');
   return marked.parse(filtre);
 }
 
@@ -176,7 +164,7 @@ function getRailBounds() {
 
 function buildRail() {
   const W = window.innerWidth;
-  const { XMIN, XMAX } = getRailBounds();
+  const { XMIN } = getRailBounds();
 
   const railEl = document.createElement('div');
   railEl.className = 'chrono-rail';
@@ -302,9 +290,9 @@ let modalPage      = null;  // null = accueil, Number = index chapitre (0-based)
 let modalData      = null;  // chronique courante
 let modalChapitres = [];    // chapitres chargés { titre, roman, html, preambule, corps }
 let navGroupeDebut = 0;     // index du premier chapitre du groupe affiché
-let navPaginee     = false; // true si la détection de débordement a activé la pagination
+let navPaginee     = false; // true si la pagination a été activée pour cette modal
 
-const NAV_GROUPE = 5; // taille d'un groupe de chapitres en mode paginé
+const NAV_GROUPE = 5; // taille d'un groupe en mode paginé
 
 function openModal(c) {
   modalData      = c;
@@ -322,34 +310,56 @@ function openModal(c) {
     chargerRapport(c)
       .then(chapitres => {
         modalChapitres = chapitres;
-        if (modalData && modalData.id === c.id) renderModal();
+        if (modalData && modalData.id === c.id) {
+          navPaginee = false; // recalcul au prochain renderModal
+          renderModal();
+        }
       })
-      .catch(err => {
-        console.warn('Erreur chargement rapport :', err);
-      });
+      .catch(err => console.warn('Erreur chargement rapport :', err));
   }
+}
+
+// ─── Estimation du débordement de la nav ─────────────────────
+// Calcule si les boutons dépasseraient la largeur disponible,
+// sans mesure DOM (scrollWidth inutilisable avec overflow:hidden).
+//
+// Largeurs estimées Cinzel 0.8rem, letter-spacing 0.12em, padding 0.35/0.6rem :
+//   Desktop : "Accueil" ≈ 88px, "Chapitre VIII" ≈ 116px, "←/→" ≈ 36px
+//   Mobile  : "↩" ≈ 32px, "VIII" ≈ 34px, "←/→" ≈ 32px
+// Padding nav : 1rem 2rem desktop (≈64px total) / 0.75rem 1.25rem mobile (≈40px)
+function navDeborde(chapitresDispos, avecAccueil) {
+  const mobile   = window.innerWidth <= 700;
+  const modal    = document.getElementById('modal');
+  const navWidth = modal ? modal.clientWidth : window.innerWidth;
+  const padding  = mobile ? 40 : 64;
+  const gap      = mobile ? 5  : 6;
+  const dispo    = navWidth - padding;
+
+  const lAccueil  = avecAccueil ? (mobile ? 32 : 88) + gap : 0;
+  const lChapitre = mobile ? 34 : 116;
+  const nb        = chapitresDispos.length;
+  const largeur   = lAccueil + nb * lChapitre + (nb - 1) * gap;
+
+  return largeur > dispo;
 }
 
 // ─── Construction de la barre de navigation ──────────────────
 // avecAccueil : true sur les pages chapitre ("Accueil" desktop, "↩" mobile)
-// paginee     : true si la détection de débordement l'a demandé
+// paginee     : true si navDeborde() l'a décidé
 //
-// En mode non paginé : tous les chapitres affichés
-// En mode paginé     : groupe fixe de NAV_GROUPE chapitres + ← → si nécessaire
-//
-// Format boutons : "Chapitre I" en desktop, "I" en mobile
+// Mode non paginé : tous les chapitres, "Chapitre I" desktop / "I" mobile
+// Mode paginé     : groupe fixe de NAV_GROUPE + ← → si nécessaire
 function buildNav(chapitresDispos, avecAccueil, paginee) {
   const nb     = chapitresDispos.length;
   const mobile = window.innerWidth <= 700;
 
-  // Bouton retour accueil
   const labelAccueil = mobile ? '↩' : 'Accueil';
   const btnAccueil   = avecAccueil
     ? `<button class="chrono-nav-btn chrono-nav-btn--accueil" onclick="goToPage(null)">${labelAccueil}</button>`
     : '';
 
   if (!paginee) {
-    // ── Mode non paginé : tous les chapitres ──────────────────
+    // ── Tous les chapitres ────────────────────────────────────
     const btnsSerie = chapitresDispos.map((ch, idx) => {
       const roman = ch.roman || toRoman(idx + 1);
       const actif = modalPage === idx;
@@ -358,11 +368,10 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
         ${actif ? 'disabled' : `onclick="goToPage(${idx},'nav')"`}>
         ${label}</button>`;
     }).join('');
-
     return btnAccueil + btnsSerie;
 
   } else {
-    // ── Mode paginé : groupe fixe de NAV_GROUPE chapitres ─────
+    // ── Groupe fixe de NAV_GROUPE chapitres ───────────────────
     const groupeDebut = navGroupeDebut;
     const groupeFin   = Math.min(groupeDebut + NAV_GROUPE, nb);
     const avantGroupe = groupeDebut > 0;
@@ -390,18 +399,6 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
   }
 }
 
-// ─── Détection de débordement de la nav ──────────────────────
-// Appelée après injection du HTML. Si la nav déborde, on réinjecte
-// en mode paginé (un seul reflow supplémentaire).
-function detecterEtPaginer(chapitresDispos, avecAccueil, navEl) {
-  if (!navEl) return;
-  console.log('scrollWidth:', navEl.scrollWidth, 'clientWidth:', navEl.clientWidth);
-  if (navEl.scrollWidth > navEl.clientWidth) {
-    navPaginee = true;
-    navEl.innerHTML = buildNav(chapitresDispos, avecAccueil, true);
-  }
-}
-
 function renderModal() {
   const modal = document.getElementById('modal');
   if (!modal || !modalData) return;
@@ -418,6 +415,12 @@ function renderModal() {
   }
 
   const nbChapitres = chapitresDispos.length;
+
+  // Décision de pagination par calcul (pas par mesure DOM)
+  if (!navPaginee && nbChapitres > 0) {
+    const avecAccueil = modalPage !== null;
+    if (navDeborde(chapitresDispos, avecAccueil)) navPaginee = true;
+  }
 
   // ── En-tête permanent ──────────────────────────────────────
   const header = `
@@ -463,7 +466,7 @@ function renderModal() {
       : '';
 
     const navBasHtml = nbChapitres > 0
-      ? `<nav class="modal-chrono-nav modal-chrono-nav--bas" id="modal-nav-bas">${buildNav(chapitresDispos, false, navPaginee)}</nav>`
+      ? `<nav class="modal-chrono-nav modal-chrono-nav--bas">${buildNav(chapitresDispos, false, navPaginee)}</nav>`
       : chargementHtml;
 
     modal.innerHTML = header + `
@@ -474,13 +477,6 @@ function renderModal() {
         ${resumeHtml}
         ${navBasHtml}
       </div>`;
-
-    // Détection de débordement sur la nav du bas
-    if (nbChapitres > 0 && !navPaginee) {
-      setTimeout(() =>
-        detecterEtPaginer(chapitresDispos, false, document.getElementById('modal-nav-bas'))
-      , 200);
-    }
 
   // ── Page chapitre ──────────────────────────────────────────
   } else {
@@ -495,7 +491,6 @@ function renderModal() {
       ? `<div class="modal-chrono-texte rapport-md modal-chrono-preambule">${ch.preambule}</div>`
       : '';
 
-    // Liens de navigation séquentielle en fin de chapitre
     const prevIdx   = modalPage > 0 ? modalPage - 1 : null;
     const nextIdx   = modalPage < chapitresDispos.length - 1 ? modalPage + 1 : null;
     const prevRoman = prevIdx !== null ? (chapitresDispos[prevIdx].roman || toRoman(prevIdx + 1)) : null;
@@ -508,39 +503,31 @@ function renderModal() {
       </nav>` : '';
 
     modal.innerHTML = header +
-      `<nav class="modal-chrono-nav" id="modal-nav-haut">${buildNav(chapitresDispos, true, navPaginee)}</nav>` +
+      `<nav class="modal-chrono-nav">${buildNav(chapitresDispos, true, navPaginee)}</nav>` +
       `<div class="modal-chrono-body modal-chrono-body--chapitre">
         ${preambuleHtml}
         ${titreHtml}
         <div class="modal-chrono-texte rapport-md">${ch.corps || ch.html}</div>
         ${navSeqHtml}
       </div>`;
-
-    // Détection de débordement sur la nav du haut
-    if (!navPaginee) {
-      requestAnimationFrame(() =>
-        detecterEtPaginer(chapitresDispos, true, document.getElementById('modal-nav-haut'))
-      );
-    }
   }
 
   modal.scrollTop = 0;
 }
 
-// source : 'nav' (bouton nav) | 'seq' (lien séquentiel) | undefined (accueil/init)
+// source : 'nav' (bouton nav) | 'seq' (lien séquentiel)
 function goToPage(page, source) {
   modalPage = page === null ? null : Number(page);
 
-  if (navPaginee && modalPage !== null) {
-    if (source === 'seq') {
-      // Depuis un lien séquentiel : centrer la fenêtre sur le chapitre actif
-      const nb    = modalChapitres.length || modalPage + 1;
-      const demi  = Math.floor(NAV_GROUPE / 2);
-      let debut   = modalPage - demi;
-      navGroupeDebut = Math.max(0, Math.min(debut, nb - NAV_GROUPE));
-    }
-    // Depuis la nav ('nav') ou la page accueil : navGroupeDebut inchangé
+  if (modalPage === null) {
+    navGroupeDebut = 0; // retour accueil : début du premier groupe
+  } else if (navPaginee && source === 'seq') {
+    // Lien séquentiel : recentrer la fenêtre sur le chapitre actif
+    const nb   = modalChapitres.length || modalPage + 1;
+    const demi = Math.floor(NAV_GROUPE / 2);
+    navGroupeDebut = Math.max(0, Math.min(modalPage - demi, nb - NAV_GROUPE));
   }
+  // Bouton nav ('nav') : navGroupeDebut inchangé
 
   renderModal();
   document.getElementById('modal').scrollTop = 0;
