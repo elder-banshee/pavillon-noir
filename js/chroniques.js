@@ -395,6 +395,7 @@ function buildNav(chapitresDispos, avecAccueil, paginee) {
 // en mode paginé (un seul reflow supplémentaire).
 function detecterEtPaginer(chapitresDispos, avecAccueil, navEl) {
   if (!navEl) return;
+  console.log('scrollWidth:', navEl.scrollWidth, 'clientWidth:', navEl.clientWidth);
   if (navEl.scrollWidth > navEl.clientWidth) {
     navPaginee = true;
     navEl.innerHTML = buildNav(chapitresDispos, avecAccueil, true);
