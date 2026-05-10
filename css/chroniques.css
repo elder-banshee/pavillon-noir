@@ -720,7 +720,7 @@
   .modal-chrono-texte { font-size: 1rem; }
   .modal-source { padding: 0.2rem 1rem 1rem; }
   .modal-source-link { display: inline; }
-  .modal-chrono-nav--bas { padding: 0.75rem 1.25rem; }
+  .modal-chrono-nav--bas { padding: 0.75rem 1.25rem; border-top: none; }
 
   /* Nav séquentielle en mobile */
   .modal-chrono-nav-seq { padding: 1.5rem 0 0; margin-top: 1.5rem; }
@@ -732,7 +732,6 @@
      border-top: 1px solid var(--border);
      border-bottom: 1px solid var(--border);
      padding: 0.4rem 1.25rem;
-     margin-bottom: -1px; /* fusionne avec la bordure haute de la nav */
    }
    .modal-chrono-sommaire {
      font-family: 'Cinzel', serif;
