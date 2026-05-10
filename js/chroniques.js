@@ -444,6 +444,7 @@ function renderModal() {
       </div>`;
 
     modal.innerHTML = header + contenu;
+    setTimeout(detecterDebordementNav, 50);
 
   } else {
     // Page chapitre
@@ -471,18 +472,21 @@ function renderModal() {
   modal.scrollTop = 0;
 
   // Détection de débordement de la nav
-  setTimeout(() => {
-    document.querySelectorAll('.modal-chrono-nav').forEach(nav => {
-      const deborde = nav.scrollWidth > nav.clientWidth;
-      nav.classList.toggle('nav--compacte', deborde);
-    });
-  }, 50);
+  setTimeout(detecterDebordementNav, 50);
 }
 
 function goToPage(page) {
   modalPage = page === null ? null : Number(page);
   renderModal();
   document.getElementById('modal').scrollTop = 0;
+}
+
+// ─── Détection débordement nav ──────────────────────────────
+function detecterDebordementNav() {
+  document.querySelectorAll('.modal-chrono-nav').forEach(nav => {
+    const deborde = nav.scrollWidth > nav.clientWidth;
+    nav.classList.toggle('nav--compacte', deborde);
+  });
 }
 
 function closeModal() {
