@@ -647,6 +647,10 @@
   padding: 0 2rem 2rem;
 }
 
+.modal-chrono-body--chapitre .rapport-md em {
+  color: var(--mist-light);
+}
+
 /* Sommaire — mobile uniquement */
 .modal-chrono-sommaire-wrap { display: none; }
 
