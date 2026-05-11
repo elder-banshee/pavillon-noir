@@ -321,7 +321,7 @@ const PNJ_DATA = [
     source: null,
     bio: `Pirate légendaire disparu après 1696. A capturé le Gang-i-Sawai du Grand Moghol en 1695, coup le plus spectaculaire de l'âge d'or de la piraterie. Sa trace se perd après. Certains disent mort, d'autres caché.`
   },
-   {
+  {
     id: "halley",
     visible: false,
     nom: "Edmund Halley",
@@ -335,7 +335,7 @@ const PNJ_DATA = [
     source: null,
     bio: `Astronome de réputation européenne. A découvert la comète qui porte son nom. Correspondant savant de nombreux personnages illustres de son époque.`
   },
-   {
+  {
     id: "anne-dieu-le-veut",
     visible: false,
     nom: "Anne Dieu-le-veut",
@@ -348,7 +348,21 @@ const PNJ_DATA = [
     source: null,
     bio: `Née Marie Dieuleveult à Gourin, Morbihan. Trois mariages successifs, dont Laurens de Graaf dit Lorencillo qu'elle est allée trouver pistolet à la main. A accompagné son mari en mer — l'équipage la considérait comme un porte-bonheur. Capturée avec ses enfants par les Anglais en 1695, libérée en 1698. Morte le 11 janvier 1710 au Cap-Français. Mère de Catherine de Graaf.`
   },
-   {
+  {
+    id: "laurens-de-graaf",
+    visible: true,
+    nom: "Laurens de Graaf",
+    accroche: "Flibustier légendaire",
+    alias: "Lorencillo, <em>El Griffe</em>, <em>Gesel van de West</em> (« Fléau de l'Ouest »)",
+    statut: "mort",
+    naissance: "1653 — 1704",
+    origine: "Française (Saint-Domingue)",
+    tags: ["Caraïbes", "Saint-Domingue", "Légendaire"],
+    portrait: "pnj/portraits/de_graaf.jpg",
+    source: null,
+    bio: `Née au Cap-Français en mai 1694 de Laurens de Graaf et d'Anne Dieu-le-veut. Son père meurt en 1704, laissant une fortune estimée à 190 000 livres : une sucrerie au quartier Morin avec cinq chaudières et plus de 120 esclaves. Sa mère administre activement ce patrimoine jusqu'à sa mort en janvier 1710. Catherine hérite d'une fortune constituée et opérationnelle à 16 ans. A depuis refusé une tutelle, échappé à une lettre de cachet, défié un homme en duel et affranchi tous ses esclaves. Rencontrée lors du banquet de Cap-Français (janvier 1714).`
+  },
+  {
     id: "catherine-de-graaf",
     visible: true,
     nom: "Catherine de Graaf",
@@ -362,33 +376,6 @@ const PNJ_DATA = [
     source: null,
     bio: `Née au Cap-Français en mai 1694 de Laurens de Graaf et d'Anne Dieu-le-veut. Son père meurt en 1704, laissant une fortune estimée à 190 000 livres : une sucrerie au quartier Morin avec cinq chaudières et plus de 120 esclaves. Sa mère administre activement ce patrimoine jusqu'à sa mort en janvier 1710. Catherine hérite d'une fortune constituée et opérationnelle à 16 ans. A depuis refusé une tutelle, échappé à une lettre de cachet, défié un homme en duel et affranchi tous ses esclaves. Rencontrée lors du banquet de Cap-Français (janvier 1714).`
   },
-   {
-    id: "conti",
-    visible: false,
-    nom: "Père Ubaldo Conti",
-    alias: null,
-    statut: "actif",
-    naissance: "vers 1665",
-    origine: "Italien",
-    tags: ["Caraïbes"],
-    portrait: null,
-    source: null,
-    bio: `Se présente comme vicaire apostolique aux Caraïbes. Entré en scène à La Tortue après la mort de Ruggiero della Scala. Tout de noir vêtu sauf un large col de dentelles blanches — l'apparence d'un spadassin bien plus que d'un ecclésiastique. Petit, cheveux poivre et sel, fine moustache, accent italien marqué, porte une rapière.`
-  },
-   {
-    id: "sanna",
-    visible: false,
-    nom: "Mystérieux assassin",
-    alias: null,
-    statut: "inconnu",
-    naissance: null,
-    origine: "Italien (présumé)",
-    tags: ["Caraïbes", "Antonio"],
-    portrait: null,
-    source: null,
-    bio: `Tueur non identifié. Responsable de la mort de Ruggiero della Scala à La Tortue. Description physique : homme de taille moyenne, cheveux courts poivre et sel, fine moustache, accent italien, porte une rapière. Disparu après les faits.`
-  },
- 
   {
     id: "bortodano",
     visible: false,
@@ -401,6 +388,59 @@ const PNJ_DATA = [
     portrait: null,
     source: null,
     bio: `Gouverneur espagnol de Porto Rico (1716–1720). A mis un vaisseau de guerre et ses hommes à disposition pour une opération dans les Caraïbes.`
+  },
+  {
+    id: "mascarano",
+    visible: false,
+    nom: "Simon Mascarano",
+    alias: null,
+    statut: "actif",
+    naissance: "vers 1680 — après 1721",
+    origine: "Portugais",
+    tags: ["Caraïbes"],
+    portrait: null,
+    source: null,
+    bio: `Pirate portugais, corsaire au service de l'Espagne. Actif dans les Caraïbes de 1701 à 1721. Équipage de toutes nations et couleurs. Qualifié de "notable scélérat" par la Royal Navy.`
+  },
+  {
+    id: "barbot-de-villeneuve",
+    visible: false,
+    nom: "Gabrielle-Suzanne Barbot de Villeneuve",
+    alias: null,
+    statut: "actif",
+    naissance: "1685 — 1755",
+    origine: "Française (La Rochelle)",
+    tags: ["Caraïbes"],
+    portrait: null,
+    source: null,
+    bio: `Romancière française, en transit vers les colonies en 1718. Prise en otage lors du blocus de Charleston par Barbe-Noire. Femme de tempérament, observatrice attentive.`
+  },
+
+  {
+    id: "conti",
+    visible: false,
+    nom: "Père Ubaldo Conti",
+    alias: null,
+    statut: "actif",
+    naissance: "vers 1665",
+    origine: "Italien",
+    tags: ["Caraïbes"],
+    portrait: null,
+    source: null,
+    bio: `Se présente comme vicaire apostolique aux Caraïbes. Entré en scène à La Tortue après la mort de Ruggiero della Scala. Tout de noir vêtu sauf un large col de dentelles blanches — l'apparence d'un spadassin bien plus que d'un ecclésiastique. Petit, cheveux poivre et sel, fine moustache, accent italien marqué, porte une rapière.`
+  },
+  {
+    id: "sanna",
+    visible: false,
+    nom: "Mystérieux assassin",
+    alias: null,
+    statut: "inconnu",
+    naissance: null,
+    origine: "Italien (présumé)",
+    tags: ["Caraïbes", "Antonio"],
+    portrait: null,
+    source: null,
+    bio: `Tueur non identifié. Responsable de la mort de Ruggiero della Scala à La Tortue. Description physique : homme de taille moyenne, cheveux courts poivre et sel, fine moustache, accent italien, porte une rapière. Disparu après les faits.`
   },
  
   {
@@ -418,20 +458,6 @@ const PNJ_DATA = [
   },
  
   {
-    id: "mascarano",
-    visible: false,
-    nom: "Simon Mascarano",
-    alias: null,
-    statut: "actif",
-    naissance: "vers 1680 — après 1721",
-    origine: "Portugais",
-    tags: ["Caraïbes"],
-    portrait: null,
-    source: null,
-    bio: `Pirate portugais, corsaire au service de l'Espagne. Actif dans les Caraïbes de 1701 à 1721. Équipage de toutes nations et couleurs. Qualifié de "notable scélérat" par la Royal Navy.`
-  },
- 
-  {
     id: "harrington",
     visible: false,
     nom: "James Harrington",
@@ -445,19 +471,6 @@ const PNJ_DATA = [
     bio: `Tailleur de pierre anglais. A réalisé le mausolée de Henry Morgan à Port-Royal selon des spécifications inhabituelles et très précises. A laissé des carnets détaillant son travail.`
   },
  
-  {
-    id: "barbot-de-villeneuve",
-    visible: false,
-    nom: "Gabrielle-Suzanne Barbot de Villeneuve",
-    alias: null,
-    statut: "actif",
-    naissance: "1685 — 1755",
-    origine: "Française (La Rochelle)",
-    tags: ["Caraïbes"],
-    portrait: null,
-    source: null,
-    bio: `Romancière française, en transit vers les colonies en 1718. Prise en otage lors du blocus de Charleston par Barbe-Noire. Femme de tempérament, observatrice attentive.`
-  },
   // PNJ Île des Ombres
   {
     id: "hobbs",
