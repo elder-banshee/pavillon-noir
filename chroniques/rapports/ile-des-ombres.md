@@ -190,7 +190,7 @@ Avisant une cahute où quelques planches et tonneaux suffisaient à donner l'ill
 
 ---
 
-*Ces faits me furent rapportés en plusieurs séances, à Nassau, au cours des semaines qui suivirent les événements décrits. J'ai tâché d'en restituer la substance avec la fidélité que méritent des hommes qui ont payé de leur personne pour me fournir cette matière. Les erreurs et les lacunes sont miennes. Les actes sont les leurs.*
-
-*— R.A.*
-*Nassau, Providence, Anno Domini 1713*
+>*Ces faits me furent rapportés en plusieurs séances, à Nassau, au cours des semaines qui suivirent les événements décrits. J'ai tâché d'en restituer la substance avec la fidélité que méritent des hommes qui ont payé de leur personne pour me fournir cette matière. Les erreurs et les lacunes sont miennes. Les actes sont les leurs.*
+>
+>*— R.A.*
+>*Nassau, Providence, Anno Domini 1713*
