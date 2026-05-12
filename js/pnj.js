@@ -52,24 +52,23 @@ function buildTagFilters() {
   const barreSimple = document.createElement('div');
   barreSimple.className = 'filter-barre-simple';
 
-  const btnAvancee = document.createElement('button');
-  btnAvancee.className = 'filter-avancee-btn';
-  btnAvancee.id = 'filter-avancee-btn';
-  btnAvancee.textContent = 'Recherche avancée';
-  btnAvancee.addEventListener('click', () => {
-    rechercheAvancee = !rechercheAvancee;
-    document.getElementById('filter-avancee-panel').classList
-            .toggle('filter-avancee-panel--open', rechercheAvancee);
-    // Surbrillance si panneau ouvert OU sélection multiple active
-    btnAvancee.classList.toggle('filter-avancee-btn--open',
-      rechercheAvancee || multiSelection);
-  });
-  barreSimple.appendChild(btnAvancee);
-
-  // Panneau inline à droite du bouton
   const avanceePanel = document.createElement('div');
   avanceePanel.className = 'filter-avancee-panel';
   avanceePanel.id = 'filter-avancee-panel';
+
+  const btnAvancee = document.createElement('button');
+  btnAvancee.className = 'filter-avancee-btn';
+  btnAvancee.id = 'filter-avancee-btn';
+  btnAvancee.textContent = 'Options avancées';
+  btnAvancee.addEventListener('click', () => {
+    if (multiSelection) return; // SM actif : on ne ferme pas
+    rechercheAvancee = !rechercheAvancee;
+    btnAvancee.classList.toggle('filter-avancee-btn--open', rechercheAvancee);
+    document.getElementById('filter-avancee-panel-options')
+            .classList.toggle('filter-avancee-panel-options--visible', rechercheAvancee);
+  });
+
+  avanceePanel.appendChild(btnAvancee);
 
   const btnMulti = document.createElement('button');
   btnMulti.className = 'filter-multi-btn';
@@ -111,24 +110,15 @@ function buildTagFilters() {
     updateCount();
   });
 
-  avanceePanel.appendChild(btnMulti);
-  avanceePanel.appendChild(btnOu);
-  avanceePanel.appendChild(btnEt);
+  const options = document.createElement('div');
+  options.className = 'filter-avancee-panel-options';
+  options.id = 'filter-avancee-panel-options';
+  options.appendChild(btnMulti);
+  options.appendChild(btnOu);
+  options.appendChild(btnEt);
+  avanceePanel.appendChild(options);
   barreSimple.appendChild(avanceePanel);
   container.appendChild(barreSimple);
-
-  // Ferme le panneau au clic extérieur
-  document.addEventListener('click', (e) => {
-    const panel = document.getElementById('filter-avancee-panel');
-    const btn   = document.getElementById('filter-avancee-btn');
-    if (!panel || !btn) return;
-    if (!panel.contains(e.target) && e.target !== btn) {
-      rechercheAvancee = false;
-      panel.classList.remove('filter-avancee-panel--open');
-      // Garde la surbrillance si sélection multiple toujours active
-      btn.classList.toggle('filter-avancee-btn--open', multiSelection);
-    }
-  });
 
   // ── Bouton Tout désélectionner — toujours visible ──────────
   const btnReset = document.createElement('button');
@@ -144,7 +134,7 @@ function buildTagFilters() {
     renderGrid();
     updateCount();
   });
-  container.appendChild(btnReset);
+  barreSimple.appendChild(btnReset);
 
   // ── Boutons de catégories ──────────────────────────────────
   const catWrap = document.createElement('div');
@@ -187,6 +177,16 @@ function majEtatBoutonsAvances() {
   if (btnReset) {
     // Toujours visible, grisé si inutile
     btnReset.disabled = activeTags.size === 0;
+  }
+
+const options = document.getElementById('filter-avancee-panel-options');
+  if (options && multiSelection) {
+    options.classList.add('filter-avancee-panel-options--visible');
+  }
+  const btnAvancee = document.getElementById('filter-avancee-btn');
+  if (btnAvancee) {
+    btnAvancee.classList.toggle('filter-avancee-btn--open',
+      rechercheAvancee || multiSelection);
   }
 }
 

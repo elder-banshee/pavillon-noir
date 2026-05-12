@@ -425,53 +425,59 @@
 .filter-barre-simple {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Bouton recherche avancée */
 .filter-avancee-btn {
   font-family: 'Cinzel', serif;
   font-size: 0.6rem;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.35rem 0.9rem;
-  border: 1px solid var(--border);
+  line-height: 1;
+  padding: 0.4rem 0.9rem;
+  border: none;
   background: none;
-  color: var(--mist);
+  color: var(--mist-light);
   cursor: pointer;
   transition: all 0.2s;
 }
-.filter-avancee-btn:hover {
-  border-color: var(--gold);
-  color: var(--gold-light);
-}
-.filter-avancee-btn--open {
-  color: var(--gold);
-  border-color: rgba(200,151,58,0.5);
-  background: rgba(200,151,58,0.06);
-}
+.filter-avancee-btn:hover { color: var(--gold-light); }
+.filter-avancee-btn--open { color: var(--gold); }
 
 /* Panneau recherche avancée */
 .filter-avancee-panel {
-  display: none;
-  flex-wrap: wrap;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 0.9rem;
-  border: 1px solid var(--border);
-  background: rgba(200,151,58,0.02);
-}
-.filter-avancee-panel--open {
-  display: inline-flex;
+  padding: 0.35rem 0;
+  flex: 1;
 }
 
+.filter-avancee-panel-options {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.6rem;
+  border-left: none;
+  margin-left: 0.6rem;
+  padding-left: 0.6rem;
+  box-shadow: -1px 0 0 var(--border);
+}
+.filter-avancee-panel-options--visible {
+  display: inline-flex;
+}
 /* Bouton sélection multiple */
 .filter-multi-btn {
   font-family: 'Cinzel', serif;
   font-size: 0.6rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  line-height: 1;
   padding: 0.35rem 0.9rem;
   border: 1px solid var(--border);
   background: none;
@@ -490,14 +496,7 @@
 }
 
 /* Séparateur visuel */
-.filter-avancee-panel::after {
-  content: '';
-  width: 1px;
-  height: 1.2rem;
-  background: var(--border);
-  margin: 0 0.2rem;
-  order: 2;
-}
+.filter-avancee-panel::after { content: none; }
 
 /* Boutons ET / OU */
 .filter-mode-btn {
@@ -505,6 +504,7 @@
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.15em;
+  line-height: 1;
   padding: 0.35rem 0.7rem;
   border: 1px solid var(--border);
   background: none;
@@ -532,12 +532,13 @@
 .filter-reset {
   font-family: 'Cinzel', serif;
   font-size: 0.6rem;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.35rem 0.9rem;
-  border: 1px solid var(--border);
+  padding: 0.4rem 0.9rem;
+  border: none;
   background: none;
-  color: var(--mist);
+  color: var(--mist-light);
   cursor: pointer;
   transition: all 0.2s;
 }
