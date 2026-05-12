@@ -35,7 +35,7 @@ const TAG_CATEGORIES = [
   },
   {
     id: 'factions',
-    label: 'Factions',
+    label: 'Faction',
     tags: ['Flying Gang','Conseil de Nassau','Équipage du Captain Charles Johnson','Piagnoni','Trident','Jésuites','Légendes de marins']
   },
   {
@@ -133,8 +133,9 @@ function buildTagFilters() {
   avanceePanel.appendChild(options);
   barreSimple.appendChild(avanceePanel);
 
+// Reset desktop — dans barreSimple
   const btnReset = document.createElement('button');
-  btnReset.className = 'filter-reset';
+  btnReset.className = 'filter-reset filter-reset--desktop';
   btnReset.id = 'filter-reset';
   btnReset.textContent = 'Tout désélectionner';
   btnReset.disabled = true;
@@ -147,7 +148,24 @@ function buildTagFilters() {
     updateCount();
   });
   barreSimple.appendChild(btnReset);
+
+  // Reset mobile — hors barreSimple
+  const btnResetMobile = document.createElement('button');
+  btnResetMobile.className = 'filter-reset filter-reset--mobile';
+  btnResetMobile.id = 'filter-reset-mobile';
+  btnResetMobile.textContent = 'Tout désélectionner';
+  btnResetMobile.disabled = true;
+  btnResetMobile.addEventListener('click', () => {
+    activeTags.clear();
+    categorieOuverte = null;
+    majEtatFiltres();
+    majEtatBoutonsAvances();
+    renderGrid();
+    updateCount();
+  });
+
   container.appendChild(barreSimple);
+  container.appendChild(btnResetMobile);
 
   // ── Boutons de catégories ──────────────────────────────────
   const catWrap = document.createElement('div');
@@ -190,9 +208,9 @@ function majEtatBoutonsAvances() {
     btnEt.disabled = !multiSelection;
     btnEt.classList.toggle('filter-mode-btn--on', multiSelection && filtreMode === 'et');
   }
-  if (btnReset) {
-    btnReset.disabled = activeTags.size === 0;
-  }
+  const btnResetMobile = document.getElementById('filter-reset-mobile');
+  if (btnReset) btnReset.disabled = activeTags.size === 0;
+  if (btnResetMobile) btnResetMobile.disabled = activeTags.size === 0;
   if (options && multiSelection) {
     options.classList.add('filter-avancee-options--visible');
   }
@@ -343,6 +361,13 @@ function normaliser(str) {
     .toLowerCase();
 }
 
+function tronquer(str, max) {
+  if (str.length <= max) return str;
+  let fin = max - 1;
+  if (' .,;:!?'.includes(str[fin])) fin--;
+  return str.slice(0, fin) + '…';
+}
+
 function getFiltered() {
   return PNJ_DATA.filter(p => {
     if (p.visible === false) return false;
@@ -425,14 +450,28 @@ function updateCount() {
     [...activeTags].forEach(tag => {
       const chip = document.createElement('span');
       chip.className = 'count-tag-chip';
-      chip.innerHTML = `${tag} <button class="count-tag-remove" aria-label="Retirer ${tag}">×</button>`;
-      chip.querySelector('.count-tag-remove').addEventListener('click', () => {
-        activeTags.delete(tag);
-        majEtatFiltres();
-        majEtatBoutonsAvances();
-        renderGrid();
-        updateCount();
-      });
+      const mobile = window.innerWidth <= 640;
+      const label = mobile ? tronquer(tag, 15) : tag;
+      if (mobile) {
+        chip.textContent = label;
+        chip.style.cursor = 'pointer';
+        chip.addEventListener('click', () => {
+          activeTags.delete(tag);
+          majEtatFiltres();
+          majEtatBoutonsAvances();
+          renderGrid();
+          updateCount();
+        });
+      } else {
+        chip.innerHTML = `${tag} <button class="count-tag-remove" aria-label="Retirer ${tag}">×</button>`;
+        chip.querySelector('.count-tag-remove').addEventListener('click', () => {
+          activeTags.delete(tag);
+          majEtatFiltres();
+          majEtatBoutonsAvances();
+          renderGrid();
+          updateCount();
+        });
+      }
       cible.appendChild(chip);
     });
   }
