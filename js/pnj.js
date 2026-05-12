@@ -1,7 +1,11 @@
 // ─── État ────────────────────────────────────────────────────
-let activeTag = null;
-let searchQuery = '';
-let activeCard = null;
+let activeTags       = new Set();
+let filtreMode       = 'ou';
+let multiSelection   = false;
+let searchQuery      = '';
+let activeCard       = null;
+let categorieOuverte = null;
+let rechercheAvancee = false;
 
 // ─── Initialisation ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,81 +17,380 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ─── Construction des filtres de tags ────────────────────────
+const TAG_CATEGORIES = [
+  {
+    id: 'geo',
+    label: 'Géographie',
+    tags: ['Europe','Caraïbes','Nassau','Trinidad','Saint-Domingue','Jamaïque','Kingston','The Pirate Round']
+  },
+  {
+    id: 'factions',
+    label: 'Factions',
+    tags: ['Flying Gang','Conseil de Nassau','Légendaire','Équipage du Captain Charles Johnson','Piagnoni','Trident','Jésuites']
+  },
+  {
+    id: 'scenarios',
+    label: 'Scénarii',
+    tags: ["L'Île des Ombres","Satiété engendre Démesure","Le dernier voyage de l'Hippogriffe","La Marianne","Les épaves de la Flotte au Trésor","Courses à Trinidad"]
+  },
+  {
+    id: 'pj',
+    label: 'Personnages joueurs',
+tags: ['Antonio','Dusmatis','Edward','Fanch','Robert','Bertrand','La Barrique','Amedee','William','Jeremy','Luca']  }
+];
+
 function buildTagFilters() {
-  const allTags = new Set();
-  PNJ_DATA.filter(p => p.visible !== false).forEach(p => p.tags.forEach(t => allTags.add(t)));
-
-  // Ordre préférentiel — reflète la liste des tags actifs
-  const priority = [
-    'Caraïbes', 'Europe',
-    'Nassau', 'Trinidad', 'Saint-Domingue', 'Jamaïque', 'Kingston', 'The Pirate Round',
-    'Conseil de Nassau', 'Flying Gang', 'Équipage du Captain Charles Johnson',
-    'L\'Île des Ombres', 'Satiété engendre Démesure', 'Le dernier voyage de l\'Hippogriffe', 'La Marianne', 'Les épaves de la Flotte au Trésor',
-    'Amédée', 'Antonio', 'Bertrand', 'Dusmatis', 'Edward', 'Fanch', 'Jérémy', 'La Barrique', 'Luca', 'Robert', 'William'
-  ];
-
-  const sorted = [
-    ...priority.filter(t => allTags.has(t)),
-    ...[...allTags].filter(t => !priority.includes(t)).sort()
-  ];
+  const tagsVisibles = new Set();
+  PNJ_DATA.filter(p => p.visible !== false)
+          .forEach(p => p.tags.forEach(t => tagsVisibles.add(t)));
 
   const container = document.getElementById('filter-tags');
   if (!container) return;
+  container.innerHTML = '';
 
-  sorted.forEach(tag => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-tag';
-    btn.textContent = tag;
-    btn.dataset.tag = tag;
-    btn.addEventListener('click', () => toggleTag(tag, btn));
-    container.appendChild(btn);
+  // ── Ligne haute : Recherche avancée + panneau ──────────────
+  const barreSimple = document.createElement('div');
+  barreSimple.className = 'filter-barre-simple';
+
+  const btnAvancee = document.createElement('button');
+  btnAvancee.className = 'filter-avancee-btn';
+  btnAvancee.id = 'filter-avancee-btn';
+  btnAvancee.textContent = 'Recherche avancée';
+  btnAvancee.addEventListener('click', () => {
+    rechercheAvancee = !rechercheAvancee;
+    document.getElementById('filter-avancee-panel').classList
+            .toggle('filter-avancee-panel--open', rechercheAvancee);
+    // Surbrillance si panneau ouvert OU sélection multiple active
+    btnAvancee.classList.toggle('filter-avancee-btn--open',
+      rechercheAvancee || multiSelection);
   });
+  barreSimple.appendChild(btnAvancee);
+
+  // Panneau inline à droite du bouton
+  const avanceePanel = document.createElement('div');
+  avanceePanel.className = 'filter-avancee-panel';
+  avanceePanel.id = 'filter-avancee-panel';
+
+  const btnMulti = document.createElement('button');
+  btnMulti.className = 'filter-multi-btn';
+  btnMulti.id = 'filter-multi-btn';
+  btnMulti.textContent = 'Sélection multiple';
+  btnMulti.addEventListener('click', () => {
+    multiSelection = !multiSelection;
+    if (!multiSelection) {
+      activeTags.clear();
+      majEtatFiltres();
+      renderGrid();
+      updateCount();
+    }
+    btnMulti.classList.toggle('filter-multi-btn--on', multiSelection);
+    majEtatBoutonsAvances();
+  });
+
+  const btnOu = document.createElement('button');
+  btnOu.className = 'filter-mode-btn filter-mode-btn--on';
+  btnOu.id = 'filter-btn-ou';
+  btnOu.textContent = 'OU';
+  btnOu.disabled = true;
+  btnOu.addEventListener('click', () => {
+    filtreMode = 'ou';
+    majEtatBoutonsAvances();
+    renderGrid();
+    updateCount();
+  });
+
+  const btnEt = document.createElement('button');
+  btnEt.className = 'filter-mode-btn';
+  btnEt.id = 'filter-btn-et';
+  btnEt.textContent = 'ET';
+  btnEt.disabled = true;
+  btnEt.addEventListener('click', () => {
+    filtreMode = 'et';
+    majEtatBoutonsAvances();
+    renderGrid();
+    updateCount();
+  });
+
+  avanceePanel.appendChild(btnMulti);
+  avanceePanel.appendChild(btnOu);
+  avanceePanel.appendChild(btnEt);
+  barreSimple.appendChild(avanceePanel);
+  container.appendChild(barreSimple);
+
+  // Ferme le panneau au clic extérieur
+  document.addEventListener('click', (e) => {
+    const panel = document.getElementById('filter-avancee-panel');
+    const btn   = document.getElementById('filter-avancee-btn');
+    if (!panel || !btn) return;
+    if (!panel.contains(e.target) && e.target !== btn) {
+      rechercheAvancee = false;
+      panel.classList.remove('filter-avancee-panel--open');
+      // Garde la surbrillance si sélection multiple toujours active
+      btn.classList.toggle('filter-avancee-btn--open', multiSelection);
+    }
+  });
+
+  // ── Bouton Tout désélectionner — toujours visible ──────────
+  const btnReset = document.createElement('button');
+  btnReset.className = 'filter-reset';
+  btnReset.id = 'filter-reset';
+  btnReset.textContent = 'Tout désélectionner';
+  btnReset.disabled = true;
+  btnReset.addEventListener('click', () => {
+    activeTags.clear();
+    categorieOuverte = null;
+    majEtatFiltres();
+    majEtatBoutonsAvances();
+    renderGrid();
+    updateCount();
+  });
+  container.appendChild(btnReset);
+
+  // ── Boutons de catégories ──────────────────────────────────
+  const catWrap = document.createElement('div');
+  catWrap.className = 'filter-categories';
+
+  TAG_CATEGORIES.forEach(cat => {
+    const tagsDispo = cat.tags.filter(t => tagsVisibles.has(t));
+    if (tagsDispo.length === 0) return;
+
+    const btnCat = document.createElement('button');
+    btnCat.className = 'filter-cat-btn';
+    btnCat.dataset.catId = cat.id;
+    btnCat.innerHTML = `${cat.label} <span class="filter-cat-chevron">▾</span>`;
+    btnCat.addEventListener('click', () => toggleCategorie(cat.id));
+    catWrap.appendChild(btnCat);
+  });
+
+  container.appendChild(catWrap);
+
+  // ── Panneau de tags ────────────────────────────────────────
+  const panneau = document.createElement('div');
+  panneau.className = 'filter-panneau';
+  panneau.id = 'filter-panneau';
+  container.appendChild(panneau);
+}
+
+function majEtatBoutonsAvances() {
+  const btnOu    = document.getElementById('filter-btn-ou');
+  const btnEt    = document.getElementById('filter-btn-et');
+  const btnReset = document.getElementById('filter-reset');
+
+  if (btnOu) {
+    btnOu.disabled = !multiSelection;
+    btnOu.classList.toggle('filter-mode-btn--on', multiSelection && filtreMode === 'ou');
+  }
+  if (btnEt) {
+    btnEt.disabled = !multiSelection;
+    btnEt.classList.toggle('filter-mode-btn--on', multiSelection && filtreMode === 'et');
+  }
+  if (btnReset) {
+    // Toujours visible, grisé si inutile
+    btnReset.disabled = activeTags.size === 0;
+  }
+}
+
+function toggleCategorie(catId) {
+  categorieOuverte = categorieOuverte === catId ? null : catId;
+  majEtatFiltres();
+}
+
+function majEtatFiltres() {
+  const tagsVisibles = new Set();
+  PNJ_DATA.filter(p => p.visible !== false)
+          .forEach(p => p.tags.forEach(t => tagsVisibles.add(t)));
+
+  // Boutons catégorie
+  document.querySelectorAll('.filter-cat-btn').forEach(btn => {
+    const catId = btn.dataset.catId;
+    const cat   = TAG_CATEGORIES.find(c => c.id === catId);
+    const ouvert = categorieOuverte === catId;
+    const aTagsActifs = cat.tags.some(t => activeTags.has(t));
+
+    btn.classList.toggle('filter-cat-btn--open', ouvert);
+    btn.classList.toggle('filter-cat-btn--actif', aTagsActifs);
+    btn.querySelector('.filter-cat-chevron').textContent = ouvert ? '▴' : '▾';
+  });
+
+  // Panneau de tags
+  const panneau = document.getElementById('filter-panneau');
+  if (!panneau) return;
+  panneau.innerHTML = '';
+
+  if (categorieOuverte) {
+    const cat = TAG_CATEGORIES.find(c => c.id === categorieOuverte);
+    const tagsDispo = cat.tags.filter(t => tagsVisibles.has(t));
+
+    tagsDispo.forEach(tag => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-tag' + (activeTags.has(tag) ? ' active' : '');
+      btn.textContent = tag;
+      btn.addEventListener('click', () => {
+        if (multiSelection) {
+          // Sélection multiple : toggle
+          activeTags.has(tag) ? activeTags.delete(tag) : activeTags.add(tag);
+        } else {
+          // Sélection simple : un seul tag actif
+          if (activeTags.has(tag)) {
+            activeTags.clear();
+          } else {
+            activeTags.clear();
+            activeTags.add(tag);
+          }
+        }
+        majEtatFiltres();
+        majEtatBoutonsAvances();
+        renderGrid();
+        updateCount();
+      });
+      panneau.appendChild(btn);
+    });
+  }
+
+  majEtatBoutonsAvances();
 }
 
 function toggleTag(tag, btn) {
-  if (activeTag === tag) {
-    activeTag = null;
-    btn.classList.remove('active');
-  } else {
-    document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
-    activeTag = tag;
-    btn.classList.add('active');
-  }
-  renderGrid();
-  updateCount();
+  // Conservé pour compatibilité — la logique est dans majEtatFiltres()
 }
 
 // ─── Recherche ───────────────────────────────────────────────
 function setupSearch() {
-  const input = document.getElementById('search-input');
+  const input      = document.getElementById('search-input');
+  const suggestion = document.getElementById('search-suggestion');
   if (!input) return;
+
+  // Sources de suggestions : noms PNJ en priorité, puis tags
+  function getSuggestion(query) {
+    if (!query) return '';
+    const q = normaliser(query);
+
+    // 1. Noms de PNJ visibles
+    const pnjMatch = PNJ_DATA
+      .filter(p => p.visible !== false)
+      .map(p => p.nom)
+      .find(nom => normaliser(nom).startsWith(q));
+    if (pnjMatch) return pnjMatch;
+
+    // 2. Alias
+    const aliasMatch = PNJ_DATA
+      .filter(p => p.visible !== false && p.alias)
+      .map(p => p.alias)
+      .find(alias => normaliser(alias).startsWith(q));
+    if (aliasMatch) return aliasMatch;
+
+    // 3. Tags visibles
+    const tagsVisibles = new Set();
+    PNJ_DATA.filter(p => p.visible !== false)
+            .forEach(p => p.tags.forEach(t => tagsVisibles.add(t)));
+    const tagMatch = [...tagsVisibles]
+      .find(t => normaliser(t).startsWith(q));
+    if (tagMatch) return tagMatch;
+
+    return '';
+  }
+
   input.addEventListener('input', e => {
-    searchQuery = e.target.value.toLowerCase().trim();
+    searchQuery = e.target.value;
+    const q = searchQuery.trim();
+
+    if (suggestion) {
+      const sugg = getSuggestion(q);
+      // Affiche uniquement la partie non encore tapée, en grisé
+      suggestion.textContent = sugg ? searchQuery + sugg.slice(q.length) : '';
+    }
+
     renderGrid();
     updateCount();
+  });
+
+  // Accepter la suggestion avec Tab ou →
+  input.addEventListener('keydown', e => {
+    if (!suggestion || !suggestion.textContent) return;
+    if (e.key === 'Tab' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      input.value  = suggestion.textContent;
+      searchQuery  = input.value;
+      suggestion.textContent = '';
+      renderGrid();
+      updateCount();
+    }
+    // Effacer la suggestion sur Escape
+    if (e.key === 'Escape') {
+      suggestion.textContent = '';
+    }
+  });
+
+  // Effacer la suggestion si le champ est vidé
+  input.addEventListener('search', () => {
+    if (!input.value) {
+      searchQuery = '';
+      if (suggestion) suggestion.textContent = '';
+      renderGrid();
+      updateCount();
+    }
   });
 }
 
 // ─── Filtrage ────────────────────────────────────────────────
+function normaliser(str) {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+}
+
 function getFiltered() {
   return PNJ_DATA.filter(p => {
     if (p.visible === false) return false;
-    const matchTag  = !activeTag || p.tags.includes(activeTag);
-    const haystack  = [p.nom, p.alias, p.origine, p.bio, ...p.tags]
-      .filter(Boolean).join(' ').toLowerCase();
-    const matchSearch = !searchQuery || haystack.includes(searchQuery);
-    return matchTag && matchSearch;
+
+    const haystack = normaliser(
+      [p.nom, p.alias, p.origine, p.bio, ...p.tags]
+        .filter(Boolean).join(' ')
+    );
+    const matchSearch = !searchQuery || haystack.includes(normaliser(searchQuery));
+
+    if (activeTags.size === 0) return matchSearch;
+
+    if (filtreMode === 'ou') {
+      return matchSearch && p.tags.some(t => activeTags.has(t));
+    } else {
+      return matchSearch && [...activeTags].every(t => p.tags.includes(t));
+    }
   });
 }
 
 function updateCount() {
-  const el = document.getElementById('pnj-count');
-  if (el) {
-    const total = PNJ_DATA.filter(p => p.visible !== false).length;
-    const n = getFiltered().length;
-    el.textContent = n === total
-      ? `${n} personnages`
-      : `${n} sur ${total}`;
+  const el     = document.getElementById('pnj-count');
+  const tagWrap = document.getElementById('section-count-tags');
+  if (!el) return;
+
+  const total    = PNJ_DATA.filter(p => p.visible !== false).length;
+  const filtered = getFiltered();
+  const n        = filtered.length;
+
+  if (activeTags.size > 0) {
+    el.textContent = `${n} personnage${n > 1 ? 's' : ''} — filtres actifs`;
+  } else {
+    el.textContent = `${n} personnage${n > 1 ? 's' : ''}`;
+  }
+
+  // Tags actifs affichés comme chips
+  if (tagWrap) {
+    tagWrap.innerHTML = '';
+    [...activeTags].forEach(tag => {
+      const chip = document.createElement('span');
+      chip.className = 'count-tag-chip';
+      chip.innerHTML = `${tag} <button class="count-tag-remove" aria-label="Retirer ${tag}">×</button>`;
+      chip.querySelector('.count-tag-remove').addEventListener('click', () => {
+        activeTags.delete(tag);
+        majEtatFiltres();
+        majEtatBoutonsAvances();
+        renderGrid();
+        updateCount();
+      });
+      tagWrap.appendChild(chip);
+    });
   }
 }
 

@@ -26,12 +26,30 @@
   color: var(--mist);
   font-size: 0.9rem;
   pointer-events: none;
+  z-index: 2;
+}
+
+.search-suggestion {
+  position: absolute;
+  left: 2.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--mist);
+  opacity: 0.4;
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .search-input {
+  position: relative;
+  z-index: 2;
   width: 100%;
   padding: 0.7rem 1rem 0.7rem 2.8rem;
-  background: rgba(255,255,255,0.04);
+  background: transparent;
   border: 1px solid var(--border);
   border-radius: 2px;
   color: var(--parchment);
@@ -395,3 +413,234 @@
   .wanted-grid { grid-template-columns: repeat(2, 1fr); }
   .pnj-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 }
+
+/* ─── Filtres catégorisés ───────────────────────────────────── */
+#filter-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-barre-simple {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* Bouton recherche avancée */
+.filter-avancee-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--mist);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-avancee-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+.filter-avancee-btn--open {
+  color: var(--gold);
+  border-color: rgba(200,151,58,0.5);
+  background: rgba(200,151,58,0.06);
+}
+
+/* Panneau recherche avancée */
+.filter-avancee-panel {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border);
+  background: rgba(200,151,58,0.02);
+}
+.filter-avancee-panel--open {
+  display: inline-flex;
+}
+
+/* Bouton sélection multiple */
+.filter-multi-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--mist);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-multi-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+.filter-multi-btn--on {
+  color: var(--gold);
+  border-color: rgba(200,151,58,0.5);
+  background: rgba(200,151,58,0.06);
+}
+
+/* Séparateur visuel */
+.filter-avancee-panel::after {
+  content: '';
+  width: 1px;
+  height: 1.2rem;
+  background: var(--border);
+  margin: 0 0.2rem;
+  order: 2;
+}
+
+/* Boutons ET / OU */
+.filter-mode-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--mist);
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 2.8rem;
+  text-align: center;
+}
+.filter-mode-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.filter-mode-btn:not(:disabled):hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+.filter-mode-btn--on {
+  color: var(--gold);
+  border-color: rgba(200,151,58,0.5);
+  background: rgba(200,151,58,0.06);
+}
+
+/* Bouton tout désélectionner */
+.filter-reset {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--mist);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-reset:not(:disabled):hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+.filter-reset:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Boutons catégories */
+.filter-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-cat-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--mist-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.filter-cat-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+.filter-cat-btn--open {
+  border-color: rgba(200,151,58,0.5);
+  color: var(--parchment);
+}
+.filter-cat-btn--actif {
+  color: var(--gold);
+  border-color: rgba(200,151,58,0.6);
+}
+.filter-cat-btn--open.filter-cat-btn--actif {
+  background: rgba(200,151,58,0.06);
+}
+
+.filter-cat-chevron {
+  font-size: 0.55rem;
+  opacity: 0.7;
+}
+
+/* Panneau de tags */
+.filter-panneau {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 0;
+}
+
+/* ─── Compteur de résultats ─────────────────────────────────── */
+.section-count-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.section-count-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.count-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(200,151,58,0.4);
+  color: var(--gold);
+  background: rgba(200,151,58,0.06);
+}
+
+.count-tag-remove {
+  background: none;
+  border: none;
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.count-tag-remove:hover { opacity: 1; }

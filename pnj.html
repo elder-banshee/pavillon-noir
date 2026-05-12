@@ -42,13 +42,17 @@
     <section class="section" id="registre">
       <div class="section-header">
         <h2 class="section-title">Personnages</h2>
-        <span class="section-count" id="pnj-count"></span>
+        <div class="section-count-wrap">
+          <span class="section-count" id="pnj-count"></span>
+          <div class="section-count-tags" id="section-count-tags"></div>
+        </div>
       </div>
 
       <!-- Contrôles -->
       <div class="controls">
         <div class="search-wrapper">
           <span class="search-icon">⚲</span>
+          <span class="search-suggestion" id="search-suggestion"></span>
           <input
             type="search"
             id="search-input"
@@ -60,8 +64,7 @@
         </div>
       </div>
 
-      <div class="filter-tags" id="filter-tags"></div>
-      <div style="height: 1.5rem;"></div>
+      <div id="filter-tags"></div>
 
       <!-- Grille -->
       <div class="pnj-container" id="pnj-grid"></div>

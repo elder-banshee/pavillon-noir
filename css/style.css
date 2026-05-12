@@ -222,6 +222,7 @@ main {
   margin-bottom: 2.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;   /* ← ajouter uniquement cette ligne */
 }
 
 .section-title {
