@@ -16,39 +16,54 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCount();
 });
 
-// ─── Construction des filtres de tags ────────────────────────
+// ─── Catégories de tags ──────────────────────────────────────
 const TAG_CATEGORIES = [
   {
     id: 'geo',
-    label: 'Géographie',
+    label: 'Localisation',
     tags: ['Europe','Caraïbes','Nassau','Trinidad','Saint-Domingue','Jamaïque','Kingston','The Pirate Round']
+  },
+  {
+    id: 'nationalite',
+    label: 'Nationalité',
+    tags: ['Britannique','Espagnol','Français','Hollandais','Portugais','Italien','Mosquito']
+  },
+  {
+    id: 'statut',
+    label: 'Statut',
+    tags: ['Actif','Mort','Disparu','Inconnu']
   },
   {
     id: 'factions',
     label: 'Factions',
-    tags: ['Flying Gang','Conseil de Nassau','Légendaire','Équipage du Captain Charles Johnson','Piagnoni','Trident','Jésuites']
-  },
-  {
-    id: 'scenarios',
-    label: 'Scénarii',
-    tags: ["L'Île des Ombres","Satiété engendre Démesure","Le dernier voyage de l'Hippogriffe","La Marianne","Les épaves de la Flotte au Trésor","Courses à Trinidad"]
+    tags: ['Flying Gang','Conseil de Nassau','Équipage du Captain Charles Johnson','Piagnoni','Trident','Jésuites','Légendes de marins']
   },
   {
     id: 'pj',
-    label: 'Personnages joueurs',
-tags: ['Antonio','Dusmatis','Edward','Fanch','Robert','Bertrand','La Barrique','Amedee','William','Jeremy','Luca']  }
+    label: 'Relations',
+    tags: ['Antonio','Dusmatis','Edward','Fanch','Robert','Bertrand','La Barrique','Amedee','William','Jeremy','Luca']
+  },
+  {
+    id: 'scenarios',
+    label: 'Scénarios',
+    tags: ["L'Île des Ombres","Satiété engendre Démesure","Le dernier voyage de l'Hippogriffe","La Marianne","Les épaves de la Flotte au Trésor","Courses à Trinidad"]
+  },
 ];
 
+// ─── Construction des filtres ────────────────────────────────
 function buildTagFilters() {
   const tagsVisibles = new Set();
-  PNJ_DATA.filter(p => p.visible !== false)
-          .forEach(p => p.tags.forEach(t => tagsVisibles.add(t)));
+  PNJ_DATA.filter(p => p.visible !== false).forEach(p => {
+    p.tags.forEach(t => tagsVisibles.add(t));
+    extraireNationalites(p).forEach(n => tagsVisibles.add(n));
+    tagsVisibles.add(p.statut.charAt(0).toUpperCase() + p.statut.slice(1));
+  });
 
   const container = document.getElementById('filter-tags');
   if (!container) return;
   container.innerHTML = '';
 
-  // ── Ligne haute : Recherche avancée + panneau ──────────────
+  // ── Barre Options avancées + Tout désélectionner ───────────
   const barreSimple = document.createElement('div');
   barreSimple.className = 'filter-barre-simple';
 
@@ -61,13 +76,12 @@ function buildTagFilters() {
   btnAvancee.id = 'filter-avancee-btn';
   btnAvancee.textContent = 'Options avancées';
   btnAvancee.addEventListener('click', () => {
-    if (multiSelection) return; // SM actif : on ne ferme pas
+    if (multiSelection) return;
     rechercheAvancee = !rechercheAvancee;
     btnAvancee.classList.toggle('filter-avancee-btn--open', rechercheAvancee);
-    document.getElementById('filter-avancee-panel-options')
-            .classList.toggle('filter-avancee-panel-options--visible', rechercheAvancee);
+    document.getElementById('filter-avancee-options')
+            .classList.toggle('filter-avancee-options--visible', rechercheAvancee);
   });
-
   avanceePanel.appendChild(btnAvancee);
 
   const btnMulti = document.createElement('button');
@@ -87,7 +101,7 @@ function buildTagFilters() {
   });
 
   const btnOu = document.createElement('button');
-  btnOu.className = 'filter-mode-btn filter-mode-btn--on';
+  btnOu.className = 'filter-mode-btn';
   btnOu.id = 'filter-btn-ou';
   btnOu.textContent = 'OU';
   btnOu.disabled = true;
@@ -111,16 +125,14 @@ function buildTagFilters() {
   });
 
   const options = document.createElement('div');
-  options.className = 'filter-avancee-panel-options';
-  options.id = 'filter-avancee-panel-options';
+  options.className = 'filter-avancee-options';
+  options.id = 'filter-avancee-options';
   options.appendChild(btnMulti);
   options.appendChild(btnOu);
   options.appendChild(btnEt);
   avanceePanel.appendChild(options);
   barreSimple.appendChild(avanceePanel);
-  container.appendChild(barreSimple);
 
-  // ── Bouton Tout désélectionner — toujours visible ──────────
   const btnReset = document.createElement('button');
   btnReset.className = 'filter-reset';
   btnReset.id = 'filter-reset';
@@ -135,6 +147,7 @@ function buildTagFilters() {
     updateCount();
   });
   barreSimple.appendChild(btnReset);
+  container.appendChild(barreSimple);
 
   // ── Boutons de catégories ──────────────────────────────────
   const catWrap = document.createElement('div');
@@ -161,10 +174,13 @@ function buildTagFilters() {
   container.appendChild(panneau);
 }
 
+// ─── État des boutons avancés ────────────────────────────────
 function majEtatBoutonsAvances() {
   const btnOu    = document.getElementById('filter-btn-ou');
   const btnEt    = document.getElementById('filter-btn-et');
   const btnReset = document.getElementById('filter-reset');
+  const options  = document.getElementById('filter-avancee-options');
+  const btnAvancee = document.getElementById('filter-avancee-btn');
 
   if (btnOu) {
     btnOu.disabled = !multiSelection;
@@ -175,21 +191,18 @@ function majEtatBoutonsAvances() {
     btnEt.classList.toggle('filter-mode-btn--on', multiSelection && filtreMode === 'et');
   }
   if (btnReset) {
-    // Toujours visible, grisé si inutile
     btnReset.disabled = activeTags.size === 0;
   }
-
-const options = document.getElementById('filter-avancee-panel-options');
   if (options && multiSelection) {
-    options.classList.add('filter-avancee-panel-options--visible');
+    options.classList.add('filter-avancee-options--visible');
   }
-  const btnAvancee = document.getElementById('filter-avancee-btn');
   if (btnAvancee) {
     btnAvancee.classList.toggle('filter-avancee-btn--open',
       rechercheAvancee || multiSelection);
   }
 }
 
+// ─── Catégories ──────────────────────────────────────────────
 function toggleCategorie(catId) {
   categorieOuverte = categorieOuverte === catId ? null : catId;
   majEtatFiltres();
@@ -197,10 +210,12 @@ function toggleCategorie(catId) {
 
 function majEtatFiltres() {
   const tagsVisibles = new Set();
-  PNJ_DATA.filter(p => p.visible !== false)
-          .forEach(p => p.tags.forEach(t => tagsVisibles.add(t)));
+  PNJ_DATA.filter(p => p.visible !== false).forEach(p => {
+    p.tags.forEach(t => tagsVisibles.add(t));
+    extraireNationalites(p).forEach(n => tagsVisibles.add(n));
+    tagsVisibles.add(p.statut.charAt(0).toUpperCase() + p.statut.slice(1));
+  });
 
-  // Boutons catégorie
   document.querySelectorAll('.filter-cat-btn').forEach(btn => {
     const catId = btn.dataset.catId;
     const cat   = TAG_CATEGORIES.find(c => c.id === catId);
@@ -212,7 +227,6 @@ function majEtatFiltres() {
     btn.querySelector('.filter-cat-chevron').textContent = ouvert ? '▴' : '▾';
   });
 
-  // Panneau de tags
   const panneau = document.getElementById('filter-panneau');
   if (!panneau) return;
   panneau.innerHTML = '';
@@ -227,10 +241,8 @@ function majEtatFiltres() {
       btn.textContent = tag;
       btn.addEventListener('click', () => {
         if (multiSelection) {
-          // Sélection multiple : toggle
           activeTags.has(tag) ? activeTags.delete(tag) : activeTags.add(tag);
         } else {
-          // Sélection simple : un seul tag actif
           if (activeTags.has(tag)) {
             activeTags.clear();
           } else {
@@ -250,39 +262,34 @@ function majEtatFiltres() {
   majEtatBoutonsAvances();
 }
 
-function toggleTag(tag, btn) {
-  // Conservé pour compatibilité — la logique est dans majEtatFiltres()
-}
-
 // ─── Recherche ───────────────────────────────────────────────
 function setupSearch() {
   const input      = document.getElementById('search-input');
   const suggestion = document.getElementById('search-suggestion');
   if (!input) return;
 
-  // Sources de suggestions : noms PNJ en priorité, puis tags
   function getSuggestion(query) {
     if (!query) return '';
     const q = normaliser(query);
 
-    // 1. Noms de PNJ visibles
     const pnjMatch = PNJ_DATA
       .filter(p => p.visible !== false)
       .map(p => p.nom)
       .find(nom => normaliser(nom).startsWith(q));
     if (pnjMatch) return pnjMatch;
 
-    // 2. Alias
     const aliasMatch = PNJ_DATA
       .filter(p => p.visible !== false && p.alias)
       .map(p => p.alias)
       .find(alias => normaliser(alias).startsWith(q));
     if (aliasMatch) return aliasMatch;
 
-    // 3. Tags visibles
     const tagsVisibles = new Set();
-    PNJ_DATA.filter(p => p.visible !== false)
-            .forEach(p => p.tags.forEach(t => tagsVisibles.add(t)));
+  PNJ_DATA.filter(p => p.visible !== false).forEach(p => {
+    p.tags.forEach(t => tagsVisibles.add(t));
+    extraireNationalites(p).forEach(n => tagsVisibles.add(n));
+    tagsVisibles.add(p.statut.charAt(0).toUpperCase() + p.statut.slice(1));
+  });
     const tagMatch = [...tagsVisibles]
       .find(t => normaliser(t).startsWith(q));
     if (tagMatch) return tagMatch;
@@ -296,7 +303,6 @@ function setupSearch() {
 
     if (suggestion) {
       const sugg = getSuggestion(q);
-      // Affiche uniquement la partie non encore tapée, en grisé
       suggestion.textContent = sugg ? searchQuery + sugg.slice(q.length) : '';
     }
 
@@ -304,7 +310,6 @@ function setupSearch() {
     updateCount();
   });
 
-  // Accepter la suggestion avec Tab ou →
   input.addEventListener('keydown', e => {
     if (!suggestion || !suggestion.textContent) return;
     if (e.key === 'Tab' || e.key === 'ArrowRight') {
@@ -315,13 +320,11 @@ function setupSearch() {
       renderGrid();
       updateCount();
     }
-    // Effacer la suggestion sur Escape
     if (e.key === 'Escape') {
       suggestion.textContent = '';
     }
   });
 
-  // Effacer la suggestion si le champ est vidé
   input.addEventListener('search', () => {
     if (!input.value) {
       searchQuery = '';
@@ -332,7 +335,7 @@ function setupSearch() {
   });
 }
 
-// ─── Filtrage ────────────────────────────────────────────────
+// ─── Normalisation et filtrage ───────────────────────────────
 function normaliser(str) {
   return str
     .normalize('NFD')
@@ -352,32 +355,73 @@ function getFiltered() {
 
     if (activeTags.size === 0) return matchSearch;
 
+    // Tags étendus : tags + nationalités + statut
+    const tagsEtendus = [
+      ...p.tags,
+      ...extraireNationalites(p),
+      p.statut.charAt(0).toUpperCase() + p.statut.slice(1)
+    ];
+
     if (filtreMode === 'ou') {
-      return matchSearch && p.tags.some(t => activeTags.has(t));
+      return matchSearch && tagsEtendus.some(t => activeTags.has(t));
     } else {
-      return matchSearch && [...activeTags].every(t => p.tags.includes(t));
+      return matchSearch && [...activeTags].every(t => tagsEtendus.includes(t));
     }
   });
 }
+// ─── Extraction de nationalité ───────────────────────────────
+const NATIONALITE_MAP = {
+  'anglais': 'Britannique', 'anglaise': 'Britannique',
+  'ecossais': 'Britannique', 'ecossaise': 'Britannique',
+  'irlandais': 'Britannique', 'irlandaise': 'Britannique',
+  'gallois': 'Britannique', 'galloise': 'Britannique',
+  'francais': 'Français', 'francaise': 'Français',
+  'hollandais': 'Hollandais', 'hollandaise': 'Hollandais',
+  'espagnol': 'Espagnol', 'espagnole': 'Espagnol',
+  'portugais': 'Portugais', 'portugaise': 'Portugais',
+  'italien': 'Italien', 'italienne': 'Italien',
+  'mosquito': 'Mosquito',
+};
 
+function extraireNationalites(pnj) {
+  // Champ explicite prioritaire
+  if (pnj.nationalites && pnj.nationalites.length) return pnj.nationalites;
+
+  if (!pnj.origine) return [];
+
+  // Extraire la partie avant la première parenthèse ou virgule
+  const brut = pnj.origine.split(/[,(]/)[0].trim();
+  const cle  = normaliser(brut);
+  const nat  = NATIONALITE_MAP[cle];
+  return nat ? [nat] : [];
+}
+
+// ─── Compteur de résultats ───────────────────────────────────
 function updateCount() {
-  const el     = document.getElementById('pnj-count');
-  const tagWrap = document.getElementById('section-count-tags');
+  const el          = document.getElementById('pnj-count');
+  const tagWrap     = document.getElementById('section-count-tags');
+  const activeWrap  = document.getElementById('active-filters-wrap');
   if (!el) return;
 
-  const total    = PNJ_DATA.filter(p => p.visible !== false).length;
-  const filtered = getFiltered();
-  const n        = filtered.length;
+  const n = getFiltered().length;
+  const mobile = window.innerWidth <= 640;
+
+  el.innerHTML = activeTags.size > 0 && !mobile
+    ? `${n} personnage${n > 1 ? 's' : ''} <span class="count-filtres-actifs">— filtres actifs</span>`
+    : `${n} personnage${n > 1 ? 's' : ''}`;
+
+  // Chips — desktop dans tagWrap, mobile dans activeWrap
+  const cible = mobile && activeWrap ? activeWrap : tagWrap;
+  if (tagWrap) tagWrap.innerHTML = '';
+  if (activeWrap) activeWrap.innerHTML = '';
 
   if (activeTags.size > 0) {
-    el.textContent = `${n} personnage${n > 1 ? 's' : ''} — filtres actifs`;
-  } else {
-    el.textContent = `${n} personnage${n > 1 ? 's' : ''}`;
-  }
-
-  // Tags actifs affichés comme chips
-  if (tagWrap) {
-    tagWrap.innerHTML = '';
+    if (mobile && activeWrap) {
+      const label = document.createElement('span');
+      label.className = 'count-filtres-actifs-mobile';
+      label.textContent = '— filtres actifs';
+      activeWrap.appendChild(label);
+    }
     [...activeTags].forEach(tag => {
       const chip = document.createElement('span');
       chip.className = 'count-tag-chip';
@@ -389,7 +433,7 @@ function updateCount() {
         renderGrid();
         updateCount();
       });
-      tagWrap.appendChild(chip);
+      cible.appendChild(chip);
     });
   }
 }
@@ -412,9 +456,8 @@ function renderGrid() {
 
   const epingles = filtered.filter(p => p.epingle === true);
   const reste    = filtered.filter(p => p.epingle !== true)
-                           .sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
+                           .sort((a, b) => a.id.localeCompare(b.id, 'fr'));
 
-  // Section "Caribbean's Most Wanted"
   if (epingles.length > 0) {
     const wantedHeader = document.createElement('div');
     wantedHeader.className = 'wanted-header';
@@ -437,7 +480,6 @@ function renderGrid() {
     }
   }
 
-  // Grille principale
   if (reste.length > 0) {
     const mainGrid = document.createElement('div');
     mainGrid.className = 'pnj-grid';
@@ -471,7 +513,7 @@ function buildCard(pnj, index, epingle = false) {
       </div>
       <h2 class="pnj-name">${pnj.nom}</h2>
       ${pnj.accroche ? `<div class="pnj-alias">${pnj.accroche}</div>` : ''}
-      ${pnj.origine ? `<div class="pnj-origin">${pnj.origine}</div>` : ''}      
+      ${pnj.origine ? `<div class="pnj-origin">${pnj.origine}</div>` : ''}
     </div>
   `;
 
@@ -485,14 +527,8 @@ function buildCard(pnj, index, epingle = false) {
 function setupModal() {
   const overlay = document.getElementById('modal-overlay');
   if (!overlay) return;
-
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) closeModal();
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 }
 
 function openModal(pnj) {
@@ -505,7 +541,6 @@ function openModal(pnj) {
     actif: 'Actif', mort: 'Mort', disparu: 'Disparu', inconnu: 'Inconnu'
   }[statusClass] || pnj.statut;
 
-  // Formatage biographie : paragraphes
   const bioParagraphs = (pnj.bio || '')
     .split('\n\n')
     .filter(p => p.trim())
@@ -514,29 +549,26 @@ function openModal(pnj) {
 
   modal.innerHTML = `
     <div class="modal-portrait-col">
-  ${pnj.portrait
-    ? `<img class="modal-portrait" src="${pnj.portrait}" alt="Portrait de ${pnj.nom}">`
-    : `<div class="modal-portrait-placeholder">${silhouetteSVG()}</div>`
-  }
-  ${sourceCredit(pnj, 'portrait')}
-  ${pnj.pavillon
-    ? `<img class="modal-pavillon" src="${pnj.pavillon}" alt="Pavillon de ${pnj.nom}" loading="lazy">`
-    : ''
-  }
-  ${sourceCredit(pnj, 'pavillon')}
-</div>
+      ${pnj.portrait
+        ? `<img class="modal-portrait" src="${pnj.portrait}" alt="Portrait de ${pnj.nom}">`
+        : `<div class="modal-portrait-placeholder">${silhouetteSVG()}</div>`
+      }
+      ${sourceCredit(pnj, 'portrait')}
+      ${pnj.pavillon
+        ? `<img class="modal-pavillon" src="${pnj.pavillon}" alt="Pavillon de ${pnj.nom}" loading="lazy">`
+        : ''
+      }
+      ${sourceCredit(pnj, 'pavillon')}
+    </div>
     <div class="modal-body">
       <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
-
       <div class="modal-status pnj-status">
         <span class="pnj-status-dot ${statusClass}"></span>
         ${statusLabel}
       </div>
-
       <h2 class="modal-name">${pnj.nom}</h2>
       ${pnj.accroche ? `<div class="modal-alias">${pnj.accroche}</div>` : ''}
       ${pnj.alias ? `<div class="modal-alias" style="font-size:0.95rem; opacity:0.7;">${pnj.alias}</div>` : ''}
-
       <div class="modal-meta">
         ${pnj.origine ? `
           <div class="modal-meta-item">
@@ -549,9 +581,7 @@ function openModal(pnj) {
             <span class="modal-meta-value">${pnj.naissance}</span>
           </div>` : ''}
       </div>
-
       <div class="modal-bio">${bioParagraphs}</div>
-
       ${pnj.tags.length ? `
         <div class="modal-tags">
           ${pnj.tags.map(t => `<span class="pnj-tag">${t}</span>`).join('')}

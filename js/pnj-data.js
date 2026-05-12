@@ -80,7 +80,7 @@ const PNJ_DATA = [
     Portrait : la barbe noire est réelle, et son effet soigné. C'est un colosse : stature imposante, présence physique immédiate.`
   },
     {
-    id: "levasseur",
+    id: "buse",
     epingle: false,
     nom: "La Buse",
     accroche: "Jeune capitaine intrépide",
@@ -145,7 +145,7 @@ const PNJ_DATA = [
     Le surnom "Calico Jack" lui vient de son goût immodéré pour les étoffes précieuses venues d'Orient — lui conférant une allure éminemment reconnaissable au sein d'un équipage de pirates.`
   },
   {
-    id: "ruggiero",
+    id: "scala",
     nom: "Ruggiero della Scala",
     accroche: "Maître d'armes chevronné",
     alias: null,
@@ -232,7 +232,7 @@ const PNJ_DATA = [
     bio: `Fils cadet de Christopher Wandesford, 1er Vicomte Castlecomer (1656-1707). Son père a reçu la baronnie de Clonakilty (demeure ancestrale des Arundel) en récompense de son soutien à la répression de la révolution jacobite irlandaise après la bataille de la Boyne. Thurston en a hérité, le Vicomté de Castlecomer allant à son frère aîné Christopher, 2e Vicomte Castlecomer.`
   },
   {
-    id: "gaspar",
+    id: "serna",
     nom: "Gaspar de la Serna",
     accroche: "Planteur de cacao",
     alias: null,
@@ -245,7 +245,7 @@ const PNJ_DATA = [
     bio: `Rival de jeunesse d'Antonio à Trinidad : issu de la famille dont la plantation voisine a prospéré quand celle des Caballero stagnait. A fait emprisonner Antonio après avoir été vaincu en duel, et l’aurait fait pendre si Bellamy n'était intervenu.`
   },
   {
-    id: "edward-england",
+    id: "england-edward",
     nom: "Edward England",
     accroche: "Commandant du Fancy",
     alias: "Edward Seegar",
@@ -324,7 +324,7 @@ const PNJ_DATA = [
   {
     id: "halley",
     visible: false,
-    nom: "Edmund Halley",
+    nom: "Edmond Halley",
     accroche: "Astronome, scientifique, ingénieur, océanologue<br>Membre de la Royal Society of Science",
     alias: null,
     statut: "actif",
@@ -336,7 +336,7 @@ const PNJ_DATA = [
     bio: `Astronome de réputation européenne. A découvert la comète qui porte son nom. Correspondant savant de nombreux personnages illustres de son époque.`
   },
   {
-    id: "anne-dieu-le-veut",
+    id: "dieu-le-veut",
     visible: false,
     nom: "Anne Dieu-le-veut",
     alias: "Marie Dieuleveult",
@@ -349,7 +349,7 @@ const PNJ_DATA = [
     bio: `Née Marie Dieuleveult à Gourin, Morbihan. Trois mariages successifs, dont Laurens de Graaf dit Lorencillo qu'elle est allée trouver pistolet à la main. A accompagné son mari en mer — l'équipage la considérait comme un porte-bonheur. Capturée avec ses enfants par les Anglais en 1695, libérée en 1698. Morte le 11 janvier 1710 au Cap-Français. Mère de Catherine de Graaf.`
   },
   {
-    id: "laurens-de-graaf",
+    id: "graaf-laurens-de",
     visible: true,
     nom: "Laurens de Graaf",
     accroche: "Flibustier légendaire",
@@ -357,13 +357,13 @@ const PNJ_DATA = [
     statut: "mort",
     naissance: "1653 — 1704",
     origine: "Française (Saint-Domingue)",
-    tags: ["Caraïbes", "Saint-Domingue", "Légendaire"],
+    tags: ["Caraïbes", "Saint-Domingue", "Légendes de marins"],
     portrait: "pnj/portraits/de_graaf.jpg",
     source: null,
     bio: `Née au Cap-Français en mai 1694 de Laurens de Graaf et d'Anne Dieu-le-veut. Son père meurt en 1704, laissant une fortune estimée à 190 000 livres : une sucrerie au quartier Morin avec cinq chaudières et plus de 120 esclaves. Sa mère administre activement ce patrimoine jusqu'à sa mort en janvier 1710. Catherine hérite d'une fortune constituée et opérationnelle à 16 ans. A depuis refusé une tutelle, échappé à une lettre de cachet, défié un homme en duel et affranchi tous ses esclaves. Rencontrée lors du banquet de Cap-Français (janvier 1714).`
   },
   {
-    id: "catherine-de-graaf",
+    id: "graaf-catherine-de",
     visible: true,
     nom: "Catherine de Graaf",
     accroche: "Riche planteuse de canne à sucre",
@@ -430,7 +430,7 @@ const PNJ_DATA = [
     bio: `Se présente comme vicaire apostolique aux Caraïbes. Entré en scène à La Tortue après la mort de Ruggiero della Scala. Tout de noir vêtu sauf un large col de dentelles blanches — l'apparence d'un spadassin bien plus que d'un ecclésiastique. Petit, cheveux poivre et sel, fine moustache, accent italien marqué, porte une rapière.`
   },
   {
-    id: "sanna",
+    id: "mysterieux-assassin",
     visible: false,
     nom: "Mystérieux assassin",
     alias: null,
@@ -505,7 +505,7 @@ const PNJ_DATA = [
     nom: "Commandant Velazquez",
     accroche: "Capitaine de frégate de la Real Armada",
     alias: null,
-    statut: "inconnu",
+    statut: "actif",
     naissance: "1677",
     origine: "Espagnol",
     tags: ["L'Île des Ombres"],
@@ -571,7 +571,7 @@ const PNJ_DATA = [
     bio: `Gouverneur de Saint-Domingue au moment du banquet de Cap-Français. Administrateur perspicace, favorable au traité. C'est sur la foi d'Antonio qu'il a fait intercepter Blackwood — et c'est lui qui a libéré Robert et Antonio avec une injonction sans équivoque : ne plus paraître à Cap-Français. Ton pragmatique plutôt que vengeur.`
   },
   {
-    id: "morelet",
+    id: "abboville",
     nom: "Père Morelet d'Aboville",
     accroche: "Vicaire général de la Compagnie de Jésus",
     alias: null,
@@ -781,7 +781,7 @@ const PNJ_DATA = [
   },
  
   {
-    id: "frederik-ruysch",
+    id: "ruysch-frederik",
     visible: false,
     nom: "Frederik Ruysch",
     alias: null,
@@ -795,7 +795,7 @@ const PNJ_DATA = [
   },
  
   {
-    id: "rachel-ruysch",
+    id: "ruysch-rachel",
     visible: false,
     nom: "Rachel Ruysch",
     alias: null,
