@@ -601,6 +601,10 @@
   cursor: default;
 }
 
+.filter-reset--mobile {
+  display: none;
+}
+
 /* Boutons catégories */
 .filter-categories {
   display: flex;
