@@ -356,6 +356,7 @@ const PNJ_DATA = [
     alias: "Lorencillo, <em>El Griffe</em>, <em>Gesel van de West</em> (« Fléau de l'Ouest »)",
     statut: "mort",
     naissance: "1653 — 1704",
+    nationalites: ["Français", "Hollandais"],
     origine: "Française (Saint-Domingue)",
     tags: ["Caraïbes", "Saint-Domingue", "Légendes de marins"],
     portrait: "pnj/portraits/de_graaf.jpg",
