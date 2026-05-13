@@ -211,8 +211,9 @@ function majEtatBoutonsAvances() {
   const btnResetMobile = document.getElementById('filter-reset-mobile');
   if (btnReset) btnReset.disabled = activeTags.size === 0;
   if (btnResetMobile) btnResetMobile.disabled = activeTags.size === 0;
-  if (options && multiSelection) {
-    options.classList.add('filter-avancee-options--visible');
+  if (options) {
+    options.classList.toggle('filter-avancee-options--visible',
+     rechercheAvancee || multiSelection);
   }
   if (btnAvancee) {
     btnAvancee.classList.toggle('filter-avancee-btn--open',
