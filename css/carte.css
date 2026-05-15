@@ -61,13 +61,19 @@ main {
 .carte-curseur-input:hover::-moz-range-thumb     { background: var(--gold-light); }
 
 /* ─── Conteneur carte ───────────────────────────────────────── */
-#carte-wrap {
+.carte-corps {
   position: relative;
   width: 100%;
-  max-width: 1400px;   /* ← contrainte de largeur */
-  margin: 0 auto;      /* ← centré */
+}
+
+#carte-wrap {
+  position: relative;
+  width: 100%;          /* ← pleine largeur, pas flex: 1 */
+  max-width: 1400px;
+  margin: 0 auto;
   overflow: hidden;
 }
+
 #carte {
   width: 100%;
   aspect-ratio: 8500 / 5320;
@@ -270,15 +276,16 @@ main {
 
 /* ─── Panneau latéral — fixed, bord droit ───────────────────── */
 .carte-panneau {
-  position: fixed;
+  position: absolute;
+  top: 0;
   right: 0;
   width: 0;
+  height: 100%;
   overflow: hidden;
   transition: width 0.35s ease;
   border-left: 1px solid transparent;
   background: linear-gradient(160deg, #141009 0%, #0e0c09 100%);
-  z-index: 99;
-  /* top et height calculés par JS via ResizeObserver */
+  z-index: 1000;
 }
 
 .carte-panneau--open {

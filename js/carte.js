@@ -17,37 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCurseur();
   initPanneau();
   initPopup();
-  initResizeObserver();
 });
 
-// ─── ResizeObserver — positionne le panneau sur carte-wrap ───
-function initResizeObserver() {
-  const wrap    = document.getElementById('carte-wrap');
-  const panneau = document.getElementById('carte-panneau');
-  const carteEl = document.getElementById('carte');
-  if (!wrap || !panneau || !carteEl) return;
-
-  function syncPanneau() {
-    const rect = carteEl.getBoundingClientRect();
-    panneau.style.top    = rect.top    + 'px';
-    panneau.style.height = rect.height + 'px';
-  }
-
-  syncPanneau();
-  const observer = new ResizeObserver(syncPanneau);
-  observer.observe(carteEl);
-
-  // requestAnimationFrame élimine la latence du scroll
-  let rafPending = false;
-  window.addEventListener('scroll', () => {
-    if (rafPending) return;
-    rafPending = true;
-    requestAnimationFrame(() => {
-      syncPanneau();
-      rafPending = false;
-    });
-  }, { passive: true });
-}
 
 // ─── Carte Leaflet ───────────────────────────────────────────
 function initCarte() {
@@ -336,13 +307,13 @@ function ouvrirPanneau(juridictionId) {
 
   const panneau = document.getElementById('carte-panneau');
   panneau.classList.add('carte-panneau--open');
-  panneau.setAttribute('aria-hidden', 'false');
+  panneau.removeAttribute('inert');
 }
 
 function fermerPanneau() {
   const panneau = document.getElementById('carte-panneau');
   panneau.classList.remove('carte-panneau--open');
-  panneau.setAttribute('aria-hidden', 'true');
+  panneau.setAttribute('inert', '');
 
   if (zoneActive) {
     const precedent = zoneActive;

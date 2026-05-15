@@ -45,15 +45,26 @@
       <input type="range" id="curseur-annee" class="carte-curseur-input" min="1712" max="1716" value="1716" step="1">
     </div>
 
-    <!-- Carte Leaflet -->
-    <div id="carte-wrap">
-      <div id="carte"></div>
-      <div class="carte-credit" id="carte-credit">
-        Teatre de la Guerre en Amerique — Jaillot, Mortier &amp; Sanson, 1708.
-        <a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~370907~90107387" target="_blank"
-          rel="noopener">David Rumsey Map Collection</a>
+    <!-- Carte + panneau côte à côte -->
+    <div class="carte-corps">
+
+      <div id="carte-wrap">
+        <div id="carte"></div>
+        <div class="carte-credit" id="carte-credit">
+          Teatre de la Guerre en Amerique — Jaillot, Mortier &amp; Sanson, 1708.
+          <a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~370907~90107387" target="_blank"
+            rel="noopener">David Rumsey Map Collection</a>
+        </div>
       </div>
-    </div>
+
+      <aside class="carte-panneau" id="carte-panneau" aria-hidden="true">
+        <div class="carte-panneau-inner" id="carte-panneau-inner">
+          <!-- Rempli par carte.js -->
+        </div>
+        <button class="carte-panneau-close" id="carte-panneau-close" aria-label="Fermer">✕</button>
+      </aside>
+
+    </div><!-- fin .carte-corps -->
 
   </main>
 
@@ -61,14 +72,6 @@
     <p>Pavillon Noir &mdash; Campagne de jeu de rôle &mdash; Votre MJ est génial &mdash; ...et Claude m'a un peu aidé
     </p>
   </footer>
-
-  <!-- Panneau latéral — fixed, bord droit, superposé à la carte -->
-  <aside class="carte-panneau" id="carte-panneau" aria-hidden="true">
-    <div class="carte-panneau-inner" id="carte-panneau-inner">
-      <!-- Rempli par carte.js -->
-    </div>
-    <button class="carte-panneau-close" id="carte-panneau-close" aria-label="Fermer">✕</button>
-  </aside>
 
   <!-- Popup scénario -->
   <div class="carte-popup-overlay" id="carte-popup-overlay">
