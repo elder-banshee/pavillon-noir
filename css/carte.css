@@ -61,7 +61,7 @@ main {
 .carte-curseur-input:hover::-moz-range-thumb     { background: var(--gold-light); }
 
 /* ─── Conteneur carte ───────────────────────────────────────── */
-.carte-corps {
+.carte-plus {
   position: relative;
   width: 100%;
 }
