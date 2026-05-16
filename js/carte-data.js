@@ -86,7 +86,7 @@ const JURIDICTIONS = [
   // Premier exemple avec changement de puissance en 1718.
   {
     id:  'nassau-bahamas',
-    nom: 'Bahamas',
+    nom: 'Nassau',
 
     puissance: {
       1712: 'anarchie-pirate',
