@@ -26,7 +26,7 @@ function initCarte() {
   const H = CARTE_IMAGE.height;
   const bounds = [[0, 0], [H, W]];
 
-  carte = L.map('carte', {
+carte = L.map('carte', {
     crs: L.CRS.Simple,
     minZoom: -5,
     maxZoom: 2,
@@ -34,6 +34,7 @@ function initCarte() {
     zoomDelta: 0.5,
     maxBoundsViscosity: 1.0,
     attributionControl: false,
+    doubleClickZoom: false,
   });
 
   L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
@@ -42,8 +43,9 @@ function initCarte() {
   renderPins();
 
   // Fermer popup au clic sur la carte (pas sur une zone ou un pin)
-  carte.on('click', () => {
+carte.on('click', () => {
     fermerPopup();
+    fermerPanneau();
   });
 
   // Laisser le DOM se stabiliser avant de calculer le zoom
@@ -95,10 +97,8 @@ function renderZones() {
       className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
     });
 
-    poly.on('click', (e) => {
+poly.on('click', (e) => {
       L.DomEvent.stopPropagation(e);
-      fermerPopup();
-      // Toggle : clic sur zone déjà active → ferme le panneau
       if (zoneActive === j.id) {
         fermerPanneau();
       } else {
@@ -133,9 +133,16 @@ function renderPins() {
 
     const marker = L.marker(latlng, { icon });
 
-    marker.on('click', (e) => {
+marker.bindTooltip(pin.label, {
+      permanent: false,
+      direction: 'top',
+      className: 'carte-tooltip',
+      opacity: 1,
+      offset: [0, -28],
+    });
+
+marker.on('click', (e) => {
       L.DomEvent.stopPropagation(e);
-      // Toggle : clic sur pin déjà actif → ferme la popup
       if (pinActive === pin.id) {
         fermerPopup();
         return;
@@ -163,10 +170,7 @@ function pinSVG() {
 
 // ─── Popup scénario ──────────────────────────────────────────
 function initPopup() {
-  // Clic en dehors de la popup → fermer
-  document.getElementById('carte-popup-overlay').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('carte-popup-overlay')) fermerPopup();
-  });
+  // La fermeture se fait via le bouton ✕ ou le clic sur la carte
 }
 
 // Popup simple — un seul événement
@@ -219,14 +223,11 @@ function ouvrirPopupGroupe(pin) {
 }
 
 function afficherPopup() {
-  const overlay = document.getElementById('carte-popup-overlay');
-  overlay.style.pointerEvents = 'all';
   document.getElementById('carte-popup').classList.add('carte-popup--visible');
 }
 
 function fermerPopup() {
   document.getElementById('carte-popup').classList.remove('carte-popup--visible');
-  document.getElementById('carte-popup-overlay').style.pointerEvents = 'none';
   pinActive = null;
 }
 
