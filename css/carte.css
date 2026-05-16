@@ -1,0 +1,568 @@
+/* ═══════════════════════════════════════════════════════════
+   CARTE — styles spécifiques
+   Dépend de style.css pour les variables et composants de base
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Layout page ───────────────────────────────────────────── */
+main {
+  max-width: none;
+  padding: 0;
+}
+
+/* ─── Curseur temporel — au-dessus de la carte ──────────────── */
+.carte-curseur {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.carte-curseur-valeur {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.1em;
+}
+
+.carte-curseur-input {
+  width: 180px;
+  appearance: none;
+  -webkit-appearance: none;
+  height: 2px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+
+.carte-curseur-input::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--gold);
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.carte-curseur-input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--gold);
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.carte-curseur-input:hover::-webkit-slider-thumb {
+  background: var(--gold-light);
+}
+
+.carte-curseur-input:hover::-moz-range-thumb {
+  background: var(--gold-light);
+}
+
+/* ─── Enveloppe carte + crédit ─────────────────────────────── */
+.carte-corps {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ─── Conteneur carte ───────────────────────────────────────── */
+.carte-plus {
+  position: relative;
+  width: 100%;
+}
+
+#carte-wrap {
+  position: relative;
+  width: 100%;
+  /* ← pleine largeur, pas flex: 1 */
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+#carte {
+  width: 100%;
+  aspect-ratio: 8500 / 5320;
+  background: var(--ink);
+}
+
+/* ─── Overrides Leaflet ─────────────────────────────────────── */
+.leaflet-container {
+  background: var(--ink);
+  font-family: 'Cinzel', serif;
+}
+
+.leaflet-control-zoom {
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.leaflet-control-zoom a {
+  background: rgba(14, 12, 9, 0.92) !important;
+  color: var(--gold) !important;
+  border-color: var(--border) !important;
+  border-radius: 0 !important;
+  font-family: 'Cinzel', serif !important;
+  line-height: 26px !important;
+  transition: background 0.2s, color 0.2s;
+}
+
+.leaflet-control-zoom a:hover {
+  background: rgba(200, 151, 58, 0.1) !important;
+  color: var(--gold-light) !important;
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
+
+/* ─── Infobulles Leaflet ────────────────────────────────────── */
+.leaflet-tooltip.carte-tooltip {
+  background: rgba(14,12,9,0.92);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--gold-light);
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.65rem;
+  white-space: nowrap;
+}
+
+.leaflet-tooltip.carte-tooltip::before {
+  border-top-color: var(--border);
+}
+
+/* ─── Crédit carte ──────────────────────────────────────────── */
+.carte-credit {
+  max-width: 1400px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  text-align: right;
+  padding: 0.3rem 0.5rem;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.7rem;
+  color: var(--mist);
+  opacity: 0.6;
+}
+
+.carte-credit a {
+  color: var(--mist);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.carte-credit a:hover {
+  color: var(--gold);
+}
+
+/* ─── Zones territoriales ───────────────────────────────────── */
+.carte-zone {
+  cursor: pointer;
+  transition: fill-opacity 0.25s;
+}
+
+.carte-zone:hover {
+  fill-opacity: 0.35 !important;
+}
+
+.carte-zone--active {
+  fill-opacity: 0.4 !important;
+  stroke-width: 2 !important;
+}
+
+/* ─── Pins de scénarios ─────────────────────────────────────── */
+.carte-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  transform-origin: center bottom;
+}
+
+.carte-pin:hover { transform: scale(1.3) translateY(-4px); }
+
+.carte-pin:hover svg path:first-child { fill: var(--gold-light); }
+
+.carte-pin svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+}
+
+/* ─── Popup scénario ────────────────────────────────────────── */
+.carte-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carte-popup {
+  background: linear-gradient(160deg, rgba(20,16,9,0.96) 0%, rgba(14,12,9,0.96) 100%);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  max-width: 360px;
+  width: calc(100% - 3rem);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.carte-popup--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.carte-popup-numero {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mist-light);
+  margin-bottom: 0.3rem;
+}
+
+.carte-popup-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--parchment);
+  line-height: 1.2;
+  margin-bottom: 0.3rem;
+}
+
+.carte-popup-titre--lieu {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.carte-popup-titre--groupe {
+  font-size: 0.9rem;
+}
+
+.carte-popup-date {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--gold-light);
+  margin-bottom: 0.75rem;
+}
+
+.carte-popup-extrait {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--mist);
+  line-height: 1.55;
+  margin-bottom: 1rem;
+}
+
+.carte-popup-lien {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(200, 151, 58, 0.3);
+  padding: 0.4rem 0.8rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+  cursor: pointer;
+  background: none;
+}
+
+.carte-popup-lien:hover {
+  background: rgba(200, 151, 58, 0.08);
+  border-color: var(--gold);
+}
+
+.carte-popup-separateur {
+  height: 1px;
+  background: var(--border);
+  margin: 1rem 0;
+}
+
+.carte-popup-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--mist);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.4rem;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.carte-popup-close:hover {
+  color: var(--gold);
+}
+
+/* ─── Panneau latéral — fixed, bord droit ───────────────────── */
+.carte-panneau {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  transition: width 0.35s ease;
+  border-left: 1px solid transparent;
+  background: linear-gradient(160deg, #141009 0%, #0e0c09 100%);
+  z-index: 1000;
+}
+
+.carte-panneau--open {
+  width: 360px;
+  border-left-color: var(--border);
+}
+
+.carte-panneau-inner {
+  width: 360px;
+  height: 100%;
+  overflow-y: auto;
+  padding: 2rem 1.5rem 4rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 151, 58, 0.3) transparent;
+mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 0.5rem,
+    black 2.5rem,
+    black calc(100% - 2.5rem),
+    transparent calc(100% - 0.5rem)
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 0.5rem,
+    black 2.5rem,
+    black calc(100% - 2.5rem),
+    transparent calc(100% - 0.5rem)
+  );
+}
+
+.carte-panneau-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--mist);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  z-index: 10;
+}
+
+.carte-panneau-close:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ─── Contenu panneau ───────────────────────────────────────── */
+.panneau-puissance {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.panneau-blason {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.panneau-puissance-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mist-light);
+  line-height: 1.3;
+}
+
+.panneau-nom {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--parchment);
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+.panneau-gouverneur {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s;
+}
+
+.panneau-gouverneur--lien {
+  cursor: pointer;
+}
+
+.panneau-gouverneur--lien:hover {
+  border-color: rgba(200, 151, 58, 0.5);
+}
+
+.panneau-gouverneur-portrait {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  object-position: top;
+  flex-shrink: 0;
+  filter: sepia(0.2) contrast(1.05);
+}
+
+.panneau-gouverneur-portrait-placeholder {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(160deg, var(--sea) 0%, var(--ink) 100%);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200, 151, 58, 0.2);
+  font-size: 1.2rem;
+}
+
+.panneau-gouverneur-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.panneau-gouverneur-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist-light);
+  margin-bottom: 0.2rem;
+}
+
+.panneau-gouverneur-nom {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: var(--parchment);
+  line-height: 1.2;
+}
+
+.panneau-gouverneur-lien-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-top: 0.2rem;
+}
+
+.panneau-section-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.panneau-contexte {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: var(--parchment2);
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+}
+
+.panneau-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.panneau-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.panneau-meta-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist-light);
+}
+
+.panneau-meta-value {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: var(--parchment2);
+}
+
+.panneau-note {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--mist);
+  line-height: 1.6;
+  border-left: 2px solid var(--border);
+  padding-left: 0.75rem;
+}
+
+/* ─── Responsive — panneau masqué sur mobile ────────────────── */
+@media (max-width: 900px) {
+
+  .carte-panneau,
+  .carte-panneau--open {
+    display: none;
+  }
+}

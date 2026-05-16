@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pavillon Noir — Carte</title>
+  <meta name="description" content="Carte géopolitique des Caraïbes — Campagne Pavillon Noir">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/carte.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>">
+</head>
+
+<body>
+
+  <nav class="site-nav">
+    <span class="nav-brand">Pavillon <span>Noir</span></span>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="pnj.html">Registre</a></li>
+      <li><a href="equipage.html">Équipage</a></li>
+      <li><a href="chroniques.html">Chroniques</a></li>
+      <li><a href="carte.html" class="active">Carte</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Caraïbes · 1713–17XX</p>
+      <h1 class="hero-title">Théâtre <em>des opérations</em></h1>
+      <div class="hero-divider">
+        <span class="hero-divider-icon">☠</span>
+      </div>
+      <p class="hero-subtitle">Carte géopolitique des Caraïbes et du Golfe du Mexique</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Curseur temporel -->
+    <div class="carte-curseur" id="carte-curseur">
+      <div class="carte-curseur-valeur" id="curseur-valeur">1716</div>
+      <input type="range" id="curseur-annee" class="carte-curseur-input" min="1712" max="1716" value="1716" step="1">
+    </div>
+
+    <!-- Carte + panneau + crédit -->
+    <div class="carte-corps">
+
+      <div class="carte-plus">
+
+        <div id="carte-wrap">
+          <div id="carte"></div>
+        </div>
+
+        <aside class="carte-panneau" id="carte-panneau" aria-hidden="true">
+          <div class="carte-panneau-inner" id="carte-panneau-inner">
+            <!-- Rempli par carte.js -->
+          </div>
+          <button class="carte-panneau-close" id="carte-panneau-close" aria-label="Fermer">✕</button>
+        </aside>
+
+      </div><!-- fin .carte-plus -->
+
+      <div class="carte-credit" id="carte-credit">
+        Teatre de la Guerre en Amerique — Jaillot, Mortier &amp; Sanson, 1708.
+        <a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~370907~90107387" target="_blank"
+          rel="noopener">David Rumsey Map Collection</a>
+      </div>
+
+    </div><!-- fin .carte-corps -->
+
+  </main>
+
+  <footer>
+    <p>Pavillon Noir &mdash; Campagne de jeu de rôle &mdash; Votre MJ est génial &mdash; ...et Claude m'a un peu aidé
+    </p>
+  </footer>
+
+  <!-- Popup scénario -->
+  <div class="carte-popup-overlay" id="carte-popup-overlay">
+    <div class="carte-popup" id="carte-popup"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="js/chroniques-data.js"></script>
+  <script src="js/pnj-data.js"></script>
+  <script src="js/carte-data.js"></script>
+  <script src="js/carte.js"></script>
+  <script src="js/audio.js"></script>
+  <script>audioInit(null);</script>
+  <script src="js/mobile-nav.js"></script>
+
+</body>
+
+</html>
