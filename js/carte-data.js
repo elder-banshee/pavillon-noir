@@ -25,28 +25,33 @@ const CARTE_IMAGE = {
 const PUISSANCES = {
   britannique: {
     label:   'Couronne britannique',
-    couleur: '#c8973a',          // or — dans la palette du site
-    blason:  'carte/blasons/gb.svg',
+    couleur: '#8b3a2a',          // or — dans la palette du site
+    blason:  'pnj/pavillons/gb.svg',
   },
   espagnole: {
     label:   'Couronne d\'Espagne',
-    couleur: '#8b3a2a',          // rust
-    blason:  'carte/blasons/es.svg',
+    couleur: '#c8973a',          // rust
+    blason:  'pnj/pavillons/es.svg',
   },
   francaise: {
     label:   'Royaume de France',
     couleur: '#1a3a4a',          // sea
-    blason:  'carte/blasons/fr.svg',
+    blason:  'pnj/pavillons/fr_banniere.svg',
   },
   hollandaise: {
     label:   'Provinces-Unies',
     couleur: '#2a5a72',          // sea-light
     blason:  'carte/blasons/nl.svg',
   },
+    "anarchie-pirate": {
+    label:   'Anarchie Pirate',
+    couleur: '#585754',          // ink
+    blason:  'pnj/pavillons/generic_red.svg',
+  },
   pirate: {
     label:   'République Pirate',
     couleur: '#0e0c09',          // ink
-    blason:  'carte/blasons/nassau.svg',
+    blason:  'pnj/pavillons/nassau.svg',
   },
   conteste: {
     label:   'Territoire contesté',
@@ -84,12 +89,18 @@ const JURIDICTIONS = [
     nom: 'Bahamas',
 
     puissance: {
-      1712: 'pirate',
+      1712: 'anarchie-pirate',
+      1714: 'pirate',
       1718: 'britannique',
     },
 
     gouverneur: {
       1712: {
+        nom:    'Thomas Walker',
+        pnj_id: null,  // → ouvre la fiche dans pnj.html
+        titre:  'Gouverneur par intérim',
+      },
+        1714: {
         nom:    'Conseil de Nassau',
         pnj_id: 'conseil-nassau',  // → ouvre la fiche dans pnj.html
         titre:  'Instance dirigeante',
@@ -102,7 +113,8 @@ const JURIDICTIONS = [
     },
 
     contexte: {
-      1712: `Depuis 1706, Nassau est le cœur de la République Pirate — une anarchie organisée que ses habitants appellent le Flying Gang. Aucune puissance coloniale n'y exerce d'autorité effective. Les pirates y commercent, y réparent leurs navires, y élisent leurs capitaines. La ville vit de la course, du pillage et du commerce interlope avec les colonies voisines.`,
+      1712: `Depuis 1706, Nassau est le cœur de l'activité Pirate — une anarchie organisée, où aucune puissance coloniale n'exerce d'autorité effective. Les pirates y commercent, y réparent leurs navires, y élisent leurs capitaines. La ville vit de la course, du pillage et du commerce interlope avec les colonies voisines.`,
+      1714: `En 1713, la paix d'Utrecht redessine la carte coloniale, mais les Bahamas restent hors de portée des puissances. En 1714, les pirates de Nassau se dotent d'une constitution et d'un conseil élu, proclamant la République Pirate. Ils renforcent leur contrôle sur les îles et intensifient leurs raids contre les navires marchands.`,
       1718: `En juillet 1718, Woodes Rogers débarque à Nassau avec une flotte royale et une offre de grâce. La République Pirate s'effondre en quelques semaines. Certains acceptent la grâce, d'autres prennent la mer. Nassau devient officiellement une colonie de la Couronne britannique, administrée depuis Londres.`,
     },
 
@@ -161,7 +173,7 @@ const JURIDICTIONS = [
       [4620, 2940],
     ],
 
-    capitale: 'Kingston',
+    capitale: 'Spanish Town',
     population_approx: '~55 000 habitants (1713, dont ~45 000 esclaves)',
     economie: 'Sucre, rhum, indigo, commerce interlope',
     note: null,
