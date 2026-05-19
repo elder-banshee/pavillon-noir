@@ -1,0 +1,69 @@
+Provinces continentales :
+
+01. Caroline
+02. Floride
+03. Louisiane
+04. Nouveau Mexique
+05. Nouvelle Galice (Guadalaxara)
+07. Panuco
+08 . Nouvelle Espagne (Audience de Mexique, Tlascala, Acapulco, Guaxaca, Soco Nusco, Tabasco, Chiapa, Vera Paz)
+09. Yucatan
+10. Audience de Guatemala
+11. Honduras
+12. Nicaragua
+13. Costa-Rica
+14. Panama (inclut Veragua)
+15. Darien
+16. Nouvelle Grenade
+17. Venezuela
+18. Tabago
+19. Nouvelle Andalousie
+20. Trinidad
+21. Guyane
+
+Grandes Antilles et Bahamas :
+
+22. Bahamas
+23. New-Providence
+24. Eleuthera
+25. Cuba
+26. Jamaïque
+27. Saint-Domingue
+28. Hispaniola
+29. Porto-Rico
+
+Petites Antilles — Îles au Vent
+30. St Tomas
+31. Boreque
+32. Îles Vierges
+33. Anguilla
+34. Saint-Martin
+35. Saint Bartolomeo
+36. Sainte Croix
+37. Saba
+38. Estatia
+39. Saint-Christophe (St Kitt)
+40. Nevis
+41. Redondo
+42. Montserat
+43. Barbuda
+44. Antigua
+45. Guadeloupe
+46. Dominique
+47. Martinique
+48. Sainte Lucie
+49. Saint Vincent
+50. Barbade
+51. Boqueau
+52. les Grenadines
+53. Grenade
+
+Petites Antilles - Îles sous le Vent
+54. Arubia
+55. Curaçao
+56. Île de Bon Air
+57. Île d'Ayes
+58. Tortuga
+
+59. I dos Baixos (Honduras — Îles de la Baie)
+60. les Bermudes
