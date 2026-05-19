@@ -24,40 +24,46 @@ const CARTE_IMAGE = {
 // ═══════════════════════════════════════════════════════════
 const PUISSANCES = {
   britannique: {
-    label:   'Couronne britannique',
+    label: 'Couronne britannique',
     couleur: '#8b3a2a',          // or — dans la palette du site
-    blason:  'pnj/pavillons/gb.svg',
+    blason: 'pnj/pavillons/gb.svg',
   },
   espagnole: {
-    label:   'Couronne d\'Espagne',
+    label: 'Couronne d\'Espagne',
     couleur: '#c8973a',          // rust
-    blason:  'pnj/pavillons/es.svg',
+    blason: 'pnj/pavillons/es.svg',
   },
   francaise: {
     label: 'Royaume de France',
     couleur: '#1a3a4a',          // sea
-    blason:  'pnj/pavillons/fr_banniere.svg',
+    blason: 'pnj/pavillons/fr_banniere.svg',
   },
   hollandaise: {
     label: 'Provinces-Unies',
-    couleur: '#2a5a72',          // sea-light
-    blason: 'carte/blasons/nl.svg',
+    couleur: '#b36221',          // sea-light
+    blason: 'pnj/pavillons/nl.svg',
   },
-    "anarchie-pirate": {
-    label:   'Anarchie Pirate',
-    couleur: '#585754',          // ink
-    blason:  'pnj/pavillons/generic_red.svg',
+  "anarchie-pirate": {
+    label: 'Anarchie Pirate',
+    couleur: '#5c5950',          // ink
+    blason: 'pnj/pavillons/generic_red.svg',
   },
   pirate: {
     label: 'République Pirate',
     couleur: '#0e0c09',          // ink
-    blason:  'pnj/pavillons/nassau.svg',
+    blason: 'pnj/pavillons/nassau.svg',
   },
   conteste: {
     label: 'Territoire contesté',
     couleur: '#6b7c8a',          // mist
     blason: null,
   },
+  danoise: {
+    label: 'Danemark-Norvège',
+    couleur: '#0b6d18',
+    blason: 'pnj/pavillons/dk.svg',
+  },
+
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -302,7 +308,7 @@ const JURIDICTIONS = [
   // ── MODÈLE COMPLET — Nassau / Bahamas ────────────────────
   // Premier exemple avec changement de puissance en 1718.
   {
-    id:  'nassau-bahamas',
+    id: 'nassau-bahamas',
     nom: 'Nassau',
 
     puissance: {
@@ -313,12 +319,12 @@ const JURIDICTIONS = [
 
     gouverneur: {
       1712: {
-        nom:    'Thomas Walker',
+        nom: 'Thomas Walker',
         pnj_id: null,  // → ouvre la fiche dans pnj.html
-        titre:  'Gouverneur par intérim',
+        titre: 'Gouverneur par intérim',
       },
-        1714: {
-        nom:    'Conseil de Nassau',
+      1714: {
+        nom: 'Conseil de Nassau',
         pnj_id: 'conseil-nassau',  // → ouvre la fiche dans pnj.html
         titre: 'Instance dirigeante',
       },
@@ -696,7 +702,7 @@ Le Président-Gouverneur cumule trois fonctions : chef de l'exécutif civil, com
       1712: `Cuba est le pivot logistique de l'empire espagnol dans les Caraïbes : La Havane est le point de rassemblement des flottes du Trésor avant leur traversée vers l'Espagne. La ville est fortifiée — le Castillo de los Tres Reyes del Morro domine l'entrée du port — mais la colonie souffre de la stagnation économique imposée par le monopole commercial espagnol. Le tabac, cultivé dans la Vuelta Abajo, est la principale richesse locale. L'île est gouvernée par intérim par Luis Chacón depuis la suspension controversée de Torres y Ayala en 1711, ordonnée par l'Audiencia de Santo Domingo à la suite d'une enquête sur sa gestion.`,
       1713: `Torres y Ayala, rétabli dans ses fonctions le 14 février 1713 après s'être défendu à Madrid, reprend le gouvernorat. Ancien gouverneur de Floride, fin administrateur, il lance la construction de l'Hôpital San Lázaro pour les lépreux à La Havane et soutient activement le monopole tabacier de la Couronne — source de tensions avec les contrebandiers et les producteurs indépendants. Il fonde également la ville de Santiago del Bejucal. Cependant, son second mandat est de courte durée : en mai 1716, il est à nouveau suspendu par l'Audiencia de Santo Domingo, accusé cette fois de corruption et de mauvaise gestion des défenses côtières. Vicente de Raja lui succède, mais son administration est marquée par des conflits avec les élites locales et une incapacité à faire face aux menaces corsaires.`,
       1716: `Vicente de Raja, gouverneur de 1716 à 1717, est un administrateur médiocre dont le mandat est entaché par des scandales de corruption et une gestion désastreuse des ressources militaires. Son incapacité à protéger les côtes cubaines contre les raids pirates et corsaires provoque l'indignation de la population et des élites locales.`, /* En août 1717, il est destitué par l'Audiencia de Santo Domingo, qui nomme Gómez Mazaver Ponce de León comme gouverneur provisoire pour assurer une transition rapide. */
-      1717 : `Gómez Mazaver Ponce de León assure une transition brève et chaotique, avant que Gregorio Guazo y Calderón ne prenne le gouvernorat en juin 1718.`,
+      1717: `Gómez Mazaver Ponce de León assure une transition brève et chaotique, avant que Gregorio Guazo y Calderón ne prenne le gouvernorat en juin 1718.`,
       1718: `Gregorio Guazo y Calderón prend le gouvernorat en juin 1718, dans le sillage de la grande répression anti-pirate qui voit Woodes Rogers s'installer à Nassau. Cuba est la base arrière naturelle des opérations navales espagnoles dans la région, et le nœud de tous les circuits commerciaux — légaux et interlopes — des Caraïbes occidentales.`,
     },
 
@@ -1256,6 +1262,778 @@ Les franges espagnoles, nominalement rattachées à la Nouvelle-Andalousie (Cuma
     population_approx: '~3 000 Européens (Cayenne) / ~50 000 habitants (Surinam, dont ~40 000 esclaves)',
     economie: 'Sucre, cacao, café (Surinam) ; bois, missions (Guyane française) ; prétentions espagnoles sans exploitation effective',
     /* note: 'Juridiction composite intentionnelle. Puissance "contestée" reflète l\'état réel du territoire. Gouverneurs précis de Cayenne et de Surinam disponibles sur demande si nécessaire pour la campagne.', */
+  },
+
+  // ── MARTINIQUE ───────────────────────────────────────────
+  {
+    id: 'martinique',
+    nom: 'Martinique',
+
+    puissance: {
+      1712: 'francaise',
+    },
+
+    gouverneur: {
+      // Note structurelle : la Martinique est siège du Gouverneur général des Îles du Vent,
+      // qui coiffe nominalement toutes les colonies françaises des Petites Antilles.
+      // On distingue ici ce gouverneur général du gouverneur particulier de l'île,
+      // lorsque les deux fonctions sont occupées simultanément par des personnes différentes.
+      1712: {
+        nom: 'Jean-Pierre de Casamajor de Charritte',
+        pnj_id: null,
+        titre: 'Gouverneur de la Martinique (gouverneur particulier)',
+        // Nommé gouverneur des Îles du Vent en 1711, il refuse ce titre supérieur
+        // pour surveiller ses plantations à Saint-Domingue — gouverneur de Martinique de fait.
+      },
+      1714: {
+        nom: 'Abraham Duquesne-Guitton, marquis de Bellebat',
+        pnj_id: null,
+        titre: 'Gouverneur général des Îles du Vent',
+        // Nommé en récompense de sa conversion du protestantisme au catholicisme.
+        // Réside à Fort-Royal (Martinique), siège du gouvernement général.
+      },
+      1717: {
+        nom: "Antoine d'Arcy, seigneur de La Varenne",
+        pnj_id: null,
+        titre: 'Gouverneur général des Îles du Vent',
+        // En poste du 7 janvier au 23 mai 1717 seulement — expulsé par le Gaoulé.
+        // Remplacé par Feuquières comme gouverneur général.
+      },
+      // NB : Florimond Hurault de Montigny est gouverneur PARTICULIER de la Martinique
+      // sous l'autorité de Feuquières (1717?–1720) — il n'est pas gouverneur général des Îles du Vent.
+      // Sa présence dans les sources (Wikipedia EN, Johnson) est établie ; ses dates précises d'entrée en fonctions
+      // ne sont pas confirmées par les ANOM pour la période 1717–1720.
+      1718: {
+        nom: 'François de Pas de Mazencourt, marquis de Feuquières',
+        pnj_id: null,
+        titre: 'Gouverneur général des Îles du Vent',
+        // En poste 1717–1727. Source primaire : ANOM, correspondance à l'arrivée de la Martinique.
+        // Coiffe Martinique, Guadeloupe et toutes les Petites Antilles françaises.
+        // Montigny, gouverneur particulier de la Martinique sous ses ordres, est tué par Bartholomew Roberts en octobre 1720.
+      },
+    },
+
+    contexte: {
+      1712: `Colonie française depuis 1635, la Martinique est le cœur administratif des Antilles françaises : Fort-Royal (aujourd'hui Fort-de-France) est le siège du Gouverneur général des Îles du Vent, qui étend nominalement son autorité sur Guadeloupe, Grenade, Saint-Domingue et les autres îles françaises. Saint-Pierre, sur la côte nord-ouest, est le principal port marchand et la ville la plus peuplée de l'île. L'économie repose sur le sucre, le cacao, l'indigo et, plus marginalement, le café — tous exploités par une main-d'œuvre servile massive. La Martinique est reliée à Bordeaux, Nantes et Marseille par un trafic régulier, mais le commerce interlope avec les Hollandais de Curaçao et les Anglais de la Barbade est endémique malgré les interdictions.
+
+Jean-Pierre de Casamajor de Charritte est un gouverneur pragmatique et populaire, réputé "doux et ennemi du despotisme", mais avide : son conflit avec le flibustier Pierre Morpain — dont il s'est approprié la frégate pour 2 000 livres avant de la revendre 6 000 — est connu des milieux maritimes des Antilles.`,
+      1714: `Abraham Duquesne-Guitton, marquis de Bellebat, prend la tête du gouvernement général des Îles du Vent. Neveu du grand amiral Abraham Duquesne, il doit sa nomination à sa récente conversion au catholicisme — conversion opportuniste que ses contemporains ne lui pardonnent pas. Il réside à Fort-Royal et supervise une colonie prospère mais en tension permanente avec les intérêts des grands planteurs créoles.`,
+      1717: `Janvier–mai 1717 : le Gaoulé. Antoine d'Arcy de La Varenne arrive avec l'intendant Ricouart avec la mission de faire appliquer des réformes impopulaires : limiter le nombre de sucreries (241 en 1716), réprimer les abus judiciaires, et surtout interdire le commerce avec l'étranger. Les grands habitants se soulèvent. Le 23 mai 1717, le gouverneur et l'intendant sont arrêtés par les révoltés et renvoyés de force en France. Cet épisode, connu sous le nom de Gaoulé, illustre la résistance des élites créoles à l'autorité métropolitaine — et la fragilité réelle du contrôle de Paris sur ses colonies antillaises.
+
+François de Pas de Mazencourt, marquis de Feuquières, lui succède comme gouverneur général des Îles du Vent (1717–1727) et s'installe à Fort-Royal. Il est l'autorité supérieure sur l'ensemble des îles françaises des Petites Antilles. Sous son gouvernement, Florimond Hurault de Montigny assure la direction locale de la Martinique en tant que gouverneur particulier — jusqu'à sa mort en octobre 1720, tué par le pirate Bartholomew Roberts qui l'attaque en mer.`,
+    },
+
+    zone: [],
+
+    capitale: 'Fort-Royal (Fort-de-France)',
+    population_approx: '~24 000 habitants (1713, dont ~15 000 esclaves)',
+    economie: 'Sucre, cacao, rhum, indigo ; commerce interlope actif avec Curaçao et Barbade',
+    /* note: '✅ Gouverneurs établis depuis : ANOM (recherche-anom.culture.gouv.fr — correspondance à l\'arrivée de la Martinique, source primaire), Wikipedia EN/FR, GHCaraibe.org, gouverneurs_caraibes.html (session parallèle). ⚠️ Distinction critique : Feuquières est gouverneur général des Îles du Vent (1717–1727) ; Montigny est gouverneur PARTICULIER de la Martinique sous ses ordres (1717?–1720, tué par Roberts). ⚠️ Charritte (1712–1716) est gouverneur particulier de Martinique, non gouverneur général (poste qu\'il a refusé). ⚠️ Duquesne-Guitton : les ANOM datent son mandat "1714–1716", concordant avec Wikipedia. ⚠️ Date d\'entrée en fonctions de Feuquières : les ANOM confirment 1717, sans date précise de prise de poste après l\'expulsion de La Varenne (mai 1717). Population : estimation composite (Pritchard, In Search of Empire, 2004).', */
+  },
+
+  // ── BARBADE ──────────────────────────────────────────────
+  {
+    id: 'barbade',
+    nom: 'Barbade',
+
+    puissance: {
+      1712: 'britannique',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: 'Robert Lowther',
+        pnj_id: null,
+        titre: 'Gouverneur',
+        // En poste depuis 1711. Personnage violent et autoritaire, connu pour ses abus.
+        // Rappelé en Angleterre en février 1714 suite à plaintes du Conseil de l'île.
+      },
+      1714: {
+        nom: 'William Sharpe',
+        pnj_id: null,
+        titre: 'Gouverneur par intérim',
+        // Assure l'intérim de janvier 1714 à novembre 1715.
+      },
+      1715: {
+        nom: 'Robert Lowther',
+        pnj_id: null,
+        titre: 'Gouverneur',
+        // Réintégré par George Ier en novembre 1714, effectif vers 1715.
+        // Révoqué en mars 1720 : corruption, commerce avec l'Espagne ennemie, complicité présumée avec les pirates.
+      },
+    },
+
+    contexte: {
+      1712: `Colonie britannique depuis 1627, la Barbade est la plus ancienne et la plus prospère des Antilles anglaises. Bridgetown est un port actif, premier point d'escale de nombreux navires venant d'Europe ou de Virginie. L'île produit du sucre depuis les années 1640 et en est devenue l'archétype colonial : une mono-économie sucrière totale, fondée sur une main-d'œuvre servile qui représente les deux tiers de la population. Les grandes familles de planteurs — les Drax, les Codrington, les Frere — exercent une influence considérable sur le Conseil et l'Assemblée locaux.
+
+Le gouverneur Robert Lowther est une figure divisive. Venu en Barbade par mariage (il a épousé une héritière des plantations Frere), il y exerce une autorité jugée despotique : il suspend les membres du Conseil qui lui résistent, tente de poursuivre pour haute trahison un avocat qui a défendu son adversaire, et est suspecté d'avoir délibérément immobilisé des navires de guerre royaux pour empêcher la poursuite de pirates — permettant à ceux-ci de faire des ravages dans le commerce local. Il est rappelé une première fois en Angleterre en février 1714, après plaintes écrites au Conseil privé.`,
+      1715: `Robert Lowther, acquitté à Londres en faisant valoir que ses opposants en Barbade sont des sympathisants jacobites, est réintégré par George Ier en novembre 1714 et reprend ses fonctions vers 1715. Son second mandat est marqué par un conflit ouvert avec le révérend William Gordon, pasteur anglican, qui voyage à Londres en 1718 et publie un pamphlet accusant Lowther de diriger "un régime corrompu et tyrannique". L'Assemblée de Barbade ordonne que ce pamphlet soit brûlé comme libelle séditieux — mais le Board of Trade rappelle finalement Lowther en mars 1720, notamment pour avoir laissé un navire espagnol (ennemi) commercer librement à Barbade et pour avoir accepté des cadeaux illicites du Conseil.`,
+    },
+
+    zone: [],
+
+    capitale: 'Bridgetown',
+    population_approx: '~50 000 habitants (1713, dont ~42 000 esclaves)',
+    economie: 'Sucre, rhum, mélasse ; commerce de transit vers les colonies continentales',
+    /* note: '✅ Gouverneurs établis depuis : Wikipedia EN (Robert Lowther, List of governors of Barbados), History of Parliament Online (Lowther entry, très détaillé), Cumbrian Characters (biographie narrative). Épisode pirate (rétention des navires de guerre) : source Lincoln, British Pirates and Society (2014), citée dans Cumbrian Characters. ⚠️ La date exacte de retour effectif de Lowther après réintégration (nov. 1714) n\'est pas précisée dans les sources consultées — "vers 1715" retenu.', */
+  },
+
+  // ── CURAÇAO ──────────────────────────────────────────────
+  {
+    id: 'curacao',
+    nom: 'Curaçao (avec Aruba et Bonaire)',
+
+    puissance: {
+      1712: 'hollandaise',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: 'Jeremias van Collen',
+        pnj_id: null,
+        titre: 'Directeur des îles ABC pour la WIC',
+        // En poste de 1710(?) à 1715. Issu d'une famille patricienne amsterdamoise.
+        // Réputé corrompu : commerce illicite avec les Français pendant la guerre,
+        // emprisonnement arbitraire de ses adversaires au Conseil.
+      },
+      1715: {
+        nom: 'Jonathan van Beuningen',
+        pnj_id: null,
+        titre: 'Directeur par intérim des îles ABC pour la WIC',
+        // Ad interim 1715–1720. Beau-frère de Jeremias van Collen (sa belle-mère
+        // est la sœur de Ferdinand et de Jeremias van Collen).
+      },
+      1720: {
+        nom: 'Jan van Beuningen',
+        pnj_id: null,
+        titre: 'Directeur des îles ABC pour la WIC',
+        // Gouverneur titulaire nommé en 1720, décédé le 18 septembre 1720 après 4 jours de maladie.
+        // Écrit une lettre poignante à la WIC sur le sort des esclaves abandonnés par leurs maîtres.
+      },
+    },
+
+    contexte: {
+      1712: `Curaçao est la plaque tournante du commerce hollandais dans les Caraïbes. Willemstad — organisée autour du Fort Amsterdam, sur la baie de Sint Anna — est l'un des ports les plus actifs de la région, ouvert à toutes les nations et à tous les commerces. La Compagnie des Indes occidentales (WIC) administre l'île depuis 1634, mais son monopole formel est de plus en plus fictif : le commerce libre, souvent interlope, est la norme réelle. Curaçao est en particulier le nœud du trafic négrier entre l'Afrique et les colonies espagnoles du continent (asiento de negros), ainsi qu'un entrepôt de marchandises européennes redistribuées vers la Terre Ferme et les îles françaises et espagnoles voisines.
+
+Le directeur Jeremias van Collen est une figure ambiguë et controversée. Appartenant à une famille régente d'Amsterdam, il a accédé au poste après une série d'intérims et de manœuvres. Il est suspecté d'avoir commercé avec les Français pendant la guerre de Succession d'Espagne (1702–1713) et d'avoir fait emprisonner arbitrairement un officier qui l'avait dénoncé. En 1713, son nom figure parmi les quatre personnes les plus riches de l'île — ce dans un contexte économique difficile, ce qui interpelle.
+
+En février 1713 — derniers mois de la guerre — Curaçao subit une brève occupation française (18–27 février), menée par des pirates opérant sous pavillon français. L'épisode est court mais humiliant pour la WIC.`,
+      1715: `Après la mort ou le départ de Jeremias van Collen, Jonathan van Beuningen assure l'intérim (1715–1720). La période est marquée par la continuité d'un commerce actif mais structurellement illicite : Curaçao alimente en marchandises les colonies espagnoles du Venezuela et de la Nouvelle-Grenade qui, en retour, écoulent cacao, peaux et coupons. L'île est fréquentée par des navires de toutes nationalités et de toutes intentions. La faiblesse militaire de la garnison et la vénalité avérée des administrateurs en font un refuge informel pour des opérations en marge de la légalité.`,
+    },
+
+    zone: [],
+
+    capitale: 'Willemstad (Fort Amsterdam)',
+    population_approx: '~8 000 habitants (1713, dont ~5 000 à 6 000 esclaves)',
+    economie: 'Commerce interlope, transit négrier (asiento), entrepôt de redistribution, sel (Bonaire)',
+    /* note: '✅ Liste des directeurs WIC établie depuis : Geni.com (Governors of the Netherlands Antilles project), Genealogie Kerckrinck (nikhef.nl — source généalogique néerlandaise de haute qualité), Wikipedia NL (Jan van Beuningen). ⚠️ Le titre exact des administrateurs de Curaçao est "directeur" (pour la WIC) et non "gouverneur" au sens colonial classique. ⚠️ La date exacte de fin de mandat de Jeremias van Collen est incertaine : "1710–1715" selon Geni, confirmé par sources généalogiques. ⚠️ Épisode de l\'occupation française de février 1713 : confirmé par WorldStatesmen.org, sans source primaire identifiée pour le commandant ou les circonstances précises. ⚠️ Population : estimation d\'après Postma, The Dutch in the Atlantic Slave Trade (1990) et Klooster, Illicit Riches (1998).', */
+  },
+
+  // ── DOMINIQUE ────────────────────────────────────────────
+  {
+    id: 'dominique',
+    nom: 'Dominique',
+
+    puissance: {
+      1712: 'conteste',
+      // De jure : île neutre par l'accord franco-britannique de 1660, laissée aux Kalinago.
+      // De facto : présence croissante de coupeurs de bois et de squatteurs français depuis ~1690.
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Aucune autorité constituée]',
+        pnj_id: null,
+        titre: 'Île neutre — pas de gouverneur',
+        // Pas d'administration coloniale. Les Kalinago sont l'autorité réelle sur l'intérieur.
+        // Les squatteurs français du littoral ne relèvent nominalement que de Martinique ou Guadeloupe.
+      },
+    },
+
+    contexte: {
+      1712: `Dominique est officiellement une île neutre depuis 1660, quand France et Angleterre s'accordent pour la laisser aux Kalinago (Caribes) en échange de leur retrait des autres Petites Antilles. En pratique, l'accord est violé en douce : des coupeurs de bois français venus de Martinique et de Guadeloupe opèrent sur les franges côtières depuis le début du siècle, exploitant le bois précieux de l'île — l'une des plus boisées et des plus montagneuses des Antilles — sans jamais constituer de colonie organisée.
+
+En 1712, la Dominique est un espace de marge. L'intérieur volcanique et couvert de forêts denses est un territoire kalinago souverain de fait. Le littoral, morcelé par des ravines et des falaises, accueille quelques établissements de bûcherons français, des déserteurs, des esclaves marrons venus des îles voisines, et des contrebandiers qui profitent de l'absence de toute autorité pour faire escale sans rendre de comptes.
+
+Le Gaoulé de 1717 — le soulèvement des petits blancs martiniquais contre le gouverneur La Varenne — accélère le mouvement : nombre de ces "petits habitants" expulsés ou ruinés migrent vers le sud de la Dominique pour y établir de petits lopins. Les premiers établissements semi-permanents français datent de cette période (1715–1719), mais sans mandat officiel, sans garnison, sans administration. La France ne nommera un commandant à la Dominique qu'en 1727.`,
+    },
+
+    zone: [],
+
+    capitale: '[Aucune — Roseau est un simple mouillage]',
+    population_approx: '~2 000 à 3 000 Kalinago (estimation) ; quelques dizaines de colons et coupeurs de bois français',
+    economie: 'Bois précieux (acajou, gaïac) ; commerce de troc avec les Kalinago ; refuge informel',
+    /* note: '✅ Accord franco-britannique de 1660 : fait établi, confirmé par de multiples sources. ✅ Présence française de bûcherons depuis ~1690 : établi. ✅ Lien Gaoulé 1717 → migration vers Dominique : établi (sources Infogalactic, Global Security, Liquisearch). ⚠️ "Premiers établissements permanents 1715" : certaines sources avancent 1690, d\'autres 1715, d\'autres 1719. La fourchette 1715–1719 est retenue comme la plus cohérente pour la période de la campagne. ⚠️ Population kalinago : aucune donnée fiable pour 1712 — estimation basse retenue.', */
+  },
+
+  // ── SAINT-VINCENT ────────────────────────────────────────
+  {
+    id: 'saint-vincent',
+    nom: 'Saint-Vincent',
+
+    puissance: {
+      1712: 'conteste',
+      // De jure neutre par l'accord de 1660. De facto : territoire kalinago, sans colons européens permanents.
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Aucune autorité européenne]',
+        pnj_id: null,
+        titre: 'Île neutre — territoire kalinago',
+        // Pas d'administration coloniale jusqu'en 1719 (premier établissement français à Barrouallie).
+      },
+    },
+
+    contexte: {
+      1712: `Saint-Vincent est, en 1712, l'une des dernières îles des Petites Antilles où aucun Européen n'a réussi à s'établir durablement. L'accord franco-britannique de 1660 l'a laissée aux Kalinago, et les Kalinago l'ont défendue avec succès : toutes les tentatives de colonisation — espagnole, anglaise, française — se sont soldées par des défaites ou des abandons.
+
+L'île abrite deux populations distinctes et souvent en tension : les Kalinago Rouges (ou "Jaunes"), autochtones de longue date, installés principalement sur la côte sous le vent ; et les Kalinago Noirs, ou Garifunas, issus du métissage entre Kalinago et Africains — esclaves évadés ou naufragés depuis la Barbade et d'autres îles, réfugiés à Saint-Vincent depuis le XVIIe siècle. Ces derniers sont plus nombreux, mieux armés, et occupent les hauteurs et la côte au vent. Les deux groupes coexistent avec méfiance, s'affrontent parfois, mais s'unissent contre toute menace européenne.
+
+En 1712, Saint-Vincent est un espace absolument autonome. Les Européens y passent — pour faire de l'eau, échanger quelques marchandises — mais n'y restent pas. Les Garifunas tolèrent un commerce limité et refusent toute implantation permanente. Ce n'est qu'en 1719 que les Français parviennent à s'établir à Barrouallie, sur la côte sous le vent, avec l'accord forcé des Kalinago Rouges — lesquels cherchaient dans l'alliance française une protection contre les Garifunas.`,
+    },
+
+    zone: [],
+
+    capitale: '[Aucune]',
+    population_approx: '~3 000 à 5 000 Kalinago (Rouges et Noirs confondus) ; pas de colons permanents avant 1719',
+    economie: 'Subsistance, pêche, chasse ; troc limité avec les navires de passage',
+    /* note: '✅ Accord de 1660 et neutralité : établi. ✅ Présence des Kalinago Noirs (Garifunas) depuis le XVIIe s. : établi. ✅ Absence de colons permanents avant 1719 : sources concordantes (Wikipedia EN, Britannica, FamilySearch). ✅ Premier établissement français à Barrouallie, 1719 : établi. ⚠️ Population : aucune donnée fiable — estimation prudente. ⚠️ Détails sur les tensions Kalinago Rouges / Noirs en 1712 : bien attestés dans l\'historiographie (Craton, Black Caribs of St. Vincent), mais les sources sur la période exacte 1712–1719 sont minces.', */
+  },
+
+  // ── SAINTE-LUCIE ─────────────────────────────────────────
+  {
+    id: 'sainte-lucie',
+    nom: 'Sainte-Lucie',
+
+    puissance: {
+      1712: 'conteste',
+      // De facto française avec colons depuis 1651, mais sans statut formel établi.
+      // L'Angleterre revendique l'île par traités mais ne l'occupe pas en 1712.
+      // Neutre de jure par accord franco-britannique à partir de 1723.
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Commandant ou intendant local non identifié]',
+        pnj_id: null,
+        titre: 'Commandant local (sans statut officiel)',
+        // L'île relève nominalement de la Martinique (gouverneur général des Îles du Vent),
+        // mais sans gouverneur particulier nommé. Les colons s'administrent en large autonomie.
+      },
+    },
+
+    contexte: {
+      1712: `Sainte-Lucie est "l'Hélène des Antilles" — l'île la plus disputée de la Caraïbe, qui changera quatorze fois de mains entre Français et Anglais. En 1712, elle est de facto française : des colons établis depuis 1651 y cultivent du tabac, du coton et de petites quantités de sucre. Castries (alors simple mouillage) et Vieux Fort constituent les deux points d'ancrage de cette population clairsemée.
+
+Juridiquement, le statut de l'île est un imbroglio. Les Anglais la revendiquent par la charte Carlisle de 1627 et n'ont jamais renoncé à leurs droits. Les Français l'occupent de fait mais sans titre solide reconnu. Les Kalinago, qui ont écrasé les deux premières tentatives d'implantation anglaise (1605, 1639), sont encore présents dans l'intérieur montagneux, en retrait mais pas effacés. Cette situation tripartite — colons français, revendications anglaises, Kalinago dans les hauteurs — fait de Sainte-Lucie une zone de friction permanente.
+
+En 1723, France et Angleterre s'entendront pour la déclarer officiellement neutre — reconnaissant ainsi leur incapacité à trancher. Pour la période 1712–1722, elle est un no man's land de facto français, mais sans garnison, sans gouverneur nommé, et accessible à quiconque sait négocier avec les habitants.`,
+    },
+
+    zone: [],
+
+    capitale: 'Castries (simple mouillage en 1712)',
+    population_approx: '~1 500 à 2 000 colons français (estimation) ; population kalinago résiduelle dans l\'intérieur',
+    economie: 'Tabac, coton, vivres ; commerce d\'escale pour les navires en transit',
+    /* note: '✅ Historique des occupations franco-anglaises : établi, sources nombreuses concordantes. ✅ Neutralité de jure en 1723 : établi (tableau liquisearch.com, cohérent avec d\'autres sources). ⚠️ Statut exact en 1712 : aucune source ne désigne un gouverneur ou commandant précis pour cette période — "commandant local non identifié" retenu. ⚠️ Population : aucune donnée fiable pour 1712 — estimation très basse retenue.', */
+  },
+
+  // ── GUADELOUPE ───────────────────────────────────────────
+  {
+    id: 'guadeloupe',
+    nom: 'Guadeloupe',
+
+    puissance: {
+      1712: 'francaise',
+    },
+
+    gouverneur: {
+      // Note structurelle : la Guadeloupe a son propre gouverneur PARTICULIER,
+      // distinct du gouverneur général des Îles du Vent résidant en Martinique.
+      // En cas d'absence ou de vacance du gouverneur général, le gouverneur de Guadeloupe
+      // peut assurer l'intérim (La Malmaison l'a fait en 1713–1715).
+      1712: {
+        nom: 'Georges Robert Cloche de La Malmaison',
+        pnj_id: null,
+        titre: 'Gouverneur particulier de la Guadeloupe',
+        // En poste depuis 1705. Mort en fonction le 1er mai 1717.
+        // A assuré l'intérim du gouvernement général des Îles du Vent (oct. 1713 – janv. 1715),
+        // entre le départ de Phélypeaux et l'arrivée de Duquesne-Guitton.
+      },
+      1717: {
+        nom: 'Savinien-Michel de Lagarrigue de Savigny',
+        pnj_id: null,
+        titre: 'Gouverneur particulier de la Guadeloupe (intérim)',
+        // Prend le commandement après le décès de La Malmaison (1er mai 1717).
+        // Major de la Martinique promu lieutenant de roi en Guadeloupe — intérim jusqu'en mars 1718.
+      },
+      1718: {
+        nom: 'Alexandre Vaultier de Moyencourt',
+        pnj_id: null,
+        titre: 'Gouverneur particulier de la Guadeloupe',
+        // En poste du 18 mars 1718 à 1727.
+        // Rappelé en France pour soupçons de contrebande.
+        // Obtient dès son arrivée la permission d'acheter 50 esclaves dans les colonies anglaises
+        // malgré l'interdiction formelle — premier acte révélateur de son style de gouvernement.
+      },
+    },
+
+    contexte: {
+      1712: `La Guadeloupe est administrée depuis Basse-Terre, sur la côte sous le vent de la Basse-Terre volcanique — la plus grande des deux terres qui composent l'île, séparées par la Rivière Salée. Grande-Terre, plus plate et plus sèche, est le cœur de l'économie sucrière. L'île produit du sucre, du cacao, du coton et du café, avec une main-d'œuvre servile qui représente la grande majorité de la population. Le commerce officiel s'effectue avec la France via Bordeaux et Nantes, mais le commerce interlope avec les Hollandais (Curaçao, Saint-Eustache) et les Anglais est endémique.
+
+Le gouverneur La Malmaison est un administrateur tenace, en poste depuis 1705. Il a déjà survécu à la guerre de Succession d'Espagne et assuré l'intérim du gouvernement général des Îles du Vent pendant dix-sept mois (octobre 1713 – janvier 1715), entre le départ de Phélypeaux et l'arrivée de Duquesne-Guitton à la Martinique. Confirmation de son autorité : en août 1716, un décret royal lui reconnaît le commandement en chef des Îles du Vent en cas de mort ou d'absence du gouverneur général. Il meurt en fonction le 1er mai 1717, quelques jours avant le dénouement du Gaoulé martiniquais.`,
+      1717: `La mort de La Malmaison laisse la Guadeloupe sans gouverneur titulaire pendant près d'un an. Lagarrigue de Savigny, major de la Martinique nommé lieutenant de roi en Guadeloupe le 20 septembre 1717, assure l'intérim dans une colonie secouée par les mêmes tensions commerciales et fiscales qui ont provoqué le Gaoulé en Martinique. Les colons guadeloupéens s'étaient eux aussi soulevés — de façon moins spectaculaire — contre les réformes de La Varenne au printemps 1717.`,
+      1718: `Alexandre Vaultier de Moyencourt prend les rênes en mars 1718 et gouverne la Guadeloupe jusqu'en 1727. Son premier acte notable est d'obtenir l'autorisation d'acheter 50 esclaves dans les colonies anglaises voisines, en violation formelle des ordonnances commerciales françaises — signal d'un régime accommodant avec la contrebande. Il sera rappelé en France en 1727 précisément pour soupçons de commerce illicite.`,
+    },
+
+    zone: [],
+
+    capitale: 'Basse-Terre',
+    population_approx: '~25 000 habitants (1713, dont ~18 000 esclaves)',
+    economie: 'Sucre, cacao, coton, café ; commerce interlope actif malgré les interdictions',
+    /* note: '✅ La Malmaison : Wikipedia EN (article dédié), ANOM (correspondance de Guadeloupe), Chronologie de Guadeloupe (Wikipedia FR). ✅ Dates confirmées par au moins deux sources concordantes pour chaque gouverneur. ✅ Intérim des Îles du Vent (oct. 1713 – janv. 1715) : établi Wikipedia EN + ANOM. ✅ Lagarrigue de Savigny : ANOM (provisions de lieutenant de roi du 20 sept. 1717) + Unionpedia FR. ✅ Vaultier de Moyencourt : Chronologie de Guadeloupe (Wikipedia FR), date du 18 mars 1718 confirmée. ⚠️ La Malmaison est parfois appelé "Hemon Coinard de la Malmaison" dans les sources françaises — il s\'agit du même personnage (Georges Robert Cloche de Mont-Saint-Rémy de La Malmaison). Population : estimation composite, période.', */
+  },
+
+  // ── GRENADE ──────────────────────────────────────────────
+  {
+    id: 'grenade',
+    nom: 'Grenade (et Grenadines)',
+
+    puissance: {
+      1712: 'francaise',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: 'Guillaume-Emmanuel-Théodore de Maupeou, comte de l\'Estrange',
+        pnj_id: null,
+        titre: 'Gouverneur de la Grenade',
+        // En poste de 1711 à 1716.
+      },
+      1717: {
+        nom: 'Jean-Michel de Lépinay',
+        pnj_id: null,
+        titre: 'Gouverneur de la Grenade',
+        // En poste de 1717 au 3 janvier 1721.
+        // NB : Feuquières est mentionné par les ANOM comme "gouverneur de la Grenade en 1716"
+        // avant de devenir gouverneur général des Îles du Vent en 1717 — passage transitoire
+        // entre la fin du mandat de Maupeou et la prise de fonctions de Lépinay.
+      },
+    },
+
+    contexte: {
+      1712: `Colonie française depuis 1649, la Grenade est la plus méridionale des Petites Antilles françaises. Saint-George's (Fort Royal) est la capitale et le seul port notable. L'île produit du sucre, du cacao, de l'indigo et — fait remarquable pour la région — des épices : la muscade et le poivre qui feront plus tard sa réputation commencent à être cultivés. La Grenade relève du gouverneur général des Îles du Vent résidant à Fort-Royal en Martinique, mais son gouverneur particulier jouit d'une relative autonomie de fait, compte tenu de l'éloignement.
+
+L'archipel des Grenadines — une centaine d'îlots et de cays entre Grenade et Saint-Vincent — est nominalement rattaché à la Grenade, mais sans administration effective. Ces îlots sont des refuges pour les pêcheurs, les naufragés, les contrebandiers et les pirates qui font escale sans rendre de comptes. Carriacou, la plus grande des Grenadines françaises, a quelques habitations mais pas de garnison.`,
+      1717: `Jean-Michel de Lépinay prend le gouvernement en 1717 après une transition floue (Feuquières est passé brièvement par la Grenade avant d'être nommé gouverneur général des Îles du Vent). Lépinay administre une île en développement économique réel, mais exposée : la Grenade est la colonie française la plus proche de Trinidad et du Venezuela espagnols, et ses Grenadines sont un espace où toutes les juridictions se dissolvent. Les navires de commerce, les flibustiers et les contrebandiers y font escale librement.`,
+    },
+
+    zone: [],
+
+    capitale: 'Saint-George\'s (Fort Royal)',
+    population_approx: '~15 000 habitants (1713, dont ~11 000 esclaves)',
+    economie: 'Sucre, cacao, indigo, épices naissantes (muscade) ; Grenadines : refuge et contrebande',
+    /* note: '✅ Liste des gouverneurs : Wikipedia FR (Liste des gouverneurs coloniaux de la Grenade — source primaire liste exhaustive). ✅ Feuquières gouverneur de la Grenade en 1716, avant gouverneur général Îles du Vent : ANOM nominatif (source primaire). ⚠️ La transition Maupeou / Feuquières / Lépinay en 1716–1717 est une zone grise : Feuquières semble avoir occupé le poste très brièvement (quelques mois à tout au plus) sans que cela soit formellement documenté comme un mandat à part entière — on le note en commentaire plutôt qu\'en entrée gouverneur pour ne pas surcharger l\'affichage. ⚠️ Les Grenadines françaises (Carriacou, Petite Martinique, etc.) sont intégrées dans ce bloc faute de source permettant d\'en faire un bloc distinct.', */
+  },
+
+  // ── SAINT-CHRISTOPHE (SAINT-KITTS) ───────────────────────
+  {
+    id: 'saint-christophe',
+    nom: 'Saint-Christophe (Saint-Kitts)',
+
+    puissance: {
+      1712: 'britannique',
+      // Toute l'île est sous contrôle britannique de facto depuis la guerre de Succession d'Espagne,
+      // mais la partie française n'est formellement cédée que par le traité d'Utrecht (1713).
+    },
+
+    gouverneur: {
+      // Saint-Kitts n'a pas de gouverneur particulier distinct — elle relève directement
+      // du gouverneur général des Leeward Islands résidant à Antigua.
+      // Un commandant local (deputy governor) administre l'île au quotidien.
+      1712: {
+        nom: 'Walter Douglas',
+        pnj_id: null,
+        titre: 'Gouverneur général des Leeward Islands (résidence Antigua)',
+        // En poste 1711–1716. Successeur de Daniel Parke, lynché en décembre 1710.
+        // Douglas a monnayé la grâce royale accordée aux assassins de Parke :
+        // 10 000 £ soutirées aux Antiguais avant de publier le pardon royal.
+        // Condamné en Angleterre pour extorsion, révoqué.
+      },
+      1715: {
+        nom: 'Walter Hamilton',
+        pnj_id: null,
+        titre: 'Gouverneur général des Leeward Islands (résidence Antigua)',
+        // Second mandat 1715–1721. Intérim assuré par William Mathew Jr. en 1714–1715.
+      },
+    },
+
+    contexte: {
+      1712: `Saint-Christophe — Saint-Kitts pour les Anglais — est la plus ancienne colonie anglaise des Antilles, fondée en 1623 par Thomas Warner. Elle a une histoire singulière : l'île fut partagée pendant près de cent ans entre Anglais et Français, qui coexistaient difficilement sur leurs bandes côtières respectives pendant que les Kalinago contrôlaient l'intérieur. La guerre de Succession d'Espagne a mis fin à ce partage : les Britanniques ont pris le contrôle de toute l'île dès 1702, et le traité d'Utrecht (1713) en formalise la cession définitive par la France.
+
+En 1712, les terres de l'ancienne partie française — les plus fertiles, celles du centre — sont en cours de redistribution. Les anciens colons français, expulsés ou partis d'eux-mêmes, ont laissé des habitations que les planteurs anglais s'empressent d'acquérir, souvent à vil prix. C'est une période de spéculation foncière intense autour du futur traité.
+
+Brimstone Hill, la forteresse volcanique qui domine l'île, est le point défensif central — surnommé le "Gibraltar des Antilles". Basseterre est la capitale et le principal port.`,
+      1713: `Le traité d'Utrecht (avril 1713) règle officiellement la question : la partie française de Saint-Kitts est cédée à la Grande-Bretagne. L'île est désormais entièrement britannique pour la première fois de son histoire coloniale. Les planteurs anglais achèvent de s'emparer des terres françaises abandonnées. La prospérité sucrière de l'île croît rapidement — Saint-Kitts devient l'une des colonies les plus productives des Leeward Islands.`,
+    },
+
+    zone: [],
+
+    capitale: 'Basseterre',
+    population_approx: '~20 000 habitants (1713, dont ~15 000 esclaves)',
+    economie: 'Sucre, rhum — île parmi les plus productives des Antilles anglaises',
+    /* note: '✅ Histoire de la partition franco-britannique et cession Utrecht : établi, sources multiples concordantes. ✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands). ✅ Affaire Douglas / extorsion : Wikipedia EN (Walter Douglas), Historic St. Kitts. ✅ Assassinat de Parke (dec. 1710) : bien documenté, notamment Encyclopedia Virginia et Calendar of State Papers. ⚠️ Saint-Kitts n\'a pas de gouverneur particulier nommé séparément pour la période 1712–1720 — le gouverneur général des Leeward Islands fait autorité sur l\'ensemble. ⚠️ Intérim de William Mathew Jr. (1714–1715) : établi par la liste Wikipedia, non développé dans le contexte.', */
+  },
+
+  // ── LEEWARD ISLANDS (HORS SAINT-KITTS) ──────────────────
+  {
+    id: 'leeward-islands',
+    nom: 'Leeward Islands (Antigua, Nevis, Montserrat, Anguilla, Barbuda)',
+
+    puissance: {
+      1712: 'britannique',
+    },
+
+    gouverneur: {
+      // Gouverneur général commun à toutes les Leeward Islands, résidant à Antigua.
+      // Même succession que pour Saint-Kitts (voir ce bloc).
+      1712: {
+        nom: 'Walter Douglas',
+        pnj_id: null,
+        titre: 'Gouverneur général des Leeward Islands',
+        // Condamné pour extorsion, révoqué 1714–1716.
+      },
+      1715: {
+        nom: 'Walter Hamilton',
+        pnj_id: null,
+        titre: 'Gouverneur général des Leeward Islands',
+        // Second mandat 1715–1721.
+      },
+    },
+
+    contexte: {
+      1712: `Les Leeward Islands britanniques forment une colonie fédérée depuis 1671, administrée par un gouverneur général résidant à Antigua. Chaque île a un conseil local et un commandant ou lieutenant-gouverneur, mais sans législature autonome pour la période.
+
+**Antigua** est le siège du gouvernement général et la plus prospère des îles du groupe. English Harbour, sur la côte sud, est la base navale principale de la Couronne dans les Petites Antilles — point de carénage et d'approvisionnement pour les frégates de la Royal Navy. La ville de Saint-John's est la capitale administrative. L'île produit du sucre en quantité croissante, exploité par une main-d'œuvre servile nombreuse. C'est ici que le gouverneur Daniel Parke a été lynché en décembre 1710 — événement encore frais dans les mémoires en 1712 — et que son successeur Douglas a monnayé le pardon royal des assassins.
+
+**Nevis** était au XVIIe siècle la plus riche des îles du groupe, siège de facto du premier gouverneur général Stapleton qui y avait épousé et s'y était installé. Elle a depuis été dépassée par Antigua mais reste une île sucrière productive, avec Charlestown pour capitale.
+
+**Montserrat** est une île plus modeste, à dominante irlandaise catholique — de nombreux colons irlandais y ont trouvé refuge depuis la Barbade au XVIIe siècle. La langue et les traditions irlandaises y sont encore vivaces. Plymouth est la seule ville notable. L'île a subi plusieurs raids français pendant la guerre de Succession (1710, 1711, 1712), tous repoussés.
+
+**Anguilla** est une île quasi-abandonnée par les autorités coloniales : plate, aride, sans sucre, sans garnison, sans réelle administration. Elle survive grâce à la pêche, l'élevage de sel et la contrebande avec les îles voisines françaises et hollandaises. En juin 1720, le gouverneur Hamilton rapporte que plusieurs grands planteurs anguillais ont simplement quitté l'île pour Antigua, faute de perspective.
+
+**Barbuda** est une dépendance d'Antigua, essentiellement réservée comme réserve naturelle et d'approvisionnement pour les Codrington — la grande famille de planteurs qui la détient à bail de la Couronne depuis 1685. Elle est peu peuplée et sans administration distincte.`,
+    },
+
+    zone: [],
+
+    capitale: 'Saint-John\'s (Antigua) — siège du gouvernement général',
+    population_approx: '~35 000 habitants pour l\'ensemble du groupe (1713, dont ~28 000 esclaves)',
+    economie: 'Sucre (Antigua, Nevis), sel et pêche (Anguilla) ; base navale royale à English Harbour (Antigua)',
+    /* note: '✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands), sources concordantes. ✅ Affaire Parke (1710) : bien établie, Calendar of State Papers, Encyclopedia Virginia. ✅ Montserrat : raids français 1710–1712 établis (West India Committee, War of the Spanish Succession). ✅ Anguilla abandon 1720 : Calendar of State Papers Colonial (CO.152/13, Hamilton 14 juin 1720), cité dans Don Mitchell, The Leeward Islands. ✅ Barbuda / Codrington : établi. ⚠️ Ce bloc regroupe cinq entités distinctes dans un seul id — les zones SVG individuelles devront pointer vers ce même bloc, ou des blocs fils pourront être créés ultérieurement pour Antigua et Nevis si la campagne l\'exige.', */
+  },
+
+  // ── SAINT-THOMAS (ET SAINT-JOHN) ─────────────────────────
+  {
+    id: 'saint-thomas',
+    nom: 'Saint-Thomas (et Saint-John)',
+
+    puissance: {
+      1712: 'danoise',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: 'Mikkel Knudsen Crone',
+        pnj_id: null,
+        titre: 'Gouverneur de Saint-Thomas pour la Compagnie des Indes occidentales danoise',
+        // En poste du 27 mars 1710 au 8 août 1716 (mort en fonction).
+        // En 1715, il signale à Copenhague que les terres de Saint-Thomas s'épuisent
+        // et que les planteurs cherchent à s'étendre vers Saint-John.
+      },
+      1716: {
+        nom: 'Erik Bredal',
+        pnj_id: null,
+        titre: 'Gouverneur de Saint-Thomas pour la Compagnie des Indes occidentales danoise',
+        // Élu gouverneur intérimaire le 12 août 1716 après la mort de Crone.
+        // Nominé définitivement par Copenhague. En poste jusqu'en 1724.
+        // En 1717, le gouverneur britannique Hamilton visite Saint-Thomas et avertit
+        // les Danois de ne pas couper de bois sur Saint-John.
+        // En 1718, colonise officiellement Saint-John malgré les objections anglaises.
+      },
+    },
+
+    contexte: {
+      1712: `Saint-Thomas est la colonie danoise des Caraïbes, administrée par la Compagnie des Indes occidentales danoise (Vestindisk Kompagni) depuis 1672. Charlotte Amalie — la ville portuaire organisée autour du Fort Christian — est l'un des ports francs les plus actifs des Petites Antilles : la tolérance danoise envers toutes les nationalités et tous les commerces en fait un hub du trafic interlope que ni les Anglais ni les Français ni les Espagnols n'arrivent à réguler depuis leurs propres colonies.
+
+En 1712, Saint-Thomas est surtout une plaque tournante commerciale. Les esclaves africains y transitent vers les colonies espagnoles du continent ; les marchandises européennes et américaines y sont redistribuées sans trop de questions. La population blanche est mêlée — Danois, Hollandais, Anglais, Juifs séfarades — ce qui renforce son caractère de carrefour neutre. Les esclaves représentent plus des cinq sixièmes de la population totale.
+
+Saint-John, île voisine, est en 1712 encore formellement non colonisée. Les terres de Saint-Thomas s'épuisant, des planteurs danois commencent à loucher sur Saint-John, mais la tension avec les Anglais (qui considèrent l'île dans leur zone d'influence) retient la Compagnie. Le gouverneur Bredal la colonisera finalement en 1718, déclenchant une friction diplomatique avec le gouverneur Hamilton des Leeward Islands.`,
+    },
+
+    zone: [],
+
+    capitale: 'Charlotte Amalie (Fort Christian)',
+    population_approx: '~3 600 habitants en 1715 (dont ~3 000 esclaves)',
+    economie: 'Port franc, commerce interlope, transit négrier, sucre en production secondaire',
+    /* note: '✅ Gouverneurs : Wikipedia EN (Mikkel Knudsen Crone, Erik Bredal). ✅ Colonisation Saint-John 1718 et tension avec Hamilton : St. John Historical Society. ✅ Population 1715 : Danish West Indies Wikipedia EN (chiffres de recensement). ⚠️ La puissance "danoise" n\'existe pas dans les PUISSANCES du fichier — utilisation temporaire de "hollandaise" par défaut ; à corriger en ajoutant une entrée "danoise" dans PUISSANCES.', */
+  },
+
+  // ── SAINTE-CROIX ─────────────────────────────────────────
+  {
+    id: 'sainte-croix',
+    nom: 'Sainte-Croix',
+
+    puissance: {
+      1712: 'conteste',
+      // Officiellement française (cession à la Couronne en 1674), mais abandonnée depuis 1696.
+      // Île déserte en 1712 — ni gouverneur, ni colons, ni garnison.
+      // Vendue au Danemark en 1733.
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Île abandonnée — aucune autorité]',
+        pnj_id: null,
+        titre: 'Aucun gouverneur — île déserte',
+        // La France a évacué l'île en 1696 pendant la guerre de la Ligue d'Augsbourg.
+        // Entre 1696 et 1733, Sainte-Croix est formellement française mais sans présence.
+      },
+    },
+
+    contexte: {
+      1712: `Sainte-Croix est une île fantôme. Ancienne colonie française, elle a été évacuée en 1696 sur ordre de Louis XIV — trop exposée, trop difficile à défendre, trop coûteuse à maintenir dans le contexte de la guerre de la Ligue d'Augsbourg. Ses plantations, ses forts et ses maisons sont retournés à la végétation tropicale.
+
+En 1712, l'île appartient formellement à la France — aucun traité ne l'a cédée — mais personne n'y réside en permanence. Des navires s'y arrêtent pour faire de l'eau douce, des naufragés y trouvent refuge provisoirement, et des buccaneers y ont établi des camps éphémères. L'Angleterre, le Brandebourg et le Danemark ont tous montré de l'intérêt pour l'île depuis son abandon, sans qu'aucun n'ait agi.
+
+Ce vide juridique et humain durera jusqu'en 1733, quand la France conclura avec le Danemark un traité de vente pour 750 000 livres. Frederik Moth, gouverneur de Saint-Thomas, fondera alors Christiansted et fera de Sainte-Croix la colonie danoise la plus productive des Caraïbes.`,
+    },
+
+    zone: [],
+
+    capitale: '[Aucune — île déserte en 1712]',
+    population_approx: 'Zéro résidents permanents (1712–1733)',
+    economie: 'Néant — anciens établissements à l\'abandon ; escale occasionnelle',
+    /* note: '✅ Abandon 1696 et vente au Danemark 1733 : établi, sources nombreuses concordantes (Wikipedia EN Saint Croix, Heritage.vi, antillespressvi.com/sainte-croix). ✅ Statut "formellement française" : confirmé par la chronologie — aucun traité de cession avant 1733. ⚠️ La mention de visiteurs ou campements pirates 1696–1733 est vraisemblable mais non sourçable précisément.', */
+  },
+
+  // ── ÎLES VIERGES BRITANNIQUES ────────────────────────────
+  {
+    id: 'iles-vierges-britanniques',
+    nom: 'Îles Vierges britanniques (Tortola, Virgin Gorda, Anegada)',
+
+    puissance: {
+      1712: 'britannique',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Commandant local non identifié]',
+        pnj_id: null,
+        titre: 'Dépendance des Leeward Islands — pas de gouverneur particulier',
+        // Les Îles Vierges britanniques font partie de la colonie des Leeward Islands.
+        // Elles ont un commandant local mais pas de gouverneur distinct pour la période.
+      },
+    },
+
+    contexte: {
+      1712: `Tortola, Virgin Gorda et Anegada sont les principales îles britanniques de l'archipel des Vierges, administrées comme dépendance des Leeward Islands depuis les années 1670. Tortola est la plus importante — quelques plantations de sucre, une petite population de colons anglais et d'esclaves, Road Town comme bourgade principale.
+
+Ces îles sont en 1712 une périphérie négligée : trop petites, trop peu rentables, et trop proches des îles danoises et hollandaises pour être facilement contrôlées. Le gouverneur Hamilton des Leeward Islands doit en 1717 faire une tournée en man-of-war pour rappeler aux Danois que ces eaux sont britanniques. La frontière maritime avec Saint-Thomas danois et Saint-John est une zone de friction permanente et de commerce interlope actif.`,
+    },
+
+    zone: [],
+
+    capitale: 'Road Town (Tortola)',
+    population_approx: '~1 500 habitants (estimation, dont ~1 000 esclaves)',
+    economie: 'Sucre (limité), commerce interlope avec Saint-Thomas danois',
+    /* note: '⚠️ Pas de gouverneur particulier identifié pour les Îles Vierges britanniques en 1712–1720 : elles dépendent du gouverneur général des Leeward Islands. ⚠️ Population : estimation très approximative, aucune source directe pour la période.', */
+  },
+
+  // ── SAINT-MARTIN ─────────────────────────────────────────
+  {
+    id: 'saint-martin',
+    nom: 'Saint-Martin / Sint Maarten',
+
+    puissance: {
+      1712: 'conteste',
+      // Partagée franco-hollandaise depuis le traité de Concordia (23 mars 1648).
+      // Partie nord : française (Saint-Martin). Partie sud : hollandaise (Sint Maarten).
+      // La frontière a été contestée et franchie à de multiples reprises.
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Commandants locaux non identifiés — deux autorités distinctes]',
+        pnj_id: null,
+        titre: 'Commandant français (nord) / Commandant hollandais (sud)',
+        // La partie française dépend nominalement du gouverneur général des Îles du Vent.
+        // La partie hollandaise dépend du commandant de Sint Eustatius (WIC).
+        // L'île a changé de mains 16 fois au total — son statut réel en 1712 est stable
+        // depuis le retour franco-hollandais après la guerre de Succession d'Espagne.
+      },
+    },
+
+    contexte: {
+      1712: `Saint-Martin est la seule île du monde partagée de façon permanente entre deux nations européennes depuis 1648. Le traité de Concordia a divisé l'île entre une partie française au nord et une partie hollandaise au sud, avec une frontière poreuse et sans fortification permanente entre les deux. La légende dit que la ligne a été tracée par deux marcheurs partant dos à dos — le Français, aidé par le vin, couvrant plus de terrain que le Hollandais et son genièvre.
+
+En pratique, cette cohabitation est aussi tumultueuse que pacifique : l'île a changé de mains au rythme des guerres européennes, et la paix d'Utrecht (1713) stabilise temporairement les positions. L'économie repose sur le sel — les salines de la baie de Great Bay, côté hollandais, et celles de la baie d'Orient, côté français — ainsi que sur le sucre, le coton et une contrebande active avec les îles voisines. La proximité d'Anguilla (britannique, quasi abandonnée) au nord et de Saint-Barthélemy (française) à l'est facilite les échanges informels.`,
+    },
+
+    zone: [],
+
+    capitale: 'Marigot (français, nord) / Philipsburg (hollandais, sud)',
+    population_approx: '~3 000 habitants toutes parties confondues (estimation)',
+    economie: 'Sel, sucre, coton ; contrebande entre les deux parties de l\'île',
+    /* note: '✅ Traité de Concordia 1648 : établi. ✅ Structure administrative double (nord français / sud hollandais) : établi. ✅ Stabilisation après Utrecht 1713 : établi. ⚠️ Commandants locaux en 1712 : non identifiés dans les sources consultées. ⚠️ Population : estimation composite très approximative.', */
+  },
+
+  // ── SABA ET SAINT-EUSTACHE ───────────────────────────────
+  {
+    id: 'saba-statia',
+    nom: 'Saba et Saint-Eustache (Sint Eustatius)',
+
+    puissance: {
+      1712: 'hollandaise',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Commandant non identifié pour 1712–1719]',
+        pnj_id: null,
+        titre: 'Commandant de Sint Eustatius (et dépendances Saba, Sint Maarten) — WIC',
+        // Les trois îles (Sint Eustatius, Saba, Sint Maarten) sont sous un commandant unique
+        // stationné à Sint Eustatius depuis 1678.
+      },
+      1719: {
+        nom: 'J. Stalperts',
+        pnj_id: null,
+        titre: 'Commandant de Sint Eustatius pour la WIC',
+        // Identifié dans la liste des gouverneurs de Sint Eustatius, Saba et Sint Maarten (Wikipedia EN).
+        // En poste 1719–1720.
+      },
+    },
+
+    contexte: {
+      1712: `Sint Eustatius — "Statia" pour ses habitants — est la plaque tournante commerciale hollandaise du nord des Petites Antilles. Oranjestad est son port, et malgré la petite taille de l'île (21 km²), son volume de commerce est disproportionné : elle redistribue marchandises, esclaves et denrées entre les colonies anglaises, françaises et espagnoles voisines sans trop regarder les pavillons ni les licences. Sa future réputation de "Rocher d'Or" (Golden Rock) est déjà en germe.
+
+Saba, voisine, est une île-volcan quasi inaccessible — des falaises abruptes sans plage praticable, une seule route qui sera construite bien plus tard. En 1712, ses habitants (quelques dizaines de familles hollandaises et anglaises) vivent de pêche, de dentelle et d'un commerce limité avec Statia. L'île a une réputation de refuge pour contrebandiers et déserteurs qui profitent de son isolement naturel.
+
+Les deux îles dépendent administrativement du commandant de Statia, lui-même subordonné à la WIC d'Amsterdam.`,
+    },
+
+    zone: [],
+
+    capitale: 'Oranjestad (Sint Eustatius) — The Bottom (Saba)',
+    population_approx: '~2 000 habitants (Sint Eustatius) ; ~300 habitants (Saba)',
+    economie: 'Commerce interlope et transit (Sint Eustatius) ; pêche et contrebande (Saba)',
+    /* note: '✅ Structure administrative (commandant unique pour Sint Eustatius, Saba, Sint Maarten) : établi, Wikipedia EN (Governors of Sint Eustatius, Saba and Sint Maarten) + Sue Travels / BES Islands. ✅ J. Stalperts 1719–1720 : Wikipedia EN. ⚠️ Commandant pour 1712–1719 : non identifié dans les sources consultées — la liste Wikipedia saute de noms non datés précisément à Stalperts 1719.', */
+  },
+
+  // ── SAINT-BARTHÉLEMY ─────────────────────────────────────
+  {
+    id: 'saint-barth',
+    nom: 'Saint-Barthélemy',
+
+    puissance: {
+      1712: 'francaise',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Commandant ou lieutenant local non identifié]',
+        pnj_id: null,
+        titre: 'Dépendance de la Guadeloupe — pas de gouverneur particulier',
+        // Saint-Barthélemy dépend nominalement du gouverneur général des Îles du Vent
+        // via la Guadeloupe. Pas d'autorité locale distincte pour la période.
+      },
+    },
+
+    contexte: {
+      1712: `Saint-Barthélemy est une petite île rocheuse et sèche, colonisée par des Français depuis 1648. Gustavia (future capitale suédoise après 1784) n'existe pas encore — l'île a quelques habitations dispersées, une petite population de colons blancs d'origine normande et bretonne très attachés à leur autonomie, et peu de ressources agricoles. L'aridité du sol limite les plantations. Le port naturel est fréquenté mais pas formellement développé.
+
+En 1712, Saint-Barth est une dépendance marginale, rattachée à la Guadeloupe et au gouvernement général des Îles du Vent. Elle survivra longtemps dans l'oubli administratif jusqu'à sa cession à la Suède en 1784 — qui en fera un port franc prospère.`,
+    },
+
+    zone: [],
+
+    capitale: '[Aucune ville — quelques habitations dispersées]',
+    population_approx: '~700 habitants (estimation, majorité blanche pauvre)',
+    economie: 'Pêche, petit élevage, commerce de passage limité',
+    /* note: '⚠️ Peu de sources disponibles pour Saint-Barthélemy 1712 spécifiquement. Statut comme dépendance des Îles du Vent : établi. Cession à la Suède 1784 : établi. La population blanche d\'origine normande/bretonne est un trait documenté de l\'historiographie ultérieure. Population : estimation.', */
+  },
+
+  // ── TOBAGO ───────────────────────────────────────────────
+  {
+    id: 'tobago',
+    nom: 'Tobago',
+
+    puissance: {
+      1712: 'conteste',
+      // Revendiquée par la France et l'Angleterre depuis la fin du XVIIe siècle.
+      // Sans colons permanents ni garnison en 1712 — île de facto abandonnée.
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Aucune autorité constituée]',
+        pnj_id: null,
+        titre: 'Île sans administration — contestée et non colonisée',
+        // La France et l'Angleterre se disputent Tobago mais aucune n'y maintient de présence.
+        // L'île sera déclarée formellement neutre par le traité d'Aix-la-Chapelle (1748).
+      },
+    },
+
+    contexte: {
+      1712: `Tobago est l'une des îles les plus disputées des Caraïbes, et en 1712, l'une des plus vides. Son histoire est un catalogue d'échecs coloniaux : Hollandais, Courlanders (Lettons), Anglais, Français se sont succédé sur l'île sans jamais y établir quoi que ce soit de durable. La dernière tentative sérieuse — hollandaise — s'est soldée par une destruction et un abandon en 1677. Depuis lors, Tobago appartient à tout le monde et à personne.
+
+La France et l'Angleterre se la revendiquent toutes les deux par traités interposés, mais aucune ne l'occupe. Elle sert de mouillage d'opportunité pour les navires en transit entre Trinidad et les Petites Antilles, et de refuge discret pour des équipages qui préfèrent éviter les ports contrôlés. Sa baie de Courland (côté ouest) et sa baie de Man of War (côté est) sont connues des marins de toute la région.
+
+L'île restera dans ce vide juridique jusqu'au traité d'Aix-la-Chapelle (1748) qui la déclare formellement neutre — avant que les Anglais ne l'occupent définitivement après 1763.`,
+    },
+
+    zone: [],
+
+    capitale: '[Aucune — Scarborough est une baie, pas encore une ville]',
+    population_approx: 'Zéro résidents permanents (1712)',
+    economie: 'Néant — mouillage d\'opportunité, bois sur pied non exploité',
+    /* note: '✅ Histoire des colonisations successives et abandon : établi, sources nombreuses concordantes (Wikipedia EN History of Tobago, Caribbean Beat, Colonial Voyage). ✅ Tobago déclarée neutre en 1748 (Aix-la-Chapelle) : établi. ✅ Situation en 1712 : île sans administration ni résidents permanents. ⚠️ L\'utilisation de Tobago comme mouillage en 1712 est vraisemblable mais non spécifiquement documentée pour cette date précise.', */
+  },
+
+  // ── ÎLES DE LA BAIE (ROATAN) ─────────────────────────────
+  {
+    id: 'iles-de-la-baie',
+    nom: 'Îles de la Baie (Roatan, Utila, Guanaja)',
+
+    puissance: {
+      1712: 'conteste',
+      // Revendiquées par l'Espagne (Honduras), mais sans présence effective.
+      // Fréquentées par des coupeurs de bois anglais de Belize et des flibustiers.
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Aucune autorité constituée]',
+        pnj_id: null,
+        titre: 'Territoire contesté — pas d\'administration',
+        // L'Espagne revendique la souveraineté mais n'y maintient aucune garnison après 1650.
+        // Des bûcherons anglais venus de Belize y opèrent de façon informelle.
+      },
+    },
+
+    contexte: {
+      1712: `Les Îles de la Baie — Roatan, Utila, Guanaja — sont en 1712 dans le même vide que Tobago : revendiquées, abandonnées, fréquentées de façon informelle. L'Espagne les considère comme territoire hondurien depuis la conquête, mais après avoir chassé les derniers colons anglais en 1650 elle n'y a plus maintenu de présence effective. Le vide a été rapidement rempli par des bûcherons anglais venus du Belize (Honduras britannique en gestation), des flibustiers cherchant un mouillage discret, et des équipages en transit entre la Jamaïque et la Terre Ferme espagnole.
+
+Port Royal, sur la côte sud de Roatan, est la baie la plus fréquentée — Henry Morgan y est passé en 1665, et sa réputation de refuge s'est perpetuée. En 1712, les îles servent de point de ravitaillement en eau douce et de cache pour des opérations que personne ne souhaite faire voir. L'Espagne proteste régulièrement à Londres contre la présence de coupeurs de bois anglais, sans grand effet.`,
+    },
+
+    zone: [],
+
+    capitale: '[Aucune — Port Royal est un mouillage, pas une ville]',
+    population_approx: 'Quelques dizaines de bûcherons et flibustiers de passage',
+    economie: 'Bois de campêche (logwood), refuge pirate, approvisionnement en eau douce',
+    /* note: '✅ Histoire de la colonisation anglaise et expulsion espagnole (1650) : établi (Wikipedia EN Bay Islands Department, Britannica). ✅ Fréquentation informelle par bûcherons anglais de Belize : établi. ✅ Port Royal comme mouillage historique : établi (Roatan.day, Coconut Tree Divers). ⚠️ Situation précise en 1712 : pas de sources primaires directes — "quelques bûcherons et flibustiers de passage" est inféré de la continuité documentée avant et après cette date. ⚠️ La mention du Honduras dans le bloc honduras du fichier (note "Porte del Negra" / renvoi vers iles-de-la-baie) devra être mise à jour pour pointer vers ce bloc.', */
   },
 
   // ── À COMPLÉTER ──────────────────────────────────────────
