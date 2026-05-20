@@ -26,7 +26,7 @@ function initCarte() {
   const H = CARTE_IMAGE.height;
   const bounds = [[0, 0], [H, W]];
 
-carte = L.map('carte', {
+  carte = L.map('carte', {
     crs: L.CRS.Simple,
     minZoom: -5,
     maxZoom: 2,
@@ -43,7 +43,7 @@ carte = L.map('carte', {
   renderPins();
 
   // Fermer popup au clic sur la carte (pas sur une zone ou un pin)
-carte.on('click', () => {
+  carte.on('click', () => {
     fermerPopup();
     fermerPanneau();
   });
@@ -76,45 +76,60 @@ function pixelToLatLng(x, y) {
 
 // ─── Zones territoriales ─────────────────────────────────────
 function renderZones() {
-  Object.values(layersZones).forEach(l => carte.removeLayer(l));
+  Object.values(layersZones).forEach(g => carte.removeLayer(g));
   layersZones = {};
 
   JURIDICTIONS.forEach(j => {
-    if (!j.zone || j.zone.length < 3) return;
+    // Source : ZONES_DATA (zones-data.js) en priorité, j.zone en fallback
+    const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
+      ? ZONES_DATA[j.id]
+      : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
+
+    if (!contours) return;
 
     const puissanceId = resoudre(j.puissance, anneeActive);
     const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
     const isActive = zoneActive === j.id;
 
-    const latlngs = j.zone.map(([x, y]) => pixelToLatLng(x, y));
-
-    const poly = L.polygon(latlngs, {
+    const style = {
       color: puissance.couleur,
-      weight: 1.5,
+      weight: isActive ? 2 : 1.5,
       opacity: 0.8,
       fillColor: puissance.couleur,
       fillOpacity: isActive ? 0.4 : 0.18,
       className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
+    };
+
+    // Créer un polygone par contour
+    const polygones = contours.map(pts => {
+      const latlngs = pts.map(([x, y]) => pixelToLatLng(x, y));
+      return L.polygon(latlngs, style);
     });
 
-poly.on('click', (e) => {
-      L.DomEvent.stopPropagation(e);
-      if (zoneActive === j.id) {
-        fermerPanneau();
-      } else {
-        ouvrirPanneau(j.id);
-      }
+    // Regrouper dans un layerGroup pour une gestion unifiée
+    const groupe = L.layerGroup(polygones);
+
+    // Événements sur chaque polygone individuel
+    polygones.forEach(poly => {
+      poly.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        if (zoneActive === j.id) {
+          fermerPanneau();
+        } else {
+          ouvrirPanneau(j.id);
+        }
+      });
+
+      poly.bindTooltip(j.nom, {
+        permanent: false,
+        direction: 'top',
+        className: 'carte-tooltip',
+        opacity: 1,
+      });
     });
 
-    poly.bindTooltip(j.nom, {
-      permanent: false,
-      direction: 'top',
-      className: 'carte-tooltip',
-      opacity: 1,
-    });
-
-    poly.addTo(carte);
-    layersZones[j.id] = poly;
+    groupe.addTo(carte);
+    layersZones[j.id] = groupe;
   });
 }
 
@@ -133,7 +148,7 @@ function renderPins() {
 
     const marker = L.marker(latlng, { icon });
 
-marker.bindTooltip(pin.label, {
+    marker.bindTooltip(pin.label, {
       permanent: false,
       direction: 'top',
       className: 'carte-tooltip',
@@ -141,7 +156,7 @@ marker.bindTooltip(pin.label, {
       offset: [0, -28],
     });
 
-marker.on('click', (e) => {
+    marker.on('click', (e) => {
       L.DomEvent.stopPropagation(e);
       if (pinActive === pin.id) {
         fermerPopup();
@@ -324,15 +339,16 @@ function fermerPanneau() {
 }
 
 function majZone(juridictionId) {
-  const layer = layersZones[juridictionId];
-  const j = JURIDICTIONS.find(j => j.id === juridictionId);
-  if (!layer || !j) return;
+  const groupe = layersZones[juridictionId];
+  if (!groupe) return;
 
   const isActive = zoneActive === juridictionId;
-  layer.setStyle({
+  const style = {
     fillOpacity: isActive ? 0.4 : 0.18,
     weight: isActive ? 2 : 1.5,
-  });
+  };
+
+  groupe.eachLayer(poly => poly.setStyle(style));
 }
 
 // ─── Curseur temporel ────────────────────────────────────────
