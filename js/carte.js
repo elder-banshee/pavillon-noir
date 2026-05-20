@@ -76,7 +76,10 @@ function pixelToLatLng(x, y) {
 
 // ─── Zones territoriales ─────────────────────────────────────
 function renderZones() {
-  Object.values(layersZones).forEach(g => carte.removeLayer(g));
+  Object.values(layersZones).forEach(g => {
+    g.eachLayer(poly => carte.removeLayer(poly));
+    carte.removeLayer(g);
+  });
   layersZones = {};
  
   // Calculer la surface de chaque juridiction depuis ZONES_DATA

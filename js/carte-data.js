@@ -25,17 +25,17 @@ const CARTE_IMAGE = {
 const PUISSANCES = {
   britannique: {
     label: 'Couronne britannique',
-    couleur: '#b63a21',          // or — dans la palette du site
+    couleur: '#d13a1c',          // or — dans la palette du site
     blason: 'pnj/pavillons/gb.svg',
   },
   espagnole: {
     label: 'Couronne d\'Espagne',
-    couleur: '#c8973a',          // rust
+    couleur: '#c8b33a',          // rust
     blason: 'pnj/pavillons/es.svg',
   },
   francaise: {
     label: 'Royaume de France',
-    couleur: '#205772',          // sea
+    couleur: '#2b6f91',          // sea
     blason: 'pnj/pavillons/fr_banniere.svg',
   },
   hollandaise: {
@@ -55,12 +55,17 @@ const PUISSANCES = {
   },
   conteste: {
     label: 'Territoire contesté',
-    couleur: '#330a46',          // mist
+    couleur: '#797979',          // mist
     blason: 'pnj/pavillons/conteste.svg'
   },
   danoise: {
     label: 'Danemark-Norvège',
     couleur: '#0b6d18',
+    blason: 'pnj/pavillons/dk.svg',
+  },
+  miskito: {
+    label: 'Miskito',
+    couleur: '#18810e',
     blason: 'pnj/pavillons/dk.svg',
   },
 
@@ -933,7 +938,7 @@ L'économie repose sur l'indigo, le bétail et une contrebande active avec les A
   },
 
   {
-    id: 'lamanay-turneffe',
+    id: 'cayes-belize',
     nom: 'Lamanay & cayes du golfe du Honduras',
 
     puissance: {
@@ -1036,6 +1041,73 @@ L'économie repose sur l'indigo, le bétail et une contrebande active avec les A
     population_approx: '~50 000 habitants (1713, dont une majorité d\'Indiens)',
     economie: 'Élevage, mines d\'argent en déclin, indigo, contrebande avec les Anglais',
     /* note: 'Séquence confirmée par Wikipedia EN (List of governors of Spanish Honduras). Lacune entre Salinas Varona (1709) et Longman (1712) : gouverneur intermédiaire non identifié en ligne.', */
+  },
+
+  {
+    id: 'cote-miskito',
+    nom: 'Côte Miskito (Mosquito Coast)',
+
+    puissance: {
+      1712: 'miskito',
+      // Ni espagnole ni britannique au sens colonial strict :
+      // royaume Miskito autonome sous protectorat informel jamaïcain.
+      // L'Espagne revendique le territoire sans y exercer aucune autorité.
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Roi Miskito — non identifié avec certitude pour 1712]',
+        pnj_id: null,
+        titre: 'Roi des Miskitos (investi à Spanish Town, Jamaïque)',
+        // La liste des rois Miskitos pour le début du XVIIIe siècle
+        // est incomplète dans les sources accessibles. Le premier roi
+        // documenté avec certitude est Jeremy I (années 1720).
+        // Autorité de facto : diffuse, tribale, centrée sur le cap Gracias a Dios.
+      },
+      1720: {
+        nom: 'Jeremy I (probable)',
+        pnj_id: null,
+        titre: 'Roi des Miskitos',
+        // Attesté dans les années 1720 ; début exact du règne incertain.
+      },
+    },
+
+    contexte: {
+      1712: `<strong>Un territoire sans frontières fixes.</strong> La côte Miskito n'est pas une colonie — c'est un espace politique sui generis, ni espagnol ni britannique, gouverné par un roi Miskito dont l'investiture est confirmée par le gouverneur de Jamaïque à Spanish Town. L'Espagne revendique l'ensemble du territoire comme dépendance de la Capitainerie générale du Guatemala, mais n'y maintient aucune garnison, aucun port, aucune mission durable. Les Miskitos — peuple d'origine amérindienne mêlée d'Africains rescapés de naufrages négriers depuis le milieu du XVIIe siècle — ont développé une culture maritime guerrière armée de fusils anglais, résistant à toute pénétration coloniale espagnole depuis un siècle.
+
+<strong>Géographie.</strong> La côte forme une bande basse et marécageuse d'environ 65 km de profondeur, s'étendant sur près de 600 km du nord au sud : de l'embouchure du río Aguán (Honduras) jusqu'au río San Juan (frontière Nicaragua–Costa Rica). Le littoral est découpé en lagunes, estuaires et îlots — les <em>Manglares</em> au centre, la <em>Laguna de Perlas</em> (Pearl Lagoon) au sud, la lagune de Bluefields à l'extrémité méridionale. Les atolls et îlots côtiers offrent abri et eau douce aux navires qui longent la côte. L'intérieur est couvert de forêts tropicales et de savanes de pins sur les hauteurs, traversé par de grands fleuves descendant des cordillères : le <em>Yare River</em> (Río Coco / Río Segovia), frontière naturelle entre le Honduras et le Nicaragua, en est l'axe principal.
+
+<strong>Le royaume Miskito.</strong> La capitale politique est le <strong>cap Gracias a Dios</strong> — point de rencontre du Yare River et de la mer, nœud de toute navigation dans la zone. C'est là que réside le roi et que se concentre la vie politique du royaume. L'autorité royale est réelle mais diffuse : le roi règne sur un réseau de chefs locaux (<em>siklas</em>) dont la loyauté est entretenue par la redistribution de marchandises anglaises — fusils, poudre, outils métalliques, rhum. Sans ces biens, l'autorité centrale s'effrite. Cette dépendance au commerce jamaïcain structure toute la politique extérieure du royaume : les Miskitos sont alliés aux Anglais par intérêt, pas par idéologie.
+
+<strong>Miskitos Zambos et Tawiras.</strong> La société Miskito est en 1712 en pleine recomposition. Les <em>Zambos</em> — descendants métissés d'Amérindiens et d'Africains, plus nombreux au nord autour du cap Gracias a Dios — ont pris la prédominance politique sur les <em>Tawiras</em>, population amérindienne pure davantage présente au sud (Pearl Lagoon, Bluefields). Cette division interne est une ligne de fracture permanente que l'Espagne tentera d'exploiter, sans grand succès, dans les décennies suivantes.
+
+<strong>Trujillo — la sentinelle espagnole.</strong> À l'ouest de la frontière nord du territoire, la ville espagnole de <strong>Trujillo</strong> (fondée en 1525) est le poste colonial le plus proche de la côte Miskito. Elle possède un port actif sur sa baie, un fort et une garnison modeste. Trujillo est la limite occidentale du monde hispanisé sur cette portion de côte — et la preuve vivante de l'échec espagnol à s'étendre plus à l'est : au-delà de la baie et de l'embouchure du Río Aguán, l'autorité de la Couronne cesse effectivement. En 1712–1720, Trujillo sert de point de contact commercial discret entre marchands espagnols et intermédiaires Miskitos, dans une zone grise tolérée faute de moyens de la surveiller.
+
+<strong>Nueva Segovia — la ville que les pirates remontent.</strong> Sur les rives du <strong>Yare River</strong> (Río Coco / Río Segovia), bien à l'intérieur des terres, la ville coloniale espagnole de <strong>Nueva Segovia</strong> marque l'autre point de contact — non maritime cette fois, mais fluvial. Le Yare River est navigable depuis la mer jusqu'à cette ville : des pirogues de raiders Miskitos, et avec eux des pirates anglais de la côte, remontent régulièrement le fleuve pour piller les établissements espagnols de l'intérieur. Nueva Segovia a été saccagée en 1701, 1709 et 1711 — la ville que représente la carte Jaillot est donc une ville traumatisée, qui sort à peine de son dernier pillage. Elle sera attaquée à nouveau par ce même axe fluvial tout au long du XVIIIe siècle, jusqu'à son abandon et son transfert définitif à Ocotal en 1789. Sa présence sur le Yare River illustre la vulnérabilité structurelle de l'empire espagnol sur ce flanc : le fleuve qui devrait être une frontière est une autoroute pour ses ennemis.`,
+
+      1718: `<strong>La normalisation de Nassau ne change pas grand chose ici.</strong> L'arrivée de Woodes Rogers aux Bahamas en juillet 1718 et la répression de la piraterie dans l'Atlantique nord n'ont qu'un écho lointain sur la côte Miskito. Les raiders qui opèrent depuis cette zone ne sont pas des pirates de la Flying Gang — ce sont des boucaniers locaux, des marchands jamaïcains en marge de la légalité, et surtout les Miskitos eux-mêmes, dont les raids vers le sud (Costa Rica) et vers l'intérieur (remontées fluviales) continuent sans discontinuer.
+
+<strong>L'alliance jamaïcaine se renforce.</strong> Le gouverneur de Jamaïque maintient des contacts réguliers avec le roi Miskito, dont l'investiture symbolique à Spanish Town fait du royaume une dépendance informelle de la couronne britannique — sans que Londres ait à en assumer le coût d'une administration réelle. En échange, les Miskitos fournissent une main-d'œuvre de chasseurs de Marrons (esclaves fugitifs des plantations jamaïcaines) et une zone tampon contre toute expansion espagnole vers la côte Caraïbe du Honduras et du Nicaragua. C'est un protectorat par commodité mutuelle.
+
+<strong>Bluefields et Pearl Lagoon.</strong> Le sud du territoire — Pearl Lagoon (<em>Laguna de Perlas</em>) et la lagune de Bluefields — est la zone la plus active commercialement. Des marchands jamaïcains y font escale pour troquer des marchandises manufacturées contre des matières premières locales (bois, tortues, poisson séché) et, plus discrètement, des prisonniers de guerre vendus comme esclaves. Bluefields n'est pas encore un établissement britannique permanent en 1718 — ce ne sera le cas qu'après 1732 — mais c'est un mouillage fréquenté et connu.
+
+<strong>Trujillo et Nueva Segovia</strong> restent dans la même situation qu'en 1712 : l'une sentinelle maritime à l'ouest, l'autre ville intérieure traumatisée sur le Yare River. La menace Miskito sur Nueva Segovia est permanente — et en 1720, une déclaration du gouverneur du Costa Rica à Cartago mentionne des incursions Miskito atteignant la côte caraïbe du Costa Rica, confirmant l'extension méridionale des raids bien au-delà de Bluefields.`,
+    },
+
+    zone: [],
+
+    capitale: 'Cap Gracias a Dios (siège du roi Miskito)',
+    population_approx: `Quelques dizaines de milliers de Miskitos, Zambos, Tawiras et groupes Sumus sur l'ensemble du territoire. Population dispersée, sans ville au sens européen. Présence anglaise sporadique (marchands jamaïcains, intermédiaires commerciaux) — aucun établissement permanent avant 1732 (Black River).`,
+    economie: 'Commerce avec la Jamaïque (fusils, poudre, outils contre bois, tortues, poisson, esclaves captifs), raids sur les établissements espagnols de l\'intérieur, pêche côtière, navigation de cabotage',
+    /* note: `✅ Établi : statut de protectorat informel britannique depuis les années 1630–1640 ; roi Miskito investi à Spanish Town, Jamaïque (Wikipedia EN, Mosquito Coast).
+✅ Établi : territoire centré sur le cap Gracias a Dios, s'étendant du río Aguán (Honduras) au río San Juan (Nicaragua–Costa Rica) — sources concordantes (Britannica, Conzemius 1932, Wikipedia EN).
+✅ Établi : Yare River = Río Coco / Río Segovia (Wikipedia EN, Coco River — noms historiques attestés).
+✅ Établi : Nueva Segovia pillée en 1701, 1709, 1711 par des raiders remontant le Río Coco depuis la côte (Info-Nicaragua.com, Visit Nicaragua — sources concordantes).
+✅ Établi : distinction Zambos (nord) / Tawiras (sud) et prédominance Zambo au début du XVIIIe siècle (Wikipedia EN, Miskito people ; Grokipedia, Mosquito Coast).
+✅ Établi : déclaration de Miguel del Camino devant le gouverneur du Costa Rica (1720) mentionnant des incursions Miskito — source primaire citée dans Mendiola 2018 (History Compass, Wiley).
+⚠️ Incertain : nom du roi Miskito régnant en 1712. Jeremy I est le premier roi documenté avec certitude dans les années 1720 ; la liste pour la période antérieure est lacunaire dans les sources accessibles.
+⚠️ Incertain : organisation précise du commerce à Bluefields et Pearl Lagoon avant 1720 — inférée des sources sur la période postérieure.
+🎲 Note de campagne : la côte Miskito est l'un des espaces les plus libres des Caraïbes en 1712–1720 — ni espagnol, ni vraiment britannique, ni pirate au sens de Nassau. Un navire qui cherche à disparaître, à commercer sans se compromettre, ou à recruter des guides pour remonter les fleuves de l'intérieur peut y trouver ce qu'il cherche. Le Yare River (Río Coco) est une route vers l'intérieur de la Capitainerie du Guatemala — Nueva Segovia en est la première ville accessible, traumatisée et peu défendue. Trujillo, à l'ouest, est le seul port espagnol de la zone : sa garnison est trop faible pour patrouiller efficacement une côte de 600 km.`, */
   },
 
   {
@@ -1324,7 +1396,7 @@ Le gouverneur Cañas y Merino (1711–1714) est une figure de l'arbitraire colon
     },
 
     contexte: {
-      1712: `Île plate et aride de 156 km², sans eau douce permanente, à 87 km au nord de la côte vénézuélienne et 120 km à l'ouest de Margarita. La carte Jaillot de 1708 la désigne "Aux Anglois" — formulation qui traduit une réalité de fréquentation plutôt que de souveraineté : l'île est nominalement espagnole depuis 1638, date à laquelle le gouverneur de Cumaná Benito Arias Montano en chassa les Hollandais et détruisit leurs installations salicoles. Depuis lors, elle est officiellement vide.
+      1712: `Île plate et aride de 156 km², sans eau douce permanente, à 87 km au nord de la côte vénézuélienne et 120 km à l'ouest de Marguerita. La carte Jaillot de 1708 la désigne "Aux Anglois" — formulation qui traduit une réalité de fréquentation plutôt que de souveraineté : l'île est nominalement espagnole depuis 1638, date à laquelle le gouverneur de Cumaná Benito Arias Montano en chassa les Hollandais et détruisit leurs installations salicoles. Depuis lors, elle est officiellement vide.
 
 En pratique, La Tortuga est le théâtre d'une institution maritime annuelle bien documentée : la <em>Flota de Satertuda</em> (corruption anglaise de "La Tortuga"), flotte saisonnière de petits navires anglo-américains — principalement de Nouvelle-Angleterre, des Bermudes et des Antilles britanniques — qui viennent extraire le sel de ses salines naturelles sur la côte sud-est. Ce sel, d'une qualité médiocre (grossier, rougeâtre, entièrement dépendant du soleil tropical), est néanmoins indispensable aux économies sucrières des Antilles britanniques pour la conservation des aliments. Les archéologues ont retrouvé sur le site de Punta Salinas les traces matérielles de ces camps saisonniers : céramiques anglaises, hollandaises et bermoudiennes, structures légères, restes de repas.
 
@@ -1343,8 +1415,8 @@ Ce bloc est un complément au bloc \`nouvelle-andalousie\` — La Tortuga relèv
   },
 
   {
-    id: 'margarita',
-    nom: 'Île Margarita (Provincia de Margarita)',
+    id: 'marguerita',
+    nom: 'Île Marguerita (Provincia de Marguerita)',
 
     puissance: {
       1712: 'espagnole',
@@ -1354,7 +1426,7 @@ Ce bloc est un complément au bloc \`nouvelle-andalousie\` — La Tortuga relèv
       1712: {
         nom: '[Gouverneur — non identifié avec certitude]',
         pnj_id: null,
-        titre: 'Gouverneur et Capitaine général de Margarita',
+        titre: 'Gouverneur et Capitaine général de Marguerita',
         // Source primaire de référence : AGI Santo Domingo, 614
         // (lettre du gouverneur, 5 oct. 1700) et legajos suivants.
         // Liste complète des 34 gouverneurs titrés (1594–1810) non
@@ -1363,15 +1435,15 @@ Ce bloc est un complément au bloc \`nouvelle-andalousie\` — La Tortuga relèv
     },
 
     contexte: {
-      1712: `La Provincia de Margarita est en 1712 l'une des plus anciennes unités administratives de l'empire espagnol en Amérique : érigée en gobernación dès 1525, elle fut la première province organisée du Venezuela actuel. L'île doit son nom et sa première fortune aux pêcheries de perles qui firent sa gloire au XVIe siècle — <em>margarita</em>, en latin, signifie perle. Ces gisements sont épuisés depuis le début du XVIIe siècle, laissant l'île dans un relatif dénuement dont elle ne s'est jamais tout à fait remise.
+      1712: `La Provincia de Marguerita est en 1712 l'une des plus anciennes unités administratives de l'empire espagnol en Amérique : érigée en gobernación dès 1525, elle fut la première province organisée du Venezuela actuel. L'île doit son nom et sa première fortune aux pêcheries de perles qui firent sa gloire au XVIe siècle — <em>margarita</em>, en latin, signifie perle. Ces gisements sont épuisés depuis le début du XVIIe siècle, laissant l'île dans un relatif dénuement dont elle ne s'est jamais tout à fait remise.
 
-<strong>Géographie et position stratégique.</strong> Margarita est une île double — deux masses terrestres reliées par un isthme étroit, la péninsule de Macanao à l'ouest et le corps principal à l'est — d'environ 1 000 km² au total. Elle est séparée de la côte vénézuélienne (Cumaná) par le canal de Bocas, large d'une vingtaine de kilomètres. Sa position en fait un point de passage incontournable pour tout navire naviguant entre Trinidad, les Petites Antilles et les côtes de la Terre Ferme espagnole. Le port de Pampatar, sur la côte sud-est, est le principal point d'entrée maritime.
+<strong>Géographie et position stratégique.</strong> Marguerita est une île double — deux masses terrestres reliées par un isthme étroit, la péninsule de Macanao à l'ouest et le corps principal à l'est — d'environ 1 000 km² au total. Elle est séparée de la côte vénézuélienne (Cumaná) par le canal de Bocas, large d'une vingtaine de kilomètres. Sa position en fait un point de passage incontournable pour tout navire naviguant entre Trinidad, les Petites Antilles et les côtes de la Terre Ferme espagnole. Le port de Pampatar, sur la côte sud-est, est le principal point d'entrée maritime.
 
-<strong>Administration.</strong> Margarita est une province à part entière, avec son propre Gouverneur et Capitaine général nommé par la Couronne — distincte de la Provincia de Nueva Andalucía (Cumaná) sur le continent. Elle dépend de la Real Audiencia de Santo Domingo jusqu'en 1739. La capitale administrative est <strong>La Asunción</strong>, petite ville de l'intérieur ; Pampatar et Porlamar sont les centres commerciaux côtiers. En 1712, l'île compte une population d'environ 8 000 à 10 000 habitants — Espagnols créoles, métis, libres de couleur et esclaves — dont une part significative vit de la pêche, du petit commerce et de l'élevage caprin.
+<strong>Administration.</strong> Marguerita est une province à part entière, avec son propre Gouverneur et Capitaine général nommé par la Couronne — distincte de la Provincia de Nueva Andalucía (Cumaná) sur le continent. Elle dépend de la Real Audiencia de Santo Domingo jusqu'en 1739. La capitale administrative est <strong>La Asunción</strong>, petite ville de l'intérieur ; Pampatar et Porlamar sont les centres commerciaux côtiers. En 1712, l'île compte une population d'environ 8 000 à 10 000 habitants — Espagnols créoles, métis, libres de couleur et esclaves — dont une part significative vit de la pêche, du petit commerce et de l'élevage caprin.
 
-<strong>Économie et piraterie.</strong> Faute de perles, Margarita tire ses ressources de l'élevage (bovins, caprins), de la pêche côtière, et d'un commerce de demi-contrebande avec les navires étrangers qui longent la côte. Sa proximité avec les routes du commerce intercolonial — et son isolement relatif par rapport aux garnisons continentales — en fait depuis le XVIe siècle une cible récurrente pour les corsaires et pirates : les Français l'ont pillée en 1576, 1593 et 1677. Cette vulnérabilité chronique explique les fortifications modestes de Pampatar et le recours fréquent à des milices locales peu équipées. En 1712–1720, le fort de Pampatar (<em>Castillo de San Carlos de Borromeo</em>) est la seule défense organisée de l'île.
+<strong>Économie et piraterie.</strong> Faute de perles, Marguerita tire ses ressources de l'élevage (bovins, caprins), de la pêche côtière, et d'un commerce de demi-contrebande avec les navires étrangers qui longent la côte. Sa proximité avec les routes du commerce intercolonial — et son isolement relatif par rapport aux garnisons continentales — en fait depuis le XVIe siècle une cible récurrente pour les corsaires et pirates : les Français l'ont pillée en 1576, 1593 et 1677. Cette vulnérabilité chronique explique les fortifications modestes de Pampatar et le recours fréquent à des milices locales peu équipées. En 1712–1720, le fort de Pampatar (<em>Castillo de San Carlos de Borromeo</em>) est la seule défense organisée de l'île.
 
-<strong>Île de Coche et îlots dépendants.</strong> L'île de Coche, au sud de Margarita (environ 55 km²), et l'îlot de Cubagua — berceau des pêcheries de perles, aujourd'hui déserté — relèvent de la même gouvernance. Cubagua, première ville espagnole des Amériques (Nueva Cádiz, fondée vers 1500, abandonnée vers 1543), est en ruines en 1712 mais son nom reste sur les cartes.`,
+<strong>Île de Coche et îlots dépendants.</strong> L'île de Coche, au sud de Marguerita (environ 55 km²), et l'îlot de Cubagua — berceau des pêcheries de perles, aujourd'hui déserté — relèvent de la même gouvernance. Cubagua, première ville espagnole des Amériques (Nueva Cádiz, fondée vers 1500, abandonnée vers 1543), est en ruines en 1712 mais son nom reste sur les cartes.`,
     },
 
     zone: [],
@@ -1379,12 +1451,12 @@ Ce bloc est un complément au bloc \`nouvelle-andalousie\` — La Tortuga relèv
     capitale: 'La Asunción (administrative) ; Pampatar (maritime)',
     population_approx: '~8 000 à 10 000 habitants (1712, estimation — recensement de 1757 : 10 064 habitants)',
     economie: 'Élevage (bovins, caprins), pêche côtière, commerce intercolonial (légal et interlope), ancienne pêcherie de perles (épuisée)',
-    /* note: `⚠️ Incertain : nom du gouverneur pour 1712–1720. Les sources en ligne ne fournissent pas de liste nominative des gouverneurs de Margarita pour le début du XVIIIe siècle. Manuel Taibo (<em>La Provincia de Margarita 1525–1819</em>) mentionne 34 gouverneurs titrés entre 1594 et 1810 mais sans dates individuelles accessibles en ligne. Source primaire de référence : AGI Santo Domingo, legajos 614 et suivants. À compléter en bibliothèque spécialisée ou via le Catálogo de Pasajeros de Indias (AGI).
-✅ Établi : statut de province distincte de Nueva Andalucía, dépendant de la Real Audiencia de Santo Domingo jusqu'en 1739 (Wikipedia ES, Provincia de Margarita).
+    /* note: `⚠️ Incertain : nom du gouverneur pour 1712–1720. Les sources en ligne ne fournissent pas de liste nominative des gouverneurs de Marguerita pour le début du XVIIIe siècle. Manuel Taibo (<em>La Provincia de Marguerita 1525–1819</em>) mentionne 34 gouverneurs titrés entre 1594 et 1810 mais sans dates individuelles accessibles en ligne. Source primaire de référence : AGI Santo Domingo, legajos 614 et suivants. À compléter en bibliothèque spécialisée ou via le Catálogo de Pasajeros de Indias (AGI).
+✅ Établi : statut de province distincte de Nueva Andalucía, dépendant de la Real Audiencia de Santo Domingo jusqu'en 1739 (Wikipedia ES, Provincia de Marguerita).
 ✅ Établi : population de 10 064 habitants au recensement de 1757 (Viajeros del Tiempo, citant le Vecindario de 1757 ordonné par le gouverneur Alonso del Río y Castro).
 ✅ Établi : fort de Pampatar (Castillo San Carlos de Borromeo) — fortification côtière existante en 1712.
 ✅ Établi : épuisement des pêcheries de perles au début du XVIIe siècle.
-🎲 Note de campagne : Margarita est un nœud de passage entre l'est des Caraïbes et la Terre Ferme. Tout navire reliant Trinidad ou les Petites Antilles à Carthagène ou Portobelo passe à portée de ses côtes. Le gouverneur local, isolé et peu soutenu par le continent, est structurellement porté à fermer les yeux sur un commerce interlope qui fait vivre l'île.`, */
+🎲 Note de campagne : Marguerita est un nœud de passage entre l'est des Caraïbes et la Terre Ferme. Tout navire reliant Trinidad ou les Petites Antilles à Carthagène ou Portobelo passe à portée de ses côtes. Le gouverneur local, isolé et peu soutenu par le continent, est structurellement porté à fermer les yeux sur un commerce interlope qui fait vivre l'île.`, */
   },
 
   {
@@ -1626,7 +1698,7 @@ Le gouverneur Robert Lowther est une figure divisive. Venu en Barbade par mariag
 
   // ── CURAÇAO ──────────────────────────────────────────────
   {
-    id: 'curacao',
+    id: 'curaçao',
     nom: 'Curaçao (avec Aruba et Bonaire)',
 
     puissance: {
