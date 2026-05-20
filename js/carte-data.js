@@ -458,8 +458,6 @@ Sources : Calendar of State Papers Colonial ; B.C. Brooks, Bahamas Shipping Reco
   },
 
 
-  // ── MODÈLE MINIMAL — Jamaïque ────────────────────────────
-  // Juridiction stable sur toute la période.
   {
     id: 'jamaique',
     nom: 'Jamaïque',
@@ -470,27 +468,69 @@ Sources : Calendar of State Papers Colonial ; B.C. Brooks, Bahamas Shipping Reco
 
     gouverneur: {
       1712: {
-        nom: 'Archibald Hamilton',
+        nom: 'Lord Archibald Hamilton',
         pnj_id: null,
-        titre: 'Gouverneur',
+        titre: 'Gouverneur et Capitaine général',
+        // En poste de 1711 à 1716. Accusé de complicité avec les pirates —
+        // notamment d'avoir fourni des lettres de marque vides et des provisions
+        // à des équipages pirates. Rappelé en Angleterre pour répondre de ces accusations.
       },
       1716: {
         nom: 'Peter Heywood',
         pnj_id: null,
-        titre: 'Gouverneur',
+        titre: 'Gouverneur par intérim',
+        // Président du Conseil, assure l'intérim après le rappel d'Hamilton.
+        // Politique ambiguë envers la piraterie — ni répression franche ni complicité avérée.
+      },
+      1718: {
+        nom: 'Sir Nicholas Lawes',
+        pnj_id: null,
+        titre: 'Gouverneur et Capitaine général',
+        // En poste de 1718 à 1722. Politique résolument anti-piraterie.
+        // Fait pendre les pirates de l'équipage de Calico Jack Rackham en novembre 1720
+        // à Kingston (Port Royal). Anne Bonny et Mary Read épargnées temporairement
+        // pour cause de grossesse. Lawes étend la surveillance navale dans tout le canal du Vent.
+      },
+      1722: {
+        nom: 'Henry Bentinck, duc de Portland',
+        pnj_id: null,
+        titre: 'Gouverneur et Capitaine général',
+        // En poste de 1722 à 1726. Hors de la période principale de la campagne.
       },
     },
 
     contexte: {
-      1712: `Colonie britannique depuis 1655, la Jamaïque est la principale base navale de la Couronne dans les Antilles. Kingston concentre le commerce légal et interlope de toute la région. Port Royal, englouti par le séisme de 1692, a été remplacé par Kingston comme capitale marchande. L'île produit sucre, rhum et indigo, exploités par une main-d'œuvre servile nombreuse.`,
+      1712: `Colonie britannique depuis 1655, la Jamaïque est la principale base navale et commerciale de la Couronne dans les Antilles. Spanish Town en est la capitale administrative — siège du gouverneur, de l'Assemblée et des tribunaux.
+
+<strong>Port Royal et Kingston — point d'histoire essentiel.</strong> Le séisme du 7 juin 1692 a détruit environ les deux tiers de Port Royal, dont une large portion s'est effondrée dans la mer. La ville n'a pas "disparu" : elle a continué d'exister comme base navale et lieu d'exécution des pirates (le Gallows Point y sera le théâtre de multiples pendaisons jusqu'en 1722). Mais sa population civile, apeurée, s'est massivement reportée sur la rive opposée de la baie, où Kingston a été fondée en 1693. En 1712, Port Royal est encore un port militaire actif et un entrepôt commercial de second rang ; Kingston est devenue la ville marchande de facto. Les deux sites sont distincts et séparés par la baie — confondre les deux est une erreur courante.
+
+<strong>Lord Archibald Hamilton</strong> gouverne dans un contexte de piraterie endémique. Il est accusé — avec vraisemblance — d'avoir fourni des lettres de marque vides à des capitaines qui les ont utilisées pour couvrir des activités pirates. Ses liens personnels avec des équipages opérant depuis Nassau sont établis. Il est rappelé à Londres en 1716 mais jamais formellement condamné. Pour la campagne, Hamilton est l'homme qui peut, en 1712–1715, procurer une couverture juridique fragile à des opérations à la limite de la légalité.
+
+L'île produit du sucre, du rhum et de l'indigo, exploités par une main-d'œuvre servile considérable. Son commerce interlope — avec les colonies espagnoles de Cuba, de la Terre Ferme et de Porto Rico — est une réalité que tout le monde feint d'ignorer.`,
+
+      1716: `<strong>Peter Heywood</strong> assure l'intérim dans une période de transition. Les grandes flottes pirates de la Flying Gang sont à leur apogée — Hornigold et Barbe-Noire opèrent librement entre Nassau et les côtes de la Jamaïque — sans que le gouverneur par intérim ait les moyens ni peut-être la volonté de les en empêcher.
+
+<strong>Port Royal en 1716 :</strong> la base navale accueille les frégates de la Royal Navy chargées en théorie de surveiller les routes. En pratique, leurs commandants manquent d'instructions claires et leurs navires sont souvent mal en point. Le Gallows Point n'a pas encore vu de pirate se balancer à ses gibets depuis des années.
+
+Kingston est le vrai centre économique de l'île : ses quais voient transiter le sucre et le rhum de la Jamaïque vers Londres, et les marchands de New England qui vendent provisions et bois aux pirates des Bahamas transitent souvent par Kingston pour y écouler leur butin.`,
+
+      1718: `<strong>Sir Nicholas Lawes</strong> prend le gouvernorat avec un mandat explicite de répression de la piraterie. Sa politique contraste radicalement avec celle de ses prédécesseurs : il fait arrêter, juger et pendre les pirates capturés dans les eaux jamaïcaines sans attendre d'instructions de Londres.
+
+<strong>L'affaire Rackham (novembre 1720) :</strong> Calico Jack Rackham, sa compagne Anne Bonny et son équipage — dont Mary Read, déguisée en homme — sont capturés au large de la Jamaïque par un sloop armé envoyé par Lawes. Le procès se tient à Spanish Town ; les condamnés sont pendus à Kingston. Les corps de Rackham et de deux autres sont exposés en cages de fer aux entrées du port — pratique standard pour décourager les vocations. Anne Bonny et Mary Read, enceintes, bénéficient d'un sursis.
+
+<strong>Port Royal en 1718–1722 :</strong> le Gallows Point reprend son rôle sinistre. La pendaison des pirates y est un spectacle public et délibérément ostentatoire — Lawes y voit un signal politique autant qu'une mesure de sécurité. La base navale est renforcée et plusieurs frégates de la Royal Navy y stationnent en permanence pour patrouiller le canal du Vent.`,
     },
 
     zone: [],
 
-    capitale: 'Spanish Town',
+    capitale: 'Spanish Town (siège du gouverneur et de l\'Assemblée)',
     population_approx: '~55 000 habitants (1713, dont ~45 000 esclaves)',
-    economie: 'Sucre, rhum, indigo, commerce interlope',
-    /* note: null, */
+    economie: 'Sucre, rhum, indigo, commerce interlope (côtes espagnoles, colonies continentales)',
+    /* note: `✅ Succession des gouverneurs confirmée : Feurtado / Cundall, <em>Historic Jamaica</em> ; Wikipedia EN (List of governors of Jamaica). Dates : Hamilton 1711–1716, Heywood (intérim) 1716–1718, Lawes 1718–1722, Portland 1722–1726.
+  ✅ Établi : accusations de complicité pirate contre Hamilton — Calendar of State Papers Colonial, 1711–1716 ; Woodard, <em>Republic of Pirates</em> (2008).
+  ✅ Établi : Lawes anti-piraterie, affaire Rackham novembre 1720 — Charles Johnson, <em>General History</em> (1724) ; Calendar of State Papers ; Wikipedia EN (Calico Jack).
+  ✅ CORRECTION HISTORIQUE : Port Royal n'a pas été "englouti" par le séisme de 1692. Environ deux tiers de la ville se sont effondrés dans la mer, mais Port Royal a continué d'exister comme base navale et lieu d'exécution. Kingston a été fondée en 1693 sur la rive opposée de la baie pour accueillir les civils déplacés. Les deux sites sont distincts. Source : Richard S. Dunn, <em>Sugar and Slaves</em> (1972) ; Michael Pawson & David Buisseret, <em>Port Royal, Jamaica</em> (1975).
+  ⚠️ Incertain : étendue exacte de la complicité d'Hamilton avec les pirates — les accusations sont bien documentées mais la condamnation formelle n'a pas eu lieu.`, */
   },
 
   // ── MODÈLE MINIMAL — Saint-Domingue ─────────────────────
@@ -784,36 +824,6 @@ Les Turks Islands méritent une mention particulière : leur production de sel, 
 
   {
     id: 'panuco',
-    nom: 'Pánuco',
-
-    puissance: {
-      1712: 'espagnole',
-    },
-
-    gouverneur: {
-      1712: {
-        nom: '[Alcalde mayor — non renseigné]',
-        pnj_id: null,
-        titre: 'Alcalde mayor (officier subalterne de la vice-royauté)',
-      },
-    },
-
-    contexte: {
-      1712: `La région de Pánuco, sur le golfe du Mexique au nord de Veracruz, est mentionnée séparément sur la carte Jaillot en raison d'un usage cartographique hérité du XVIe siècle — Pánuco avait alors été une gouvernation distincte, avant d'être absorbée dans la vice-royauté. En 1712, ce n'est plus qu'une alcaldía mayor relevant directement de la vice-royauté de Nouvelle-Espagne et de l'Audiencia de Mexico. Il n'y a pas de gouverneur propre : un alcalde mayor nommé annuellement gère les affaires locales depuis Tampico.
-
-La région est économiquement marginale — quelques élevages, des communautés indiennes sous tutelle franciscaine, et un petit trafic de contrebande avec les navires anglais longeant le golfe. Sa mention sur la carte reflète davantage la tradition cartographique que la réalité administrative de l'époque.`,
-    },
-
-    zone: [],
-
-    capitale: 'Tampico',
-    population_approx: '~15 000 habitants (1713, estimation)',
-    economie: 'Élevage, missions franciscaines, commerce fluvial limité',
-    /* note: `Pánuco n\'est pas une juridiction autonome en 1712 — c\'est une alcaldía mayor de la Nouvelle-Espagne. Sa mention séparée sur la carte Jaillot reflète un usage cartographique anachronique hérité de la période où Pánuco était une gobernación distincte (XVIe siècle). Aucun gouverneur propre à renseigner. Le champ "gouverneur" est intentionnellement vide. Ce bloc peut être intégré dans le bloc nouvelle-espagne sous forme de note si tu préfères.`, */
-  },
-
-  {
-    id: 'panuco',
     nom: 'Pánuco y Tampico',
 
     puissance: {
@@ -834,7 +844,9 @@ La région est économiquement marginale — quelques élevages, des communauté
     },
 
     contexte: {
-      1712: `La province de Pánuco — ancienne gobernación de la conquête, devenue Alcaldía Mayor de Pánuco y Tampico depuis 1535 — est en 1712 l'une des frontières les plus exposées de la Nouvelle-Espagne. Son chef-lieu, Santiago de los Valles (actuel Ciudad Valles, San Luis Potosí), est le centre administratif de la Huasteca ; Pánuco lui-même, sur le fleuve éponyme, est un poste avancé face au nord ; Tampico, à l'embouchure du Pánuco sur le Golfe, est un port de faible importance mais stratégique — la seule ouverture maritime de la région entre Veracruz et la Floride.
+      1712: `<strong>Note cartographique.</strong> Pánuco figure séparément sur la carte Jaillot en raison d'un usage hérité du XVIe siècle, quand il constituait une gobernación distincte. En 1712, il n'est plus qu'une alcaldía mayor relevant de la vice-royauté de Nouvelle-Espagne et de l'Audiencia de Mexico — sans gouverneur propre. L'entrée reflète davantage la tradition cartographique que la réalité administrative de l'époque.
+
+La province de Pánuco — devenue Alcaldía Mayor de Pánuco y Tampico depuis 1535 — est en 1712 l'une des frontières les plus exposées de la Nouvelle-Espagne. Son chef-lieu, Santiago de los Valles (actuel Ciudad Valles, San Luis Potosí), est le centre administratif de la Huasteca ; Pánuco lui-même, sur le fleuve éponyme, est un poste avancé face au nord ; Tampico, à l'embouchure du Pánuco sur le Golfe, est un port de faible importance mais stratégique — la seule ouverture maritime de la région entre Veracruz et la Floride.
 
 La Huasteca est l'un des territoires les moins pacifiés de la vice-royauté. Les nations indiennes — Huastèques (Teenek), Chichimèques et groupes nomades du nord — n'ont jamais été pleinement soumises aux missions franciscaines qui constituent l'essentiel de la présence coloniale dans l'arrière-pays. La population espagnole se concentre dans quelques villes et haciendas ; la main-d'œuvre indienne et africaine assure les travaux agricoles et d'élevage. La région produit du bétail, du coton et un peu de cacao, mais reste loin des circuits économiques majeurs de la Nouvelle-Espagne.
 
@@ -848,7 +860,8 @@ Tampico est une ville fragile. Elle a été saccagée par les pirates en 1684 �
     capitale: 'Santiago de los Valles (siège de l\'alcaldía) ; Pánuco (chef-lieu fluvial) ; Tampico (accès maritime)',
     population_approx: '~30 000 à 50 000 habitants (Huasteca, 1710–1720, très majoritairement indiens — chiffres très approximatifs)',
     economie: 'Élevage (bovins), coton, missions franciscaines, pêche (Tampico), commerce interlope discret avec navires anglais',
-    /* note: `✅ Établi : statut d'Alcaldía Mayor de Pánuco y Tampico depuis 1535 (sources concordantes).
+    /* note: `⚠️ Note de structure : ce bloc résulte de la fusion de deux entrées dupliquées (id "panuco"). Le premier était un squelette avec note sur l'anachronisme cartographique ; le second était le bloc documenté complet. Les deux contenus ont été fusionnés ici.
+  ✅ Établi : statut d'Alcaldía Mayor de Pánuco y Tampico depuis 1535 (sources concordantes).
   ✅ Établi : Benito Antonio de Castañeda, alcalde mayor de Pánuco y Tampico en 1718, licence d'expédition vers la sierra Malinchen (Herrera Casasús, Intento de colonización en la sierra de Malinchen, UAT, 1988 — cité dans Estudios de Historia Novohispana, UNAM, 2013).
   ✅ Établi : saccage de Tampico par les pirates en 1684 (sources locales concordantes, second saccage en 1738).
   ⚠️ Incertain : nom du ou des alcaldes mayores entre 1712 et 1718 — non identifié dans les sources accessibles. Les archives primaires de référence sont les AGI (Audiencia de México, legajos 75–100). À compléter en bibliothèque spécialisée.
