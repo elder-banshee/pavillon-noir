@@ -78,37 +78,64 @@ function pixelToLatLng(x, y) {
 function renderZones() {
   Object.values(layersZones).forEach(g => carte.removeLayer(g));
   layersZones = {};
-
-  JURIDICTIONS.forEach(j => {
+ 
+  // Calculer la surface de chaque juridiction depuis ZONES_DATA
+  // (somme des surfaces de tous ses contours, approximée par bounding box)
+  function surfaceApprox(contours) {
+    if (!contours || !contours.length) return 0;
+    // Prendre la surface du premier contour (contour principal)
+    const pts = contours[0];
+    if (pts.length < 3) return 0;
+    // Aire signée de Shoelace
+    let a = 0;
+    for (let i = 0; i < pts.length; i++) {
+      const j = (i + 1) % pts.length;
+      a += pts[i][0] * pts[j][1];
+      a -= pts[j][0] * pts[i][1];
+    }
+    return Math.abs(a / 2);
+  }
+ 
+  // Trier les juridictions par surface décroissante :
+  // les grandes zones sont rendues en premier (en dessous),
+  // les petites zones emboîtées par-dessus et captent les clics.
+  const juridictionsTri = [...JURIDICTIONS].sort((a, b) => {
+    const sa = surfaceApprox(ZONES_DATA?.[a.id] ?? (a.zone?.length >= 3 ? [a.zone] : null));
+    const sb = surfaceApprox(ZONES_DATA?.[b.id] ?? (b.zone?.length >= 3 ? [b.zone] : null));
+    return sb - sa; // décroissant
+  });
+ 
+  juridictionsTri.forEach(j => {
     // Source : ZONES_DATA (zones-data.js) en priorité, j.zone en fallback
     const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
       ? ZONES_DATA[j.id]
       : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
-
+ 
     if (!contours) return;
-
+ 
     const puissanceId = resoudre(j.puissance, anneeActive);
-    const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
-    const isActive = zoneActive === j.id;
-
+    const puissance   = PUISSANCES[puissanceId] || PUISSANCES.conteste;
+    const isActive    = zoneActive === j.id;
+ 
     const style = {
-      color: puissance.couleur,
-      weight: isActive ? 2 : 1.5,
-      opacity: 0.8,
-      fillColor: puissance.couleur,
+      color:       puissance.couleur,
+      weight:      isActive ? 2 : 1.5,
+      opacity:     0.8,
+      fillColor:   puissance.couleur,
       fillOpacity: isActive ? 0.4 : 0.18,
-      className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
+      fillRule:    'nonzero',
+      className:   'carte-zone' + (isActive ? ' carte-zone--active' : ''),
     };
-
+ 
     // Créer un polygone par contour
     const polygones = contours.map(pts => {
       const latlngs = pts.map(([x, y]) => pixelToLatLng(x, y));
       return L.polygon(latlngs, style);
     });
-
-    // Regrouper dans un layerGroup pour une gestion unifiée
+ 
+    // Regrouper dans un layerGroup
     const groupe = L.layerGroup(polygones);
-
+ 
     // Événements sur chaque polygone individuel
     polygones.forEach(poly => {
       poly.on('click', (e) => {
@@ -119,15 +146,15 @@ function renderZones() {
           ouvrirPanneau(j.id);
         }
       });
-
+ 
       poly.bindTooltip(j.nom, {
-        permanent: false,
-        direction: 'top',
-        className: 'carte-tooltip',
-        opacity: 1,
+        permanent:  false,
+        direction:  'top',
+        className:  'carte-tooltip',
+        opacity:    1,
       });
     });
-
+ 
     groupe.addTo(carte);
     layersZones[j.id] = groupe;
   });
@@ -341,13 +368,13 @@ function fermerPanneau() {
 function majZone(juridictionId) {
   const groupe = layersZones[juridictionId];
   if (!groupe) return;
-
+ 
   const isActive = zoneActive === juridictionId;
   const style = {
     fillOpacity: isActive ? 0.4 : 0.18,
-    weight: isActive ? 2 : 1.5,
+    weight:      isActive ? 2   : 1.5,
   };
-
+ 
   groupe.eachLayer(poly => poly.setStyle(style));
 }
 

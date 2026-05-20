@@ -25,7 +25,7 @@ const CARTE_IMAGE = {
 const PUISSANCES = {
   britannique: {
     label: 'Couronne britannique',
-    couleur: '#8b3a2a',          // or — dans la palette du site
+    couleur: '#b63a21',          // or — dans la palette du site
     blason: 'pnj/pavillons/gb.svg',
   },
   espagnole: {
@@ -35,7 +35,7 @@ const PUISSANCES = {
   },
   francaise: {
     label: 'Royaume de France',
-    couleur: '#1a3a4a',          // sea
+    couleur: '#205772',          // sea
     blason: 'pnj/pavillons/fr_banniere.svg',
   },
   hollandaise: {
@@ -50,13 +50,13 @@ const PUISSANCES = {
   },
   pirate: {
     label: 'République Pirate',
-    couleur: '#0e0c09',          // ink
+    couleur: '#000000',          // ink
     blason: 'pnj/pavillons/nassau.svg',
   },
   conteste: {
     label: 'Territoire contesté',
-    couleur: '#6b7c8a',          // mist
-    blason: null,
+    couleur: '#330a46',          // mist
+    blason: 'pnj/pavillons/conteste.svg'
   },
   danoise: {
     label: 'Danemark-Norvège',
@@ -308,7 +308,7 @@ const JURIDICTIONS = [
   // ── MODÈLE COMPLET — Nassau / Bahamas ────────────────────
   // Premier exemple avec changement de puissance en 1718.
   {
-    id: 'nassau-bahamas',
+    id: 'new-providence',
     nom: 'Nassau',
 
     puissance: {
@@ -342,16 +342,7 @@ const JURIDICTIONS = [
     },
 
     // Polygone approximatif couvrant l'archipel des Bahamas
-    zone: [
-      [4350, 1550],
-      [4524, 1600],
-      [4750, 1500],
-      [4900, 1620],
-      [4800, 1800],
-      [4600, 1900],
-      [4350, 1820],
-      [4200, 1700],
-    ],
+    zone: [],
 
     // Informations complémentaires stables
     capitale: 'Nassau (New Providence)',
@@ -389,17 +380,17 @@ const JURIDICTIONS = [
     },
 
     contexte: {
-      1712: `Île longue et étroite à 80 km à l'est de Nassau, Eleuthera est fondée en 1648 par des Puritains expulsés des Bermudes — des dissidents protestants républicains qui ont baptisé leur colonie du grec *eleútheros*, "libre", et rédigé l'un des premiers textes constitutionnels démocratiques des Amériques. Cette origine façonne durablement la culture politique de l'île : hostilité à la monarchie absolutiste et au catholicisme, méfiance envers toute autorité extérieure, solidarité communautaire puissante.
+      1712: `Île longue et étroite à 80 km à l'est de Nassau, Eleuthera est fondée en 1648 par des Puritains expulsés des Bermudes — des dissidents protestants républicains qui ont baptisé leur colonie du grec <em>eleútheros</em>, "libre", et rédigé l'un des premiers textes constitutionnels démocratiques des Amériques. Cette origine façonne durablement la culture politique de l'île : hostilité à la monarchie absolutiste et au catholicisme, méfiance envers toute autorité extérieure, solidarité communautaire puissante.
 
 Pendant les années de raids espagnols et français sur Nassau (plus de trente incidents entre 1703 et 1715), Eleuthera et Harbour Island accueillent les réfugiés de New Providence. Thomas Walker, vice-gouverneur résiduel des Bahamas, finit par s'y installer lui-même. Il y fait construire vers 1710 une petite batterie côtière de quatre canons et quelques pierriers commandant l'entrée du port de Harbour Island — l'unique défense organisée de l'archipel pendant cette période.`,
 
       1714: `À partir de 1714, Eleuthera entre dans la sphère d'influence directe de Nassau et d'Hornigold. L'île joue trois rôles complémentaires et irremplaçables pour la République pirate.
 
-**Le grenier de Nassau.** L'île produit ce que Nassau ne peut pas : vivres frais, eau douce, bois de chauffe, porcs, tortues. Cette dépendance physique donne à ceux qui contrôlent les réseaux locaux un levier politique réel sur Nassau.
+<strong>Le grenier de Nassau.</strong> L'île produit ce que Nassau ne peut pas : vivres frais, eau douce, bois de chauffe, porcs, tortues. Cette dépendance physique donne à ceux qui contrôlent les réseaux locaux un levier politique réel sur Nassau.
 
-**L'interface commerciale.** Harbour Island est le sas entre le monde pirate et le monde légal. Les marchands de Boston, des Carolines et de Virginie qui ne peuvent ou ne veulent pas mouiller à Nassau y trouvent un interlocuteur commode. Le rapport Musson de 1717 mentionne deux navires de 90 tonneaux venus de Boston "vendre des provisions aux pirates" — à Harbour Island, pas à Nassau. Deux réseaux s'y complètent : le clan Darvill/Stillwell assure le ravitaillement de base et le triangle Eleuthera–Nassau–Jamaïque (bois de brésillet contre rhum) ; Richard Thompson et John Cockram (associés d'Hornigold) importent des marchandises manufacturées depuis Curaçao et les colonies continentales.
+<strong>L'interface commerciale.</strong> Harbour Island est le sas entre le monde pirate et le monde légal. Les marchands de Boston, des Carolines et de Virginie qui ne peuvent ou ne veulent pas mouiller à Nassau y trouvent un interlocuteur commode. Le rapport Musson de 1717 mentionne deux navires de 90 tonneaux venus de Boston "vendre des provisions aux pirates" — à Harbour Island, pas à Nassau. Deux réseaux s'y complètent : le clan Darvill/Stillwell assure le ravitaillement de base et le triangle Eleuthera–Nassau–Jamaïque (bois de brésillet contre rhum) ; Richard Thompson et John Cockram (associés d'Hornigold) importent des marchandises manufacturées depuis Curaçao et les colonies continentales.
 
-**L'atelier et le refuge.** Les capacités de carénage et de réparation navale d'Eleuthera suppléent les insuffisances du port envasé de Nassau. En cas de danger, les petits navires peuvent se disperser dans les anses peu profondes, hors de portée des vaisseaux à fort tirant d'eau.`,
+<strong>L'atelier et le refuge.</strong> Les capacités de carénage et de réparation navale d'Eleuthera suppléent les insuffisances du port envasé de Nassau. En cas de danger, les petits navires peuvent se disperser dans les anses peu profondes, hors de portée des vaisseaux à fort tirant d'eau.`,
 
       1718: `L'arrivée de Woodes Rogers à Nassau en juillet 1718 intègre Eleuthera dans l'ordre colonial britannique sans résistance. La communauté n'a jamais été idéologiquement pirate : pragmatique et puritaine, elle a suivi Hornigold, et Hornigold accepte le pardon. Le commerce du bois de brésillet contre du rhum jamaïcain, les chantiers navals de Harbour Island et Spanish Wells — rien ne s'interrompt, la clientèle change simplement de statut. Rogers mentionne dans ses rapports la batterie de Harbour Island, toujours en place, ainsi qu'un second fort sur l'île principale dont l'emplacement et l'état précis ne sont pas documentés.`,
     },
@@ -489,19 +480,12 @@ Sources : Calendar of State Papers Colonial ; B.C. Brooks, Bahamas Shipping Reco
       1712: `Colonie britannique depuis 1655, la Jamaïque est la principale base navale de la Couronne dans les Antilles. Kingston concentre le commerce légal et interlope de toute la région. Port Royal, englouti par le séisme de 1692, a été remplacé par Kingston comme capitale marchande. L'île produit sucre, rhum et indigo, exploités par une main-d'œuvre servile nombreuse.`,
     },
 
-    zone: [
-      [4650, 2800],
-      [4828, 2750],
-      [4980, 2830],
-      [4950, 2980],
-      [4750, 3020],
-      [4620, 2940],
-    ],
+    zone: [],
 
     capitale: 'Spanish Town',
     population_approx: '~55 000 habitants (1713, dont ~45 000 esclaves)',
     economie: 'Sucre, rhum, indigo, commerce interlope',
-    /* note: null,
+    /* note: null, */
   },
 
   // ── MODÈLE MINIMAL — Saint-Domingue ─────────────────────
@@ -546,15 +530,7 @@ Sources : Calendar of State Papers Colonial ; B.C. Brooks, Bahamas Shipping Reco
       1712: `La partie occidentale d'Hispaniola, cédée à la France par l'Espagne en 1697 (traité de Ryswick). Cap-Français en est la capitale et le principal port. Saint-Domingue est déjà la colonie sucrière la plus productive des Antilles françaises, alimentée par un trafic négrier massif. Sa prospérité repose sur une hiérarchie sociale rigide entre Blancs créoles, affranchis et esclaves.`,
     },
 
-    zone: [
-      [5050, 2380],
-      [5493, 2350],
-      [5650, 2500],
-      [5500, 2700],
-      [5229, 2750],
-      [4980, 2650],
-      [4980, 2480],
-    ],
+    zone: [],
 
     capitale: 'Cap-Français',
     population_approx: '~150 000 habitants (1713, dont ~130 000 esclaves)',
@@ -600,20 +576,12 @@ Le Président-Gouverneur cumule trois fonctions : chef de l'exécutif civil, com
       1715: `Fernando Constanzo y Ramírez assure un gouvernorat long et relativement stable (1715–1723), couvrant toute la période critique de la piraterie dorée et de la répression de 1718. La frontière avec Saint-Domingue est une zone de friction permanente : contrebande de bétail, d'esclaves et de denrées traverse quotidiennement une ligne que personne ne contrôle vraiment.`,
     },
 
-    zone: [
-      [5050, 2380],
-      [5493, 2350],
-      [5650, 2500],
-      [5500, 2700],
-      [5229, 2750],
-      [4980, 2650],
-      [4980, 2480],
-    ],
+    zone: [],
 
     capitale: 'Santo Domingo',
     population_approx: '~10 000 habitants (1713, colons espagnols et créoles)',
     economie: 'Élevage extensif, contrebande avec Saint-Domingue, quelques cultures vivrières',
-    /* note: `ATTENTION : la zone polygonale ici est celle du bloc "saint-domingue" actuel — elle couvre l'île entière. Il faut diviser Hispaniola en deux zones distinctes lors de la vectorisation SVG : la portion orientale (Santo Domingo) et la portion occidentale (Saint-Domingue français). Le gouverneur de 1712 (avant Pedro de Niela) n'a pas été identifié avec certitude. Sources : concordance Geni (Gobiernos Coloniales de la Isla Española) et Rincón del Vago, toutes deux issues d'archives dominicaines. Fiabilité modérée.`, */
+    /* note: `Le gouverneur de 1712 (avant Pedro de Niela) n'a pas été identifié avec certitude. Sources : concordance Geni (Gobiernos Coloniales de la Isla Española) et Rincón del Vago, toutes deux issues d'archives dominicaines. Fiabilité modérée.`, */
   },
 
   {
@@ -628,13 +596,19 @@ Le Président-Gouverneur cumule trois fonctions : chef de l'exécutif civil, com
       1712: {
         nom: 'Francisco Danío Granados',
         pnj_id: null,
-        titre: 'Gouverneur et Capitaine général',
+        titre: 'Gouverneur et Capitaine général (1er mandat)',
       },
       1713: {
-        nom: 'Juan de Rivera',
+        nom: 'Juan de Ribera',
         pnj_id: null,
         titre: 'Gouverneur et Capitaine général',
-        // Note : date de début légèrement incertaine (déc. 1713 ou 1714/1715 selon les sources)
+        // Arrivée à San Juan le 23 décembre 1713 — date confirmée (Wikipedia EN, EnciclopediaPR)
+      },
+      1716: {
+        nom: 'Alfonso Bortodano',
+        pnj_id: null,
+        titre: 'Gouverneur et Capitaine général',
+        // Prise de fonctions le 30 août 1716 — date confirmée (EnciclopediaPR)
       },
       1720: {
         nom: 'Francisco Danío Granados',
@@ -645,21 +619,53 @@ Le Président-Gouverneur cumule trois fonctions : chef de l'exécutif civil, com
         nom: 'José Antonio de Mendizábal y Azcue',
         pnj_id: null,
         titre: 'Gouverneur et Capitaine général',
+        // Prise de fonctions le 22 août 1724 — date confirmée (EnciclopediaPR)
       },
     },
 
     contexte: {
-      1712: `Puerto Rico végète en marge du système colonial espagnol. L'île produit peu pour l'exportation et dépend largement du situado venu de Mexico. Le gouverneur Danío Granados se distingue par une corruption ouverte : il s'attaque au corsaire Miguel Enríquez, homme de couleur enrichi par la course sous pavillon espagnol, dont il tente de confisquer les navires. Ces conflits illustrent les tensions entre l'autorité coloniale et les élites créoles qui la contournent.`,
-      1713: `La transition vers Juan de Rivera s'opère fin 1713 (date légèrement disputée entre les sources). La contrebande reste endémique à San Juan, port enclavé mais stratégiquement positionné entre Saint-Domingue et les Petites Antilles.`,
-      1720: `Le retour de Granados au gouvernorat marque la continuité d'une administration corrompue. Il est finalement traduit en justice : soumis à un juicio de residencia, il est condamné sur 46 chefs d'accusation. Son successeur Mendizábal le fait emprisonner en 1724.`,
+      1712: `Porto Rico est en 1712 un presidio périphérique de l'empire espagnol, dont la valeur est stratégique plutôt qu'économique. San Juan, capitale fortifiée sur un îlot rocheux relié à l'île principale par un isthme étroit, est l'une des places fortes les mieux défendues des Antilles — le Castillo San Felipe del Morro domine l'entrée du port depuis le XVIe siècle, et le Castillo San Cristóbal en protège l'accès terrestre. L'île produit peu pour l'exportation (gingembre, cuir, un peu de tabac) et dépend largement du situado, la subvention annuelle versée par la vice-royauté de Nouvelle-Espagne pour financer la garnison et l'administration.
+
+La figure dominante de Porto Rico en 1712 n'est pas le gouverneur mais un homme de couleur, fils d'une femme autrefois réduite en esclavage, devenu cordonnier puis corsaire : <strong>Miguel Enríquez</strong> (1674–1743). Depuis 1702, sa flotte de course — jusqu'à trente embarcations simultanées (balandres, brigantins, pirogues) — protège les côtes porto-ricaines des incursions anglaises et hollandaises, capturant des prises au nom de la Couronne espagnole. En 1707, Philippe V l'a nommé <em>Capitán de Mar y Guerra</em> ; en 1713, il lui décerne la <em>Medalla de oro de la Real Efigie</em> et le titre de <em>Capitán de Mar y Guerra y Armador de Corsos</em> — la plus haute distinction honorifique accordable à un non-noble. À cette date, Enríquez est l'homme le plus riche des Caraïbes espagnoles. Sa fortune, ses connexions commerciales avec Curaçao, Saint-Thomas et les marchands de Nouvelle-Angleterre, et son armée privée de corsaires en font un État dans l'État — une réalité que chaque gouverneur nommé à San Juan devra affronter à sa façon.
+
+Le gouverneur Danío Granados (1er mandat, 1712–1713) tente d'affaiblir Enríquez et de détourner à son profit les opérations de course. Il attaque le corsaire sur le terrain juridique, tente de saisir ses navires, et représente une administration aussi corrompue que combative.
+<br>
+<strong>Île adjacente — Boreque (Vieques) :</strong> À 8 km au sud-est de la pointe orientale de Porto Rico, l'île de Vieques — <em>Isla Negra</em> chez les Espagnols, <em>Crab Island</em> sur les cartes anglaises, ici <em>Boreque</em> — est sans administration permanente ni garnison. Revendiquée par l'Espagne, elle reste en pratique un territoire vide : mouillage discret pour les navires ne souhaitant pas entrer dans le port de San Juan, point d'eau et de ravitaillement pour les équipages en transit entre Saint-Domingue et les Petites Antilles. Les tentatives de colonisation espagnoles au XVIIe siècle ont toutes échoué. Les Danois de Saint-Croix et les Anglais de la région la fréquentent sans s'y établir.`,
+
+      1713: `<strong>Juan de Ribera</strong> arrive à San Juan le 23 décembre 1713, remplaçant Danío Granados. La transition marque une nouvelle phase dans la guerre d'usure entre le gouvernorat et Miguel Enríquez. Avant son départ pour Porto Rico, Ribera avait entretenu une correspondance amicale avec le corsaire ; Enríquez, qui s'y était laissé prendre, avait dépensé plus de 20 000 pièces de huit en cadeaux et prévenances, et prêté à Ribera son meilleur navire, <em>La Gloria</em>, pour assurer le voyage. Le gouverneur arriva avec ce navire chargé à ras bord de marchandises — signe avant-coureur que son intention réelle était de concurrencer Enríquez plutôt que de le ménager.
+
+Ribera cherche à établir son propre réseau de course pour capter les profits des prises. Il réquisitionne les équipages et navires d'Enríquez sans compensation, sapant l'économie de course que le corsaire a mis dix ans à construire. La tension entre les deux hommes structure toute la politique locale jusqu'en 1716.
+
+<strong>La place de Porto Rico :</strong> San Juan est alors le port espagnol le plus actif des Antilles orientales — la route des navires reliant Saint-Domingue, la Martinique et les îles anglaises du Vent passe nécessairement au large de ses côtes. La contrebande est endémique : les marchands anglais et hollandais, qui ne peuvent entrer légalement à San Juan, font escale à Vieques (<em>Boreque</em>) ou dans les anses de la côte nord pour écouler leurs marchandises. Enríquez lui-même opère dans cette zone grise, faisant capturer fictivement des navires amis pour importer leurs cargaisons sous couvert de prises légitimes`,
+
+      1716: `<strong>Alfonso Bortodano</strong> prend ses fonctions le 30 août 1716. Son administration est décrite par les sources de l'époque comme globalement neutre — ni franchement favorable à Enríquez, ni radicalement hostile. Les deux camps lui reprochent tour à tour sa partialité, ce qui dans la logique porto-ricaine de l'époque est presque un certificat d'impartialité.
+
+La période 1716–1720 est néanmoins agitée pour l'île. La guerre de la Quadruple-Alliance (1718–1720) — France, Grande-Bretagne, Provinces-Unies et Autriche contre l'Espagne — ravive les tensions maritimes dans les Caraïbes et resserre les contraintes commerciales imposées à Enríquez : ses droits sur le commerce négrier de l'<em>Asiento</em> sont annulés, et il doit rendre les biens appartenant à l'asiento anglais. Bortodano, pris entre les impératifs de la politique impériale et les réalités locales, navigue prudemment.
+
+<strong>San Juan en 1716–1720 :</strong> La ville fortifiée compte environ 6 000 à 7 000 habitants — garnison, administrateurs, marchands créoles, libres de couleur et esclaves. Le Castillo del Morro et les murailles qui ceignent la vieille ville font de San Juan l'une des places les plus difficiles à prendre des Caraïbes. En dehors des murs, l'île est peu peuplée, couverte de forêts et d'élevages extensifs. La côte est bordée de récifs qui en rendent l'abordage difficile — avantage défensif, inconvénient pour tout navire étranger tentant d'approcher discrètement.
+
+<strong>Boreque (Vieques) :</strong> Toujours sans administration permanente. Son statut de vide effectif persiste sous Bortodano comme sous ses prédécesseurs.`,
+
+      1720: `<strong>Francisco Danío Granados</strong> revient au gouvernorat en 1720 pour un second mandat, accueilli par le trésorier Pozo — ennemi déclaré d'Enríquez — qui lui présente d'emblée le corsaire comme adversaire à abattre. Les premiers mois sont violents : Granados confisque la flotte d'Enríquez (17 navires) sous prétexte de contrebande. Mais la dynamique s'inverse rapidement. Granados dirige un <em>juicio de residencia</em> contre Pozo, fait saisir sa fortune, l'emprisonne, et Pozo disparaît définitivement du Nouveau Monde. Le gouverneur, qui a retourné sa veste, semble désormais agir de concert avec Enríquez — jusqu'à ce que celui-ci, croyant détenir une reconnaissance de dette contre le gouverneur, lui envoie une lettre provocatrice. Granados le fait arrêter le 9 décembre 1722.
+
+<strong>Le dossier Enríquez (1720–1724) :</strong> Le Conseil des Indes ouvre une enquête secrète sur le corsaire en 1720, alimentée par ses ennemis. La procédure est longue. Son agent Antonio Camino part plaider sa cause à Madrid, réunit des témoignages favorables à La Havane et en Espagne. Enríquez reste incarcéré. Son procès illustre les contradictions d'un empire qui, pour se défendre, a dû créer un homme plus puissant que ses propres gouverneurs, et ne sait plus comment le contrôler.
+
+<strong>San Juan :</strong> Mêmes fortifications, même économie de contrebande et de course. Entre 1718 et 1720, plusieurs ouragans dévastent l'agriculture de l'île. Enríquez, alors encore libre, finance personnellement les secours : 400 jarres de mélasse, un chargement de maïs, et la prise en charge des funérailles des indigents. Sa popularité dans les quartiers populaires de San Juan est intacte, et tranche avec sa disgrâce auprès de l'élite créole blanche.`,
     },
 
     zone: [],
 
     capitale: 'San Juan',
-    population_approx: '~6 000 habitants (1713)',
-    economie: 'Situado royal, contrebande, gingembre, cuir, tabac',
-    /* note: 'Transition Rivera 1713/1714–1716 : légère discordance entre sources. Granados condamné pour 46 chefs d\'accusation : fait établi (EnciclopediaPR / Fundación para las Humanidades de Puerto Rico). Miguel Enríquez, corsaire mulâtre, figure narrativement centrale pour la campagne.', */
+    population_approx: '~6 000 habitants (San Juan, 1713) ; ~45 000 à 50 000 habitants sur l\'ensemble de l\'île (estimation)',
+    economie: 'Situado royal (subvention de Mexico), course et piraterie (réseau Enríquez), contrebande (navires anglais et hollandais via Vieques et côtes nord), gingembre, cuir, tabac, élevage',
+    /* note: `✅ Confirmé : succession des gouverneurs (EnciclopediaPR / Fundación para las Humanidades de Puerto Rico ; Academic Kids list ; Geni project).
+  ✅ Confirmé : arrivée de Juan de Ribera le 23 décembre 1713 (Wikipedia EN, Miguel Enríquez article).
+  ✅ Confirmé : prise de fonctions de Bortodano le 30 août 1716 (EnciclopediaPR).
+  ✅ Confirmé : Miguel Enríquez — Medalla de oro de la Real Efigie (1713), flotte de 30 navires (1702–1713), arrestation le 9 décembre 1722, fortune, réseau commercial (Wikipedia EN, sources primaires citées).
+  ✅ Confirmé : Danío Granados condamné sur 46 chefs d'accusation par Mendizábal (EnciclopediaPR).
+  ⚠️ Incertain : orthographe "Bortodano" vs "Bertodano" — les sources espagnoles (EnciclopediaPR) utilisent les deux. La liste Academic Kids donne "Bortodano" comme gouverneur 1716–1720, et "Alberto Bertodano" comme celui qui conduit le juicio de residencia de Danío Granados : il s'agit peut-être de deux personnes distinctes, ou d'une même orthographe instable. À trancher sur source primaire (AGI).
+  🎲 Note de campagne : Miguel Enríquez est le personnage central de Porto Rico pour toute la période 1712–1724. Mulâtre, fils d'esclave, corsaire anobli, homme le plus riche des Caraïbes — il est narrativement inépuisable. Sa flotte patrouille activement la zone entre Porto Rico, Saint-Domingue et les Petites Antilles. Tout navire croisant dans ces eaux peut le rencontrer — comme allié, comme obstacle, ou comme acheteur.
+  🎲 Vieques (Boreque sur la carte Jaillot) : vide administratif réel. Mouillage discret utilisable pour toute opération ne souhaitant pas être vue de San Juan. Distance : environ 8 km au sud-est de la pointe orientale de Porto Rico.`, */
   },
 
   {
@@ -723,6 +729,55 @@ Le Président-Gouverneur cumule trois fonctions : chef de l'exécutif civil, com
   },
 
   {
+    id: 'bahamas-archipel',
+    nom: 'Bahamas — Archipel (îles secondaires)',
+
+    puissance: {
+      1712: 'anarchie-pirate',
+      1718: 'britannique',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: 'Thomas Walker',
+        pnj_id: null,
+        titre: 'Vice-gouverneur résiduel des Bahamas (autorité théorique sur tout l\'archipel)',
+      },
+      1718: {
+        nom: 'Woodes Rogers',
+        pnj_id: null,
+        titre: 'Gouverneur royal des Bahamas',
+      },
+      1721: {
+        nom: 'George Phenney',
+        pnj_id: null,
+        titre: 'Gouverneur royal des Bahamas',
+      },
+    },
+
+    contexte: {
+      1712: `Les Bahamas forment un archipel de plus de sept cents îles et îlots, dont la grande majorité est inhabitée ou saisonnièrement fréquentée. L'autorité nominale appartient aux Lords Proprietors — les mêmes propriétaires qui gouvernent les Carolines depuis 1663 — mais leur présence est purement théorique : aucun gouverneur effectif ne réside dans les îles depuis plusieurs années, et Thomas Walker, vice-gouverneur résiduel replié à Harbour Island (Eleuthera), n'exerce qu'une autorité fantomatique sur New Providence et aucune sur le reste de l'archipel.
+
+Dans ce vide, les îles secondaires servent de relais, de refuges et de zones de pêche. Les Turks & Caïques — alors simplement appelées Turks Islands ou Salt Islands — sont la ressource la plus précieuse : leurs salines naturelles fournissent du sel à bas coût à toutes les colonies du littoral atlantique. Des équipages bermudiens y viennent saisonnièrement récolter le sel, une activité qui sera la source d'un conflit récurrent avec les Français de Saint-Domingue et avec les Espagnols. Abaco, Cat Island et les Exumas sont fréquentées pour l'eau douce, le bois et la pêche à la tortue ; des familles de colons blancs s'y maintiennent dans des conditions précaires.`,
+
+      1718: `L'arrivée de Woodes Rogers à Nassau en juillet 1718 étend théoriquement l'autorité royale britannique sur l'ensemble de l'archipel. En pratique, Rogers n'a ni les hommes ni les ressources pour administrer les îles éloignées ; son autorité effective se limite à New Providence, avec des relais à Eleuthera et Harbour Island. Les îles secondaires restent dans un vide administratif réel, peuplées de quelques familles de colons, de pêcheurs de tortues et de récupérateurs d'épaves.
+
+Les Turks Islands méritent une mention particulière : leur production de sel, exploitée par les Bermudiens, intéresse directement les marchands de Nouvelle-Angleterre et crée une tension latente avec la France (qui revendique certaines îles comme dépendances de Saint-Domingue). Ce différend sera récurrent tout au long du XVIIIe siècle.`,
+    },
+
+    zone: [],
+
+    capitale: '[Aucune capitale pour les îles secondaires — Nassau est la capitale de facto de tout l\'archipel]',
+    population_approx: 'Quelques centaines de résidents dispersés sur l\'archipel ; Turks Islands : population saisonnière bermudienne de quelques dizaines de récolteurs de sel',
+    economie: 'Sel (Turks Islands — ressource principale), pêche à la tortue et aux éponges, récupération sur épaves (wrecking), bois de chauffe',
+    /* note: `✅ Établi : charte des Lords Proprietors (1663, 1670) — autorité nominale sur les Bahamas jusqu'en 1718.
+✅ Établi : exploitation saisonnière du sel des Turks Islands par les Bermudiens — documentée, source de conflits récurrents avec la France et l'Espagne tout au long du XVIIIe siècle.
+✅ Établi : Woodes Rogers nommé gouverneur royal en 1717, débarque à Nassau le 26 juillet 1718 ; George Phenney lui succède en 1721 (Wikipedia EN, liste des gouverneurs des Bahamas).
+⚠️ Incertain : population précise des îles secondaires — aucun recensement avant celui de Rogers en 1722, qui ne couvre que New Providence, Eleuthera et Harbour Island.
+🎲 Note de campagne : les îles secondaires de l'archipel sont des espaces quasiment hors contrôle pendant toute la période 1712–1720. Un navire qui cherche à se camoufler, à faire de l'eau ou à caréner loin des regards peut y trouver refuge sans croiser la moindre autorité. Les hauts-fonds et les passes coralliennes connues des seuls pilotes locaux (souvent bermudiens) sont un avantage tactique réel.`, */
+  },
+
+  {
     id: 'panuco',
     nom: 'Pánuco',
 
@@ -750,6 +805,49 @@ La région est économiquement marginale — quelques élevages, des communauté
     population_approx: '~15 000 habitants (1713, estimation)',
     economie: 'Élevage, missions franciscaines, commerce fluvial limité',
     /* note: `Pánuco n\'est pas une juridiction autonome en 1712 — c\'est une alcaldía mayor de la Nouvelle-Espagne. Sa mention séparée sur la carte Jaillot reflète un usage cartographique anachronique hérité de la période où Pánuco était une gobernación distincte (XVIe siècle). Aucun gouverneur propre à renseigner. Le champ "gouverneur" est intentionnellement vide. Ce bloc peut être intégré dans le bloc nouvelle-espagne sous forme de note si tu préfères.`, */
+  },
+
+  {
+    id: 'panuco',
+    nom: 'Pánuco y Tampico',
+
+    puissance: {
+      1712: 'espagnole',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Alcalde mayor — non identifié avec certitude]',
+        pnj_id: null,
+        titre: 'Alcalde mayor de Pánuco y Tampico',
+      },
+      1718: {
+        nom: 'Benito Antonio de Castañeda',
+        pnj_id: null,
+        titre: 'Alcalde mayor de Pánuco y Tampico',
+      },
+    },
+
+    contexte: {
+      1712: `La province de Pánuco — ancienne gobernación de la conquête, devenue Alcaldía Mayor de Pánuco y Tampico depuis 1535 — est en 1712 l'une des frontières les plus exposées de la Nouvelle-Espagne. Son chef-lieu, Santiago de los Valles (actuel Ciudad Valles, San Luis Potosí), est le centre administratif de la Huasteca ; Pánuco lui-même, sur le fleuve éponyme, est un poste avancé face au nord ; Tampico, à l'embouchure du Pánuco sur le Golfe, est un port de faible importance mais stratégique — la seule ouverture maritime de la région entre Veracruz et la Floride.
+
+La Huasteca est l'un des territoires les moins pacifiés de la vice-royauté. Les nations indiennes — Huastèques (Teenek), Chichimèques et groupes nomades du nord — n'ont jamais été pleinement soumises aux missions franciscaines qui constituent l'essentiel de la présence coloniale dans l'arrière-pays. La population espagnole se concentre dans quelques villes et haciendas ; la main-d'œuvre indienne et africaine assure les travaux agricoles et d'élevage. La région produit du bétail, du coton et un peu de cacao, mais reste loin des circuits économiques majeurs de la Nouvelle-Espagne.
+
+Tampico est une ville fragile. Elle a été saccagée par les pirates en 1684 — un traumatisme encore présent dans la mémoire collective — et son port reste peu équipé. Le commerce interlope avec des navires étrangers (anglais en particulier) est une réalité tolérée, faute de moyens de surveillance.`,
+
+      1718: `En 1718, Benito Antonio de Castañeda prend la tête de l'Alcaldía Mayor de Pánuco y Tampico. Dès cette année, il reçoit du vice-roi la licence de mener une expédition vers la sierra Malinchen — massif montagneux au sud de la sierra Tamaulipa Orientale — pour reconnaître des mines signalées dans cette zone encore à peine cartographiée. Cette initiative marque le début d'une pression coloniale plus active vers le nord-est, région que l'Espagne contrôle nominalement mais ne colonise pas encore effectivement. La création future de la Colonia del Nuevo Santander (1746) sera l'aboutissement de ce mouvement amorcé dans les années 1710–1720.`,
+    },
+
+    zone: [],
+
+    capitale: 'Santiago de los Valles (siège de l\'alcaldía) ; Pánuco (chef-lieu fluvial) ; Tampico (accès maritime)',
+    population_approx: '~30 000 à 50 000 habitants (Huasteca, 1710–1720, très majoritairement indiens — chiffres très approximatifs)',
+    economie: 'Élevage (bovins), coton, missions franciscaines, pêche (Tampico), commerce interlope discret avec navires anglais',
+    /* note: `✅ Établi : statut d'Alcaldía Mayor de Pánuco y Tampico depuis 1535 (sources concordantes).
+  ✅ Établi : Benito Antonio de Castañeda, alcalde mayor de Pánuco y Tampico en 1718, licence d'expédition vers la sierra Malinchen (Herrera Casasús, Intento de colonización en la sierra de Malinchen, UAT, 1988 — cité dans Estudios de Historia Novohispana, UNAM, 2013).
+  ✅ Établi : saccage de Tampico par les pirates en 1684 (sources locales concordantes, second saccage en 1738).
+  ⚠️ Incertain : nom du ou des alcaldes mayores entre 1712 et 1718 — non identifié dans les sources accessibles. Les archives primaires de référence sont les AGI (Audiencia de México, legajos 75–100). À compléter en bibliothèque spécialisée.
+  ⚠️ Incertain : chiffres de population — aucun recensement précis pour la Huasteca à cette date. Fourchette inférée des données disponibles pour la fin du XVIIe et le milieu du XVIIIe siècle.`, */
   },
 
   {
@@ -781,7 +879,7 @@ La région est économiquement marginale — quelques élevages, des communauté
     contexte: {
       1712: `La vice-royauté de Nouvelle-Espagne est le cœur du monde colonial espagnol : Mexico en est la capitale, et son vice-roi exerce une autorité nominale sur un territoire immense, du Guatemala aux territoires septentrionaux du Nouveau-Mexique et de la Californie. Les revenus fiscaux de la Nouvelle-Espagne — en grande partie issus des mines d'argent de Zacatecas, Guanajuato et San Luis Potosí — financent l'ensemble de l'empire espagnol dans les Amériques. Le duc de Linares (1711–1716) gouverne dans un contexte difficile : épidémies, famines et séismes frappent Mexico en 1713–1714. Il est réputé pour sa générosité personnelle envers les victimes, et pour avoir fondé la première bibliothèque publique de Nouvelle-Espagne.`,
       1716: `Le marquis de Valero (1716–1722) hérite d'une vice-royauté en mouvement : les réformes bourboniennes commencent à remodeler l'administration coloniale. Il lance l'expulsion de la colonie britannique de Laguna de Términos (Campeche), fortifie le Texas face à la pression française depuis la Louisiane, et supervise la fondation de San Antonio de Béxar (1718). Narrative note : c'est sous ce vice-roi que s'inscrit toute la grande période de la piraterie des Caraïbes — 1716 à 1722.`,
-      1722: `Le marquis de Casafuerte (1722–1734), né à Lima, inaugure une ère de stabilité et de réformes administratives. Sous son mandat paraît la première *Gaceta de México* (1722), premier journal imprimé du continent nord-américain.`,
+      1722: `Le marquis de Casafuerte (1722–1734), né à Lima, inaugure une ère de stabilité et de réformes administratives. Sous son mandat paraît la première <em>Gaceta de México</em> (1722), premier journal imprimé du continent nord-américain.`,
     },
 
     zone: [],
@@ -822,7 +920,7 @@ Dates vice-rois confirmées : Linares 15 jan. 1711 – 15 août 1716 ; Valero 16
     contexte: {
       1712: `Capitainerie générale semi-autonome depuis 1617, le Yucatán est administré depuis Mérida par un gouverneur-capitaine général relevant nominalement du vice-roi de Mexico, mais rapportant directement au Conseil des Indes. La péninsule est dominée par la civilisation maya, christianisée en surface mais restée profondément attachée à ses traditions. Le gouverneur Alonso de Meneses appartient à la même famille que le président de l'Audiencia de Santafé déposé par ses propres oidores en 1715 — ironie des réseaux coloniaux.
 
-L'économie repose sur l'indigo, le bétail et une contrebande active avec les Anglais qui s'installent dans la baie du Belize voisine, dont l'exploitation du bois de Campêche (*logwood*) est une source de friction permanente entre Madrid et Londres. La côte caraïbe est pratiquement sans défense contre les incursions anglaises et les pirates.`,
+L'économie repose sur l'indigo, le bétail et une contrebande active avec les Anglais qui s'installent dans la baie du Belize voisine, dont l'exploitation du bois de Campêche (<em>logwood</em>) est une source de friction permanente entre Madrid et Londres. La côte caraïbe est pratiquement sans défense contre les incursions anglaises et les pirates.`,
       1715: `Vértiz y Hontañón administre le Yucatán dans une période de tensions : les Anglais de Belize étendent leurs installations et leur influence sur les Indiens de la frontière. En 1716, le vice-roi Valero envoie une expédition depuis Veracruz pour chasser les Britanniques de la Laguna de Términos (Campeche) — opération réussie militairement mais incapable de résoudre durablement la pression anglaise.`,
     },
 
@@ -832,6 +930,74 @@ L'économie repose sur l'indigo, le bétail et une contrebande active avec les A
     population_approx: '~250 000 habitants (1713, dont une grande majorité de Mayas)',
     economie: 'Indigo, bétail, sel, bois de Campêche (logwood), contrebande avec les Anglais',
     /* note: `Le Yucatán est une Capitainerie générale distincte de la Nouvelle-Espagne depuis 1617, avec son propre gouverneur-capitaine général. Séquence confirmée par Wikipedia EN (Governor of Yucatán) et List of governors in the Viceroyalty of New Spain. Note sur Alonso de Meneses : son mandat (1712-1715) s'achève juste au moment où son parent Francisco de Meneses est destitué au Nouveau-Grenade — coïncidence historique notable.`, */
+  },
+
+  {
+    id: 'lamanay-turneffe',
+    nom: 'Lamanay & cayes du golfe du Honduras',
+
+    puissance: {
+      1712: 'conteste',
+      // Revendiqué par l'Espagne (Honduras), fréquenté par les Anglais
+      // de Belize. Aucune autorité effective permanente d'aucune puissance.
+      1718: 'britannique',
+      // Présence anglaise de facto progressivement dominante à mesure
+      // que le settlement de Belize se consolide après 1718.
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Aucune autorité constituée]',
+        pnj_id: null,
+        titre: 'Territoire sans administration — revendiqué par l\'Espagne, fréquenté par les Anglais',
+      },
+      1718: {
+        nom: '[Public Meeting de Belize — instance informelle]',
+        pnj_id: null,
+        titre: 'Autogouvernance des Baymen (coupeurs de bois anglais)',
+        // Le "Public Meeting" est l'assemblée informelle des Baymen
+        // de Belize — pas un gouvernement reconnu, mais l'autorité
+        // de facto sur la zone dès les années 1720.
+      },
+    },
+
+    contexte: {
+      1712: `<strong>Identification cartographique.</strong> Sur la carte Jaillot 1708, cet ensemble apparaît sous les noms <em>Lamanay</em> (la plus grande structure, probablement l'atoll de Turneffe), <em>Zaratan</em> (probablement Lighthouse Reef, le plus à l'est), <em>Ilbob</em>, <em>Quita Zuno</em> (cayes du récif barrière) et <em>Catumal</em> (la baie de Chetumal, plus au nord). Ces toponymes, courants dans la cartographie du début du XVIIIe siècle, ne correspondent à aucune dénomination moderne — ils ont été remplacés par des noms de navigation anglais au fil du XVIIIe siècle.
+
+<strong>Géographie.</strong> L'atoll de Turneffe (<em>Lamanay</em>) est la plus grande structure récifale de la zone : environ 50 km du nord au sud pour 15 km de large, constitué de dizaines d'îlots de mangrove, de lagons peu profonds et d'une barrière coralline externe. Il est situé à 30 km à l'est de Belize City actuelle. Lighthouse Reef (<em>Zaratan</em>), plus à l'est, est plus petit et plus isolé — c'est là que se trouve le Grand Trou Bleu. Glover's Reef, plus au sud, porte le nom d'un pirate du XVIIe siècle, John Glover, qui l'utilisait comme base de raid contre les convois espagnols.
+
+<strong>Statut politique.</strong> L'Espagne revendique l'ensemble du golfe du Honduras comme territoire sous sa juridiction — nominalement partie de la Capitainerie générale du Guatemala. En pratique, elle n'y maintient aucune garnison ni présence permanente. Les atolls sont fréquentés librement par les coupeurs de bois anglais (<em>Baymen</em>) basés sur la côte du Belize, dont le settlement informel est en cours de consolidation depuis les années 1650–1660. Ces hommes, anciens boucaniers reconvertis dans le commerce du bois de campêche (<em>logwood</em>), font escale aux atolls pour l'eau douce, l'abri et la pêche.
+
+<strong>Le commerce du logwood.</strong> Le bois de campêche (<em>Haematoxylum campechianum</em>) est l'une des matières premières les plus précieuses de l'économie atlantique : sa teinture rouge et pourpre est indispensable à l'industrie textile européenne. Les importations annuelles en Grande-Bretagne dépassent 12 000 tonnes, et le logwood atteint 25 à 30 livres sterling la tonne à Port Royal avant d'être revendu en Europe à 90–110 livres la tonne.  Les sloops jamaïcains font régulièrement la route Port Royal – golfe du Honduras pour charger ces cargaisons, en traversant ou en longeant la zone des atolls. C'est précisément un de ces navires, le sloop <em>Adventure</em> en provenance de Jamaïque, que Barbe-Noire capture à Turneffe en avril 1718.
+
+<strong>La présence pirate.</strong> Les atolls sont des mouillages naturels sur la route entre la Jamaïque et le golfe du Mexique. Peu fréquentés par les autorités espagnoles, difficiles d'accès pour les grands navires en raison des hauts-fonds, ils offrent aux pirates eau douce, abri et discrétion. L'hiver 1717–1718, Barbe-Noire harcèle les navires entre Veracruz et le golfe du Honduras.  Le 5 avril 1718, alors qu'il faisait escale à Turneffe pour faire de l'eau douce, le sloop <em>Adventure</em> du capitaine David Herriot est capturé par la flottille de Barbe-Noire — menée par la frégate de 40 canons <em>Queen Anne's Revenge</em>, qui tire un coup de semonce et hisse le pavillon noir.  Barbe-Noire confie l'<em>Adventure</em> à son lieutenant Israel Hands et met le cap sur la Caroline du Nord.`,
+
+      1718: `Après l'arrivée de Woodes Rogers à Nassau en juillet 1718 et la normalisation progressive de la piraterie dans les Bahamas, le golfe du Honduras perd son rôle de terrain de chasse privilégié pour les pirates de la Flying Gang. La zone reste cependant fréquentée par des équipages opérant indépendamment ou depuis d'autres bases.
+
+<strong>Consolidation anglaise.</strong> Le premier établissement britannique permanent au Belize est fondé dans les années 1710 sur Cayo Cosina, après la destruction par les Espagnols des premiers villages de bûcherons anglais dans la région de la Laguna de Términos à l'ouest du Yucatan actuel.  Les atolls — Turneffe surtout — deviennent des escales régulières sur la route entre ce settlement et la Jamaïque. Les Baymen s'y arrêtent pour l'eau et l'abri ; les pilotes locaux en connaissent les passes coralliennes, inconnues de la plupart des navigateurs.
+
+<strong>La tension hispano-anglaise.</strong> L'Espagne proteste régulièrement contre la présence anglaise dans le golfe, qu'elle considère comme une intrusion dans ses eaux souveraines. Elle lance des expéditions punitives contre les établissements de bûcherons — mais n'établit elle-même aucune présence dans les atolls. La forteresse navale de Salamanca de Bacalar, siège du gouvernement colonial espagnol dans la zone, opère à pleine capacité ; les guarda costas patrouillent les voies d'eau.  Mais les atolls, trop éloignés et trop peu profonds, échappent à cette surveillance.
+
+<strong>Salamanca de Bacalar.</strong> La ville espagnole la plus proche — <em>Salamanca</em> sur la carte Jaillot — est Bacalar, à la tête de la lagune du même nom dans l'actuel Quintana Roo. Le sud de ce qui est aujourd'hui le Quintana Roo était gouverné depuis Bacalar, sous l'autorité du Capitaine général du Yucatan à Mérida. La forteresse San Felipe de Bacalar ne sera achevée qu'en 1729.  En 1712–1720, Bacalar est donc une ville ouverte, peu défendue, dont la garnison est trop faible pour surveiller efficacement les atolls au large.`,
+    },
+
+    zone: [],
+
+    capitale: '[Aucune — atolls et cayes sans établissement permanent]',
+    population_approx: 'Quelques équipages saisonniers de bûcherons anglais et de pêcheurs ; passage de navires pirates et marchands',
+    economie: 'Bois de campêche (logwood) — transit et coupe ; eau douce (ressource stratégique) ; pêche (tortues, poissons) ; mouillage de refuge',
+    /* note: `<strong>Identification des toponymes Jaillot :</strong>
+✅ <em>Lamanay</em> → Turneffe Atoll (très probable : seule structure de taille "remarquable" dans la zone, 50 × 15 km).
+✅ <em>Catumal</em> → Baie de Chetumal (confirmé : transcription hispanique ancienne du toponyme maya).
+⚠️ <em>Zaratan</em> → Lighthouse Reef (probable : position la plus à l'est, isolée ; "zaratan" = île-tortue fabuleuse dans la tradition médiévale hispano-arabe).
+⚠️ <em>Ilbob</em>, <em>Quita Zuno</em> → cayes du récif barrière non identifiées avec certitude. Noms de navigation aujourd'hui perdus.
+
+✅ Établi : Barbe-Noire à Turneffe, 4–5 avril 1718 — capture du sloop <em>Adventure</em> de David Herriot (Wikipedia EN, Turneffe Atoll ; sources concordantes).
+✅ Établi : Glover's Reef doit son nom à John Glover, pirate du XVIIe siècle.
+✅ Établi : commerce du logwood — route Port Royal / golfe du Honduras, valeurs commerciales (sources citées dans l'article David Herriot).
+✅ Établi : Salamanca de Bacalar = siège du gouvernement colonial espagnol dans la zone, fort inachevé en 1712–1720 (Wikipedia EN, Bacalar).
+⚠️ Incertain : présence pirate régulière aux atolls avant 1718 — inférée de la géographie et de la fréquentation documentée, peu de sources primaires directes.
+🎲 Note de campagne : Turneffe (<em>Lamanay</em>) est un décor utilisable immédiatement. Eau douce, abri contre les tempêtes, hauts-fonds qui interdisent l'entrée aux grands navires, mangroves où un sloop peut se cacher. Barbe-Noire y est physiquement attesté en avril 1718 — soit quelques mois avant la fenêtre d'ouverture de la plupart des campagnes Pavillon Noir. L'atoll peut très bien avoir gardé une réputation de mouillage pirate au-delà de ce passage.`, */
   },
 
   {
@@ -938,7 +1104,7 @@ L'économie du royaume repose sur l'indigo (añil), exporté vers l'Espagne depu
     capitale: 'Santiago de los Caballeros de Guatemala (Antigua Guatemala)',
     population_approx: '~800 000 habitants (1713, dont une grande majorité d\'Indiens)',
     economie: 'Indigo (añil), cacao, cochenille, bétail, missions dominicaines et franciscaines',
-    /* note: 'Le Chiapas (*Chiapa* sur la carte Jaillot) relève de l\'Audience de Guatemala et non de Mexico — contrairement à l\'intuition géographique. Soconusco (*Soco Nusco*) relève de l\'Audience de Mexico (exception). Honduras et Nicaragua ont chacun des gouverneurs distincts, subordonnés au Président de Guatemala. Séquence confirmée : Wikipedia ES (Anexo:Gobernantes de la Capitanía General de Guatemala).', */
+    /* note: 'Le Chiapas (<em>Chiapa</em>) relève de l\'Audience de Guatemala et non de Mexico — contrairement à l\'intuition géographique. Soconusco (<em>Soco Nusco</em>) relève de l\'Audience de Mexico (exception). Honduras et Nicaragua ont chacun des gouverneurs distincts, subordonnés au Président de Guatemala. Séquence confirmée : Wikipedia ES (Anexo:Gobernantes de la Capitanía General de Guatemala).', */
   },
 
   {
@@ -1029,11 +1195,11 @@ Panama dépend du vice-roi de Lima, non de Mexico. Le Président-Gouverneur de P
     },
 
     contexte: {
-      1712: `Le Darién est l'un des territoires les plus dangereux et les moins contrôlés de l'empire espagnol. Coincé entre la province de Panama à l'ouest et la Nouvelle-Grenade à l'est, l'isthme oriental est en pratique dominé par les Indiens **Kunas** (Cuna), qui ont repoussé toutes les tentatives de colonisation espagnole depuis le XVIe siècle et maintiennent une résistance armée permanente contre les présides coloniaux.
+      1712: `Le Darién est l'un des territoires les plus dangereux et les moins contrôlés de l'empire espagnol. Coincé entre la province de Panama à l'ouest et la Nouvelle-Grenade à l'est, l'isthme oriental est en pratique dominé par les Indiens <strong>Kunas</strong> (Cuna), qui ont repoussé toutes les tentatives de colonisation espagnole depuis le XVIe siècle et maintiennent une résistance armée permanente contre les présides coloniaux.
 
-La carte Jaillot de 1708 mentionne encore "Nouvelle Calédonie" et le port de "New Edinburgh" — traces de la catastrophique **expédition du Darién** (1698–1700), par laquelle la Compagnie écossaise tenta d'établir une colonie commerciale entre les deux océans. Les deux tentatives successives (1698 et 1699) se soldèrent par des milliers de morts de maladie et d'épuisement, et par une attaque espagnole finale en 1700. En 1712, il ne reste absolument rien de la colonie écossaise — les noms sur la carte sont anachroniques, figés au moment de la gravure.
+La carte Jaillot de 1708 mentionne encore "Nouvelle Calédonie" et le port de "New Edinburgh" — traces de la catastrophique <strong>expédition du Darién</strong> (1698–1700), par laquelle la Compagnie écossaise tenta d'établir une colonie commerciale entre les deux océans. Les deux tentatives successives (1698 et 1699) se soldèrent par des milliers de morts de maladie et d'épuisement, et par une attaque espagnole finale en 1700. En 1712, il ne reste absolument rien de la colonie écossaise — les noms sur la carte sont anachroniques, figés au moment de la gravure.
 
-L'échec de l'expédition du Darién ruina la Compagnie d'Écosse et contribua directement à l'**Acte d'Union de 1707**, qui fusionna l'Écosse et l'Angleterre en Grande-Bretagne. Pour les personnages de jeu, les ruines de New Edinburgh existent peut-être encore dans la jungle, et le souvenir est récent.`,
+L'échec de l'expédition du Darién ruina la Compagnie d'Écosse et contribua directement à l'<strong>Acte d'Union de 1707</strong>, qui fusionna l'Écosse et l'Angleterre en Grande-Bretagne. Pour les personnages de jeu, les ruines de New Edinburgh existent peut-être encore dans la jungle, et le souvenir est récent.`,
     },
 
     zone: [],
@@ -1083,8 +1249,8 @@ L'échec de l'expédition du Darién ruina la Compagnie d'Écosse et contribua d
     contexte: {
       1712: `Le Nouveau Royaume de Grenade est administré par le Président-Gouverneur de la Real Audiencia de Santafé (Bogotá), relevant nominalement du vice-roi de Lima mais autonome en pratique. Le territoire, désigné "Nouvelle Grenade et Castilla del Oro" sur la carte, couvre un espace immense : les plaines de la côte caraïbe (provinces de Carthagène et Santa Marta), la cordillère andine jusqu'à Quito, et les Llanos orientaux jusqu'à l'Orénoque. Ses richesses sont l'or d'Antioquia et du Choco, le platine (alors peu connu), et les émeraudes de Muzo.
 
-En 1715, éclate un événement sans précédent dans l'histoire coloniale espagnole : les *oidores* (juges) de l'Audiencia renversent et font arrêter leur propre président, Francisco de Meneses, qu'ils jugent corrompu et tyrannique. Ils l'envoient prisonnier au château de Bocachica à Carthagène. Ce "coup d'État judiciaire" déclenche une crise institutionnelle qui parvient jusqu'à Madrid — et convainc la Couronne que la Nouvelle-Grenade nécessite une autorité plus forte.`,
-      1717: `La réponse de Madrid est radicale : par la Real Cédula du 27 mars 1717, Philippe V crée le **Vice-royauté de Nouvelle-Grenade** — la troisième d'Amérique — avec Santafé pour capitale. C'est la première des grandes Réformes Bourboniennes en Amérique. Un premier représentant provisoire, Pedrosa y Guerrero, arrive à Santafé en juillet 1718 et proclame le virreinato. Le premier vice-roi officiel, Jorge de Villalonga, n'arrive qu'en novembre 1719. La vice-royauté est supprimée dès 1723 — jugée trop coûteuse — et ne sera rétablie définitivement qu'en 1739.`,
+En 1715, éclate un événement sans précédent dans l'histoire coloniale espagnole : les <em>oidores</em> (juges) de l'Audiencia renversent et font arrêter leur propre président, Francisco de Meneses, qu'ils jugent corrompu et tyrannique. Ils l'envoient prisonnier au château de Bocachica à Carthagène. Ce "coup d'État judiciaire" déclenche une crise institutionnelle qui parvient jusqu'à Madrid — et convainc la Couronne que la Nouvelle-Grenade nécessite une autorité plus forte.`,
+      1717: `La réponse de Madrid est radicale : par la Real Cédula du 27 mars 1717, Philippe V crée le <strong>Vice-royauté de Nouvelle-Grenade</strong> — la troisième d'Amérique — avec Santafé pour capitale. C'est la première des grandes Réformes Bourboniennes en Amérique. Un premier représentant provisoire, Pedrosa y Guerrero, arrive à Santafé en juillet 1718 et proclame le virreinato. Le premier vice-roi officiel, Jorge de Villalonga, n'arrive qu'en novembre 1719. La vice-royauté est supprimée dès 1723 — jugée trop coûteuse — et ne sera rétablie définitivement qu'en 1739.`,
     },
 
     zone: [],
@@ -1139,6 +1305,86 @@ Le gouverneur Cañas y Merino (1711–1714) est une figure de l'arbitraire colon
     population_approx: '~60 000 habitants (1713, province entière)',
     economie: 'Cacao (exportation illicite vers Curaçao et les Antilles anglaises), indigo, bétail',
     /* note: `La province de Venezuela dépend de l'Audiencia de Santo Domingo (judiciaire) et nominalement du vice-roi de Nouvelle-Grenade à partir de 1717 (militaire) — mais en pratique les gouverneurs rapportent directement à Madrid via le Conseil des Indes. À ne pas confondre avec la Capitainerie générale du Venezuela, créée en 1777 seulement. Bertodano : même personnage que le gouverneur de Cumaná (1706–1711) puis gouverneur de Porto Rico (1716–1720) — trajectoire confirmée par la Real Academia de la Historia (DBE). Sources : Venciclopedia, BiblioFEP (Fundación Empresas Polar), Censo-Guía AGI.`, */
+  },
+
+  {
+    id: 'tortuga-venezolana',
+    nom: 'Isla La Tortuga (Tortuga vénézuélienne)',
+
+    puissance: {
+      1712: 'conteste',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Aucune autorité permanente]',
+        pnj_id: null,
+        titre: 'Nominalement espagnole — fréquentation anglo-américaine saisonnière',
+      },
+    },
+
+    contexte: {
+      1712: `Île plate et aride de 156 km², sans eau douce permanente, à 87 km au nord de la côte vénézuélienne et 120 km à l'ouest de Margarita. La carte Jaillot de 1708 la désigne "Aux Anglois" — formulation qui traduit une réalité de fréquentation plutôt que de souveraineté : l'île est nominalement espagnole depuis 1638, date à laquelle le gouverneur de Cumaná Benito Arias Montano en chassa les Hollandais et détruisit leurs installations salicoles. Depuis lors, elle est officiellement vide.
+
+En pratique, La Tortuga est le théâtre d'une institution maritime annuelle bien documentée : la <em>Flota de Satertuda</em> (corruption anglaise de "La Tortuga"), flotte saisonnière de petits navires anglo-américains — principalement de Nouvelle-Angleterre, des Bermudes et des Antilles britanniques — qui viennent extraire le sel de ses salines naturelles sur la côte sud-est. Ce sel, d'une qualité médiocre (grossier, rougeâtre, entièrement dépendant du soleil tropical), est néanmoins indispensable aux économies sucrières des Antilles britanniques pour la conservation des aliments. Les archéologues ont retrouvé sur le site de Punta Salinas les traces matérielles de ces camps saisonniers : céramiques anglaises, hollandaises et bermoudiennes, structures légères, restes de repas.
+
+Les Espagnols tolèrent cette fréquentation avec irritation mais sans les moyens de l'empêcher. Le gouverneur de Cumaná en rend compte régulièrement à Madrid sans recevoir les renforts nécessaires pour établir une présence permanente.`,
+    },
+
+    zone: [],
+
+    capitale: 'Aucune — île sans établissement permanent',
+    population_approx: 'Nulle en permanence ; plusieurs centaines de marins saisonniers lors des récoltes de sel',
+    economie: 'Sel (exploitation anglo-américaine saisonnière), pêche à la tortue',
+    /* note: `✅ Établi : exploitation salicole hollandaise 1624–1638 ; expulsion par le gouverneur de Cumaná en 1638 ; fréquentation anglo-américaine 1638–1781 documentée archéologiquement (Antczak & Antczak, <em>Islands of Salt</em>, 2019 ; <em>Risky Business</em>, Taylor & Francis, 2015).
+✅ Établi : la mention "Aux Anglois" sur la carte Jaillot reflète cette fréquentation saisonnière établie, non une souveraineté.
+À ne pas confondre avec : l'île de la Tortue haïtienne (<em>Île de la Tortue*</em>, au nord d'Hispaniola), ancienne base flibustière française — deux îles distinctes portant le même nom.
+Ce bloc est un complément au bloc \`nouvelle-andalousie\` — La Tortuga relève nominalement de la province de Cumaná.`, */
+  },
+
+  {
+    id: 'margarita',
+    nom: 'Île Margarita (Provincia de Margarita)',
+
+    puissance: {
+      1712: 'espagnole',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Gouverneur — non identifié avec certitude]',
+        pnj_id: null,
+        titre: 'Gouverneur et Capitaine général de Margarita',
+        // Source primaire de référence : AGI Santo Domingo, 614
+        // (lettre du gouverneur, 5 oct. 1700) et legajos suivants.
+        // Liste complète des 34 gouverneurs titrés (1594–1810) non
+        // accessible en ligne pour cette période précise.
+      },
+    },
+
+    contexte: {
+      1712: `La Provincia de Margarita est en 1712 l'une des plus anciennes unités administratives de l'empire espagnol en Amérique : érigée en gobernación dès 1525, elle fut la première province organisée du Venezuela actuel. L'île doit son nom et sa première fortune aux pêcheries de perles qui firent sa gloire au XVIe siècle — <em>margarita</em>, en latin, signifie perle. Ces gisements sont épuisés depuis le début du XVIIe siècle, laissant l'île dans un relatif dénuement dont elle ne s'est jamais tout à fait remise.
+
+<strong>Géographie et position stratégique.</strong> Margarita est une île double — deux masses terrestres reliées par un isthme étroit, la péninsule de Macanao à l'ouest et le corps principal à l'est — d'environ 1 000 km² au total. Elle est séparée de la côte vénézuélienne (Cumaná) par le canal de Bocas, large d'une vingtaine de kilomètres. Sa position en fait un point de passage incontournable pour tout navire naviguant entre Trinidad, les Petites Antilles et les côtes de la Terre Ferme espagnole. Le port de Pampatar, sur la côte sud-est, est le principal point d'entrée maritime.
+
+<strong>Administration.</strong> Margarita est une province à part entière, avec son propre Gouverneur et Capitaine général nommé par la Couronne — distincte de la Provincia de Nueva Andalucía (Cumaná) sur le continent. Elle dépend de la Real Audiencia de Santo Domingo jusqu'en 1739. La capitale administrative est <strong>La Asunción</strong>, petite ville de l'intérieur ; Pampatar et Porlamar sont les centres commerciaux côtiers. En 1712, l'île compte une population d'environ 8 000 à 10 000 habitants — Espagnols créoles, métis, libres de couleur et esclaves — dont une part significative vit de la pêche, du petit commerce et de l'élevage caprin.
+
+<strong>Économie et piraterie.</strong> Faute de perles, Margarita tire ses ressources de l'élevage (bovins, caprins), de la pêche côtière, et d'un commerce de demi-contrebande avec les navires étrangers qui longent la côte. Sa proximité avec les routes du commerce intercolonial — et son isolement relatif par rapport aux garnisons continentales — en fait depuis le XVIe siècle une cible récurrente pour les corsaires et pirates : les Français l'ont pillée en 1576, 1593 et 1677. Cette vulnérabilité chronique explique les fortifications modestes de Pampatar et le recours fréquent à des milices locales peu équipées. En 1712–1720, le fort de Pampatar (<em>Castillo de San Carlos de Borromeo</em>) est la seule défense organisée de l'île.
+
+<strong>Île de Coche et îlots dépendants.</strong> L'île de Coche, au sud de Margarita (environ 55 km²), et l'îlot de Cubagua — berceau des pêcheries de perles, aujourd'hui déserté — relèvent de la même gouvernance. Cubagua, première ville espagnole des Amériques (Nueva Cádiz, fondée vers 1500, abandonnée vers 1543), est en ruines en 1712 mais son nom reste sur les cartes.`,
+    },
+
+    zone: [],
+
+    capitale: 'La Asunción (administrative) ; Pampatar (maritime)',
+    population_approx: '~8 000 à 10 000 habitants (1712, estimation — recensement de 1757 : 10 064 habitants)',
+    economie: 'Élevage (bovins, caprins), pêche côtière, commerce intercolonial (légal et interlope), ancienne pêcherie de perles (épuisée)',
+    /* note: `⚠️ Incertain : nom du gouverneur pour 1712–1720. Les sources en ligne ne fournissent pas de liste nominative des gouverneurs de Margarita pour le début du XVIIIe siècle. Manuel Taibo (<em>La Provincia de Margarita 1525–1819</em>) mentionne 34 gouverneurs titrés entre 1594 et 1810 mais sans dates individuelles accessibles en ligne. Source primaire de référence : AGI Santo Domingo, legajos 614 et suivants. À compléter en bibliothèque spécialisée ou via le Catálogo de Pasajeros de Indias (AGI).
+✅ Établi : statut de province distincte de Nueva Andalucía, dépendant de la Real Audiencia de Santo Domingo jusqu'en 1739 (Wikipedia ES, Provincia de Margarita).
+✅ Établi : population de 10 064 habitants au recensement de 1757 (Viajeros del Tiempo, citant le Vecindario de 1757 ordonné par le gouverneur Alonso del Río y Castro).
+✅ Établi : fort de Pampatar (Castillo San Carlos de Borromeo) — fortification côtière existante en 1712.
+✅ Établi : épuisement des pêcheries de perles au début du XVIIe siècle.
+🎲 Note de campagne : Margarita est un nœud de passage entre l'est des Caraïbes et la Terre Ferme. Tout navire reliant Trinidad ou les Petites Antilles à Carthagène ou Portobelo passe à portée de ses côtes. Le gouverneur local, isolé et peu soutenu par le continent, est structurellement porté à fermer les yeux sur un commerce interlope qui fait vivre l'île.`, */
   },
 
   {
@@ -1468,8 +1714,8 @@ Le Gaoulé de 1717 — le soulèvement des petits blancs martiniquais contre le 
 
   // ── SAINT-VINCENT ────────────────────────────────────────
   {
-    id: 'saint-vincent',
-    nom: 'Saint-Vincent',
+    id: 'saint-vincent-dominique',
+    nom: 'Saint-Vincent et Bequia',
 
     puissance: {
       1712: 'conteste',
@@ -1715,15 +1961,15 @@ Brimstone Hill, la forteresse volcanique qui domine l'île, est le point défens
     contexte: {
       1712: `Les Leeward Islands britanniques forment une colonie fédérée depuis 1671, administrée par un gouverneur général résidant à Antigua. Chaque île a un conseil local et un commandant ou lieutenant-gouverneur, mais sans législature autonome pour la période.
 
-**Antigua** est le siège du gouvernement général et la plus prospère des îles du groupe. English Harbour, sur la côte sud, est la base navale principale de la Couronne dans les Petites Antilles — point de carénage et d'approvisionnement pour les frégates de la Royal Navy. La ville de Saint-John's est la capitale administrative. L'île produit du sucre en quantité croissante, exploité par une main-d'œuvre servile nombreuse. C'est ici que le gouverneur Daniel Parke a été lynché en décembre 1710 — événement encore frais dans les mémoires en 1712 — et que son successeur Douglas a monnayé le pardon royal des assassins.
+<strong>Antigua</strong> est le siège du gouvernement général et la plus prospère des îles du groupe. English Harbour, sur la côte sud, est la base navale principale de la Couronne dans les Petites Antilles — point de carénage et d'approvisionnement pour les frégates de la Royal Navy. La ville de Saint-John's est la capitale administrative. L'île produit du sucre en quantité croissante, exploité par une main-d'œuvre servile nombreuse. C'est ici que le gouverneur Daniel Parke a été lynché en décembre 1710 — événement encore frais dans les mémoires en 1712 — et que son successeur Douglas a monnayé le pardon royal des assassins.
 
-**Nevis** était au XVIIe siècle la plus riche des îles du groupe, siège de facto du premier gouverneur général Stapleton qui y avait épousé et s'y était installé. Elle a depuis été dépassée par Antigua mais reste une île sucrière productive, avec Charlestown pour capitale.
+<strong>Nevis</strong> était au XVIIe siècle la plus riche des îles du groupe, siège de facto du premier gouverneur général Stapleton qui y avait épousé et s'y était installé. Elle a depuis été dépassée par Antigua mais reste une île sucrière productive, avec Charlestown pour capitale.
 
-**Montserrat** est une île plus modeste, à dominante irlandaise catholique — de nombreux colons irlandais y ont trouvé refuge depuis la Barbade au XVIIe siècle. La langue et les traditions irlandaises y sont encore vivaces. Plymouth est la seule ville notable. L'île a subi plusieurs raids français pendant la guerre de Succession (1710, 1711, 1712), tous repoussés.
+<strong>Montserrat</strong> est une île plus modeste, à dominante irlandaise catholique — de nombreux colons irlandais y ont trouvé refuge depuis la Barbade au XVIIe siècle. La langue et les traditions irlandaises y sont encore vivaces. Plymouth est la seule ville notable. L'île a subi plusieurs raids français pendant la guerre de Succession (1710, 1711, 1712), tous repoussés.
 
-**Anguilla** est une île quasi-abandonnée par les autorités coloniales : plate, aride, sans sucre, sans garnison, sans réelle administration. Elle survive grâce à la pêche, l'élevage de sel et la contrebande avec les îles voisines françaises et hollandaises. En juin 1720, le gouverneur Hamilton rapporte que plusieurs grands planteurs anguillais ont simplement quitté l'île pour Antigua, faute de perspective.
+<strong>Anguilla</strong> est une île quasi-abandonnée par les autorités coloniales : plate, aride, sans sucre, sans garnison, sans réelle administration. Elle survive grâce à la pêche, l'élevage de sel et la contrebande avec les îles voisines françaises et hollandaises. En juin 1720, le gouverneur Hamilton rapporte que plusieurs grands planteurs anguillais ont simplement quitté l'île pour Antigua, faute de perspective.
 
-**Barbuda** est une dépendance d'Antigua, essentiellement réservée comme réserve naturelle et d'approvisionnement pour les Codrington — la grande famille de planteurs qui la détient à bail de la Couronne depuis 1685. Elle est peu peuplée et sans administration distincte.`,
+<strong>Barbuda</strong> est une dépendance d'Antigua, essentiellement réservée comme réserve naturelle et d'approvisionnement pour les Codrington — la grande famille de planteurs qui la détient à bail de la Couronne depuis 1685. Elle est peu peuplée et sans administration distincte.`,
     },
 
     zone: [],
@@ -2033,7 +2279,49 @@ Port Royal, sur la côte sud de Roatan, est la baie la plus fréquentée — Hen
     capitale: '[Aucune — Port Royal est un mouillage, pas une ville]',
     population_approx: 'Quelques dizaines de bûcherons et flibustiers de passage',
     economie: 'Bois de campêche (logwood), refuge pirate, approvisionnement en eau douce',
-    /* note: '✅ Histoire de la colonisation anglaise et expulsion espagnole (1650) : établi (Wikipedia EN Bay Islands Department, Britannica). ✅ Fréquentation informelle par bûcherons anglais de Belize : établi. ✅ Port Royal comme mouillage historique : établi (Roatan.day, Coconut Tree Divers). ⚠️ Situation précise en 1712 : pas de sources primaires directes — "quelques bûcherons et flibustiers de passage" est inféré de la continuité documentée avant et après cette date. ⚠️ La mention du Honduras dans le bloc honduras du fichier (note "Porte del Negra" / renvoi vers iles-de-la-baie) devra être mise à jour pour pointer vers ce bloc.', */
+    note: `Les Îles de la Baie (Roatan, Utila, Guanaja et îles adjacentes) sont nominalement espagnoles mais sans garnison permanente en 1712. Les Anglais y maintiennent une présence informelle de coupeurs de bois depuis les années 1640 ; les Indiens Misquitos, alliés aux Britanniques, y circulent librement.
+<br>
+Îles et bancs associés à mentionner dans cette zone :
+<br>
+— Serrana et Serranilla : deux bancs coralliens quasi-inhabités au centre de la mer des Caraïbes, entre la Jamaïque et le Nicaragua. Nominalement espagnols, sans présence permanente. Points de pêche à la tortue et mouillages de fortune pour les navires pirates et les boucaniers.
+<br>
+— Swan Islands (St Millan sur la carte) : deux petits îlots au nord-ouest des Îles de la Baie. Même statut — espagnol nominal, fréquentés par les boucaniers anglais pour l'eau douce et les tortues. La localisation sur la carte est approximative ; la zone est mal connue des cartographes de l'époque.`,
+  },
+  /* note: 'Sources : Marcus (1975), <em>The Evolution of the Caribbean Settlement Patterns</em> ; Olien (1983), <em>The Miskito Kings and the Line of Succession</em>. ✅ Histoire de la colonisation anglaise et expulsion espagnole (1650) : établi (Wikipedia EN Bay Islands Department, Britannica). ✅ Fréquentation informelle par bûcherons anglais de Belize : établi. ✅ Port Royal comme mouillage historique : établi (Roatan.day, Coconut Tree Divers). ⚠️ Situation précise en 1712 : pas de sources primaires directes — "quelques bûcherons et flibustiers de passage" est inféré de la continuité documentée avant et après cette date.`, */
+
+  {
+    id: 'providence',
+    nom: 'Providence (Old Providence) & San Andrés',
+
+    puissance: {
+      1712: 'espagnole',
+    },
+
+    gouverneur: {
+      1712: {
+        nom: '[Aucune garnison permanente]',
+        pnj_id: null,
+        titre: 'Nominalement sous la Capitainerie générale du Guatemala',
+      },
+    },
+
+    contexte: {
+      1712: `Old Providence — <em>Isla de Providencia</em> — est une île volcanique de 18 km², entourée d'un massif récif corallien qui en rend l'approche difficile à qui n'en connaît pas les passes. Sa voisine Santa Catalina, séparée par un bras de mer étroit artificiellement creusé par les premiers colons anglais entre 1635 et 1641, forme avec elle un ensemble naturellement défendable.
+
+L'histoire de Providence est celle d'un double échec colonial et d'une mémoire pirate tenace. En 1629, la Providence Island Company — un consortium de Puritains anglais — y fonde une colonie qui se rêve en modèle godly mais glisse rapidement vers la course : les colons arment des corsaires contre les galions espagnols depuis ce poste idéalement placé "à la gueule de l'empire espagnol" en Amérique centrale. Les Espagnols reprennent l'île par la force en 1641, massacrant ou dispersant les colons. Henry Morgan l'utilise comme base d'opérations dans les années 1660 pour ses raids sur Panama et le littoral espagnol. Les Espagnols reprennent définitivement l'île en 1670.
+
+En 1712, Providence est nominalement espagnole mais sans garnison permanente. Ses ruines anglaises — forts, jetées, vestiges de New Westminster — sont encore debout, et ses passes connues des seuls initiés en font un refuge discret pour les navires qui cherchent à éviter les routes surveillées. San Andrés, voisine au sud-ouest, est dans la même situation : revendiquée par l'Espagne, fréquentée par les Anglais, sans présence permanente d'aucune puissance.`,
+    },
+
+    zone: [],
+
+    capitale: 'Aucune — île sans administration permanente',
+    population_approx: 'Quasi-nulle (quelques pêcheurs saisonniers, équipages en escale)',
+    economie: 'Pêche à la tortue, eau douce (ressource rare dans les Caraïbes), mouillage discret',
+    /* note: `✅ Établi : colonie anglaise 1629–1641 (Providence Island Company, Karen Ordahl Kupperman, 1993) ; prise espagnole 1641 et 1670 ; usage par Henry Morgan comme base dans les années 1660 (documenté).
+✅ Établi : sans garnison espagnole permanente en 1712 — les Espagnols revendiquent la souveraineté sans l'exercer.
+🎲 Fiction de campagne : les ruines de New Westminster et les forts de Santa Catalina comme décor utilisable. La connaissance des passes coralliennes comme avantage tactique pour les pirates.
+Rattachement administratif nominal : Capitainerie générale du Guatemala. San Andrés inclus dans ce bloc — même statut, même histoire.`, */
   },
 
   // ── À COMPLÉTER ──────────────────────────────────────────

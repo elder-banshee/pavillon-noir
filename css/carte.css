@@ -125,6 +125,11 @@ main {
   display: none;
 }
 
+path.leaflet-interactive:focus,
+path.leaflet-interactive:focus-visible {
+  outline: none;
+}
+
 /* ─── Infobulles Leaflet ────────────────────────────────────── */
 .leaflet-tooltip.carte-tooltip {
   background: rgba(14,12,9,0.92);
