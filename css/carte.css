@@ -9,63 +9,6 @@ main {
   padding: 0;
 }
 
-/* ─── Curseur temporel — au-dessus de la carte ──────────────── */
-.carte-curseur {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.75rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.carte-curseur-valeur {
-  font-family: 'Cinzel', serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--gold-light);
-  letter-spacing: 0.1em;
-}
-
-.carte-curseur-input {
-  width: 180px;
-  appearance: none;
-  -webkit-appearance: none;
-  height: 2px;
-  background: var(--border);
-  outline: none;
-  cursor: pointer;
-}
-
-.carte-curseur-input::-webkit-slider-thumb {
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  background: var(--gold);
-  border: 2px solid var(--ink);
-  cursor: pointer;
-  border-radius: 50%;
-  transition: background 0.2s;
-}
-
-.carte-curseur-input::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
-  background: var(--gold);
-  border: 2px solid var(--ink);
-  cursor: pointer;
-  border-radius: 50%;
-  transition: background 0.2s;
-}
-
-.carte-curseur-input:hover::-webkit-slider-thumb {
-  background: var(--gold-light);
-}
-
-.carte-curseur-input:hover::-moz-range-thumb {
-  background: var(--gold-light);
-}
-
 /* ─── Enveloppe carte + crédit ─────────────────────────────── */
 .carte-corps {
   display: flex;
@@ -83,7 +26,7 @@ main {
   position: relative;
   width: 100%;
   /* ← pleine largeur, pas flex: 1 */
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -148,30 +91,6 @@ path.leaflet-interactive:focus-visible {
 
 .leaflet-tooltip.carte-tooltip::before {
   border-top-color: var(--border);
-}
-
-/* ─── Crédit carte ──────────────────────────────────────────── */
-.carte-credit {
-  max-width: 1400px;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0 auto;
-  text-align: right;
-  padding: 0.3rem 0.5rem;
-  font-family: 'Crimson Text', serif;
-  font-size: 0.7rem;
-  color: var(--mist);
-  opacity: 0.6;
-}
-
-.carte-credit a {
-  color: var(--mist);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.carte-credit a:hover {
-  color: var(--gold);
 }
 
 /* ─── Zones territoriales ───────────────────────────────────── */
@@ -563,11 +482,237 @@ mask-image: linear-gradient(
   padding-left: 0.75rem;
 }
 
-/* ─── Responsive — panneau masqué sur mobile ────────────────── */
-@media (max-width: 900px) {
+/* ─── Barre de contrôles (sous carte-wrap) ──────────────────── */
+.carte-barre {
+  max-width: 1200px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0.5rem;
+  border-top: 1px solid var(--border);
+}
 
+.carte-barre-gauche {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* ─── Boutons overlay ────────────────────────────────────────── */
+.carte-overlay-btns {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.carte-overlay-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--mist);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.carte-overlay-btn:hover:not(.disabled) {
+  color: var(--parchment);
+  filter: brightness(1.2);
+}
+
+.carte-overlay-btn.active {
+  color: var(--ink);
+  border-color: transparent;
+}
+
+.carte-overlay-btn.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Couleurs de fond distinctives par mode */
+.carte-overlay-btn--geo.active         { background: var(--sea-light); }
+.carte-overlay-btn--densite.active     { background: #4a8c5c; }
+.carte-overlay-btn--colons.active      { background: var(--rust); }
+.carte-overlay-btn--autochtones.active { background: #a05c38; }
+.carte-overlay-btn--masque.active      { background: var(--parchment2); }
+
+/* Hover coloré même sans .active */
+.carte-overlay-btn--geo:hover:not(.disabled)         { border-color: var(--sea-light); color: var(--sea-light); }
+.carte-overlay-btn--densite:hover:not(.disabled)     { border-color: #4a8c5c; color: #4a8c5c; }
+.carte-overlay-btn--colons:hover:not(.disabled)      { border-color: var(--rust); color: var(--rust); }
+.carte-overlay-btn--autochtones:hover:not(.disabled) { border-color: #a05c38; color: #a05c38; }
+.carte-overlay-btn--masque:hover:not(.disabled)      { border-color: var(--parchment2); color: var(--parchment2); }
+
+/* ─── Intitulé du mode actif ─────────────────────────────────── */
+.carte-overlay-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist-light);
+  min-width: 7.5rem; /* indexé sur "Colons / Esclaves" */
+  white-space: nowrap;
+}
+
+/* ─── Curseur temporel inline ────────────────────────────────── */
+.carte-curseur-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-left: 1px solid var(--border);
+  padding-left: 0.75rem;
+}
+
+.carte-annee-btn {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--mist);
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  padding: 0;
+  font-family: 'Cinzel', serif;
+}
+
+.carte-annee-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+.carte-curseur-valeur {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.1em;
+  min-width: 2.8rem;
+  text-align: center;
+}
+
+/* ─── Crédit carte ───────────────────────────────────────────── */
+.carte-credit {
+  text-align: right;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.7rem;
+  color: var(--mist);
+  opacity: 0.6;
+  flex: 1;
+}
+
+.carte-credit a {
+  color: var(--mist);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.carte-credit a:hover { color: var(--gold); }
+
+/* ─── Légende géopolitique rétractable ───────────────────────── */
+.carte-legende {
+  max-width: 1200px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+
+.carte-legende--visible {
+  max-height: 120px;
+  border-top: 1px solid var(--border);
+}
+
+.carte-legende-inner {
+  padding: 0.6rem 0.5rem;
+}
+
+/* ─── Cases à cocher puissances ──────────────────────────────── */
+.carte-puissances-liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;  /* ← ajouter */
+  width: 100%;                     /* ← ajouter */
+}
+
+.carte-puissance-check {
+  /* width: 125px; */
+  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mist-light);
+  transition: color 0.2s;
+  user-select: none;
+  padding: 0.2rem 0.5rem 0.2rem 0.35rem;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.carte-puissance-check:hover {
+  color: var(--parchment);
+  border-color: var(--border);
+}
+
+.carte-puissance-check input[type="checkbox"] {
+  display: none;
+}
+
+.carte-puissance-pastille {
+  width: 8px;
+  height: 8px;
+  border: 1px solid;
+  border-radius: 1px;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.carte-puissance-check.decochee {
+  opacity: 0.35;
+}
+
+/* ─── Suppression de l'ancien curseur et du bouton options ──── */
+.carte-curseur       { display: none; }
+.carte-options-btn   { display: none; }
+.carte-options-panneau { display: none; }
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
   .carte-panneau,
   .carte-panneau--open {
     display: none;
+  }
+  .carte-barre {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .carte-credit {
+    width: 100%;
+    text-align: left;
+    flex: none;
   }
 }

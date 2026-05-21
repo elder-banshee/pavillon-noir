@@ -39,37 +39,72 @@
 
   <main>
 
-    <!-- Curseur temporel -->
-    <div class="carte-curseur" id="carte-curseur">
-      <div class="carte-curseur-valeur" id="curseur-valeur">1716</div>
-      <input type="range" id="curseur-annee" class="carte-curseur-input" min="1712" max="1716" value="1716" step="1">
-    </div>
-
     <!-- Carte + panneau + crédit -->
     <div class="carte-corps">
 
       <div class="carte-plus">
-
         <div id="carte-wrap">
           <div id="carte"></div>
         </div>
-
         <aside class="carte-panneau" id="carte-panneau" aria-hidden="true">
-          <div class="carte-panneau-inner" id="carte-panneau-inner">
-            <!-- Rempli par carte.js -->
-          </div>
+          <div class="carte-panneau-inner" id="carte-panneau-inner"></div>
           <button class="carte-panneau-close" id="carte-panneau-close" aria-label="Fermer">✕</button>
         </aside>
-
-      </div><!-- fin .carte-plus -->
-
-      <div class="carte-credit" id="carte-credit">
-        Teatre de la Guerre en Amerique — Jaillot, Mortier &amp; Sanson, 1708.
-        <a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~370907~90107387" target="_blank"
-          rel="noopener">David Rumsey Map Collection</a>
       </div>
 
-    </div><!-- fin .carte-corps -->
+      <!-- Barre de contrôles + crédit — sous carte-wrap -->
+      <div class="carte-barre">
+
+        <!-- Gauche : boutons overlay + intitulé + curseur -->
+        <div class="carte-barre-gauche">
+
+          <!-- Boutons overlay -->
+          <div class="carte-overlay-btns" id="carte-overlay-btns">
+            <button class="carte-overlay-btn carte-overlay-btn--geo active" data-mode="geo" title="Géopolitique">
+              <span class="carte-overlay-btn-icon">⚑</span>
+            </button>
+            <button class="carte-overlay-btn carte-overlay-btn--densite" data-mode="densite" title="Densité de population">
+              <span class="carte-overlay-btn-icon">♟</span>
+            </button>
+            <button class="carte-overlay-btn carte-overlay-btn--colons" data-mode="colons" title="Colons / Esclaves">
+              <span class="carte-overlay-btn-icon">⛓</span>
+            </button>
+            <button class="carte-overlay-btn carte-overlay-btn--autochtones" data-mode="autochtones" title="Foyers autochtones">
+              <span class="carte-overlay-btn-icon">➶</span>
+            </button>
+            <button class="carte-overlay-btn carte-overlay-btn--masque" data-mode="masque" title="Carte originale">
+              <span class="carte-overlay-btn-icon">✕</span>
+            </button>
+          </div>
+
+          <!-- Intitulé du mode actif -->
+          <span class="carte-overlay-label" id="carte-overlay-label">Géopolitique</span>
+
+          <!-- Curseur temporel -->
+          <div class="carte-curseur-inline" id="carte-curseur-inline">
+            <button class="carte-annee-btn" id="curseur-prev" aria-label="Année précédente">−</button>
+            <span class="carte-curseur-valeur" id="curseur-valeur">1716</span>
+            <button class="carte-annee-btn" id="curseur-next" aria-label="Année suivante">+</button>
+          </div>
+
+        </div>
+
+        <!-- Droite : crédit carte -->
+        <div class="carte-credit" id="carte-credit">
+          Teatre de la Guerre en Amerique — Jaillot, Mortier &amp; Sanson, 1708.
+          <a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~370907~90107387" target="_blank" rel="noopener">David Rumsey Map Collection</a>
+        </div>
+
+      </div><!-- fin .carte-barre -->
+
+      <!-- Légende géopolitique (apparaît automatiquement en mode geo) -->
+      <div class="carte-legende" id="carte-legende" aria-hidden="true">
+        <div class="carte-legende-inner">
+          <div class="carte-puissances-liste" id="carte-puissances-liste">
+            <!-- Rempli par carte.js selon les puissances présentes à l'année active -->
+          </div>
+        </div>
+      </div>
 
   </main>
 

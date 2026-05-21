@@ -6,19 +6,34 @@
 // ─── État global ─────────────────────────────────────────────
 let carte = null;
 let anneeActive = CARTE_ANNEE_REFERENCE;
-let zoneActive = null;   // id juridiction ouverte
-let layersZones = {};     // { id: L.polygon }
-let markersMap = {};     // { pin.id: L.marker }
-let pinActive = null;   // id pin dont la popup est ouverte
+let zoneActive = null;
+let layersZones = {};
+let markersMap = {};
+let pinActive = null;
+
+// ─── Mode d'overlay ──────────────────────────────────────────
+// 'geo' | 'densite' | 'colons' | 'autochtones' | 'masque'
+let overlayMode = 'geo';
+
+// Puissances masquées (Set d'ids)
+let puissancesMasquees = new Set();
+
+// Intitulés des modes
+const OVERLAY_LABELS = {
+  geo: 'Géopolitique',
+  densite: 'Densité',
+  colons: 'Colons / Esclaves',
+  autochtones: 'Autochtones',
+  masque: 'Carte originale',
+};
 
 // ─── Initialisation ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initCarte();
-  initCurseur();
-  initPanneau();
-  initPopup();
+  initCurseurInline();
+  initOverlayBtns();
+  majLegende();
 });
-
 
 // ─── Carte Leaflet ───────────────────────────────────────────
 function initCarte() {
@@ -30,7 +45,7 @@ function initCarte() {
     crs: L.CRS.Simple,
     minZoom: -5,
     maxZoom: 2,
-    zoomSnap: 0.25,
+    zoomSnap: 0,
     zoomDelta: 0.5,
     maxBoundsViscosity: 1.0,
     attributionControl: false,
@@ -42,13 +57,11 @@ function initCarte() {
   renderZones();
   renderPins();
 
-  // Fermer popup au clic sur la carte (pas sur une zone ou un pin)
   carte.on('click', () => {
     fermerPopup();
     fermerPanneau();
   });
 
-  // Laisser le DOM se stabiliser avant de calculer le zoom
   setTimeout(() => {
     carte.invalidateSize();
     carte.fitBounds(bounds, { padding: [0, 0] });
@@ -56,7 +69,6 @@ function initCarte() {
     carte.setMaxBounds(bounds);
   }, 100);
 
-  // Recalibrer au redimensionnement
   window.addEventListener('resize', () => {
     carte.invalidateSize();
     carte.fitBounds(bounds, { padding: [0, 0] });
@@ -81,15 +93,13 @@ function renderZones() {
     carte.removeLayer(g);
   });
   layersZones = {};
- 
-  // Calculer la surface de chaque juridiction depuis ZONES_DATA
-  // (somme des surfaces de tous ses contours, approximée par bounding box)
+
+  if (overlayMode === 'masque') return;
+
   function surfaceApprox(contours) {
     if (!contours || !contours.length) return 0;
-    // Prendre la surface du premier contour (contour principal)
     const pts = contours[0];
     if (pts.length < 3) return 0;
-    // Aire signée de Shoelace
     let a = 0;
     for (let i = 0; i < pts.length; i++) {
       const j = (i + 1) % pts.length;
@@ -98,48 +108,49 @@ function renderZones() {
     }
     return Math.abs(a / 2);
   }
- 
-  // Trier les juridictions par surface décroissante :
-  // les grandes zones sont rendues en premier (en dessous),
-  // les petites zones emboîtées par-dessus et captent les clics.
+
   const juridictionsTri = [...JURIDICTIONS].sort((a, b) => {
     const sa = surfaceApprox(ZONES_DATA?.[a.id] ?? (a.zone?.length >= 3 ? [a.zone] : null));
     const sb = surfaceApprox(ZONES_DATA?.[b.id] ?? (b.zone?.length >= 3 ? [b.zone] : null));
-    return sb - sa; // décroissant
+    return sb - sa;
   });
- 
+
   juridictionsTri.forEach(j => {
-    // Source : ZONES_DATA (zones-data.js) en priorité, j.zone en fallback
     const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
       ? ZONES_DATA[j.id]
       : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
- 
+
     if (!contours) return;
- 
+
     const puissanceId = resoudre(j.puissance, anneeActive);
-    const puissance   = PUISSANCES[puissanceId] || PUISSANCES.conteste;
-    const isActive    = zoneActive === j.id;
- 
+    const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
+    const isActive = zoneActive === j.id;
+
+    let couleur = puissance.couleur;
+    let masquee = false;
+
+    if (overlayMode === 'geo' && puissancesMasquees.has(puissanceId)) {
+      couleur = 'rgba(107,124,138,0.6)';
+      masquee = true;
+    }
+
     const style = {
-      color:       puissance.couleur,
-      weight:      isActive ? 2 : 1.5,
-      opacity:     0.8,
-      fillColor:   puissance.couleur,
-      fillOpacity: isActive ? 0.4 : 0.18,
-      fillRule:    'nonzero',
-      className:   'carte-zone' + (isActive ? ' carte-zone--active' : ''),
+      color: couleur,
+      weight: isActive ? 2 : 1.5,
+      opacity: masquee ? 0.4 : 0.8,
+      fillColor: couleur,
+      fillOpacity: isActive ? 0.45 : (masquee ? 0.08 : 0.28),
+      fillRule: 'nonzero',
+      className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
     };
- 
-    // Créer un polygone par contour
+
     const polygones = contours.map(pts => {
       const latlngs = pts.map(([x, y]) => pixelToLatLng(x, y));
       return L.polygon(latlngs, style);
     });
- 
-    // Regrouper dans un layerGroup
+
     const groupe = L.layerGroup(polygones);
- 
-    // Événements sur chaque polygone individuel
+
     polygones.forEach(poly => {
       poly.on('click', (e) => {
         L.DomEvent.stopPropagation(e);
@@ -149,15 +160,15 @@ function renderZones() {
           ouvrirPanneau(j.id);
         }
       });
- 
+
       poly.bindTooltip(j.nom, {
-        permanent:  false,
-        direction:  'top',
-        className:  'carte-tooltip',
-        opacity:    1,
+        permanent: false,
+        direction: 'top',
+        className: 'carte-tooltip',
+        opacity: 1,
       });
     });
- 
+
     groupe.addTo(carte);
     layersZones[j.id] = groupe;
   });
@@ -165,6 +176,11 @@ function renderZones() {
 
 // ─── Pins de scénarios ───────────────────────────────────────
 function renderPins() {
+  Object.values(markersMap).forEach(m => carte.removeLayer(m));
+  markersMap = {};
+
+  if (overlayMode === 'masque') return;
+
   CARTE_PINS.forEach(pin => {
     const [x, y] = pin.coords;
     const latlng = pixelToLatLng(x, y);
@@ -213,12 +229,147 @@ function pinSVG() {
   </svg>`;
 }
 
-// ─── Popup scénario ──────────────────────────────────────────
-function initPopup() {
-  // La fermeture se fait via le bouton ✕ ou le clic sur la carte
+// ─── Curseur temporel inline ──────────────────────────────────
+function initCurseurInline() {
+  const valeur = document.getElementById('curseur-valeur');
+  const prev = document.getElementById('curseur-prev');
+  const next = document.getElementById('curseur-next');
+  if (!valeur || !prev || !next) return;
+
+  const anneeMin = 1712;
+  const anneeMax = CARTE_ANNEE_REFERENCE;
+
+  function majAffichage() {
+    valeur.textContent = anneeActive;
+    prev.disabled = anneeActive <= anneeMin;
+    next.disabled = anneeActive >= anneeMax;
+  }
+
+  prev.addEventListener('click', () => {
+    if (anneeActive > anneeMin) {
+      anneeActive--;
+      majAffichage();
+      renderZones();
+      majLegende();
+      if (zoneActive) ouvrirPanneau(zoneActive);
+    }
+  });
+
+  next.addEventListener('click', () => {
+    if (anneeActive < anneeMax) {
+      anneeActive++;
+      majAffichage();
+      renderZones();
+      majLegende();
+      if (zoneActive) ouvrirPanneau(zoneActive);
+    }
+  });
+
+  majAffichage();
 }
 
-// Popup simple — un seul événement
+// ─── Boutons overlay ──────────────────────────────────────────
+function initOverlayBtns() {
+  const btns = document.querySelectorAll('.carte-overlay-btn:not(.disabled)');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+      if (mode === overlayMode) return;
+      overlayMode = mode;
+
+      // Mettre à jour les boutons
+      document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Mettre à jour l'intitulé
+      const label = document.getElementById('carte-overlay-label');
+      if (label) label.textContent = OVERLAY_LABELS[mode] || '';
+
+      // Fermer popup et panneau en mode masqué
+      if (overlayMode === 'masque') {
+        fermerPopup();
+        fermerPanneau();
+      }
+
+      // Légende : visible seulement en mode geo
+      majLegende();
+
+      renderZones();
+      renderPins();
+    });
+  });
+}
+
+// ─── Légende géopolitique ─────────────────────────────────────
+function majLegende() {
+  const legende = document.getElementById('carte-legende');
+  const liste = document.getElementById('carte-puissances-liste');
+  if (!legende || !liste) return;
+
+  if (overlayMode !== 'geo') {
+    legende.classList.remove('carte-legende--visible');
+    legende.setAttribute('aria-hidden', 'true');
+    return;
+  }
+
+  // Collecter les puissances présentes à l'année active
+  const puissancesPresentes = new Map(); // id → puissance
+  JURIDICTIONS.forEach(j => {
+    const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
+      ? ZONES_DATA[j.id]
+      : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
+    if (!contours) return;
+
+    const puissanceId = resoudre(j.puissance, anneeActive);
+    if (puissanceId && PUISSANCES[puissanceId] && !puissancesPresentes.has(puissanceId)) {
+      puissancesPresentes.set(puissanceId, PUISSANCES[puissanceId]);
+    }
+  });
+
+  // Reconstruire la liste
+  liste.innerHTML = '';
+  [...puissancesPresentes.entries()]
+    .sort((a, b) => (a[1].ordre ?? 99) - (b[1].ordre ?? 99))
+    .forEach(([id, p]) => {
+      const label = document.createElement('label');
+      label.className = 'carte-puissance-check' + (puissancesMasquees.has(id) ? ' decochee' : '');
+      label.dataset.puissance = id;
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = !puissancesMasquees.has(id);
+      input.dataset.puissance = id;
+
+      const pastille = document.createElement('span');
+      pastille.className = 'carte-puissance-pastille';
+      pastille.style.borderColor = p.couleur;
+      pastille.style.backgroundColor = p.couleur + '55';
+
+      const texte = document.createTextNode(p.labelCourt || p.label);
+
+      label.appendChild(input);
+      label.appendChild(pastille);
+      label.appendChild(texte);
+
+      input.addEventListener('change', () => {
+        if (input.checked) {
+          puissancesMasquees.delete(id);
+          label.classList.remove('decochee');
+        } else {
+          puissancesMasquees.add(id);
+          label.classList.add('decochee');
+        }
+        renderZones();
+      });
+
+      liste.appendChild(label);
+    });
+
+  legende.classList.add('carte-legende--visible');
+  legende.setAttribute('aria-hidden', 'false');
+}
+
+// ─── Popup scénario ──────────────────────────────────────────
 function ouvrirPopup(pin) {
   const chronique = typeof CHRONIQUES !== 'undefined'
     ? CHRONIQUES.find(c => c.id === pin.chronique_id)
@@ -238,7 +389,6 @@ function ouvrirPopup(pin) {
   afficherPopup();
 }
 
-// Popup groupée — plusieurs événements au même endroit
 function ouvrirPopupGroupe(pin) {
   const blocsHtml = pin.groupe.map((evt, i) => {
     const chronique = typeof CHRONIQUES !== 'undefined'
@@ -276,10 +426,11 @@ function fermerPopup() {
   pinActive = null;
 }
 
-// ─── Panneau latéral ─────────────────────────────────────────
-function initPanneau() {
-  document.getElementById('carte-panneau-close').addEventListener('click', fermerPanneau);
-}
+// ─── Panneau latéral info ─────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.getElementById('carte-panneau-close');
+  if (closeBtn) closeBtn.addEventListener('click', fermerPanneau);
+});
 
 function ouvrirPanneau(juridictionId) {
   const j = JURIDICTIONS.find(j => j.id === juridictionId);
@@ -295,7 +446,6 @@ function ouvrirPanneau(juridictionId) {
   const gouverneur = resoudre(j.gouverneur, anneeActive);
   const contexte = resoudre(j.contexte, anneeActive);
 
-  // Portrait depuis pnj-data.js
   let portraitHtml = `<div class="panneau-gouverneur-portrait-placeholder">☠</div>`;
   if (gouverneur && gouverneur.pnj_id && typeof PNJ_DATA !== 'undefined') {
     const pnj = PNJ_DATA.find(p => p.id === gouverneur.pnj_id);
@@ -371,29 +521,12 @@ function fermerPanneau() {
 function majZone(juridictionId) {
   const groupe = layersZones[juridictionId];
   if (!groupe) return;
- 
+
   const isActive = zoneActive === juridictionId;
   const style = {
-    fillOpacity: isActive ? 0.4 : 0.18,
-    weight:      isActive ? 2   : 1.5,
+    fillOpacity: isActive ? 0.45 : 0.28,
+    weight: isActive ? 2 : 1.5,
   };
- 
+
   groupe.eachLayer(poly => poly.setStyle(style));
-}
-
-// ─── Curseur temporel ────────────────────────────────────────
-function initCurseur() {
-  const curseur = document.getElementById('curseur-annee');
-  const valeur = document.getElementById('curseur-valeur');
-
-  curseur.max = CARTE_ANNEE_REFERENCE;
-  curseur.value = CARTE_ANNEE_REFERENCE;
-  anneeActive = CARTE_ANNEE_REFERENCE;
-
-  curseur.addEventListener('input', () => {
-    anneeActive = parseInt(curseur.value);
-    valeur.textContent = anneeActive;
-    renderZones();
-    if (zoneActive) ouvrirPanneau(zoneActive);
-  });
 }

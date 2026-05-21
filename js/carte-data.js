@@ -23,50 +23,73 @@ const CARTE_IMAGE = {
 // Définit les couleurs et blasons de chaque puissance.
 // ═══════════════════════════════════════════════════════════
 const PUISSANCES = {
-  britannique: {
-    label: 'Couronne britannique',
-    couleur: '#d13a1c',          // or — dans la palette du site
-    blason: 'pnj/pavillons/gb.svg',
-  },
-  espagnole: {
-    label: 'Couronne d\'Espagne',
-    couleur: '#c8b33a',          // rust
-    blason: 'pnj/pavillons/es.svg',
-  },
-  francaise: {
-    label: 'Royaume de France',
-    couleur: '#2b6f91',          // sea
-    blason: 'pnj/pavillons/fr_banniere.svg',
-  },
-  hollandaise: {
-    label: 'Provinces-Unies',
-    couleur: '#b36221',          // sea-light
-    blason: 'pnj/pavillons/nl.svg',
-  },
   "anarchie-pirate": {
     label: 'Anarchie Pirate',
+    labelCourt: 'Anarchie Pirate',
     couleur: '#5c5950',          // ink
     blason: 'pnj/pavillons/generic_red.svg',
+    ordre: 1,
   },
   pirate: {
     label: 'République Pirate',
+    labelCourt: 'République Pirate',
     couleur: '#000000',          // ink
     blason: 'pnj/pavillons/nassau.svg',
+    ordre: 1,
   },
-  conteste: {
-    label: 'Territoire contesté',
-    couleur: '#797979',          // mist
-    blason: 'pnj/pavillons/conteste.svg'
+  espagnole: {
+    label: 'Couronne d\'Espagne',
+    labelCourt: 'Espagne',
+    couleur: '#c8b33a',          // rust
+    blason: 'pnj/pavillons/es.svg',
+    ordre: 2,
+  },
+  britannique: {
+    label: 'Couronne britannique',
+    labelCourt: 'Grande-Bretagne',
+    couleur: '#d13a1c',          // or — dans la palette du site
+    blason: 'pnj/pavillons/gb.svg',
+    ordre: 3,
+  },
+  francaise: {
+    label: 'Royaume de France',
+    labelCourt: 'France',
+    couleur: '#2b6f91',          // sea
+    blason: 'pnj/pavillons/fr_banniere.svg',
+    ordre: 4,
+  },
+  hollandaise: {
+    label: 'Provinces-Unies',
+    labelCourt: 'Provinces-Unies',
+    couleur: '#b36221',          // sea-light
+    blason: 'pnj/pavillons/nl.svg',
+    ordre: 5,
   },
   danoise: {
     label: 'Danemark-Norvège',
+    labelCourt: 'Danemark-Norvège',
     couleur: '#0b6d18',
     blason: 'pnj/pavillons/dk.svg',
+    ordre: 6,
   },
-  miskito: {
-    label: 'Miskito',
-    couleur: '#18810e',
-    blason: 'pnj/pavillons/dk.svg',
+  amerindienne: {
+    label: 'Nations amérindiennes',
+    labelCourt: 'Miskito',
+    couleur: '#8b5e2a',             // ocre terracotta — distinct de toutes les puissances coloniales
+    blason: 'pnj/pavillons/amerindien.svg',
+    ordre: 7,
+    // Symbole commun à toutes les nations amérindiennes représentées sur la carte.
+    // Terminologie retenue : "Nations amérindiennes" — ni "tribus" (péjoratif),
+    // ni "autochtones" (trop générique), ni "Nations indiennes" (connotation XIXe, contexte
+    // nord-américain). Le SVG amerindien.svg est à créer : suggestion — plume stylisée
+    // ou motif géométrique sobre sur fond ocre, sans référence héraldique européenne.
+  },
+  conteste: {
+    label: 'Territoire contesté',
+    labelCourt: 'Contesté',
+    couleur: '#797979',          // mist
+    blason: 'pnj/pavillons/conteste.svg',
+    ordre: 8,
   },
 
 };
@@ -219,9 +242,15 @@ const JURIDICTIONS = [
     },
 
     contexte: {
-      1712: `Colonie française à peine viable, centrée sur Mobile (Ala.) et quelques postes dispersés le long du Mississippi. En 1712, Louis XIV cède à l'armateur Antoine Crozat un monopole commercial de quinze ans sur la Louisiane. Bienville, qui administre la colonie depuis 1702, cède en 1713 le gouvernorat à Cadillac — fondateur de Détroit — mais reste commandant militaire. La population blanche dépasse à peine 400 âmes. La colonie survit grâce aux alliances indiennes et au commerce des peaux.`,
-      1713: `Sous Cadillac (1713–1716), la Louisiane stagne. Le gouverneur se brouille avec les nations indiennes, notamment les Natchez, et échoue à rendre la colonie profitable. Crozat retire sa concession en 1717, épuisé par les pertes.`,
-      1717: `En 1717, le régent Philippe d'Orléans confie la Louisiane à la Compagnie d'Occident de John Law, bientôt rebaptisée Compagnie des Indes. Bienville retrouve les rênes sous le titre de commandant général. En 1718, il fonde La Nouvelle-Orléans sur un méandre du Mississippi, cent lieues de la mer. La "bulle du Mississippi" attire des milliers de colons européens, souvent contraints ou illusionnés.`,
+      1712: `Colonie française à peine viable, centrée sur Mobile (actuel Alabama) et quelques postes dispersés le long du Mississippi. La population blanche dépasse à peine 400 âmes ; la colonie survit grâce aux alliances avec les nations indiennes — Choctaws, Chickasaws, Illinois — et au commerce des peaux. En 1712, Louis XIV cède à l'armateur Antoine Crozat un monopole commercial de quinze ans : Crozat espère trouver des mines d'argent comparables à celles du Mexique. Bienville, qui administre la colonie depuis 1702, demeure commandant militaire sous l'autorité du nouveau gouverneur nommé par Crozat.`,
+
+      1713: `<strong>Antoine de Lamothe Cadillac</strong> arrive à Mobile en 1713 avec des instructions commerciales ambitieuses et une méconnaissance totale des réalités louisianaises. Fondateur de Détroit (1701), il est habitué aux postes frontière du Canada — mais la Louisiane n'est pas le Canada. Il se brouille rapidement avec Bienville, avec les nations indiennes (notamment les Natchez, qu'il humilie lors de négociations commerciales), et avec les missionnaires capucins. Ses tentatives d'ouvrir un commerce avec le Mexique espagnol par voie terrestre échouent. Crozat, qui perd de l'argent à chaque trimestre, commence à douter de son investissement.`,
+
+      1716: `Cadillac est rappelé en 1716, remplacé brièvement par Bienville comme commandant général. La colonie végète : environ 400 Blancs, quelques centaines d'esclaves indiens, et une économie qui ne décolle pas. Crozat, ayant perdu plus d'un million de livres en quatre ans, restitue sa concession à la Couronne en 1717. Son bilan : quelques postes ouverts sur le Mississippi, une colonie toujours aussi fragile, et une mésentente durable entre civils et militaires qui empoisonnera la Louisiane pendant une génération.`,
+
+      1717: `Jean-Michel de Lespinay assure brièvement le gouvernorat (1717–1718) pendant que Paris réorganise la colonie. En 1717, le régent Philippe d'Orléans confie la Louisiane à la <strong>Compagnie d'Occident</strong> de John Law, bientôt rebaptisée Compagnie des Indes. C'est une rupture radicale : plus de monopole personnel, mais une société par actions alimentée par la spéculation parisienne.`,
+
+      1718: `<strong>Bienville</strong> reprend les rênes comme commandant général de la Compagnie des Indes. En 1718, il fonde <strong>La Nouvelle-Orléans</strong> sur un méandre du Mississippi, à une centaine de lieues de la mer — emplacement stratégique entre le fleuve et le lac Pontchartrain, choisi contre l'avis de beaucoup. La "bulle du Mississippi" enfle à Paris : des milliers de colons sont recrutés, parfois de force (prisonniers, déportés, engagés trompés sur les conditions). Nombre d'entre eux mourront avant d'avoir vu le fleuve. La Nouvelle-Orléans en 1718 n'est qu'un chantier dans un marais — mais elle est déjà la capitale de fait d'une colonie qui commence à prendre forme.`,
     },
 
     zone: [],
@@ -310,7 +339,7 @@ const JURIDICTIONS = [
   },
 
 
-  // ── MODÈLE COMPLET — Nassau / Bahamas ────────────────────
+  // ── MODÈLE COMPLET — Nassau / New-Providence ────────────────────
   // Premier exemple avec changement de puissance en 1718.
   {
     id: 'new-providence',
@@ -533,7 +562,6 @@ Kingston est le vrai centre économique de l'île : ses quais voient transiter l
   ⚠️ Incertain : étendue exacte de la complicité d'Hamilton avec les pirates — les accusations sont bien documentées mais la condamnation formelle n'a pas eu lieu.`, */
   },
 
-  // ── MODÈLE MINIMAL — Saint-Domingue ─────────────────────
   {
     id: 'saint-domingue',
     nom: 'Saint-Domingue',
@@ -547,40 +575,78 @@ Kingston est le vrai centre économique de l'île : ses quais voient transiter l
         nom: "Paul-François de La Grange, comte d'Arquian",
         pnj_id: null,
         titre: 'Gouverneur général des Antilles françaises',
+        // Dernier titulaire du poste unique coiffant toutes les colonies françaises des Caraïbes.
+        // La division en deux gouvernements distincts (Saint-Domingue / Îles du Vent) intervient en 1714.
       },
       1713: {
         nom: 'Louis de Courbon, comte de Blénac',
         pnj_id: 'blenac',
         titre: 'Gouverneur général de Saint-Domingue',
-        // Note : jusqu'en 1714, ce titre couvre aussi les Îles du Vent
+        // En poste du 11 janvier 1713 au 11 janvier 1717.
+        // Jusqu'en 1714, son titre couvre nominalement toutes les Antilles françaises ;
+        // après la division de 1714, il reste gouverneur de Saint-Domingue seul.
+        // Fils du célèbre amiral Blénac, gouverneur des Antilles sous Louis XIV.
       },
       1717: {
         nom: 'Charles Joubert de La Bastide, marquis de Châteaumorand',
         pnj_id: null,
         titre: 'Gouverneur général de Saint-Domingue',
+        // En poste du 11 janvier 1717 au 10 juillet 1719.
       },
       1719: {
         nom: 'Léon, marquis de Sorel',
         pnj_id: null,
         titre: 'Gouverneur général de Saint-Domingue',
+        // En poste du 10 juillet 1719 au 6 décembre 1723.
       },
       1723: {
         nom: 'Gaspard de Goussé de La Roche-Allard',
         pnj_id: null,
         titre: 'Gouverneur général de Saint-Domingue',
+        // En poste du 6 décembre 1723 au 8 octobre 1731.
+        // Hors de la période principale de la campagne.
       },
     },
 
     contexte: {
-      1712: `La partie occidentale d'Hispaniola, cédée à la France par l'Espagne en 1697 (traité de Ryswick). Cap-Français en est la capitale et le principal port. Saint-Domingue est déjà la colonie sucrière la plus productive des Antilles françaises, alimentée par un trafic négrier massif. Sa prospérité repose sur une hiérarchie sociale rigide entre Blancs créoles, affranchis et esclaves.`,
+      1712: `La partie occidentale d'Hispaniola, cédée à la France par l'Espagne en 1697 (traité de Ryswick), est en 1712 la colonie sucrière la plus productive des Antilles françaises — et l'une des plus lucratives du monde colonial. La richesse de Saint-Domingue repose sur une contradiction structurelle : une main-d'œuvre servile qui représente plus des quatre cinquièmes de la population, entretenue par un trafic négrier massif depuis les côtes d'Afrique, et une hiérarchie sociale rigide qui oppose les <em>Grands Blancs</em> (grands planteurs créoles), les <em>Petits Blancs</em> (artisans, petits colons, marins), les <em>affranchis</em> (libres de couleur, souvent propriétaires eux-mêmes) et les esclaves.
+
+<strong>Cap-Français.</strong> La capitale et principal port de la colonie — appelé simplement "le Cap" par ses habitants — est en 1712 une ville en pleine expansion, bâtie sur une plaine étroite entre la mer et les mornes du nord d'Hispaniola. Ses quais voient transiter le sucre, l'indigo et le cacao de la plaine du Nord vers Bordeaux et Nantes. C'est aussi le centre nerveux de la vie sociale, politique et commerciale de la colonie : le gouverneur général y réside, le Conseil supérieur y siège, et les négociants de toute la Caraïbe y font escale. En 1712, la ville n'est pas encore la métropole qu'elle deviendra dans les années 1730, mais elle est déjà la plus active des ports français d'Amérique.
+
+Le gouverneur d'Arquian est le dernier à porter le titre de gouverneur général de *toutes* les Antilles françaises — un poste unique qui coiffe aussi bien Saint-Domingue que la Martinique, la Guadeloupe et les Petites Antilles. Cette organisation prend fin en 1714 avec la création de deux gouvernements distincts.`,
+
+      1713: `<strong>Louis de Courbon, comte de Blénac</strong>, prend le gouvernement de Saint-Domingue le 11 janvier 1713. Fils du célèbre amiral Charles de La Roche-Courbon de Blénac — gouverneur général des Antilles sous Louis XIV, figure tutélaire de l'expansion coloniale française dans la Caraïbe — il hérite d'un nom qui ouvre toutes les portes dans les milieux maritimes et coloniaux. Sa réputation personnelle est celle d'un administrateur compétent et moins vénal que ses prédécesseurs.
+
+<strong>La division de 1714.</strong> En 1714, Paris crée deux postes distincts : Blénac reste gouverneur général de Saint-Domingue ; un gouverneur général des Îles du Vent est nommé séparément, résidant à Fort-Royal (Martinique). Cette réforme administrative reflète la croissance de la colonie dominguoise, dont les intérêts et les problèmes sont désormais trop distincts pour être gérés depuis Fort-Royal. Cap-Français devient de fait la capitale autonome d'une entité coloniale à part entière.
+
+<strong>Cap-Français en 1713–1717.</strong> La ville vit au rythme des arrivées de navires négriers — une ou deux par semaine dans les bonnes saisons — et des départs de flûtes chargées de sucre brut. Le marché d'esclaves, installé sur la place principale, est le cœur économique visible de la colonie. Les tavernes, les maisons closes et les entrepôts du port constituent une économie parallèle fréquentée par les marins de toutes nationalités, dont certains n'ont pas toujours de papiers en règle.`,
+
+      1717: `<strong>Charles Joubert de La Bastide, marquis de Châteaumorand</strong>, prend ses fonctions le 11 janvier 1717. Son mandat coïncide avec le Gaoulé de Martinique (mai 1717) — soulèvement des grands planteurs contre l'autorité métropolitaine — dont les échos atteignent Saint-Domingue sans y déclencher d'incident comparable. Les Grands Blancs dominguois sont tout aussi hostiles aux réformes fiscales de Paris, mais leur colonie est plus grande, plus riche, et leur résistance prend des formes moins spectaculaires : contrebande organisée, corruption des fonctionnaires locaux, pression sur le Conseil supérieur.
+
+<strong>Saint-Domingue et la piraterie.</strong> Cap-Français est un port de transit incontournable pour les navires opérant entre les Antilles et les côtes nord-américaines. Les pirates de la Flying Gang connaissent le Cap comme une escale où l'on peut vendre une prise, recruter, et repartir — à condition de ne pas attirer l'attention. Châteaumorand n'a ni les frégates ni l'instruction de faire de la répression antipirate une priorité : ce sont les Bahamas et la Jamaïque qui concentrent l'effort britannique de 1718.`,
+
+      1719: `<strong>Léon, marquis de Sorel</strong>, prend le gouvernement le 10 juillet 1719. Son mandat correspond à la période post-Rogers : la piraterie de la Flying Gang est brisée aux Bahamas, mais des équipages indépendants continuent d'opérer dans la Caraïbe orientale et le long des côtes de Saint-Domingue. Bartholomew Roberts, le plus actif des pirates de la période 1719–1722, ravage le commerce entre les Antilles et Terre-Neuve — il n'approche pas directement Cap-Français, mais ses prises perturbent les routes qui alimentent le port.
+
+<strong>La colonie en croissance.</strong> Sous Sorel, Saint-Domingue continue son expansion démographique et économique. La plaine du Nord, autour de Cap-Français, est la zone de plantation la plus dense ; les plaines de l'Artibonite et du Sud sont en cours de développement. Le nombre d'esclaves importés atteint des sommets qui ne seront dépassés que dans les années 1740. Cette croissance porte en elle les contradictions qui mèneront à la révolution de 1791 — mais en 1719, personne ne les perçoit comme telles.`,
+
+      1723: `<strong>Gaspard de Goussé de La Roche-Allard</strong> prend ses fonctions le 6 décembre 1723, à la limite de la fenêtre principale de la campagne. Son mandat long — jusqu'en 1731 — correspond à une période de stabilisation et de prospérité croissante. Cap-Français est en passe de devenir la ville la plus riche des Caraïbes françaises, dépassant Saint-Pierre de Martinique en volume de commerce.`,
     },
 
     zone: [],
 
-    capitale: 'Cap-Français',
-    population_approx: '~150 000 habitants (1713, dont ~130 000 esclaves)',
-    economie: 'Sucre, café, indigo, cacao',
-    /* note: null, */
+    capitale: 'Cap-Français (Le Cap)',
+    population_approx: `~150 000 habitants (1713, dont ~120 000 esclaves) ;
+~280 000 habitants (1720, dont ~230 000 esclaves — croissance rapide par trafic négrier)`,
+    economie: 'Sucre (plaine du Nord, Artibonite), indigo, cacao, café (en développement) ; trafic négrier massif ; commerce interlope avec les colonies anglaises et hollandaises',
+    /* note: `✅ Succession des gouverneurs : données concordantes entre gouverneurs_caraibes.html (session parallèle), Wikipedia FR/EN (Liste des gouverneurs de Saint-Domingue), et les ANOM.
+  ✅ Division du gouvernement des Antilles françaises en 1714 : établi — voir aussi bloc Martinique / Îles du Vent.
+  ✅ Blénac fils : biographie confirmée, lien familial avec l'amiral Blénac (Wikipedia FR, article Charles de La Roche-Courbon de Blénac).
+  ✅ Châteaumorand : dates confirmées (11 jan. 1717 – 10 juil. 1719).
+  ✅ Sorel : dates confirmées (10 juil. 1719 – 6 déc. 1723).
+  ✅ La Roche-Allard : date d'entrée confirmée (6 déc. 1723).
+  ⚠️ Population : estimation composite. Le chiffre de ~150 000 en 1713 est cohérent avec les sources (Pritchard, Debien) ; la croissance vers 280 000 en 1720 est une extrapolation prudente — les recensements précis pour cette période sont fragmentaires.
+  ⚠️ Bartholomew Roberts et Saint-Domingue : Roberts opère principalement dans l'Atlantique nord et les côtes africaines après 1719 — sa présence directe dans les eaux dominguoises n'est pas documentée. La formulation "n'approche pas directement" est volontairement prudente.
+  🎲 Note de campagne : Cap-Français est le décor du pin "Satiété engendre Démesure" (janvier 1714, sous Blénac). Le marché d'esclaves, les tavernes du port, et la présence d'une délégation espagnole sont tous historiquement plausibles pour cette date et ce gouverneur.`, */
   },
 
   {
@@ -778,7 +844,7 @@ La période 1716–1720 est néanmoins agitée pour l'île. La guerre de la Quad
     nom: 'Bahamas — Archipel (îles secondaires)',
 
     puissance: {
-      1712: 'anarchie-pirate',
+      1712: 'conteste',
       1718: 'britannique',
     },
 
@@ -1061,7 +1127,7 @@ L'économie repose sur l'indigo, le bétail et une contrebande active avec les A
     nom: 'Côte Miskito (Mosquito Coast)',
 
     puissance: {
-      1712: 'miskito',
+      1712: 'amerindienne',
       // Ni espagnole ni britannique au sens colonial strict :
       // royaume Miskito autonome sous protectorat informel jamaïcain.
       // L'Espagne revendique le territoire sans y exercer aucune autorité.
@@ -1269,30 +1335,50 @@ Panama dépend du vice-roi de Lima, non de Mexico. Le Président-Gouverneur de P
 
     puissance: {
       1712: 'conteste',
+      // Revendiqué par l'Espagne (nominalement partagé entre Panama et la Nouvelle-Grenade),
+      // contrôlé de facto par les Kunas. "conteste" est maintenu plutôt qu'"amerindienne"
+      // parce que la tension entre revendication espagnole et contrôle kuna est l'information
+      // politique centrale du territoire — distincte de la côte Miskito où la présence espagnole
+      // est quasiment inexistante.
     },
 
     gouverneur: {
       1712: {
-        nom: '[Aucune autorité effective — territoire kunas]',
+        nom: '[Aucune autorité coloniale effective]',
         pnj_id: null,
-        titre: 'Zone sans gouverneur colonial résidant',
+        titre: 'Territoire kuna de facto — revendiqué par l\'Espagne, non administré',
+        // Les Espagnols maintiennent nominalement le presidio de Santa María la Antigua,
+        // fondé en 1510 — première ville européenne permanente du continent américain —
+        // mais abandonné et refondé à plusieurs reprises. En 1712, la présence espagnole
+        // dans l'intérieur du Darién est quasi nulle.
       },
     },
 
     contexte: {
-      1712: `Le Darién est l'un des territoires les plus dangereux et les moins contrôlés de l'empire espagnol. Coincé entre la province de Panama à l'ouest et la Nouvelle-Grenade à l'est, l'isthme oriental est en pratique dominé par les Indiens <strong>Kunas</strong> (Cuna), qui ont repoussé toutes les tentatives de colonisation espagnole depuis le XVIe siècle et maintiennent une résistance armée permanente contre les présides coloniaux.
+      1712: `<strong>Géographie.</strong> Le Darién est l'isthme oriental entre Panama City et la Nouvelle-Grenade : une bande de terre étroite entre deux océans, couverte de forêts tropicales denses, traversée de fleuves impraticables et bordée à l'est par le massif du Serranía del Darién. La côte caraïbe, découpée en baies peu profondes et en archipels coralliens — dont l'archipel de San Blas, dit <em>Kuna Yala</em> — est navigable en sloop ou en pirogue mais impénétrable pour les grands navires. C'est précisément ce qui a protégé les Kunas depuis un siècle : la géographie est leur meilleure fortification.
 
-La carte Jaillot de 1708 mentionne encore "Nouvelle Calédonie" et le port de "New Edinburgh" — traces de la catastrophique <strong>expédition du Darién</strong> (1698–1700), par laquelle la Compagnie écossaise tenta d'établir une colonie commerciale entre les deux océans. Les deux tentatives successives (1698 et 1699) se soldèrent par des milliers de morts de maladie et d'épuisement, et par une attaque espagnole finale en 1700. En 1712, il ne reste absolument rien de la colonie écossaise — les noms sur la carte sont anachroniques, figés au moment de la gravure.
+<strong>Les Kunas.</strong> Les Kunas (ou Cunas, Tule dans leur propre langue) sont la nation amérindienne dominante du Darién en 1712. Organisés en communautés villageoises autonomes chacune dirigée par un <em>sayla</em> (chef), ils ne forment pas un État centralisé mais une confédération de fait, liée par une culture commune, une langue et une résistance partagée à la colonisation espagnole. Leur territoire s'étend des côtes de l'archipel de San Blas à l'intérieur forestier, en passant par les deux versants de la cordillère. Marins accomplis sur les eaux peu profondes de l'archipel, guerriers redoutables dans la forêt, ils ont repoussé toutes les tentatives de pénétration espagnole depuis le XVIe siècle — missions, présides, expéditions militaires — souvent avec l'aide discrète de pirates et de boucaniers anglais qui leur fournissent armes et poudre en échange de guides, d'eau douce et d'informations sur les routes espagnoles.
 
-L'échec de l'expédition du Darién ruina la Compagnie d'Écosse et contribua directement à l'<strong>Acte d'Union de 1707</strong>, qui fusionna l'Écosse et l'Angleterre en Grande-Bretagne. Pour les personnages de jeu, les ruines de New Edinburgh existent peut-être encore dans la jungle, et le souvenir est récent.`,
+<strong>La mémoire écossaise.</strong> La carte Jaillot de 1708 porte encore les noms <em>Nouvelle Calédonie</em> et le port de <em>New Edinburgh</em> — traces de la catastrophique expédition du Darién (1698–1700), par laquelle la Compagnie écossaise tenta d'établir une colonie commerciale à l'entrée des deux océans. Deux tentatives successives (1698 et 1699) se soldèrent par des milliers de morts — fièvre, dysenterie, famine — et une attaque espagnole finale en avril 1700. Les Kunas avaient initialement accueilli les Écossais avec curiosité et un accord commercial ; ils assistèrent à leur effondrement sans les en empêcher, et récupérèrent les ruines. En 1712, les noms sur la carte sont figés — anachroniques, comme souvent chez Jaillot. Les structures de bois de New Edinburgh ont disparu sous la végétation, mais les Kunas se souviennent des étrangers pâles qui avaient planté leurs tentes douze ans plus tôt.
+
+L'échec de l'expédition ruina la Compagnie d'Écosse et pesa directement sur les négociations menant à l'Acte d'Union de 1707, qui fusionna l'Écosse et l'Angleterre en Grande-Bretagne. Pour les personnages de la campagne — surtout britanniques — c'est une blessure nationale encore vive : douze ans, c'est la mémoire d'un père ou d'un oncle disparu là-bas.
+
+<strong>Les relations avec les pirates.</strong> Les Kunas entretiennent depuis des décennies des rapports commerciaux discrets avec les boucaniers et pirates anglais des Caraïbes. Ils leur vendent des informations sur les mouvements des galions espagnols traversant l'isthme, servent de guides dans les passes de l'archipel de San Blas, et achètent armes et poudre en échange. Cette relation n'est pas de la vassalité — les Kunas ne servent pas les pirates, ils commercent avec eux sur un pied d'égalité qu'ils refusent à tout Européen colonial. Un navire pirate qui cherche un mouillage discret sur la côte caraïbe du Darién, ou un guide pour remonter vers les routes de Portobelo, peut trouver interlocuteur — à condition de ne pas ressembler à un Espagnol.`,
     },
 
     zone: [],
 
-    capitale: 'Aucune (les Espagnols maintiennent un presidio à Santa María la Antigua, peu opérationnel)',
-    population_approx: 'Quelques milliers d\'Indiens Kunas ; présence espagnole quasi nulle',
-    economie: 'Néant pour les Espagnols ; les Kunas commercent discrètement avec les pirates anglais des Caraïbes',
-    /* note: `FAIT ÉTABLI : La colonie écossaise de Caledonia / New Edinburgh a été abandonnée en avril 1700. Les mentions sur la carte Jaillot (1708) sont anachroniques — la carte a été gravée avant que l'information soit pleinement intégrée, ou par convention cartographique. En 1712, le Darién est un no man's land entre Panama et la Nouvelle-Grenade, contrôlé de facto par les Kunas. Les Kunas entretenaient des relations ambiguës avec les pirates anglais et les boucaniers, ce qui en fait un espace narrativement fertile pour la campagne. Le Darién ne relève d'aucune Audiencia de manière effective — nominalement partagé entre Panama et Santafé.`, */
+    capitale: 'Aucune au sens européen — l\'archipel de San Blas (Kuna Yala) est le cœur du territoire kuna',
+    population_approx: 'Quelques dizaines de milliers de Kunas (estimation très approximative) ; présence espagnole quasi nulle dans l\'intérieur',
+    economie: 'Pêche côtière et navigation en archipel, agriculture vivrière (maïs, manioc, plantain), commerce de guides et d\'informations avec les pirates anglais, troc d\'armes',
+    /* note: `✅ Établi : expédition écossaise du Darién 1698–1700, abandon avril 1700, ruine de la Compagnie d'Écosse, lien avec l'Acte d'Union 1707 (sources nombreuses : Wikipedia EN Darien scheme ; Prebble, The Darien Disaster, 1968).
+  ✅ Établi : les mentions Nouvelle Calédonie / New Edinburgh sur la carte Jaillot sont anachroniques — la carte date de 1708, les lieux sont abandonnés depuis 1700.
+  ✅ Établi : résistance kuna à la colonisation espagnole depuis le XVIe siècle — documentée, culminant dans la grande révolte de 1925 (Revolución Tule). Pour la période 1700–1720, voir Howe, <em>A People Who Would Not Kneel</em> (1998, Smithsonian).
+  ✅ Établi : organisation en communautés à sayla, confédération de fait sans État centralisé — Howe (1998) ; Sherzer, <em>Kuna Ways of Speaking</em> (1983).
+  ✅ Établi : archipel de San Blas (Kuna Yala) comme cœur du territoire kuna côtier.
+  ⚠️ Incertain : relations précises Kunas / pirates anglais pour 1712 spécifiquement — inférées de la géographie, de la résistance anticoloniale documentée et de la fréquentation des côtes du Darién par les boucaniers (attestée au XVIIe siècle, continuité vraisemblable). Pas de source primaire directe pour la période 1712–1720 sur ce point précis.
+  ⚠️ Population kuna : aucun recensement fiable pour 1712. "Quelques dizaines de milliers" est une estimation prudente basée sur les données postérieures.
+  🎲 Note de campagne : le Darién est narrativement l'un des espaces les plus riches de la carte — à la croisée de la mémoire écossaise (Union de 1707, blessure nationale), de la résistance amérindienne active, et des routes de l'argent péruvien à portée d'une traversée de l'isthme. Un personnage qui cherche un passage discret entre les deux océans, ou qui veut intercepter des informations sur les galions de Portobelo, a une raison de venir ici.`, */
   },
 
   {
@@ -1645,7 +1731,11 @@ Les franges espagnoles, nominalement rattachées à la Nouvelle-Andalousie (Cuma
     },
 
     contexte: {
-      1712: `Colonie française depuis 1635, la Martinique est le cœur administratif des Antilles françaises : Fort-Royal (aujourd'hui Fort-de-France) est le siège du Gouverneur général des Îles du Vent, qui étend nominalement son autorité sur Guadeloupe, Grenade, Saint-Domingue et les autres îles françaises. Saint-Pierre, sur la côte nord-ouest, est le principal port marchand et la ville la plus peuplée de l'île. L'économie repose sur le sucre, le cacao, l'indigo et, plus marginalement, le café — tous exploités par une main-d'œuvre servile massive. La Martinique est reliée à Bordeaux, Nantes et Marseille par un trafic régulier, mais le commerce interlope avec les Hollandais de Curaçao et les Anglais de la Barbade est endémique malgré les interdictions.
+      1712: `Colonie française depuis 1635, la Martinique est le siège administratif des Antilles françaises des Petites Antilles : Fort-Royal (aujourd'hui Fort-de-France) abrite le gouverneur général des Îles du Vent, dont l'autorité s'étend sur la Martinique, la Guadeloupe, la Grenade, Sainte-Lucie et les autres Petites Antilles françaises — mais <em>pas</em> sur Saint-Domingue, qui relève d'un gouverneur général distinct résidant à Cap-Français. Cette distinction est essentielle : il y a deux gouvernements généraux français dans les Caraïbes en 1712, non un seul.
+
+<strong>Fort-Royal et Saint-Pierre.</strong> Fort-Royal est la capitale administrative et militaire — résidence du gouverneur, casernes, arsenal, mouillage pour les frégates de la Couronne. Saint-Pierre, sur la côte nord-ouest, est la capitale économique et marchande : le port le plus actif, la ville la plus peuplée de l'île, le vrai pouls commercial de la Martinique. Les négociants bordelais y ont leurs comptoirs ; les navires négriers y débarquent une partie de leur cargaison ; les contrebandiers hollandais et anglais y trouvent des acheteurs. La tension entre les deux villes — administration militaire d'un côté, intérêts commerciaux créoles de l'autre — est une constante de la vie politique martiniquaise.
+
+L'économie repose sur le sucre, le cacao, l'indigo et, plus marginalement, le café — tous exploités par une main-d'œuvre servile massive. Le commerce interlope avec les Hollandais de Curaçao et les Anglais de la Barbade est endémique malgré les interdictions.
 
 Jean-Pierre de Casamajor de Charritte est un gouverneur pragmatique et populaire, réputé "doux et ennemi du despotisme", mais avide : son conflit avec le flibustier Pierre Morpain — dont il s'est approprié la frégate pour 2 000 livres avant de la revendre 6 000 — est connu des milieux maritimes des Antilles.`,
       1714: `Abraham Duquesne-Guitton, marquis de Bellebat, prend la tête du gouvernement général des Îles du Vent. Neveu du grand amiral Abraham Duquesne, il doit sa nomination à sa récente conversion au catholicisme — conversion opportuniste que ses contemporains ne lui pardonnent pas. Il réside à Fort-Royal et supervise une colonie prospère mais en tension permanente avec les intérêts des grands planteurs créoles.`,
@@ -1775,26 +1865,43 @@ En février 1713 — derniers mois de la guerre — Curaçao subit une brève oc
       1712: {
         nom: '[Aucune autorité constituée]',
         pnj_id: null,
-        titre: 'Île neutre — pas de gouverneur',
+        titre: 'Île neutre — autorité kalinago de fait sur l\'intérieur',
         // Pas d'administration coloniale. Les Kalinago sont l'autorité réelle sur l'intérieur.
         // Les squatteurs français du littoral ne relèvent nominalement que de Martinique ou Guadeloupe.
       },
     },
 
     contexte: {
-      1712: `Dominique est officiellement une île neutre depuis 1660, quand France et Angleterre s'accordent pour la laisser aux Kalinago (Caribes) en échange de leur retrait des autres Petites Antilles. En pratique, l'accord est violé en douce : des coupeurs de bois français venus de Martinique et de Guadeloupe opèrent sur les franges côtières depuis le début du siècle, exploitant le bois précieux de l'île — l'une des plus boisées et des plus montagneuses des Antilles — sans jamais constituer de colonie organisée.
+      1712: `Dominique est officiellement une île neutre depuis 1660, quand France et Angleterre s'accordent pour la laisser aux Kalinago en échange de leur retrait des autres Petites Antilles. En pratique, l'accord est violé en douce : des coupeurs de bois français venus de Martinique et de Guadeloupe opèrent sur les franges côtières depuis le début du siècle, exploitant le bois précieux de l'île sans jamais constituer de colonie organisée.
 
-En 1712, la Dominique est un espace de marge. L'intérieur volcanique et couvert de forêts denses est un territoire kalinago souverain de fait. Le littoral, morcelé par des ravines et des falaises, accueille quelques établissements de bûcherons français, des déserteurs, des esclaves marrons venus des îles voisines, et des contrebandiers qui profitent de l'absence de toute autorité pour faire escale sans rendre de comptes.
+<strong>Les Kalinago.</strong> Improprement appelés "Caribes" dans les sources européennes de l'époque — nom donné par les Arawaks qu'ils avaient supplantés, repris par les Espagnols avec une connotation de cannibalisme largement mythifiée — les Kalinago sont le peuple amérindien dominant des Petites Antilles depuis plusieurs siècles. En 1712, Dominique est leur principal refuge : après avoir été repoussés de Saint-Christophe, de la Barbade et de la plupart des îles colonisées, c'est ici, dans les forêts volcaniques et les vallées encaissées de l'intérieur, qu'ils maintiennent une présence autonome et souveraine.
 
-Le Gaoulé de 1717 — le soulèvement des petits blancs martiniquais contre le gouverneur La Varenne — accélère le mouvement : nombre de ces "petits habitants" expulsés ou ruinés migrent vers le sud de la Dominique pour y établir de petits lopins. Les premiers établissements semi-permanents français datent de cette période (1715–1719), mais sans mandat officiel, sans garnison, sans administration. La France ne nommera un commandant à la Dominique qu'en 1727.`,
+Leur organisation est décentralisée : chaque communauté est dirigée par un <em>ouboutou</em> (chef de guerre) ou un <em>tiioubana</em> (chef de paix) selon les circonstances. Il n'y a pas de roi unique ni d'autorité centrale — ce qui a longtemps dérouté les Européens cherchant un interlocuteur unique pour négocier ou soumettre. Les Kalinago sont d'excellents navigateurs en pirogue entre les îles, commerçant et guerroyant à travers l'archipel, et maintiennent des contacts avec leurs cousins de Saint-Vincent et des îles continentales.
+
+En 1712, leur rapport aux colons français du littoral est ambigu : tolérance prudente du côté kalinago (les Français apportent outils métalliques, rhum, tissus), méfiance du côté français (ils craignent les raids sur les cases isolées). Une coexistence tendue, non une alliance.
+
+L'intérieur volcanique — les mornes, les gorges, les sources thermales — est un territoire kalinago souverain de fait, inaccessible et inhospitalier pour quiconque n'en connaît pas les chemins. Le littoral, morcelé par des ravines et des falaises, accueille quelques établissements de bûcherons français, des déserteurs, des esclaves marrons venus des îles voisines.`,
+
+      1717: `Le Gaoulé de 1717 — soulèvement des petits blancs martiniquais contre le gouverneur La Varenne — accélère la colonisation rampante de Dominique : nombre de ces "petits habitants" expulsés ou ruinés migrent vers le sud de l'île pour y établir de petits lopins. Les premiers établissements semi-permanents français datent de cette période (1715–1719), mais sans mandat officiel, sans garnison, sans administration.
+
+<strong>Les Kalinago face à la pression croissante.</strong> L'afflux de colons post-Gaoulé représente une menace nouvelle : non plus des bûcherons saisonniers mais des familles cherchant à s'installer. Les communautés kalinago du sud répondent par des tensions croissantes — raids sur les cases isolées, intimidations — sans déclencher de conflit ouvert. Leur marge de manœuvre se réduit : au nord, ils sont encore maîtres ; au sud, la pression française s'installe.
+
+La France ne nommera un commandant à la Dominique qu'en 1727 — reconnaissant ainsi, tacitement, que l'île est déjà partiellement colonisée de fait.`,
     },
 
     zone: [],
 
-    capitale: '[Aucune — Roseau est un simple mouillage]',
+    capitale: '[Aucune — Roseau est un simple mouillage kalinago et français]',
     population_approx: '~2 000 à 3 000 Kalinago (estimation) ; quelques dizaines de colons et coupeurs de bois français',
-    economie: 'Bois précieux (acajou, gaïac) ; commerce de troc avec les Kalinago ; refuge informel',
-    /* note: '✅ Accord franco-britannique de 1660 : fait établi, confirmé par de multiples sources. ✅ Présence française de bûcherons depuis ~1690 : établi. ✅ Lien Gaoulé 1717 → migration vers Dominique : établi (sources Infogalactic, Global Security, Liquisearch). ⚠️ "Premiers établissements permanents 1715" : certaines sources avancent 1690, d\'autres 1715, d\'autres 1719. La fourchette 1715–1719 est retenue comme la plus cohérente pour la période de la campagne. ⚠️ Population kalinago : aucune donnée fiable pour 1712 — estimation basse retenue.', */
+    economie: 'Bois précieux (acajou, gaïac, gommier) ; commerce de troc avec les Kalinago (outils, rhum contre vivres et guides) ; refuge informel pour déserteurs et marrons',
+    /* note: `✅ Accord franco-britannique de 1660 et neutralité de jure : établi, sources nombreuses concordantes.
+  ✅ Présence française de bûcherons depuis ~1690 : établi.
+  ✅ Lien Gaoulé 1717 → migration vers Dominique : établi (Infogalactic, Global Security, Liquisearch).
+  ✅ Terminologie Kalinago vs Caribes : le terme "Kalinago" est le nom que le peuple se donne lui-même ; "Caribe" est un exonyme arawak repris par les Espagnols. Distinction documentée, bien établie en ethnohistoire des Antilles (Sued Badillo, <em>General History of the Caribbean</em>, UNESCO, 1997).
+  ✅ Organisation sociale (ouboutou / tiioubana) : terminologie attestée dans les sources du XVIIe–XVIIIe siècle (du Tertre, <em>Histoire générale des Antilles</em>, 1667 ; Labat, <em>Nouveau Voyage aux Isles de l'Amérique</em>, 1722).
+  ⚠️ "Premiers établissements permanents 1715" : certaines sources avancent 1690, d'autres 1715, d'autres 1719. La fourchette 1715–1719 est retenue comme la plus cohérente pour la période de la campagne.
+  ⚠️ Population kalinago : aucune donnée fiable pour 1712 — estimation basse retenue.
+  ⚠️ Relations kalinago / colons français en 1712 : décrites comme "tolérées" dans les sources — les tensions documentées sont surtout postérieures à 1720.`, */
   },
 
   // ── SAINT-VINCENT ────────────────────────────────────────
@@ -1804,32 +1911,48 @@ Le Gaoulé de 1717 — le soulèvement des petits blancs martiniquais contre le 
 
     puissance: {
       1712: 'conteste',
-      // De jure neutre par l'accord de 1660. De facto : territoire kalinago, sans colons européens permanents.
+      // De jure neutre par l'accord de 1660. De facto : territoire kalinago souverain,
+      // sans colons européens permanents jusqu'en 1719.
     },
 
     gouverneur: {
       1712: {
         nom: '[Aucune autorité européenne]',
         pnj_id: null,
-        titre: 'Île neutre — territoire kalinago',
+        titre: 'Île neutre — souveraineté kalinago effective',
         // Pas d'administration coloniale jusqu'en 1719 (premier établissement français à Barrouallie).
+        // Les Garifunas (Kalinago Noirs) exercent l'autorité militaire réelle sur la majeure partie de l'île.
       },
     },
 
     contexte: {
-      1712: `Saint-Vincent est, en 1712, l'une des dernières îles des Petites Antilles où aucun Européen n'a réussi à s'établir durablement. L'accord franco-britannique de 1660 l'a laissée aux Kalinago, et les Kalinago l'ont défendue avec succès : toutes les tentatives de colonisation — espagnole, anglaise, française — se sont soldées par des défaites ou des abandons.
+      1712: `Saint-Vincent est, en 1712, l'une des dernières îles des Petites Antilles où aucun Européen n'a réussi à s'établir durablement. L'accord franco-britannique de 1660 l'a laissée aux Kalinago, et les Kalinago l'ont défendue avec succès contre toutes les tentatives de colonisation — espagnole, anglaise, française.
 
-L'île abrite deux populations distinctes et souvent en tension : les Kalinago Rouges (ou "Jaunes"), autochtones de longue date, installés principalement sur la côte sous le vent ; et les Kalinago Noirs, ou Garifunas, issus du métissage entre Kalinago et Africains — esclaves évadés ou naufragés depuis la Barbade et d'autres îles, réfugiés à Saint-Vincent depuis le XVIIe siècle. Ces derniers sont plus nombreux, mieux armés, et occupent les hauteurs et la côte au vent. Les deux groupes coexistent avec méfiance, s'affrontent parfois, mais s'unissent contre toute menace européenne.
+<strong>Deux peuples, une île.</strong> Saint-Vincent abrite deux populations distinctes et souvent en tension, qui constituent ensemble l'une des sociétés amérindiennes les plus complexes des Caraïbes en 1712.
 
-En 1712, Saint-Vincent est un espace absolument autonome. Les Européens y passent — pour faire de l'eau, échanger quelques marchandises — mais n'y restent pas. Les Garifunas tolèrent un commerce limité et refusent toute implantation permanente. Ce n'est qu'en 1719 que les Français parviennent à s'établir à Barrouallie, sur la côte sous le vent, avec l'accord forcé des Kalinago Rouges — lesquels cherchaient dans l'alliance française une protection contre les Garifunas.`,
+Les <strong>Kalinago Rouges</strong> (ou "Jaunes" dans certaines sources françaises) sont les autochtones de longue date, descendants des premiers Kalinago insulaires. Installés principalement sur la côte sous le vent (ouest), ils pratiquent l'agriculture, la pêche et le commerce avec les navires européens de passage. Moins nombreux et moins belliqueux que les Garifunas, ils sont en position défensive sur leur propre île.
+
+Les <strong>Garifunas</strong> (Kalinago Noirs) sont issus du métissage entre Kalinago et Africains — esclaves évadés ou naufragés de naufrages négriers depuis la Barbade, réfugiés à Saint-Vincent au cours du XVIIe siècle. Mieux armés, plus nombreux, occupant les hauteurs et la côte au vent (est), ils constituent la force militaire dominante de l'île. Leur culture mêle traditions kalinago et africaines — langue, musique, organisation sociale — avec une cohérence qui déroute les observateurs européens qui s'attendent à trouver soit des "Indiens" soit des "nègres marrons". Les deux groupes coexistent avec méfiance et s'affrontent ponctuellement, mais s'unissent invariablement contre toute menace européenne.
+
+Les Européens y passent — pour faire de l'eau, échanger des marchandises avec les Kalinago Rouges du littoral — mais n'y restent pas. Les Garifunas tolèrent un commerce limité et maintiennent par la force une interdiction de fait de toute implantation permanente.`,
+
+      1719: `En 1719, les Français parviennent à s'établir pour la première fois à <strong>Barrouallie</strong>, sur la côte sous le vent, grâce à un accord conclu avec les Kalinago Rouges — qui cherchaient dans l'alliance française une protection contre la pression croissante des Garifunas. C'est un accord de faibles cherchant un appui extérieur, pas une capitulation.
+
+Les Garifunas, furieux de cet accord passé sans eux, n'acceptent pas l'implantation française comme un fait accompli. La tension entre les trois parties — Français, Kalinago Rouges, Garifunas — structure la politique de l'île pour les décennies suivantes. Saint-Vincent reste sans gouverneur nommé, sans garnison, et sans administration reconnue. Barrouallie n'est encore qu'un hameau de colons toléré sous conditions.`,
     },
 
     zone: [],
 
-    capitale: '[Aucune]',
-    population_approx: '~3 000 à 5 000 Kalinago (Rouges et Noirs confondus) ; pas de colons permanents avant 1719',
-    economie: 'Subsistance, pêche, chasse ; troc limité avec les navires de passage',
-    /* note: '✅ Accord de 1660 et neutralité : établi. ✅ Présence des Kalinago Noirs (Garifunas) depuis le XVIIe s. : établi. ✅ Absence de colons permanents avant 1719 : sources concordantes (Wikipedia EN, Britannica, FamilySearch). ✅ Premier établissement français à Barrouallie, 1719 : établi. ⚠️ Population : aucune donnée fiable — estimation prudente. ⚠️ Détails sur les tensions Kalinago Rouges / Noirs en 1712 : bien attestés dans l\'historiographie (Craton, Black Caribs of St. Vincent), mais les sources sur la période exacte 1712–1719 sont minces.', */
+    capitale: '[Aucune — Kingstown n\'existe pas encore]',
+    population_approx: '~3 000 à 5 000 Kalinago (Rouges et Garifunas confondus) ; pas de colons permanents avant 1719',
+    economie: 'Subsistance (agriculture, pêche, chasse) ; troc limité avec les navires de passage (outils, rhum contre vivres et eau douce)',
+    /* note: `✅ Accord de 1660 et neutralité de jure : établi, sources nombreuses concordantes.
+  ✅ Présence des Kalinago Noirs / Garifunas depuis le XVIIe s. : établi — naufrage(s) de navires négriers, réfugiés africains intégrés à la société kalinago (Wikipedia EN Black Caribs ; Craton, <em>Testing the Chains</em>, 1982).
+  ✅ Absence de colons permanents avant 1719 : sources concordantes (Wikipedia EN, Britannica, FamilySearch).
+  ✅ Premier établissement français à Barrouallie, 1719, avec accord des Kalinago Rouges : établi.
+  ✅ Terminologie Garifuna : désignation adoptée par le peuple lui-même, distincte de "Black Caribs" (exonyme anglais) et de "Kalinago Noirs" (formulation française). Les deux sont utilisés dans les sources — "Garifunas" est retenu ici comme le plus respectueux.
+  ⚠️ Population : aucune donnée fiable pour 1712 — estimation prudente.
+  ⚠️ Détails sur les tensions Kalinago Rouges / Garifunas en 1712 : bien attestés dans l'historiographie pour la période générale (Craton ; González, <em>Sojourners of the Caribbean</em>, 1988), mais les sources primaires sur l'année exacte 1712 sont minces.`, */
   },
 
   // ── SAINTE-LUCIE ─────────────────────────────────────────
@@ -1859,7 +1982,9 @@ En 1712, Saint-Vincent est un espace absolument autonome. Les Européens y passe
 
 Juridiquement, le statut de l'île est un imbroglio. Les Anglais la revendiquent par la charte Carlisle de 1627 et n'ont jamais renoncé à leurs droits. Les Français l'occupent de fait mais sans titre solide reconnu. Les Kalinago, qui ont écrasé les deux premières tentatives d'implantation anglaise (1605, 1639), sont encore présents dans l'intérieur montagneux, en retrait mais pas effacés. Cette situation tripartite — colons français, revendications anglaises, Kalinago dans les hauteurs — fait de Sainte-Lucie une zone de friction permanente.
 
-En 1723, France et Angleterre s'entendront pour la déclarer officiellement neutre — reconnaissant ainsi leur incapacité à trancher. Pour la période 1712–1722, elle est un no man's land de facto français, mais sans garnison, sans gouverneur nommé, et accessible à quiconque sait négocier avec les habitants.`,
+Pour les navires qui naviguent entre la Martinique et la Barbade, Sainte-Lucie est une escale commode : ses mouillages sont sûrs, ses habitants discrets, et personne n'y demande de papiers.`,
+
+      1723: `En 1723, France et Angleterre s'entendent pour déclarer Sainte-Lucie officiellement neutre — reconnaissant leur incapacité mutuelle à trancher la question de souveraineté. L'accord ne change rien à la situation de fait : les colons français restent, les Kalinago aussi, et l'île continue de fonctionner comme un espace de marge entre les deux empires. La neutralité formelle renforce même son attrait comme escale discrète — ni française ni anglaise, donc contrôlée par personne.`,
     },
 
     zone: [],
@@ -1957,7 +2082,11 @@ Le gouverneur La Malmaison est un administrateur tenace, en poste depuis 1705. I
       1712: `Colonie française depuis 1649, la Grenade est la plus méridionale des Petites Antilles françaises. Saint-George's (Fort Royal) est la capitale et le seul port notable. L'île produit du sucre, du cacao, de l'indigo et — fait remarquable pour la région — des épices : la muscade et le poivre qui feront plus tard sa réputation commencent à être cultivés. La Grenade relève du gouverneur général des Îles du Vent résidant à Fort-Royal en Martinique, mais son gouverneur particulier jouit d'une relative autonomie de fait, compte tenu de l'éloignement.
 
 L'archipel des Grenadines — une centaine d'îlots et de cays entre Grenade et Saint-Vincent — est nominalement rattaché à la Grenade, mais sans administration effective. Ces îlots sont des refuges pour les pêcheurs, les naufragés, les contrebandiers et les pirates qui font escale sans rendre de comptes. Carriacou, la plus grande des Grenadines françaises, a quelques habitations mais pas de garnison.`,
-      1717: `Jean-Michel de Lépinay prend le gouvernement en 1717 après une transition floue (Feuquières est passé brièvement par la Grenade avant d'être nommé gouverneur général des Îles du Vent). Lépinay administre une île en développement économique réel, mais exposée : la Grenade est la colonie française la plus proche de Trinidad et du Venezuela espagnols, et ses Grenadines sont un espace où toutes les juridictions se dissolvent. Les navires de commerce, les flibustiers et les contrebandiers y font escale librement.`,
+      1717: `<strong>Jean-Michel de Lépinay</strong> prend le gouvernement en 1717 après une transition floue — Feuquières est passé brièvement par la Grenade avant d'être nommé gouverneur général des Îles du Vent à Fort-Royal. Lépinay administre jusqu'au 3 janvier 1721 une île en développement économique réel mais exposée sur trois fronts.
+
+<strong>La porte de la Terre Ferme.</strong> La Grenade est la colonie française la plus méridionale des Petites Antilles, séparée de Trinidad espagnole par une soixantaine de kilomètres à peine. Cette proximité en fait un point de passage naturel pour le commerce interlope entre les Antilles françaises et le Venezuela espagnol : cacao, cuirs et indigo vénézuéliens transitent discrètement par les Grenadines vers Saint-George's. Lépinay, comme ses prédécesseurs, perçoit sa part de ces arrangements sans les encourager ouvertement.
+
+<strong>Les Grenadines.</strong> L'archipel qui s'étend entre la Grenade et Saint-Vincent — une centaine d'îlots, de cayes et de bancs coralliens — est nominalement grenadois mais sans administration effective. Carriacou, la plus grande, a quelques habitations de pêcheurs et une baie propice au carénage. Petite Martinique et les îlots au nord sont des escales connues des navires qui veulent éviter les ports surveillés. C'est un espace où les juridictions se dissolvent — entre la Grenade française, Saint-Vincent kalinago, et Trinidad espagnole, un navire peut circuler pendant des semaines sans croiser la moindre autorité.`,
     },
 
     zone: [],
