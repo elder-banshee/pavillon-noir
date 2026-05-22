@@ -134,12 +134,14 @@ function renderZones() {
       masquee = true;
     }
 
+    const estEspagne = puissanceId === 'espagnole';
+
     const style = {
-      color: couleur,
-      weight: isActive ? 2 : 1.5,
-      opacity: masquee ? 0.4 : 0.8,
+      color: estEspagne ? '#c84a1c' : couleur,  // contour jaune doré pour l'Espagne
+      weight: isActive ? (estEspagne ? 2 : 2) : 0.5,
+      opacity: masquee ? 0.4 : (estEspagne ? 1 : 0.8),
       fillColor: couleur,
-      fillOpacity: isActive ? 0.45 : (masquee ? 0.08 : 0.28),
+      fillOpacity: isActive ? 0.45 : (masquee ? 0.08 : 0.23),
       fillRule: 'nonzero',
       className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
     };
@@ -583,10 +585,14 @@ function majZone(juridictionId) {
   const groupe = layersZones[juridictionId];
   if (!groupe) return;
 
+  const j = JURIDICTIONS.find(j => j.id === juridictionId);
+  const puissanceId = j ? resoudre(j.puissance, anneeActive) : null;
+  const estEspagne = puissanceId === 'espagnole';
   const isActive = zoneActive === juridictionId;
+
   const style = {
-    fillOpacity: isActive ? 0.45 : 0.28,
-    weight: isActive ? 2 : 1.5,
+    fillOpacity: isActive ? 0.45 : 0.23,
+    weight:      isActive ? (estEspagne ? 2 : 2) : 0.5,
   };
 
   groupe.eachLayer(poly => poly.setStyle(style));

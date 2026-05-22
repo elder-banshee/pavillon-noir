@@ -103,11 +103,6 @@ path.leaflet-interactive:focus-visible {
   fill-opacity: 0.35 !important;
 }
 
-.carte-zone--active {
-  fill-opacity: 0.4 !important;
-  stroke-width: 2 !important;
-}
-
 /* ─── Pins de scénarios ─────────────────────────────────────── */
 .carte-pin {
   display: flex;
