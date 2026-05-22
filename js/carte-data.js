@@ -8,7 +8,7 @@
 // ─── Année de référence ──────────────────────────────────────
 // À mettre à jour manuellement après chaque session.
 // Détermine le maximum atteignable par le curseur temporel.
-const CARTE_ANNEE_REFERENCE = 1720;
+const CARTE_ANNEE_REFERENCE = 1716;
 
 // ─── Résolution de l'image ───────────────────────────────────
 const CARTE_IMAGE = {
@@ -1802,7 +1802,7 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
         zone: [],
 
         capitale: 'León (Santiago de los Caballeros de León)',
-        population_approx: `~40 000 habitants (1713, dont une majorité d'Indiens)`,
+        population_approx: `~40 000 habitants (dont une majorité d'Indiens)`,
         economie: 'Élevage, cacao, indigo, contrebande anglaise via la Mosquitia',
 
         /* note: `Gouverneur 1712–1720 non identifié. Arancibia (1720–1722) confirmé par Wikipedia EN. Sources primaires : AGI (Audiencia de Guatemala).`, */
@@ -1847,7 +1847,7 @@ Il prend les rênes dans un contexte de tensions accrues : les Anglais étendent
         zone: [],
 
         capitale: 'Santiago de los Caballeros de Guatemala (Antigua)',
-        population_approx: `~800 000 habitants (1713, dont une grande majorité d'Indiens)`,
+        population_approx: `~800 000 habitants (dont une grande majorité d'Indiens)`,
         economie: 'Indigo (añil), cacao, cochenille, bétail, missions dominicaines et franciscaines',
 
         /* note: `Le Chiapas relève de l'Audience de Guatemala, non de Mexico. Soconusco relève de l'Audience de Mexico (exception). Séquence confirmée : Wikipedia ES (Anexo:Gobernantes de la Capitanía General de Guatemala).`, */
@@ -1887,7 +1887,7 @@ Granda y Balbín vient de réprimer la grande révolte de Pablo Presbere (1709) 
         zone: [],
 
         capitale: 'Cartago',
-        population_approx: `~20 000 habitants (1713, très approximatif)`,
+        population_approx: `~20 000 habitants (très approximatif)`,
         economie: 'Cacao (côte atlantique), élevage, agriculture de subsistance',
 
         /* note: `Gouverneur confirmé en 1710 (Wikipedia EN, article Pablo Presbere). Mandat au-delà de 1712 non documenté avec certitude depuis les sources accessibles. AGI (Audiencia de Guatemala) : source primaire.`, */
@@ -1952,7 +1952,7 @@ La guerre (1718–1720) fait de Portobelo une cible potentielle pour les forces 
 
         capitale: 'Panama City (Ciudad de Panamá)',
 
-        population_approx: `~20 000 habitants (isthme entier, 1713, Tierra Firme et Veragua comprises) — dont Panama City (~8 000), Portobelo (~2 000 en temps ordinaire, dix fois plus pendant les foires), et Veragua (~3 000, très dispersés entre quelques missions et villages côtiers)`,
+        population_approx: `~20 000 habitants (isthme entier, 1713, Tierra Firme et Veragua comprises)<br>→ dont Panama City (~8 000), Portobelo (~2 000 en temps ordinaire, dix fois plus pendant les foires), et Veragua (~3 000, très dispersés entre quelques missions et villages côtiers)`,
 
         economie: [
             {
@@ -1969,13 +1969,15 @@ La guerre (1718–1720) fait de Portobelo une cible potentielle pour les forces 
             },
         ],
 
-    /* note: `Panama relève du vice-roi du Pérou (Lima), pas de Mexico — distinction essentielle.
-✅ Séquence des gouverneurs : Wikipedia EN (Royal Governor of Panama).
-✅ Foires de Portobelo : actives jusqu'en 1737 sur toute notre période.
-✅ Saccage de Panama City par Morgan en 1671 : établi.
-⚠️ Veragua : province nominalement distincte, administrée en pratique depuis Panama City — gouverneur propre rare, souvent lieutenance. Population ~3 000 : estimation très approximative faute de recensement.
-⚠️ Suspension précise des foires pendant la guerre de la Quadruple-Alliance : vraisemblable mais à confirmer sur source primaire.
-🎲 Le Darién oriental est traité dans le bloc 'darien' — la frontière entre les deux juridictions est purement théorique.`, */
+        /* note: `Panama relève du vice-roi du Pérou (Lima), pas de Mexico — distinction essentielle.
+    ✅ Séquence des gouverneurs : Wikipedia EN (Royal Governor of Panama).
+    ✅ Foires de Portobelo : actives jusqu'en 1737 sur toute notre période.
+    ✅ Saccage de Panama City par Morgan en 1671 : établi.
+    ⚠️ Veragua : province nominalement distincte, administrée en pratique depuis Panama City — gouverneur propre rare, souvent lieutenance. Population ~3 000 : estimation très approximative faute de recensement.
+    ⚠️ Suspension précise des foires pendant la guerre de la Quadruple-Alliance : vraisemblable mais à confirmer sur source primaire.
+    🎲 Le Darién oriental est traité dans le bloc 'darien' — la frontière entre les deux juridictions est purement théorique.`, */
+
+    },
 
     {
         id: 'darien',
@@ -1983,11 +1985,6 @@ La guerre (1718–1720) fait de Portobelo une cible potentielle pour les forces 
 
         puissance: {
             1712: 'conteste',
-            // Revendiqué par l'Espagne (nominalement partagé entre Panama et la Nouvelle-Grenade),
-            // contrôlé de facto par les Kunas. "conteste" est maintenu plutôt qu'"amerindienne"
-            // parce que la tension entre revendication espagnole et contrôle kuna est l'information
-            // politique centrale du territoire — distincte de la côte Miskito où la présence espagnole
-            // est quasiment inexistante.
         },
 
         gouverneur: {
@@ -1995,38 +1992,46 @@ La guerre (1718–1720) fait de Portobelo une cible potentielle pour les forces 
                 nom: '[Aucune autorité coloniale effective]',
                 pnj_id: null,
                 titre: 'Territoire kuna de facto — revendiqué par l\'Espagne, non administré',
-                // Les Espagnols maintiennent nominalement le presidio de Santa María la Antigua,
-                // fondé en 1510 — première ville européenne permanente du continent américain —
-                // mais abandonné et refondé à plusieurs reprises. En 1712, la présence espagnole
-                // dans l'intérieur du Darién est quasi nulle.
             },
         },
 
-        contexte: {
-            1712: `<strong>Géographie.</strong> Le Darién est l'isthme oriental entre Panama City et la Nouvelle-Grenade : une bande de terre étroite entre deux océans, couverte de forêts tropicales denses, traversée de fleuves impraticables et bordée à l'est par le massif du Serranía del Darién. La côte caraïbe, découpée en baies peu profondes et en archipels coralliens — dont l'archipel de San Blas, dit <em>Kuna Yala</em> — est navigable en sloop ou en pirogue mais impénétrable pour les grands navires. C'est précisément ce qui a protégé les Kunas depuis un siècle : la géographie est leur meilleure fortification.
+        contexte: [
+            // ── Géographie ────────────────────────────────────────
+            {
+                de: 1712,
+                texte: `L'isthme oriental entre Panama City et la Nouvelle-Grenade : une bande de terre étroite couverte de forêts tropicales denses, traversée de fleuves impraticables, bordée à l'est par le Serranía del Darién. La côte caraïbe, découpée en baies peu profondes et en archipels coralliens — dont l'archipel de San Blas (<em>Kuna Yala</em>) — est navigable en sloop ou en pirogue mais impénétrable pour les grands navires. C'est précisément ce qui protège les Kunas depuis un siècle : la géographie est leur meilleure fortification.`,
+            },
 
-<strong>Les Kunas.</strong> Les Kunas (ou Cunas, Tule dans leur propre langue) sont la nation amérindienne dominante du Darién en 1712. Organisés en communautés villageoises autonomes chacune dirigée par un <em>sayla</em> (chef), ils ne forment pas un État centralisé mais une confédération de fait, liée par une culture commune, une langue et une résistance partagée à la colonisation espagnole. Leur territoire s'étend des côtes de l'archipel de San Blas à l'intérieur forestier, en passant par les deux versants de la cordillère. Marins accomplis sur les eaux peu profondes de l'archipel, guerriers redoutables dans la forêt, ils ont repoussé toutes les tentatives de pénétration espagnole depuis le XVIe siècle — missions, présides, expéditions militaires — souvent avec l'aide discrète de pirates et de boucaniers anglais qui leur fournissent armes et poudre en échange de guides, d'eau douce et d'informations sur les routes espagnoles.
+            // ── Les Kunas ─────────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Les Kunas :</strong><br>
+Organisés en communautés villageoises autonomes dirigées chacune par un <em>sayla</em>, les Kunas ne forment pas un État centralisé mais une confédération de fait, liée par une culture commune et une résistance partagée à la colonisation espagnole. Marins accomplis dans l'archipel de San Blas, guerriers redoutables dans la forêt, ils ont repoussé toutes les tentatives espagnoles depuis le XVIe siècle — missions, présides, expéditions militaires. Ils entretiennent des rapports commerciaux discrets avec les pirates et boucaniers anglais : informations sur les galions espagnols, guidage dans les passes de l'archipel, contre armes et poudre. Cette relation n'est pas de la vassalité — les Kunas commercent sur un pied d'égalité qu'ils refusent à tout Européen colonial.`,
+            },
 
-<strong>La mémoire écossaise.</strong> La carte de 1708 porte encore les noms <em>Nouvelle Calidonia</em> et le port de <em>New Edinburg</em> — traces de la catastrophique expédition du Darién (1698–1700), par laquelle la Compagnie écossaise tenta d'établir une colonie commerciale à l'entrée des deux océans. Deux tentatives successives (1698 et 1699) se soldèrent par des milliers de morts — fièvre, dysenterie, famine — et une attaque espagnole finale en avril 1700. Les Kunas avaient initialement accueilli les Écossais avec curiosité et un accord commercial ; ils assistèrent à leur effondrement sans les en empêcher, et récupérèrent les ruines. En 1712, les noms sur la carte sont figés — déjà anachroniques. Les structures de bois de New Edinburgh ont disparu sous la végétation, mais les Kunas se souviennent des étrangers pâles qui avaient planté leurs tentes douze ans plus tôt.
-
-L'échec de l'expédition ruina la Compagnie d'Écosse et pesa directement sur les négociations menant à l'Acte d'Union de 1707, qui fusionna l'Écosse et l'Angleterre en Grande-Bretagne. Pour les personnages de la campagne — surtout britanniques — c'est une blessure nationale encore vive : douze ans, c'est la mémoire d'un père ou d'un oncle disparu là-bas.
-
-<strong>Les relations avec les pirates.</strong> Les Kunas entretiennent depuis des décennies des rapports commerciaux discrets avec les boucaniers et pirates anglais des Caraïbes. Ils leur vendent des informations sur les mouvements des galions espagnols traversant l'isthme, servent de guides dans les passes de l'archipel de San Blas, et achètent armes et poudre en échange. Cette relation n'est pas de la vassalité — les Kunas ne servent pas les pirates, ils commercent avec eux sur un pied d'égalité qu'ils refusent à tout Européen colonial. Un navire pirate qui cherche un mouillage discret sur la côte caraïbe du Darién, ou un guide pour remonter vers les routes de Portobelo, peut trouver interlocuteur — à condition de ne pas ressembler à un Espagnol.`,
-        },
+            // ── La mémoire écossaise ──────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>La mémoire écossaise :</strong><br>
+La carte Jaillot porte encore les noms <em>Nouvelle Calédonie</em> et <em>New Edinburgh</em> — traces de l'expédition du Darién (1698–1700), par laquelle la Compagnie écossaise tenta d'établir une colonie commerciale à l'entrée des deux océans. Deux tentatives successives se soldèrent par des milliers de morts — fièvre, dysenterie, famine — et une attaque espagnole finale en avril 1700. Les Kunas avaient accueilli les Écossais avec curiosité avant d'assister à leur effondrement ; ils récupérèrent les ruines. L'échec ruina la Compagnie d'Écosse et pesa directement sur l'Acte d'Union de 1707. Pour les personnages britanniques de la campagne, c'est une blessure nationale encore vive : douze ans, c'est la mémoire d'un père ou d'un oncle disparu là-bas. Les structures de bois de New Edinburgh ont disparu sous la végétation — mais les noms restent sur les cartes.`,
+            },
+        ],
 
         zone: [],
 
-        capitale: 'Aucune au sens européen — l\'archipel de San Blas (Kuna Yala) est le cœur du territoire kuna',
-        population_approx: 'Quelques dizaines de milliers de Kunas (estimation très approximative) ; présence espagnole quasi nulle dans l\'intérieur',
+        capitale: `Aucune au sens européen — l'archipel de San Blas (Kuna Yala) est le cœur du territoire kuna`,
+
+        population_approx: `Quelques dizaines de milliers de Kunas (estimation très approximative) ; présence espagnole quasi nulle dans l'intérieur`,
+
         economie: 'Pêche côtière et navigation en archipel, agriculture vivrière (maïs, manioc, plantain), commerce de guides et d\'informations avec les pirates anglais, troc d\'armes',
-        /* note: `✅ Établi : expédition écossaise du Darién 1698–1700, abandon avril 1700, ruine de la Compagnie d'Écosse, lien avec l'Acte d'Union 1707 (sources nombreuses : Wikipedia EN Darien scheme ; Prebble, The Darien Disaster, 1968).
-      ✅ Établi : les mentions Nouvelle Calédonie / New Edinburgh sur la carte Jaillot sont anachroniques — la carte date de 1708, les lieux sont abandonnés depuis 1700.
-      ✅ Établi : résistance kuna à la colonisation espagnole depuis le XVIe siècle — documentée, culminant dans la grande révolte de 1925 (Revolución Tule). Pour la période 1700–1720, voir Howe, <em>A People Who Would Not Kneel</em> (1998, Smithsonian).
-      ✅ Établi : organisation en communautés à sayla, confédération de fait sans État centralisé — Howe (1998) ; Sherzer, <em>Kuna Ways of Speaking</em> (1983).
-      ✅ Établi : archipel de San Blas (Kuna Yala) comme cœur du territoire kuna côtier.
-      ⚠️ Incertain : relations précises Kunas / pirates anglais pour 1712 spécifiquement — inférées de la géographie, de la résistance anticoloniale documentée et de la fréquentation des côtes du Darién par les boucaniers (attestée au XVIIe siècle, continuité vraisemblable). Pas de source primaire directe pour la période 1712–1720 sur ce point précis.
-      ⚠️ Population kuna : aucun recensement fiable pour 1712. "Quelques dizaines de milliers" est une estimation prudente basée sur les données postérieures.
-      🎲 Note de campagne : le Darién est narrativement l'un des espaces les plus riches de la carte — à la croisée de la mémoire écossaise (Union de 1707, blessure nationale), de la résistance amérindienne active, et des routes de l'argent péruvien à portée d'une traversée de l'isthme. Un personnage qui cherche un passage discret entre les deux océans, ou qui veut intercepter des informations sur les galions de Portobelo, a une raison de venir ici.`, */
+
+        /* note: `✅ Expédition écossaise du Darién 1698–1700, lien avec l'Acte d'Union 1707 (Wikipedia EN, Darien scheme ; Prebble, The Darien Disaster, 1968).
+    ✅ Toponymie Jaillot anachronique : carte de 1708, lieux abandonnés depuis 1700.
+    ✅ Résistance kuna documentée — Howe, A People Who Would Not Kneel (1998, Smithsonian).
+    ✅ Organisation en communautés à sayla — Howe (1998) ; Sherzer, Kuna Ways of Speaking (1983).
+    ⚠️ Relations Kunas / pirates anglais pour 1712 : inférées de la géographie et de la fréquentation documentée au XVIIe siècle — pas de source primaire directe pour 1712–1720.
+    ⚠️ Population kuna : aucun recensement fiable. "Quelques dizaines de milliers" est une estimation prudente.
+    🎲 Le Darién est à la croisée de la mémoire écossaise, de la résistance amérindienne active, et des routes de l'argent péruvien. Un navire cherchant un passage discret entre les deux océans, ou des informations sur les galions de Portobelo, a une raison de venir ici.`, */
     },
 
     {
@@ -2065,19 +2070,93 @@ L'échec de l'expédition ruina la Compagnie d'Écosse et pesa directement sur l
             },
         },
 
-        contexte: {
-            1712: `Le Nouveau Royaume de Grenade est administré par le Président-Gouverneur de la Real Audiencia de Santafé (Bogotá), relevant nominalement du vice-roi de Lima mais autonome en pratique. Le territoire, désigné "Nouvelle Grenade et Castilla del Oro" sur la carte, couvre un espace immense : les plaines de la côte caraïbe (provinces de Carthagène et Santa Marta), la cordillère andine jusqu'à Quito, et les Llanos orientaux jusqu'à l'Orénoque. Ses richesses sont l'or d'Antioquia et du Choco, le platine (alors peu connu), et les émeraudes de Muzo.
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Le Nouveau Royaume de Grenade couvre un espace immense — plaines caraïbes (Carthagène, Santa Marta), cordillère andine jusqu'à Quito, Llanos jusqu'à l'Orénoque — administré depuis Santafé (Bogotá), relevant nominalement du vice-roi de Lima mais autonome en pratique. Ses richesses sont l'or d'Antioquia et du Choco, les émeraudes de Muzo, et le cacao de la côte. Carthagène de Indias, sur la côte caraïbe, est le port de sortie de toutes ces richesses — et l'une des places les mieux fortifiées des Amériques.`,
+            },
 
-En 1715, éclate un événement sans précédent dans l'histoire coloniale espagnole : les <em>oidores</em> (juges) de l'Audiencia renversent et font arrêter leur propre président, Francisco de Meneses, qu'ils jugent corrompu et tyrannique. Ils l'envoient prisonnier au château de Bocachica à Carthagène. Ce "coup d'État judiciaire" déclenche une crise institutionnelle qui parvient jusqu'à Madrid — et convainc la Couronne que la Nouvelle-Grenade nécessite une autorité plus forte.`,
-            1717: `La réponse de Madrid est radicale : par la Real Cédula du 27 mars 1717, Philippe V crée le <strong>Vice-royauté de Nouvelle-Grenade</strong> — la troisième d'Amérique — avec Santafé pour capitale. C'est la première des grandes Réformes Bourboniennes en Amérique. Un premier représentant provisoire, Pedrosa y Guerrero, arrive à Santafé en juillet 1718 et proclame le virreinato. Le premier vice-roi officiel, Jorge de Villalonga, n'arrive qu'en novembre 1719. La vice-royauté est supprimée dès 1723 — jugée trop coûteuse — et ne sera rétablie définitivement qu'en 1739.`,
-        },
+            // ── Le coup d'État judiciaire de 1715 ─────────────────
+            {
+                de: 1715, a: 1719,
+                texte: `<strong>Le coup d'État judiciaire :</strong><br>
+En 1715, les <em>oidores</em> de l'Audiencia renversent et font arrêter leur propre président, Francisco de Meneses, jugé corrompu et tyrannique. Ils l'envoient prisonnier au château de Bocachica à Carthagène. Cet événement sans précédent dans l'histoire coloniale espagnole déclenche une crise institutionnelle qui remonte jusqu'à Madrid — et convainc la Couronne qu'une autorité plus forte est nécessaire.`,
+            },
+
+            // ── Création de la Vice-royauté ────────────────────────
+            {
+                de: 1717, a: 1724,
+                texte: `<strong>La Vice-royauté de Nouvelle-Grenade :</strong><br>
+La réponse de Madrid est radicale : par la Real Cédula du 27 mars 1717, Philippe V crée la troisième vice-royauté d'Amérique, avec Santafé pour capitale. C'est la première des grandes Réformes Bourboniennes dans les Indes. Pedrosa y Guerrero arrive en juillet 1718, Villalonga — premier vice-roi officiel — en novembre 1719. La vice-royauté est supprimée dès 1723, jugée trop coûteuse — elle ne sera rétablie définitivement qu'en 1739.`,
+            },
+        ],
 
         zone: [],
 
         capitale: 'Santafé de Bogotá',
-        population_approx: '~400 000 habitants (1713, Nouveau Royaume de Grenade et côtes)',
+        population_approx: `~400 000 habitants`,
         economie: 'Or (Antioquia, Choco), émeraudes (Muzo), platine, indigo, cacao, commerce avec Carthagène',
-        /* note: `"Castilla del Oro" sur la carte est une désignation cartographique ancienne pour la côte caraïbe — elle englobe les provinces de Carthagène et Santa Marta, qui ont chacune un gouverneur militaire distinct mais subordonné au Président de Santafé. La Vice-royauté de 1717 est la première réforme bourbonienne des Indes — fait historique établi (Real Cédula 27 mars 1717). L'épisode du renversement de Meneses par les oidores en 1715 est la cause directe de cette réforme — événement documenté (Wikipedia ES, BiblioFEP, Universidad de Bergen). La vice-royauté est déjà couverte dans gouverneurs_caraibes.html pour les noms de Pedrosa et Villalonga — données concordantes.`, */
+
+        /* note: `✅ "Castilla del Oro" : désignation cartographique ancienne pour la côte caraïbe — provinces de Carthagène et Santa Marta, gouverneurs militaires distincts mais subordonnés à Santafé.
+    ✅ Vice-royauté créée par Real Cédula du 27 mars 1717 — établi (Wikipedia ES, BiblioFEP, Universidad de Bergen).
+    ✅ Renversement de Meneses par les oidores en 1715 : cause directe de la réforme — documenté.
+    ✅ Vice-royauté supprimée en 1723, rétablie en 1739 — établi.`, */
+    },
+
+    {
+        id: 'cartagena',
+        nom: 'Carthagène de Indias',
+
+        puissance: {
+            1712: 'espagnole',
+        },
+
+        gouverneur: {
+            1712: {
+                nom: '[Gouverneur militaire — non identifié avec certitude]',
+                pnj_id: null,
+                titre: 'Gouverneur et Commandant militaire de la Plaza de Cartagena',
+            },
+        },
+
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Carthagène de Indias est le principal port de sortie de l'empire espagnol sur la côte caraïbe de Terre Ferme — l'or d'Antioquia, les émeraudes de Muzo, le cacao de Venezuela y transitent avant d'embarquer pour Séville via La Havane. La ville est aussi l'un des grands marchés de l'Asiento — le commerce d'esclaves africains concédé aux Anglais depuis 1713. C'est une ville de négoce, de transit et de pouvoir, où les décisions prises à Santafé ou à Lima ont des répercussions immédiates sur les quais.`,
+            },
+
+            // ── Fortifications ────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>La place forte :</strong><br>
+Carthagène est l'une des villes les mieux défendues des Amériques. Le château de Bocachica contrôle l'entrée de la baie intérieure ; les murailles de la ville, renforcées après le sac de Francis Drake (1586) et celui du baron de Pointis (1697), forment une enceinte quasi continue. La garnison est la plus nombreuse de toute la côte caraïbe espagnole. Prendre Carthagène de force est hors de portée d'un équipage pirate — mais la contourner, la renseigner, ou en corrompre les douaniers est une autre affaire.`,
+            },
+
+            // ── L'Asiento anglais ─────────────────────────────────
+            {
+                de: 1713, a: 1720,
+                texte: `<strong>L'Asiento anglais :</strong><br>
+Le traité d'Utrecht (1713) accorde à la South Sea Company le monopole du commerce d'esclaves africains vers les colonies espagnoles — l'<em>Asiento</em>. Carthagène est l'un des ports d'entrée principaux. Des agents anglais de la Compagnie y résident légalement, ce qui crée une tension permanente entre la présence commerciale britannique officielle et la méfiance espagnole. La guerre de la Quadruple-Alliance (1718–1720) suspend l'Asiento et expulse les agents anglais.`,
+            },
+            {
+                de: 1720,
+                texte: `<strong>L'Asiento anglais :</strong><br>
+La paix revenue, la South Sea Company reprend ses droits. Les agents anglais réinstallés à Carthagène reprennent le commerce d'esclaves — dans un climat de suspicion mutuelle aggravée par la guerre récente.`,
+            },
+        ],
+
+        zone: [],
+
+        capitale: 'Carthagène de Indias',
+        population_approx: `~20 000 habitants (dont une forte proportion d'esclaves africains et d'affranchis)`,
+        economie: 'Transit de l\'or et des émeraudes, commerce d\'esclaves (Asiento), import de manufactures européennes, contrebande',
+
+        /* note: `Carthagène est une alcaldía mayor et place militaire distincte de la Présidence de Santafé, avec son propre gouverneur militaire. Le gouverneur civil de la Nouvelle-Grenade (Santafé) n'a pas autorité directe sur la garnison de Carthagène.
+    ⚠️ Gouverneur militaire 1712 : non identifié depuis les sources accessibles. AGI (Audiencia de Santa Fe, legajos 450 et suivants) : source primaire.
+    ✅ Sac de Pointis 1697 : établi — dernier grand assaut réussi contre Carthagène avant Vernon en 1741.
+    ✅ Asiento anglais (South Sea Company) depuis Utrecht 1713 : établi.`, */
     },
 
     {
@@ -2111,19 +2190,38 @@ En 1715, éclate un événement sans précédent dans l'histoire coloniale espag
             },
         },
 
-        contexte: {
-            1712: `Province espagnole de Terre Ferme, la Venezuela (ou province de Caracas) s'étend du cap de la Vela à l'ouest jusqu'à Maracapana à l'est, bordée au sud par les Llanos et l'Orénoque. Sa capitale, Santiago de León de Caracas, est une ville modeste mais active, entourée de plantations de cacao et d'indigo. La province dépend de la Real Audiencia de Santo Domingo pour les affaires judiciaires et politiques, et nominalement du vice-roi de Nouvelle-Grenade (créé en 1717) pour les affaires militaires.
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Province espagnole de Terre Ferme s'étendant du cap de la Vela jusqu'à l'est de Caracas, bordée au sud par les Llanos et l'Orénoque. Sa capitale, Santiago de León de Caracas, est entourée de plantations de cacao et d'indigo. Le commerce du cacao de Caracas, illégalement canalisé vers les Hollandais de Curaçao et les Anglais des Antilles, est quasi-institutionnel — les gouverneurs alternent entre répression et participation selon leur intérêt du moment.`,
+            },
 
-Le gouverneur Cañas y Merino (1711–1714) est une figure de l'arbitraire colonial : il réprime violemment la contrebande pour en exercer lui-même le monopole, humilie les membres du cabildo, ordonne l'abattage de tous les arbres de Caracas en 1713–1714 (épisode documenté, prétextant des raisons sanitaires), et finit par être destitué sous la pression des notables locaux.`,
-            1716: `Betancourt y Castro (1716–1720) succède à l'intérimaire Bertodano dans un contexte de tensions persistantes entre les élites créoles et l'administration coloniale. Le commerce du cacao de Caracas, illégalement canalisé vers les Hollandais de Curaçao et les Anglais des Antilles, est la source principale de conflits avec Madrid. La contrebande est ici quasi-institutionnelle — les corsaires opérant dans les Caraïbes orientales s'approvisionnent régulièrement sur les côtes vénézuéliennes.`,
-        },
+            // ── Cañas y Merino ────────────────────────────────────
+            {
+                de: 1712, a: 1715,
+                texte: `<strong>Cañas y Merino — l'arbitraire colonial :</strong><br>
+Le gouverneur Cañas y Merino réprime violemment la contrebande pour en exercer lui-même le monopole, humilie les membres du cabildo, et ordonne en 1713–1714 l'abattage de tous les arbres de Caracas sous prétexte de raisons sanitaires. Il finit par être destitué sous la pression des notables locaux — mais son successeur intérimaire Bertodano arrive sans mandat clair et sans autorité réelle.`,
+            },
+
+            // ── Betancourt y Castro ───────────────────────────────
+            {
+                de: 1716, a: 1721,
+                texte: `<strong>Betancourt y Castro :</strong><br>
+Il succède à Bertodano dans un contexte de tensions persistantes entre élites créoles et administration coloniale. La contrebande avec Curaçao et les Antilles anglaises reste la réalité économique dominante — Betancourt y Castro la tolère avec pragmatisme, conscient qu'il n'a pas les moyens de l'éradiquer.`,
+            },
+        ],
 
         zone: [],
 
         capitale: 'Santiago de León de Caracas',
-        population_approx: '~60 000 habitants (1713, province entière)',
-        economie: 'Cacao (exportation illicite vers Curaçao et les Antilles anglaises), indigo, bétail',
-        /* note: `La province de Venezuela dépend de l'Audiencia de Santo Domingo (judiciaire) et nominalement du vice-roi de Nouvelle-Grenade à partir de 1717 (militaire) — mais en pratique les gouverneurs rapportent directement à Madrid via le Conseil des Indes. À ne pas confondre avec la Capitainerie générale du Venezuela, créée en 1777 seulement. Bertodano : même personnage que le gouverneur de Cumaná (1706–1711) puis gouverneur de Porto Rico (1716–1720) — trajectoire confirmée par la Real Academia de la Historia (DBE). Sources : Venciclopedia, BiblioFEP (Fundación Empresas Polar), Censo-Guía AGI.`, */
+        population_approx: `~60 000 habitants`,
+        economie: 'Cacao (exportation légale et interlope via Curaçao), indigo, bétail, contrebande',
+
+        /* note: `✅ Cañas y Merino — abattage des arbres de Caracas 1713–1714 : documenté (Venciclopedia, BiblioFEP).
+    ✅ Betancourt y Castro : Wikipedia ES, BiblioFEP.
+    ✅ Bertodano : même personnage que gouverneur de Cumaná (1706–1711) et de Porto Rico (1716–1720) — trajectoire confirmée par la Real Academia de la Historia (DBE).
+    ⚠️ Population : estimation composite — aucun recensement précis pour la période.`, */
     },
 
     {
@@ -2142,23 +2240,28 @@ Le gouverneur Cañas y Merino (1711–1714) est une figure de l'arbitraire colon
             },
         },
 
-        contexte: {
-            1712: `Île plate et aride de 156 km², sans eau douce permanente, à 87 km au nord de la côte vénézuélienne et 120 km à l'ouest de Marguerita. La carte de 1708 la désigne "Aux Anglois" — formulation qui traduit une réalité de fréquentation plutôt que de souveraineté : l'île est nominalement espagnole depuis 1638, date à laquelle le gouverneur de Cumaná Benito Arias Montano en chassa les Hollandais et détruisit leurs installations salicoles. Depuis lors, elle est officiellement vide.
-
-En pratique, La Tortuga est le théâtre d'une institution maritime annuelle bien documentée : la <em>Flota de Satertuda</em> (corruption anglaise de "La Tortuga"), flotte saisonnière de petits navires anglo-américains — principalement de Nouvelle-Angleterre, des Bermudes et des Antilles britanniques — qui viennent extraire le sel de ses salines naturelles sur la côte sud-est. Ce sel, d'une qualité médiocre (grossier, rougeâtre, entièrement dépendant du soleil tropical), est néanmoins indispensable aux économies sucrières des Antilles britanniques pour la conservation des aliments. Les archéologues ont retrouvé sur le site de Punta Salinas les traces matérielles de ces camps saisonniers : céramiques anglaises, hollandaises et bermoudiennes, structures légères, restes de repas.
-
-Les Espagnols tolèrent cette fréquentation avec irritation mais sans les moyens de l'empêcher. Le gouverneur de Cumaná en rend compte régulièrement à Madrid sans recevoir les renforts nécessaires pour établir une présence permanente.`,
-        },
+        contexte: [
+            {
+                de: 1712,
+                texte: `Île plate et aride de 156 km², sans eau douce permanente, à 87 km au nord de la côte vénézuélienne. La carte Jaillot la désigne <em>"Aux Anglois"</em> — formulation qui traduit une réalité de fréquentation plutôt que de souveraineté : l'île est nominalement espagnole depuis 1638, mais officiellement vide depuis l'expulsion des Hollandais par le gouverneur de Cumaná.`,
+            },
+            {
+                de: 1712,
+                texte: `<strong>La Flota de Satertuda :</strong><br>
+Chaque année, une flotte saisonnière de petits navires anglo-américains — Nouvelle-Angleterre, Bermudes, Antilles britanniques — vient extraire le sel des salines naturelles de la côte sud-est. Ce sel grossier est indispensable aux économies sucrières des Antilles britanniques pour la conservation des aliments. Les Espagnols tolèrent cette fréquentation avec irritation, faute de moyens de l'empêcher. L'île est aussi une escale de pêche à la tortue et un mouillage de fortune pour les navires qui longent la côte vénézuélienne.`,
+            },
+        ],
 
         zone: [],
 
-        capitale: 'Aucune — île sans établissement permanent',
-        population_approx: 'Nulle en permanence ; plusieurs centaines de marins saisonniers lors des récoltes de sel',
-        economie: 'Sel (exploitation anglo-américaine saisonnière), pêche à la tortue',
-        /* note: `✅ Établi : exploitation salicole hollandaise 1624–1638 ; expulsion par le gouverneur de Cumaná en 1638 ; fréquentation anglo-américaine 1638–1781 documentée archéologiquement (Antczak & Antczak, <em>Islands of Salt</em>, 2019 ; <em>Risky Business</em>, Taylor & Francis, 2015).
-    ✅ Établi : la mention "Aux Anglois" sur la carte Jaillot reflète cette fréquentation saisonnière établie, non une souveraineté.
-    À ne pas confondre avec : l'île de la Tortue haïtienne (<em>Île de la Tortue*</em>, au nord d'Hispaniola), ancienne base flibustière française — deux îles distinctes portant le même nom.
-    Ce bloc est un complément au bloc \`nouvelle-andalousie\` — La Tortuga relève nominalement de la province de Cumaná.`, */
+        capitale: '[Aucune — île sans établissement permanent]',
+        population_approx: `Nulle en permanence ; plusieurs centaines de marins saisonniers lors des récoltes de sel`,
+        economie: 'Sel (exploitation anglaise saisonnière), pêche à la tortue',
+
+        /* note: `✅ Fréquentation anglo-américaine 1638–1781 documentée archéologiquement (Antczak & Antczak, Islands of Salt, 2019).
+    ✅ Mention "Aux Anglois" sur la carte Jaillot : fréquentation établie, non souveraineté.
+    À ne pas confondre avec l'île de la Tortue haïtienne (nord d'Hispaniola).
+    Relève nominalement de la province de Cumaná.`, */
     },
 
     {
@@ -2174,36 +2277,42 @@ Les Espagnols tolèrent cette fréquentation avec irritation mais sans les moyen
                 nom: '[Gouverneur — non identifié avec certitude]',
                 pnj_id: null,
                 titre: 'Gouverneur et Capitaine général de Marguerita',
-                // Source primaire de référence : AGI Santo Domingo, 614
-                // (lettre du gouverneur, 5 oct. 1700) et legajos suivants.
-                // Liste complète des 34 gouverneurs titrés (1594–1810) non
-                // accessible en ligne pour cette période précise.
             },
         },
 
-        contexte: {
-            1712: `La Provincia de Marguerita est en 1712 l'une des plus anciennes unités administratives de l'empire espagnol en Amérique : érigée en gobernación dès 1525, elle fut la première province organisée du Venezuela actuel. L'île doit son nom et sa première fortune aux pêcheries de perles qui firent sa gloire au XVIe siècle — <em>margarita</em>, en latin, signifie perle. Ces gisements sont épuisés depuis le début du XVIIe siècle, laissant l'île dans un relatif dénuement dont elle ne s'est jamais tout à fait remise.
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Province espagnole depuis 1525 — la première organisée du Venezuela actuel. L'île doit son nom et sa première fortune aux pêcheries de perles (<em>margarita</em>, en latin) qui firent sa gloire au XVIe siècle — épuisées depuis le début du XVIIe. Marguerita est une île double reliée par un isthme étroit, d'environ 1 000 km², séparée de Cumaná par le canal de Bocas. Sa position en fait un point de passage incontournable entre Trinidad, les Petites Antilles et la Terre Ferme espagnole. La capitale administrative est La Asunción ; le port principal, Pampatar.`,
+            },
 
-<strong>Géographie et position stratégique.</strong> Marguerita est une île double — deux masses terrestres reliées par un isthme étroit, la péninsule de Macanao à l'ouest et le corps principal à l'est — d'environ 1 000 km² au total. Elle est séparée de la côte vénézuélienne (Cumaná) par le canal de Bocas, large d'une vingtaine de kilomètres. Sa position en fait un point de passage incontournable pour tout navire naviguant entre Trinidad, les Petites Antilles et les côtes de la Terre Ferme espagnole. Le port de Pampatar, sur la côte sud-est, est le principal point d'entrée maritime.
+            // ── Économie et vulnérabilité ──────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Économie et vulnérabilité :</strong><br>
+Faute de perles, Marguerita vit de l'élevage caprin et bovin, de la pêche côtière, et d'un commerce de demi-contrebande avec les navires étrangers. Son isolement relatif en fait depuis le XVIe siècle une cible récurrente : les Français l'ont pillée en 1576, 1593 et 1677. La seule défense organisée est le fort de Pampatar (<em>Castillo de San Carlos de Borromeo</em>). Le gouverneur, peu soutenu par le continent, est structurellement porté à fermer les yeux sur un commerce interlope qui fait vivre l'île.`,
+            },
 
-<strong>Administration.</strong> Marguerita est une province à part entière, avec son propre Gouverneur et Capitaine général nommé par la Couronne — distincte de la Provincia de Nueva Andalucía (Cumaná) sur le continent. Elle dépend de la Real Audiencia de Santo Domingo jusqu'en 1739. La capitale administrative est <strong>La Asunción</strong>, petite ville de l'intérieur ; Pampatar et Porlamar sont les centres commerciaux côtiers. En 1712, l'île compte une population d'environ 8 000 à 10 000 habitants — Espagnols créoles, métis, libres de couleur et esclaves — dont une part significative vit de la pêche, du petit commerce et de l'élevage caprin.
-
-<strong>Économie et piraterie.</strong> Faute de perles, Marguerita tire ses ressources de l'élevage (bovins, caprins), de la pêche côtière, et d'un commerce de demi-contrebande avec les navires étrangers qui longent la côte. Sa proximité avec les routes du commerce intercolonial — et son isolement relatif par rapport aux garnisons continentales — en fait depuis le XVIe siècle une cible récurrente pour les corsaires et pirates : les Français l'ont pillée en 1576, 1593 et 1677. Cette vulnérabilité chronique explique les fortifications modestes de Pampatar et le recours fréquent à des milices locales peu équipées. En 1712–1720, le fort de Pampatar (<em>Castillo de San Carlos de Borromeo</em>) est la seule défense organisée de l'île.
-
-<strong>Île de Coche et îlots dépendants.</strong> L'île de Coche, au sud de Marguerita (environ 55 km²), et l'îlot de Cubagua — berceau des pêcheries de perles, aujourd'hui déserté — relèvent de la même gouvernance. Cubagua, première ville espagnole des Amériques (Nueva Cádiz, fondée vers 1500, abandonnée vers 1543), est en ruines en 1712 mais son nom reste sur les cartes.`,
-        },
+            // ── Îlots dépendants ───────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Coche et Cubagua :</strong><br>
+L'île de Coche (55 km²) au sud et l'îlot de Cubagua — berceau des pêcheries de perles, fondé vers 1500 sous le nom de Nueva Cádiz, abandonné vers 1543 et en ruines — relèvent de la même gouvernance. Cubagua reste sur les cartes ; sur le terrain, il n'y a plus que des pierres et quelques pêcheurs de passage.`,
+            },
+        ],
 
         zone: [],
 
         capitale: 'La Asunción (administrative) ; Pampatar (maritime)',
-        population_approx: '~8 000 à 10 000 habitants (1712, estimation — recensement de 1757 : 10 064 habitants)',
-        economie: 'Élevage (bovins, caprins), pêche côtière, commerce intercolonial (légal et interlope), ancienne pêcherie de perles (épuisée)',
-        /* note: `⚠️ Incertain : nom du gouverneur pour 1712–1720. Les sources en ligne ne fournissent pas de liste nominative des gouverneurs de Marguerita pour le début du XVIIIe siècle. Manuel Taibo (<em>La Provincia de Marguerita 1525–1819</em>) mentionne 34 gouverneurs titrés entre 1594 et 1810 mais sans dates individuelles accessibles en ligne. Source primaire de référence : AGI Santo Domingo, legajos 614 et suivants. À compléter en bibliothèque spécialisée ou via le Catálogo de Pasajeros de Indias (AGI).
-    ✅ Établi : statut de province distincte de Nueva Andalucía, dépendant de la Real Audiencia de Santo Domingo jusqu'en 1739 (Wikipedia ES, Provincia de Marguerita).
-    ✅ Établi : population de 10 064 habitants au recensement de 1757 (Viajeros del Tiempo, citant le Vecindario de 1757 ordonné par le gouverneur Alonso del Río y Castro).
-    ✅ Établi : fort de Pampatar (Castillo San Carlos de Borromeo) — fortification côtière existante en 1712.
-    ✅ Établi : épuisement des pêcheries de perles au début du XVIIe siècle.
-    🎲 Note de campagne : Marguerita est un nœud de passage entre l'est des Caraïbes et la Terre Ferme. Tout navire reliant Trinidad ou les Petites Antilles à Carthagène ou Portobelo passe à portée de ses côtes. Le gouverneur local, isolé et peu soutenu par le continent, est structurellement porté à fermer les yeux sur un commerce interlope qui fait vivre l'île.`, */
+        population_approx: `~8 000 à 10 000 habitants (estimation très approximative)`,
+        economie: 'Élevage (bovins, caprins), pêche côtière, commerce intercolonial légal et interlope',
+
+        /* note: `✅ Population au recensement de 1757 : 10 064 habitants (Vecindario ordonné par le gouverneur Alonso del Río y Castro).
+    ✅ Fort de Pampatar (Castillo San Carlos de Borromeo) : fortification existante en 1712.
+    ✅ Pillages français 1576, 1593, 1677 : établis.
+    ✅ Cubagua (Nueva Cádiz) fondée vers 1500, abandonnée vers 1543 : établi.
+    ⚠️ Gouverneur 1712 : non identifié. Source primaire : AGI Santo Domingo, legajos 614 et suivants.`, */
     },
 
     {
@@ -2237,18 +2346,43 @@ Les Espagnols tolèrent cette fréquentation avec irritation mais sans les moyen
             },
         },
 
-        contexte: {
-            1712: `Province espagnole de Terre Ferme, la Nueva Andalucía couvre l'est du Venezuela actuel, avec Cumaná pour capitale — une des plus vieilles villes permanentes d'Amérique. La province relève de l'Audiencia de Santo Domingo. Son économie repose sur la pêche aux perles (en déclin), le cacao, et une contrebande active avec les Hollandais du Surinam, les Français de Trinidad et les Anglais des Petites Antilles. Les missions capucines aragonaises quadrillent l'intérieur des terres ; les Indiens Caribes résistent sur les marges.`,
-            1715: `Après la mort de Ruiz de Murga, la province connaît une vacance de pouvoir comblée par le cabildo local. Cette période d'administration incertaine coïncide avec la guerre de la Quadruple Alliance (1718–1720), qui fait de la région un enjeu militaire indirect.`,
-            1717: `Carreño prend le gouvernorat dans un contexte de tensions croissantes avec les missions capucines et les populations indiennes. En 1718, son successeur désigné Tornera Soto fonde de facto la ville de Maturín — acte que ni le roi ni le cabildo ne reconnaissent légalement à l'époque.`,
-        },
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Province espagnole de Terre Ferme couvrant l'est du Venezuela actuel, avec Cumaná pour capitale — l'une des plus vieilles villes permanentes des Amériques, fondée en 1515. La province relève de l'Audiencia de Santo Domingo. Son économie repose sur le cacao, la pêche (perles en déclin depuis le début du XVIIe) et une contrebande active avec les Hollandais du Surinam, les Français de Martinique et les Anglais des Petites Antilles. Les missions capucines aragonaises quadrillent l'intérieur ; les Indiens Caribes résistent sur les marges orientales et l'Orénoque.`,
+            },
+
+            // ── Ruiz de Murga ─────────────────────────────────────
+            {
+                de: 1712, a: 1715,
+                texte: `<strong>Ruiz de Murga :</strong><br>
+Administrateur méticuleux dans une province difficile à gouverner. Cumaná est le point de départ des expéditions vers l'Orénoque et les Llanos — territoire que Madrid revendique et ne contrôle pas. La contrebande avec Trinidad et Marguerita est la réalité économique dominante que Ruiz de Murga surveille sans pouvoir l'éradiquer. Sa mort en 1715 laisse la province sans gouverneur, le cabildo assurant un intérim chaotique.`,
+            },
+
+            // ── Vacance et guerre ─────────────────────────────────
+            {
+                de: 1715, a: 1717,
+                texte: `<strong>Vacance de pouvoir :</strong><br>
+L'intérim du cabildo coïncide avec les tensions de la guerre de la Quadruple-Alliance qui se profile. La province, sans gouverneur nommé, est particulièrement vulnérable aux incursions pirates et aux empiétements hollandais depuis le Surinam.`,
+            },
+
+            // ── Carreño et Tornera Soto ───────────────────────────
+            {
+                de: 1717, a: 1721,
+                texte: `<strong>Carreño :</strong><br>
+Il prend le gouvernorat dans un contexte de tensions avec les missions capucines, dont l'influence sur les populations indiennes concurrence l'autorité civile. En 1718, son successeur désigné Tornera Soto fonde de facto la ville de Maturín — acte que ni le roi ni le cabildo ne reconnaissent légalement à l'époque, mais qui marque la pénétration espagnole dans l'intérieur des Llanos.`,
+            },
+        ],
 
         zone: [],
 
         capitale: 'Cumaná',
-        population_approx: '~8 000 habitants (1713, dont une majorité d\'Indiens)',
-        economie: 'Cacao, pêche, contrebande hollandaise et française, missions capucines',
-        /* note: 'Trinidad dépend nominalement de Nueva Andalucía jusqu\'en 1731, date à laquelle elle devient province distincte. Séquence des gouverneurs : source principale = blog du Cronista de Cumaná (Badaracco Rivero, 2012, archives locales). Fiabilité modérée pour les dates précises.', */
+        population_approx: `~8 000 habitants à Cumaná (1713) ; population indienne de l'intérieur non chiffrée — Caribes, Chaimas, Cumanagotes dans les missions capucines`,
+        economie: 'Cacao, pêche côtière, contrebande (Hollandais du Surinam, Français de Martinique), missions capucines',
+
+        /* note: `Trinidad dépend nominalement de Nueva Andalucía jusqu'en 1731.
+    Séquence des gouverneurs : Cronista de Cumaná (Badaracco Rivero, 2012, archives locales). Fiabilité modérée.`, */
     },
 
     {
@@ -2282,17 +2416,81 @@ Les Espagnols tolèrent cette fréquentation avec irritation mais sans les moyen
             },
         },
 
-        contexte: {
-            1712: `Poste marginal de l'empire espagnol, Trinidad est administrée depuis San José de Oruña (aujourd'hui Saint Joseph), bien que les gouverneurs résident souvent à Puerto España, mieux placée sur la côte ouest. L'île reste peu peuplée, mal défendue, et sert de porte d'entrée vers la Terre Ferme et l'Orénoque. Les missions capucines tentent d'évangéliser les populations indigènes. Le commerce légal est étranglé par le monopole espagnol ; la contrebande avec les Hollandais du Surinam et les Français de la Martinique est la règle.`,
-            1716: `Sous Yarza, Trinidad végète. La faiblesse de la garnison et l'isolement de l'île en font une cible facile pour les pirates opérant entre les Petites Antilles et le Venezuela. Les Anglais et les Hollandais commercent de fait librement avec l'île malgré les interdictions.`,
-        },
+        contexte: [
+            // ── Géographie et position ────────────────────────────
+            {
+                de: 1712,
+                texte: `Grande île de 4 800 km² à l'extrémité méridionale des Petites Antilles, séparée du Venezuela par le détroit de Bocas del Dragón (8 km au nord) et le golfe de Paria. Sa position en fait un carrefour naturel entre les Antilles, la Terre Ferme espagnole et l'embouchure de l'Orénoque. Les gouverneurs espagnols résident officiellement à San José de Oruña (Saint Joseph), mais fréquentent davantage Puerto España sur la côte ouest, mieux placée pour surveiller le trafic maritime.`,
+            },
+
+            // ── Une île négligée ──────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Une île que l'empire oublie :</strong><br>
+Trinidad est la province la plus pauvre et la plus isolée de la juridiction de Cumaná. Le commerce légal est étranglé par le monopole espagnol — aucun navire étranger n'est censé faire escale. En pratique, la contrebande avec les Hollandais du Surinam, les Français de la Martinique et les Anglais de la Barbade est la règle. La garnison est dérisoire — quelques dizaines de soldats mal payés — et la côte est trouée de criques et de baies que personne ne surveille. Un capitaine qui connaît ces eaux peut entrer et sortir sans jamais croiser une autorité espagnole.`,
+            },
+
+            // ── Populations et société ────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Populations :</strong><br>
+La société trinidadienne en 1712 est un mélange instable : quelques centaines de colons espagnols et créoles concentrés dans les villes, une population indienne — Arawaks, Caribes, Waraos — dispersée dans les missions capucines ou retirée dans les forêts et les marais du sud, et une poignée d'esclaves africains employés dans les petites plantations de cacao. Les Waraos, peuple des marais de l'Orénoque dont le territoire chevauche Trinidad et le delta continental, sont des piroguiers hors pair — ils naviguent dans les bayous du sud de l'île que les Espagnols évitent. Les affranchis et les gens de couleur libres forment déjà une couche sociale intermédiaire active dans le petit commerce et la pêche.`,
+            },
+
+            // ── Le cacao et la contrebande ────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Le cacao et la contrebande :</strong><br>
+La principale richesse de Trinidad est le cacao — de qualité comparable au cacao vénézuélien, moins coûteux à produire grâce au travail indien des missions. L'île exporte clandestinement vers la Martinique et la Barbade en échange de produits manufacturés européens dont le monopole espagnol interdit l'import. Ces échanges se font de nuit, dans les criques du nord-ouest, avec la complicité tacite des gouverneurs successifs qui prélèvent leur part informelle.`,
+            },
+
+            // ── Yarza et la stagnation ────────────────────────────
+            {
+                de: 1716, a: 1721,
+                texte: `<strong>Sous Yarza — la stagnation :</strong><br>
+Le mandat de Yarza est une période grise : ni réformes ni catastrophe. La garnison reste insuffisante, la contrebande continue, les missions capucines se disputent les territoires indiens avec les autorités civiles. Les pirates opérant entre les Petites Antilles et la Terre Ferme passent au large de Trinidad sans s'y arrêter — l'île n'a rien à leur offrir qu'ils ne trouvent plus facilement ailleurs. C'est précisément ce relatif désintérêt qui la rend vivable pour ses habitants.`,
+            },
+
+            // ── La maladie du cacao ("le blast") ──────────────────
+            {
+                de: 1722, a: 1726,
+                texte: `<strong>La maladie du cacao :</strong><br>
+Les plantations de cacao de Trinidad commencent à dépérir. Une maladie inconnue — que les colons appellent simplement <em>the blast</em> — s'attaque aux cacaoyers Criollo, la variété cultivée depuis les années 1670 et introduite du Venezuela. Les plants noircissent, les fruits avortent, les vergers meurent sans que personne ne comprenne pourquoi. Les planteurs tentent de limiter la contagion en arrachant les arbres malades, sans succès.`,
+            },
+            {
+                de: 1726,
+                texte: `<strong>L'effondrement du cacao :</strong><br>
+Vers 1725–1727, le <em>blast</em> achève de ruiner les plantations de cacao de Trinidad. La quasi-totalité des vergers Criollo disparaît. L'économie de l'île, déjà fragile, perd sa seule ressource d'exportation significative. Les planteurs survivants tenteront de reconstruire à partir de plants de Forastero importés du Venezuela — un hybridage qui donnera finalement naissance au Trinitario, variété résistante qui fera la réputation mondiale du cacao trinidadien au siècle suivant. Mais pour l'heure, l'île est ruinée.`,
+            },
+        ],
 
         zone: [],
 
-        capitale: 'San José de Oruña (Saint Joseph)',
-        population_approx: '~1 500 habitants (1713, dont une majorité d\'Indiens et d\'esclaves)',
-        economie: 'Cacao, contrebande, missions capucines',
-        /* note: 'Fiabilité modérée : dates cohérentes entre Wikipedia EN/DE et NALIS (Trinité), mais peu de sources primaires indépendantes pour la période. Trinidad relève nominalement de la Capitainerie générale du Venezuela (Cumaná/Nueva Andalucía), elle-même sous l\'Audiencia de Santo Domingo. Séparée de Nueva Andalucía comme province distincte en 1731.', */
+        capitale: 'San José de Oruña (Saint Joseph) ; Puerto España (résidence de fait des gouverneurs)',
+
+        population_approx: [
+            {
+                de: 1712,
+                texte: `~2 500 à 3 000 habitants (estimation 1712) : ~500 Espagnols et créoles, ~1 000 à 1 500 Indiens dans les missions (Arawaks, Caribes, Waraos), ~300 à 500 esclaves africains, quelques centaines d'affranchis et de gens de couleur libres`,
+            },
+        ],
+
+        economie: [
+            {
+                de: 1712, a: 1725,
+                texte: `Cacao (exportation clandestine vers Martinique et Barbade), pêche côtière, élevage, missions capucines, contrebande structurelle`,
+            },
+            {
+                de: 1725,
+                texte: `Pêche côtière, élevage, contrebande — le cacao est en voie d'effondrement complet (blast disease)`,
+            },
+        ],
+
+        /* note: `Trinidad dépend nominalement de Nueva Andalucía (Cumaná) jusqu'en 1731, date à laquelle elle devient province distincte.
+    ✅ Dates des gouverneurs : Wikipedia EN/DE, NALIS (National Library of Trinidad and Tobago). Fiabilité modérée.
+    ✅ Waraos : peuple des marais de l'Orénoque, présent à Trinidad et dans le delta continental — établi (Wikipedia EN, Warao people).
+    ⚠️ Population 1712 : aucun recensement disponible pour cette date. Estimation construite par extrapolation depuis les données du début du XVIIIe et du recensement anglais de 1783.
+    🎲 Un PJ originaire de Trinidad connaît les criques du nord-ouest, les réseaux de contrebande avec la Martinique, et les piroguiers waraos du sud. Il sait que l'autorité espagnole est une fiction pratique — et que les vrais pouvoirs de l'île sont les planteurs créoles, les capucins, et les intermédiaires du commerce interlope.`, */
     },
 
     {
@@ -2311,22 +2509,52 @@ Les Espagnols tolèrent cette fréquentation avec irritation mais sans les moyen
             },
         },
 
-        contexte: {
-            1712: `La Guyane telle que la représente la carte n'est pas une juridiction unifiée, mais un espace fragmenté entre trois puissances coloniales qui se disputent, s'ignorent ou se tolèrent selon les zones.
+        contexte: [
+            // ── Un espace fragmenté ───────────────────────────────
+            {
+                de: 1712,
+                texte: `La Guyane telle que la représente la carte Jaillot n'est pas une juridiction unifiée, mais un espace fragmenté entre trois puissances coloniales qui se disputent, s'ignorent ou se tolèrent selon les zones. L'immense arrière-pays — forêts tropicales, fleuves impraticables, nations indiennes autonomes — échappe à toute autorité européenne effective.`,
+            },
 
-La Guyane française, centrée sur Cayenne, est administrée par un gouverneur nommé depuis Paris — poste peu enviable dans une colonie réputée malsaine et peu rentable. La colonie survit grâce aux missions jésuites dans l'intérieur et à un maigre commerce de bois et de denrées tropicales.
+            // ── La Guyane française ───────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Guyane française (Cayenne) :</strong><br>
+Administrée par un gouverneur nommé depuis Paris — poste peu enviable dans une colonie réputée malsaine et peu rentable. Cayenne est une ville modeste dont la garnison combat perpétuellement la fièvre et le manque de vivres. La colonie survit grâce aux missions jésuites dans l'intérieur et à un maigre commerce de bois et de denrées tropicales. Sa principale utilité géopolitique : marquer la frontière orientale de l'empire espagnol au Venezuela, que Versailles ne reconnaît pas.`,
+            },
 
-Le Surinam, colonie des Provinces-Unies depuis 1667, est la portion la plus prospère : ses plantations de sucre, de cacao et de café, exploitées par une main-d'œuvre servile massive, font du Surinam l'une des colonies les plus productives des Caraïbes. Paramaribo en est la capitale et le principal port. La colonie est gérée par la Société du Surinam depuis 1683.
+            // ── Le Surinam ────────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Surinam (Provinces-Unies) :</strong><br>
+Colonie hollandaise depuis 1667, gérée par la Société du Surinam depuis 1683. Ses plantations de sucre, de cacao et de café — exploitées par une main-d'œuvre servile massive — font du Surinam l'une des colonies les plus productives des Caraïbes. Paramaribo est la capitale et le principal port, hub commercial entre les Antilles, les Provinces-Unies et la côte vénézuélienne.`,
+            },
 
-Les franges espagnoles, nominalement rattachées à la Nouvelle-Andalousie (Cumaná), restent quasi-inexistantes dans les faits : quelques missions capucines et des prétentions territoriales sans présence effective. Les Indiens Caribes, Arawaks et diverses nations de l'intérieur maintiennent une indépendance de facto sur l'immense arrière-pays guyanais, que nulle puissance européenne ne contrôle réellement.`,
-        },
+            // ── La guerre des Marrons ─────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>La guerre des Marrons :</strong><br>
+La prospérité du Surinam repose sur une violence structurelle : des milliers d'esclaves africains fuient les plantations et se réfugient dans la forêt intérieure, où ils forment des communautés autonomes — les <em>Marrons</em>. Depuis les années 1690, une guerre sporadique oppose les planteurs hollandais et leurs milices à ces communautés, qui maîtrisent le terrain et résistent efficacement. Cette guerre intérieure absorbe des ressources considérables et inquiète toutes les colonies à main-d'œuvre servile des Caraïbes — dont Trinidad et la Martinique, qui y voient un exemple dangereux.`,
+            },
+
+            // ── Les franges espagnoles ────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Franges espagnoles :</strong><br>
+Nominalement rattachées à la Nouvelle-Andalousie (Cumaná), les prétentions espagnoles sur la Guyane se limitent à quelques missions capucines sans garnison. Les Indiens Caribes, Arawaks et les nombreuses nations de l'intérieur maintiennent une indépendance de facto sur cet arrière-pays que nulle puissance européenne ne contrôle réellement.`,
+            },
+        ],
 
         zone: [],
 
         capitale: 'Cayenne (française) / Paramaribo (hollandaise)',
-        population_approx: '~3 000 Européens (Cayenne) / ~50 000 habitants (Surinam, dont ~40 000 esclaves)',
-        economie: 'Sucre, cacao, café (Surinam) ; bois, missions (Guyane française) ; prétentions espagnoles sans exploitation effective',
-        /* note: 'Juridiction composite intentionnelle. Puissance "contestée" reflète l\'état réel du territoire. Gouverneurs précis de Cayenne et de Surinam disponibles sur demande si nécessaire pour la campagne.', */
+        population_approx: `~3 000 Européens et esclaves (Cayenne)<br>~50 000 habitants (Surinam, dont ~40 000 esclaves)<br>population marron et indienne de l'intérieur : non chiffrée`,
+        economie: 'Sucre, cacao, café (Surinam) ; bois, missions jésuites (Guyane française) ; prétentions espagnoles sans exploitation effective',
+
+        /* note: `Juridiction composite intentionnelle — la puissance "conteste" reflète l'état réel du territoire.
+    ✅ Surinam hollandais depuis 1667 ; Société du Surinam depuis 1683 : établi.
+    ✅ Guerre des Marrons au Surinam : documentée depuis les années 1690, continue jusqu'aux traités de paix de 1760–1762.
+    ⚠️ Gouverneurs précis de Cayenne et de Surinam pour 1712–1725 : disponibles sur demande si nécessaire pour la campagne.`, */
     },
 
     // ── MARTINIQUE ───────────────────────────────────────────
@@ -2339,65 +2567,90 @@ Les franges espagnoles, nominalement rattachées à la Nouvelle-Andalousie (Cuma
         },
 
         gouverneur: {
-            // Note structurelle : la Martinique est siège du Gouverneur général des Îles du Vent,
-            // qui coiffe nominalement toutes les colonies françaises des Petites Antilles.
-            // On distingue ici ce gouverneur général du gouverneur particulier de l'île,
-            // lorsque les deux fonctions sont occupées simultanément par des personnes différentes.
             1712: {
                 nom: 'Jean-Pierre de Casamajor de Charritte',
                 pnj_id: null,
-                titre: 'Gouverneur de la Martinique (gouverneur particulier)',
-                // Nommé gouverneur des Îles du Vent en 1711, il refuse ce titre supérieur
-                // pour surveiller ses plantations à Saint-Domingue — gouverneur de Martinique de fait.
+                titre: 'Gouverneur particulier de la Martinique',
             },
             1714: {
                 nom: 'Abraham Duquesne-Guitton, marquis de Bellebat',
                 pnj_id: null,
                 titre: 'Gouverneur général des Îles du Vent',
-                // Nommé en récompense de sa conversion du protestantisme au catholicisme.
-                // Réside à Fort-Royal (Martinique), siège du gouvernement général.
             },
             1717: {
                 nom: "Antoine d'Arcy, seigneur de La Varenne",
                 pnj_id: null,
-                titre: 'Gouverneur général des Îles du Vent',
-                // En poste du 7 janvier au 23 mai 1717 seulement — expulsé par le Gaoulé.
-                // Remplacé par Feuquières comme gouverneur général.
+                titre: 'Gouverneur général des Îles du Vent (expulsé par le Gaoulé)',
             },
-            // NB : Florimond Hurault de Montigny est gouverneur PARTICULIER de la Martinique
-            // sous l'autorité de Feuquières (1717?–1720) — il n'est pas gouverneur général des Îles du Vent.
-            // Sa présence dans les sources (Wikipedia EN, Johnson) est établie ; ses dates précises d'entrée en fonctions
-            // ne sont pas confirmées par les ANOM pour la période 1717–1720.
             1718: {
                 nom: 'François de Pas de Mazencourt, marquis de Feuquières',
                 pnj_id: null,
                 titre: 'Gouverneur général des Îles du Vent',
-                // En poste 1717–1727. Source primaire : ANOM, correspondance à l'arrivée de la Martinique.
-                // Coiffe Martinique, Guadeloupe et toutes les Petites Antilles françaises.
-                // Montigny, gouverneur particulier de la Martinique sous ses ordres, est tué par Bartholomew Roberts en octobre 1720.
             },
         },
 
-        contexte: {
-            1712: `Colonie française depuis 1635, la Martinique est le siège administratif des Antilles françaises des Petites Antilles : Fort-Royal (aujourd'hui Fort-de-France) abrite le gouverneur général des Îles du Vent, dont l'autorité s'étend sur la Martinique, la Guadeloupe, la Grenade, Sainte-Lucie et les autres Petites Antilles françaises — mais <em>pas</em> sur Saint-Domingue, qui relève d'un gouverneur général distinct résidant à Cap-Français. Cette distinction est essentielle : il y a deux gouvernements généraux français dans les Caraïbes en 1712, non un seul.
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Colonie française depuis 1635, la Martinique est le siège administratif des Antilles françaises : Fort-Royal abrite le gouverneur général des Îles du Vent, dont l'autorité s'étend sur la Martinique, la Guadeloupe, la Grenade et les Petites Antilles françaises — mais <em>pas</em> sur Saint-Domingue, qui relève d'un gouvernement général distinct. Il y a donc deux gouvernements généraux français dans les Caraïbes, non un seul.`,
+            },
 
-<strong>Fort-Royal et Saint-Pierre.</strong> Fort-Royal est la capitale administrative et militaire — résidence du gouverneur, casernes, arsenal, mouillage pour les frégates de la Couronne. Saint-Pierre, sur la côte nord-ouest, est la capitale économique et marchande : le port le plus actif, la ville la plus peuplée de l'île, le vrai pouls commercial de la Martinique. Les négociants bordelais y ont leurs comptoirs ; les navires négriers y débarquent une partie de leur cargaison ; les contrebandiers hollandais et anglais y trouvent des acheteurs. La tension entre les deux villes — administration militaire d'un côté, intérêts commerciaux créoles de l'autre — est une constante de la vie politique martiniquaise.
+            // ── Fort-Royal et Saint-Pierre ────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Fort-Royal et Saint-Pierre :</strong><br>
+Fort-Royal est la capitale administrative et militaire — résidence du gouverneur, casernes, arsenal, mouillage pour les frégates. Saint-Pierre, sur la côte nord-ouest, est la capitale économique : le port le plus actif, la ville la plus peuplée, le vrai pouls commercial de l'île. Les négociants bordelais y ont leurs comptoirs ; les navires négriers y débarquent ; les contrebandiers hollandais et anglais y trouvent des acheteurs. La tension entre les deux villes — administration militaire contre intérêts commerciaux créoles — est une constante de la vie politique martiniquaise.`,
+            },
 
-L'économie repose sur le sucre, le cacao, l'indigo et, plus marginalement, le café — tous exploités par une main-d'œuvre servile massive. Le commerce interlope avec les Hollandais de Curaçao et les Anglais de la Barbade est endémique malgré les interdictions.
+            // ── Casamajor et Morpain ──────────────────────────────
+            {
+                de: 1712, a: 1714,
+                texte: `<strong>Casamajor de Charritte :</strong><br>
+Gouverneur pragmatique et populaire, réputé "doux et ennemi du despotisme", mais avide. Son conflit avec le flibustier Pierre Morpain — dont il s'est approprié la frégate pour 2 000 livres avant de la revendre 6 000 — est connu des milieux maritimes des Antilles. Un gouverneur avec qui on peut s'entendre, à condition d'y mettre le prix.`,
+            },
 
-Jean-Pierre de Casamajor de Charritte est un gouverneur pragmatique et populaire, réputé "doux et ennemi du despotisme", mais avide : son conflit avec le flibustier Pierre Morpain — dont il s'est approprié la frégate pour 2 000 livres avant de la revendre 6 000 — est connu des milieux maritimes des Antilles.`,
-            1714: `Abraham Duquesne-Guitton, marquis de Bellebat, prend la tête du gouvernement général des Îles du Vent. Neveu du grand amiral Abraham Duquesne, il doit sa nomination à sa récente conversion au catholicisme — conversion opportuniste que ses contemporains ne lui pardonnent pas. Il réside à Fort-Royal et supervise une colonie prospère mais en tension permanente avec les intérêts des grands planteurs créoles.`,
-            1717: `Janvier–mai 1717 : le Gaoulé. Antoine d'Arcy de La Varenne arrive avec l'intendant Ricouart avec la mission de faire appliquer des réformes impopulaires : limiter le nombre de sucreries (241 en 1716), réprimer les abus judiciaires, et surtout interdire le commerce avec l'étranger. Les grands habitants se soulèvent. Le 23 mai 1717, le gouverneur et l'intendant sont arrêtés par les révoltés et renvoyés de force en France. Cet épisode, connu sous le nom de Gaoulé, illustre la résistance des élites créoles à l'autorité métropolitaine — et la fragilité réelle du contrôle de Paris sur ses colonies antillaises.
+            // ── Duquesne-Guitton ──────────────────────────────────
+            {
+                de: 1714, a: 1717,
+                texte: `<strong>Duquesne-Guitton, marquis de Bellebat :</strong><br>
+Neveu du grand amiral Abraham Duquesne, il doit sa nomination à sa récente conversion du protestantisme au catholicisme — conversion opportuniste que ses contemporains ne lui pardonnent pas. Il supervise une colonie prospère mais en tension permanente avec les grands planteurs créoles qui résistent aux réformes métropolitaines.`,
+            },
 
-François de Pas de Mazencourt, marquis de Feuquières, lui succède comme gouverneur général des Îles du Vent (1717–1727) et s'installe à Fort-Royal. Il est l'autorité supérieure sur l'ensemble des îles françaises des Petites Antilles. Sous son gouvernement, Florimond Hurault de Montigny assure la direction locale de la Martinique en tant que gouverneur particulier — jusqu'à sa mort en octobre 1720, tué par le pirate Bartholomew Roberts qui l'attaque en mer.`,
-        },
+            // ── Le Gaoulé (1717) ──────────────────────────────────
+            {
+                de: 1717, a: 1718,
+                texte: `<strong>Le Gaoulé (mai 1717) :</strong><br>
+Antoine d'Arcy de La Varenne arrive avec l'intendant Ricouart pour appliquer des réformes impopulaires : limiter le nombre de sucreries, réprimer les abus judiciaires, interdire le commerce avec l'étranger. Les grands habitants se soulèvent. Le 23 mai 1717, gouverneur et intendant sont arrêtés et renvoyés de force en France. Le Gaoulé illustre la résistance des élites créoles à l'autorité métropolitaine — et la fragilité réelle du contrôle de Paris sur ses colonies. Contemporain de la révolte des vegueros à Cuba, il témoigne d'un même ras-le-bol colonial à l'échelle des Amériques.`,
+            },
+
+            // ── Feuquières ────────────────────────────────────────
+            {
+                de: 1718, a: 1721,
+                texte: `<strong>Feuquières et l'après-Gaoulé :</strong><br>
+Le marquis de Feuquières succède à La Varenne avec un mandat de stabilisation. Il administre avec prudence, évitant de rouvrir les contentieux du Gaoulé. Son gouverneur particulier de la Martinique, Florimond Hurault de Montigny, est tué en octobre 1720 par Bartholomew Roberts qui l'attaque en mer — incident diplomatique et signal que la piraterie post-Nassau reste une menace réelle pour les intérêts français.`,
+            },
+            {
+                de: 1721,
+                texte: `<strong>Feuquières — autorité consolidée :</strong><br>
+Après la mort de Montigny et la répression de la piraterie par Rogers à Nassau, Feuquières gouverne des Îles du Vent en relative tranquillité. La Martinique prospère — le sucre et le rhum s'exportent vers Bordeaux ; Saint-Pierre reste le marché le plus actif des Petites Antilles françaises.`,
+            },
+        ],
 
         zone: [],
 
-        capitale: 'Fort-Royal (Fort-de-France)',
-        population_approx: '~24 000 habitants (1713, dont ~15 000 esclaves)',
-        economie: 'Sucre, cacao, rhum, indigo ; commerce interlope actif avec Curaçao et Barbade',
-        /* note: '✅ Gouverneurs établis depuis : ANOM (recherche-anom.culture.gouv.fr — correspondance à l\'arrivée de la Martinique, source primaire), Wikipedia EN/FR, GHCaraibe.org, gouverneurs_caraibes.html (session parallèle). ⚠️ Distinction critique : Feuquières est gouverneur général des Îles du Vent (1717–1727) ; Montigny est gouverneur PARTICULIER de la Martinique sous ses ordres (1717?–1720, tué par Roberts). ⚠️ Charritte (1712–1716) est gouverneur particulier de Martinique, non gouverneur général (poste qu\'il a refusé). ⚠️ Duquesne-Guitton : les ANOM datent son mandat "1714–1716", concordant avec Wikipedia. ⚠️ Date d\'entrée en fonctions de Feuquières : les ANOM confirment 1717, sans date précise de prise de poste après l\'expulsion de La Varenne (mai 1717). Population : estimation composite (Pritchard, In Search of Empire, 2004).', */
+        capitale: 'Fort-Royal (Fort-de-France) — siège administratif ; Saint-Pierre — capitale marchande',
+
+        population_approx: `~24 000 habitants (dont ~15 000 esclaves)`,
+
+        economie: 'Sucre, rhum, cacao, indigo ; commerce interlope actif avec Curaçao et Barbade',
+
+        /* note: `✅ Gouverneurs : ANOM (source primaire), Wikipedia EN/FR, GHCaraibe.org.
+    ✅ Distinction Feuquières (gouverneur général des Îles du Vent) / Montigny (gouverneur particulier de la Martinique) : établie.
+    ✅ Mort de Montigny par Bartholomew Roberts, octobre 1720 : établie (Wikipedia EN, Johnson General History).
+    ✅ Gaoulé du 23 mai 1717 : établi (Wikipedia FR, ANOM).
+    ⚠️ Dates précises d'entrée en fonctions de Montigny comme gouverneur particulier : non confirmées par les ANOM pour 1717–1720.
+    🎲 Saint-Pierre est le port d'escale naturel pour tout navire français ou neutre dans les Petites Antilles. Le commerce interlope y est structurel — un capitaine avec une cargaison à écouler discrètement y trouvera preneur.`, */
     },
 
     // ── BARBADE ──────────────────────────────────────────────
@@ -2413,41 +2666,50 @@ François de Pas de Mazencourt, marquis de Feuquières, lui succède comme gouve
             1712: {
                 nom: 'Robert Lowther',
                 pnj_id: null,
-                titre: 'Gouverneur',
-                // En poste depuis 1711. Personnage violent et autoritaire, connu pour ses abus.
-                // Rappelé en Angleterre en février 1714 suite à plaintes du Conseil de l'île.
-            },
-            1714: {
-                nom: 'William Sharpe',
-                pnj_id: null,
-                titre: 'Gouverneur par intérim',
-                // Assure l'intérim de janvier 1714 à novembre 1715.
+                titre: 'Gouverneur et Capitaine général',
             },
             1715: {
                 nom: 'Robert Lowther',
                 pnj_id: null,
-                titre: 'Gouverneur',
-                // Réintégré par George Ier en novembre 1714, effectif vers 1715.
-                // Révoqué en mars 1720 : corruption, commerce avec l'Espagne ennemie, complicité présumée avec les pirates.
+                titre: 'Gouverneur et Capitaine général (second mandat)',
+            },
+            1720: {
+                nom: '[Gouverneur de transition — non identifié]',
+                pnj_id: null,
+                titre: 'Gouverneur et Capitaine général',
             },
         },
 
-        contexte: {
-            1712: `Colonie britannique depuis 1627, la Barbade est la plus ancienne et la plus prospère des Antilles anglaises. Bridgetown est un port actif, premier point d'escale de nombreux navires venant d'Europe ou de Virginie. L'île produit du sucre depuis les années 1640 et en est devenue l'archétype colonial : une mono-économie sucrière totale, fondée sur une main-d'œuvre servile qui représente les deux tiers de la population. Les grandes familles de planteurs — les Drax, les Codrington, les Frere — exercent une influence considérable sur le Conseil et l'Assemblée locaux.
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `La plus ancienne et la plus prospère des colonies britanniques des Caraïbes. Bridgetown est le centre commercial et administratif ; son port accueille le trafic négrier, les navires marchands de Nouvelle-Angleterre et les frégates de la Royal Navy. L'économie sucrière domine tout — la Barbade produit plus de sucre par acre que toute autre île de la région, au prix d'une population servile écrasante. La colonie est administrée par un gouverneur nommé depuis Londres et une Assemblée locale jalouse de ses prérogatives.`,
+            },
 
-Le gouverneur Robert Lowther est une figure divisive. Venu en Barbade par mariage (il a épousé une héritière des plantations Frere), il y exerce une autorité jugée despotique : il suspend les membres du Conseil qui lui résistent, tente de poursuivre pour haute trahison un avocat qui a défendu son adversaire, et est suspecté d'avoir délibérément immobilisé des navires de guerre royaux pour empêcher la poursuite de pirates — permettant à ceux-ci de faire des ravages dans le commerce local. Il est rappelé une première fois en Angleterre en février 1714, après plaintes écrites au Conseil privé.`,
-            1715: `Robert Lowther, acquitté à Londres en faisant valoir que ses opposants en Barbade sont des sympathisants jacobites, est réintégré par George Ier en novembre 1714 et reprend ses fonctions vers 1715. Son second mandat est marqué par un conflit ouvert avec le révérend William Gordon, pasteur anglican, qui voyage à Londres en 1718 et publie un pamphlet accusant Lowther de diriger "un régime corrompu et tyrannique". L'Assemblée de Barbade ordonne que ce pamphlet soit brûlé comme libelle séditieux — mais le Board of Trade rappelle finalement Lowther en mars 1720, notamment pour avoir laissé un navire espagnol (ennemi) commercer librement à Barbade et pour avoir accepté des cadeaux illicites du Conseil.`,
-        },
+            // ── Robert Lowther ────────────────────────────────────
+            {
+                de: 1712, a: 1715,
+                texte: `<strong>Robert Lowther — premier mandat :</strong><br>
+Lowther est une figure divisive. Venu en Barbade par mariage dans les plantations Frere, il exerce une autorité jugée despotique : suspend les membres du Conseil qui résistent, tente de poursuivre un avocat pour haute trahison, et est suspecté d'avoir immobilisé des navires de guerre royaux pour empêcher la poursuite de pirates — permettant à ceux-ci de ravager le commerce local. Il est rappelé en Angleterre en février 1714 après plaintes au Conseil privé.`,
+            },
+            {
+                de: 1715, a: 1720,
+                texte: `<strong>Robert Lowther — second mandat :</strong><br>
+Acquitté à Londres en faisant valoir que ses opposants sont des sympathisants jacobites, Lowther est réintégré par George Ier et reprend ses fonctions vers 1715. Son second mandat est marqué par un conflit avec le révérend William Gordon, qui publie à Londres un pamphlet accusant Lowther de "régime corrompu et tyrannique" — pamphlet brûlé par l'Assemblée de Barbade comme libelle séditieux. Le Board of Trade le rappelle finalement en mars 1720 pour avoir laissé commercer un navire espagnol et accepté des cadeaux illicites du Conseil.`,
+            },
+        ],
 
         zone: [],
-
         capitale: 'Bridgetown',
-        population_approx: '~50 000 habitants (1713, dont ~42 000 esclaves)',
+        population_approx: `~50 000 habitants (dont ~42 000 esclaves)`,
         economie: 'Sucre, rhum, mélasse ; commerce de transit vers les colonies continentales',
-        /* note: '✅ Gouverneurs établis depuis : Wikipedia EN (Robert Lowther, List of governors of Barbados), History of Parliament Online (Lowther entry, très détaillé), Cumbrian Characters (biographie narrative). Épisode pirate (rétention des navires de guerre) : source Lincoln, British Pirates and Society (2014), citée dans Cumbrian Characters. ⚠️ La date exacte de retour effectif de Lowther après réintégration (nov. 1714) n\'est pas précisée dans les sources consultées — "vers 1715" retenu.', */
+
+        /* note: `✅ Gouverneurs : Wikipedia EN, History of Parliament Online (Lowther entry), Cumbrian Characters.
+    ✅ Rétention des navires de guerre pour favoriser les pirates : Lincoln, British Pirates and Society (2014).
+    ⚠️ Date exacte de retour de Lowther après réintégration : "vers 1715" — non précisée dans les sources.`, */
     },
 
-    // ── CURAÇAO ──────────────────────────────────────────────
     {
         id: 'curaçao',
         nom: 'Curaçao (avec Aruba et Bonaire)',
@@ -2461,41 +2723,51 @@ Le gouverneur Robert Lowther est une figure divisive. Venu en Barbade par mariag
                 nom: 'Jeremias van Collen',
                 pnj_id: null,
                 titre: 'Directeur des îles ABC pour la WIC',
-                // En poste de 1710(?) à 1715. Issu d'une famille patricienne amsterdamoise.
-                // Réputé corrompu : commerce illicite avec les Français pendant la guerre,
-                // emprisonnement arbitraire de ses adversaires au Conseil.
             },
             1715: {
                 nom: 'Jonathan van Beuningen',
                 pnj_id: null,
                 titre: 'Directeur par intérim des îles ABC pour la WIC',
-                // Ad interim 1715–1720. Beau-frère de Jeremias van Collen (sa belle-mère
-                // est la sœur de Ferdinand et de Jeremias van Collen).
             },
             1720: {
                 nom: 'Jan van Beuningen',
                 pnj_id: null,
                 titre: 'Directeur des îles ABC pour la WIC',
-                // Gouverneur titulaire nommé en 1720, décédé le 18 septembre 1720 après 4 jours de maladie.
-                // Écrit une lettre poignante à la WIC sur le sort des esclaves abandonnés par leurs maîtres.
             },
         },
 
-        contexte: {
-            1712: `Curaçao est la plaque tournante du commerce hollandais dans les Caraïbes. Willemstad — organisée autour du Fort Amsterdam, sur la baie de Sint Anna — est l'un des ports les plus actifs de la région, ouvert à toutes les nations et à tous les commerces. La Compagnie des Indes occidentales (WIC) administre l'île depuis 1634, mais son monopole formel est de plus en plus fictif : le commerce libre, souvent interlope, est la norme réelle. Curaçao est en particulier le nœud du trafic négrier entre l'Afrique et les colonies espagnoles du continent (asiento de negros), ainsi qu'un entrepôt de marchandises européennes redistribuées vers la Terre Ferme et les îles françaises et espagnoles voisines.
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Curaçao est la plaque tournante du commerce hollandais dans les Caraïbes — un entrepôt neutre où transitent marchandises européennes, esclaves africains et produits coloniaux de toutes provenances. Willemstad (Fort Amsterdam) est le port le mieux équipé des Antilles néerlandaises. La WIC y maintient son monopole formel sur le commerce négrier, mais l'île vit surtout de son rôle d'intermédiaire interlope entre les colonies espagnoles du Venezuela et le reste du monde.`,
+            },
 
-Le directeur Jeremias van Collen est une figure ambiguë et controversée. Appartenant à une famille régente d'Amsterdam, il a accédé au poste après une série d'intérims et de manœuvres. Il est suspecté d'avoir commercé avec les Français pendant la guerre de Succession d'Espagne (1702–1713) et d'avoir fait emprisonner arbitrairement un officier qui l'avait dénoncé. En 1713, son nom figure parmi les quatre personnes les plus riches de l'île — ce dans un contexte économique difficile, ce qui interpelle.
+            // ── Van Collen et l'occupation française ──────────────
+            {
+                de: 1712, a: 1715,
+                texte: `<strong>Van Collen et la guerre :</strong><br>
+Jeremias van Collen est réputé corrompu — commerce illicite avec les Français pendant la guerre de Succession d'Espagne, emprisonnement arbitraire de ses adversaires au Conseil. En février 1713, des forces françaises occupent brièvement l'île — épisode court mais humiliant pour la WIC. La paix d'Utrecht règle les contentieux sans indemnité.`,
+            },
 
-En février 1713 — derniers mois de la guerre — Curaçao subit une brève occupation française (18–27 février), menée par des pirates opérant sous pavillon français. L'épisode est court mais humiliant pour la WIC.`,
-            1715: `Après la mort ou le départ de Jeremias van Collen, Jonathan van Beuningen assure l'intérim (1715–1720). La période est marquée par la continuité d'un commerce actif mais structurellement illicite : Curaçao alimente en marchandises les colonies espagnoles du Venezuela et de la Nouvelle-Grenade qui, en retour, écoulent cacao, peaux et coupons. L'île est fréquentée par des navires de toutes nationalités et de toutes intentions. La faiblesse militaire de la garnison et la vénalité avérée des administrateurs en font un refuge informel pour des opérations en marge de la légalité.`,
-        },
+            // ── Van Beuningen et la continuité ────────────────────
+            {
+                de: 1715, a: 1720,
+                texte: `<strong>L'intérim van Beuningen :</strong><br>
+Jonathan van Beuningen — beau-frère de van Collen — assure l'intérim dans la continuité. Curaçao alimente en marchandises les colonies espagnoles du Venezuela et de la Nouvelle-Grenade, qui écoulent en retour cacao, peaux et coupons. La faiblesse militaire de la garnison et la vénalité avérée des administrateurs en font un refuge informel pour des opérations en marge de la légalité. Tout navire avec quelque chose à vendre ou à acheter sans questions trouve ici un interlocuteur.`,
+            },
+        ],
 
         zone: [],
-
         capitale: 'Willemstad (Fort Amsterdam)',
-        population_approx: '~8 000 habitants (1713, dont ~5 000 à 6 000 esclaves)',
-        economie: 'Commerce interlope, transit négrier (asiento), entrepôt de redistribution, sel (Bonaire)',
-        /* note: '✅ Liste des directeurs WIC établie depuis : Geni.com (Governors of the Netherlands Antilles project), Genealogie Kerckrinck (nikhef.nl — source généalogique néerlandaise de haute qualité), Wikipedia NL (Jan van Beuningen). ⚠️ Le titre exact des administrateurs de Curaçao est "directeur" (pour la WIC) et non "gouverneur" au sens colonial classique. ⚠️ La date exacte de fin de mandat de Jeremias van Collen est incertaine : "1710–1715" selon Geni, confirmé par sources généalogiques. ⚠️ Épisode de l\'occupation française de février 1713 : confirmé par WorldStatesmen.org, sans source primaire identifiée pour le commandant ou les circonstances précises. ⚠️ Population : estimation d\'après Postma, The Dutch in the Atlantic Slave Trade (1990) et Klooster, Illicit Riches (1998).', */
+        population_approx: `~8 000 habitants (dont ~5 000 à 6 000 esclaves)`,
+        economie: 'Commerce interlope, transit négrier (Asiento), entrepôt de redistribution, sel (Bonaire)',
+
+        /* note: `✅ Directeurs WIC : Geni.com, Genealogie Kerckrinck (nikhef.nl), Wikipedia NL.
+    ✅ Occupation française de février 1713 : WorldStatesmen.org.
+    ⚠️ Titre "directeur" et non "gouverneur" — usage WIC.
+    ⚠️ Dates précises de van Collen : "1710–1715" selon Geni.
+    Population : Postma (1990) ; Klooster (1998).`, */
     },
 
     // ── DOMINIQUE ────────────────────────────────────────────
@@ -2505,8 +2777,6 @@ En février 1713 — derniers mois de la guerre — Curaçao subit une brève oc
 
         puissance: {
             1712: 'conteste',
-            // De jure : île neutre par l'accord franco-britannique de 1660, laissée aux Kalinago.
-            // De facto : présence croissante de coupeurs de bois et de squatteurs français depuis ~1690.
         },
 
         gouverneur: {
@@ -2514,53 +2784,70 @@ En février 1713 — derniers mois de la guerre — Curaçao subit une brève oc
                 nom: '[Aucune autorité constituée]',
                 pnj_id: null,
                 titre: 'Île neutre — autorité kalinago de fait sur l\'intérieur',
-                // Pas d'administration coloniale. Les Kalinago sont l'autorité réelle sur l'intérieur.
-                // Les squatteurs français du littoral ne relèvent nominalement que de Martinique ou Guadeloupe.
+            },
+            1727: {
+                nom: '[Premier commandant français non identifié]',
+                pnj_id: null,
+                titre: 'Commandant français (nomination tacite)',
             },
         },
 
-        contexte: {
-            1712: `Dominique est officiellement une île neutre depuis 1660, quand France et Angleterre s'accordent pour la laisser aux Kalinago en échange de leur retrait des autres Petites Antilles. En pratique, l'accord est violé en douce : des coupeurs de bois français venus de Martinique et de Guadeloupe opèrent sur les franges côtières depuis le début du siècle, exploitant le bois précieux de l'île sans jamais constituer de colonie organisée.
+        contexte: [
+            // ── Statut et géographie ──────────────────────────────
+            {
+                de: 1712,
+                texte: `Officiellement neutre depuis 1660, quand France et Angleterre s'accordent pour laisser l'île aux Kalinago. La Dominique est la plus escarpée et la plus boisée des Petites Antilles — volcans, forêts tropicales denses, vallées encaissées, rivières rapides. Ce relief est la meilleure forteresse des Kalinago : aucune puissance européenne n'a réussi à pénétrer durablement l'intérieur. Des coupeurs de bois français venus de Martinique et de Guadeloupe exploitent les franges côtières depuis le début du siècle, sans jamais constituer de colonie organisée.`,
+            },
 
-<strong>Les Kalinago.</strong> Improprement appelés "Caribes" dans les sources européennes de l'époque — nom donné par les Arawaks qu'ils avaient supplantés, repris par les Espagnols avec une connotation de cannibalisme largement mythifiée — les Kalinago sont le peuple amérindien dominant des Petites Antilles depuis plusieurs siècles. En 1712, Dominique est leur principal refuge : après avoir été repoussés de Saint-Christophe, de la Barbade et de la plupart des îles colonisées, c'est ici, dans les forêts volcaniques et les vallées encaissées de l'intérieur, qu'ils maintiennent une présence autonome et souveraine.
+            // ── Les Kalinago ──────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Les Kalinago :</strong><br>
+Improprement appelés "Caribes" dans les sources européennes — nom donné par les Arawaks qu'ils avaient supplantés, repris par les Espagnols avec une connotation de cannibalisme largement mythifiée — les Kalinago sont le peuple dominant des Petites Antilles depuis plusieurs siècles. En 1712, la Dominique est leur principal refuge après avoir été chassés de la plupart des îles colonisées. Leur organisation est décentralisée : chaque communauté est dirigée par un <em>ouboutou</em> (chef de guerre) ou un <em>tiioubana</em> (chef de paix) selon les circonstances — ce qui a longtemps dérouté les Européens cherchant un interlocuteur unique. Excellents navigateurs en pirogue, ils maintiennent des contacts réguliers avec leurs cousins de Saint-Vincent et circulent dans tout l'archipel.`,
+            },
 
-Leur organisation est décentralisée : chaque communauté est dirigée par un <em>ouboutou</em> (chef de guerre) ou un <em>tiioubana</em> (chef de paix) selon les circonstances. Il n'y a pas de roi unique ni d'autorité centrale — ce qui a longtemps dérouté les Européens cherchant un interlocuteur unique pour négocier ou soumettre. Les Kalinago sont d'excellents navigateurs en pirogue entre les îles, commerçant et guerroyant à travers l'archipel, et maintiennent des contacts avec leurs cousins de Saint-Vincent et des îles continentales.
+            // ── L'île comme refuge ────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Un refuge structurel :</strong><br>
+La Dominique est l'île où l'on disparaît. Déserteurs de la Royal Navy ou de la marine française, esclaves marrons de la Martinique ou de la Guadeloupe, engagés en fuite, pirates cherchant à caréner loin des regards — tous trouvent dans les baies peu fréquentées de l'île un refuge que ni les Kalinago ne signalent aux autorités, ni les rares coupeurs de bois français n'ont intérêt à révéler. Le troc est la langue commune : rhum, outils et couteaux contre eau douce, vivres et silence.`,
+            },
 
-En 1712, leur rapport aux colons français du littoral est ambigu : tolérance prudente du côté kalinago (les Français apportent outils métalliques, rhum, tissus), méfiance du côté français (ils craignent les raids sur les cases isolées). Une coexistence tendue, non une alliance.
-
-L'intérieur volcanique — les mornes, les gorges, les sources thermales — est un territoire kalinago souverain de fait, inaccessible et inhospitalier pour quiconque n'en connaît pas les chemins. Le littoral, morcelé par des ravines et des falaises, accueille quelques établissements de bûcherons français, des déserteurs, des esclaves marrons venus des îles voisines.`,
-
-            1717: `Le Gaoulé de 1717 — soulèvement des petits blancs martiniquais contre le gouverneur La Varenne — accélère la colonisation rampante de Dominique : nombre de ces "petits habitants" expulsés ou ruinés migrent vers le sud de l'île pour y établir de petits lopins. Les premiers établissements semi-permanents français datent de cette période (1715–1719), mais sans mandat officiel, sans garnison, sans administration.
-
-<strong>Les Kalinago face à la pression croissante.</strong> L'afflux de colons post-Gaoulé représente une menace nouvelle : non plus des bûcherons saisonniers mais des familles cherchant à s'installer. Les communautés kalinago du sud répondent par des tensions croissantes — raids sur les cases isolées, intimidations — sans déclencher de conflit ouvert. Leur marge de manœuvre se réduit : au nord, ils sont encore maîtres ; au sud, la pression française s'installe.
-
-La France ne nommera un commandant à la Dominique qu'en 1727 — reconnaissant ainsi, tacitement, que l'île est déjà partiellement colonisée de fait.`,
-        },
+            // ── Post-Gaoulé : la pression française ───────────────
+            {
+                de: 1717, a: 1727,
+                texte: `<strong>La pression française après le Gaoulé :</strong><br>
+Le Gaoulé de 1717 envoie vers la Dominique un flux de colons expulsés ou fuyant la répression martiniquaise. Les premiers établissements semi-permanents s'installent sur la côte sud, sans mandat officiel, sans garnison. Les Kalinago du nord restent maîtres de leur territoire ; au sud, la pression s'accumule. Leurs raids sur les cases isolées restent non déclarés — pas de guerre ouverte, mais une hostilité sourde qui interdit toute implantation profonde.`,
+            },
+            {
+                de: 1727,
+                texte: `<strong>La nomination d'un commandant :</strong><br>
+En 1727, la France nomme enfin un commandant à la Dominique — reconnaissant tacitement que l'île est déjà partiellement colonisée de fait. Les Kalinago du nord maintiennent leur souveraineté effective sur l'intérieur ; la coexistence avec les colons du littoral reste précaire.`,
+            },
+        ],
 
         zone: [],
+        capitale: `[Aucune — Roseau est un simple mouillage kalinago et français]`,
+        population_approx: `~2 000 à 3 000 Kalinago (estimation)<br>quelques dizaines de colons et coupeurs de bois français`,
+        economie: 'Bois précieux (acajou, gaïac, gommier) ; troc kalinago (vivres, guides contre outils et rhum) ; refuge informel pour déserteurs et marrons',
 
-        capitale: '[Aucune — Roseau est un simple mouillage kalinago et français]',
-        population_approx: '~2 000 à 3 000 Kalinago (estimation) ; quelques dizaines de colons et coupeurs de bois français',
-        economie: 'Bois précieux (acajou, gaïac, gommier) ; commerce de troc avec les Kalinago (outils, rhum contre vivres et guides) ; refuge informel pour déserteurs et marrons',
-        /* note: `✅ Accord franco-britannique de 1660 et neutralité de jure : établi, sources nombreuses concordantes.
-      ✅ Présence française de bûcherons depuis ~1690 : établi.
-      ✅ Lien Gaoulé 1717 → migration vers Dominique : établi (Infogalactic, Global Security, Liquisearch).
-      ✅ Terminologie Kalinago vs Caribes : le terme "Kalinago" est le nom que le peuple se donne lui-même ; "Caribe" est un exonyme arawak repris par les Espagnols. Distinction documentée, bien établie en ethnohistoire des Antilles (Sued Badillo, <em>General History of the Caribbean</em>, UNESCO, 1997).
-      ✅ Organisation sociale (ouboutou / tiioubana) : terminologie attestée dans les sources du XVIIe–XVIIIe siècle (du Tertre, <em>Histoire générale des Antilles</em>, 1667 ; Labat, <em>Nouveau Voyage aux Isles de l'Amérique</em>, 1722).
-      ⚠️ "Premiers établissements permanents 1715" : certaines sources avancent 1690, d'autres 1715, d'autres 1719. La fourchette 1715–1719 est retenue comme la plus cohérente pour la période de la campagne.
-      ⚠️ Population kalinago : aucune donnée fiable pour 1712 — estimation basse retenue.
-      ⚠️ Relations kalinago / colons français en 1712 : décrites comme "tolérées" dans les sources — les tensions documentées sont surtout postérieures à 1720.`, */
+        /* note: `✅ Neutralité de jure depuis 1660 : établi.
+    ✅ Présence française de bûcherons depuis ~1690 : établi.
+    ✅ Lien Gaoulé 1717 → migration vers Dominique : établi (Infogalactic, Global Security, Liquisearch).
+    ✅ Organisation kalinago (ouboutou / tiioubana) : du Tertre, Histoire générale des Antilles (1667) ; Labat, Nouveau Voyage aux Isles de l'Amérique (1722).
+    ✅ Terminologie Kalinago vs Caribes : Sued Badillo, General History of the Caribbean (UNESCO, 1997).
+    ⚠️ Population : aucune donnée fiable pour 1712 — estimation basse retenue.
+    ⚠️ Relations kalinago / colons français en 1712 : tensions documentées surtout après 1720.`, */
     },
 
-    // ── SAINT-VINCENT ────────────────────────────────────────
+    // ── SAINT-VINCENT ───────────────────────────────────────────
     {
-        id: 'saint-vincent-dominique',
-        nom: 'Saint-Vincent et Bequia',
+        id: 'saint-vincent',
+        nom: 'Saint-Vincent et Boqueau',
 
         puissance: {
             1712: 'conteste',
-            // De jure neutre par l'accord de 1660. De facto : territoire kalinago souverain,
-            // sans colons européens permanents jusqu'en 1719.
+            1719: 'conteste',
         },
 
         gouverneur: {
@@ -2568,79 +2855,108 @@ La France ne nommera un commandant à la Dominique qu'en 1727 — reconnaissant 
                 nom: '[Aucune autorité européenne]',
                 pnj_id: null,
                 titre: 'Île neutre — souveraineté kalinago effective',
-                // Pas d'administration coloniale jusqu'en 1719 (premier établissement français à Barrouallie).
-                // Les Garifunas (Kalinago Noirs) exercent l'autorité militaire réelle sur la majeure partie de l'île.
             },
         },
 
-        contexte: {
-            1712: `Saint-Vincent est, en 1712, l'une des dernières îles des Petites Antilles où aucun Européen n'a réussi à s'établir durablement. L'accord franco-britannique de 1660 l'a laissée aux Kalinago, et les Kalinago l'ont défendue avec succès contre toutes les tentatives de colonisation — espagnole, anglaise, française.
+        contexte: [
+            // ── Une île insoumise ─────────────────────────────────
+            {
+                de: 1712,
+                texte: `Saint-Vincent est en 1712 l'une des dernières îles des Petites Antilles où aucun Européen n'a réussi à s'établir durablement. L'accord franco-britannique de 1660 l'a laissée aux Kalinago, et les Kalinago l'ont défendue avec succès contre toutes les tentatives coloniales — espagnole, anglaise, française. Sa végétation volcanique dense, ses hauteurs escarpées et la résistance organisée de ses habitants ont découragé chaque expédition.`,
+            },
 
-<strong>Deux peuples, une île.</strong> Saint-Vincent abrite deux populations distinctes et souvent en tension, qui constituent ensemble l'une des sociétés amérindiennes les plus complexes des Caraïbes en 1712.
+            // ── Deux peuples, une île ─────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Deux peuples, une île :</strong><br>
+Saint-Vincent abrite deux populations distinctes et souvent en tension. Les <strong>Kalinago Rouges</strong> (ou "Jaunes" dans certaines sources françaises) sont les autochtones de longue date, installés sur la côte sous le vent (ouest) — agriculteurs et commerçants qui échangent avec les navires de passage. Les <strong>Garifunas</strong> — issus du métissage entre Kalinago et Africains évadés ou naufragés depuis la Barbade au XVIIe siècle — occupent les hauteurs et la côte au vent (est). Mieux armés, plus nombreux, ils constituent la force militaire dominante de l'île. Leur culture mêle traditions kalinago et africaines avec une cohérence qui déroute les observateurs européens attendant soit des "Indiens" soit des "nègres marrons". Les deux groupes s'affrontent ponctuellement mais s'unissent invariablement face à toute menace coloniale.`,
+            },
 
-Les <strong>Kalinago Rouges</strong> (ou "Jaunes" dans certaines sources françaises) sont les autochtones de longue date, descendants des premiers Kalinago insulaires. Installés principalement sur la côte sous le vent (ouest), ils pratiquent l'agriculture, la pêche et le commerce avec les navires européens de passage. Moins nombreux et moins belliqueux que les Garifunas, ils sont en position défensive sur leur propre île.
+            // ── Bequia et les îles périphériques ──────────────────
+            {
+                de: 1712,
+                texte: `<strong>Bequia et les Grenadines septentrionales :</strong><br>
+Bequia (<em>Boqueau</em>), à 9 km au sud de Saint-Vincent, est fréquentée par les Kalinago et par des baleiniers de passage — sa baie de l'Amirauté est l'un des meilleurs mouillages naturels des Petites Antilles. Les îlots des Grenadines entre Saint-Vincent et la Grenade sont des escales de pêche et de troc, sans présence permanente d'aucune puissance. Un navire qui cherche à passer entre les Antilles françaises du nord et les Antilles anglaises du sud sans être vu emprunte naturellement ces passes.`,
+            },
 
-Les <strong>Garifunas</strong> (Kalinago Noirs) sont issus du métissage entre Kalinago et Africains — esclaves évadés ou naufragés de naufrages négriers depuis la Barbade, réfugiés à Saint-Vincent au cours du XVIIe siècle. Mieux armés, plus nombreux, occupant les hauteurs et la côte au vent (est), ils constituent la force militaire dominante de l'île. Leur culture mêle traditions kalinago et africaines — langue, musique, organisation sociale — avec une cohérence qui déroute les observateurs européens qui s'attendent à trouver soit des "Indiens" soit des "nègres marrons". Les deux groupes coexistent avec méfiance et s'affrontent ponctuellement, mais s'unissent invariablement contre toute menace européenne.
-
-Les Européens y passent — pour faire de l'eau, échanger des marchandises avec les Kalinago Rouges du littoral — mais n'y restent pas. Les Garifunas tolèrent un commerce limité et maintiennent par la force une interdiction de fait de toute implantation permanente.`,
-
-            1719: `En 1719, les Français parviennent à s'établir pour la première fois à <strong>Barrouallie</strong>, sur la côte sous le vent, grâce à un accord conclu avec les Kalinago Rouges — qui cherchaient dans l'alliance française une protection contre la pression croissante des Garifunas. C'est un accord de faibles cherchant un appui extérieur, pas une capitulation.
-
-Les Garifunas, furieux de cet accord passé sans eux, n'acceptent pas l'implantation française comme un fait accompli. La tension entre les trois parties — Français, Kalinago Rouges, Garifunas — structure la politique de l'île pour les décennies suivantes. Saint-Vincent reste sans gouverneur nommé, sans garnison, et sans administration reconnue. Barrouallie n'est encore qu'un hameau de colons toléré sous conditions.`,
-        },
+            // ── Premier établissement français ────────────────────
+            {
+                de: 1719,
+                texte: `<strong>Premier établissement français (1719) :</strong><br>
+En 1719, des colons français fondent un premier établissement à Barrouallie sur la côte sous le vent, avec l'accord fragile des Kalinago Rouges. Les Garifunas n'ont pas été consultés — et n'ont pas consenti. La tension entre les trois parties s'installe : colons français, Kalinago Rouges ambivalents, Garifunas hostiles. C'est le début d'un conflit qui durera plusieurs décennies et ne s'achèvera qu'avec la déportation des Garifunas en 1797.`,
+            },
+        ],
 
         zone: [],
+        capitale: `[Aucune — Kingstown n'existe pas encore]`,
+        population_approx: `Plusieurs milliers de Kalinago Rouges et de Garifunas — aucun recensement fiable avant la colonisation`,
+        economie: 'Agriculture vivrière, pêche, troc avec navires européens de passage, baleiniers à Bequia',
 
-        capitale: '[Aucune — Kingstown n\'existe pas encore]',
-        population_approx: '~3 000 à 5 000 Kalinago (Rouges et Garifunas confondus) ; pas de colons permanents avant 1719',
-        economie: 'Subsistance (agriculture, pêche, chasse) ; troc limité avec les navires de passage (outils, rhum contre vivres et eau douce)',
-        /* note: `✅ Accord de 1660 et neutralité de jure : établi, sources nombreuses concordantes.
-      ✅ Présence des Kalinago Noirs / Garifunas depuis le XVIIe s. : établi — naufrage(s) de navires négriers, réfugiés africains intégrés à la société kalinago (Wikipedia EN Black Caribs ; Craton, <em>Testing the Chains</em>, 1982).
-      ✅ Absence de colons permanents avant 1719 : sources concordantes (Wikipedia EN, Britannica, FamilySearch).
-      ✅ Premier établissement français à Barrouallie, 1719, avec accord des Kalinago Rouges : établi.
-      ✅ Terminologie Garifuna : désignation adoptée par le peuple lui-même, distincte de "Black Caribs" (exonyme anglais) et de "Kalinago Noirs" (formulation française). Les deux sont utilisés dans les sources — "Garifunas" est retenu ici comme le plus respectueux.
-      ⚠️ Population : aucune donnée fiable pour 1712 — estimation prudente.
-      ⚠️ Détails sur les tensions Kalinago Rouges / Garifunas en 1712 : bien attestés dans l'historiographie pour la période générale (Craton ; González, <em>Sojourners of the Caribbean</em>, 1988), mais les sources primaires sur l'année exacte 1712 sont minces.`, */
+        /* note: `✅ Absence de colons permanents avant 1719 : sources concordantes.
+    ✅ Premier établissement français à Barrouallie, 1719, avec accord des Kalinago Rouges : établi.
+    ✅ Terminologie Garifuna — désignation du peuple lui-même ; "Black Caribs" est l'exonyme anglais.
+    Sources : Craton ; González, Sojourners of the Caribbean (1988).
+    🎲 La déportation des Garifunas en 1797 par les Anglais est le dénouement tragique d'une résistance qui commence ici, en 1712 — les PJs qui interagissent avec les Garifunas rencontrent un peuple à l'aube de sa lutte la plus longue.`, */
     },
 
-    // ── SAINTE-LUCIE ─────────────────────────────────────────
+    // ── SAINTE-LUCIE ───────────────────────────────────────────
     {
         id: 'sainte-lucie',
         nom: 'Sainte-Lucie',
 
         puissance: {
             1712: 'conteste',
-            // De facto française avec colons depuis 1651, mais sans statut formel établi.
-            // L'Angleterre revendique l'île par traités mais ne l'occupe pas en 1712.
-            // Neutre de jure par accord franco-britannique à partir de 1723.
+            1723: 'conteste',
         },
 
         gouverneur: {
             1712: {
-                nom: '[Commandant ou intendant local non identifié]',
+                nom: '[Commandant local non identifié]',
                 pnj_id: null,
-                titre: 'Commandant local (sans statut officiel)',
-                // L'île relève nominalement de la Martinique (gouverneur général des Îles du Vent),
-                // mais sans gouverneur particulier nommé. Les colons s'administrent en large autonomie.
+                titre: 'Commandant local sans statut officiel (relevant nominalement de la Martinique)',
             },
         },
 
-        contexte: {
-            1712: `Sainte-Lucie est "l'Hélène des Antilles" — l'île la plus disputée de la Caraïbe, qui changera quatorze fois de mains entre Français et Anglais. En 1712, elle est de facto française : des colons établis depuis 1651 y cultivent du tabac, du coton et de petites quantités de sucre. Castries (alors simple mouillage) et Vieux Fort constituent les deux points d'ancrage de cette population clairsemée.
+        contexte: [
+            // ── L'Hélène des Antilles ─────────────────────────────
+            {
+                de: 1712,
+                texte: `"L'Hélène des Antilles" — l'île la plus disputée de la Caraïbe, qui changera quatorze fois de mains entre Français et Anglais. En 1712, elle est de facto française : des colons établis depuis 1651 y cultivent tabac, coton et un peu de sucre. Castries (alors simple mouillage) et Vieux Fort sont les deux points d'ancrage d'une population clairsemée. Sa baie de Grand Anse et le port naturel de Castries sont parmi les meilleurs de toutes les Petites Antilles — c'est précisément ce qui en fait un enjeu permanent.`,
+            },
 
-Juridiquement, le statut de l'île est un imbroglio. Les Anglais la revendiquent par la charte Carlisle de 1627 et n'ont jamais renoncé à leurs droits. Les Français l'occupent de fait mais sans titre solide reconnu. Les Kalinago, qui ont écrasé les deux premières tentatives d'implantation anglaise (1605, 1639), sont encore présents dans l'intérieur montagneux, en retrait mais pas effacés. Cette situation tripartite — colons français, revendications anglaises, Kalinago dans les hauteurs — fait de Sainte-Lucie une zone de friction permanente.
+            // ── L'imbroglio juridique ─────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>L'imbroglio juridique :</strong><br>
+Le statut de Sainte-Lucie est un cas d'école du droit colonial à géométrie variable. Les Anglais la revendiquent par la charte Carlisle de 1627 et n'y ont jamais renoncé — bien qu'ils ne l'occupent pas. Les Français l'occupent de fait mais sans titre solide reconnu par Londres. Les Kalinago, qui ont repoussé les deux premières tentatives d'implantation anglaise (1605, 1639) dans le sang, sont encore présents dans l'intérieur montagneux — en retrait mais pas effacés. Cette situation tripartite fait de l'île une zone de friction permanente où tout accord est provisoire.`,
+            },
 
-Pour les navires qui naviguent entre la Martinique et la Barbade, Sainte-Lucie est une escale commode : ses mouillages sont sûrs, ses habitants discrets, et personne n'y demande de papiers.`,
+            // ── Une île sous pression constante ───────────────────
+            {
+                de: 1712,
+                texte: `<strong>Une île sans statut, sous pression constante :</strong><br>
+L'absence de gouverneur nommé laisse les colons français dans une large autonomie de fait — ils élisent leurs propres représentants, règlent leurs litiges entre eux, et entretiennent avec la Martinique une relation d'appartenance nominale plutôt que d'autorité réelle. Cette situation convient aux marchands qui préfèrent commercer sans trop de surveillance, aux déserteurs qui cherchent à disparaître, et aux navires qui veulent faire escale dans un excellent port sans croiser de fonctionnaire trop curieux.`,
+            },
 
-            1723: `En 1723, France et Angleterre s'entendent pour déclarer Sainte-Lucie officiellement neutre — reconnaissant leur incapacité mutuelle à trancher la question de souveraineté. L'accord ne change rien à la situation de fait : les colons français restent, les Kalinago aussi, et l'île continue de fonctionner comme un espace de marge entre les deux empires. La neutralité formelle renforce même son attrait comme escale discrète — ni française ni anglaise, donc contrôlée par personne.`,
-        },
+            // ── Neutralité officielle ─────────────────────────────
+            {
+                de: 1723,
+                texte: `<strong>Neutralité officialisée (1723) :</strong><br>
+Un accord franco-britannique déclare formellement Sainte-Lucie île neutre. En pratique, les colons français restent en place et les Anglais continuent de revendiquer leurs droits. La querelle reprendra avec la même intensité — Sainte-Lucie changera encore dix fois de mains avant de devenir définitivement britannique en 1814.`,
+            },
+        ],
 
         zone: [],
+        capitale: `[Aucune capitale établie — Castries est le principal mouillage]`,
+        population_approx: `Quelques centaines de colons français ; Kalinago dans l'intérieur montagneux — non chiffrés`,
+        economie: 'Tabac, coton, sucre naissant, pêche ; commerce informel profitant de l\'absence d\'autorité',
 
-        capitale: 'Castries (simple mouillage en 1712)',
-        population_approx: '~1 500 à 2 000 colons français (estimation) ; population kalinago résiduelle dans l\'intérieur',
-        economie: 'Tabac, coton, vivres ; commerce d\'escale pour les navires en transit',
-        /* note: '✅ Historique des occupations franco-anglaises : établi, sources nombreuses concordantes. ✅ Neutralité de jure en 1723 : établi (tableau liquisearch.com, cohérent avec d\'autres sources). ⚠️ Statut exact en 1712 : aucune source ne désigne un gouverneur ou commandant précis pour cette période — "commandant local non identifié" retenu. ⚠️ Population : aucune donnée fiable pour 1712 — estimation très basse retenue.', */
+        /* note: `✅ "L'Hélène des Antilles" : surnom attesté dans la littérature coloniale.
+    ✅ Occupation française depuis 1651 : établi.
+    ✅ Revendication anglaise par la charte Carlisle de 1627 : établi.
+    ✅ Repoussement des Anglais par les Kalinago en 1605 et 1639 : établi.
+    ✅ Accord de neutralité 1723 : établi.
+    🎲 Castries est l'un des meilleurs ports naturels des Petites Antilles — un navire qui veut faire escale discrètement entre la Martinique et la Barbade y trouve eau, bois et silence.`, */
     },
 
     // ── GUADELOUPE ───────────────────────────────────────────
@@ -2653,50 +2969,62 @@ Pour les navires qui naviguent entre la Martinique et la Barbade, Sainte-Lucie e
         },
 
         gouverneur: {
-            // Note structurelle : la Guadeloupe a son propre gouverneur PARTICULIER,
-            // distinct du gouverneur général des Îles du Vent résidant en Martinique.
-            // En cas d'absence ou de vacance du gouverneur général, le gouverneur de Guadeloupe
-            // peut assurer l'intérim (La Malmaison l'a fait en 1713–1715).
             1712: {
                 nom: 'Georges Robert Cloche de La Malmaison',
                 pnj_id: null,
                 titre: 'Gouverneur particulier de la Guadeloupe',
-                // En poste depuis 1705. Mort en fonction le 1er mai 1717.
-                // A assuré l'intérim du gouvernement général des Îles du Vent (oct. 1713 – janv. 1715),
-                // entre le départ de Phélypeaux et l'arrivée de Duquesne-Guitton.
             },
             1717: {
                 nom: 'Savinien-Michel de Lagarrigue de Savigny',
                 pnj_id: null,
-                titre: 'Gouverneur particulier de la Guadeloupe (intérim)',
-                // Prend le commandement après le décès de La Malmaison (1er mai 1717).
-                // Major de la Martinique promu lieutenant de roi en Guadeloupe — intérim jusqu'en mars 1718.
+                titre: 'Gouverneur particulier (intérim)',
             },
             1718: {
                 nom: 'Alexandre Vaultier de Moyencourt',
                 pnj_id: null,
                 titre: 'Gouverneur particulier de la Guadeloupe',
-                // En poste du 18 mars 1718 à 1727.
-                // Rappelé en France pour soupçons de contrebande.
-                // Obtient dès son arrivée la permission d'acheter 50 esclaves dans les colonies anglaises
-                // malgré l'interdiction formelle — premier acte révélateur de son style de gouvernement.
             },
         },
 
-        contexte: {
-            1712: `La Guadeloupe est administrée depuis Basse-Terre, sur la côte sous le vent de la Basse-Terre volcanique — la plus grande des deux terres qui composent l'île, séparées par la Rivière Salée. Grande-Terre, plus plate et plus sèche, est le cœur de l'économie sucrière. L'île produit du sucre, du cacao, du coton et du café, avec une main-d'œuvre servile qui représente la grande majorité de la population. Le commerce officiel s'effectue avec la France via Bordeaux et Nantes, mais le commerce interlope avec les Hollandais (Curaçao, Saint-Eustache) et les Anglais est endémique.
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `La Guadeloupe est administrée depuis Basse-Terre, sur la côte sous le vent de la partie volcanique de l'île — les deux terres séparées par la Rivière Salée. Grande-Terre, plus plate et plus sèche, est le cœur de l'économie sucrière. L'île produit du sucre, du cacao, du coton et du café, exploités par une main-d'œuvre servile massive. Le commerce interlope avec les Hollandais de Saint-Eustache et de Curaçao est endémique malgré les interdictions.`,
+            },
 
-Le gouverneur La Malmaison est un administrateur tenace, en poste depuis 1705. Il a déjà survécu à la guerre de Succession d'Espagne et assuré l'intérim du gouvernement général des Îles du Vent pendant dix-sept mois (octobre 1713 – janvier 1715), entre le départ de Phélypeaux et l'arrivée de Duquesne-Guitton à la Martinique. Confirmation de son autorité : en août 1716, un décret royal lui reconnaît le commandement en chef des Îles du Vent en cas de mort ou d'absence du gouverneur général. Il meurt en fonction le 1er mai 1717, quelques jours avant le dénouement du Gaoulé martiniquais.`,
-            1717: `La mort de La Malmaison laisse la Guadeloupe sans gouverneur titulaire pendant près d'un an. Lagarrigue de Savigny, major de la Martinique nommé lieutenant de roi en Guadeloupe le 20 septembre 1717, assure l'intérim dans une colonie secouée par les mêmes tensions commerciales et fiscales qui ont provoqué le Gaoulé en Martinique. Les colons guadeloupéens s'étaient eux aussi soulevés — de façon moins spectaculaire — contre les réformes de La Varenne au printemps 1717.`,
-            1718: `Alexandre Vaultier de Moyencourt prend les rênes en mars 1718 et gouverne la Guadeloupe jusqu'en 1727. Son premier acte notable est d'obtenir l'autorisation d'acheter 50 esclaves dans les colonies anglaises voisines, en violation formelle des ordonnances commerciales françaises — signal d'un régime accommodant avec la contrebande. Il sera rappelé en France en 1727 précisément pour soupçons de commerce illicite.`,
-        },
+            // ── La Malmaison ──────────────────────────────────────
+            {
+                de: 1712, a: 1717,
+                texte: `<strong>La Malmaison :</strong><br>
+Administrateur tenace en poste depuis 1705, il a survécu à la guerre de Succession d'Espagne et assuré l'intérim du gouvernement général des Îles du Vent pendant dix-sept mois (octobre 1713 – janvier 1715). En août 1716, un décret royal lui reconnaît le commandement en chef des Îles du Vent en cas de mort ou d'absence du gouverneur général. Il meurt en fonction le 1er mai 1717 — quelques jours avant le dénouement du Gaoulé martiniquais.`,
+            },
+
+            // ── Intérim et Gaoulé guadeloupéen ────────────────────
+            {
+                de: 1717, a: 1718,
+                texte: `<strong>Intérim et tensions :</strong><br>
+La mort de La Malmaison laisse la Guadeloupe sans gouverneur titulaire pendant près d'un an. Lagarrigue de Savigny assure l'intérim dans une colonie secouée par les mêmes tensions commerciales et fiscales qui ont provoqué le Gaoulé en Martinique — les colons guadeloupéens s'étaient eux aussi soulevés au printemps 1717, de façon moins spectaculaire mais tout aussi réelle.`,
+            },
+
+            // ── Vaultier de Moyencourt ────────────────────────────
+            {
+                de: 1718,
+                texte: `<strong>Vaultier de Moyencourt :</strong><br>
+Il prend les rênes en mars 1718. Son premier acte notable est d'obtenir l'autorisation d'acheter 50 esclaves dans les colonies anglaises voisines, en violation formelle des ordonnances commerciales françaises — signal d'un régime accommodant avec la contrebande. Il sera rappelé en France en 1727 pour soupçons de commerce illicite. En attendant, la Guadeloupe est une île où les règles s'appliquent avec souplesse.`,
+            },
+        ],
 
         zone: [],
-
         capitale: 'Basse-Terre',
-        population_approx: '~25 000 habitants (1713, dont ~18 000 esclaves)',
-        economie: 'Sucre, cacao, coton, café ; commerce interlope actif malgré les interdictions',
-        /* note: '✅ La Malmaison : Wikipedia EN (article dédié), ANOM (correspondance de Guadeloupe), Chronologie de Guadeloupe (Wikipedia FR). ✅ Dates confirmées par au moins deux sources concordantes pour chaque gouverneur. ✅ Intérim des Îles du Vent (oct. 1713 – janv. 1715) : établi Wikipedia EN + ANOM. ✅ Lagarrigue de Savigny : ANOM (provisions de lieutenant de roi du 20 sept. 1717) + Unionpedia FR. ✅ Vaultier de Moyencourt : Chronologie de Guadeloupe (Wikipedia FR), date du 18 mars 1718 confirmée. ⚠️ La Malmaison est parfois appelé "Hemon Coinard de la Malmaison" dans les sources françaises — il s\'agit du même personnage (Georges Robert Cloche de Mont-Saint-Rémy de La Malmaison). Population : estimation composite, période.', */
+        population_approx: `~25 000 habitants (dont ~18 000 esclaves)`,
+        economie: 'Sucre, cacao, coton, café ; commerce interlope actif avec Saint-Eustache et Curaçao',
+
+        /* note: `✅ La Malmaison : Wikipedia EN, ANOM, Chronologie de Guadeloupe (Wikipedia FR).
+    ✅ Intérim des Îles du Vent (oct. 1713 – janv. 1715) : établi.
+    ✅ Lagarrigue de Savigny : ANOM (provisions du 20 sept. 1717).
+    ✅ Vaultier de Moyencourt : date du 18 mars 1718 confirmée (Wikipedia FR).
+    ⚠️ La Malmaison est parfois "Hemon Coinard de la Malmaison" dans les sources — même personnage.`, */
     },
 
     // ── GRENADE ──────────────────────────────────────────────
@@ -2713,36 +3041,52 @@ Le gouverneur La Malmaison est un administrateur tenace, en poste depuis 1705. I
                 nom: 'Guillaume-Emmanuel-Théodore de Maupeou, comte de l\'Estrange',
                 pnj_id: null,
                 titre: 'Gouverneur de la Grenade',
-                // En poste de 1711 à 1716.
             },
             1717: {
                 nom: 'Jean-Michel de Lépinay',
                 pnj_id: null,
                 titre: 'Gouverneur de la Grenade',
-                // En poste de 1717 au 3 janvier 1721.
-                // NB : Feuquières est mentionné par les ANOM comme "gouverneur de la Grenade en 1716"
-                // avant de devenir gouverneur général des Îles du Vent en 1717 — passage transitoire
-                // entre la fin du mandat de Maupeou et la prise de fonctions de Lépinay.
             },
         },
 
-        contexte: {
-            1712: `Colonie française depuis 1649, la Grenade est la plus méridionale des Petites Antilles françaises. Saint-George's (Fort Royal) est la capitale et le seul port notable. L'île produit du sucre, du cacao, de l'indigo et — fait remarquable pour la région — des épices : la muscade et le poivre qui feront plus tard sa réputation commencent à être cultivés. La Grenade relève du gouverneur général des Îles du Vent résidant à Fort-Royal en Martinique, mais son gouverneur particulier jouit d'une relative autonomie de fait, compte tenu de l'éloignement.
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Colonie française depuis 1649, la Grenade est la plus méridionale des Petites Antilles françaises. Saint-George's est la capitale et le seul port notable. L'île produit du sucre, du cacao, de l'indigo et — fait remarquable — les premières cultures de muscade qui feront plus tard sa réputation. Elle relève du gouverneur général des Îles du Vent à Fort-Royal, mais l'éloignement lui confère une autonomie de fait.`,
+            },
 
-L'archipel des Grenadines — une centaine d'îlots et de cays entre Grenade et Saint-Vincent — est nominalement rattaché à la Grenade, mais sans administration effective. Ces îlots sont des refuges pour les pêcheurs, les naufragés, les contrebandiers et les pirates qui font escale sans rendre de comptes. Carriacou, la plus grande des Grenadines françaises, a quelques habitations mais pas de garnison.`,
-            1717: `<strong>Jean-Michel de Lépinay</strong> prend le gouvernement en 1717 après une transition floue — Feuquières est passé brièvement par la Grenade avant d'être nommé gouverneur général des Îles du Vent à Fort-Royal. Lépinay administre jusqu'au 3 janvier 1721 une île en développement économique réel mais exposée sur trois fronts.
+            // ── La porte de la Terre Ferme ────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>La porte de la Terre Ferme :</strong><br>
+Séparée de Trinidad espagnole par une soixantaine de kilomètres, la Grenade est le point de passage naturel pour le commerce interlope entre les Antilles françaises et le Venezuela : cacao, cuirs et indigo vénézuéliens transitent discrètement par les Grenadines vers Saint-George's. Les gouverneurs successifs perçoivent leur part de ces arrangements sans les encourager ouvertement.`,
+            },
 
-<strong>La porte de la Terre Ferme.</strong> La Grenade est la colonie française la plus méridionale des Petites Antilles, séparée de Trinidad espagnole par une soixantaine de kilomètres à peine. Cette proximité en fait un point de passage naturel pour le commerce interlope entre les Antilles françaises et le Venezuela espagnol : cacao, cuirs et indigo vénézuéliens transitent discrètement par les Grenadines vers Saint-George's. Lépinay, comme ses prédécesseurs, perçoit sa part de ces arrangements sans les encourager ouvertement.
+            // ── Les Grenadines ────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Les Grenadines :</strong><br>
+L'archipel d'une centaine d'îlots et de cays entre la Grenade et Saint-Vincent est nominalement grenadois mais sans administration effective. Carriacou, la plus grande, a quelques habitations de pêcheurs et une baie propice au carénage. Petite Martinique et les îlots au nord sont des escales connues des navires qui veulent éviter les ports surveillés — contrebandiers, pirates de passage, équipages cherchant à réparer en silence.`,
+            },
 
-<strong>Les Grenadines.</strong> L'archipel qui s'étend entre la Grenade et Saint-Vincent — une centaine d'îlots, de cayes et de bancs coralliens — est nominalement grenadois mais sans administration effective. Carriacou, la plus grande, a quelques habitations de pêcheurs et une baie propice au carénage. Petite Martinique et les îlots au nord sont des escales connues des navires qui veulent éviter les ports surveillés. C'est un espace où les juridictions se dissolvent — entre la Grenade française, Saint-Vincent kalinago, et Trinidad espagnole, un navire peut circuler pendant des semaines sans croiser la moindre autorité.`,
-        },
+            // ── Lépinay et la consolidation ───────────────────────
+            {
+                de: 1717,
+                texte: `<strong>Jean-Michel de Lépinay :</strong><br>
+Il prend le gouvernement en 1717 après une transition floue via Feuquières, rapidement promu gouverneur général des Îles du Vent. Lépinay administre une île en développement économique réel mais exposée — à l'est, les routes de la Barbade britannique ; au sud, Trinidad espagnole et les côtes vénézuéliennes ; dans les Grenadines, une zone grise que personne ne contrôle vraiment. Sa gestion est pragmatique : ne pas poser de questions sur les escales discètes dans les Grenadines, tant que les droits de port sur Saint-George's sont honorés.`,
+            },
+        ],
 
         zone: [],
-
         capitale: 'Saint-George\'s (Fort Royal)',
-        population_approx: '~15 000 habitants (1713, dont ~11 000 esclaves)',
-        economie: 'Sucre, cacao, indigo, épices naissantes (muscade) ; Grenadines : refuge et contrebande',
-        /* note: '✅ Liste des gouverneurs : Wikipedia FR (Liste des gouverneurs coloniaux de la Grenade — source primaire liste exhaustive). ✅ Feuquières gouverneur de la Grenade en 1716, avant gouverneur général Îles du Vent : ANOM nominatif (source primaire). ⚠️ La transition Maupeou / Feuquières / Lépinay en 1716–1717 est une zone grise : Feuquières semble avoir occupé le poste très brièvement (quelques mois à tout au plus) sans que cela soit formellement documenté comme un mandat à part entière — on le note en commentaire plutôt qu\'en entrée gouverneur pour ne pas surcharger l\'affichage. ⚠️ Les Grenadines françaises (Carriacou, Petite Martinique, etc.) sont intégrées dans ce bloc faute de source permettant d\'en faire un bloc distinct.', */
+        population_approx: `~15 000 habitants (dont ~10 000 esclaves)`,
+        economie: 'Sucre, cacao, indigo, muscade (naissante) ; commerce interlope avec Trinidad et le Venezuela',
+
+        /* note: `✅ Maupeou, comte de l'Estrange : en poste 1711–1716 (ANOM, GHCaraibe).
+    ✅ Lépinay : en poste 1717 – 3 janvier 1721 (ANOM).
+    ✅ Feuquières passage transitoire 1716 avant nomination aux Îles du Vent : ANOM.
+    🎲 Les Grenadines sont une zone grise utilisable immédiatement — Carriacou pour caréner, Petite Martinique pour des échanges discrets, les îlots sans nom pour disparaître.`, */
     },
 
     // ── SAINT-CHRISTOPHE (SAINT-KITTS) ───────────────────────
@@ -2752,46 +3096,53 @@ L'archipel des Grenadines — une centaine d'îlots et de cays entre Grenade et 
 
         puissance: {
             1712: 'britannique',
-            // Toute l'île est sous contrôle britannique de facto depuis la guerre de Succession d'Espagne,
-            // mais la partie française n'est formellement cédée que par le traité d'Utrecht (1713).
         },
 
         gouverneur: {
-            // Saint-Kitts n'a pas de gouverneur particulier distinct — elle relève directement
-            // du gouverneur général des Leeward Islands résidant à Antigua.
-            // Un commandant local (deputy governor) administre l'île au quotidien.
             1712: {
                 nom: 'Walter Douglas',
                 pnj_id: null,
                 titre: 'Gouverneur général des Leeward Islands (résidence Antigua)',
-                // En poste 1711–1716. Successeur de Daniel Parke, lynché en décembre 1710.
-                // Douglas a monnayé la grâce royale accordée aux assassins de Parke :
-                // 10 000 £ soutirées aux Antiguais avant de publier le pardon royal.
-                // Condamné en Angleterre pour extorsion, révoqué.
             },
             1715: {
                 nom: 'Walter Hamilton',
                 pnj_id: null,
                 titre: 'Gouverneur général des Leeward Islands (résidence Antigua)',
-                // Second mandat 1715–1721. Intérim assuré par William Mathew Jr. en 1714–1715.
             },
         },
 
-        contexte: {
-            1712: `Saint-Christophe — Saint-Kitts pour les Anglais — est la plus ancienne colonie anglaise des Antilles, fondée en 1623 par Thomas Warner. Elle a une histoire singulière : l'île fut partagée pendant près de cent ans entre Anglais et Français, qui coexistaient difficilement sur leurs bandes côtières respectives pendant que les Kalinago contrôlaient l'intérieur. La guerre de Succession d'Espagne a mis fin à ce partage : les Britanniques ont pris le contrôle de toute l'île dès 1702, et le traité d'Utrecht (1713) en formalise la cession définitive par la France.
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `La plus ancienne colonie anglaise des Antilles, fondée en 1623 par Thomas Warner. Saint-Kitts a une histoire singulière : l'île fut partagée pendant près de cent ans entre Anglais et Français, qui coexistaient difficilement sur leurs bandes côtières respectives. La guerre de Succession d'Espagne a mis fin à ce partage — les Britanniques contrôlent toute l'île depuis 1702. Basseterre est la capitale et le principal port ; Brimstone Hill, la forteresse volcanique qui domine l'île, est surnommée le "Gibraltar des Antilles".`,
+            },
 
-En 1712, les terres de l'ancienne partie française — les plus fertiles, celles du centre — sont en cours de redistribution. Les anciens colons français, expulsés ou partis d'eux-mêmes, ont laissé des habitations que les planteurs anglais s'empressent d'acquérir, souvent à vil prix. C'est une période de spéculation foncière intense autour du futur traité.
+            // ── Douglas et l'affaire Parke ─────────────────────────
+            {
+                de: 1712, a: 1715,
+                texte: `<strong>Walter Douglas et l'héritage Parke :</strong><br>
+Douglas succède à Daniel Parke, lynché par les colons d'Antigua en décembre 1710. Sa première manœuvre est de monnayer le pardon royal accordé aux assassins : 10 000 livres soutirées aux Antiguais avant de publier la grâce. Il sera condamné en Angleterre pour extorsion et révoqué — un gouverneur général qui illustre parfaitement les dérives du système colonial britannique dans les Antilles.`,
+            },
 
-Brimstone Hill, la forteresse volcanique qui domine l'île, est le point défensif central — surnommé le "Gibraltar des Antilles". Basseterre est la capitale et le principal port.`,
-            1713: `Le traité d'Utrecht (avril 1713) règle officiellement la question : la partie française de Saint-Kitts est cédée à la Grande-Bretagne. L'île est désormais entièrement britannique pour la première fois de son histoire coloniale. Les planteurs anglais achèvent de s'emparer des terres françaises abandonnées. La prospérité sucrière de l'île croît rapidement — Saint-Kitts devient l'une des colonies les plus productives des Leeward Islands.`,
-        },
+            // ── Utrecht et la redistribution foncière ─────────────
+            {
+                de: 1713,
+                texte: `<strong>Après Utrecht :</strong><br>
+Le traité d'Utrecht (avril 1713) cède officiellement à la Grande-Bretagne la partie française de Saint-Kitts — les terres les plus fertiles, au centre de l'île. Les planteurs anglais s'empressent d'acquérir les habitations françaises abandonnées, souvent à vil prix. C'est une période de spéculation foncière intense. La prospérité sucrière de l'île croît rapidement.`,
+            },
+        ],
 
         zone: [],
-
         capitale: 'Basseterre',
-        population_approx: '~20 000 habitants (1713, dont ~15 000 esclaves)',
+        population_approx: `~20 000 habitants (dont ~15 000 esclaves)`,
         economie: 'Sucre, rhum — île parmi les plus productives des Antilles anglaises',
-        /* note: '✅ Histoire de la partition franco-britannique et cession Utrecht : établi, sources multiples concordantes. ✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands). ✅ Affaire Douglas / extorsion : Wikipedia EN (Walter Douglas), Historic St. Kitts. ✅ Assassinat de Parke (dec. 1710) : bien documenté, notamment Encyclopedia Virginia et Calendar of State Papers. ⚠️ Saint-Kitts n\'a pas de gouverneur particulier nommé séparément pour la période 1712–1720 — le gouverneur général des Leeward Islands fait autorité sur l\'ensemble. ⚠️ Intérim de William Mathew Jr. (1714–1715) : établi par la liste Wikipedia, non développé dans le contexte.', */
+
+        /* note: `✅ Partition franco-britannique et cession Utrecht : établi.
+    ✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).
+    ✅ Affaire Douglas / extorsion : Wikipedia EN (Walter Douglas), Historic St. Kitts.
+    ✅ Assassinat de Parke (déc. 1710) : Calendar of State Papers, Encyclopedia Virginia.
+    ⚠️ Saint-Kitts n'a pas de gouverneur particulier séparé — le gouverneur général des Leeward Islands fait autorité sur l'ensemble.`, */
     },
 
     // ── LEEWARD ISLANDS (HORS SAINT-KITTS) ──────────────────
@@ -2804,42 +3155,60 @@ Brimstone Hill, la forteresse volcanique qui domine l'île, est le point défens
         },
 
         gouverneur: {
-            // Gouverneur général commun à toutes les Leeward Islands, résidant à Antigua.
-            // Même succession que pour Saint-Kitts (voir ce bloc).
             1712: {
                 nom: 'Walter Douglas',
                 pnj_id: null,
                 titre: 'Gouverneur général des Leeward Islands',
-                // Condamné pour extorsion, révoqué 1714–1716.
             },
             1715: {
                 nom: 'Walter Hamilton',
                 pnj_id: null,
                 titre: 'Gouverneur général des Leeward Islands',
-                // Second mandat 1715–1721.
             },
         },
 
-        contexte: {
-            1712: `Les Leeward Islands britanniques forment une colonie fédérée depuis 1671, administrée par un gouverneur général résidant à Antigua. Chaque île a un conseil local et un commandant ou lieutenant-gouverneur, mais sans législature autonome pour la période.
+        contexte: [
+            // ── Antigua — siège du gouvernement ───────────────────
+            {
+                de: 1712,
+                texte: `<strong>Antigua :</strong><br>
+Siège du gouvernement général des Leeward Islands. English Harbour, sur la côte sud, est la base navale principale de la Couronne dans les Petites Antilles — carénage et approvisionnement pour les frégates de la Royal Navy. Saint-John's est la capitale administrative. C'est ici que le gouverneur Parke fut lynché en décembre 1710 — événement encore frais dans les mémoires — et que son successeur Douglas monnaya ensuite le pardon royal des assassins.`,
+            },
 
-<strong>Antigua</strong> est le siège du gouvernement général et la plus prospère des îles du groupe. English Harbour, sur la côte sud, est la base navale principale de la Couronne dans les Petites Antilles — point de carénage et d'approvisionnement pour les frégates de la Royal Navy. La ville de Saint-John's est la capitale administrative. L'île produit du sucre en quantité croissante, exploité par une main-d'œuvre servile nombreuse. C'est ici que le gouverneur Daniel Parke a été lynché en décembre 1710 — événement encore frais dans les mémoires en 1712 — et que son successeur Douglas a monnayé le pardon royal des assassins.
+            // ── Nevis ─────────────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Nevis :</strong><br>
+Au XVIIe siècle la plus riche des îles du groupe, siège de facto du premier gouverneur général Stapleton. Depuis dépassée par Antigua, elle reste une île sucrière productive avec Charlestown pour capitale. Son déclin relatif est aussi le signe d'un sol appauvri par des décennies de monoculture.`,
+            },
 
-<strong>Nevis</strong> était au XVIIe siècle la plus riche des îles du groupe, siège de facto du premier gouverneur général Stapleton qui y avait épousé et s'y était installé. Elle a depuis été dépassée par Antigua mais reste une île sucrière productive, avec Charlestown pour capitale.
+            // ── Montserrat ────────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Montserrat :</strong><br>
+Île modeste à dominante irlandaise catholique — de nombreux colons irlandais y ont trouvé refuge depuis la Barbade au XVIIe siècle. La langue et les traditions irlandaises y sont encore vivaces. Plymouth est la seule ville notable. L'île a subi plusieurs raids français pendant la guerre de Succession (1710, 1711, 1712), tous repoussés — mais les dommages sont réels.`,
+            },
 
-<strong>Montserrat</strong> est une île plus modeste, à dominante irlandaise catholique — de nombreux colons irlandais y ont trouvé refuge depuis la Barbade au XVIIe siècle. La langue et les traditions irlandaises y sont encore vivaces. Plymouth est la seule ville notable. L'île a subi plusieurs raids français pendant la guerre de Succession (1710, 1711, 1712), tous repoussés.
-
-<strong>Anguilla</strong> est une île quasi-abandonnée par les autorités coloniales : plate, aride, sans sucre, sans garnison, sans réelle administration. Elle survive grâce à la pêche, l'élevage de sel et la contrebande avec les îles voisines françaises et hollandaises. En juin 1720, le gouverneur Hamilton rapporte que plusieurs grands planteurs anguillais ont simplement quitté l'île pour Antigua, faute de perspective.
-
-<strong>Barbuda</strong> est une dépendance d'Antigua, essentiellement réservée comme réserve naturelle et d'approvisionnement pour les Codrington — la grande famille de planteurs qui la détient à bail de la Couronne depuis 1685. Elle est peu peuplée et sans administration distincte.`,
-        },
+            // ── Anguilla et Barbuda ───────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Anguilla et Barbuda :</strong><br>
+Anguilla est quasi-abandonnée par les autorités coloniales : plate, aride, sans sucre, sans garnison. Elle survit grâce à la pêche, au sel et à la contrebande avec les îles voisines. En 1720, Hamilton signale que plusieurs planteurs ont simplement quitté l'île pour Antigua, faute de perspective. Barbuda est une dépendance d'Antigua détenue à bail par les Codrington depuis 1685 — peu peuplée, sans administration distincte, servant surtout de réserve naturelle et d'approvisionnement pour leurs plantations antiguaises.`,
+            },
+        ],
 
         zone: [],
-
-        capitale: 'Saint-John\'s (Antigua) — siège du gouvernement général',
-        population_approx: '~35 000 habitants pour l\'ensemble du groupe (1713, dont ~28 000 esclaves)',
+        capitale: `Saint-John's (Antigua) — siège du gouvernement général`,
+        population_approx: `~35 000 habitants pour l'ensemble du groupe (dont ~28 000 esclaves)`,
         economie: 'Sucre (Antigua, Nevis), sel et pêche (Anguilla) ; base navale royale à English Harbour (Antigua)',
-        /* note: '✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands), sources concordantes. ✅ Affaire Parke (1710) : bien établie, Calendar of State Papers, Encyclopedia Virginia. ✅ Montserrat : raids français 1710–1712 établis (West India Committee, War of the Spanish Succession). ✅ Anguilla abandon 1720 : Calendar of State Papers Colonial (CO.152/13, Hamilton 14 juin 1720), cité dans Don Mitchell, The Leeward Islands. ✅ Barbuda / Codrington : établi. ⚠️ Ce bloc regroupe cinq entités distinctes dans un seul id — les zones SVG individuelles devront pointer vers ce même bloc, ou des blocs fils pourront être créés ultérieurement pour Antigua et Nevis si la campagne l\'exige.', */
+
+        /* note: `✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).
+    ✅ Affaire Parke (1710) : Calendar of State Papers, Encyclopedia Virginia.
+    ✅ Montserrat raids 1710–1712 : War of the Spanish Succession sources.
+    ✅ Anguilla abandon 1720 : Calendar of State Papers Colonial (CO.152/13, Hamilton, 14 juin 1720).
+    ✅ Barbuda / Codrington depuis 1685 : établi.
+    ⚠️ Bloc composite — cinq entités dans un seul id.
+    📌 Note nomenclature : la carte Jaillot utilise "Leeward Isles" pour les îles vénézuéliennes hollandaises (Curaçao, Aruba, Bonaire, Roca, Orchilla, Tortuga), non pour ce groupe britannique. La convention anglaise "Leeward Islands" pour ce groupe est distincte de l'usage cartographique de Jaillot — à signaler dans l'interface si nécessaire.`, */
     },
 
     // ── SAINT-THOMAS (ET SAINT-JOHN) ─────────────────────────
@@ -2855,37 +3224,52 @@ Brimstone Hill, la forteresse volcanique qui domine l'île, est le point défens
             1712: {
                 nom: 'Mikkel Knudsen Crone',
                 pnj_id: null,
-                titre: 'Gouverneur de Saint-Thomas pour la Compagnie des Indes occidentales danoise',
-                // En poste du 27 mars 1710 au 8 août 1716 (mort en fonction).
-                // En 1715, il signale à Copenhague que les terres de Saint-Thomas s'épuisent
-                // et que les planteurs cherchent à s'étendre vers Saint-John.
+                titre: 'Gouverneur pour la Compagnie des Indes occidentales danoise',
             },
             1716: {
                 nom: 'Erik Bredal',
                 pnj_id: null,
-                titre: 'Gouverneur de Saint-Thomas pour la Compagnie des Indes occidentales danoise',
-                // Élu gouverneur intérimaire le 12 août 1716 après la mort de Crone.
-                // Nominé définitivement par Copenhague. En poste jusqu'en 1724.
-                // En 1717, le gouverneur britannique Hamilton visite Saint-Thomas et avertit
-                // les Danois de ne pas couper de bois sur Saint-John.
-                // En 1718, colonise officiellement Saint-John malgré les objections anglaises.
+                titre: 'Gouverneur pour la Compagnie des Indes occidentales danoise',
             },
         },
 
-        contexte: {
-            1712: `Saint-Thomas est la colonie danoise des Caraïbes, administrée par la Compagnie des Indes occidentales danoise (Vestindisk Kompagni) depuis 1672. Charlotte Amalie — la ville portuaire organisée autour du Fort Christian — est l'un des ports francs les plus actifs des Petites Antilles : la tolérance danoise envers toutes les nationalités et tous les commerces en fait un hub du trafic interlope que ni les Anglais ni les Français ni les Espagnols n'arrivent à réguler depuis leurs propres colonies.
+        contexte: [
+            // ── Charlotte Amalie — port franc ─────────────────────
+            {
+                de: 1712,
+                texte: `Saint-Thomas est administrée par la Compagnie des Indes occidentales danoise (<em>Vestindisk Kompagni</em>) depuis 1672. Charlotte Amalie — la ville portuaire organisée autour du Fort Christian — est l'un des ports francs les plus actifs des Petites Antilles. La tolérance danoise envers toutes les nationalités et tous les commerces en fait un hub du trafic interlope que ni les Anglais ni les Français ni les Espagnols n'arrivent à réguler depuis leurs propres colonies. La population blanche est délibérément cosmopolite : Danois, Hollandais, Anglais, Juifs séfarades — négociants de toutes origines qui font de Charlotte Amalie une place de marché fonctionnant de facto en dehors des monopoles coloniaux européens.`,
+            },
 
-En 1712, Saint-Thomas est surtout une plaque tournante commerciale. Les esclaves africains y transitent vers les colonies espagnoles du continent ; les marchandises européennes et américaines y sont redistribuées sans trop de questions. La population blanche est mêlée — Danois, Hollandais, Anglais, Juifs séfarades — ce qui renforce son caractère de carrefour neutre. Les esclaves représentent plus des cinq sixièmes de la population totale.
+            // ── Commerce interlope et piraterie ───────────────────
+            {
+                de: 1712,
+                texte: `<strong>Commerce interlope et piraterie :</strong><br>
+Les esclaves africains y transitent vers les colonies espagnoles ; les marchandises européennes et américaines y sont redistribuées sans trop de questions. Les esclaves représentent plus des cinq sixièmes de la population totale. Charlotte Amalie est aussi l'un des ports où les pirates ont longtemps vendu leur butin — la neutralité danoise et la vénalité documentée de certains gouverneurs du XVIIe siècle en ont fait un refuge commode. En 1712, la pression anglaise pour nettoyer les Caraïbes commence à peser sur les Danois, mais l'économie du port franc reste fondamentalement la même.`,
+            },
 
-Saint-John, île voisine, est en 1712 encore formellement non colonisée. Les terres de Saint-Thomas s'épuisant, des planteurs danois commencent à loucher sur Saint-John, mais la tension avec les Anglais (qui considèrent l'île dans leur zone d'influence) retient la Compagnie. Le gouverneur Bredal la colonisera finalement en 1718, déclenchant une friction diplomatique avec le gouverneur Hamilton des Leeward Islands.`,
-        },
+            // ── Les terres s'épuisent — Saint-John en vue ─────────
+            {
+                de: 1712, a: 1718,
+                texte: `<strong>Les terres s'épuisent :</strong><br>
+En 1715, le gouverneur Crone signale à Copenhague que les terres de Saint-Thomas s'épuisent après quarante ans de culture intensive. Les planteurs commencent à loucher sur Saint-John, île voisine encore non colonisée — mais formellement dans la zone d'influence britannique selon les Anglais des Leeward Islands. La tension diplomatique retient la Compagnie d'agir.`,
+            },
+
+            // ── Bredal colonise Saint-John ────────────────────────
+            {
+                de: 1718,
+                texte: `<strong>Bredal et la colonisation de Saint-John :</strong><br>
+En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les objections du gouverneur Hamilton des Leeward Islands, qui avait déjà averti les Danois en 1717 de ne pas couper de bois sur l'île. La friction diplomatique est réelle — mais le Danemark tient bon. Saint-John devient une extension productive de Saint-Thomas.`,
+            },
+        ],
 
         zone: [],
-
         capitale: 'Charlotte Amalie (Fort Christian)',
-        population_approx: '~3 600 habitants en 1715 (dont ~3 000 esclaves)',
-        economie: 'Port franc, commerce interlope, transit négrier, sucre en production secondaire',
-        /* note: '✅ Gouverneurs : Wikipedia EN (Mikkel Knudsen Crone, Erik Bredal). ✅ Colonisation Saint-John 1718 et tension avec Hamilton : St. John Historical Society. ✅ Population 1715 : Danish West Indies Wikipedia EN (chiffres de recensement). ⚠️ La puissance "danoise" n\'existe pas dans les PUISSANCES du fichier — utilisation temporaire de "hollandaise" par défaut ; à corriger en ajoutant une entrée "danoise" dans PUISSANCES.', */
+        population_approx: `~3 600 habitants (dont ~3 000 esclaves)<br>Saint-John : non colonisée avant 1718`,
+        economie: 'Port franc, commerce interlope de toutes natures, transit négrier, sucre en production secondaire',
+
+        /* note: `✅ Gouverneurs : Wikipedia EN (Mikkel Knudsen Crone, Erik Bredal).
+    ✅ Colonisation Saint-John 1718 et tension avec Hamilton : St. John Historical Society.
+    ✅ Population 1715 : Danish West Indies Wikipedia EN (recensement).`, */
     },
 
     // ── SAINTE-CROIX ─────────────────────────────────────────
@@ -2895,9 +3279,7 @@ Saint-John, île voisine, est en 1712 encore formellement non colonisée. Les te
 
         puissance: {
             1712: 'conteste',
-            // Officiellement française (cession à la Couronne en 1674), mais abandonnée depuis 1696.
-            // Île déserte en 1712 — ni gouverneur, ni colons, ni garnison.
-            // Vendue au Danemark en 1733.
+            1733: 'danoise',
         },
 
         gouverneur: {
@@ -2905,25 +3287,37 @@ Saint-John, île voisine, est en 1712 encore formellement non colonisée. Les te
                 nom: '[Île abandonnée — aucune autorité]',
                 pnj_id: null,
                 titre: 'Aucun gouverneur — île déserte',
-                // La France a évacué l'île en 1696 pendant la guerre de la Ligue d'Augsbourg.
-                // Entre 1696 et 1733, Sainte-Croix est formellement française mais sans présence.
+            },
+            1733: {
+                nom: 'Frederik Moth',
+                pnj_id: null,
+                titre: 'Gouverneur de Sainte-Croix pour le Danemark',
             },
         },
 
-        contexte: {
-            1712: `Sainte-Croix est une île fantôme. Ancienne colonie française, elle a été évacuée en 1696 sur ordre de Louis XIV — trop exposée, trop difficile à défendre, trop coûteuse à maintenir dans le contexte de la guerre de la Ligue d'Augsbourg. Ses plantations, ses forts et ses maisons sont retournés à la végétation tropicale.
+        contexte: [
+            // ── L'île fantôme ─────────────────────────────────────
+            {
+                de: 1712, a: 1733,
+                texte: `Sainte-Croix est une île fantôme. Ancienne colonie française évacuée en 1696 sur ordre de Louis XIV — trop exposée, trop coûteuse à défendre pendant la guerre de la Ligue d'Augsbourg. Ses plantations, ses forts et ses maisons sont retournés à la végétation tropicale. L'île appartient formellement à la France — aucun traité ne l'a cédée — mais personne n'y réside en permanence. Des navires s'y arrêtent pour faire de l'eau douce, des naufragés y trouvent refuge, et des pirates y ont établi des camps éphémères. L'Angleterre, le Brandebourg et le Danemark ont tous montré de l'intérêt sans jamais agir — l'île reste un vide juridique et humain.`,
+            },
 
-En 1712, l'île appartient formellement à la France — aucun traité ne l'a cédée — mais personne n'y réside en permanence. Des navires s'y arrêtent pour faire de l'eau douce, des naufragés y trouvent refuge provisoirement, et des buccaneers y ont établi des camps éphémères. L'Angleterre, le Brandebourg et le Danemark ont tous montré de l'intérêt pour l'île depuis son abandon, sans qu'aucun n'ait agi.
-
-Ce vide juridique et humain durera jusqu'en 1733, quand la France conclura avec le Danemark un traité de vente pour 750 000 livres. Frederik Moth, gouverneur de Saint-Thomas, fondera alors Christiansted et fera de Sainte-Croix la colonie danoise la plus productive des Caraïbes.`,
-        },
+            // ── La vente au Danemark ──────────────────────────────
+            {
+                de: 1733,
+                texte: `<strong>La vente au Danemark (1733) :</strong><br>
+La France cède finalement Sainte-Croix au Danemark pour 750 000 livres. Le gouverneur Frederik Moth fonde Christiansted et lance une colonisation intensive. Sainte-Croix deviendra la colonie danoise la plus productive des Caraïbes — transformation spectaculaire d'une île trente-sept ans à l'abandon.`,
+            },
+        ],
 
         zone: [],
+        capitale: `[Aucune — île déserte jusqu'en 1733]`,
+        population_approx: `Zéro résidents permanents (1712–1733)`,
+        economie: `Néant — anciens établissements à l'abandon ; escale occasionnelle`,
 
-        capitale: '[Aucune — île déserte en 1712]',
-        population_approx: 'Zéro résidents permanents (1712–1733)',
-        economie: 'Néant — anciens établissements à l\'abandon ; escale occasionnelle',
-        /* note: '✅ Abandon 1696 et vente au Danemark 1733 : établi, sources nombreuses concordantes (Wikipedia EN Saint Croix, Heritage.vi, antillespressvi.com/sainte-croix). ✅ Statut "formellement française" : confirmé par la chronologie — aucun traité de cession avant 1733. ⚠️ La mention de visiteurs ou campements pirates 1696–1733 est vraisemblable mais non sourçable précisément.', */
+        /* note: `✅ Abandon 1696, vente au Danemark 1733 : établi (Wikipedia EN Saint Croix, Heritage.vi).
+    ✅ Statut "formellement française" 1696–1733 : confirmé — aucun traité de cession avant 1733.
+    ⚠️ Campements pirates ou visiteurs 1696–1733 : vraisemblable, non sourçable précisément.`, */
     },
 
     // ── ÎLES VIERGES BRITANNIQUES ────────────────────────────
@@ -2940,23 +3334,40 @@ Ce vide juridique et humain durera jusqu'en 1733, quand la France conclura avec 
                 nom: '[Commandant local non identifié]',
                 pnj_id: null,
                 titre: 'Dépendance des Leeward Islands — pas de gouverneur particulier',
-                // Les Îles Vierges britanniques font partie de la colonie des Leeward Islands.
-                // Elles ont un commandant local mais pas de gouverneur distinct pour la période.
             },
         },
 
-        contexte: {
-            1712: `Tortola, Virgin Gorda et Anegada sont les principales îles britanniques de l'archipel des Vierges, administrées comme dépendance des Leeward Islands depuis les années 1670. Tortola est la plus importante — quelques plantations de sucre, une petite population de colons anglais et d'esclaves, Road Town comme bourgade principale.
+        contexte: [
+            // ── Un archipel négligé ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Tortola, Virgin Gorda et Anegada — dépendance des Leeward Islands depuis les années 1670. Trop petites, trop peu rentables, trop proches des îles danoises et hollandaises pour être facilement contrôlées. Road Town à Tortola est une bourgade modeste ; Virgin Gorda n'a que quelques habitations ; Anegada — île corallienne plate à l'extrémité nord-est de l'archipel — est réputée pour ses récifs qui ont brisé des dizaines de navires. Ces naufrages sont la principale ressource de ses rares habitants : le <em>wrecking</em> y est pratiqué de façon quasi professionnelle.`,
+            },
 
-Ces îles sont en 1712 une périphérie négligée : trop petites, trop peu rentables, et trop proches des îles danoises et hollandaises pour être facilement contrôlées. Le gouverneur Hamilton des Leeward Islands doit en 1717 faire une tournée en man-of-war pour rappeler aux Danois que ces eaux sont britanniques. La frontière maritime avec Saint-Thomas danois et Saint-John est une zone de friction permanente et de commerce interlope actif.`,
-        },
+            // ── Zone grise entre Britanniques et Danois ───────────
+            {
+                de: 1712,
+                texte: `<strong>Zone grise :</strong><br>
+La frontière maritime avec Saint-Thomas danois est une ligne de friction permanente. Le commerce interlope entre les îles britanniques et Charlotte Amalie est structurel — les colons de Tortola vendent aux marchands danois ce qu'ils ne peuvent pas vendre légalement aux marchands britanniques, et inversement. En 1717, le gouverneur Hamilton doit faire une tournée en man-of-war dans l'archipel pour rappeler aux Danois que ces eaux sont britanniques — signal que la situation échappe à tout contrôle effectif depuis Antigua.`,
+            },
+
+            // ── Piraterie dans les Vierges ────────────────────────
+            {
+                de: 1712, a: 1720,
+                texte: `<strong>Pirates dans les Vierges :</strong><br>
+Les nombreux mouillages abrités, les passes peu profondes que seuls les pilotes locaux connaissent, et la faiblesse de la surveillance britannique font des Vierges une zone de transit et de refuge pour les navires pirates. La proximité de Saint-Thomas — où l'on peut vendre un butin sans trop de questions — renforce l'attrait de l'archipel. Après 1718 et l'arrivée de Woodes Rogers à Nassau, plusieurs équipages dispersés des Bahamas refont surface dans les Vierges avant de chercher d'autres bases.`,
+            },
+        ],
 
         zone: [],
-
         capitale: 'Road Town (Tortola)',
-        population_approx: '~1 500 habitants (estimation, dont ~1 000 esclaves)',
-        economie: 'Sucre (limité), commerce interlope avec Saint-Thomas danois',
-        /* note: '⚠️ Pas de gouverneur particulier identifié pour les Îles Vierges britanniques en 1712–1720 : elles dépendent du gouverneur général des Leeward Islands. ⚠️ Population : estimation très approximative, aucune source directe pour la période.', */
+        population_approx: `~1 500 habitants (dont ~1 000 esclaves)`,
+        economie: 'Sucre (limité), commerce interlope avec Saint-Thomas danois, wrecking (Anegada)',
+
+        /* note: `⚠️ Pas de gouverneur particulier identifié pour les Îles Vierges britanniques en 1712–1720 — dépendance du gouverneur général des Leeward Islands.
+    ⚠️ Population : estimation très approximative, aucune source directe pour la période.
+    ✅ Wrecking à Anegada : documenté dans la tradition locale et les sources maritimes.
+    ✅ Tension Hamilton / Danois 1717 : St. John Historical Society.`, */
     },
 
     // ── SAINT-MARTIN ─────────────────────────────────────────
@@ -2966,9 +3377,6 @@ Ces îles sont en 1712 une périphérie négligée : trop petites, trop peu rent
 
         puissance: {
             1712: 'conteste',
-            // Partagée franco-hollandaise depuis le traité de Concordia (23 mars 1648).
-            // Partie nord : française (Saint-Martin). Partie sud : hollandaise (Sint Maarten).
-            // La frontière a été contestée et franchie à de multiples reprises.
         },
 
         gouverneur: {
@@ -2976,26 +3384,49 @@ Ces îles sont en 1712 une périphérie négligée : trop petites, trop peu rent
                 nom: '[Commandants locaux non identifiés — deux autorités distinctes]',
                 pnj_id: null,
                 titre: 'Commandant français (nord) / Commandant hollandais (sud)',
-                // La partie française dépend nominalement du gouverneur général des Îles du Vent.
-                // La partie hollandaise dépend du commandant de Sint Eustatius (WIC).
-                // L'île a changé de mains 16 fois au total — son statut réel en 1712 est stable
-                // depuis le retour franco-hollandais après la guerre de Succession d'Espagne.
             },
         },
 
-        contexte: {
-            1712: `Saint-Martin est la seule île du monde partagée de façon permanente entre deux nations européennes depuis 1648. Le traité de Concordia a divisé l'île entre une partie française au nord et une partie hollandaise au sud, avec une frontière poreuse et sans fortification permanente entre les deux. La légende dit que la ligne a été tracée par deux marcheurs partant dos à dos — le Français, aidé par le vin, couvrant plus de terrain que le Hollandais et son genièvre.
+        contexte: [
+            // ── Une île, deux nations ─────────────────────────────
+            {
+                de: 1712,
+                texte: `Saint-Martin est la seule île du monde partagée de façon permanente entre deux nations européennes depuis le traité de Concordia de 1648. La partie française occupe le nord, la hollandaise le sud — avec une frontière poreuse, sans fortification permanente, que chacun traverse à sa convenance. La légende dit que la ligne fut tracée par deux marcheurs partant dos à dos : le Français, aidé par le vin, couvrit plus de terrain que le Hollandais et son genièvre. La réalité est plus prosaïque — un accord d'opportunité entre deux garnisons trop faibles pour se disputer l'île après la guerre.`,
+            },
 
-En pratique, cette cohabitation est aussi tumultueuse que pacifique : l'île a changé de mains au rythme des guerres européennes, et la paix d'Utrecht (1713) stabilise temporairement les positions. L'économie repose sur le sel — les salines de la baie de Great Bay, côté hollandais, et celles de la baie d'Orient, côté français — ainsi que sur le sucre, le coton et une contrebande active avec les îles voisines. La proximité d'Anguilla (britannique, quasi abandonnée) au nord et de Saint-Barthélemy (française) à l'est facilite les échanges informels.`,
-        },
+            // ── Utrecht et la stabilisation ───────────────────────
+            {
+                de: 1712, a: 1713,
+                texte: `<strong>Une stabilité provisoire :</strong><br>
+L'île a changé de mains seize fois au rythme des guerres européennes. La guerre de Succession d'Espagne a de nouveau bousculé les positions. La paix d'Utrecht (1713) stabilise temporairement le statu quo — Français au nord, Hollandais au sud — sans résoudre les contentieux de fond.`,
+            },
+            {
+                de: 1713,
+                texte: `<strong>Le statu quo d'Utrecht :</strong><br>
+Le partage franco-hollandais est maintenant stabilisé pour la durée de la campagne. La frontière reste poreuse : contrebande, mariages mixtes, commerce entre les deux parties sont la norme quotidienne. Marigot au nord et Philipsburg au sud sont moins des capitales distinctes que deux faces d'une même communauté insulaire divisée par un accident diplomatique.`,
+            },
+
+            // ── Le sel et l'économie ──────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Le sel et le commerce :</strong><br>
+Les salines de la Great Bay (côté hollandais) et de la baie d'Orient (côté français) sont la principale richesse de l'île — exportées vers les colonies sucrières voisines pour la conservation des aliments. La proximité d'Anguilla au nord et de Saint-Barthélemy à l'est facilite les échanges informels avec ces îles sous-administrées. Le double statut de l'île en fait un point de passage discret pour des marchandises qui ne souhaitent pas être inspectées dans un seul port colonial.`,
+            },
+        ],
 
         zone: [],
-
         capitale: 'Marigot (français, nord) / Philipsburg (hollandais, sud)',
-        population_approx: '~3 000 habitants toutes parties confondues (estimation)',
-        economie: 'Sel, sucre, coton ; contrebande entre les deux parties de l\'île',
-        /* note: '✅ Traité de Concordia 1648 : établi. ✅ Structure administrative double (nord français / sud hollandais) : établi. ✅ Stabilisation après Utrecht 1713 : établi. ⚠️ Commandants locaux en 1712 : non identifiés dans les sources consultées. ⚠️ Population : estimation composite très approximative.', */
+        population_approx: `~3 000 habitants toutes parties confondues (estimation)`,
+        economie: 'Sel (salines des deux côtés), sucre, coton ; contrebande inter-parties',
+
+        /* note: `✅ Traité de Concordia 1648 : établi.
+    ✅ Structure administrative double (nord français sous Îles du Vent / sud hollandais sous commandant de Statia) : établi.
+    ✅ Seize changements de mains : établi.
+    ✅ Utrecht 1713 stabilise le statu quo : établi.
+    ⚠️ Commandants locaux en 1712 : non identifiés.
+    ⚠️ Population : estimation composite approximative.`, */
     },
+
 
     // ── SABA ET SAINT-EUSTACHE ───────────────────────────────
     {
@@ -3011,32 +3442,45 @@ En pratique, cette cohabitation est aussi tumultueuse que pacifique : l'île a c
                 nom: '[Commandant non identifié pour 1712–1719]',
                 pnj_id: null,
                 titre: 'Commandant de Sint Eustatius (et dépendances Saba, Sint Maarten) — WIC',
-                // Les trois îles (Sint Eustatius, Saba, Sint Maarten) sont sous un commandant unique
-                // stationné à Sint Eustatius depuis 1678.
             },
             1719: {
                 nom: 'J. Stalperts',
                 pnj_id: null,
                 titre: 'Commandant de Sint Eustatius pour la WIC',
-                // Identifié dans la liste des gouverneurs de Sint Eustatius, Saba et Sint Maarten (Wikipedia EN).
-                // En poste 1719–1720.
             },
         },
 
-        contexte: {
-            1712: `Sint Eustatius — "Statia" pour ses habitants — est la plaque tournante commerciale hollandaise du nord des Petites Antilles. Oranjestad est son port, et malgré la petite taille de l'île (21 km²), son volume de commerce est disproportionné : elle redistribue marchandises, esclaves et denrées entre les colonies anglaises, françaises et espagnoles voisines sans trop regarder les pavillons ni les licences. Sa future réputation de "Rocher d'Or" (Golden Rock) est déjà en germe.
+        contexte: [
+            // ── Sint Eustatius — le Rocher d'Or ───────────────────
+            {
+                de: 1712,
+                texte: `Sint Eustatius — "Statia" pour ses habitants — est la plaque tournante commerciale hollandaise du nord des Petites Antilles. Malgré ses 21 km², son volume de commerce est disproportionné : elle redistribue marchandises, esclaves et denrées entre les colonies anglaises, françaises et espagnoles voisines sans trop regarder les pavillons ni les licences. Sa future réputation de "Rocher d'Or" (<em>Golden Rock</em>) est déjà en germe — l'île vit de l'entrepôt, du transit et de la discrétion. Oranjestad, son unique port, est bondé de navires de toutes nationalités à presque toute heure.`,
+            },
 
-Saba, voisine, est une île-volcan quasi inaccessible — des falaises abruptes sans plage praticable, une seule route qui sera construite bien plus tard. En 1712, ses habitants (quelques dizaines de familles hollandaises et anglaises) vivent de pêche, de dentelle et d'un commerce limité avec Statia. L'île a une réputation de refuge pour contrebandiers et déserteurs qui profitent de son isolement naturel.
+            // ── Le rôle stratégique de Statia ─────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Le commerce sans frontières :</strong><br>
+Statia est l'endroit où les colonies ennemies font discrètement des affaires. Un négociant martiniquais peut y acheter des manufactures anglaises sans passer par Londres ; un planteur de la Barbade peut y écouler sa mélasse vers des marchés normalement fermés. La WIC administre l'île mais son contrôle est nominal — les commandants successifs ont appris à ne pas poser trop de questions à des marchands qui font vivre l'île. Ce commerce ambigu servira de model pour le rôle de Statia pendant la guerre d'Indépendance américaine — où l'île sera le principal fournisseur des rebelles en armes et munitions.`,
+            },
 
-Les deux îles dépendent administrativement du commandant de Statia, lui-même subordonné à la WIC d'Amsterdam.`,
-        },
+            // ── Saba ─────────────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Saba :</strong><br>
+Voisine de Statia, Saba est une île-volcan quasi inaccessible — des falaises abruptes sans plage praticable, un seul mouillage difficile à Fort Bay. Ses habitants (quelques dizaines de familles hollandaises et anglaises installées depuis les années 1640) vivent de la pêche, de la dentelle — artisanat qui fera la réputation de l'île — et d'un commerce limité avec Statia. L'isolement naturel de Saba en fait un refuge pour contrebandiers, déserteurs et toute personne cherchant à disparaître du radar des autorités coloniales voisines. Administrativement, Saba dépend du commandant de Statia.`,
+            },
+        ],
 
         zone: [],
+        capitale: 'Oranjestad (Sint Eustatius) / The Bottom (Saba)',
+        population_approx: `~2 000 habitants (Sint Eustatius) ; ~300 habitants (Saba)`,
+        economie: 'Commerce interlope et transit (Sint Eustatius) ; pêche, dentelle et contrebande (Saba)',
 
-        capitale: 'Oranjestad (Sint Eustatius) — The Bottom (Saba)',
-        population_approx: '~2 000 habitants (Sint Eustatius) ; ~300 habitants (Saba)',
-        economie: 'Commerce interlope et transit (Sint Eustatius) ; pêche et contrebande (Saba)',
-        /* note: '✅ Structure administrative (commandant unique pour Sint Eustatius, Saba, Sint Maarten) : établi, Wikipedia EN (Governors of Sint Eustatius, Saba and Sint Maarten) + Sue Travels / BES Islands. ✅ J. Stalperts 1719–1720 : Wikipedia EN. ⚠️ Commandant pour 1712–1719 : non identifié dans les sources consultées — la liste Wikipedia saute de noms non datés précisément à Stalperts 1719.', */
+        /* note: `✅ Structure administrative (commandant unique pour Sint Eustatius, Saba et Sint Maarten depuis 1678) : Wikipedia EN (Governors of Sint Eustatius, Saba and Sint Maarten).
+    ✅ J. Stalperts 1719–1720 : Wikipedia EN.
+    ⚠️ Commandant pour 1712–1719 : non identifié — la liste Wikipedia ne précise pas de nom pour cette période.
+    🎲 Statia est le pendant hollandais de Saint-Thomas danois : un port où l'on peut vendre, acheter et commercer sans trop de questions — mais plus petit, plus discret, plus proche des îles françaises et britanniques du nord des Petites Antilles.`, */
     },
 
     // ── SAINT-BARTHÉLEMY ─────────────────────────────────────
@@ -3050,26 +3494,44 @@ Les deux îles dépendent administrativement du commandant de Statia, lui-même 
 
         gouverneur: {
             1712: {
-                nom: '[Commandant ou lieutenant local non identifié]',
+                nom: '[Commandant local non identifié]',
                 pnj_id: null,
                 titre: 'Dépendance de la Guadeloupe — pas de gouverneur particulier',
-                // Saint-Barthélemy dépend nominalement du gouverneur général des Îles du Vent
-                // via la Guadeloupe. Pas d'autorité locale distincte pour la période.
             },
         },
 
-        contexte: {
-            1712: `Saint-Barthélemy est une petite île rocheuse et sèche, colonisée par des Français depuis 1648. Gustavia (future capitale suédoise après 1784) n'existe pas encore — l'île a quelques habitations dispersées, une petite population de colons blancs d'origine normande et bretonne très attachés à leur autonomie, et peu de ressources agricoles. L'aridité du sol limite les plantations. Le port naturel est fréquenté mais pas formellement développé.
+        contexte: [
+            // ── Une île oubliée ───────────────────────────────────
+            {
+                de: 1712,
+                texte: `Saint-Barthélemy est une petite île rocheuse et sèche — 21 km², peu d'eau douce, sol pauvre et aride — colonisée par des Français depuis 1648. La grande majorité de ses habitants sont des Blancs pauvres d'origine normande et bretonne, pêcheurs et petits éleveurs, sans esclaves ni plantations. Cette population blanche homogène et autosuffisante développe une culture insulaire distincte, très attachée à son autonomie, peu portée sur les contacts avec les autorités de la Guadeloupe à qui elle est censée rendre compte.`,
+            },
 
-En 1712, Saint-Barth est une dépendance marginale, rattachée à la Guadeloupe et au gouvernement général des Îles du Vent. Elle survivra longtemps dans l'oubli administratif jusqu'à sa cession à la Suède en 1784 — qui en fera un port franc prospère.`,
-        },
+            // ── Le port naturel ────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Le port naturel :</strong><br>
+La rade de Gustavia — qui ne s'appelle pas encore ainsi — est l'un des rares mouillages abrités de l'île. Peu de commerce officiel y transite, mais des navires en transit entre Saint-Martin, la Guadeloupe et les Antilles britanniques y font régulièrement escale pour l'eau et les provisions. L'absence totale d'autorité organisée en fait une escale discrète sans paperasses ni droits de port : un avantage pour qui voyage avec une cargaison d'origine douteuse.`,
+            },
+
+            // ── L'oubli administratif ─────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>L'oubli administratif :</strong><br>
+Saint-Barth est une dépendance nominale du gouverneur général des Îles du Vent via la Guadeloupe, mais dans les faits personne à Basse-Terre ou Fort-Royal ne s'en préoccupe sérieusement. L'île n'a pas de garnison, pas de fort, pas de commandant régulier nommé par Paris. Elle vivra dans cet oubli confortable jusqu'à sa cession à la Suède en 1784, qui en fera un port franc prospère sous le nom de Gustavia — révélant alors le potentiel maritime que personne n'avait daigné développer.`,
+            },
+        ],
 
         zone: [],
+        capitale: `[Aucune ville constituée — quelques habitations dispersées]`,
+        population_approx: `~700 habitants (estimation, majoritairement Blancs pauvres d'origine normande et bretonne)`,
+        economie: 'Pêche, petit élevage, sel, commerce d\'escale informel',
 
-        capitale: '[Aucune ville — quelques habitations dispersées]',
-        population_approx: '~700 habitants (estimation, majorité blanche pauvre)',
-        economie: 'Pêche, petit élevage, commerce de passage limité',
-        /* note: '⚠️ Peu de sources disponibles pour Saint-Barthélemy 1712 spécifiquement. Statut comme dépendance des Îles du Vent : établi. Cession à la Suède 1784 : établi. La population blanche d\'origine normande/bretonne est un trait documenté de l\'historiographie ultérieure. Population : estimation.', */
+        /* note: `⚠️ Peu de sources pour Saint-Barthélemy 1712 spécifiquement.
+    ✅ Statut dépendance des Îles du Vent : établi.
+    ✅ Population blanche d'origine normande/bretonne : trait documenté dans l'historiographie.
+    ✅ Cession à la Suède 1784, port franc Gustavia : établi.
+    ⚠️ Population : estimation.`, */
     },
 
     // ── TOBAGO ───────────────────────────────────────────────
@@ -3079,8 +3541,6 @@ En 1712, Saint-Barth est une dépendance marginale, rattachée à la Guadeloupe 
 
         puissance: {
             1712: 'conteste',
-            // Revendiquée par la France et l'Angleterre depuis la fin du XVIIe siècle.
-            // Sans colons permanents ni garnison en 1712 — île de facto abandonnée.
         },
 
         gouverneur: {
@@ -3088,25 +3548,32 @@ En 1712, Saint-Barth est une dépendance marginale, rattachée à la Guadeloupe 
                 nom: '[Aucune autorité constituée]',
                 pnj_id: null,
                 titre: 'Île sans administration — contestée et non colonisée',
-                // La France et l'Angleterre se disputent Tobago mais aucune n'y maintient de présence.
-                // L'île sera déclarée formellement neutre par le traité d'Aix-la-Chapelle (1748).
             },
         },
 
-        contexte: {
-            1712: `Tobago est l'une des îles les plus disputées des Caraïbes, et en 1712, l'une des plus vides. Son histoire est un catalogue d'échecs coloniaux : Hollandais, Courlanders (Lettons), Anglais, Français se sont succédé sur l'île sans jamais y établir quoi que ce soit de durable. La dernière tentative sérieuse — hollandaise — s'est soldée par une destruction et un abandon en 1677. Depuis lors, Tobago appartient à tout le monde et à personne.
+        contexte: [
+            // ── Un catalogue d'échecs coloniaux ───────────────────
+            {
+                de: 1712,
+                texte: `Tobago est l'une des îles les plus disputées des Caraïbes et, en 1712, l'une des plus vides. Son histoire est un catalogue d'échecs coloniaux : Hollandais, Courlanders (Lettons), Anglais, Français se sont succédé sans jamais y établir quoi que ce soit de durable. La dernière tentative sérieuse — hollandaise — s'est soldée par une destruction et un abandon en 1677. Depuis lors, l'île appartient à tout le monde et à personne. La France et l'Angleterre se la revendiquent toutes les deux, mais aucune ne l'occupe. L'île restera dans ce vide juridique jusqu'au traité d'Aix-la-Chapelle (1748) qui la déclare formellement neutre — avant que les Anglais ne l'occupent définitivement après 1763.`,
+            },
 
-La France et l'Angleterre se la revendiquent toutes les deux par traités interposés, mais aucune ne l'occupe. Elle sert de mouillage d'opportunité pour les navires en transit entre Trinidad et les Petites Antilles, et de refuge discret pour des équipages qui préfèrent éviter les ports contrôlés. Sa baie de Courland (côté ouest) et sa baie de Man of War (côté est) sont connues des marins de toute la région.
-
-L'île restera dans ce vide juridique jusqu'au traité d'Aix-la-Chapelle (1748) qui la déclare formellement neutre — avant que les Anglais ne l'occupent définitivement après 1763.`,
-        },
+            // ── Un refuge pratique ────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Un refuge pratique :</strong><br>
+La baie de Courland (côté ouest) et la baie de Man of War (côté est) sont connues des marins de toute la région comme des mouillages abrités sans autorité pour poser des questions. Des équipages en transit entre Trinidad et les Petites Antilles, des navires cherchant à caréner discrètement, des buccaneers attendant des proies — tous fréquentent Tobago sans jamais y rester. L'île a du bois, de l'eau douce, des tortues et un bon abri. Elle n'a rien d'autre.`,
+            },
+        ],
 
         zone: [],
+        capitale: `[Aucune — Scarborough n'est pas encore une ville]`,
+        population_approx: `Zéro résidents permanents (1712)`,
+        economie: `Néant — mouillage d'opportunité, bois sur pied non exploité`,
 
-        capitale: '[Aucune — Scarborough est une baie, pas encore une ville]',
-        population_approx: 'Zéro résidents permanents (1712)',
-        economie: 'Néant — mouillage d\'opportunité, bois sur pied non exploité',
-        /* note: '✅ Histoire des colonisations successives et abandon : établi, sources nombreuses concordantes (Wikipedia EN History of Tobago, Caribbean Beat, Colonial Voyage). ✅ Tobago déclarée neutre en 1748 (Aix-la-Chapelle) : établi. ✅ Situation en 1712 : île sans administration ni résidents permanents. ⚠️ L\'utilisation de Tobago comme mouillage en 1712 est vraisemblable mais non spécifiquement documentée pour cette date précise.', */
+        /* note: `✅ Colonisations successives et abandon 1677 : établi (Wikipedia EN History of Tobago, Caribbean Beat).
+    ✅ Tobago neutre par Aix-la-Chapelle 1748, britannique définitivement après 1763 : établi.
+    ⚠️ Utilisation comme mouillage en 1712 : vraisemblable, non sourçable précisément.`, */
     },
 
     // ── ÎLES DE LA BAIE (ROATAN) ─────────────────────────────
@@ -3116,8 +3583,6 @@ L'île restera dans ce vide juridique jusqu'au traité d'Aix-la-Chapelle (1748) 
 
         puissance: {
             1712: 'conteste',
-            // Revendiquées par l'Espagne (Honduras), mais sans présence effective.
-            // Fréquentées par des coupeurs de bois anglais de Belize et des flibustiers.
         },
 
         gouverneur: {
@@ -3125,32 +3590,34 @@ L'île restera dans ce vide juridique jusqu'au traité d'Aix-la-Chapelle (1748) 
                 nom: '[Aucune autorité constituée]',
                 pnj_id: null,
                 titre: 'Territoire contesté — pas d\'administration',
-                // L'Espagne revendique la souveraineté mais n'y maintient aucune garnison après 1650.
-                // Des bûcherons anglais venus de Belize y opèrent de façon informelle.
             },
         },
 
-        contexte: {
-            1712: `Les Îles de la Baie — Roatan, Utila, Guanaja — sont en 1712 dans le même vide que Tobago : revendiquées, abandonnées, fréquentées de façon informelle. L'Espagne les considère comme territoire hondurien depuis la conquête, mais après avoir chassé les derniers colons anglais en 1650 elle n'y a plus maintenu de présence effective. Le vide a été rapidement rempli par des bûcherons anglais venus du Belize (Honduras britannique en gestation), des flibustiers cherchant un mouillage discret, et des équipages en transit entre la Jamaïque et la Terre Ferme espagnole.
-
-Port Royal, sur la côte sud de Roatan, est la baie la plus fréquentée — Henry Morgan y est passé en 1665, et sa réputation de refuge s'est perpetuée. En 1712, les îles servent de point de ravitaillement en eau douce et de cache pour des opérations que personne ne souhaite faire voir. L'Espagne proteste régulièrement à Londres contre la présence de coupeurs de bois anglais, sans grand effet.`,
-        },
+        contexte: [
+            {
+                de: 1712,
+                texte: `Roatan, Utila et Guanaja — revendiquées par l'Espagne comme territoire hondurien, sans présence effective depuis l'expulsion des derniers colons anglais en 1650. Le vide a été comblé par des bûcherons anglais venus du Belize, des flibustiers cherchant un mouillage discret, et des équipages en transit entre la Jamaïque et la Terre Ferme espagnole. Port Royal, sur la côte sud de Roatan, est la baie la plus fréquentée — Henry Morgan y est passé en 1665 et sa réputation de refuge s'est perpetuée. Les Indiens Misquitos, alliés aux Britanniques, y circulent librement. L'Espagne proteste régulièrement à Londres contre la présence de coupeurs de bois anglais, sans grand effet.`,
+            },
+            {
+                de: 1712,
+                texte: `<strong>Îles et bancs associés :</strong><br>
+Les Serrana et Serranilla — deux bancs coralliens quasi inhabités au centre de la mer des Caraïbes, entre la Jamaïque et le Nicaragua — sont des points de pêche à la tortue et des mouillages de fortune. Les Swan Islands (<em>St Millan</em> sur la carte) au nord-ouest des Îles de la Baie partagent le même statut : espagnol nominal, fréquentés par les boucaniers anglais pour l'eau douce et les tortues.`,
+            },
+        ],
 
         zone: [],
+        capitale: `[Aucune — Port Royal (Roatan) est un mouillage, pas une ville]`,
+        population_approx: `Quelques dizaines de bûcherons et flibustiers de passage`,
+        economie: 'Bois de campêche (logwood), refuge pirate, eau douce et tortues',
 
-        capitale: '[Aucune — Port Royal est un mouillage, pas une ville]',
-        population_approx: 'Quelques dizaines de bûcherons et flibustiers de passage',
-        economie: 'Bois de campêche (logwood), refuge pirate, approvisionnement en eau douce',
-        note: `Les Îles de la Baie (Roatan, Utila, Guanaja et îles adjacentes) sont nominalement espagnoles mais sans garnison permanente en 1712. Les Anglais y maintiennent une présence informelle de coupeurs de bois depuis les années 1640 ; les Indiens Misquitos, alliés aux Britanniques, y circulent librement.
-<br>
-Îles et bancs associés à mentionner dans cette zone :
-<br>
-— Serrana et Serranilla : deux bancs coralliens quasi-inhabités au centre de la mer des Caraïbes, entre la Jamaïque et le Nicaragua. Nominalement espagnols, sans présence permanente. Points de pêche à la tortue et mouillages de fortune pour les navires pirates et les boucaniers.
-<br>
-— Swan Islands (St Millan sur la carte) : deux petits îlots au nord-ouest des Îles de la Baie. Même statut — espagnol nominal, fréquentés par les boucaniers anglais pour l'eau douce et les tortues. La localisation sur la carte est approximative ; la zone est mal connue des cartographes de l'époque.`,
+        /* note: `✅ Expulsion anglaise 1650, fréquentation informelle ultérieure : Wikipedia EN (Bay Islands), Britannica.
+    ✅ Port Royal comme mouillage historique : Roatan.day, Coconut Tree Divers.
+    ✅ Circulation des Misquitos : établi.
+    ⚠️ Situation précise en 1712 : pas de sources primaires directes — inféré de la continuité documentée.
+    'Sources : Marcus (1975), <em>The Evolution of the Caribbean Settlement Patterns</em> ; Olien (1983), <em>The Miskito Kings and the Line of Succession</em>. ✅ Histoire de la colonisation anglaise et expulsion espagnole (1650) : établi (Wikipedia EN Bay Islands Department, Britannica). ✅ Fréquentation informelle par bûcherons anglais de Belize : établi. ✅ Port Royal comme mouillage historique : établi (Roatan.day, Coconut Tree Divers). ⚠️ Situation précise en 1712 : pas de sources primaires directes — "quelques bûcherons et flibustiers de passage" est inféré de la continuité documentée avant et après cette date.`, */
     },
-    /* note: 'Sources : Marcus (1975), <em>The Evolution of the Caribbean Settlement Patterns</em> ; Olien (1983), <em>The Miskito Kings and the Line of Succession</em>. ✅ Histoire de la colonisation anglaise et expulsion espagnole (1650) : établi (Wikipedia EN Bay Islands Department, Britannica). ✅ Fréquentation informelle par bûcherons anglais de Belize : établi. ✅ Port Royal comme mouillage historique : établi (Roatan.day, Coconut Tree Divers). ⚠️ Situation précise en 1712 : pas de sources primaires directes — "quelques bûcherons et flibustiers de passage" est inféré de la continuité documentée avant et après cette date.`, */
 
+    // ── PROVIDENCE ─────────────────────────────
     {
         id: 'providence',
         nom: 'Providence (Old Providence) & San Andrés',
@@ -3167,23 +3634,45 @@ Port Royal, sur la côte sud de Roatan, est la baie la plus fréquentée — Hen
             },
         },
 
-        contexte: {
-            1712: `Old Providence — <em>Isla de Providencia</em> — est une île volcanique de 18 km², entourée d'un massif récif corallien qui en rend l'approche difficile à qui n'en connaît pas les passes. Sa voisine Santa Catalina, séparée par un bras de mer étroit artificiellement creusé par les premiers colons anglais entre 1635 et 1641, forme avec elle un ensemble naturellement défendable.
+        contexte: [
+            // ── Géographie et défenses naturelles ─────────────────
+            {
+                de: 1712,
+                texte: `Old Providence (<em>Isla de Providencia</em>) est une île volcanique de 18 km² entourée d'un massif récif corallien qui en rend l'approche quasi impossible à qui n'en connaît pas les passes. Sa voisine Santa Catalina, séparée par un bras de mer étroit artificiellement creusé par les premiers colons anglais, forme avec elle un ensemble naturellement défendable — et naturellement discret.`,
+            },
 
-L'histoire de Providence est celle d'un double échec colonial et d'une mémoire pirate tenace. En 1629, la Providence Island Company — un consortium de Puritains anglais — y fonde une colonie qui se rêve en modèle godly mais glisse rapidement vers la course : les colons arment des corsaires contre les galions espagnols depuis ce poste idéalement placé "à la gueule de l'empire espagnol" en Amérique centrale. Les Espagnols reprennent l'île par la force en 1641, massacrant ou dispersant les colons. Henry Morgan l'utilise comme base d'opérations dans les années 1660 pour ses raids sur Panama et le littoral espagnol. Les Espagnols reprennent définitivement l'île en 1670.
+            // ── Histoire coloniale et mémoire pirate ──────────────
+            {
+                de: 1712,
+                texte: `<strong>Une mémoire pirate tenace :</strong><br>
+En 1629, la Providence Island Company — un consortium de Puritains anglais — y fonde une colonie qui glisse rapidement vers la course : les colons arment des corsaires contre les galions espagnols depuis ce poste idéalement placé "à la gueule de l'empire espagnol". Les Espagnols reprennent l'île en 1641. Henry Morgan l'utilise comme base dans les années 1660 pour ses raids sur Panama. Les Espagnols reprennent définitivement en 1670. En 1712, Providence est nominalement espagnole mais sans garnison permanente. Ses ruines anglaises — forts, jetées, vestiges de New Westminster — sont encore debout, et ses passes connues des seuls initiés en font un refuge que les cartes officielles ne signalent pas.`,
+            },
 
-En 1712, Providence est nominalement espagnole mais sans garnison permanente. Ses ruines anglaises — forts, jetées, vestiges de New Westminster — sont encore debout, et ses passes connues des seuls initiés en font un refuge discret pour les navires qui cherchent à éviter les routes surveillées. San Andrés, voisine au sud-ouest, est dans la même situation : revendiquée par l'Espagne, fréquentée par les Anglais, sans présence permanente d'aucune puissance.`,
-        },
+            // ── San Andrés ────────────────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>San Andrés :</strong><br>
+À 90 km au sud-ouest de Providence, San Andrés est une île basse et coralliène — sans le relief volcanique de Providence, mais avec des baies abritées et de l'eau douce. Elle est encore moins fréquentée que sa voisine, n'apparaissant sur les cartes de l'époque que comme un nom sans substance. Des familles de colons anglais s'y sont installées sporadiquement depuis les années 1620 sans jamais constituer de communauté organisée. En 1712 : nominalement espagnole, effectivement vide.`,
+            },
+
+            // ── Un refuge exceptionnel ────────────────────────────
+            {
+                de: 1712,
+                texte: `<strong>Position stratégique :</strong><br>
+Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée des routes entre Panama et Cuba, et suffisamment isolée pour que personne ne vienne y chercher un navire qui ne veut pas être trouvé. Pour un équipage ayant besoin de caréner, de soigner des blessés, de répartir un butin ou d'attendre que l'attention des autorités se porte ailleurs, c'est l'endroit idéal — à condition de connaître les passes du récif.`,
+            },
+        ],
 
         zone: [],
+        capitale: `[Aucune — ruines de New Westminster à Santa Catalina]`,
+        population_approx: `Aucun résident permanent en 1712 ; passages occasionnels de flibustiers et de navires en transit`,
+        economie: `Néant — refuge maritime, eau douce, pêche à la tortue`,
 
-        capitale: 'Aucune — île sans administration permanente',
-        population_approx: 'Quasi-nulle (quelques pêcheurs saisonniers, équipages en escale)',
-        economie: 'Pêche à la tortue, eau douce (ressource rare dans les Caraïbes), mouillage discret',
-        /* note: `✅ Établi : colonie anglaise 1629–1641 (Providence Island Company, Karen Ordahl Kupperman, 1993) ; prise espagnole 1641 et 1670 ; usage par Henry Morgan comme base dans les années 1660 (documenté).
-    ✅ Établi : sans garnison espagnole permanente en 1712 — les Espagnols revendiquent la souveraineté sans l'exercer.
-    🎲 Fiction de campagne : les ruines de New Westminster et les forts de Santa Catalina comme décor utilisable. La connaissance des passes coralliennes comme avantage tactique pour les pirates.
-    Rattachement administratif nominal : Capitainerie générale du Guatemala. San Andrés inclus dans ce bloc — même statut, même histoire.`, */
+        /* note: `✅ Providence Island Company 1629–1641 : établi (Wikipedia EN, Kris Lane Providence Island).
+    ✅ Reprise espagnole 1641, utilisation par Morgan 1660s, reprise définitive 1670 : établi.
+    ✅ Passes du récif connues des initiés : établi (géographie physique).
+    ⚠️ Situation précise en 1712 — aucune source primaire directe sur cette date spécifiquement.
+    🎲 Providence est le refuge idéal "hors carte" pour un équipage qui doit disparaître — trop loin de tout pour être cherché, trop bien protégé par son récif pour être trouvé par hasard.`, */
     },
 
     // ── À COMPLÉTER ──────────────────────────────────────────

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
   <meta name="description" content="Journal de bord — Campagne Pavillon Noir">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/chroniques.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>">
 </head>
+
 <body>
 
   <nav class="site-nav">
@@ -18,6 +21,7 @@
       <li><a href="pnj.html">Registre</a></li>
       <li><a href="equipage.html">Équipage</a></li>
       <li><a href="chroniques.html" class="active">Chroniques</a></li>
+      <li><a href="carte.html">Carte</a></li>
     </ul>
   </nav>
 
@@ -52,10 +56,11 @@
   <script src="js/audio.js"></script>
   <script>
     const _visibles = CHRONIQUES.filter(c => c.visible !== false && c.piste);
-    const _srcList  = _visibles.map(c => ({ id: c.id, src: c.piste }));
+    const _srcList = _visibles.map(c => ({ id: c.id, src: c.piste }));
     audioInit(_srcList[0]?.src || null, _srcList);
   </script>
   <script src="js/mobile-nav.js"></script>
 
 </body>
+
 </html>
