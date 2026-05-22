@@ -432,6 +432,67 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closeBtn) closeBtn.addEventListener('click', fermerPanneau);
 });
 
+// ─── Rendu du contexte temporel ──────────────────────────────
+// ─── Rendu du contexte temporel ──────────────────────────────
+function rendreChamp(valeur, annee) {
+  if (!valeur) return '';
+  if (typeof valeur === 'string') return valeur;
+  if (Array.isArray(valeur)) {
+    const bloc = valeur
+      .filter(b => annee >= (b.de ?? 0) && (b.a == null || annee < b.a))
+      .sort((a, b) => (b.de ?? 0) - (a.de ?? 0))[0];
+    return bloc ? bloc.texte : '';
+  }
+  return '';
+}
+
+function rendreContexte(contexte, annee) {
+  if (!contexte) return '';
+  if (typeof contexte === 'string') return contexte;
+
+  // rétrocompat ancien format { 1712: '...', 1715: '...' }
+  if (!Array.isArray(contexte) && Object.keys(contexte).every(k => !isNaN(Number(k)))) {
+    return resoudre(contexte, annee) ?? '';
+  }
+
+  // rétrocompat format intermédiaire { permanent, depuis, ponctuel }
+  if (!Array.isArray(contexte)) {
+    const blocs = [];
+    if (contexte.permanent) blocs.push(contexte.permanent);
+    if (contexte.ponctuel?.[annee]) blocs.push(contexte.ponctuel[annee]);
+    if (contexte.depuis) {
+      const sujets = {};
+      Object.entries(contexte.depuis)
+        .filter(([a]) => Number(a) <= annee)
+        .sort(([a], [b]) => Number(a) - Number(b))
+        .forEach(([a, blocs_sujet]) => {
+          Object.entries(blocs_sujet).forEach(([sujet, texte]) => {
+            sujets[sujet] = { annee: Number(a), texte };
+          });
+        });
+      Object.values(sujets)
+        .sort((a, b) => a.annee - b.annee)
+        .forEach(({ texte }) => blocs.push(texte));
+    }
+    return blocs.join('<br><br>');
+  }
+
+  // nouveau format : tableau de blocs
+  return contexte
+    .filter(b => annee >= (b.de ?? 0) && (b.a == null || annee < b.a))
+    .map(b => {
+      if (b.versions) {
+        const v = b.versions
+          .filter(v => annee >= (v.de ?? 0) && (v.a == null || annee < v.a))
+          .sort((a, b) => (b.de ?? 0) - (a.de ?? 0))[0];
+        return v ? v.texte : null;
+      }
+      return b.texte;
+    })
+    .filter(Boolean)
+    .join('<br><br>');
+}
+
 function ouvrirPanneau(juridictionId) {
   const j = JURIDICTIONS.find(j => j.id === juridictionId);
   if (!j) return;
@@ -444,7 +505,7 @@ function ouvrirPanneau(juridictionId) {
   const puissanceId = resoudre(j.puissance, anneeActive);
   const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
   const gouverneur = resoudre(j.gouverneur, anneeActive);
-  const contexte = resoudre(j.contexte, anneeActive);
+  const contexte = rendreContexte(j.contexte, anneeActive);
 
   let portraitHtml = `<div class="panneau-gouverneur-portrait-placeholder">☠</div>`;
   if (gouverneur && gouverneur.pnj_id && typeof PNJ_DATA !== 'undefined') {
@@ -468,11 +529,11 @@ function ouvrirPanneau(juridictionId) {
       </div>`;
   })() : '';
 
-  const metaHtml = [
-    j.capitale && { label: 'Capitale', value: j.capitale },
-    j.population_approx && { label: 'Population', value: j.population_approx },
-    j.economie && { label: 'Économie', value: j.economie },
-  ].filter(Boolean).map(m => `
+const metaHtml = [
+    { label: 'Capitale',   value: rendreChamp(j.capitale,           anneeActive) },
+    { label: 'Population', value: rendreChamp(j.population_approx,  anneeActive) },
+    { label: 'Économie',   value: rendreChamp(j.economie,           anneeActive) },
+  ].filter(m => m.value).map(m => `
     <div class="panneau-meta-item">
       <span class="panneau-meta-label">${m.label}</span>
       <span class="panneau-meta-value">${m.value}</span>
