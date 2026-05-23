@@ -230,7 +230,7 @@ En novembre, la population se soulève contre les Lords Proprietors. James Moore
             },
             {
                 de: 1717,
-                texte: `~18 000 habitants (dont ~10 000 esclaves africains)<br>~2500 Indiens à l'est des Appalaches`,
+                texte: `~18 000 habitants (dont ~10 000 esclaves africains)<br>~2 500 Indiens à l'est des Appalaches`,
             },
         ],
 
@@ -341,11 +341,11 @@ Benavides est maintenant bien établi et l'homme fort de la Floride. Sa politiqu
         population_approx: [
             {
                 de: 1712, a: 1717,
-                texte: `~1 500 habitants (garnison et civils) ; plusieurs milliers d'Indiens alliés dans les missions franciscaines`,
+                texte: `~1 500 habitants (garnison et civils)<br>Quelques centaines d'Indiens alliés dans les missions franciscaines`,
             },
             {
                 de: 1717,
-                texte: `~1 500 habitants (garnison et civils) ; afflux de réfugiés yamasees depuis la Caroline — plusieurs centaines de guerriers supplémentaires intégrés à la défense`,
+                texte: `~1 500 habitants (garnison et civils)<br>~5 000 Indiens (afflux de réfugiés yamasees depuis la Caroline — plusieurs centaines de guerriers supplémentaires intégrés à la défense)`,
             },
         ],
 
@@ -429,7 +429,7 @@ La Louisiane française presse les colonies espagnoles à l'ouest et britannique
         population_approx: [
             {
                 de: 1712, a: 1718,
-                texte: `~400 Blancs, quelques centaines d'esclaves indiens<br><br>
+                texte: `~400 Blancs, ~250 esclaves indiens<br>
 <strong>Nations indiennes :</strong><br>
 — Choctaws : ~15 000 à 20 000 (principale alliée, nation dominante du Sud-Est)<br>
 — Illinois (confédération) : ~2 500 à 3 000<br>
@@ -439,7 +439,7 @@ La Louisiane française presse les colonies espagnoles à l'ouest et britannique
             },
             {
                 de: 1718,
-                texte: `~1 500 à 5 000 habitants (afflux rapide de colons de la Compagnie des Indes)<br><br>
+                texte: `~1 500 à 5 000 habitants (afflux rapide de colons de la Compagnie des Indes)<br>
 <strong>Nations indiennes :</strong><br>
 — Choctaws : ~15 000 à 20 000 (principale alliée, nation dominante du Sud-Est)<br>
 — Illinois (confédération) : ~2 500 à 3 000<br>
@@ -526,7 +526,7 @@ En 1719, Valverde mène une expédition vers le nord-est — jusqu'au Colorado a
 
         capitale: 'Santa Fe',
 
-        population_approx: `~3 000 colons espagnols et métis (1713)<br>Plusieurs dizaines de milliers d'Indiens Pueblo dans les missions<br>Nations non soumises (Apaches, Navajos, Utes, Comanches) : non chiffrées`,
+        population_approx: `~3 000 colons espagnols et métis (1713)<br>~17 000 Indiens Pueblos dans les missions<br>Nations non soumises (Apaches, Navajos, Utes, Comanches) : non chiffrées`,
 
         economie: 'Situado royal, élevage, missions franciscaines, commerce limité avec Mexico via El Camino Real',
 
@@ -567,7 +567,7 @@ Loin des côtes et des routes maritimes, la Nueva Galicia est absente des chroni
         zone: [],
 
         capitale: 'Guadalajara',
-        population_approx: `~150 000 habitants (colons et Indiens confondus)`,
+        population_approx: `~15 000 colons<br>~135 000 Indiens`,
         economie: 'Argent (Zacatecas), élevage, textile (obrajes), missions franciscaines',
 
         /* note: 'AVERTISSEMENT HISTORIQUE : Le nom précis du Président-Gouverneur de l\'Audiencia de Guadalajara pour la période 1712–1725 n\'a pas pu être établi avec certitude depuis les sources accessibles. Les AGI (Audiencia de Guadalajara, legajos 1–54) constituent la source primaire de référence.', */
@@ -657,6 +657,21 @@ Le 26 juillet 1718, Woodes Rogers débarque à New Providence avec trois navires
                 de: 1718,
                 texte: `<strong>Le retour à l'ordre :</strong><br>
 Rogers gouverne avec des ressources dérisoires — ses soldats meurent de fièvre, ses finances sont à sec, sa garnison est insuffisante. Nassau reste fragile. La piraterie ne disparaît pas ; elle se déplace, cherche d'autres ports, d'autres pavillons.`,
+            },
+        ],
+
+        population_approx: [
+            {
+                de: 1712, a: 1714,
+                texte: `150~200 colons<br>Population flottante variable selon les escales pirates.`,
+            },
+            {
+                de: 1714, a: 1719,
+                texte: `~100 colons<br>Jusqu'à 1 000 pirates et activités associées.`,
+            },
+            {
+                de: 1719,
+                texte: `~200 colons (dont de nombreux anciens pirates réhabilités)<br>Population flottante réduite à quelques dizaines de marins de passage.`,
             },
         ],
 
@@ -762,7 +777,7 @@ Harbour Island est le sas entre Nassau et le monde légal. Des marchands de Bost
     Sources : Calendar of State Papers Colonial ; B.C. Brooks, Bahamas Shipping Records 1721–1725 ; Colin Woodard, Republic of Pirates (2008).`, */
     },
 
-    // ── MODÈLE COMPLET — Bermudes ─────────────────────────────
+    // ── BERMUDES ─────────────────────────────
     {
         id: 'bermudes',
         nom: 'Bermudes',
@@ -912,7 +927,7 @@ Lawes poursuit sa politique de fer. En 1721, Charles Vane, l'un des derniers cap
         population_approx: [
             {
                 de: 1712,
-                texte: `~55 000 habitants (dont ~45 000 esclaves africains)`,
+                texte: `~56 000 habitants (dont ~48 000 esclaves africains)`,
             },
         ],
 
@@ -1017,11 +1032,11 @@ Le mandat de Sorel correspond à la période post-Rogers. La Flying Gang est bri
         population_approx: [
             {
                 de: 1712, a: 1718,
-                texte: `~150 000 habitants (dont ~120 000 esclaves)`,
+                texte: `~87 000 habitants (dont ~75 000 esclaves)`,
             },
             {
                 de: 1718,
-                texte: `~280 000 habitants (dont ~230 000 esclaves) — croissance rapide par trafic négrier`,
+                texte: `~145 000 habitants (dont ~130 000 esclaves) — croissance rapide par trafic négrier`,
             },
         ],
 
@@ -1098,7 +1113,7 @@ Son gouvernorat long et relativement stable couvre toute la période de la pirat
 
         capitale: 'Santo Domingo',
 
-        population_approx: `~15 000 à 20 000 habitants : colons espagnols et créoles blancs, population libre de couleur nombreuse (mulâtres et affranchis représentant une part significative), esclaves africains en proportion moindre qu'à Saint-Domingue — la colonie espagnole n'a jamais développé l'économie de plantation intensive de sa voisine française`,
+        population_approx: `~15 000 à 20 000 habitants : colons espagnols et créoles blancs, population libre de couleur nombreuse (mulâtres et affranchis représentant une part significative),<br>~5 000 esclaves africains (proportion moindre qu'à Saint-Domingue — la colonie espagnole n'a jamais développé l'économie de plantation intensive de sa voisine française)`,
 
         economie: 'Élevage extensif (bovins, porcs — principale richesse), contrebande avec Saint-Domingue, quelques cultures vivrières',
 
@@ -1215,7 +1230,7 @@ Entre 1718 et 1720, plusieurs ouragans dévastent l'agriculture de l'île. Enrí
 
         capitale: 'San Juan',
 
-        population_approx: `~45 000 à 50 000 sur l'ensemble de l'île<br>~6 000 habitants à San Juan`,
+        population_approx: `~18 000 sur l'ensemble de l'île<br>(dont ~4500 esclaves)<br>~6 000 habitants à San Juan`,
 
         economie: 'Situado royal, course et prises (réseau Enríquez), contrebande (navires anglais et hollandais via Vieques et côtes nord), gingembre, cuir, tabac, élevage',
 
@@ -1322,7 +1337,7 @@ Il prend le gouvernorat en juin 1718, dans le sillage de la répression anti-pir
 
         capitale: 'La Havane',
 
-        population_approx: `~75 000 habitants (dont ~15 000 esclaves)`,
+        population_approx: `~35 000 habitants<br>(dont ~10 000 esclaves)`,
 
         economie: [
             {
@@ -1456,7 +1471,7 @@ En 1718, Castañeda reçoit du vice-roi la licence de mener une expédition vers
         zone: [],
 
         capitale: 'Santiago de los Valles ; Tampico (accès maritime)',
-        population_approx: `~30 000 à 50 000 habitants (Huasteca, très majoritairement indiens)`,
+        population_approx: `~50 000 habitants<br>(dont ~45 000 indiens dans la Huasteca)`,
         economie: 'Élevage, coton, missions franciscaines, pêche (Tampico), commerce interlope discret',
 
         /* note: `✅ Castañeda 1718 et licence d'expédition : Herrera Casasús, UAT, 1988.
@@ -1522,7 +1537,7 @@ Né à Lima, il inaugure une ère de stabilité et de réformes administratives.
         zone: [],
 
         capitale: 'Mexico (Ciudad de México)',
-        population_approx: `~5 000 000 habitants (toutes origines confondues)`,
+        population_approx: `~1 520 000 habitants<br>(dont ~1 000 000 indigènes, ~400 000 métis et ~120 000 colons blancs)`,
         economie: 'Argent (Zacatecas, Guanajuato), commerce avec Manille (Galion), agriculture, élevage',
 
         /* note: `Dates vice-rois : Linares 15 jan. 1711 – 15 août 1716 ; Valero 16 août 1716 – 14 oct. 1722 ; Casafuerte 15 oct. 1722 – 17 mars 1734. Sources : Wikipedia EN, INAH.`, */
@@ -1579,7 +1594,7 @@ En 1716, le vice-roi Valero envoie une expédition depuis Veracruz pour chasser 
         zone: [],
 
         capitale: 'Mérida',
-        population_approx: `~250 000 habitants (dont une grande majorité de Mayas)`,
+        population_approx: `~250 000 habitants<br>(dont ~225 000 Mayas)`,
         economie: 'Indigo, bétail, sel, bois de Campêche (logwood), contrebande avec les Anglais',
 
         /* note: `Capitainerie générale distincte de la Nouvelle-Espagne depuis 1617. Séquence des gouverneurs : Wikipedia EN (Governor of Yucatán). Note : Alonso de Meneses appartient à la même famille que Francisco de Meneses, président de l'Audiencia de Santafé destitué par ses propres oidores en 1715 — coïncidence notable dans les réseaux coloniaux.`, */
@@ -1701,7 +1716,7 @@ Les Indiens Misquitos, alliés aux Anglais de Jamaïque, razzient les missions e
         zone: [],
 
         capitale: 'Comayagua',
-        population_approx: `~50 000 habitants (dont une majorité d'Indiens)`,
+        population_approx: `~36 500 habitants (dont ~30 000 Indiens)`,
         economie: 'Élevage, mines d\'argent en déclin, indigo, contrebande avec les Anglais',
 
         /* note: `Séquence confirmée par Wikipedia EN (List of governors of Spanish Honduras). Lacune entre Salinas Varona (1709) et Longman (1712) : gouverneur intermédiaire non identifié.`, */
@@ -1760,7 +1775,7 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
         zone: [],
 
         capitale: 'Cap Gracias a Dios',
-        population_approx: `Quelques dizaines de milliers de Miskitos, Zambos et Tawiras dispersés sur l'ensemble du territoire. Présence anglaise sporadique — aucun établissement permanent avant 1732 (Black River).`,
+        population_approx: `~15 000 Miskitos, Zambos et Tawiras dispersés sur l'ensemble du territoire. Présence anglaise sporadique — aucun établissement permanent avant 1732 (Black River).`,
         economie: 'Commerce avec la Jamaïque (fusils et outils contre bois, tortues, esclaves captifs), raids sur les établissements espagnols, pêche côtière',
 
         /* note: `✅ Protectorat informel britannique depuis les années 1630–1640 ; investiture du roi à Spanish Town documentée.
@@ -1802,7 +1817,7 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
         zone: [],
 
         capitale: 'León (Santiago de los Caballeros de León)',
-        population_approx: `~40 000 habitants (dont une majorité d'Indiens)`,
+        population_approx: `~39 000 habitants (dont ~35 000 Indiens)`,
         economie: 'Élevage, cacao, indigo, contrebande anglaise via la Mosquitia',
 
         /* note: `Gouverneur 1712–1720 non identifié. Arancibia (1720–1722) confirmé par Wikipedia EN. Sources primaires : AGI (Audiencia de Guatemala).`, */
@@ -1847,7 +1862,7 @@ Il prend les rênes dans un contexte de tensions accrues : les Anglais étendent
         zone: [],
 
         capitale: 'Santiago de los Caballeros de Guatemala (Antigua)',
-        population_approx: `~800 000 habitants (dont une grande majorité d'Indiens)`,
+        population_approx: `~790 000 habitants (dont ~750 000 Indiens)`,
         economie: 'Indigo (añil), cacao, cochenille, bétail, missions dominicaines et franciscaines',
 
         /* note: `Le Chiapas relève de l'Audience de Guatemala, non de Mexico. Soconusco relève de l'Audience de Mexico (exception). Séquence confirmée : Wikipedia ES (Anexo:Gobernantes de la Capitanía General de Guatemala).`, */
@@ -1887,7 +1902,7 @@ Granda y Balbín vient de réprimer la grande révolte de Pablo Presbere (1709) 
         zone: [],
 
         capitale: 'Cartago',
-        population_approx: `~20 000 habitants (très approximatif)`,
+        population_approx: `~11 500 habitants<br>(dont ~8 000 Indiens)`,
         economie: 'Cacao (côte atlantique), élevage, agriculture de subsistance',
 
         /* note: `Gouverneur confirmé en 1710 (Wikipedia EN, article Pablo Presbere). Mandat au-delà de 1712 non documenté avec certitude depuis les sources accessibles. AGI (Audiencia de Guatemala) : source primaire.`, */
@@ -1952,7 +1967,7 @@ La guerre (1718–1720) fait de Portobelo une cible potentielle pour les forces 
 
         capitale: 'Panama City (Ciudad de Panamá)',
 
-        population_approx: `~20 000 habitants (isthme entier, 1713, Tierra Firme et Veragua comprises)<br>→ dont Panama City (~8 000), Portobelo (~2 000 en temps ordinaire, dix fois plus pendant les foires), et Veragua (~3 000, très dispersés entre quelques missions et villages côtiers)`,
+        population_approx: `~20 000 habitants<br>(dont ~3 000 esclaves) dans l'isthme entier, Tierra Firme et Veragua comprises)<br>⤷ Panama City (~8 000)<br>⤷ Portobelo (~2 000 en temps ordinaire, dix fois plus pendant les foires)<br>⤷ Veragua (~3 000, très dispersés entre quelques missions et villages côtiers)`,
 
         economie: [
             {
@@ -2021,7 +2036,7 @@ La carte Jaillot porte encore les noms <em>Nouvelle Calédonie</em> et <em>New E
 
         capitale: `Aucune au sens européen — l'archipel de San Blas (Kuna Yala) est le cœur du territoire kuna`,
 
-        population_approx: `Quelques dizaines de milliers de Kunas (estimation très approximative) ; présence espagnole quasi nulle dans l'intérieur`,
+        population_approx: `~25 000 Indiens Kunas<br> présence espagnole quasi nulle dans l'intérieur`,
 
         economie: 'Pêche côtière et navigation en archipel, agriculture vivrière (maïs, manioc, plantain), commerce de guides et d\'informations avec les pirates anglais, troc d\'armes',
 
@@ -2095,7 +2110,7 @@ La réponse de Madrid est radicale : par la Real Cédula du 27 mars 1717, Philip
         zone: [],
 
         capitale: 'Santafé de Bogotá',
-        population_approx: `~400 000 habitants`,
+        population_approx: `~390 000 habitants<br>(dont ~15 000 esclaves et ~350 000 Indiens)`,
         economie: 'Or (Antioquia, Choco), émeraudes (Muzo), platine, indigo, cacao, commerce avec Carthagène',
 
         /* note: `✅ "Castilla del Oro" : désignation cartographique ancienne pour la côte caraïbe — provinces de Carthagène et Santa Marta, gouverneurs militaires distincts mais subordonnés à Santafé.
@@ -2215,7 +2230,7 @@ Il succède à Bertodano dans un contexte de tensions persistantes entre élites
         zone: [],
 
         capitale: 'Santiago de León de Caracas',
-        population_approx: `~60 000 habitants`,
+        population_approx: `~66 000 habitants<br>(dont ~10 000 esclaves africains et ~48 000 Indiens)`,
         economie: 'Cacao (exportation légale et interlope via Curaçao), indigo, bétail, contrebande',
 
         /* note: `✅ Cañas y Merino — abattage des arbres de Caracas 1713–1714 : documenté (Venciclopedia, BiblioFEP).
@@ -2305,7 +2320,7 @@ L'île de Coche (55 km²) au sud et l'îlot de Cubagua — berceau des pêcherie
         zone: [],
 
         capitale: 'La Asunción (administrative) ; Pampatar (maritime)',
-        population_approx: `~8 000 à 10 000 habitants (estimation très approximative)`,
+        population_approx: `~8 000 habitants<br>(dont ~7 000 Indiens)`,
         economie: 'Élevage (bovins, caprins), pêche côtière, commerce intercolonial légal et interlope',
 
         /* note: `✅ Population au recensement de 1757 : 10 064 habitants (Vecindario ordonné par le gouverneur Alonso del Río y Castro).
@@ -2378,7 +2393,7 @@ Il prend le gouvernorat dans un contexte de tensions avec les missions capucines
         zone: [],
 
         capitale: 'Cumaná',
-        population_approx: `~8 000 habitants à Cumaná (1713) ; population indienne de l'intérieur non chiffrée — Caribes, Chaimas, Cumanagotes dans les missions capucines`,
+        population_approx: `~53 000 habitants<br>(dont ~6 000 escclaves et ~40 000 Indiens Caribes, Chaimas, Cumanagotes dans les missions capucines)<br>⤷ Cumaná (~8 000)`,
         economie: 'Cacao, pêche côtière, contrebande (Hollandais du Surinam, Français de Martinique), missions capucines',
 
         /* note: `Trinidad dépend nominalement de Nueva Andalucía jusqu'en 1731.
@@ -2471,7 +2486,7 @@ Vers 1725–1727, le <em>blast</em> achève de ruiner les plantations de cacao d
         population_approx: [
             {
                 de: 1712,
-                texte: `~2 500 à 3 000 habitants (estimation 1712) : ~500 Espagnols et créoles, ~1 000 à 1 500 Indiens dans les missions (Arawaks, Caribes, Waraos), ~300 à 500 esclaves africains, quelques centaines d'affranchis et de gens de couleur libres`,
+                texte: `~2 500 à 3 000 habitants :<br>~500 Espagnols et créoles<br>~1 000 à 1 500 Indiens dans les missions<br>(Arawaks, Caribes, Waraos)<br>~300 à 500 esclaves africains.`,
             },
         ],
 
@@ -2548,7 +2563,7 @@ Nominalement rattachées à la Nouvelle-Andalousie (Cumaná), les prétentions e
         zone: [],
 
         capitale: 'Cayenne (française) / Paramaribo (hollandaise)',
-        population_approx: `~3 000 Européens et esclaves (Cayenne)<br>~50 000 habitants (Surinam, dont ~40 000 esclaves)<br>population marron et indienne de l'intérieur : non chiffrée`,
+        population_approx: `~3 000 Européens et esclaves (Cayenne)<br>~45 000 habitants (Surinam, dont ~40 000 esclaves)<br>5~10 000 population marron et indienne de l'intérieur`,
         economie: 'Sucre, cacao, café (Surinam) ; bois, missions jésuites (Guyane française) ; prétentions espagnoles sans exploitation effective',
 
         /* note: `Juridiction composite intentionnelle — la puissance "conteste" reflète l'état réel du territoire.
@@ -2641,7 +2656,7 @@ Après la mort de Montigny et la répression de la piraterie par Rogers à Nassa
 
         capitale: 'Fort-Royal (Fort-de-France) — siège administratif ; Saint-Pierre — capitale marchande',
 
-        population_approx: `~24 000 habitants (dont ~15 000 esclaves)`,
+        population_approx: `~29 000 habitants<br>(dont ~20 000 esclaves)`,
 
         economie: 'Sucre, rhum, cacao, indigo ; commerce interlope actif avec Curaçao et Barbade',
 
@@ -2760,7 +2775,7 @@ Jonathan van Beuningen — beau-frère de van Collen — assure l'intérim dans 
 
         zone: [],
         capitale: 'Willemstad (Fort Amsterdam)',
-        population_approx: `~8 000 habitants (dont ~5 000 à 6 000 esclaves)`,
+        population_approx: `~8 000 habitants<br>(dont ~5 000 à 6 000 esclaves)`,
         economie: 'Commerce interlope, transit négrier (Asiento), entrepôt de redistribution, sel (Bonaire)',
 
         /* note: `✅ Directeurs WIC : Geni.com, Genealogie Kerckrinck (nikhef.nl), Wikipedia NL.
@@ -2889,7 +2904,7 @@ En 1719, des colons français fondent un premier établissement à Barrouallie s
 
         zone: [],
         capitale: `[Aucune — Kingstown n'existe pas encore]`,
-        population_approx: `Plusieurs milliers de Kalinago Rouges et de Garifunas — aucun recensement fiable avant la colonisation`,
+        population_approx: `~4 500 Kalinago Rouges et Garifunas`,
         economie: 'Agriculture vivrière, pêche, troc avec navires européens de passage, baleiniers à Bequia',
 
         /* note: `✅ Absence de colons permanents avant 1719 : sources concordantes.
@@ -2948,7 +2963,7 @@ Un accord franco-britannique déclare formellement Sainte-Lucie île neutre. En 
 
         zone: [],
         capitale: `[Aucune capitale établie — Castries est le principal mouillage]`,
-        population_approx: `Quelques centaines de colons français ; Kalinago dans l'intérieur montagneux — non chiffrés`,
+        population_approx: `~200 colons français<br>~4 000 Kalinago dans l'intérieur montagneux`,
         economie: 'Tabac, coton, sucre naissant, pêche ; commerce informel profitant de l\'absence d\'autorité',
 
         /* note: `✅ "L'Hélène des Antilles" : surnom attesté dans la littérature coloniale.
@@ -3017,7 +3032,7 @@ Il prend les rênes en mars 1718. Son premier acte notable est d'obtenir l'autor
 
         zone: [],
         capitale: 'Basse-Terre',
-        population_approx: `~25 000 habitants (dont ~18 000 esclaves)`,
+        population_approx: `~25 000 habitants<br>(dont ~18 000 esclaves)`,
         economie: 'Sucre, cacao, coton, café ; commerce interlope actif avec Saint-Eustache et Curaçao',
 
         /* note: `✅ La Malmaison : Wikipedia EN, ANOM, Chronologie de Guadeloupe (Wikipedia FR).
@@ -3080,7 +3095,7 @@ Il prend le gouvernement en 1717 après une transition floue via Feuquières, ra
 
         zone: [],
         capitale: 'Saint-George\'s (Fort Royal)',
-        population_approx: `~15 000 habitants (dont ~10 000 esclaves)`,
+        population_approx: `~15 000 habitants<br>(dont ~10 000 esclaves)`,
         economie: 'Sucre, cacao, indigo, muscade (naissante) ; commerce interlope avec Trinidad et le Venezuela',
 
         /* note: `✅ Maupeou, comte de l'Estrange : en poste 1711–1716 (ANOM, GHCaraibe).
@@ -3135,7 +3150,7 @@ Le traité d'Utrecht (avril 1713) cède officiellement à la Grande-Bretagne la 
 
         zone: [],
         capitale: 'Basseterre',
-        population_approx: `~20 000 habitants (dont ~15 000 esclaves)`,
+        population_approx: `~20 000 habitants<br>(dont ~15 000 esclaves)`,
         economie: 'Sucre, rhum — île parmi les plus productives des Antilles anglaises',
 
         /* note: `✅ Partition franco-britannique et cession Utrecht : établi.
@@ -3199,7 +3214,7 @@ Anguilla est quasi-abandonnée par les autorités coloniales : plate, aride, san
 
         zone: [],
         capitale: `Saint-John's (Antigua) — siège du gouvernement général`,
-        population_approx: `~35 000 habitants pour l'ensemble du groupe (dont ~28 000 esclaves)`,
+        population_approx: `~35 000 habitants pour l'ensemble des îles<br>(dont ~28 000 esclaves)`,
         economie: 'Sucre (Antigua, Nevis), sel et pêche (Anguilla) ; base navale royale à English Harbour (Antigua)',
 
         /* note: `✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).
@@ -3264,7 +3279,7 @@ En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les obj
 
         zone: [],
         capitale: 'Charlotte Amalie (Fort Christian)',
-        population_approx: `~3 600 habitants (dont ~3 000 esclaves)<br>Saint-John : non colonisée avant 1718`,
+        population_approx: `~3 600 habitants<br>(dont ~3 000 esclaves)<br>Saint-John : non colonisée avant 1718`,
         economie: 'Port franc, commerce interlope de toutes natures, transit négrier, sucre en production secondaire',
 
         /* note: `✅ Gouverneurs : Wikipedia EN (Mikkel Knudsen Crone, Erik Bredal).
@@ -3361,7 +3376,7 @@ Les nombreux mouillages abrités, les passes peu profondes que seuls les pilotes
 
         zone: [],
         capitale: 'Road Town (Tortola)',
-        population_approx: `~1 500 habitants (dont ~1 000 esclaves)`,
+        population_approx: `~1 500 habitants<br>(dont ~1 000 esclaves)`,
         economie: 'Sucre (limité), commerce interlope avec Saint-Thomas danois, wrecking (Anegada)',
 
         /* note: `⚠️ Pas de gouverneur particulier identifié pour les Îles Vierges britanniques en 1712–1720 — dépendance du gouverneur général des Leeward Islands.
@@ -3416,7 +3431,7 @@ Les salines de la Great Bay (côté hollandais) et de la baie d'Orient (côté f
 
         zone: [],
         capitale: 'Marigot (français, nord) / Philipsburg (hollandais, sud)',
-        population_approx: `~3 000 habitants toutes parties confondues (estimation)`,
+        population_approx: `~3 100 habitants toutes parties confondues<br>(dont ~2 500 esclaves)`,
         economie: 'Sel (salines des deux côtés), sucre, coton ; contrebande inter-parties',
 
         /* note: `✅ Traité de Concordia 1648 : établi.
@@ -3461,7 +3476,7 @@ Les salines de la Great Bay (côté hollandais) et de la baie d'Orient (côté f
             {
                 de: 1712,
                 texte: `<strong>Le commerce sans frontières :</strong><br>
-Statia est l'endroit où les colonies ennemies font discrètement des affaires. Un négociant martiniquais peut y acheter des manufactures anglaises sans passer par Londres ; un planteur de la Barbade peut y écouler sa mélasse vers des marchés normalement fermés. La WIC administre l'île mais son contrôle est nominal — les commandants successifs ont appris à ne pas poser trop de questions à des marchands qui font vivre l'île. Ce commerce ambigu servira de model pour le rôle de Statia pendant la guerre d'Indépendance américaine — où l'île sera le principal fournisseur des rebelles en armes et munitions.`,
+Statia est l'endroit où les colonies ennemies font discrètement des affaires. Un négociant martiniquais peut y acheter des manufactures anglaises sans passer par Londres ; un planteur de la Barbade peut y écouler sa mélasse vers des marchés normalement fermés. La WIC administre l'île mais son contrôle est nominal — les commandants successifs ont appris à ne pas poser trop de questions à des marchands qui font vivre l'île. Ce commerce ambigu servira de modèle pour le rôle de Statia pendant la guerre d'Indépendance américaine — où l'île sera le principal fournisseur des rebelles en armes et munitions.`,
             },
 
             // ── Saba ─────────────────────────────────────────────
@@ -3474,7 +3489,7 @@ Voisine de Statia, Saba est une île-volcan quasi inaccessible — des falaises 
 
         zone: [],
         capitale: 'Oranjestad (Sint Eustatius) / The Bottom (Saba)',
-        population_approx: `~2 000 habitants (Sint Eustatius) ; ~300 habitants (Saba)`,
+        population_approx: `~2 000 habitants (Sint Eustatius) ; ~300 habitants (Saba)<br>(dont ~2 200 esclaves)`,
         economie: 'Commerce interlope et transit (Sint Eustatius) ; pêche, dentelle et contrebande (Saba)',
 
         /* note: `✅ Structure administrative (commandant unique pour Sint Eustatius, Saba et Sint Maarten depuis 1678) : Wikipedia EN (Governors of Sint Eustatius, Saba and Sint Maarten).
@@ -3524,7 +3539,7 @@ Saint-Barth est une dépendance nominale du gouverneur général des Îles du Ve
 
         zone: [],
         capitale: `[Aucune ville constituée — quelques habitations dispersées]`,
-        population_approx: `~700 habitants (estimation, majoritairement Blancs pauvres d'origine normande et bretonne)`,
+        population_approx: `~700 pauvres bretons et normands`,
         economie: 'Pêche, petit élevage, sel, commerce d\'escale informel',
 
         /* note: `⚠️ Peu de sources pour Saint-Barthélemy 1712 spécifiquement.
@@ -3536,8 +3551,8 @@ Saint-Barth est une dépendance nominale du gouverneur général des Îles du Ve
 
     // ── TOBAGO ───────────────────────────────────────────────
     {
-        id: 'tobago',
-        nom: 'Tobago',
+        id: 'tabago',
+        nom: 'Tabago',
 
         puissance: {
             1712: 'conteste',
