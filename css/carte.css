@@ -539,14 +539,14 @@ mask-image: linear-gradient(
 /* Couleurs de fond distinctives par mode */
 .carte-overlay-btn--geo.active         { background: var(--sea-light); }
 .carte-overlay-btn--densite.active     { background: #4a8c5c; }
-.carte-overlay-btn--colons.active      { background: var(--rust); }
+.carte-overlay-btn--esclavage.active      { background: var(--rust); }
 .carte-overlay-btn--autochtones.active { background: #a05c38; }
 .carte-overlay-btn--masque.active      { background: var(--parchment2); }
 
 /* Hover coloré même sans .active */
 .carte-overlay-btn--geo:hover:not(.disabled)         { border-color: var(--sea-light); color: var(--sea-light); }
 .carte-overlay-btn--densite:hover:not(.disabled)     { border-color: #4a8c5c; color: #4a8c5c; }
-.carte-overlay-btn--colons:hover:not(.disabled)      { border-color: var(--rust); color: var(--rust); }
+.carte-overlay-btn--esclavage:hover:not(.disabled)      { border-color: var(--rust); color: var(--rust); }
 .carte-overlay-btn--autochtones:hover:not(.disabled) { border-color: #a05c38; color: #a05c38; }
 .carte-overlay-btn--masque:hover:not(.disabled)      { border-color: var(--parchment2); color: var(--parchment2); }
 
@@ -569,6 +569,7 @@ mask-image: linear-gradient(
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1;
 }
 
 .carte-annee-btn {
@@ -690,6 +691,13 @@ mask-image: linear-gradient(
 
 .carte-puissance-check.decochee {
   opacity: 0.35;
+}
+
+.carte-overlay-note {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--mist-light);
+  white-space: nowrap;
 }
 
 /* ─── Suppression de l'ancien curseur et du bouton options ──── */

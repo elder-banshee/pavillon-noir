@@ -12,19 +12,21 @@ let markersMap = {};
 let pinActive = null;
 
 // ─── Mode d'overlay ──────────────────────────────────────────
-// 'geo' | 'densite' | 'colons' | 'autochtones' | 'masque'
+// 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque'
 let overlayMode = 'geo';
 
 // Puissances masquées (Set d'ids)
 let puissancesMasquees = new Set();
+const paliersMasquesDensite = new Set();
+const paliersMasquesEsclavage = new Set();
 
 // Intitulés des modes
 const OVERLAY_LABELS = {
-  geo: 'Géopolitique',
-  densite: 'Densité',
-  colons: 'Colons / Esclaves',
-  autochtones: 'Autochtones',
-  masque: 'Carte originale',
+  geo: 'Souverainetés revendiquées et établies',
+  densite: 'Densité de population',
+  esclavage: 'Esclavage & Encomienda',
+  autochtones: 'Foyers autochtones',
+  masque: 'Carte Jaillot (1708)',
 };
 
 // ─── Initialisation ──────────────────────────────────────────
@@ -88,18 +90,15 @@ function pixelToLatLng(x, y) {
 
 // ─── Zones territoriales ─────────────────────────────────────
 const DENSITE_PALIERS = [
-  // { max: score brut max du palier, couleur }
-  // score brut = population / superficie (hab/px²)
-  { max: 0, couleur: 'hsl(125, 72%, 82%)' }, // 0       — désert/inconnu   #b0f2b5
-  { max: 0.05, couleur: 'hsl(134, 64%, 72%)' }, // 0–0.05  — quasi-vide       #89e59f
-  { max: 0.15, couleur: 'hsl(143, 56%, 63%)' }, // 0.05–0.15 — très faible    #6bd594
-  { max: 0.5, couleur: 'hsl(152, 48%, 54%)' }, // 0.15–0.5  — faible         #51c28d
-  { max: 2, couleur: 'hsl(162, 41%, 44%)' }, // 0.5–2     — modéré         #429e82
-  { max: 8, couleur: 'hsl(171, 33%, 34%)' }, // 2–8       — dense          #3a736a
-  { max: Infinity, couleur: 'hsl(180, 25%, 25%)' }, // 8+   — très dense      #2f4f4f
+  { max: 0.05, couleur: 'hsla(69, 100%, 90%, 0.79)' }, // 0–0,05   quasi-vide
+  { max: 0.15, couleur: 'hsla(76, 69%, 70%, 0.67)' }, // 0,05–0,15 très faible
+  { max: 0.5, couleur: 'hsl(83, 48%, 54%)' }, // 0,15–0,5  faible
+  { max: 2, couleur: 'hsla(118, 41%, 53%, 0.86)' }, // 0,5–2     modéré
+  { max: 8, couleur: 'hsl(156, 28%, 34%)' }, // 2–8       dense
+  { max: Infinity, couleur: 'hsl(144, 25%, 25%)' }, // 8+    très dense
 ];
 
-const COLONS_PALIERS = [
+const ESCLAVAGE_PALIERS = [
   // { max: ratio max, fm: couleur feuille-morte, ra: couleur rouge andrinople }
   // ratio = (esclaves + indiens_asservis) / population
   { max: 0.10, fm: 'hsl(26, 28%, 79%)', ra: 'hsl(6, 29%, 79%)' }, // très pâle
@@ -110,36 +109,56 @@ const COLONS_PALIERS = [
   { max: Infinity, fm: 'hsl(26, 90%, 36%)', ra: 'hsl(6, 99%, 33%)' }, // très intense
 ];
 
+const AUTOCHTONES_COULEURS = {
+  souverainete: 'hsl(19, 81%, 30%)',  // terra cotta sombre  #8a350e
+  resistance: 'hsl(28, 68%, 43%)',  // ocre terra          #b86823
+  domination: 'hsl(39, 61%, 55%)',  // ocre pâle           #d2a146
+};
+
 function couleurDensite(zoneId) {
   const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
-  if (!demo || demo.superficie === 0) return DENSITE_PALIERS[0].couleur;
-  const score = demo.population / demo.superficie; // hab/px²
-  for (const palier of DENSITE_PALIERS) {
-    if (score <= palier.max) return palier.couleur;
-  }
-  return DENSITE_PALIERS[DENSITE_PALIERS.length - 1].couleur;
-}
-
-function couleurColons(zoneId) {
-  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
-  if (!demo || demo.population === 0) return null; // null = pas de style, fond transparent
-
-  const totalAsservis = demo.esclaves + demo.indiens_asservis;
-  if (totalAsservis === 0) return null;
-
-  const ratio = totalAsservis / demo.population;
-
-  // Déterminer la teinte dominante
-  const useRa = demo.esclaves >= demo.indiens_asservis;
-
-  // Trouver le palier
-  for (const palier of COLONS_PALIERS) {
-    if (ratio <= palier.max) {
-      return useRa ? palier.ra : palier.fm;
+  if (!demo || demo.superficie === 0 || demo.population === 0) return null;
+  const score = demo.population / demo.superficie;
+  for (let i = 0; i < DENSITE_PALIERS.length; i++) {
+    if (score <= DENSITE_PALIERS[i].max) {
+      return paliersMasquesDensite.has(i) ? null : DENSITE_PALIERS[i].couleur;
     }
   }
-  const last = COLONS_PALIERS[COLONS_PALIERS.length - 1];
-  return useRa ? last.ra : last.fm;
+  const last = DENSITE_PALIERS.length - 1;
+  return paliersMasquesDensite.has(last) ? null : DENSITE_PALIERS[last].couleur;
+}
+
+function couleurEsclavage(zoneId) {
+  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
+  if (!demo || demo.population === 0) return null;
+  const totalAsservis = demo.esclaves + demo.indiens_asservis;
+  if (totalAsservis === 0) return null;
+  const ratio = totalAsservis / demo.population;
+  const useRa = demo.esclaves >= demo.indiens_asservis;
+  for (let i = 0; i < ESCLAVAGE_PALIERS.length; i++) {
+    if (ratio <= ESCLAVAGE_PALIERS[i].max) {
+      return paliersMasquesEsclavage.has(i) ? null : (useRa ? ESCLAVAGE_PALIERS[i].ra : ESCLAVAGE_PALIERS[i].fm);
+    }
+  }
+  const last = ESCLAVAGE_PALIERS.length - 1;
+  return paliersMasquesEsclavage.has(last) ? null : (useRa ? ESCLAVAGE_PALIERS[last].ra : ESCLAVAGE_PALIERS[last].fm);
+}
+
+function resoudreStatutAutochtone(demo, annee) {
+  if (!demo || demo.statut_autochtone === null) return null;
+  const s = demo.statut_autochtone;
+  // Cas temporel Louisiane : { avant1718: '...', depuis1718: '...' }
+  if (typeof s === 'object') {
+    return annee >= 1718 ? s.depuis1718 : s.avant1718;
+  }
+  return s;
+}
+
+function couleurAutochtone(zoneId, annee) {
+  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
+  const statut = resoudreStatutAutochtone(demo, annee);
+  if (!statut) return null;
+  return AUTOCHTONES_COULEURS[statut] || null;
 }
 
 function renderZones() {
@@ -186,23 +205,49 @@ function renderZones() {
 
     if (overlayMode === 'densite') {
 
-      couleur = couleurDensite(j.id);
-      fillOpacity = isActive ? 0.90 : 0.70;
-      strokeColor = couleur;
-      strokeWeight = isActive ? 2 : 0.5;
-      strokeOpacity = 0.9;
-
-    } else if (overlayMode === 'colons') {
-
-      const c = couleurColons(j.id);
+      const c = couleurDensite(j.id);
       if (c) {
         couleur = c;
-        fillOpacity = isActive ? 0.90 : 0.70;
+        fillOpacity = isActive ? 0.5 : 0.35;
+        strokeColor = c;
+        strokeWeight = isActive ? 2 : 0.5;
+        strokeOpacity = 0.9;
+      } else {
+        couleur = 'transparent';
+        fillOpacity = 0;
+        strokeColor = 'transparent';
+        strokeWeight = 0;
+        strokeOpacity = 0;
+      }
+
+    } else if (overlayMode === 'esclavage') {
+
+      const c = couleurEsclavage(j.id);
+      if (c) {
+        couleur = c;
+        fillOpacity = isActive ? 0.5 : 0.35;
         strokeColor = c;
         strokeWeight = isActive ? 2 : 0.5;
         strokeOpacity = 0.9;
       } else {
         // Pas de population asservie : transparent
+        couleur = 'transparent';
+        fillOpacity = 0;
+        strokeColor = 'transparent';
+        strokeWeight = 0;
+        strokeOpacity = 0;
+      }
+
+    } else if (overlayMode === 'autochtones') {
+
+      const c = couleurAutochtone(j.id, anneeActive);
+      if (c) {
+        couleur = c;
+        fillOpacity = isActive ? 0.5 : 0.35;
+        strokeColor = c;
+        strokeWeight = isActive ? 2 : 0.5;
+        strokeOpacity = 0.9;
+      } else {
         couleur = 'transparent';
         fillOpacity = 0;
         strokeColor = 'transparent';
@@ -379,6 +424,9 @@ function initOverlayBtns() {
       const mode = btn.dataset.mode;
       if (mode === overlayMode) return;
       overlayMode = mode;
+      puissancesMasquees.clear();
+      paliersMasquesDensite.clear();
+      paliersMasquesEsclavage.clear();
 
       // Mettre à jour les boutons
       document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
@@ -388,11 +436,18 @@ function initOverlayBtns() {
       const label = document.getElementById('carte-overlay-label');
       if (label) label.textContent = OVERLAY_LABELS[mode] || '';
 
+      // Note esclavage — affichée uniquement en mode esclavage
+      const noteEsclavage = document.getElementById('carte-overlay-note');
+      if (noteEsclavage) {
+        noteEsclavage.style.display = mode === 'esclavage' ? 'inline' : 'none';
+      }
+
       // Fermer popup et panneau en mode masqué
       if (overlayMode === 'masque') {
         fermerPopup();
         fermerPanneau();
       }
+
 
       // Légende : visible seulement en mode geo
       majLegende();
@@ -414,7 +469,6 @@ function majLegende() {
   // ── Mode densité ──────────────────────────────────────────
   if (overlayMode === 'densite') {
     const labels = [
-      'Désert / Inconnu',
       '< 0,15 hab/km²',
       '0,15 – 0,45',
       '0,45 – 1,5',
@@ -423,8 +477,12 @@ function majLegende() {
       '> 24 hab/km²',
     ];
     DENSITE_PALIERS.forEach((palier, i) => {
-      const item = document.createElement('span');
-      item.className = 'carte-puissance-check';
+      const label = document.createElement('label');
+      label.className = 'carte-puissance-check' + (paliersMasquesDensite.has(i) ? ' decochee' : '');
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = !paliersMasquesDensite.has(i);
 
       const pastille = document.createElement('span');
       pastille.className = 'carte-puissance-pastille';
@@ -432,9 +490,22 @@ function majLegende() {
       pastille.style.backgroundColor = palier.couleur;
       pastille.style.opacity = '0.85';
 
-      item.appendChild(pastille);
-      item.appendChild(document.createTextNode(labels[i]));
-      liste.appendChild(item);
+      label.appendChild(input);
+      label.appendChild(pastille);
+      label.appendChild(document.createTextNode(labels[i]));
+
+      input.addEventListener('change', () => {
+        if (input.checked) {
+          paliersMasquesDensite.delete(i);
+          label.classList.remove('decochee');
+        } else {
+          paliersMasquesDensite.add(i);
+          label.classList.add('decochee');
+        }
+        renderZones();
+      });
+
+      liste.appendChild(label);
     });
 
     legende.classList.add('carte-legende--visible');
@@ -442,7 +513,7 @@ function majLegende() {
     return;
   }
 
-  if (overlayMode === 'colons') {
+  if (overlayMode === 'esclavage') {
     const labels = [
       '< 10 % de la population',
       '10 – 25 %',
@@ -451,16 +522,17 @@ function majLegende() {
       '60 – 80 %',
       '> 80 %',
     ];
-    COLONS_PALIERS.forEach((palier, i) => {
-      const item = document.createElement('span');
-      item.className = 'carte-puissance-check';
- 
-      // Deux pastilles côte à côte
+    ESCLAVAGE_PALIERS.forEach((palier, i) => {
+      const label = document.createElement('label');
+      label.className = 'carte-puissance-check' + (paliersMasquesEsclavage.has(i) ? ' decochee' : '');
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = !paliersMasquesEsclavage.has(i);
+
       const wrapPastilles = document.createElement('span');
-      wrapPastilles.style.display = 'inline-flex';
-      wrapPastilles.style.gap = '3px';
-      wrapPastilles.style.marginRight = '6px';
- 
+      wrapPastilles.style.cssText = 'display:inline-flex;gap:3px;margin-right:6px;';
+
       [palier.fm, palier.ra].forEach(couleur => {
         const pastille = document.createElement('span');
         pastille.className = 'carte-puissance-pastille';
@@ -470,18 +542,58 @@ function majLegende() {
         pastille.style.margin = '0';
         wrapPastilles.appendChild(pastille);
       });
- 
-      item.appendChild(wrapPastilles);
-      item.appendChild(document.createTextNode(labels[i]));
+
+      label.appendChild(input);
+      label.appendChild(wrapPastilles);
+      label.appendChild(document.createTextNode(labels[i]));
+
+      input.addEventListener('change', () => {
+        if (input.checked) {
+          paliersMasquesEsclavage.delete(i);
+          label.classList.remove('decochee');
+        } else {
+          paliersMasquesEsclavage.add(i);
+          label.classList.add('decochee');
+        }
+        renderZones();
+      });
+
+      liste.appendChild(label);
+    });
+
+    legende.classList.add('carte-legende--visible');
+    legende.setAttribute('aria-hidden', 'false');
+    return;
+  }
+
+  if (overlayMode === 'autochtones') {
+    const items = [
+      { statut: 'souverainete', label: 'Souveraineté' },
+      { statut: 'resistance', label: 'Résistance sous pression' },
+      { statut: 'domination', label: 'Domination / Décimation' },
+    ];
+
+    items.forEach(({ statut, label }) => {
+      const item = document.createElement('span');
+      item.className = 'carte-puissance-check';
+
+      const pastille = document.createElement('span');
+      pastille.className = 'carte-puissance-pastille';
+      pastille.style.borderColor = AUTOCHTONES_COULEURS[statut];
+      pastille.style.backgroundColor = AUTOCHTONES_COULEURS[statut];
+      pastille.style.opacity = '0.85';
+
+      item.appendChild(pastille);
+      item.appendChild(document.createTextNode(label));
       liste.appendChild(item);
     });
- 
-    // Note explicative sous la légende
+
+    // Note : zones transparentes = population éteinte ou absente
     const note = document.createElement('p');
-    note.style.cssText = 'font-size:0.65rem; color:var(--mist-light); margin-top:0.5rem; line-height:1.3;';
-    note.innerHTML = '<span style="color:hsl(26,90%,36%)">■</span> Encomienda &nbsp; <span style="color:hsl(6,99%,33%)">■</span> Traite négrière';
+    note.style.cssText = 'font-size:0.6rem; color:var(--mist-light); margin-top:0.5rem; line-height:1.3; font-style:italic;';
+    note.textContent = 'Zones transparentes : population éteinte ou absente.';
     liste.appendChild(note);
- 
+
     legende.classList.add('carte-legende--visible');
     legende.setAttribute('aria-hidden', 'false');
     return;
@@ -770,9 +882,9 @@ function majZone(juridictionId) {
 
   let style;
 
-  if (overlayMode === 'densite' || overlayMode === 'colons') {
+  if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
     style = {
-      fillOpacity: isActive ? 0.90 : 0.70,
+      fillOpacity: isActive ? 0.65 : 0.45,
       weight: isActive ? 2 : 0.5,
     };
   } else {
