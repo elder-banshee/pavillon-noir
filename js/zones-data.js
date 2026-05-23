@@ -1560,3 +1560,515 @@ const ZONES_DATA = {
   ],
 
 };
+
+
+// ═══════════════════════════════════════════════════════════
+// ZONES_DEMO — Démographie & superficie (circa 1716)
+// Source : Population_Méso-Amérique_1716.tsv
+// superficie  : px² (Shoelace par anneau)
+// score_densite : log10(population/superficie + 1), normalisé 0–1 dans carte.js
+// ═══════════════════════════════════════════════════════════
+
+const ZONES_DEMO = {
+
+  'caroline-du-sud': {
+    colons:               8000,
+    esclaves:            10000,
+    indiens:              5000,
+    indiens_asservis:        0,
+    population:          23000,
+    superficie:         160504,
+    score_densite:      0.0582,
+  },
+
+  'floride': {
+    colons:               1500,
+    esclaves:                0,
+    indiens:              4000,
+    indiens_asservis:        0,
+    population:           5500,
+    superficie:        1290944,
+    score_densite:      0.0018,
+  },
+
+  'louisiane': {
+    colons:                400,
+    esclaves:                0,
+    indiens:             30000,
+    indiens_asservis:      250,
+    population:          30400,
+    superficie:        1140585,
+    score_densite:      0.0002,
+  },
+
+  'nouveau-mexique': {
+    colons:               3000,
+    esclaves:                0,
+    indiens:             17000,
+    indiens_asservis:     8500,
+    population:          20000,
+    superficie:          97542,
+    score_densite:       0.081,
+  },
+
+  'nueva-galicia': {
+    colons:              15000,
+    esclaves:                0,
+    indiens:            135000,
+    indiens_asservis:    40000,
+    population:         150000,
+    superficie:         592354,
+    score_densite:       0.098,
+  },
+
+  'panuco': {
+    colons:               3500,
+    esclaves:                0,
+    indiens:             45000,
+    indiens_asservis:    15000,
+    population:          48500,
+    superficie:         306684,
+    score_densite:      0.0638,
+  },
+
+  'nouvelle-espagne': {
+    colons:             120000,
+    esclaves:                0,
+    indiens:           1400000,
+    indiens_asservis:   420000,
+    population:        1520000,
+    superficie:        1238913,
+    score_densite:      0.3477,
+  },
+
+  'yucatan': {
+    colons:              25000,
+    esclaves:                0,
+    indiens:            225000,
+    indiens_asservis:    90000,
+    population:         250000,
+    superficie:         330086,
+    score_densite:      0.2449,
+  },
+
+  'cayes-belize': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:              0,
+    superficie:           7774,
+    score_densite:         0.0,
+  },
+
+  'guatemala': {
+    colons:              40000,
+    esclaves:                0,
+    indiens:            750000,
+    indiens_asservis:   300000,
+    population:         790000,
+    superficie:         337404,
+    score_densite:      0.5239,
+  },
+
+  'honduras': {
+    colons:               6500,
+    esclaves:                0,
+    indiens:             30000,
+    indiens_asservis:     9000,
+    population:          36500,
+    superficie:         560590,
+    score_densite:      0.0274,
+  },
+
+  'iles-de-la-baie': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:              0,
+    superficie:          11673,
+    score_densite:         0.0,
+  },
+
+  'cote-miskito': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:             15000,
+    indiens_asservis:        0,
+    population:          15000,
+    superficie:         224432,
+    score_densite:      0.0281,
+  },
+
+  'nicaragua': {
+    colons:               4000,
+    esclaves:                0,
+    indiens:             35000,
+    indiens_asservis:    10500,
+    population:          39000,
+    superficie:         317931,
+    score_densite:      0.0503,
+  },
+
+  'providence': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:              0,
+    superficie:            794,
+    score_densite:         0.0,
+  },
+
+  'costa-rica': {
+    colons:               3500,
+    esclaves:                0,
+    indiens:              8000,
+    indiens_asservis:      500,
+    population:          11500,
+    superficie:         172026,
+    score_densite:      0.0281,
+  },
+
+  'panama': {
+    colons:              17000,
+    esclaves:             3000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          20000,
+    superficie:         210374,
+    score_densite:      0.0394,
+  },
+
+  'darien': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:             25000,
+    indiens_asservis:        0,
+    population:          25000,
+    superficie:         243994,
+    score_densite:      0.0424,
+  },
+
+  'nouvelle-grenade': {
+    colons:              25000,
+    esclaves:            15000,
+    indiens:            350000,
+    indiens_asservis:    60000,
+    population:         390000,
+    superficie:        1454362,
+    score_densite:      0.1032,
+  },
+
+  'venezuela': {
+    colons:               8000,
+    esclaves:            10000,
+    indiens:             48000,
+    indiens_asservis:     8000,
+    population:          66000,
+    superficie:         741848,
+    score_densite:       0.037,
+  },
+
+  'marguerita': {
+    colons:               1000,
+    esclaves:                0,
+    indiens:              8000,
+    indiens_asservis:     1200,
+    population:           9000,
+    superficie:           6360,
+    score_densite:      0.3424,
+  },
+
+  'nouvelle-andalousie': {
+    colons:               7000,
+    esclaves:             6000,
+    indiens:             40000,
+    indiens_asservis:     6000,
+    population:          53000,
+    superficie:         805607,
+    score_densite:      0.0277,
+  },
+
+  'curaçao': {
+    colons:               2500,
+    esclaves:             5500,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:           8000,
+    superficie:           6008,
+    score_densite:      0.3676,
+  },
+
+  'trinidad': {
+    colons:                500,
+    esclaves:              350,
+    indiens:              2000,
+    indiens_asservis:        0,
+    population:           2850,
+    superficie:          21146,
+    score_densite:      0.0549,
+  },
+
+  'tabago': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:              0,
+    superficie:            746,
+    score_densite:         0.0,
+  },
+
+  'tortuga-venezolana': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:              0,
+    superficie:           1534,
+    score_densite:         0.0,
+  },
+
+  'guyane': {
+    colons:              12000,
+    esclaves:            40000,
+    indiens:             55000,
+    indiens_asservis:        0,
+    population:         107000,
+    superficie:         448486,
+    score_densite:      0.0929,
+  },
+
+  'bahamas-archipel': {
+    colons:                800,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:            800,
+    superficie:          47771,
+    score_densite:      0.0072,
+  },
+
+  'new-providence': {
+    colons:               1000,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:           1000,
+    superficie:           1341,
+    score_densite:       0.242,
+  },
+
+  'eleuthera': {
+    colons:                500,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:            500,
+    superficie:           4415,
+    score_densite:      0.0466,
+  },
+
+  'jamaique': {
+    colons:               7500,
+    esclaves:            45000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          52500,
+    superficie:          41150,
+    score_densite:      0.3571,
+  },
+
+  'barbade': {
+    colons:               8000,
+    esclaves:            42000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          50000,
+    superficie:           1272,
+    score_densite:      1.6054,
+  },
+
+  'bermudes': {
+    colons:               4000,
+    esclaves:             2000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:           6000,
+    superficie:            534,
+    score_densite:      1.0876,
+  },
+
+  'leeward-islands': {
+    colons:               7000,
+    esclaves:            28000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          35000,
+    superficie:           6278,
+    score_densite:      0.8179,
+  },
+
+  'iles-vierges-britanniques': {
+    colons:                500,
+    esclaves:             1000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:           1500,
+    superficie:           1060,
+    score_densite:      0.3829,
+  },
+
+  'saint-thomas': {
+    colons:                600,
+    esclaves:             3000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:           3600,
+    superficie:            123,
+    score_densite:       1.481,
+  },
+
+  'sainte-croix': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:              0,
+    superficie:           1553,
+    score_densite:         0.0,
+  },
+
+  'cuba': {
+    colons:              25000,
+    esclaves:            10000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          35000,
+    superficie:         326434,
+    score_densite:      0.0442,
+  },
+
+  'porto-rico': {
+    colons:               9000,
+    esclaves:             3000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          12000,
+    superficie:          24435,
+    score_densite:      0.1735,
+  },
+
+  'santo-domingo': {
+    colons:              15000,
+    esclaves:             5000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          20000,
+    superficie:         151186,
+    score_densite:       0.054,
+  },
+
+  'saint-domingue': {
+    colons:              12000,
+    esclaves:            70000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          82000,
+    superficie:         106018,
+    score_densite:      0.2488,
+  },
+
+  'martinique': {
+    colons:               9000,
+    esclaves:            20000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          29000,
+    superficie:           3486,
+    score_densite:      0.9694,
+  },
+
+  'guadeloupe': {
+    colons:               7000,
+    esclaves:            18000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          25000,
+    superficie:           1856,
+    score_densite:      1.1605,
+  },
+
+  'saint-martin': {
+    colons:                600,
+    esclaves:             2500,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:           3100,
+    superficie:           1161,
+    score_densite:      0.5647,
+  },
+
+  'saint-barth': {
+    colons:                700,
+    esclaves:                0,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:            700,
+    superficie:            720,
+    score_densite:       0.295,
+  },
+
+  'saba-statia': {
+    colons:                450,
+    esclaves:             2200,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:           2650,
+    superficie:            229,
+    score_densite:      1.0994,
+  },
+
+  'dominique': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:              2500,
+    indiens_asservis:        0,
+    population:           2500,
+    superficie:           1072,
+    score_densite:      0.5227,
+  },
+
+  'sainte-lucie': {
+    colons:                200,
+    esclaves:                0,
+    indiens:              4000,
+    indiens_asservis:        0,
+    population:           4200,
+    superficie:           1262,
+    score_densite:      0.6363,
+  },
+
+  'saint-vincent': {
+    colons:                  0,
+    esclaves:                0,
+    indiens:              4500,
+    indiens_asservis:        0,
+    population:           4500,
+    superficie:           1470,
+    score_densite:      0.6087,
+  },
+
+  'grenade': {
+    colons:               5000,
+    esclaves:            10000,
+    indiens:                 0,
+    indiens_asservis:        0,
+    population:          15000,
+    superficie:           1672,
+    score_densite:      0.9988,
+  },
+
+};

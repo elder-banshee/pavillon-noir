@@ -479,6 +479,7 @@ mask-image: linear-gradient(
 
 /* ─── Barre de contrôles (sous carte-wrap) ──────────────────── */
 .carte-barre {
+  position: relative;
   max-width: 1200px;
   width: 100%;
   box-sizing: border-box;
@@ -565,8 +566,9 @@ mask-image: linear-gradient(
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  border-left: 1px solid var(--border);
-  padding-left: 0.75rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .carte-annee-btn {

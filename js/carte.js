@@ -87,6 +87,61 @@ function pixelToLatLng(x, y) {
 }
 
 // ─── Zones territoriales ─────────────────────────────────────
+const DENSITE_PALIERS = [
+  // { max: score brut max du palier, couleur }
+  // score brut = population / superficie (hab/px²)
+  { max: 0, couleur: 'hsl(125, 72%, 82%)' }, // 0       — désert/inconnu   #b0f2b5
+  { max: 0.05, couleur: 'hsl(134, 64%, 72%)' }, // 0–0.05  — quasi-vide       #89e59f
+  { max: 0.15, couleur: 'hsl(143, 56%, 63%)' }, // 0.05–0.15 — très faible    #6bd594
+  { max: 0.5, couleur: 'hsl(152, 48%, 54%)' }, // 0.15–0.5  — faible         #51c28d
+  { max: 2, couleur: 'hsl(162, 41%, 44%)' }, // 0.5–2     — modéré         #429e82
+  { max: 8, couleur: 'hsl(171, 33%, 34%)' }, // 2–8       — dense          #3a736a
+  { max: Infinity, couleur: 'hsl(180, 25%, 25%)' }, // 8+   — très dense      #2f4f4f
+];
+
+const COLONS_PALIERS = [
+  // { max: ratio max, fm: couleur feuille-morte, ra: couleur rouge andrinople }
+  // ratio = (esclaves + indiens_asservis) / population
+  { max: 0.10, fm: 'hsl(26, 28%, 79%)', ra: 'hsl(6, 29%, 79%)' }, // très pâle
+  { max: 0.25, fm: 'hsl(26, 40%, 71%)', ra: 'hsl(6, 43%, 70%)' }, // pâle
+  { max: 0.40, fm: 'hsl(26, 53%, 62%)', ra: 'hsl(6, 57%, 61%)' }, // moyen
+  { max: 0.60, fm: 'hsl(26, 65%, 53%)', ra: 'hsl(6, 71%, 52%)' }, // soutenu
+  { max: 0.80, fm: 'hsl(26, 78%, 44%)', ra: 'hsl(6, 85%, 42%)' }, // intense
+  { max: Infinity, fm: 'hsl(26, 90%, 36%)', ra: 'hsl(6, 99%, 33%)' }, // très intense
+];
+
+function couleurDensite(zoneId) {
+  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
+  if (!demo || demo.superficie === 0) return DENSITE_PALIERS[0].couleur;
+  const score = demo.population / demo.superficie; // hab/px²
+  for (const palier of DENSITE_PALIERS) {
+    if (score <= palier.max) return palier.couleur;
+  }
+  return DENSITE_PALIERS[DENSITE_PALIERS.length - 1].couleur;
+}
+
+function couleurColons(zoneId) {
+  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
+  if (!demo || demo.population === 0) return null; // null = pas de style, fond transparent
+
+  const totalAsservis = demo.esclaves + demo.indiens_asservis;
+  if (totalAsservis === 0) return null;
+
+  const ratio = totalAsservis / demo.population;
+
+  // Déterminer la teinte dominante
+  const useRa = demo.esclaves >= demo.indiens_asservis;
+
+  // Trouver le palier
+  for (const palier of COLONS_PALIERS) {
+    if (ratio <= palier.max) {
+      return useRa ? palier.ra : palier.fm;
+    }
+  }
+  const last = COLONS_PALIERS[COLONS_PALIERS.length - 1];
+  return useRa ? last.ra : last.fm;
+}
+
 function renderZones() {
   Object.values(layersZones).forEach(g => {
     g.eachLayer(poly => carte.removeLayer(poly));
@@ -126,22 +181,54 @@ function renderZones() {
     const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
     const isActive = zoneActive === j.id;
 
-    let couleur = puissance.couleur;
-    let masquee = false;
+    // ── Calcul de couleur selon le mode ──────────────────────────
+    let couleur, fillOpacity, strokeColor, strokeWeight, strokeOpacity;
 
-    if (overlayMode === 'geo' && puissancesMasquees.has(puissanceId)) {
-      couleur = 'rgba(107,124,138,0.6)';
-      masquee = true;
+    if (overlayMode === 'densite') {
+
+      couleur = couleurDensite(j.id);
+      fillOpacity = isActive ? 0.90 : 0.70;
+      strokeColor = couleur;
+      strokeWeight = isActive ? 2 : 0.5;
+      strokeOpacity = 0.9;
+
+    } else if (overlayMode === 'colons') {
+
+      const c = couleurColons(j.id);
+      if (c) {
+        couleur = c;
+        fillOpacity = isActive ? 0.90 : 0.70;
+        strokeColor = c;
+        strokeWeight = isActive ? 2 : 0.5;
+        strokeOpacity = 0.9;
+      } else {
+        // Pas de population asservie : transparent
+        couleur = 'transparent';
+        fillOpacity = 0;
+        strokeColor = 'transparent';
+        strokeWeight = 0;
+        strokeOpacity = 0;
+      }
+
+    } else {
+
+      // Mode géopolitique — comportement original inchangé
+      const masquee = overlayMode === 'geo' && puissancesMasquees.has(puissanceId);
+      const estEspagne = puissanceId === 'espagnole';
+      couleur = masquee ? 'rgba(107,124,138,0.6)' : puissance.couleur;
+      fillOpacity = isActive ? 0.45 : (masquee ? 0.08 : 0.23);
+      strokeColor = estEspagne ? '#c84a1c' : couleur;
+      strokeWeight = isActive ? 2 : 0.5;
+      strokeOpacity = masquee ? 0.4 : (estEspagne ? 1 : 0.8);
+
     }
 
-    const estEspagne = puissanceId === 'espagnole';
-
     const style = {
-      color: estEspagne ? '#c84a1c' : couleur,  // contour jaune doré pour l'Espagne
-      weight: isActive ? (estEspagne ? 2 : 2) : 0.5,
-      opacity: masquee ? 0.4 : (estEspagne ? 1 : 0.8),
+      color: strokeColor,
+      weight: strokeWeight,
+      opacity: strokeOpacity,
       fillColor: couleur,
-      fillOpacity: isActive ? 0.45 : (masquee ? 0.08 : 0.23),
+      fillOpacity: fillOpacity,
       fillRule: 'nonzero',
       className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
     };
@@ -160,6 +247,20 @@ function renderZones() {
           fermerPanneau();
         } else {
           ouvrirPanneau(j.id);
+        }
+      });
+
+      // Hover : épaisseur du tracé uniquement (préserve la teinte informative)
+      poly.on('mouseover', () => {
+        if (zoneActive !== j.id) {
+          const w = overlayMode === 'densite' ? 3 : 2;
+          poly.setStyle({ weight: w });
+        }
+      });
+      poly.on('mouseout', () => {
+        if (zoneActive !== j.id) {
+          const w = overlayMode === 'densite' ? 0.5 : 0.5;
+          poly.setStyle({ weight: w });
         }
       });
 
@@ -302,20 +403,99 @@ function initOverlayBtns() {
   });
 }
 
-// ─── Légende géopolitique ─────────────────────────────────────
+// ─── Légende ─────────────────────────────────────────────────
 function majLegende() {
   const legende = document.getElementById('carte-legende');
   const liste = document.getElementById('carte-puissances-liste');
   if (!legende || !liste) return;
 
+  liste.innerHTML = '';
+
+  // ── Mode densité ──────────────────────────────────────────
+  if (overlayMode === 'densite') {
+    const labels = [
+      'Désert / Inconnu',
+      '< 0,15 hab/km²',
+      '0,15 – 0,45',
+      '0,45 – 1,5',
+      '1,5 – 6',
+      '6 – 24',
+      '> 24 hab/km²',
+    ];
+    DENSITE_PALIERS.forEach((palier, i) => {
+      const item = document.createElement('span');
+      item.className = 'carte-puissance-check';
+
+      const pastille = document.createElement('span');
+      pastille.className = 'carte-puissance-pastille';
+      pastille.style.borderColor = palier.couleur;
+      pastille.style.backgroundColor = palier.couleur;
+      pastille.style.opacity = '0.85';
+
+      item.appendChild(pastille);
+      item.appendChild(document.createTextNode(labels[i]));
+      liste.appendChild(item);
+    });
+
+    legende.classList.add('carte-legende--visible');
+    legende.setAttribute('aria-hidden', 'false');
+    return;
+  }
+
+  if (overlayMode === 'colons') {
+    const labels = [
+      '< 10 % de la population',
+      '10 – 25 %',
+      '25 – 40 %',
+      '40 – 60 %',
+      '60 – 80 %',
+      '> 80 %',
+    ];
+    COLONS_PALIERS.forEach((palier, i) => {
+      const item = document.createElement('span');
+      item.className = 'carte-puissance-check';
+ 
+      // Deux pastilles côte à côte
+      const wrapPastilles = document.createElement('span');
+      wrapPastilles.style.display = 'inline-flex';
+      wrapPastilles.style.gap = '3px';
+      wrapPastilles.style.marginRight = '6px';
+ 
+      [palier.fm, palier.ra].forEach(couleur => {
+        const pastille = document.createElement('span');
+        pastille.className = 'carte-puissance-pastille';
+        pastille.style.borderColor = couleur;
+        pastille.style.backgroundColor = couleur;
+        pastille.style.opacity = '0.85';
+        pastille.style.margin = '0';
+        wrapPastilles.appendChild(pastille);
+      });
+ 
+      item.appendChild(wrapPastilles);
+      item.appendChild(document.createTextNode(labels[i]));
+      liste.appendChild(item);
+    });
+ 
+    // Note explicative sous la légende
+    const note = document.createElement('p');
+    note.style.cssText = 'font-size:0.65rem; color:var(--mist-light); margin-top:0.5rem; line-height:1.3;';
+    note.innerHTML = '<span style="color:hsl(26,90%,36%)">■</span> Encomienda &nbsp; <span style="color:hsl(6,99%,33%)">■</span> Traite négrière';
+    liste.appendChild(note);
+ 
+    legende.classList.add('carte-legende--visible');
+    legende.setAttribute('aria-hidden', 'false');
+    return;
+  }
+
+  // ── Autres modes sans légende ─────────────────────────────
   if (overlayMode !== 'geo') {
     legende.classList.remove('carte-legende--visible');
     legende.setAttribute('aria-hidden', 'true');
     return;
   }
 
-  // Collecter les puissances présentes à l'année active
-  const puissancesPresentes = new Map(); // id → puissance
+  // ── Mode géopolitique ─────────────────────────────────────
+  const puissancesPresentes = new Map();
   JURIDICTIONS.forEach(j => {
     const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
       ? ZONES_DATA[j.id]
@@ -328,8 +508,6 @@ function majLegende() {
     }
   });
 
-  // Reconstruire la liste
-  liste.innerHTML = '';
   [...puissancesPresentes.entries()]
     .sort((a, b) => (a[1].ordre ?? 99) - (b[1].ordre ?? 99))
     .forEach(([id, p]) => {
@@ -434,7 +612,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closeBtn) closeBtn.addEventListener('click', fermerPanneau);
 });
 
-// ─── Rendu du contexte temporel ──────────────────────────────
+
 // ─── Rendu du contexte temporel ──────────────────────────────
 function rendreChamp(valeur, annee) {
   if (!valeur) return '';
@@ -531,10 +709,10 @@ function ouvrirPanneau(juridictionId) {
       </div>`;
   })() : '';
 
-const metaHtml = [
-    { label: 'Capitale',   value: rendreChamp(j.capitale,           anneeActive) },
-    { label: 'Population', value: rendreChamp(j.population_approx,  anneeActive) },
-    { label: 'Économie',   value: rendreChamp(j.economie,           anneeActive) },
+  const metaHtml = [
+    { label: 'Capitale', value: rendreChamp(j.capitale, anneeActive) },
+    { label: 'Population', value: rendreChamp(j.population_approx, anneeActive) },
+    { label: 'Économie', value: rendreChamp(j.economie, anneeActive) },
   ].filter(m => m.value).map(m => `
     <div class="panneau-meta-item">
       <span class="panneau-meta-label">${m.label}</span>
@@ -581,19 +759,30 @@ function fermerPanneau() {
   }
 }
 
+
 function majZone(juridictionId) {
   const groupe = layersZones[juridictionId];
   if (!groupe) return;
 
   const j = JURIDICTIONS.find(j => j.id === juridictionId);
   const puissanceId = j ? resoudre(j.puissance, anneeActive) : null;
-  const estEspagne = puissanceId === 'espagnole';
   const isActive = zoneActive === juridictionId;
 
-  const style = {
-    fillOpacity: isActive ? 0.45 : 0.23,
-    weight:      isActive ? (estEspagne ? 2 : 2) : 0.5,
-  };
+  let style;
+
+  if (overlayMode === 'densite' || overlayMode === 'colons') {
+    style = {
+      fillOpacity: isActive ? 0.90 : 0.70,
+      weight: isActive ? 2 : 0.5,
+    };
+  } else {
+    const masquee = overlayMode === 'geo' && puissancesMasquees.has(puissanceId);
+    style = {
+      fillOpacity: isActive ? 0.45 : (masquee ? 0.08 : 0.23),
+      weight: isActive ? 2 : 0.5,
+    };
+  }
 
   groupe.eachLayer(poly => poly.setStyle(style));
 }
+
