@@ -496,7 +496,9 @@ mask-image: linear-gradient(
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  flex-shrink: 0;
+  flex: 1;
+  padding-right: 94px;
+  min-width: 0;
 }
 
 /* ─── Boutons overlay ────────────────────────────────────────── */
@@ -551,13 +553,22 @@ mask-image: linear-gradient(
 .carte-overlay-btn--masque:hover:not(.disabled)      { border-color: var(--parchment2); color: var(--parchment2); }
 
 /* ─── Intitulé du mode actif ─────────────────────────────────── */
+.carte-overlay-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
 .carte-overlay-label {
   font-family: 'Cinzel', serif;
   font-size: 0.6rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--mist-light);
-  min-width: 7.5rem; /* indexé sur "Colons / Esclaves" */
   white-space: nowrap;
 }
 

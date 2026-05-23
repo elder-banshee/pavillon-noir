@@ -25,7 +25,7 @@ const OVERLAY_LABELS = {
   geo: 'Souverainetés revendiquées et établies',
   densite: 'Densité de population',
   esclavage: 'Esclavage & Encomienda',
-  autochtones: 'Foyers autochtones',
+  autochtones: 'Foyers de populations autochtones',
   masque: 'Carte Jaillot (1708)',
 };
 
@@ -298,7 +298,7 @@ function renderZones() {
       // Hover : épaisseur du tracé uniquement (préserve la teinte informative)
       poly.on('mouseover', () => {
         if (zoneActive !== j.id) {
-          const w = overlayMode === 'densite' ? 3 : 2;
+          const w = overlayMode === 'densite' ? 2 : 2;
           poly.setStyle({ weight: w });
         }
       });
@@ -884,7 +884,7 @@ function majZone(juridictionId) {
 
   if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
     style = {
-      fillOpacity: isActive ? 0.65 : 0.45,
+      fillOpacity: isActive ? 0.5 : 0.35,
       weight: isActive ? 2 : 0.5,
     };
   } else {
