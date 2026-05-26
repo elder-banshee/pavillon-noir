@@ -3692,9 +3692,11 @@ Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée d
     },
 
     // ── ÎLE DU MAÏS ─────────────────────────────
+    // visible_mj: true → n'apparaît sur la carte qu'en mode MJ
     {
         id: 'ile-du-mais',
         nom: 'Île du Maïs',
+        visible_mj: true,
 
         puissance: {
             1712: 'conteste',
@@ -3716,10 +3718,10 @@ Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée d
         ],
         zone: [],
         capitale: `[Aucune]`,
-        population_approx: `Aucuns`,
-        economie: 'aucune',
+        population_approx: `Aucune`,
+        economie: 'Aucune',
 
-        /* note: `Île du pétroglyphe de Morgan`, */
+        note_mj: `Île du pétroglyphe de Morgan`,
     },
 ];
 

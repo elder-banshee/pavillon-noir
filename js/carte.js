@@ -15,10 +15,117 @@ let pinActive = null;
 // 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque'
 let overlayMode = 'geo';
 
+// ─── Mode MJ ─────────────────────────────────────────────────
+let modeMJ = false;
+const SEQUENCE_MJ = ['eleuthera', 'marguerita', 'jamaique'];
+let sequenceEnCours = [];
+// Après la séquence complète, on attend le clic de confirmation sur l'Île du Maïs
+let attenteClic_IleDuMais = false;
+
+// Année max calculée dynamiquement depuis les bornes 'a' de carte-data.js
+function calculerAnneeMax() {
+  let max = CARTE_ANNEE_REFERENCE;
+  function scanBlocs(val) {
+    if (!val || typeof val !== 'object') return;
+    if (Array.isArray(val)) {
+      val.forEach(b => {
+        if (b.a && b.a > max) max = b.a;
+        if (b.versions) b.versions.forEach(v => { if (v.a && v.a > max) max = v.a; });
+      });
+    }
+  }
+  JURIDICTIONS.forEach(j => {
+    scanBlocs(j.contexte);
+    scanBlocs(j.capitale);
+    scanBlocs(j.population_approx);
+    scanBlocs(j.economie);
+  });
+  return max;
+}
+const ANNEE_MAX_MJ = calculerAnneeMax();
+
 // Puissances masquées (Set d'ids)
 let puissancesMasquees = new Set();
 const paliersMasquesDensite = new Set();
 const paliersMasquesEsclavage = new Set();
+
+// ─── Séquence secrète et activation MJ ───────────────────────
+function enregistrerClicSequence(zoneId) {
+  if (modeMJ) return false;
+
+  // Clic sur l'Île du Maïs après séquence complète → popup de confirmation
+  if (attenteClic_IleDuMais) {
+    if (zoneId === 'ile-du-mais') {
+      attenteClic_IleDuMais = false;
+      ouvrirPopupConfirmationMJ();
+      return true; // intercepté — ne pas ouvrir le panneau
+    } else {
+      // Clic ailleurs → annuler, remettre à zéro
+      attenteClic_IleDuMais = false;
+      sequenceEnCours = [];
+      renderZones(); // masquer l'Île du Maïs
+      return false;
+    }
+  }
+
+  const attendu = SEQUENCE_MJ[sequenceEnCours.length];
+  if (zoneId === attendu) {
+    sequenceEnCours.push(zoneId);
+    if (sequenceEnCours.length === SEQUENCE_MJ.length) {
+      // Séquence complète → révéler l'Île du Maïs, attendre le clic
+      attenteClic_IleDuMais = true;
+      sequenceEnCours = [];
+      renderZones(); // l'Île du Maïs apparaît maintenant
+    }
+  } else {
+    // Mauvaise zone — recommencer depuis zéro sauf si c'est le premier de la séquence
+    sequenceEnCours = (zoneId === SEQUENCE_MJ[0]) ? [zoneId] : [];
+  }
+  return false;
+}
+
+function ouvrirPopupConfirmationMJ() {
+  const popup = document.getElementById('carte-popup');
+  popup.innerHTML = `
+    <h3 class="carte-popup-titre" style="margin-bottom:0.75rem;">Mode Maître de Jeu</h3>
+    <p class="carte-popup-extrait">Activer le mode MJ ? Les notes confidentielles et les données futures seront visibles jusqu'au rechargement de la page.</p>
+    <div style="display:flex;gap:0.75rem;margin-top:1rem;">
+      <button class="carte-popup-lien" onclick="confirmerModeMJ()">Confirmer</button>
+      <button class="carte-popup-lien" onclick="annulerModeMJ()" style="color:var(--mist);border-color:rgba(107,124,138,0.3);">Annuler</button>
+    </div>
+  `;
+  pinActive = '__mj_confirm__';
+  document.getElementById('carte-popup').classList.add('carte-popup--visible');
+}
+
+function confirmerModeMJ() {
+  modeMJ = true;
+  fermerPopup();
+
+  // Badge discret en bas à gauche de la carte
+  const wrap = document.getElementById('carte-wrap');
+  if (wrap && !document.getElementById('mj-badge')) {
+    const badge = document.createElement('div');
+    badge.id = 'mj-badge';
+    badge.textContent = '🔒 MJ';
+    badge.style.cssText = `
+      position:absolute; bottom:0.5rem; left:0.5rem; z-index:900;
+      pointer-events:none; font-family:'Cinzel',serif; font-size:0.55rem;
+      letter-spacing:0.1em; text-transform:uppercase;
+      color:var(--rust); opacity:0.7;
+    `;
+    wrap.appendChild(badge);
+  }
+
+  // Réinitialiser le curseur avec la borne MJ débloquée
+  initCurseurInline();
+  renderZones();
+}
+
+function annulerModeMJ() {
+  fermerPopup();
+  renderZones(); // masquer à nouveau l'Île du Maïs
+}
 
 // Intitulés des modes
 const OVERLAY_LABELS = {
@@ -185,7 +292,9 @@ function renderZones() {
     return Math.abs(a / 2);
   }
 
-  const juridictionsTri = [...JURIDICTIONS].sort((a, b) => {
+  const juridictionsTri = [...JURIDICTIONS]
+    .filter(j => !j.visible_mj || modeMJ || attenteClic_IleDuMais)
+    .sort((a, b) => {
     const sa = surfaceApprox(ZONES_DATA?.[a.id] ?? (a.zone?.length >= 3 ? [a.zone] : null));
     const sb = surfaceApprox(ZONES_DATA?.[b.id] ?? (b.zone?.length >= 3 ? [b.zone] : null));
     return sb - sa;
@@ -290,6 +399,8 @@ function renderZones() {
     polygones.forEach(poly => {
       poly.on('click', (e) => {
         L.DomEvent.stopPropagation(e);
+        const intercepte = enregistrerClicSequence(j.id);
+        if (intercepte) return;
         if (zoneActive === j.id) {
           fermerPanneau();
         } else {
@@ -381,7 +492,7 @@ function initCurseurInline() {
   if (!valeur || !prev || !next) return;
 
   const anneeMin = 1712;
-  const anneeMax = CARTE_ANNEE_REFERENCE;
+  const anneeMax = modeMJ ? ANNEE_MAX_MJ : CARTE_ANNEE_REFERENCE;
 
   function majAffichage() {
     valeur.textContent = anneeActive;
@@ -839,6 +950,12 @@ function ouvrirPanneau(juridictionId) {
       <div class="panneau-meta">${metaHtml}</div>
     ` : ''}
     ${j.note ? `<p class="panneau-note">${j.note}</p>` : ''}
+    ${modeMJ && j.note_mj ? `
+      <div class="panneau-note panneau-note--mj">
+        <span class="panneau-note-mj-label">🔒 Note confidentielle — MJ</span>
+        ${j.note_mj}
+      </div>
+    ` : ''}
   `;
 
   inner.scrollTop = 0;
