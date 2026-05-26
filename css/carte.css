@@ -75,7 +75,7 @@ path.leaflet-interactive:focus-visible {
 
 /* ─── Infobulles Leaflet ────────────────────────────────────── */
 .leaflet-tooltip.carte-tooltip {
-  background: rgba(14,12,9,0.92);
+  background: rgba(14, 12, 9, 0.92);
   border: 1px solid var(--border);
   border-radius: 0;
   box-shadow: none;
@@ -115,9 +115,13 @@ path.leaflet-interactive:focus-visible {
   transform-origin: center bottom;
 }
 
-.carte-pin:hover { transform: scale(1.3) translateY(-4px); }
+.carte-pin:hover {
+  transform: scale(1.3) translateY(-4px);
+}
 
-.carte-pin:hover svg path:first-child { fill: var(--gold-light); }
+.carte-pin:hover svg path:first-child {
+  fill: var(--gold-light);
+}
 
 .carte-pin svg {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
@@ -135,7 +139,7 @@ path.leaflet-interactive:focus-visible {
 }
 
 .carte-popup {
-  background: linear-gradient(160deg, rgba(20,16,9,0.96) 0%, rgba(14,12,9,0.96) 100%);
+  background: linear-gradient(160deg, rgba(20, 16, 9, 0.96) 0%, rgba(14, 12, 9, 0.96) 100%);
   border: 1px solid var(--border);
   padding: 1.5rem;
   max-width: 360px;
@@ -273,22 +277,18 @@ path.leaflet-interactive:focus-visible {
   padding: 2rem 1.5rem 4rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(200, 151, 58, 0.3) transparent;
-mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 0.5rem,
-    black 2.5rem,
-    black calc(100% - 2.5rem),
-    transparent calc(100% - 0.5rem)
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 0.5rem,
-    black 2.5rem,
-    black calc(100% - 2.5rem),
-    transparent calc(100% - 0.5rem)
-  );
+  mask-image: linear-gradient(to bottom,
+      transparent 0,
+      transparent 0.5rem,
+      black 2.5rem,
+      black calc(100% - 2.5rem),
+      transparent calc(100% - 0.5rem));
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0,
+      transparent 0.5rem,
+      black 2.5rem,
+      black calc(100% - 2.5rem),
+      transparent calc(100% - 0.5rem));
 }
 
 .carte-panneau-close {
@@ -477,6 +477,23 @@ mask-image: linear-gradient(
   padding-left: 0.75rem;
 }
 
+.panneau-note--mj {
+  border-left-color: var(--rust);
+  background: rgba(139, 58, 42, 0.06);
+  padding: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.panneau-note-mj-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.5rem;
+}
+
 /* ─── Barre de contrôles (sous carte-wrap) ──────────────────── */
 .carte-barre {
   position: relative;
@@ -511,7 +528,7 @@ mask-image: linear-gradient(
   width: 28px;
   height: 28px;
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--mist);
   cursor: pointer;
   display: flex;
@@ -539,18 +556,51 @@ mask-image: linear-gradient(
 }
 
 /* Couleurs de fond distinctives par mode */
-.carte-overlay-btn--geo.active         { background: var(--sea-light); }
-.carte-overlay-btn--densite.active     { background: #4a8c5c; }
-.carte-overlay-btn--esclavage.active      { background: var(--rust); }
-.carte-overlay-btn--autochtones.active { background: #a05c38; }
-.carte-overlay-btn--masque.active      { background: var(--parchment2); }
+.carte-overlay-btn--geo.active {
+  background: var(--sea-light);
+}
+
+.carte-overlay-btn--densite.active {
+  background: #4a8c5c;
+}
+
+.carte-overlay-btn--esclavage.active {
+  background: var(--rust);
+}
+
+.carte-overlay-btn--autochtones.active {
+  background: #a05c38;
+}
+
+.carte-overlay-btn--masque.active {
+  background: var(--parchment2);
+}
 
 /* Hover coloré même sans .active */
-.carte-overlay-btn--geo:hover:not(.disabled)         { border-color: var(--sea-light); color: var(--sea-light); }
-.carte-overlay-btn--densite:hover:not(.disabled)     { border-color: #4a8c5c; color: #4a8c5c; }
-.carte-overlay-btn--esclavage:hover:not(.disabled)      { border-color: var(--rust); color: var(--rust); }
-.carte-overlay-btn--autochtones:hover:not(.disabled) { border-color: #a05c38; color: #a05c38; }
-.carte-overlay-btn--masque:hover:not(.disabled)      { border-color: var(--parchment2); color: var(--parchment2); }
+.carte-overlay-btn--geo:hover:not(.disabled) {
+  border-color: var(--sea-light);
+  color: var(--sea-light);
+}
+
+.carte-overlay-btn--densite:hover:not(.disabled) {
+  border-color: #4a8c5c;
+  color: #4a8c5c;
+}
+
+.carte-overlay-btn--esclavage:hover:not(.disabled) {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+.carte-overlay-btn--autochtones:hover:not(.disabled) {
+  border-color: #a05c38;
+  color: #a05c38;
+}
+
+.carte-overlay-btn--masque:hover:not(.disabled) {
+  border-color: var(--parchment2);
+  color: var(--parchment2);
+}
 
 /* ─── Intitulé du mode actif ─────────────────────────────────── */
 .carte-overlay-info {
@@ -631,7 +681,9 @@ mask-image: linear-gradient(
   transition: color 0.2s;
 }
 
-.carte-credit a:hover { color: var(--gold); }
+.carte-credit a:hover {
+  color: var(--gold);
+}
 
 /* ─── Légende géopolitique rétractable ───────────────────────── */
 .carte-legende {
@@ -659,12 +711,11 @@ mask-image: linear-gradient(
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
-  justify-content: space-between;  /* ← ajouter */
-  width: 100%;                     /* ← ajouter */
+  justify-content: space-between;
+  width: 100%;
 }
 
 .carte-puissance-check {
-  /* width: 125px; */
   justify-content: flex-start;
   display: flex;
   align-items: center;
@@ -675,7 +726,6 @@ mask-image: linear-gradient(
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mist-light);
-  transition: color 0.2s;
   user-select: none;
   padding: 0.2rem 0.5rem 0.2rem 0.35rem;
   border: 1px solid transparent;
@@ -711,21 +761,19 @@ mask-image: linear-gradient(
   white-space: nowrap;
 }
 
-/* ─── Suppression de l'ancien curseur et du bouton options ──── */
-.carte-curseur       { display: none; }
-.carte-options-btn   { display: none; }
-.carte-options-panneau { display: none; }
-
 /* ─── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 900px) {
+
   .carte-panneau,
   .carte-panneau--open {
     display: none;
   }
+
   .carte-barre {
     flex-wrap: wrap;
     gap: 0.5rem;
   }
+
   .carte-credit {
     width: 100%;
     text-align: left;

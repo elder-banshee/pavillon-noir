@@ -26,42 +26,42 @@ const PUISSANCES = {
     "anarchie-pirate": {
         label: 'Anarchie Pirate',
         labelCourt: 'Anarchie Pirate',
-        couleur: '#5c5950',          // ink
+        couleur: '#5c5950',
         blason: 'pnj/pavillons/generic_red.svg',
         ordre: 1,
     },
     pirate: {
         label: 'République Pirate',
         labelCourt: 'République Pirate',
-        couleur: '#000000',          // ink
+        couleur: '#000000',
         blason: 'pnj/pavillons/nassau.svg',
         ordre: 1,
     },
     espagnole: {
         label: 'Couronne d\'Espagne',
         labelCourt: 'Espagne',
-        couleur: '#dfc534',          // rust
+        couleur: '#dfc534',
         blason: 'pnj/pavillons/es.svg',
         ordre: 2,
     },
     britannique: {
         label: 'Couronne britannique',
         labelCourt: 'Grande-Bretagne',
-        couleur: '#d13a1c',          // or — dans la palette du site
+        couleur: '#d13a1c',
         blason: 'pnj/pavillons/gb.svg',
         ordre: 3,
     },
     francaise: {
         label: 'Royaume de France',
         labelCourt: 'France',
-        couleur: '#2b6f91',          // sea
+        couleur: '#2b6f91',
         blason: 'pnj/pavillons/fr_banniere.svg',
         ordre: 4,
     },
     hollandaise: {
         label: 'Provinces-Unies',
         labelCourt: 'Provinces-Unies',
-        couleur: '#b36221',          // sea-light
+        couleur: '#b36221',
         blason: 'pnj/pavillons/nl.svg',
         ordre: 5,
     },
@@ -75,7 +75,7 @@ const PUISSANCES = {
     amerindienne: {
         label: 'Nations amérindiennes',
         labelCourt: 'Miskito',
-        couleur: '#8b5e2a',             // ocre terracotta — distinct de toutes les puissances coloniales
+        couleur: '#8b5e2a',
         blason: 'pnj/pavillons/amerindien.svg',
         ordre: 7,
         // Symbole commun à toutes les nations amérindiennes représentées sur la carte.
@@ -87,7 +87,7 @@ const PUISSANCES = {
     conteste: {
         label: 'Territoire contesté',
         labelCourt: 'Contesté',
-        couleur: '#575757',          // mist
+        couleur: '#575757',
         blason: 'pnj/pavillons/crossed_sabers.svg',
         ordre: 8,
     },
@@ -3294,7 +3294,7 @@ En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les obj
 
         puissance: {
             1712: 'conteste',
-            1733: 'danoise',
+            /*          1733: 'danoise',*/
         },
 
         gouverneur: {
@@ -3303,31 +3303,32 @@ En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les obj
                 pnj_id: null,
                 titre: 'Aucun gouverneur — île déserte',
             },
-            1733: {
-                nom: 'Frederik Moth',
-                pnj_id: null,
-                titre: 'Gouverneur de Sainte-Croix pour le Danemark',
-            },
+            /*            1733: {
+                            nom: 'Frederik Moth',
+                            pnj_id: null,
+                            titre: 'Gouverneur de Sainte-Croix pour le Danemark',
+                        },
+            */
         },
 
         contexte: [
             // ── L'île fantôme ─────────────────────────────────────
             {
-                de: 1712, a: 1733,
+                de: 1712, /* a: 1733, */
                 texte: `Sainte-Croix est une île fantôme. Ancienne colonie française évacuée en 1696 sur ordre de Louis XIV — trop exposée, trop coûteuse à défendre pendant la guerre de la Ligue d'Augsbourg. Ses plantations, ses forts et ses maisons sont retournés à la végétation tropicale. L'île appartient formellement à la France — aucun traité ne l'a cédée — mais personne n'y réside en permanence. Des navires s'y arrêtent pour faire de l'eau douce, des naufragés y trouvent refuge, et des pirates y ont établi des camps éphémères. L'Angleterre, le Brandebourg et le Danemark ont tous montré de l'intérêt sans jamais agir — l'île reste un vide juridique et humain.`,
             },
 
             // ── La vente au Danemark ──────────────────────────────
-            {
-                de: 1733,
-                texte: `<strong>La vente au Danemark (1733) :</strong><br>
-La France cède finalement Sainte-Croix au Danemark pour 750 000 livres. Le gouverneur Frederik Moth fonde Christiansted et lance une colonisation intensive. Sainte-Croix deviendra la colonie danoise la plus productive des Caraïbes — transformation spectaculaire d'une île trente-sept ans à l'abandon.`,
-            },
+            /*            {
+                            de: 1733,
+                            texte: `<strong>La vente au Danemark (1733) :</strong><br>
+            La France cède finalement Sainte-Croix au Danemark pour 750 000 livres. Le gouverneur Frederik Moth fonde Christiansted et lance une colonisation intensive. Sainte-Croix deviendra la colonie danoise la plus productive des Caraïbes — transformation spectaculaire d'une île trente-sept ans à l'abandon.`,
+                        },*/
         ],
 
         zone: [],
-        capitale: `[Aucune — île déserte jusqu'en 1733]`,
-        population_approx: `Zéro résidents permanents (1712–1733)`,
+        capitale: `[Aucune<!-- — île déserte jusqu'en 1733-->]`,
+        population_approx: `Zéro résidents permanents<!-- (1712–1733)-->`,
         economie: `Néant — anciens établissements à l'abandon ; escale occasionnelle`,
 
         /* note: `✅ Abandon 1696, vente au Danemark 1733 : établi (Wikipedia EN Saint Croix, Heritage.vi).
@@ -3689,26 +3690,6 @@ Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée d
     ⚠️ Situation précise en 1712 — aucune source primaire directe sur cette date spécifiquement.
     🎲 Providence est le refuge idéal "hors carte" pour un équipage qui doit disparaître — trop loin de tout pour être cherché, trop bien protégé par son récif pour être trouvé par hasard.`, */
     },
-
-    // ── À COMPLÉTER ──────────────────────────────────────────
-    // Modèle vide pour les juridictions à documenter.
-    // Dupliquer ce bloc et renseigner les champs.
-    /*
-    {
-      id:  '',
-      nom: '',
-      puissance: { 1712: '' },
-      gouverneur: {
-        1712: { nom: '', pnj_id: null, titre: '' },
-      },
-      contexte: { 1712: `` },
-      zone: [],
-      capitale: '',
-      population_approx: '',
-      economie: '',
-      note: null,
-    },
-    */
 ];
 
 // ═══════════════════════════════════════════════════════════

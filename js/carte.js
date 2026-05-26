@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCurseurInline();
   initOverlayBtns();
   majLegende();
+  const closeBtn = document.getElementById('carte-panneau-close');
+  if (closeBtn) closeBtn.addEventListener('click', fermerPanneau);
 });
 
 // ─── Carte Leaflet ───────────────────────────────────────────
@@ -297,16 +299,10 @@ function renderZones() {
 
       // Hover : épaisseur du tracé uniquement (préserve la teinte informative)
       poly.on('mouseover', () => {
-        if (zoneActive !== j.id) {
-          const w = overlayMode === 'densite' ? 2 : 2;
-          poly.setStyle({ weight: w });
-        }
+        if (zoneActive !== j.id) poly.setStyle({ weight: 2 });
       });
       poly.on('mouseout', () => {
-        if (zoneActive !== j.id) {
-          const w = overlayMode === 'densite' ? 0.5 : 0.5;
-          poly.setStyle({ weight: w });
-        }
+        if (zoneActive !== j.id) poly.setStyle({ weight: 0.5 });
       });
 
       poly.bindTooltip(j.nom, {
@@ -718,13 +714,6 @@ function fermerPopup() {
   pinActive = null;
 }
 
-// ─── Panneau latéral info ─────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  const closeBtn = document.getElementById('carte-panneau-close');
-  if (closeBtn) closeBtn.addEventListener('click', fermerPanneau);
-});
-
-
 // ─── Rendu du contexte temporel ──────────────────────────────
 function rendreChamp(valeur, annee) {
   if (!valeur) return '';
@@ -871,13 +860,11 @@ function fermerPanneau() {
   }
 }
 
-
 function majZone(juridictionId) {
   const groupe = layersZones[juridictionId];
   if (!groupe) return;
 
   const j = JURIDICTIONS.find(j => j.id === juridictionId);
-  const puissanceId = j ? resoudre(j.puissance, anneeActive) : null;
   const isActive = zoneActive === juridictionId;
 
   let style;
@@ -888,6 +875,7 @@ function majZone(juridictionId) {
       weight: isActive ? 2 : 0.5,
     };
   } else {
+    const puissanceId = j ? resoudre(j.puissance, anneeActive) : null;
     const masquee = overlayMode === 'geo' && puissancesMasquees.has(puissanceId);
     style = {
       fillOpacity: isActive ? 0.45 : (masquee ? 0.08 : 0.23),
