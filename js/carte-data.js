@@ -245,7 +245,7 @@ En novembre, la population se soulève contre les Lords Proprietors. James Moore
             },
         ],
 
-        /* note: 'Colonie propriétaire jusqu\'en 1719, royale dès 1720. Succession des gouverneurs confirmée par Wikipedia EN, List of colonial governors of South Carolina.', */
+        note_mj: 'Colonie propriétaire jusqu\'en 1719, royale dès 1720. Succession des gouverneurs confirmée par Wikipedia EN, List of colonial governors of South Carolina.',
     },
 
     {
@@ -351,7 +351,7 @@ Benavides est maintenant bien établi et l'homme fort de la Floride. Sa politiqu
 
         economie: 'Situado royal (subvention de Mexico), missions franciscaines, commerce interlope discret avec les Anglais',
 
-        /* note: 'La Floride dépend nominalement de la vice-royauté de Nouvelle-Espagne (Mexico). Dates de gouverneurs confirmées par AGI (SD 843) et TePaske, The Governorship of Spanish Florida, 1700–1763 (Duke UP, 1964).', */
+        note_mj: 'La Floride dépend nominalement de la vice-royauté de Nouvelle-Espagne (Mexico). Dates de gouverneurs confirmées par AGI (SD 843) et TePaske, The Governorship of Spanish Florida, 1700–1763 (Duke UP, 1964).',
     },
 
     {
@@ -454,7 +454,7 @@ La Louisiane française presse les colonies espagnoles à l'ouest et britannique
             { de: 1717, texte: `Fourrures, tabac, spéculation foncière (bulle du Mississippi), subventions de la Compagnie des Indes` },
         ],
 
-        /* note: 'Bienville sert quatre mandats non consécutifs (1702–1713, 1716–17, 1718–1725, 1733–1743). Sources : DCB (Dictionary of Canadian Biography), 64 Parishes (LSU), Britannica.', */
+        note_mj: 'Bienville sert quatre mandats non consécutifs (1702–1713, 1716–17, 1718–1725, 1733–1743). Sources : DCB (Dictionary of Canadian Biography), 64 Parishes (LSU), Britannica.',
     },
 
     {
@@ -530,11 +530,12 @@ En 1719, Valverde mène une expédition vers le nord-est — jusqu'au Colorado a
 
         economie: 'Situado royal, élevage, missions franciscaines, commerce limité avec Mexico via El Camino Real',
 
-        /* note: 'Séquence des gouverneurs confirmée par Wikipedia EN, Atlas of Historic NM Maps (NM Humanities Council) et Infogalactic.', */
+        note_mj: 'Séquence des gouverneurs confirmée par Wikipedia EN, Atlas of Historic NM Maps (NM Humanities Council) et Infogalactic.',
     },
 
     {
         id: 'nueva-galicia',
+        label: 'Nueva Galicia',
         nom: 'Nueva Galicia (Guadalaxara)',
 
         puissance: {
@@ -570,7 +571,7 @@ Loin des côtes et des routes maritimes, la Nueva Galicia est absente des chroni
         population_approx: `~15 000 colons<br>~135 000 Indiens`,
         economie: 'Argent (Zacatecas), élevage, textile (obrajes), missions franciscaines',
 
-        /* note: 'AVERTISSEMENT HISTORIQUE : Le nom précis du Président-Gouverneur de l\'Audiencia de Guadalajara pour la période 1712–1725 n\'a pas pu être établi avec certitude depuis les sources accessibles. Les AGI (Audiencia de Guadalajara, legajos 1–54) constituent la source primaire de référence.', */
+        note_mj: 'AVERTISSEMENT HISTORIQUE : Le nom précis du Président-Gouverneur de l\'Audiencia de Guadalajara pour la période 1712–1725 n\'a pas pu être établi avec certitude depuis les sources accessibles. Les AGI (Audiencia de Guadalajara, legajos 1–54) constituent la source primaire de référence.',
     },
 
 
@@ -686,14 +687,15 @@ Rogers gouverne avec des ressources dérisoires — ses soldats meurent de fièv
             },
         ],
 
-        /* note: `✅ Woodes Rogers débarque le 26 juillet 1718 — documenté.
+        note_mj:  `✅ Woodes Rogers débarque le 26 juillet 1718 — documenté.
     ✅ Thomas Walker fuit à Charleston le 6 août 1716 — Calendar of State Papers.
     ✅ Commission de Walker expirée à la mort de la reine Anne (août 1714) — il agit sans mandat légal depuis cette date.
-    ✅ Hornigold figure tutélaire — aucun titre formel, autorité de fait reconnue par ses pairs.`, */
+    ✅ Hornigold figure tutélaire — aucun titre formel, autorité de fait reconnue par ses pairs.`,
     },
 
     {
         id: 'eleuthera',
+        label: 'Eleuthera',
         nom: 'Eleuthera & Harbour Island',
 
         puissance: {
@@ -770,11 +772,11 @@ Harbour Island est le sas entre Nassau et le monde légal. Des marchands de Bost
         ],
 
         economie: 'Vivres et eau pour Nassau, bois de brésillet (teinture textile), pêche et tortues, construction navale, récupération sur épaves (wrecking).',
-        /* note: `Statuts des données :
+        note_mj:  `Statuts des données :
     ✅ Établi : origine puritaine 1648 ; recensement Rogers 1722 ; rapport Musson 1717 ; batterie Walker à Harbour Island.
     ✅ Personnages attestés : Jonathan Darvill, Daniel Stillwell, Richard Thompson, John Cockram (Calendar of State Papers, B.C. Brooks, Wikipedia).
     🎲 Fiction de campagne : le Conseil de Nassau comme autorité de substitution sur Eleuthera à partir de 1714 — Eleuthera n'est pas formellement gouvernée depuis Nassau, mais dans sa sphère d'influence directe via Hornigold.
-    Sources : Calendar of State Papers Colonial ; B.C. Brooks, Bahamas Shipping Records 1721–1725 ; Colin Woodard, Republic of Pirates (2008).`, */
+    Sources : Calendar of State Papers Colonial ; B.C. Brooks, Bahamas Shipping Records 1721–1725 ; Colin Woodard, Republic of Pirates (2008).`,
     },
 
     // ── BERMUDES ─────────────────────────────
@@ -837,7 +839,7 @@ Le retour de Bennett coïncide avec la grande vague d'amnistie et de répression
         population_approx: '~6 000 habitants (dont ~2 000 esclaves)',
         economie: 'Construction navale (cèdre), course, pêche, sel (Turks Islands)',
 
-        /* note: 'Le titre officiel est Lieutenant-Gouverneur jusqu\'en 1738. Succession confirmée par le site officiel du gouvernement des Bermudes et Wikipedia EN. Bennett 1701–1713 et 1718–1722 : double mandat avéré.', */
+        note_mj: 'Le titre officiel est Lieutenant-Gouverneur jusqu\'en 1738. Succession confirmée par le site officiel du gouvernement des Bermudes et Wikipedia EN. Bennett 1701–1713 et 1718–1722 : double mandat avéré.',
     },
 
 
@@ -933,10 +935,10 @@ Lawes poursuit sa politique de fer. En 1721, Charles Vane, l'un des derniers cap
 
         economie: 'Sucre, rhum, indigo ; commerce interlope avec les colonies espagnoles ; transit du butin pirate (1712–1718)',
 
-        /* note: `✅ Succession des gouverneurs : Feurtado/Cundall, Historic Jamaica ; Wikipedia EN.
+        note_mj:  `✅ Succession des gouverneurs : Feurtado/Cundall, Historic Jamaica ; Wikipedia EN.
     ✅ Complicité Hamilton : Calendar of State Papers Colonial ; Woodard, Republic of Pirates (2008).
     ✅ Affaire Rackham 1720 : Johnson, General History (1724) ; Wikipedia EN (Calico Jack).
-    ✅ Port Royal / Kingston : Dunn, Sugar and Slaves (1972) ; Pawson & Buisseret, Port Royal, Jamaica (1975).`, */
+    ✅ Port Royal / Kingston : Dunn, Sugar and Slaves (1972) ; Pawson & Buisseret, Port Royal, Jamaica (1975).`,
     },
 
     {
@@ -1042,15 +1044,16 @@ Le mandat de Sorel correspond à la période post-Rogers. La Flying Gang est bri
 
         economie: 'Sucre (plaine du Nord, Artibonite), indigo, cacao, café (en développement) ; trafic négrier massif ; commerce interlope avec les colonies anglaises et hollandaises',
 
-        /* note: `✅ Succession des gouverneurs : ANOM, Wikipedia FR/EN, gouverneurs_caraibes.html.
+        note_mj:  `✅ Succession des gouverneurs : ANOM, Wikipedia FR/EN, gouverneurs_caraibes.html.
     ✅ Division du gouvernement des Antilles françaises en 1714 : établi.
     ✅ Châteaumorand : 11 jan. 1717 – 10 juil. 1719. Sorel : 10 juil. 1719 – 6 déc. 1723.
     ⚠️ Population : estimations (Pritchard, Debien) — recensements fragmentaires pour la période.
-    🎲 Cap-Français est le décor de "Satiété engendre Démesure" (janvier 1714, sous Blénac).`, */
+    🎲 Cap-Français est le décor de "Satiété engendre Démesure" (janvier 1714, sous Blénac).`,
     },
 
     {
         id: 'santo-domingo',
+        label: 'Santo Domingo',
         nom: 'Santo Domingo (Hispaniola espagnole)',
 
         puissance: {
@@ -1117,7 +1120,7 @@ Son gouvernorat long et relativement stable couvre toute la période de la pirat
 
         economie: 'Élevage extensif (bovins, porcs — principale richesse), contrebande avec Saint-Domingue, quelques cultures vivrières',
 
-        /* note: `Le gouverneur de 1712 (avant Pedro de Niela) n'a pas été identifié avec certitude. Sources : Geni (Gobiernos Coloniales de la Isla Española), archives dominicaines. Fiabilité modérée.`, */
+        note_mj: `Le gouverneur de 1712 (avant Pedro de Niela) n'a pas été identifié avec certitude. Sources : Geni (Gobiernos Coloniales de la Isla Española), archives dominicaines. Fiabilité modérée.`,
     },
 
     {
@@ -1234,14 +1237,14 @@ Entre 1718 et 1720, plusieurs ouragans dévastent l'agriculture de l'île. Enrí
 
         economie: 'Situado royal, course et prises (réseau Enríquez), contrebande (navires anglais et hollandais via Vieques et côtes nord), gingembre, cuir, tabac, élevage',
 
-        /* note: `✅ Succession des gouverneurs : EnciclopediaPR, Academic Kids, Geni.
+        note_mj:  `✅ Succession des gouverneurs : EnciclopediaPR, Academic Kids, Geni.
     ✅ Arrivée de Ribera le 23 décembre 1713 (Wikipedia EN, article Miguel Enríquez).
     ✅ Prise de fonctions de Bortodano le 30 août 1716 (EnciclopediaPR).
     ✅ Enríquez — Medalla de oro (1713), flotte de 30 navires, fortune, réseau commercial (Wikipedia EN).
     ✅ Danío Granados condamné sur 46 chefs d'accusation par Mendizábal (EnciclopediaPR).
     ⚠️ "Bortodano" vs "Bertodano" : orthographe instable selon les sources. À trancher sur source primaire (AGI).
     🎲 Enríquez est narrativement inépuisable : mulâtre, fils d'esclave, corsaire anobli, homme le plus riche des Caraïbes. Tout navire croisant entre Porto Rico, Saint-Domingue et les Petites Antilles peut le rencontrer.
-    🎲 Vieques : vide administratif réel, mouillage discret utilisable.`, */
+    🎲 Vieques : vide administratif réel, mouillage discret utilisable.`,
     },
 
     {
@@ -1350,15 +1353,15 @@ Il prend le gouvernorat en juin 1718, dans le sillage de la répression anti-pir
             },
         ],
 
-        /* note: `✅ Torres y Ayala double mandat confirmé, interruption par enquête de l'Audiencia documentée.
+        note_mj:  `✅ Torres y Ayala double mandat confirmé, interruption par enquête de l'Audiencia documentée.
     ✅ Séquence complète : Wikipedia EN (List of colonial governors of Cuba).
     ✅ Révolte des vegueros 1717 : établie, Wikipedia EN (Vegueros Revolt).
-    ✅ Dates de Raja : 26 mai 1716 au 23 août 1717 — cohérentes entre sources.`, */
+    ✅ Dates de Raja : 26 mai 1716 au 23 août 1717 — cohérentes entre sources.`,
     },
 
     {
         id: 'bahamas-archipel',
-        nom: 'Bahamas — Archipel (îles secondaires)',
+        nom: 'Bahamas',
 
         puissance: {
             1712: 'conteste',
@@ -1420,13 +1423,14 @@ L'arrivée de Woodes Rogers étend en principe l'autorité britannique sur tout 
 
         economie: 'Sel (Turks Islands), pêche à la tortue et aux éponges, récupération sur épaves (wrecking), bois de chauffe',
 
-        /* note: `✅ Exploitation saisonnière du sel des Turks Islands par les Bermudiens : documentée.
+        note_mj:  `✅ Exploitation saisonnière du sel des Turks Islands par les Bermudiens : documentée.
     ✅ Woodes Rogers, débarque à Nassau le 26 juillet 1718 ; George Phenney lui succède en 1721.
-    ⚠️ Population précise des îles secondaires : aucun recensement avant celui de Rogers en 1722.`, */
+    ⚠️ Population précise des îles secondaires : aucun recensement avant celui de Rogers en 1722.`,
     },
 
     {
         id: 'panuco',
+        label: 'Pánuco',
         nom: 'Pánuco y Tampico',
 
         puissance: {
@@ -1474,9 +1478,9 @@ En 1718, Castañeda reçoit du vice-roi la licence de mener une expédition vers
         population_approx: `~50 000 habitants<br>(dont ~45 000 indiens dans la Huasteca)`,
         economie: 'Élevage, coton, missions franciscaines, pêche (Tampico), commerce interlope discret',
 
-        /* note: `✅ Castañeda 1718 et licence d'expédition : Herrera Casasús, UAT, 1988.
+        note_mj:  `✅ Castañeda 1718 et licence d'expédition : Herrera Casasús, UAT, 1988.
     ✅ Saccage de Tampico par les pirates en 1684 : sources locales concordantes.
-    ⚠️ Alcalde mayor 1712–1718 : non identifié dans les sources accessibles.`, */
+    ⚠️ Alcalde mayor 1712–1718 : non identifié dans les sources accessibles.`,
     },
 
     {
@@ -1540,7 +1544,7 @@ Né à Lima, il inaugure une ère de stabilité et de réformes administratives.
         population_approx: `~1 520 000 habitants<br>(dont ~1 000 000 indigènes, ~400 000 métis et ~120 000 colons blancs)`,
         economie: 'Argent (Zacatecas, Guanajuato), commerce avec Manille (Galion), agriculture, élevage',
 
-        /* note: `Dates vice-rois : Linares 15 jan. 1711 – 15 août 1716 ; Valero 16 août 1716 – 14 oct. 1722 ; Casafuerte 15 oct. 1722 – 17 mars 1734. Sources : Wikipedia EN, INAH.`, */
+        note_mj: `Dates vice-rois : Linares 15 jan. 1711 – 15 août 1716 ; Valero 16 août 1716 – 14 oct. 1722 ; Casafuerte 15 oct. 1722 – 17 mars 1734. Sources : Wikipedia EN, INAH.`,
     },
 
     {
@@ -1597,11 +1601,12 @@ En 1716, le vice-roi Valero envoie une expédition depuis Veracruz pour chasser 
         population_approx: `~250 000 habitants<br>(dont ~225 000 Mayas)`,
         economie: 'Indigo, bétail, sel, bois de Campêche (logwood), contrebande avec les Anglais',
 
-        /* note: `Capitainerie générale distincte de la Nouvelle-Espagne depuis 1617. Séquence des gouverneurs : Wikipedia EN (Governor of Yucatán). Note : Alonso de Meneses appartient à la même famille que Francisco de Meneses, président de l'Audiencia de Santafé destitué par ses propres oidores en 1715 — coïncidence notable dans les réseaux coloniaux.`, */
+        note_mj: `Capitainerie générale distincte de la Nouvelle-Espagne depuis 1617. Séquence des gouverneurs : Wikipedia EN (Governor of Yucatán). Note : Alonso de Meneses appartient à la même famille que Francisco de Meneses, président de l'Audiencia de Santafé destitué par ses propres oidores en 1715 — coïncidence notable dans les réseaux coloniaux.`,
     },
 
     {
         id: 'cayes-belize',
+        label: 'Lamanay',
         nom: 'Lamanay & cayes du golfe du Honduras',
 
         puissance: {
@@ -1667,9 +1672,9 @@ L'Espagne proteste régulièrement contre la présence anglaise dans ces eaux, m
         population_approx: 'Quelques équipages saisonniers de bûcherons et de pêcheurs ; passage de navires pirates et marchands',
         economie: 'Bois de campêche (logwood), eau douce (ressource stratégique), pêche, mouillage de refuge',
 
-        /* note: `✅ Barbe-Noire à Turneffe, 4–5 avril 1718 — capture du sloop Adventure de David Herriot (sources concordantes).
+        note_mj:  `✅ Barbe-Noire à Turneffe, 4–5 avril 1718 — capture du sloop Adventure de David Herriot (sources concordantes).
     ✅ Bacalar / Salamanca : fort inachevé avant 1729 (Wikipedia EN, Bacalar).
-    ⚠️ Toponymes Jaillot : Lamanay → Turneffe (très probable) ; Zaratan → Lighthouse Reef (probable) ; Ilbob, Quita Zuno → non identifiés avec certitude.`, */
+    ⚠️ Toponymes Jaillot : Lamanay → Turneffe (très probable) ; Zaratan → Lighthouse Reef (probable) ; Ilbob, Quita Zuno → non identifiés avec certitude.`,
     },
 
     {
@@ -1719,11 +1724,12 @@ Les Indiens Misquitos, alliés aux Anglais de Jamaïque, razzient les missions e
         population_approx: `~36 500 habitants (dont ~30 000 Indiens)`,
         economie: 'Élevage, mines d\'argent en déclin, indigo, contrebande avec les Anglais',
 
-        /* note: `Séquence confirmée par Wikipedia EN (List of governors of Spanish Honduras). Lacune entre Salinas Varona (1709) et Longman (1712) : gouverneur intermédiaire non identifié.`, */
+        note_mj: `Séquence confirmée par Wikipedia EN (List of governors of Spanish Honduras). Lacune entre Salinas Varona (1709) et Longman (1712) : gouverneur intermédiaire non identifié.`,
     },
 
     {
         id: 'cote-miskito',
+        label: 'Côte Miskito',
         nom: 'Côte Miskito (Mosquito Coast)',
 
         puissance: {
@@ -1778,12 +1784,12 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
         population_approx: `~15 000 Miskitos, Zambos et Tawiras dispersés sur l'ensemble du territoire. Présence anglaise sporadique — aucun établissement permanent avant 1732 (Black River).`,
         economie: 'Commerce avec la Jamaïque (fusils et outils contre bois, tortues, esclaves captifs), raids sur les établissements espagnols, pêche côtière',
 
-        /* note: `✅ Protectorat informel britannique depuis les années 1630–1640 ; investiture du roi à Spanish Town documentée.
+        note_mj:  `✅ Protectorat informel britannique depuis les années 1630–1640 ; investiture du roi à Spanish Town documentée.
     ✅ Cap Gracias a Dios : siège du roi Miskito — sources concordantes.
     ✅ Nueva Segovia saccagée en 1701, 1709 et 1711 (Info-Nicaragua.com, sources concordantes).
     ✅ Distinction Zambos / Tawiras : Wikipedia EN (Miskito people), Conzemius 1932.
     ⚠️ Nom du roi en 1712 : non identifié. Jeremy I est documenté dans les années 1720.
-    🎲 Un PJ pêcheur Miskito vient de ce monde — pragmatique, maritime, armé, habitué aux Anglais et méfiant des Espagnols.`, */
+    🎲 Un PJ pêcheur Miskito vient de ce monde — pragmatique, maritime, armé, habitué aux Anglais et méfiant des Espagnols.`,
     },
 
     {
@@ -1820,12 +1826,12 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
         population_approx: `~39 000 habitants (dont ~35 000 Indiens)`,
         economie: 'Élevage, cacao, indigo, contrebande anglaise via la Mosquitia',
 
-        /* note: `Gouverneur 1712–1720 non identifié. Arancibia (1720–1722) confirmé par Wikipedia EN. Sources primaires : AGI (Audiencia de Guatemala).`, */
+        note_mj: `Gouverneur 1712–1720 non identifié. Arancibia (1720–1722) confirmé par Wikipedia EN. Sources primaires : AGI (Audiencia de Guatemala).`,
     },
 
     {
         id: 'guatemala',
-        nom: 'Guatemala (Royaume de Guatemala)',
+        nom: 'Guatemala',
 
         puissance: {
             1712: 'espagnole',
@@ -1865,7 +1871,7 @@ Il prend les rênes dans un contexte de tensions accrues : les Anglais étendent
         population_approx: `~790 000 habitants (dont ~750 000 Indiens)`,
         economie: 'Indigo (añil), cacao, cochenille, bétail, missions dominicaines et franciscaines',
 
-        /* note: `Le Chiapas relève de l'Audience de Guatemala, non de Mexico. Soconusco relève de l'Audience de Mexico (exception). Séquence confirmée : Wikipedia ES (Anexo:Gobernantes de la Capitanía General de Guatemala).`, */
+        note_mj: `Le Chiapas relève de l'Audience de Guatemala, non de Mexico. Soconusco relève de l'Audience de Mexico (exception). Séquence confirmée : Wikipedia ES (Anexo:Gobernantes de la Capitanía General de Guatemala).`,
     },
 
     {
@@ -1905,11 +1911,12 @@ Granda y Balbín vient de réprimer la grande révolte de Pablo Presbere (1709) 
         population_approx: `~11 500 habitants<br>(dont ~8 000 Indiens)`,
         economie: 'Cacao (côte atlantique), élevage, agriculture de subsistance',
 
-        /* note: `Gouverneur confirmé en 1710 (Wikipedia EN, article Pablo Presbere). Mandat au-delà de 1712 non documenté avec certitude depuis les sources accessibles. AGI (Audiencia de Guatemala) : source primaire.`, */
+        note_mj: `Gouverneur confirmé en 1710 (Wikipedia EN, article Pablo Presbere). Mandat au-delà de 1712 non documenté avec certitude depuis les sources accessibles. AGI (Audiencia de Guatemala) : source primaire.`,
     },
 
     {
         id: 'panama',
+        label: 'Panama',
         nom: 'Panama (Tierra Firme)',
 
         puissance: {
@@ -1984,13 +1991,13 @@ La guerre (1718–1720) fait de Portobelo une cible potentielle pour les forces 
             },
         ],
 
-        /* note: `Panama relève du vice-roi du Pérou (Lima), pas de Mexico — distinction essentielle.
+        note_mj:  `Panama relève du vice-roi du Pérou (Lima), pas de Mexico — distinction essentielle.
     ✅ Séquence des gouverneurs : Wikipedia EN (Royal Governor of Panama).
     ✅ Foires de Portobelo : actives jusqu'en 1737 sur toute notre période.
     ✅ Saccage de Panama City par Morgan en 1671 : établi.
     ⚠️ Veragua : province nominalement distincte, administrée en pratique depuis Panama City — gouverneur propre rare, souvent lieutenance. Population ~3 000 : estimation très approximative faute de recensement.
     ⚠️ Suspension précise des foires pendant la guerre de la Quadruple-Alliance : vraisemblable mais à confirmer sur source primaire.
-    🎲 Le Darién oriental est traité dans le bloc 'darien' — la frontière entre les deux juridictions est purement théorique.`, */
+    🎲 Le Darién oriental est traité dans le bloc 'darien' — la frontière entre les deux juridictions est purement théorique.`,
 
     },
 
@@ -2040,17 +2047,18 @@ La carte Jaillot porte encore les noms <em>Nouvelle Calédonie</em> et <em>New E
 
         economie: 'Pêche côtière et navigation en archipel, agriculture vivrière (maïs, manioc, plantain), commerce de guides et d\'informations avec les pirates anglais, troc d\'armes',
 
-        /* note: `✅ Expédition écossaise du Darién 1698–1700, lien avec l'Acte d'Union 1707 (Wikipedia EN, Darien scheme ; Prebble, The Darien Disaster, 1968).
+        note_mj:  `✅ Expédition écossaise du Darién 1698–1700, lien avec l'Acte d'Union 1707 (Wikipedia EN, Darien scheme ; Prebble, The Darien Disaster, 1968).
     ✅ Toponymie Jaillot anachronique : carte de 1708, lieux abandonnés depuis 1700.
     ✅ Résistance kuna documentée — Howe, A People Who Would Not Kneel (1998, Smithsonian).
     ✅ Organisation en communautés à sayla — Howe (1998) ; Sherzer, Kuna Ways of Speaking (1983).
     ⚠️ Relations Kunas / pirates anglais pour 1712 : inférées de la géographie et de la fréquentation documentée au XVIIe siècle — pas de source primaire directe pour 1712–1720.
     ⚠️ Population kuna : aucun recensement fiable. "Quelques dizaines de milliers" est une estimation prudente.
-    🎲 Le Darién est à la croisée de la mémoire écossaise, de la résistance amérindienne active, et des routes de l'argent péruvien. Un navire cherchant un passage discret entre les deux océans, ou des informations sur les galions de Portobelo, a une raison de venir ici.`, */
+    🎲 Le Darién est à la croisée de la mémoire écossaise, de la résistance amérindienne active, et des routes de l'argent péruvien. Un navire cherchant un passage discret entre les deux océans, ou des informations sur les galions de Portobelo, a une raison de venir ici.`,
     },
 
     {
         id: 'nouvelle-grenade',
+        label: 'Nouvelle-Grenade',
         nom: 'Nouvelle-Grenade & Castilla del Oro',
 
         puissance: {
@@ -2113,14 +2121,15 @@ La réponse de Madrid est radicale : par la Real Cédula du 27 mars 1717, Philip
         population_approx: `~390 000 habitants<br>(dont ~15 000 esclaves et ~350 000 Indiens)`,
         economie: 'Or (Antioquia, Choco), émeraudes (Muzo), platine, indigo, cacao, commerce avec Carthagène',
 
-        /* note: `✅ "Castilla del Oro" : désignation cartographique ancienne pour la côte caraïbe — provinces de Carthagène et Santa Marta, gouverneurs militaires distincts mais subordonnés à Santafé.
+        note_mj:  `✅ "Castilla del Oro" : désignation cartographique ancienne pour la côte caraïbe — provinces de Carthagène et Santa Marta, gouverneurs militaires distincts mais subordonnés à Santafé.
     ✅ Vice-royauté créée par Real Cédula du 27 mars 1717 — établi (Wikipedia ES, BiblioFEP, Universidad de Bergen).
     ✅ Renversement de Meneses par les oidores en 1715 : cause directe de la réforme — documenté.
-    ✅ Vice-royauté supprimée en 1723, rétablie en 1739 — établi.`, */
+    ✅ Vice-royauté supprimée en 1723, rétablie en 1739 — établi.`,
     },
 
     {
         id: 'cartagena',
+        label: 'Carthagène',
         nom: 'Carthagène de Indias',
 
         puissance: {
@@ -2168,14 +2177,15 @@ La paix revenue, la South Sea Company reprend ses droits. Les agents anglais ré
         population_approx: `~20 000 habitants (dont une forte proportion d'esclaves africains et d'affranchis)`,
         economie: 'Transit de l\'or et des émeraudes, commerce d\'esclaves (Asiento), import de manufactures européennes, contrebande',
 
-        /* note: `Carthagène est une alcaldía mayor et place militaire distincte de la Présidence de Santafé, avec son propre gouverneur militaire. Le gouverneur civil de la Nouvelle-Grenade (Santafé) n'a pas autorité directe sur la garnison de Carthagène.
+        note_mj:  `Carthagène est une alcaldía mayor et place militaire distincte de la Présidence de Santafé, avec son propre gouverneur militaire. Le gouverneur civil de la Nouvelle-Grenade (Santafé) n'a pas autorité directe sur la garnison de Carthagène.
     ⚠️ Gouverneur militaire 1712 : non identifié depuis les sources accessibles. AGI (Audiencia de Santa Fe, legajos 450 et suivants) : source primaire.
     ✅ Sac de Pointis 1697 : établi — dernier grand assaut réussi contre Carthagène avant Vernon en 1741.
-    ✅ Asiento anglais (South Sea Company) depuis Utrecht 1713 : établi.`, */
+    ✅ Asiento anglais (South Sea Company) depuis Utrecht 1713 : établi.`,
     },
 
     {
         id: 'venezuela',
+        label: 'Venezuela',
         nom: 'Venezuela (Province de Caracas)',
 
         puissance: {
@@ -2233,14 +2243,15 @@ Il succède à Bertodano dans un contexte de tensions persistantes entre élites
         population_approx: `~66 000 habitants<br>(dont ~10 000 esclaves africains et ~48 000 Indiens)`,
         economie: 'Cacao (exportation légale et interlope via Curaçao), indigo, bétail, contrebande',
 
-        /* note: `✅ Cañas y Merino — abattage des arbres de Caracas 1713–1714 : documenté (Venciclopedia, BiblioFEP).
+        note_mj:  `✅ Cañas y Merino — abattage des arbres de Caracas 1713–1714 : documenté (Venciclopedia, BiblioFEP).
     ✅ Betancourt y Castro : Wikipedia ES, BiblioFEP.
     ✅ Bertodano : même personnage que gouverneur de Cumaná (1706–1711) et de Porto Rico (1716–1720) — trajectoire confirmée par la Real Academia de la Historia (DBE).
-    ⚠️ Population : estimation composite — aucun recensement précis pour la période.`, */
+    ⚠️ Population : estimation composite — aucun recensement précis pour la période.`,
     },
 
     {
         id: 'tortuga-venezolana',
+        label: 'Isla La Tortuga',
         nom: 'Isla La Tortuga (Tortuga vénézuélienne)',
 
         puissance: {
@@ -2273,14 +2284,15 @@ Chaque année, une flotte saisonnière de petits navires anglo-américains — N
         population_approx: `Nulle en permanence ; plusieurs centaines de marins saisonniers lors des récoltes de sel`,
         economie: 'Sel (exploitation anglaise saisonnière), pêche à la tortue',
 
-        /* note: `✅ Fréquentation anglo-américaine 1638–1781 documentée archéologiquement (Antczak & Antczak, Islands of Salt, 2019).
+        note_mj:  `✅ Fréquentation anglo-américaine 1638–1781 documentée archéologiquement (Antczak & Antczak, Islands of Salt, 2019).
     ✅ Mention "Aux Anglois" sur la carte Jaillot : fréquentation établie, non souveraineté.
     À ne pas confondre avec l'île de la Tortue haïtienne (nord d'Hispaniola).
-    Relève nominalement de la province de Cumaná.`, */
+    Relève nominalement de la province de Cumaná.`,
     },
 
     {
         id: 'marguerita',
+        label: 'Île Marguerita',
         nom: 'Île Marguerita (Provincia de Marguerita)',
 
         puissance: {
@@ -2323,15 +2335,16 @@ L'île de Coche (55 km²) au sud et l'îlot de Cubagua — berceau des pêcherie
         population_approx: `~8 000 habitants<br>(dont ~7 000 Indiens)`,
         economie: 'Élevage (bovins, caprins), pêche côtière, commerce intercolonial légal et interlope',
 
-        /* note: `✅ Population au recensement de 1757 : 10 064 habitants (Vecindario ordonné par le gouverneur Alonso del Río y Castro).
+        note_mj:  `✅ Population au recensement de 1757 : 10 064 habitants (Vecindario ordonné par le gouverneur Alonso del Río y Castro).
     ✅ Fort de Pampatar (Castillo San Carlos de Borromeo) : fortification existante en 1712.
     ✅ Pillages français 1576, 1593, 1677 : établis.
     ✅ Cubagua (Nueva Cádiz) fondée vers 1500, abandonnée vers 1543 : établi.
-    ⚠️ Gouverneur 1712 : non identifié. Source primaire : AGI Santo Domingo, legajos 614 et suivants.`, */
+    ⚠️ Gouverneur 1712 : non identifié. Source primaire : AGI Santo Domingo, legajos 614 et suivants.`,
     },
 
     {
         id: 'nouvelle-andalousie',
+        label: 'Nouvelle-Andalousie',
         nom: 'Nouvelle-Andalousie (Cumaná)',
 
         puissance: {
@@ -2396,8 +2409,8 @@ Il prend le gouvernorat dans un contexte de tensions avec les missions capucines
         population_approx: `~53 000 habitants<br>(dont ~6 000 escclaves et ~40 000 Indiens Caribes, Chaimas, Cumanagotes dans les missions capucines)<br>⤷ Cumaná (~8 000)`,
         economie: 'Cacao, pêche côtière, contrebande (Hollandais du Surinam, Français de Martinique), missions capucines',
 
-        /* note: `Trinidad dépend nominalement de Nueva Andalucía jusqu'en 1731.
-    Séquence des gouverneurs : Cronista de Cumaná (Badaracco Rivero, 2012, archives locales). Fiabilité modérée.`, */
+        note_mj:  `Trinidad dépend nominalement de Nueva Andalucía jusqu'en 1731.
+    Séquence des gouverneurs : Cronista de Cumaná (Badaracco Rivero, 2012, archives locales). Fiabilité modérée.`,
     },
 
     {
@@ -2501,11 +2514,11 @@ Vers 1725–1727, le <em>blast</em> achève de ruiner les plantations de cacao d
             },
         ],
 
-        /* note: `Trinidad dépend nominalement de Nueva Andalucía (Cumaná) jusqu'en 1731, date à laquelle elle devient province distincte.
+        note_mj:  `Trinidad dépend nominalement de Nueva Andalucía (Cumaná) jusqu'en 1731, date à laquelle elle devient province distincte.
     ✅ Dates des gouverneurs : Wikipedia EN/DE, NALIS (National Library of Trinidad and Tobago). Fiabilité modérée.
     ✅ Waraos : peuple des marais de l'Orénoque, présent à Trinidad et dans le delta continental — établi (Wikipedia EN, Warao people).
     ⚠️ Population 1712 : aucun recensement disponible pour cette date. Estimation construite par extrapolation depuis les données du début du XVIIIe et du recensement anglais de 1783.
-    🎲 Un PJ originaire de Trinidad connaît les criques du nord-ouest, les réseaux de contrebande avec la Martinique, et les piroguiers waraos du sud. Il sait que l'autorité espagnole est une fiction pratique — et que les vrais pouvoirs de l'île sont les planteurs créoles, les capucins, et les intermédiaires du commerce interlope.`, */
+    🎲 Un PJ originaire de Trinidad connaît les criques du nord-ouest, les réseaux de contrebande avec la Martinique, et les piroguiers waraos du sud. Il sait que l'autorité espagnole est une fiction pratique — et que les vrais pouvoirs de l'île sont les planteurs créoles, les capucins, et les intermédiaires du commerce interlope.`,
     },
 
     {
@@ -2566,10 +2579,10 @@ Nominalement rattachées à la Nouvelle-Andalousie (Cumaná), les prétentions e
         population_approx: `~3 000 Européens et esclaves (Cayenne)<br>~45 000 habitants (Surinam, dont ~40 000 esclaves)<br>5~10 000 population marron et indienne de l'intérieur`,
         economie: 'Sucre, cacao, café (Surinam) ; bois, missions jésuites (Guyane française) ; prétentions espagnoles sans exploitation effective',
 
-        /* note: `Juridiction composite intentionnelle — la puissance "conteste" reflète l'état réel du territoire.
+        note_mj:  `Juridiction composite intentionnelle — la puissance "conteste" reflète l'état réel du territoire.
     ✅ Surinam hollandais depuis 1667 ; Société du Surinam depuis 1683 : établi.
     ✅ Guerre des Marrons au Surinam : documentée depuis les années 1690, continue jusqu'aux traités de paix de 1760–1762.
-    ⚠️ Gouverneurs précis de Cayenne et de Surinam pour 1712–1725 : disponibles sur demande si nécessaire pour la campagne.`, */
+    ⚠️ Gouverneurs précis de Cayenne et de Surinam pour 1712–1725 : disponibles sur demande si nécessaire pour la campagne.`,
     },
 
     // ── MARTINIQUE ───────────────────────────────────────────
@@ -2660,12 +2673,12 @@ Après la mort de Montigny et la répression de la piraterie par Rogers à Nassa
 
         economie: 'Sucre, rhum, cacao, indigo ; commerce interlope actif avec Curaçao et Barbade',
 
-        /* note: `✅ Gouverneurs : ANOM (source primaire), Wikipedia EN/FR, GHCaraibe.org.
+        note_mj:  `✅ Gouverneurs : ANOM (source primaire), Wikipedia EN/FR, GHCaraibe.org.
     ✅ Distinction Feuquières (gouverneur général des Îles du Vent) / Montigny (gouverneur particulier de la Martinique) : établie.
     ✅ Mort de Montigny par Bartholomew Roberts, octobre 1720 : établie (Wikipedia EN, Johnson General History).
     ✅ Gaoulé du 23 mai 1717 : établi (Wikipedia FR, ANOM).
     ⚠️ Dates précises d'entrée en fonctions de Montigny comme gouverneur particulier : non confirmées par les ANOM pour 1717–1720.
-    🎲 Saint-Pierre est le port d'escale naturel pour tout navire français ou neutre dans les Petites Antilles. Le commerce interlope y est structurel — un capitaine avec une cargaison à écouler discrètement y trouvera preneur.`, */
+    🎲 Saint-Pierre est le port d'escale naturel pour tout navire français ou neutre dans les Petites Antilles. Le commerce interlope y est structurel — un capitaine avec une cargaison à écouler discrètement y trouvera preneur.`,
     },
 
     // ── BARBADE ──────────────────────────────────────────────
@@ -2720,13 +2733,14 @@ Acquitté à Londres en faisant valoir que ses opposants sont des sympathisants 
         population_approx: `~50 000 habitants (dont ~42 000 esclaves)`,
         economie: 'Sucre, rhum, mélasse ; commerce de transit vers les colonies continentales',
 
-        /* note: `✅ Gouverneurs : Wikipedia EN, History of Parliament Online (Lowther entry), Cumbrian Characters.
+        note_mj:  `✅ Gouverneurs : Wikipedia EN, History of Parliament Online (Lowther entry), Cumbrian Characters.
     ✅ Rétention des navires de guerre pour favoriser les pirates : Lincoln, British Pirates and Society (2014).
-    ⚠️ Date exacte de retour de Lowther après réintégration : "vers 1715" — non précisée dans les sources.`, */
+    ⚠️ Date exacte de retour de Lowther après réintégration : "vers 1715" — non précisée dans les sources.`,
     },
 
     {
         id: 'curaçao',
+        label: 'Curaçao',
         nom: 'Curaçao (avec Aruba et Bonaire)',
 
         puissance: {
@@ -2778,11 +2792,11 @@ Jonathan van Beuningen — beau-frère de van Collen — assure l'intérim dans 
         population_approx: `~8 000 habitants<br>(dont ~5 000 à 6 000 esclaves)`,
         economie: 'Commerce interlope, transit négrier (Asiento), entrepôt de redistribution, sel (Bonaire)',
 
-        /* note: `✅ Directeurs WIC : Geni.com, Genealogie Kerckrinck (nikhef.nl), Wikipedia NL.
+        note_mj:  `✅ Directeurs WIC : Geni.com, Genealogie Kerckrinck (nikhef.nl), Wikipedia NL.
     ✅ Occupation française de février 1713 : WorldStatesmen.org.
     ⚠️ Titre "directeur" et non "gouverneur" — usage WIC.
     ⚠️ Dates précises de van Collen : "1710–1715" selon Geni.
-    Population : Postma (1990) ; Klooster (1998).`, */
+    Population : Postma (1990) ; Klooster (1998).`,
     },
 
     // ── DOMINIQUE ────────────────────────────────────────────
@@ -2846,18 +2860,19 @@ En 1727, la France nomme enfin un commandant à la Dominique — reconnaissant t
         population_approx: `~2 000 à 3 000 Kalinago (estimation)<br>quelques dizaines de colons et coupeurs de bois français`,
         economie: 'Bois précieux (acajou, gaïac, gommier) ; troc kalinago (vivres, guides contre outils et rhum) ; refuge informel pour déserteurs et marrons',
 
-        /* note: `✅ Neutralité de jure depuis 1660 : établi.
+        note_mj:  `✅ Neutralité de jure depuis 1660 : établi.
     ✅ Présence française de bûcherons depuis ~1690 : établi.
     ✅ Lien Gaoulé 1717 → migration vers Dominique : établi (Infogalactic, Global Security, Liquisearch).
     ✅ Organisation kalinago (ouboutou / tiioubana) : du Tertre, Histoire générale des Antilles (1667) ; Labat, Nouveau Voyage aux Isles de l'Amérique (1722).
     ✅ Terminologie Kalinago vs Caribes : Sued Badillo, General History of the Caribbean (UNESCO, 1997).
     ⚠️ Population : aucune donnée fiable pour 1712 — estimation basse retenue.
-    ⚠️ Relations kalinago / colons français en 1712 : tensions documentées surtout après 1720.`, */
+    ⚠️ Relations kalinago / colons français en 1712 : tensions documentées surtout après 1720.`,
     },
 
     // ── SAINT-VINCENT ───────────────────────────────────────────
     {
         id: 'saint-vincent',
+        label: 'Saint-Vincent',
         nom: 'Saint-Vincent et Boqueau',
 
         puissance: {
@@ -2907,11 +2922,11 @@ En 1719, des colons français fondent un premier établissement à Barrouallie s
         population_approx: `~4 500 Kalinago Rouges et Garifunas`,
         economie: 'Agriculture vivrière, pêche, troc avec navires européens de passage, baleiniers à Bequia',
 
-        /* note: `✅ Absence de colons permanents avant 1719 : sources concordantes.
+        note_mj:  `✅ Absence de colons permanents avant 1719 : sources concordantes.
     ✅ Premier établissement français à Barrouallie, 1719, avec accord des Kalinago Rouges : établi.
     ✅ Terminologie Garifuna — désignation du peuple lui-même ; "Black Caribs" est l'exonyme anglais.
     Sources : Craton ; González, Sojourners of the Caribbean (1988).
-    🎲 La déportation des Garifunas en 1797 par les Anglais est le dénouement tragique d'une résistance qui commence ici, en 1712 — les PJs qui interagissent avec les Garifunas rencontrent un peuple à l'aube de sa lutte la plus longue.`, */
+    🎲 La déportation des Garifunas en 1797 par les Anglais est le dénouement tragique d'une résistance qui commence ici, en 1712 — les PJs qui interagissent avec les Garifunas rencontrent un peuple à l'aube de sa lutte la plus longue.`,
     },
 
     // ── SAINTE-LUCIE ───────────────────────────────────────────
@@ -2966,12 +2981,12 @@ Un accord franco-britannique déclare formellement Sainte-Lucie île neutre. En 
         population_approx: `~200 colons français<br>~4 000 Kalinago dans l'intérieur montagneux`,
         economie: 'Tabac, coton, sucre naissant, pêche ; commerce informel profitant de l\'absence d\'autorité',
 
-        /* note: `✅ "L'Hélène des Antilles" : surnom attesté dans la littérature coloniale.
+        note_mj:  `✅ "L'Hélène des Antilles" : surnom attesté dans la littérature coloniale.
     ✅ Occupation française depuis 1651 : établi.
     ✅ Revendication anglaise par la charte Carlisle de 1627 : établi.
     ✅ Repoussement des Anglais par les Kalinago en 1605 et 1639 : établi.
     ✅ Accord de neutralité 1723 : établi.
-    🎲 Castries est l'un des meilleurs ports naturels des Petites Antilles — un navire qui veut faire escale discrètement entre la Martinique et la Barbade y trouve eau, bois et silence.`, */
+    🎲 Castries est l'un des meilleurs ports naturels des Petites Antilles — un navire qui veut faire escale discrètement entre la Martinique et la Barbade y trouve eau, bois et silence.`,
     },
 
     // ── GUADELOUPE ───────────────────────────────────────────
@@ -3035,11 +3050,11 @@ Il prend les rênes en mars 1718. Son premier acte notable est d'obtenir l'autor
         population_approx: `~25 000 habitants<br>(dont ~18 000 esclaves)`,
         economie: 'Sucre, cacao, coton, café ; commerce interlope actif avec Saint-Eustache et Curaçao',
 
-        /* note: `✅ La Malmaison : Wikipedia EN, ANOM, Chronologie de Guadeloupe (Wikipedia FR).
+        note_mj:  `✅ La Malmaison : Wikipedia EN, ANOM, Chronologie de Guadeloupe (Wikipedia FR).
     ✅ Intérim des Îles du Vent (oct. 1713 – janv. 1715) : établi.
     ✅ Lagarrigue de Savigny : ANOM (provisions du 20 sept. 1717).
     ✅ Vaultier de Moyencourt : date du 18 mars 1718 confirmée (Wikipedia FR).
-    ⚠️ La Malmaison est parfois "Hemon Coinard de la Malmaison" dans les sources — même personnage.`, */
+    ⚠️ La Malmaison est parfois "Hemon Coinard de la Malmaison" dans les sources — même personnage.`,
     },
 
     // ── GRENADE ──────────────────────────────────────────────
@@ -3098,15 +3113,16 @@ Il prend le gouvernement en 1717 après une transition floue via Feuquières, ra
         population_approx: `~15 000 habitants<br>(dont ~10 000 esclaves)`,
         economie: 'Sucre, cacao, indigo, muscade (naissante) ; commerce interlope avec Trinidad et le Venezuela',
 
-        /* note: `✅ Maupeou, comte de l'Estrange : en poste 1711–1716 (ANOM, GHCaraibe).
+        note_mj:  `✅ Maupeou, comte de l'Estrange : en poste 1711–1716 (ANOM, GHCaraibe).
     ✅ Lépinay : en poste 1717 – 3 janvier 1721 (ANOM).
     ✅ Feuquières passage transitoire 1716 avant nomination aux Îles du Vent : ANOM.
-    🎲 Les Grenadines sont une zone grise utilisable immédiatement — Carriacou pour caréner, Petite Martinique pour des échanges discrets, les îlots sans nom pour disparaître.`, */
+    🎲 Les Grenadines sont une zone grise utilisable immédiatement — Carriacou pour caréner, Petite Martinique pour des échanges discrets, les îlots sans nom pour disparaître.`,
     },
 
     // ── SAINT-CHRISTOPHE (SAINT-KITTS) ───────────────────────
     {
         id: 'saint-christophe',
+        label: 'Saint-Christophe',
         nom: 'Saint-Christophe (Saint-Kitts)',
 
         puissance: {
@@ -3153,16 +3169,17 @@ Le traité d'Utrecht (avril 1713) cède officiellement à la Grande-Bretagne la 
         population_approx: `~20 000 habitants<br>(dont ~15 000 esclaves)`,
         economie: 'Sucre, rhum — île parmi les plus productives des Antilles anglaises',
 
-        /* note: `✅ Partition franco-britannique et cession Utrecht : établi.
+        note_mj:  `✅ Partition franco-britannique et cession Utrecht : établi.
     ✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).
     ✅ Affaire Douglas / extorsion : Wikipedia EN (Walter Douglas), Historic St. Kitts.
     ✅ Assassinat de Parke (déc. 1710) : Calendar of State Papers, Encyclopedia Virginia.
-    ⚠️ Saint-Kitts n'a pas de gouverneur particulier séparé — le gouverneur général des Leeward Islands fait autorité sur l'ensemble.`, */
+    ⚠️ Saint-Kitts n'a pas de gouverneur particulier séparé — le gouverneur général des Leeward Islands fait autorité sur l'ensemble.`,
     },
 
     // ── LEEWARD ISLANDS (HORS SAINT-KITTS) ──────────────────
     {
         id: 'leeward-islands',
+        label: 'Leeward Islands',
         nom: 'Leeward Islands (Antigua, Nevis, Montserrat, Anguilla, Barbuda)',
 
         puissance: {
@@ -3217,18 +3234,19 @@ Anguilla est quasi-abandonnée par les autorités coloniales : plate, aride, san
         population_approx: `~35 000 habitants pour l'ensemble des îles<br>(dont ~28 000 esclaves)`,
         economie: 'Sucre (Antigua, Nevis), sel et pêche (Anguilla) ; base navale royale à English Harbour (Antigua)',
 
-        /* note: `✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).
+        note_mj:  `✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).
     ✅ Affaire Parke (1710) : Calendar of State Papers, Encyclopedia Virginia.
     ✅ Montserrat raids 1710–1712 : War of the Spanish Succession sources.
     ✅ Anguilla abandon 1720 : Calendar of State Papers Colonial (CO.152/13, Hamilton, 14 juin 1720).
     ✅ Barbuda / Codrington depuis 1685 : établi.
     ⚠️ Bloc composite — cinq entités dans un seul id.
-    📌 Note nomenclature : la carte Jaillot utilise "Leeward Isles" pour les îles vénézuéliennes hollandaises (Curaçao, Aruba, Bonaire, Roca, Orchilla, Tortuga), non pour ce groupe britannique. La convention anglaise "Leeward Islands" pour ce groupe est distincte de l'usage cartographique de Jaillot — à signaler dans l'interface si nécessaire.`, */
+    📌 Note nomenclature : la carte Jaillot utilise "Leeward Isles" pour les îles vénézuéliennes hollandaises (Curaçao, Aruba, Bonaire, Roca, Orchilla, Tortuga), non pour ce groupe britannique. La convention anglaise "Leeward Islands" pour ce groupe est distincte de l'usage cartographique de Jaillot — à signaler dans l'interface si nécessaire.`,
     },
 
     // ── SAINT-THOMAS (ET SAINT-JOHN) ─────────────────────────
     {
         id: 'saint-thomas',
+        label: 'Saint-Thomas',
         nom: 'Saint-Thomas (et Saint-John)',
 
         puissance: {
@@ -3282,9 +3300,9 @@ En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les obj
         population_approx: `~3 600 habitants<br>(dont ~3 000 esclaves)<br>Saint-John : non colonisée avant 1718`,
         economie: 'Port franc, commerce interlope de toutes natures, transit négrier, sucre en production secondaire',
 
-        /* note: `✅ Gouverneurs : Wikipedia EN (Mikkel Knudsen Crone, Erik Bredal).
+        note_mj:  `✅ Gouverneurs : Wikipedia EN (Mikkel Knudsen Crone, Erik Bredal).
     ✅ Colonisation Saint-John 1718 et tension avec Hamilton : St. John Historical Society.
-    ✅ Population 1715 : Danish West Indies Wikipedia EN (recensement).`, */
+    ✅ Population 1715 : Danish West Indies Wikipedia EN (recensement).`,
     },
 
     // ── SAINTE-CROIX ─────────────────────────────────────────
@@ -3331,14 +3349,15 @@ En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les obj
         population_approx: `Zéro résidents permanents<!-- (1712–1733)-->`,
         economie: `Néant — anciens établissements à l'abandon ; escale occasionnelle`,
 
-        /* note: `✅ Abandon 1696, vente au Danemark 1733 : établi (Wikipedia EN Saint Croix, Heritage.vi).
+        note_mj:  `✅ Abandon 1696, vente au Danemark 1733 : établi (Wikipedia EN Saint Croix, Heritage.vi).
     ✅ Statut "formellement française" 1696–1733 : confirmé — aucun traité de cession avant 1733.
-    ⚠️ Campements pirates ou visiteurs 1696–1733 : vraisemblable, non sourçable précisément.`, */
+    ⚠️ Campements pirates ou visiteurs 1696–1733 : vraisemblable, non sourçable précisément.`,
     },
 
     // ── ÎLES VIERGES BRITANNIQUES ────────────────────────────
     {
         id: 'iles-vierges-britanniques',
+        label: 'Îles Vierges britanniques',
         nom: 'Îles Vierges britanniques (Tortola, Virgin Gorda, Anegada)',
 
         puissance: {
@@ -3380,15 +3399,16 @@ Les nombreux mouillages abrités, les passes peu profondes que seuls les pilotes
         population_approx: `~1 500 habitants<br>(dont ~1 000 esclaves)`,
         economie: 'Sucre (limité), commerce interlope avec Saint-Thomas danois, wrecking (Anegada)',
 
-        /* note: `⚠️ Pas de gouverneur particulier identifié pour les Îles Vierges britanniques en 1712–1720 — dépendance du gouverneur général des Leeward Islands.
+        note_mj:  `⚠️ Pas de gouverneur particulier identifié pour les Îles Vierges britanniques en 1712–1720 — dépendance du gouverneur général des Leeward Islands.
     ⚠️ Population : estimation très approximative, aucune source directe pour la période.
     ✅ Wrecking à Anegada : documenté dans la tradition locale et les sources maritimes.
-    ✅ Tension Hamilton / Danois 1717 : St. John Historical Society.`, */
+    ✅ Tension Hamilton / Danois 1717 : St. John Historical Society.`,
     },
 
     // ── SAINT-MARTIN ─────────────────────────────────────────
     {
         id: 'saint-martin',
+        label: 'Saint-Martin',
         nom: 'Saint-Martin / Sint Maarten',
 
         puissance: {
@@ -3435,18 +3455,19 @@ Les salines de la Great Bay (côté hollandais) et de la baie d'Orient (côté f
         population_approx: `~3 100 habitants toutes parties confondues<br>(dont ~2 500 esclaves)`,
         economie: 'Sel (salines des deux côtés), sucre, coton ; contrebande inter-parties',
 
-        /* note: `✅ Traité de Concordia 1648 : établi.
+        note_mj:  `✅ Traité de Concordia 1648 : établi.
     ✅ Structure administrative double (nord français sous Îles du Vent / sud hollandais sous commandant de Statia) : établi.
     ✅ Seize changements de mains : établi.
     ✅ Utrecht 1713 stabilise le statu quo : établi.
     ⚠️ Commandants locaux en 1712 : non identifiés.
-    ⚠️ Population : estimation composite approximative.`, */
+    ⚠️ Population : estimation composite approximative.`,
     },
 
 
     // ── SABA ET SAINT-EUSTACHE ───────────────────────────────
     {
         id: 'saba-statia',
+        label: 'Saba et Saint-Eustache',
         nom: 'Saba et Saint-Eustache (Sint Eustatius)',
 
         puissance: {
@@ -3493,10 +3514,10 @@ Voisine de Statia, Saba est une île-volcan quasi inaccessible — des falaises 
         population_approx: `~2 000 habitants (Sint Eustatius) ; ~300 habitants (Saba)<br>(dont ~2 200 esclaves)`,
         economie: 'Commerce interlope et transit (Sint Eustatius) ; pêche, dentelle et contrebande (Saba)',
 
-        /* note: `✅ Structure administrative (commandant unique pour Sint Eustatius, Saba et Sint Maarten depuis 1678) : Wikipedia EN (Governors of Sint Eustatius, Saba and Sint Maarten).
+        note_mj:  `✅ Structure administrative (commandant unique pour Sint Eustatius, Saba et Sint Maarten depuis 1678) : Wikipedia EN (Governors of Sint Eustatius, Saba and Sint Maarten).
     ✅ J. Stalperts 1719–1720 : Wikipedia EN.
     ⚠️ Commandant pour 1712–1719 : non identifié — la liste Wikipedia ne précise pas de nom pour cette période.
-    🎲 Statia est le pendant hollandais de Saint-Thomas danois : un port où l'on peut vendre, acheter et commercer sans trop de questions — mais plus petit, plus discret, plus proche des îles françaises et britanniques du nord des Petites Antilles.`, */
+    🎲 Statia est le pendant hollandais de Saint-Thomas danois : un port où l'on peut vendre, acheter et commercer sans trop de questions — mais plus petit, plus discret, plus proche des îles françaises et britanniques du nord des Petites Antilles.`,
     },
 
     // ── SAINT-BARTHÉLEMY ─────────────────────────────────────
@@ -3543,11 +3564,11 @@ Saint-Barth est une dépendance nominale du gouverneur général des Îles du Ve
         population_approx: `~700 pauvres bretons et normands`,
         economie: 'Pêche, petit élevage, sel, commerce d\'escale informel',
 
-        /* note: `⚠️ Peu de sources pour Saint-Barthélemy 1712 spécifiquement.
+        note_mj:  `⚠️ Peu de sources pour Saint-Barthélemy 1712 spécifiquement.
     ✅ Statut dépendance des Îles du Vent : établi.
     ✅ Population blanche d'origine normande/bretonne : trait documenté dans l'historiographie.
     ✅ Cession à la Suède 1784, port franc Gustavia : établi.
-    ⚠️ Population : estimation.`, */
+    ⚠️ Population : estimation.`,
     },
 
     // ── TOBAGO ───────────────────────────────────────────────
@@ -3587,14 +3608,15 @@ La baie de Courland (côté ouest) et la baie de Man of War (côté est) sont co
         population_approx: `Zéro résidents permanents (1712)`,
         economie: `Néant — mouillage d'opportunité, bois sur pied non exploité`,
 
-        /* note: `✅ Colonisations successives et abandon 1677 : établi (Wikipedia EN History of Tobago, Caribbean Beat).
+        note_mj:  `✅ Colonisations successives et abandon 1677 : établi (Wikipedia EN History of Tobago, Caribbean Beat).
     ✅ Tobago neutre par Aix-la-Chapelle 1748, britannique définitivement après 1763 : établi.
-    ⚠️ Utilisation comme mouillage en 1712 : vraisemblable, non sourçable précisément.`, */
+    ⚠️ Utilisation comme mouillage en 1712 : vraisemblable, non sourçable précisément.`,
     },
 
     // ── ÎLES DE LA BAIE (ROATAN) ─────────────────────────────
     {
         id: 'iles-de-la-baie',
+        label: 'Îles de la Baie',
         nom: 'Îles de la Baie (Roatan, Utila, Guanaja)',
 
         puissance: {
@@ -3626,16 +3648,17 @@ Les Serrana et Serranilla — deux bancs coralliens quasi inhabités au centre d
         population_approx: `Quelques dizaines de bûcherons et flibustiers de passage`,
         economie: 'Bois de campêche (logwood), refuge pirate, eau douce et tortues',
 
-        /* note: `✅ Expulsion anglaise 1650, fréquentation informelle ultérieure : Wikipedia EN (Bay Islands), Britannica.
+        note_mj:  `✅ Expulsion anglaise 1650, fréquentation informelle ultérieure : Wikipedia EN (Bay Islands), Britannica.
     ✅ Port Royal comme mouillage historique : Roatan.day, Coconut Tree Divers.
     ✅ Circulation des Misquitos : établi.
     ⚠️ Situation précise en 1712 : pas de sources primaires directes — inféré de la continuité documentée.
-    'Sources : Marcus (1975), <em>The Evolution of the Caribbean Settlement Patterns</em> ; Olien (1983), <em>The Miskito Kings and the Line of Succession</em>. ✅ Histoire de la colonisation anglaise et expulsion espagnole (1650) : établi (Wikipedia EN Bay Islands Department, Britannica). ✅ Fréquentation informelle par bûcherons anglais de Belize : établi. ✅ Port Royal comme mouillage historique : établi (Roatan.day, Coconut Tree Divers). ⚠️ Situation précise en 1712 : pas de sources primaires directes — "quelques bûcherons et flibustiers de passage" est inféré de la continuité documentée avant et après cette date.`, */
+    'Sources : Marcus (1975), <em>The Evolution of the Caribbean Settlement Patterns</em> ; Olien (1983), <em>The Miskito Kings and the Line of Succession</em>. ✅ Histoire de la colonisation anglaise et expulsion espagnole (1650) : établi (Wikipedia EN Bay Islands Department, Britannica). ✅ Fréquentation informelle par bûcherons anglais de Belize : établi. ✅ Port Royal comme mouillage historique : établi (Roatan.day, Coconut Tree Divers). ⚠️ Situation précise en 1712 : pas de sources primaires directes — "quelques bûcherons et flibustiers de passage" est inféré de la continuité documentée avant et après cette date.`,
     },
 
     // ── PROVIDENCE ─────────────────────────────
     {
         id: 'providence',
+        label: 'Providence',
         nom: 'Providence (Old Providence) & San Andrés',
 
         puissance: {
@@ -3684,11 +3707,11 @@ Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée d
         population_approx: `Aucun résident permanent en 1712 ; passages occasionnels de flibustiers et de navires en transit`,
         economie: `Néant — refuge maritime, eau douce, pêche à la tortue`,
 
-        /* note: `✅ Providence Island Company 1629–1641 : établi (Wikipedia EN, Kris Lane Providence Island).
+        note_mj:  `✅ Providence Island Company 1629–1641 : établi (Wikipedia EN, Kris Lane Providence Island).
     ✅ Reprise espagnole 1641, utilisation par Morgan 1660s, reprise définitive 1670 : établi.
     ✅ Passes du récif connues des initiés : établi (géographie physique).
     ⚠️ Situation précise en 1712 — aucune source primaire directe sur cette date spécifiquement.
-    🎲 Providence est le refuge idéal "hors carte" pour un équipage qui doit disparaître — trop loin de tout pour être cherché, trop bien protégé par son récif pour être trouvé par hasard.`, */
+    🎲 Providence est le refuge idéal "hors carte" pour un équipage qui doit disparaître — trop loin de tout pour être cherché, trop bien protégé par son récif pour être trouvé par hasard.`,
     },
 
     // ── ÎLE DU MAÏS ─────────────────────────────
@@ -3793,7 +3816,7 @@ const CARTE_PINS = [
 // ═══════════════════════════════════════════════════════════
 function resoudre(champ, annee) {
     if (!champ || typeof champ !== 'object') return champ;
-    const anneeEffective = Math.min(annee, CARTE_ANNEE_REFERENCE);
+    const anneeEffective = modeMJ ? annee : Math.min(annee, CARTE_ANNEE_REFERENCE);
     const cles = Object.keys(champ)
         .map(Number)
         .filter(a => a <= anneeEffective)

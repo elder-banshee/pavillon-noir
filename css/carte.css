@@ -685,18 +685,13 @@ path.leaflet-interactive:focus-visible {
   color: var(--gold);
 }
 
-/* ─── Légende géopolitique rétractable ───────────────────────── */
+/* ─── Légende géopolitique ───────────────────────── */
 .carte-legende {
   max-width: 1200px;
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
   overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.3s ease;
-}
-
-.carte-legende--visible {
   max-height: 120px;
   border-top: 1px solid var(--border);
 }

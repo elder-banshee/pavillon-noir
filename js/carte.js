@@ -112,7 +112,8 @@ function confirmerModeMJ() {
       position:absolute; bottom:0.5rem; left:0.5rem; z-index:900;
       pointer-events:none; font-family:'Cinzel',serif; font-size:0.55rem;
       letter-spacing:0.1em; text-transform:uppercase;
-      color:var(--rust); opacity:0.7;
+      color:var(--gold-light); background:rgba(14,12,9,0.75);
+      padding:0.2rem 0.5rem; border:1px solid rgba(139,58,42,0.3);
     `;
     wrap.appendChild(badge);
   }
@@ -295,10 +296,10 @@ function renderZones() {
   const juridictionsTri = [...JURIDICTIONS]
     .filter(j => !j.visible_mj || modeMJ || attenteClic_IleDuMais)
     .sort((a, b) => {
-    const sa = surfaceApprox(ZONES_DATA?.[a.id] ?? (a.zone?.length >= 3 ? [a.zone] : null));
-    const sb = surfaceApprox(ZONES_DATA?.[b.id] ?? (b.zone?.length >= 3 ? [b.zone] : null));
-    return sb - sa;
-  });
+      const sa = surfaceApprox(ZONES_DATA?.[a.id] ?? (a.zone?.length >= 3 ? [a.zone] : null));
+      const sb = surfaceApprox(ZONES_DATA?.[b.id] ?? (b.zone?.length >= 3 ? [b.zone] : null));
+      return sb - sa;
+    });
 
   juridictionsTri.forEach(j => {
     const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
@@ -416,7 +417,7 @@ function renderZones() {
         if (zoneActive !== j.id) poly.setStyle({ weight: 0.5 });
       });
 
-      poly.bindTooltip(j.nom, {
+      poly.bindTooltip(j.label || j.nom, {
         permanent: false,
         direction: 'top',
         className: 'carte-tooltip',
@@ -615,11 +616,11 @@ function majLegende() {
       liste.appendChild(label);
     });
 
-    legende.classList.add('carte-legende--visible');
     legende.setAttribute('aria-hidden', 'false');
     return;
   }
 
+  // ── Mode esclavage ──────────────────────────────────────────
   if (overlayMode === 'esclavage') {
     const labels = [
       '< 10 % de la population',
@@ -668,7 +669,6 @@ function majLegende() {
       liste.appendChild(label);
     });
 
-    legende.classList.add('carte-legende--visible');
     legende.setAttribute('aria-hidden', 'false');
     return;
   }
@@ -701,17 +701,15 @@ function majLegende() {
     note.textContent = 'Zones transparentes : population éteinte ou absente.';
     liste.appendChild(note);
 
-    legende.classList.add('carte-legende--visible');
     legende.setAttribute('aria-hidden', 'false');
     return;
   }
 
-  // ── Autres modes sans légende ─────────────────────────────
-  if (overlayMode !== 'geo') {
-    legende.classList.remove('carte-legende--visible');
-    legende.setAttribute('aria-hidden', 'true');
+  if (overlayMode === 'masque') {
+    liste.innerHTML = `<span style="font-family:'IM Fell English',serif;font-style:italic;font-size:0.85rem;color:var(--mist);">Teâtre de la Guerre en Amerique — Jaillot, Mortier &amp; Sanson, 1708.</span>`;
     return;
   }
+
 
   // ── Mode géopolitique ─────────────────────────────────────
   const puissancesPresentes = new Map();
@@ -764,7 +762,6 @@ function majLegende() {
       liste.appendChild(label);
     });
 
-  legende.classList.add('carte-legende--visible');
   legende.setAttribute('aria-hidden', 'false');
 }
 
