@@ -3690,6 +3690,37 @@ Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée d
     ⚠️ Situation précise en 1712 — aucune source primaire directe sur cette date spécifiquement.
     🎲 Providence est le refuge idéal "hors carte" pour un équipage qui doit disparaître — trop loin de tout pour être cherché, trop bien protégé par son récif pour être trouvé par hasard.`, */
     },
+
+    // ── ÎLE DU MAÏS ─────────────────────────────
+    {
+        id: 'ile-du-mais',
+        nom: 'Île du Maïs',
+
+        puissance: {
+            1712: 'conteste',
+        },
+
+        gouverneur: {
+            1712: {
+                nom: '[Île déserte]',
+                pnj_id: null,
+                titre: 'Vestiges mayas et végétation luxuriante',
+            },
+        },
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `L'île du Maïs, au large de la côte nicaraguayenne, est une île réelle avec une histoire fascinante. Elle a été colonisée par les Mayas avant d'être abandonnée, puis redécouverte par des marins espagnols au XVIe siècle. En 1712, elle est officiellement espagnole mais sans présence permanente — un refuge idéal pour les navires en difficulté ou les équipages cherchant à disparaître. Ses plages isolées, sa végétation dense et ses ruines mayas en font un lieu chargé de mystère et de légendes.`,
+            },
+        ],
+        zone: [],
+        capitale: `[Aucune]`,
+        population_approx: `Aucuns`,
+        economie: 'aucune',
+
+        /* note: `Île du pétroglyphe de Morgan`, */
+    },
 ];
 
 // ═══════════════════════════════════════════════════════════
