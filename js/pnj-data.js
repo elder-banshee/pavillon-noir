@@ -279,7 +279,6 @@ const PNJ_DATA = [
 
   {
     id: "mist",
-    visible: true,
     nom: "Nathaniel Mist",
     accroche: "Journaliste politique<br>Membre de l'équipage du Capitaine Charles Johnson",
     alias: null,
@@ -350,7 +349,6 @@ const PNJ_DATA = [
   },
   {
     id: "graaf-laurens-de",
-    visible: true,
     nom: "Laurens de Graaf",
     accroche: "Flibustier légendaire",
     alias: "Lorencillo, <em>El Griffe</em>, <em>Gesel van de West</em> (« Fléau de l'Ouest »)",
@@ -361,11 +359,10 @@ const PNJ_DATA = [
     tags: ["Caraïbes", "Saint-Domingue", "Légendes de marins"],
     portrait: "pnj/portraits/de_graaf.jpg",
     source: null,
-    bio: `Née au Cap-Français en mai 1694 de Laurens de Graaf et d'Anne Dieu-le-veut. Son père meurt en 1704, laissant une fortune estimée à 190 000 livres : une sucrerie au quartier Morin avec cinq chaudières et plus de 120 esclaves. Sa mère administre activement ce patrimoine jusqu'à sa mort en janvier 1710. Catherine hérite d'une fortune constituée et opérationnelle à 16 ans. A depuis refusé une tutelle, échappé à une lettre de cachet, défié un homme en duel et affranchi tous ses esclaves. Rencontrée lors du banquet de Cap-Français (janvier 1714).`
+    bio: `Hollandais passé sous pavillon français, l'un des capitaines les plus redoutés des Caraïbes au siècle dernier. Sa réputation repose autant sur son artillerie d'exception que sur sa mise — pourpoints de dentelle, orchestre embarqué, manière de convaincre ses adversaires de l'inanité de toute résistance avant le premier coup de canon. A participé aux grands raids de Veracruz (1683), Carthagène (1683) et Campêche (1686). Mort en 1704, laissant une fortune et une fille : Catherine de Graaf, planteuse au Cap-Français.`
   },
   {
     id: "graaf-catherine-de",
-    visible: true,
     nom: "Catherine de Graaf",
     accroche: "Riche planteuse de canne à sucre",
     alias: null,
@@ -692,7 +689,6 @@ const PNJ_DATA = [
   },
    {
     id: "conseil-nassau",
-    visible: true,
     nom: "Conseil de Nassau",
     accroche: "Instance dirigeante de la République Pirate",
     alias: null,

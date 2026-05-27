@@ -451,7 +451,6 @@ function updateCount() {
     [...activeTags].forEach(tag => {
       const chip = document.createElement('span');
       chip.className = 'count-tag-chip';
-      const mobile = window.innerWidth <= 640;
       const label = mobile ? tronquer(tag, 15) : tag;
       if (mobile) {
         chip.textContent = label;

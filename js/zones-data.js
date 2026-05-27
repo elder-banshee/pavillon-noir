@@ -1621,9 +1621,9 @@ const ZONES_DATA = {
     [[2459, 2322], [2453, 2321], [2451, 2326], [2457, 2329], [2460, 2323]]
   ],
 
-    'ile-du-mais': [  // 1 contour(s), ??? pts
-[[3517, 3688], [3519, 3681], [3511, 3678], [3509, 3685], [3514, 3688]]
-    ],
+  'ile-du-mais': [  // 1 contour(s), ??? pts
+    [[3517, 3688], [3519, 3681], [3511, 3678], [3509, 3685], [3514, 3688]]
+  ],
 
 };
 
@@ -1864,9 +1864,9 @@ const ZONES_DEMO = {
     esclaves: 0,
     indiens: 8000,
     indiens_asservis: 1200,
-    population: 0,
+    population: 9000,
     superficie: 6360,
-    score_densite: 0.0,
+    score_densite: 0.567,
     statut_autochtone: 'resistance',
   },
 

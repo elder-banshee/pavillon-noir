@@ -170,26 +170,6 @@
   color: var(--gold-light);
 }
 
-/* Bouton lire — aligné à droite */
-.chrono-lire {
-  flex-shrink: 0;
-  font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid rgba(200,151,58,0.3);
-  padding: 0.4rem 0.8rem;
-  transition: all 0.2s;
-  cursor: pointer;
-  background: none;
-  white-space: nowrap;
-}
-.chrono-lire:hover {
-  background: rgba(200,151,58,0.08);
-  border-color: var(--gold);
-}
-
 /* ─── Rail marin ─────────────────────────────────────────────── */
 .chrono-rail {
   position: fixed;
@@ -326,8 +306,6 @@
   padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--border);
   justify-content: flex-start;
-  /* overflow: hidden; */
-  /* max-width: 100%; */
 }
 
 .chrono-nav-btn {
@@ -696,7 +674,6 @@
     justify-content: center;
     width: 100%;
   }
-  .chrono-lire { align-self: flex-end; }
 
   /* ─── Modal ──────────────────────────────────────────────── */
   .modal-overlay { padding: 0; align-items: flex-start; }
