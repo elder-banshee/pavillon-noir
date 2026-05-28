@@ -168,6 +168,7 @@ function initCarte() {
     maxBoundsViscosity: 1.0,
     attributionControl: false,
     doubleClickZoom: false,
+    zoomAnimationThreshold: 4,
   });
 
   L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
@@ -196,6 +197,7 @@ function initCarte() {
     carte.fitBounds(bounds, { padding: [0, 0] });
     carte.setMinZoom(carte.getZoom());
     carte.setMaxBounds(bounds);
+    majWeightsZones(); // weights initialisés après que getMinZoom() est stable
   }, 100);
 
   window.addEventListener('resize', () => {
@@ -207,6 +209,22 @@ function initCarte() {
   carte.on('resize', () => {
     carte.fitBounds(bounds, { padding: [0, 0] });
     carte.setMinZoom(carte.getZoom());
+  });
+
+  carte.on('zoomstart', () => {
+    // Masquer le contour pendant tout mouvement de zoom
+    if (isolationLayer) isolationLayer.setStyle({ opacity: 0 });
+  });
+
+  carte.on('moveend', () => {
+    majWeightsZones();
+    if (isolationLayer) {
+      // Recalculer le weight, puis réafficher avec un court délai
+      isolationLayer.setStyle({ weight: weightPourZoom(WEIGHTS.isolation, carte.getZoom()) });
+      setTimeout(() => {
+        if (isolationLayer) isolationLayer.setStyle({ opacity: 1 });
+      }, 60);
+    }
   });
 }
 
@@ -286,6 +304,23 @@ function couleurAutochtone(zoneId, annee) {
   const statut = resoudreStatutAutochtone(demo, annee);
   if (!statut) return null;
   return AUTOCHTONES_COULEURS[statut] || null;
+}
+
+// ─── Weights de référence (au dézoom max) ────────────────────
+const WEIGHTS = {
+  zone: 0.5,   // zone normale
+  zoneActive: 2,     // zone sélectionnée
+  isolation: 4,     // contour d'isolation
+};
+const ZOOM_FACTEUR = 1.5; // progression par niveau de zoom
+
+// ─── Weight dynamique selon le zoom ──────────────────────────
+// weight de base défini au zoom minimal de la carte (vue d'ensemble)
+// À chaque niveau de zoom supplémentaire, on réduit d'un facteur
+// pour que le tracé paraisse constant en "largeur géographique".
+function weightPourZoom(weightBase, zoom) {
+  const zoomMin = carte.getMinZoom();  // pas de fallback — appelée après init
+  return Math.max(0.2, weightBase * Math.pow(ZOOM_FACTEUR, zoom - zoomMin));
 }
 
 function renderZones() {
@@ -428,10 +463,10 @@ function renderZones() {
 
       // Hover : épaisseur du tracé uniquement (préserve la teinte informative)
       poly.on('mouseover', () => {
-        if (zoneActive !== j.id) poly.setStyle({ weight: 2 });
+        if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zoneActive, carte.getZoom()) });
       });
       poly.on('mouseout', () => {
-        if (zoneActive !== j.id) poly.setStyle({ weight: 0.5 });
+        if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zone, carte.getZoom()) });
       });
 
       poly.bindTooltip(j.label || j.nom, {
@@ -1003,18 +1038,33 @@ function majZone(juridictionId) {
   if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
     style = {
       fillOpacity: isActive ? 0.5 : 0.35,
-      weight: isActive ? 2 : 0.5,
+      /*weight: isActive ? 2 : 0.5,*/
     };
   } else {
     const puissanceId = j ? resoudre(j.puissance, anneeActive) : null;
     const masquee = overlayMode === 'geo' && puissancesMasquees.has(puissanceId);
     style = {
       fillOpacity: isActive ? 0.45 : (masquee ? 0.08 : 0.23),
-      weight: isActive ? 2 : 0.5,
+      /*weight: isActive ? 2 : 0.5,*/
     };
   }
 
-  groupe.eachLayer(poly => poly.setStyle(style));
+  const zoom = carte.getZoom();
+  groupe.eachLayer(poly => {
+    const wBase = isActive ? WEIGHTS.zoneActive : WEIGHTS.zone;
+    poly.setStyle({ ...style, weight: weightPourZoom(wBase, zoom) });
+  });
+}
+
+function majWeightsZones() {
+  const zoom = carte.getZoom();
+  Object.entries(layersZones).forEach(([id, groupe]) => {
+    const wBase = zoneActive === id ? WEIGHTS.zoneActive : WEIGHTS.zone;
+    groupe.eachLayer(poly => poly.setStyle({ weight: weightPourZoom(wBase, zoom) }));
+  });
+  if (isolationLayer) {
+    isolationLayer.setStyle({ weight: weightPourZoom(WEIGHTS.isolation, zoom) });
+  }
 }
 
 // ─── Panneau gauche — toggle ─────────────────────────────────
@@ -1157,7 +1207,9 @@ function isolerTerritoire(juridictionId) {
   // ── 1. Rectangle sombre dans le pane "isolationFond" (z:250, sous les zones) ──
   const W = CARTE_IMAGE.width;
   const H = CARTE_IMAGE.height;
-  isolationRect = L.rectangle([[0, 0], [H, W]], {
+  // Polygone surdimensionné (×5) pour couvrir toute animation de zoom sans bande découverte
+  const M = 5; // multiplicateur de marge
+  isolationRect = L.rectangle([[-H * M, -W * M], [H * M, W * M]], {
     color: 'transparent',
     weight: 0,
     fillColor: '#0a0805',
@@ -1179,27 +1231,28 @@ function isolerTerritoire(juridictionId) {
   });
   isolationLayer.addTo(carte);
 
-  // ── 3. Animation simultanée fond + contour ──
-  // Appliquer une transition CSS sur le path SVG du contour
-  setTimeout(() => {
-    const paneEl = carte.getPane('isolationContour');
-    if (paneEl) {
-      const paths = paneEl.querySelectorAll('path');
-      paths.forEach(p => {
-        p.style.transition = 'stroke 0.6s ease, stroke-width 0.4s ease';
-      });
-    }
-  }, 50); // laisser Leaflet rendre le path d'abord
+  // ── 3. Animation fond et contour ──
 
-  // Étape unique : apparition immédiate en blanc, puis gold en CSS
+  // a. Mettre en place les transitions CSS avant de changer les valeurs
   setTimeout(() => {
-    if (!isolationLayer) return;
-    isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
+    const fondPane = carte.getPane('isolationFond');
+    if (fondPane) fondPane.querySelectorAll('path').forEach(p => {
+      p.style.transition = 'fill-opacity 0.9s ease';
+    });
+    const contourPane = carte.getPane('isolationContour');
+    if (contourPane) contourPane.querySelectorAll('path').forEach(p => {
+      p.style.transition = 'stroke 0.6s ease, stroke-width 0.4s ease';
+    });
+  }, 50);
+
+  // b. Déclencher les changements — le CSS s'occupe du fondu
+  setTimeout(() => {
+    if (isolationRect) isolationRect.setStyle({ fillOpacity: 0.78 });
+    if (isolationLayer) isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
   }, 60);
 
   setTimeout(() => {
-    if (!isolationLayer) return;
-    isolationLayer.setStyle({ color: '#c8973a', weight: 4, opacity: 1 });
+    if (isolationLayer) isolationLayer.setStyle({ color: '#c8973a', weight: 4, opacity: 1 });
   }, 300);
 
   // ── 4. Zoom sur le territoire ──
@@ -1213,23 +1266,6 @@ function isolerTerritoire(juridictionId) {
     });
   }, 400); // décalé de 400ms pour laisser le fond sombre apparaître d'abord
 }
-
-carte.once('moveend', () => {
-  const pane = carte.getPane('isolationFond');
-  if (pane && isolationActive) pane.style.zIndex = 410;
-});
-
-// Réaffirmer le z-index du fond après le démarrage du flyToBounds
-// (Leaflet peut le réinitialiser pendant l'animation de zoom)
-setTimeout(() => {
-  const pane = carte.getPane('isolationFond');
-  if (pane) pane.style.zIndex = 410;
-}, 500);
-
-setTimeout(() => {
-  const pane = carte.getPane('isolationFond');
-  if (pane) pane.style.zIndex = 410;
-}, 1400);
 
 function fermerIsolation() {
   if (!isolationActive) return;
