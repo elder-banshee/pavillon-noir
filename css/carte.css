@@ -778,6 +778,21 @@ path.leaflet-interactive:focus-visible {
   display: none;
 }
 
+.carte-puissance-check--static {
+  cursor: default;
+  color: var(--parchment);
+  border-color: transparent !important;
+}
+
+.carte-puissance-check--static:hover {
+  color: var(--parchment);
+  border-color: transparent !important;
+}
+
+.carte-puissance-check--static .carte-puissance-pastille {
+  border: none;
+}
+
 .carte-puissance-pastille {
   width: 8px;
   height: 8px;

@@ -5,30 +5,30 @@
 
 // ─── État global ─────────────────────────────────────────────
 let carte = null;
+let carteOverlayPrincipale = null;
 let anneeActive = CARTE_ANNEE_REFERENCE;
 let zoneActive = null;
 let layersZones = {};
 let markersMap = {};
 let pinActive = null;
-let isolationActive = null;  // id juridiction isolée (recherche)
-let isolationLayer = null;   // couche Leaflet du contour d'isolation
-let isolationRect = null;    // rectangle Leaflet de fond sombre
 let panneauGaucheOuvert = true;
 let modeSombre = false;
-
+let contourGlobalLayer = null;
 
 // ─── Mode d'overlay ──────────────────────────────────────────
-// 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque'
+// 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque' | 'isolation'
 let overlayMode = 'geo';
+let overlayModeAvantIsolation = 'geo'; // mode à restaurer à la fermeture
+let isolationJuridictionId = null;     // juridiction actuellement isolée
+let isolationLayer = null;             // couche Leaflet du contour doré
 
 // ─── Mode MJ ─────────────────────────────────────────────────
 let modeMJ = false;
 const SEQUENCE_MJ = ['eleuthera', 'marguerita', 'jamaique'];
 let sequenceEnCours = [];
-// Après la séquence complète, on attend le clic de confirmation sur l'Île du Maïs
 let attenteClic_IleDuMais = false;
 
-// Année max calculée dynamiquement depuis les bornes 'a' de carte-data.js
+// ─── Année max MJ ────────────────────────────────────────────
 function calculerAnneeMax() {
   let max = CARTE_ANNEE_REFERENCE;
   function scanBlocs(val) {
@@ -50,26 +50,24 @@ function calculerAnneeMax() {
 }
 const ANNEE_MAX_MJ = calculerAnneeMax();
 
-// Puissances masquées (Set d'ids)
+// ─── Filtres de légende ───────────────────────────────────────
 let puissancesMasquees = new Set();
 const paliersMasquesDensite = new Set();
 const paliersMasquesEsclavage = new Set();
 
-// ─── Séquence secrète et activation MJ ───────────────────────
+// ─── Séquence secrète MJ ─────────────────────────────────────
 function enregistrerClicSequence(zoneId) {
   if (modeMJ) return false;
 
-  // Clic sur l'Île du Maïs après séquence complète → popup de confirmation
   if (attenteClic_IleDuMais) {
     if (zoneId === 'ile-du-mais') {
       attenteClic_IleDuMais = false;
       ouvrirPopupConfirmationMJ();
-      return true; // intercepté — ne pas ouvrir le panneau
+      return true;
     } else {
-      // Clic ailleurs → annuler, remettre à zéro
       attenteClic_IleDuMais = false;
       sequenceEnCours = [];
-      renderZones(); // masquer l'Île du Maïs
+      renderZones();
       return false;
     }
   }
@@ -78,13 +76,11 @@ function enregistrerClicSequence(zoneId) {
   if (zoneId === attendu) {
     sequenceEnCours.push(zoneId);
     if (sequenceEnCours.length === SEQUENCE_MJ.length) {
-      // Séquence complète → révéler l'Île du Maïs, attendre le clic
       attenteClic_IleDuMais = true;
       sequenceEnCours = [];
-      renderZones(); // l'Île du Maïs apparaît maintenant
+      renderZones();
     }
   } else {
-    // Mauvaise zone — recommencer depuis zéro sauf si c'est le premier de la séquence
     sequenceEnCours = (zoneId === SEQUENCE_MJ[0]) ? [zoneId] : [];
   }
   return false;
@@ -108,7 +104,6 @@ function confirmerModeMJ() {
   modeMJ = true;
   fermerPopup();
 
-  // Badge discret en bas à gauche de la carte
   const wrap = document.getElementById('carte-wrap');
   if (wrap && !document.getElementById('mj-badge')) {
     const badge = document.createElement('div');
@@ -124,17 +119,16 @@ function confirmerModeMJ() {
     wrap.appendChild(badge);
   }
 
-  // Réinitialiser le curseur avec la borne MJ débloquée
   initCurseurInline();
   renderZones();
 }
 
 function annulerModeMJ() {
   fermerPopup();
-  renderZones(); // masquer à nouveau l'Île du Maïs
+  renderZones();
 }
 
-// Intitulés des modes
+// ─── Intitulés des modes overlay ─────────────────────────────
 const OVERLAY_LABELS = {
   geo: 'Souverainetés revendiquées et établies',
   densite: 'Densité de population',
@@ -170,35 +164,21 @@ function initCarte() {
     maxBoundsViscosity: 1.0,
     attributionControl: false,
     doubleClickZoom: false,
-    zoomControl: false,  // désactiver les boutons natifs
+    zoomControl: false,
   });
 
-  function positionnerBoutonsZoom() {
-    const wrap = document.getElementById('carte-wrap');
-    const controls = document.querySelector('.carte-zoom-controls');
-    if (!wrap || !controls) return;
-    const parent = controls.offsetParent;
-    const wrapRect = wrap.getBoundingClientRect();
-    const parentRect = parent.getBoundingClientRect();
-    // right = distance entre le bord droit du parent et le bord gauche de carte-wrap
-    controls.style.right = (parentRect.right - wrapRect.left) + 'px';
-    controls.style.top = (wrapRect.top - parentRect.top) + 'px';
-  }
-
   carteOverlayPrincipale = L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
-
   const el = carteOverlayPrincipale.getElement();
   if (el) el.style.transition = 'opacity 0.9s ease';
 
-  // Pane pour le fond sombre d'isolation — entre l'image (z:200) et les zones (z:400)
-  carte.createPane('isolationFond');
-  carte.getPane('isolationFond').style.zIndex = 410;
-  carte.getPane('isolationFond').style.pointerEvents = 'none';
-
-  // Pane pour le contour doré — au-dessus des zones (z:400)
+  // Pane pour le contour doré d'isolation — au-dessus des zones (overlayPane = 400)
   carte.createPane('isolationContour');
   carte.getPane('isolationContour').style.zIndex = 420;
   carte.getPane('isolationContour').style.pointerEvents = 'none';
+
+  carte.createPane('contourGlobal');
+  carte.getPane('contourGlobal').style.zIndex = 410;
+  carte.getPane('contourGlobal').style.pointerEvents = 'none';
 
   renderZones();
   renderPins();
@@ -214,7 +194,7 @@ function initCarte() {
     carte.fitBounds(bounds, { padding: [0, 0] });
     carte.setMinZoom(carte.getZoom());
     carte.setMaxBounds(bounds);
-    majWeightsZones(); // weights initialisés après que getMinZoom() est stable
+    majWeightsZones();
     positionnerBoutonsZoom();
   }, 100);
 
@@ -231,14 +211,12 @@ function initCarte() {
   });
 
   carte.on('zoomstart', () => {
-    // Masquer le contour pendant tout mouvement de zoom
     if (isolationLayer) isolationLayer.setStyle({ opacity: 0 });
   });
 
   carte.on('moveend', () => {
     majWeightsZones();
     if (isolationLayer) {
-      // Recalculer le weight, puis réafficher avec un court délai
       isolationLayer.setStyle({ weight: weightPourZoom(WEIGHTS.isolation, carte.getZoom()) });
       setTimeout(() => {
         if (isolationLayer) isolationLayer.setStyle({ opacity: 1 });
@@ -246,6 +224,7 @@ function initCarte() {
     }
   });
 
+  // Boutons zoom personnalisés
   document.getElementById('carte-zoom-in')
     ?.addEventListener('click', () => carte.zoomIn(0.5));
   document.getElementById('carte-zoom-out')
@@ -253,9 +232,24 @@ function initCarte() {
   document.getElementById('carte-zoom-sombre')
     ?.addEventListener('click', () => {
       modeSombre = !modeSombre;
-      carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+      // En mode isolation, ne pas modifier l'opacity de la carte
+      if (overlayMode !== 'isolation') {
+        carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+      }
       document.getElementById('carte-zoom-sombre').classList.toggle('active', modeSombre);
     });
+}
+
+// ─── Positionnement des boutons zoom ─────────────────────────
+function positionnerBoutonsZoom() {
+  const wrap = document.getElementById('carte-wrap');
+  const controls = document.querySelector('.carte-zoom-controls');
+  if (!wrap || !controls) return;
+  const parent = controls.offsetParent;
+  const wrapRect = wrap.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
+  controls.style.right = (parentRect.right - wrapRect.left) + 'px';
+  controls.style.top = (wrapRect.top - parentRect.top) + 'px';
 }
 
 // ─── Conversion coordonnées pixel → Leaflet LatLng ───────────
@@ -263,31 +257,29 @@ function pixelToLatLng(x, y) {
   return L.latLng(CARTE_IMAGE.height - y, x);
 }
 
-// ─── Zones territoriales ─────────────────────────────────────
+// ─── Paliers et couleurs des overlays ────────────────────────
 const DENSITE_PALIERS = [
-  { max: 0.05, couleur: 'hsla(69, 100%, 90%, 0.79)' }, // 0–0,05   quasi-vide
-  { max: 0.15, couleur: 'hsla(76, 69%, 70%, 0.67)' }, // 0,05–0,15 très faible
-  { max: 0.5, couleur: 'hsl(83, 48%, 54%)' }, // 0,15–0,5  faible
-  { max: 2, couleur: 'hsla(118, 41%, 53%, 0.86)' }, // 0,5–2     modéré
-  { max: 8, couleur: 'hsl(156, 28%, 34%)' }, // 2–8       dense
-  { max: Infinity, couleur: 'hsl(144, 25%, 25%)' }, // 8+    très dense
+  { max: 0.05, couleur: 'hsla(69, 100%, 90%, 0.79)' },
+  { max: 0.15, couleur: 'hsla(76, 69%, 70%, 0.67)' },
+  { max: 0.5, couleur: 'hsl(83, 48%, 54%)' },
+  { max: 2, couleur: 'hsla(118, 41%, 53%, 0.86)' },
+  { max: 8, couleur: 'hsl(156, 28%, 34%)' },
+  { max: Infinity, couleur: 'hsl(144, 25%, 25%)' },
 ];
 
 const ESCLAVAGE_PALIERS = [
-  // { max: ratio max, fm: couleur feuille-morte, ra: couleur rouge andrinople }
-  // ratio = (esclaves + indiens_asservis) / population
-  { max: 0.10, fm: 'hsl(26, 28%, 79%)', ra: 'hsl(6, 29%, 79%)' }, // très pâle
-  { max: 0.25, fm: 'hsl(26, 40%, 71%)', ra: 'hsl(6, 43%, 70%)' }, // pâle
-  { max: 0.40, fm: 'hsl(26, 53%, 62%)', ra: 'hsl(6, 57%, 61%)' }, // moyen
-  { max: 0.60, fm: 'hsl(26, 65%, 53%)', ra: 'hsl(6, 71%, 52%)' }, // soutenu
-  { max: 0.80, fm: 'hsl(26, 78%, 44%)', ra: 'hsl(6, 85%, 42%)' }, // intense
-  { max: Infinity, fm: 'hsl(26, 90%, 36%)', ra: 'hsl(6, 99%, 33%)' }, // très intense
+  { max: 0.10, fm: 'hsl(26, 28%, 79%)', ra: 'hsl(6, 29%, 79%)' },
+  { max: 0.25, fm: 'hsl(26, 40%, 71%)', ra: 'hsl(6, 43%, 70%)' },
+  { max: 0.40, fm: 'hsl(26, 53%, 62%)', ra: 'hsl(6, 57%, 61%)' },
+  { max: 0.60, fm: 'hsl(26, 65%, 53%)', ra: 'hsl(6, 71%, 52%)' },
+  { max: 0.80, fm: 'hsl(26, 78%, 44%)', ra: 'hsl(6, 85%, 42%)' },
+  { max: Infinity, fm: 'hsl(26, 90%, 36%)', ra: 'hsl(6, 99%, 33%)' },
 ];
 
 const AUTOCHTONES_COULEURS = {
-  souverainete: 'hsl(19, 81%, 30%)',  // terra cotta sombre  #8a350e
-  resistance: 'hsl(28, 68%, 43%)',  // ocre terra          #b86823
-  domination: 'hsl(39, 61%, 55%)',  // ocre pâle           #d2a146
+  souverainete: 'hsl(19, 81%, 30%)',
+  resistance: 'hsl(28, 68%, 43%)',
+  domination: 'hsl(39, 61%, 55%)',
 };
 
 function couleurDensite(zoneId) {
@@ -322,10 +314,7 @@ function couleurEsclavage(zoneId) {
 function resoudreStatutAutochtone(demo, annee) {
   if (!demo || demo.statut_autochtone === null) return null;
   const s = demo.statut_autochtone;
-  // Cas temporel Louisiane : { avant1718: '...', depuis1718: '...' }
-  if (typeof s === 'object') {
-    return annee >= 1718 ? s.depuis1718 : s.avant1718;
-  }
+  if (typeof s === 'object') return annee >= 1718 ? s.depuis1718 : s.avant1718;
   return s;
 }
 
@@ -336,23 +325,20 @@ function couleurAutochtone(zoneId, annee) {
   return AUTOCHTONES_COULEURS[statut] || null;
 }
 
-// ─── Épaisseur des contours de référence (au dézoom max) ────────────────────
+// ─── Épaisseurs de contours ───────────────────────────────────
 const WEIGHTS = {
-  zone: 0.5,   // zone normale
-  zoneActive: 2,     // zone sélectionnée
-  isolation: 2,     // contour d'isolation
+  zone: 0.5,
+  zoneActive: 2,
+  isolation: 2,
 };
-const ZOOM_FACTEUR = 1.5; // progression par niveau de zoom
+const ZOOM_FACTEUR = 1.5;
 
-// ─── Weight dynamique selon le zoom ──────────────────────────
-// weight de base défini au zoom minimal de la carte (vue d'ensemble)
-// À chaque niveau de zoom supplémentaire, on réduit d'un facteur
-// pour que le tracé paraisse constant en "largeur géographique".
 function weightPourZoom(weightBase, zoom) {
-  const zoomMin = carte.getMinZoom();  // pas de fallback — appelée après init
+  const zoomMin = carte.getMinZoom();
   return Math.max(0.2, weightBase * Math.pow(ZOOM_FACTEUR, zoom - zoomMin));
 }
 
+// ─── Rendu des zones ─────────────────────────────────────────
 function renderZones() {
   Object.values(layersZones).forEach(g => {
     g.eachLayer(poly => carte.removeLayer(poly));
@@ -393,73 +379,58 @@ function renderZones() {
     const puissanceId = resoudre(j.puissance, anneeActive);
     const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
     const isActive = zoneActive === j.id;
+    const isIsolee = overlayMode === 'isolation' && isolationJuridictionId === j.id;
+    const isEffacee = overlayMode === 'isolation' && !isIsolee;
 
-    // ── Calcul de couleur selon le mode ──────────────────────────
     let couleur, fillOpacity, strokeColor, strokeWeight, strokeOpacity;
 
-    if (overlayMode === 'densite') {
+    if (isEffacee) {
+      // Toutes les autres zones sont invisibles en mode isolation
+      couleur = 'transparent';
+      fillOpacity = 0;
+      strokeColor = 'transparent';
+      strokeWeight = 0;
+      strokeOpacity = 0;
 
+    } else if (overlayMode === 'densite') {
       const c = couleurDensite(j.id);
       if (c) {
-        couleur = c;
-        fillOpacity = isActive ? 0.5 : 0.35;
-        strokeColor = c;
-        strokeWeight = isActive ? 2 : 0.5;
-        strokeOpacity = 0.9;
+        couleur = c; fillOpacity = isActive ? 0.5 : 0.35;
+        strokeColor = c; strokeWeight = isActive ? 2 : 0.5; strokeOpacity = 0.9;
       } else {
-        couleur = 'transparent';
-        fillOpacity = 0;
-        strokeColor = 'transparent';
-        strokeWeight = 0;
-        strokeOpacity = 0;
+        couleur = 'transparent'; fillOpacity = 0;
+        strokeColor = 'transparent'; strokeWeight = 0; strokeOpacity = 0;
       }
 
     } else if (overlayMode === 'esclavage') {
-
       const c = couleurEsclavage(j.id);
       if (c) {
-        couleur = c;
-        fillOpacity = isActive ? 0.5 : 0.35;
-        strokeColor = c;
-        strokeWeight = isActive ? 2 : 0.5;
-        strokeOpacity = 0.9;
+        couleur = c; fillOpacity = isActive ? 0.5 : 0.35;
+        strokeColor = c; strokeWeight = isActive ? 2 : 0.5; strokeOpacity = 0.9;
       } else {
-        // Pas de population asservie : transparent
-        couleur = 'transparent';
-        fillOpacity = 0;
-        strokeColor = 'transparent';
-        strokeWeight = 0;
-        strokeOpacity = 0;
+        couleur = 'transparent'; fillOpacity = 0;
+        strokeColor = 'transparent'; strokeWeight = 0; strokeOpacity = 0;
       }
 
     } else if (overlayMode === 'autochtones') {
-
       const c = couleurAutochtone(j.id, anneeActive);
       if (c) {
-        couleur = c;
-        fillOpacity = isActive ? 0.5 : 0.35;
-        strokeColor = c;
-        strokeWeight = isActive ? 2 : 0.5;
-        strokeOpacity = 0.9;
+        couleur = c; fillOpacity = isActive ? 0.5 : 0.35;
+        strokeColor = c; strokeWeight = isActive ? 2 : 0.5; strokeOpacity = 0.9;
       } else {
-        couleur = 'transparent';
-        fillOpacity = 0;
-        strokeColor = 'transparent';
-        strokeWeight = 0;
-        strokeOpacity = 0;
+        couleur = 'transparent'; fillOpacity = 0;
+        strokeColor = 'transparent'; strokeWeight = 0; strokeOpacity = 0;
       }
 
     } else {
-
-      // Mode géopolitique — comportement original inchangé
+      // Mode géopolitique (y compris zone isolée en mode isolation)
       const masquee = overlayMode === 'geo' && puissancesMasquees.has(puissanceId);
       const estEspagne = puissanceId === 'espagnole';
       couleur = masquee ? 'rgba(107,124,138,0.6)' : puissance.couleur;
-      fillOpacity = isActive ? 0.45 : (masquee ? 0.08 : 0.23);
-      strokeColor = estEspagne ? '#c84a1c' : couleur;
-      strokeWeight = isActive ? 2 : 0.5;
-      strokeOpacity = masquee ? 0.4 : (estEspagne ? 1 : 0.8);
-
+      fillOpacity = isActive ? 0.45 : (masquee ? 0.08 : (isIsolee ? 0 : 0.23));
+      strokeColor = isIsolee ? '#c8973a' : (estEspagne ? '#c84a1c' : couleur);
+      strokeWeight = isIsolee ? weightPourZoom(WEIGHTS.zone, carte.getZoom()) : (isActive ? 2 : 0.5);
+      strokeOpacity = isIsolee ? 1 : (masquee ? 0.4 : (estEspagne ? 1 : 0.8));
     }
 
     const style = {
@@ -482,6 +453,12 @@ function renderZones() {
     polygones.forEach(poly => {
       poly.on('click', (e) => {
         L.DomEvent.stopPropagation(e);
+        if (overlayMode === 'isolation') {
+          L.DomEvent.stopPropagation(e);
+          fermerIsolation();
+          ouvrirPanneau(j.id);
+          return;
+        }
         const intercepte = enregistrerClicSequence(j.id);
         if (intercepte) return;
         if (zoneActive === j.id) {
@@ -491,20 +468,29 @@ function renderZones() {
         }
       });
 
-      // Hover : épaisseur du tracé uniquement (préserve la teinte informative)
       poly.on('mouseover', () => {
+        if (overlayMode === 'isolation') {
+          if (isIsolee) poly.setStyle({ fillColor: '#c8973a', fillOpacity: 0.25 });
+          return;
+        }
         if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zoneActive, carte.getZoom()) });
       });
       poly.on('mouseout', () => {
+        if (overlayMode === 'isolation') {
+          if (isIsolee) poly.setStyle({ fillColor: 'transparent', fillOpacity: 0 });
+          return;
+        }
         if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zone, carte.getZoom()) });
       });
 
-      poly.bindTooltip(j.label || j.nom, {
-        permanent: false,
-        direction: 'top',
-        className: 'carte-tooltip',
-        opacity: 1,
-      });
+      if (overlayMode !== 'isolation') {
+        poly.bindTooltip(j.label || j.nom, {
+          permanent: false,
+          direction: 'top',
+          className: 'carte-tooltip',
+          opacity: 1,
+        });
+      }
     });
 
     groupe.addTo(carte);
@@ -542,10 +528,8 @@ function renderPins() {
 
     marker.on('click', (e) => {
       L.DomEvent.stopPropagation(e);
-      if (pinActive === pin.id) {
-        fermerPopup();
-        return;
-      }
+      if (overlayMode === 'isolation') return;
+      if (pinActive === pin.id) { fermerPopup(); return; }
       if (pin.groupe) {
         ouvrirPopupGroupe(pin);
       } else {
@@ -613,35 +597,30 @@ function initOverlayBtns() {
     btn.addEventListener('click', () => {
       const mode = btn.dataset.mode;
       if (mode === overlayMode) return;
+      // Quitter l'isolation si active
+      if (overlayMode === 'isolation') fermerIsolation();
       overlayMode = mode;
       puissancesMasquees.clear();
       paliersMasquesDensite.clear();
       paliersMasquesEsclavage.clear();
 
-      // Mettre à jour les boutons
       document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Mettre à jour l'intitulé
       const label = document.getElementById('carte-overlay-label');
       if (label) label.textContent = OVERLAY_LABELS[mode] || '';
 
-      // Note esclavage — affichée uniquement en mode esclavage
       const noteEsclavage = document.getElementById('carte-overlay-note');
       if (noteEsclavage) {
         noteEsclavage.style.display = mode === 'esclavage' ? 'inline' : 'none';
       }
 
-      // Fermer popup et panneau en mode masqué
       if (overlayMode === 'masque') {
         fermerPopup();
         fermerPanneau();
       }
 
-
-      // Légende : visible seulement en mode geo
       majLegende();
-
       renderZones();
       renderPins();
     });
@@ -656,73 +635,43 @@ function majLegende() {
 
   liste.innerHTML = '';
 
-  // ── Mode densité ──────────────────────────────────────────
   if (overlayMode === 'densite') {
-    const labels = [
-      '< 0,15 hab/km²',
-      '0,15 – 0,45',
-      '0,45 – 1,5',
-      '1,5 – 6',
-      '6 – 24',
-      '> 24 hab/km²',
-    ];
+    const labels = ['< 0,15 hab/km²', '0,15 – 0,45', '0,45 – 1,5', '1,5 – 6', '6 – 24', '> 24 hab/km²'];
     DENSITE_PALIERS.forEach((palier, i) => {
       const label = document.createElement('label');
       label.className = 'carte-puissance-check' + (paliersMasquesDensite.has(i) ? ' decochee' : '');
-
       const input = document.createElement('input');
       input.type = 'checkbox';
       input.checked = !paliersMasquesDensite.has(i);
-
       const pastille = document.createElement('span');
       pastille.className = 'carte-puissance-pastille';
       pastille.style.borderColor = palier.couleur;
       pastille.style.backgroundColor = palier.couleur;
       pastille.style.opacity = '0.85';
-
       label.appendChild(input);
       label.appendChild(pastille);
       label.appendChild(document.createTextNode(labels[i]));
-
       input.addEventListener('change', () => {
-        if (input.checked) {
-          paliersMasquesDensite.delete(i);
-          label.classList.remove('decochee');
-        } else {
-          paliersMasquesDensite.add(i);
-          label.classList.add('decochee');
-        }
+        if (input.checked) { paliersMasquesDensite.delete(i); label.classList.remove('decochee'); }
+        else { paliersMasquesDensite.add(i); label.classList.add('decochee'); }
         renderZones();
       });
-
       liste.appendChild(label);
     });
-
     legende.setAttribute('aria-hidden', 'false');
     return;
   }
 
-  // ── Mode esclavage ──────────────────────────────────────────
   if (overlayMode === 'esclavage') {
-    const labels = [
-      '< 10 % de la population',
-      '10 – 25 %',
-      '25 – 40 %',
-      '40 – 60 %',
-      '60 – 80 %',
-      '> 80 %',
-    ];
+    const labels = ['< 10 % de la population', '10 – 25 %', '25 – 40 %', '40 – 60 %', '60 – 80 %', '> 80 %'];
     ESCLAVAGE_PALIERS.forEach((palier, i) => {
       const label = document.createElement('label');
       label.className = 'carte-puissance-check' + (paliersMasquesEsclavage.has(i) ? ' decochee' : '');
-
       const input = document.createElement('input');
       input.type = 'checkbox';
       input.checked = !paliersMasquesEsclavage.has(i);
-
       const wrapPastilles = document.createElement('span');
       wrapPastilles.style.cssText = 'display:inline-flex;gap:3px;margin-right:6px;';
-
       [palier.fm, palier.ra].forEach(couleur => {
         const pastille = document.createElement('span');
         pastille.className = 'carte-puissance-pastille';
@@ -732,25 +681,16 @@ function majLegende() {
         pastille.style.margin = '0';
         wrapPastilles.appendChild(pastille);
       });
-
       label.appendChild(input);
       label.appendChild(wrapPastilles);
       label.appendChild(document.createTextNode(labels[i]));
-
       input.addEventListener('change', () => {
-        if (input.checked) {
-          paliersMasquesEsclavage.delete(i);
-          label.classList.remove('decochee');
-        } else {
-          paliersMasquesEsclavage.add(i);
-          label.classList.add('decochee');
-        }
+        if (input.checked) { paliersMasquesEsclavage.delete(i); label.classList.remove('decochee'); }
+        else { paliersMasquesEsclavage.add(i); label.classList.add('decochee'); }
         renderZones();
       });
-
       liste.appendChild(label);
     });
-
     legende.setAttribute('aria-hidden', 'false');
     return;
   }
@@ -761,28 +701,22 @@ function majLegende() {
       { statut: 'resistance', label: 'Résistance sous pression' },
       { statut: 'domination', label: 'Domination / Décimation' },
     ];
-
     items.forEach(({ statut, label }) => {
       const item = document.createElement('span');
-      item.className = 'carte-puissance-check';
-
+      item.className = 'carte-puissance-check carte-puissance-check--static';
       const pastille = document.createElement('span');
       pastille.className = 'carte-puissance-pastille';
       pastille.style.borderColor = AUTOCHTONES_COULEURS[statut];
       pastille.style.backgroundColor = AUTOCHTONES_COULEURS[statut];
       pastille.style.opacity = '0.85';
-
       item.appendChild(pastille);
       item.appendChild(document.createTextNode(label));
       liste.appendChild(item);
     });
-
-    // Note : zones transparentes = population éteinte ou absente
     const note = document.createElement('p');
     note.style.cssText = 'font-size:0.6rem; color:var(--mist-light); margin-top:0.5rem; line-height:1.3; font-style:italic;';
     note.textContent = 'Zones transparentes : population éteinte ou absente.';
     liste.appendChild(note);
-
     legende.setAttribute('aria-hidden', 'false');
     return;
   }
@@ -792,15 +726,19 @@ function majLegende() {
     return;
   }
 
+  if (overlayMode === 'isolation') {
+    liste.innerHTML = `<span style="font-family:'IM Fell English',serif;font-style:italic;font-size:0.85rem;color:var(--mist);">Cliquer sur la carte pour quitter.</span>`;
+    legende.setAttribute('aria-hidden', 'false');
+    return;
+  }
 
-  // ── Mode géopolitique ─────────────────────────────────────
+  // Mode géopolitique
   const puissancesPresentes = new Map();
   JURIDICTIONS.forEach(j => {
     const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
       ? ZONES_DATA[j.id]
       : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
     if (!contours) return;
-
     const puissanceId = resoudre(j.puissance, anneeActive);
     if (puissanceId && PUISSANCES[puissanceId] && !puissancesPresentes.has(puissanceId)) {
       puissancesPresentes.set(puissanceId, PUISSANCES[puissanceId]);
@@ -813,34 +751,23 @@ function majLegende() {
       const label = document.createElement('label');
       label.className = 'carte-puissance-check' + (puissancesMasquees.has(id) ? ' decochee' : '');
       label.dataset.puissance = id;
-
       const input = document.createElement('input');
       input.type = 'checkbox';
       input.checked = !puissancesMasquees.has(id);
       input.dataset.puissance = id;
-
       const pastille = document.createElement('span');
       pastille.className = 'carte-puissance-pastille';
       pastille.style.borderColor = p.couleur;
       pastille.style.backgroundColor = p.couleur + '55';
-
       const texte = document.createTextNode(p.labelCourt || p.label);
-
       label.appendChild(input);
       label.appendChild(pastille);
       label.appendChild(texte);
-
       input.addEventListener('change', () => {
-        if (input.checked) {
-          puissancesMasquees.delete(id);
-          label.classList.remove('decochee');
-        } else {
-          puissancesMasquees.add(id);
-          label.classList.add('decochee');
-        }
+        if (input.checked) { puissancesMasquees.delete(id); label.classList.remove('decochee'); }
+        else { puissancesMasquees.add(id); label.classList.add('decochee'); }
         renderZones();
       });
-
       liste.appendChild(label);
     });
 
@@ -852,7 +779,6 @@ function ouvrirPopup(pin) {
   const chronique = typeof CHRONIQUES !== 'undefined'
     ? CHRONIQUES.find(c => c.id === pin.chronique_id)
     : null;
-
   const popup = document.getElementById('carte-popup');
   popup.innerHTML = `
     <button class="carte-popup-close" onclick="fermerPopup()" aria-label="Fermer">✕</button>
@@ -862,7 +788,6 @@ function ouvrirPopup(pin) {
     <p class="carte-popup-extrait">${pin.extrait}</p>
     <a class="carte-popup-lien" href="chroniques.html">Lire la chronique →</a>
   `;
-
   pinActive = pin.id;
   afficherPopup();
 }
@@ -872,7 +797,6 @@ function ouvrirPopupGroupe(pin) {
     const chronique = typeof CHRONIQUES !== 'undefined'
       ? CHRONIQUES.find(c => c.id === evt.chronique_id)
       : null;
-
     return `
       ${i > 0 ? '<div class="carte-popup-separateur"></div>' : ''}
       <div class="carte-popup-bloc">
@@ -883,14 +807,12 @@ function ouvrirPopupGroupe(pin) {
         <a class="carte-popup-lien" href="chroniques.html">Lire la chronique →</a>
       </div>`;
   }).join('');
-
   const popup = document.getElementById('carte-popup');
   popup.innerHTML = `
     <button class="carte-popup-close" onclick="fermerPopup()" aria-label="Fermer">✕</button>
     <h3 class="carte-popup-titre carte-popup-titre--lieu">${pin.label}</h3>
     ${blocsHtml}
   `;
-
   pinActive = pin.id;
   afficherPopup();
 }
@@ -921,12 +843,10 @@ function rendreContexte(contexte, annee) {
   if (!contexte) return '';
   if (typeof contexte === 'string') return contexte;
 
-  // rétrocompat ancien format { 1712: '...', 1715: '...' }
   if (!Array.isArray(contexte) && Object.keys(contexte).every(k => !isNaN(Number(k)))) {
     return resoudre(contexte, annee) ?? '';
   }
 
-  // rétrocompat format intermédiaire { permanent, depuis, ponctuel }
   if (!Array.isArray(contexte)) {
     const blocs = [];
     if (contexte.permanent) blocs.push(contexte.permanent);
@@ -948,7 +868,6 @@ function rendreContexte(contexte, annee) {
     return blocs.join('<br><br>');
   }
 
-  // nouveau format : tableau de blocs
   return contexte
     .filter(b => annee >= (b.de ?? 0) && (b.a == null || annee < b.a))
     .map(b => {
@@ -964,6 +883,7 @@ function rendreContexte(contexte, annee) {
     .join('<br><br>');
 }
 
+// ─── Panneau droit ───────────────────────────────────────────
 function ouvrirPanneau(juridictionId) {
   const j = JURIDICTIONS.find(j => j.id === juridictionId);
   if (!j) return;
@@ -1038,7 +958,6 @@ function ouvrirPanneau(juridictionId) {
   `;
 
   inner.scrollTop = 0;
-
   const panneau = document.getElementById('carte-panneau');
   panneau.classList.add('carte-panneau--open');
   panneau.removeAttribute('inert');
@@ -1048,7 +967,6 @@ function fermerPanneau() {
   const panneau = document.getElementById('carte-panneau');
   panneau.classList.remove('carte-panneau--open');
   panneau.setAttribute('inert', '');
-
   if (zoneActive) {
     const precedent = zoneActive;
     zoneActive = null;
@@ -1064,19 +982,12 @@ function majZone(juridictionId) {
   const isActive = zoneActive === juridictionId;
 
   let style;
-
   if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
-    style = {
-      fillOpacity: isActive ? 0.5 : 0.35,
-      /*weight: isActive ? 2 : 0.5,*/
-    };
+    style = { fillOpacity: isActive ? 0.5 : 0.35 };
   } else {
     const puissanceId = j ? resoudre(j.puissance, anneeActive) : null;
     const masquee = overlayMode === 'geo' && puissancesMasquees.has(puissanceId);
-    style = {
-      fillOpacity: isActive ? 0.45 : (masquee ? 0.08 : 0.23),
-      /*weight: isActive ? 2 : 0.5,*/
-    };
+    style = { fillOpacity: isActive ? 0.45 : (masquee ? 0.08 : 0.23) };
   }
 
   const zoom = carte.getZoom();
@@ -1163,17 +1074,6 @@ function initRecherche() {
       suggestions.innerHTML = '';
     }
   });
-
-  // Overlay isolation : fermer au clic
-  const overlayEl = document.getElementById('carte-isolation-overlay');
-  if (overlayEl) overlayEl.addEventListener('click', fermerIsolation);
-
-  const btnSombre = document.getElementById('carte-mode-sombre-btn');
-  if (btnSombre) btnSombre.addEventListener('click', () => {
-    modeSombre = !modeSombre;
-    carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
-    btnSombre.classList.toggle('active', modeSombre);
-  });
 }
 
 function afficherSuggestions(q, container) {
@@ -1208,10 +1108,11 @@ function afficherSuggestions(q, container) {
 
   container.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
     li.addEventListener('click', () => {
-      isolerTerritoire(li.dataset.id);
-      const j = JURIDICTIONS.find(j => j.id === li.dataset.id);
+      const id = li.dataset.id;
+      const j = JURIDICTIONS.find(j => j.id === id);
       if (j) document.getElementById('carte-recherche-input').value = j.nom;
       container.innerHTML = '';
+      isolerTerritoire(id);
     });
   });
 }
@@ -1229,9 +1130,10 @@ function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// ─── Isolation d'un territoire ───────────────────────────────
+// ─── Mode isolation ───────────────────────────────────────────
 function isolerTerritoire(juridictionId) {
-  fermerIsolation();
+  // Nettoyer une isolation précédente sans restaurer l'overlay (on va en recréer une)
+  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
 
   const j = JURIDICTIONS.find(j => j.id === juridictionId);
   const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[juridictionId])
@@ -1240,54 +1142,51 @@ function isolerTerritoire(juridictionId) {
 
   if (!contours) return;
 
-  isolationActive = juridictionId;
+  // Mémoriser le mode précédent seulement si on ne vient pas déjà d'isolation
+  if (overlayMode !== 'isolation') overlayModeAvantIsolation = overlayMode;
 
-  carte.getPane('overlayPane').style.pointerEvents = 'none';
-  carte.getPane('markerPane').style.pointerEvents = 'none';
+  isolationJuridictionId = juridictionId;
+  overlayMode = 'isolation';
 
-  // ── 1. Assombrir la carte ──
-  if (carteOverlayPrincipale) carteOverlayPrincipale.setOpacity(0.05);
-  Object.values(layersZones).forEach(groupe => {
-    groupe.eachLayer(poly => poly.setStyle({ fillOpacity: 0, opacity: 0 }));
-  });
-  Object.values(markersMap).forEach(m => m.setOpacity(0));
-  // Désactiver les overlays et la carte
+  // Assombrir la carte
+  carteOverlayPrincipale.setOpacity(0.05);
+
+  // Griser les boutons d'overlay et la légende
   document.getElementById('carte-legende')?.classList.add('carte-isolation--disabled');
   document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
     btn.disabled = true;
     btn.classList.add('carte-isolation--disabled');
   });
-  document.getElementById('carte').style.pointerEvents = 'none';
 
-  // ── 2. Contour doré dans le pane "isolationContour" (z:450, au-dessus des zones) ──
+  // Mettre à jour la légende (affiche "Cliquer pour quitter")
+  majLegende();
+
+  // Redessiner toutes les zones (les autres passent à opacity 0 via renderZones)
+  renderZones();
+  // Masquer les pins
+  Object.values(markersMap).forEach(m => m.setOpacity(0));
+
+  // Contour doré dans le pane isolationContour
   const latlngs = contours.map(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
   isolationLayer = L.polygon(latlngs, {
     color: '#ffffff',
     weight: 3,
-    opacity: 0,              // commence invisible, animé par JS
+    opacity: 0,
     fillOpacity: 0,
     interactive: false,
     pane: 'isolationContour',
   });
   isolationLayer.addTo(carte);
 
-  // ── 3. Animation fond et contour ──
-
-  // a. Mettre en place les transitions CSS avant de changer les valeurs
+  // Animation du contour
   setTimeout(() => {
-    const fondPane = carte.getPane('isolationFond');
-    if (fondPane) fondPane.querySelectorAll('path').forEach(p => {
-      p.style.transition = 'fill-opacity 0.9s ease';
-    });
     const contourPane = carte.getPane('isolationContour');
     if (contourPane) contourPane.querySelectorAll('path').forEach(p => {
       p.style.transition = 'stroke 0.6s ease, stroke-width 0.4s ease';
     });
   }, 50);
 
-  // b. Déclencher les changements — le CSS s'occupe du fondu
   setTimeout(() => {
-    if (isolationRect) isolationRect.setStyle({ fillOpacity: 0.95 });
     if (isolationLayer) isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
   }, 60);
 
@@ -1295,31 +1194,41 @@ function isolerTerritoire(juridictionId) {
     if (isolationLayer) isolationLayer.setStyle({ color: '#c8973a', weight: 4, opacity: 1 });
   }, 300);
 
-  // ── 4. Zoom sur le territoire ──
+  // Zoom sur le territoire
   setTimeout(() => {
     if (!isolationLayer) return;
     carte.flyToBounds(isolationLayer.getBounds(), {
       padding: [80, 80],
       maxZoom: carte.getMinZoom() + 2,
-      duration: 1.2,      // secondes — ajuste à ton goût
-      easeLinearity: 0.3, // plus petit = plus souple
+      duration: 1.2,
+      easeLinearity: 0.3,
     });
-  }, 400); // décalé de 400ms pour laisser le fond sombre apparaître d'abord
+  }, 400);
 }
 
 function fermerIsolation() {
-  if (!isolationActive) return;
-  isolationActive = null;
-  // Restaurer l'opacity en tenant compte du mode sombre
-  if (carteOverlayPrincipale) carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+  if (overlayMode !== 'isolation') return;
+
+  overlayMode = overlayModeAvantIsolation;
+  isolationJuridictionId = null;
+
   if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
-  // Réactiver
+
+  // Restaurer l'opacity de la carte (tenir compte du mode sombre)
+  carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+
+  // Réactiver les boutons d'overlay et la légende
   document.getElementById('carte-legende')?.classList.remove('carte-isolation--disabled');
   document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
     btn.disabled = false;
     btn.classList.remove('carte-isolation--disabled');
   });
-  document.getElementById('carte').style.pointerEvents = '';
-  carte.getPane('overlayPane').style.pointerEvents = '';
-  carte.getPane('markerPane').style.pointerEvents = '';
+
+  // Restaurer le bouton actif
+  document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.carte-overlay-btn[data-mode="${overlayMode}"]`)?.classList.add('active');
+
+  majLegende();
+  renderZones();
+  renderPins();
 }
