@@ -10,6 +10,10 @@ let zoneActive = null;
 let layersZones = {};
 let markersMap = {};
 let pinActive = null;
+let isolationActive = null;  // id juridiction isolée (recherche)
+let isolationLayer = null;   // couche Leaflet du contour d'isolation
+let isolationRect = null;    // rectangle Leaflet de fond sombre
+let panneauGaucheOuvert = true;
 
 // ─── Mode d'overlay ──────────────────────────────────────────
 // 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque'
@@ -145,6 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
   majLegende();
   const closeBtn = document.getElementById('carte-panneau-close');
   if (closeBtn) closeBtn.addEventListener('click', fermerPanneau);
+  initPanneauGauche();
+  initRecherche();
 });
 
 // ─── Carte Leaflet ───────────────────────────────────────────
@@ -166,12 +172,23 @@ function initCarte() {
 
   L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
 
+// Pane pour le fond sombre d'isolation — entre l'image (z:200) et les zones (z:400)
+  carte.createPane('isolationFond');
+  carte.getPane('isolationFond').style.zIndex = 250;
+  carte.getPane('isolationFond').style.pointerEvents = 'none';
+
+  // Pane pour le contour doré — au-dessus des zones (z:400)
+  carte.createPane('isolationContour');
+  carte.getPane('isolationContour').style.zIndex = 450;
+  carte.getPane('isolationContour').style.pointerEvents = 'none';
+
   renderZones();
   renderPins();
 
   carte.on('click', () => {
     fermerPopup();
     fermerPanneau();
+    fermerIsolation();
   });
 
   setTimeout(() => {
@@ -1000,3 +1017,199 @@ function majZone(juridictionId) {
   groupe.eachLayer(poly => poly.setStyle(style));
 }
 
+// ─── Panneau gauche — toggle ─────────────────────────────────
+function initPanneauGauche() {
+  const panneau = document.getElementById('carte-panneau-gauche');
+  const toggle = document.getElementById('carte-panneau-gauche-toggle');
+  if (!panneau || !toggle) return;
+
+  toggle.addEventListener('click', () => {
+    panneauGaucheOuvert = !panneauGaucheOuvert;
+    panneau.classList.toggle('carte-panneau-gauche--open', panneauGaucheOuvert);
+    toggle.textContent = panneauGaucheOuvert ? '‹' : '›';
+    toggle.setAttribute('aria-label', panneauGaucheOuvert ? 'Masquer le panneau' : 'Afficher la recherche');
+    panneau.setAttribute('aria-hidden', panneauGaucheOuvert ? 'false' : 'true');
+  });
+}
+
+// ─── Recherche prédictive ─────────────────────────────────────
+function initRecherche() {
+  const input = document.getElementById('carte-recherche-input');
+  const suggestions = document.getElementById('carte-recherche-suggestions');
+  const clear = document.getElementById('carte-recherche-clear');
+  if (!input || !suggestions || !clear) return;
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    clear.style.display = q ? '' : 'none';
+    if (q.length < 1) { suggestions.innerHTML = ''; return; }
+    afficherSuggestions(q, suggestions);
+  });
+
+  clear.addEventListener('click', () => {
+    input.value = '';
+    clear.style.display = 'none';
+    suggestions.innerHTML = '';
+    fermerIsolation();
+    input.focus();
+  });
+
+  input.addEventListener('keydown', (e) => {
+    const items = suggestions.querySelectorAll('.carte-recherche-suggestion');
+    if (!items.length) return;
+    const actif = suggestions.querySelector('.carte-recherche-suggestion--active');
+    let idx = actif ? [...items].indexOf(actif) : -1;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (actif) actif.classList.remove('carte-recherche-suggestion--active');
+      idx = (idx + 1) % items.length;
+      items[idx].classList.add('carte-recherche-suggestion--active');
+      items[idx].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (actif) actif.classList.remove('carte-recherche-suggestion--active');
+      idx = (idx - 1 + items.length) % items.length;
+      items[idx].classList.add('carte-recherche-suggestion--active');
+      items[idx].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (actif) actif.click();
+      else if (items.length === 1) items[0].click();
+    } else if (e.key === 'Escape') {
+      fermerIsolation();
+      input.value = '';
+      clear.style.display = 'none';
+      suggestions.innerHTML = '';
+    }
+  });
+
+  // Overlay isolation : fermer au clic
+  const overlayEl = document.getElementById('carte-isolation-overlay');
+  if (overlayEl) overlayEl.addEventListener('click', fermerIsolation);
+}
+
+function afficherSuggestions(q, container) {
+  const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+  const resultats = [];
+
+  JURIDICTIONS.forEach(j => {
+    if (!j.tags || !j.tags.length) return;
+    let matchTag = null;
+    for (const tag of j.tags) {
+      const tagLow = tag.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+      if (tagLow.includes(qLow)) { matchTag = tag; break; }
+    }
+    if (matchTag) resultats.push({ juridiction: j, matchTag });
+  });
+
+  if (!resultats.length) {
+    container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
+    return;
+  }
+
+  container.innerHTML = resultats.slice(0, 12).map(({ juridiction: j, matchTag }) => {
+    const nomMatch = matchTag === j.nom;
+    const matchHtml = nomMatch ? '' :
+      `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
+    return `<li class="carte-recherche-suggestion" role="option" data-id="${j.id}">
+      <span class="carte-recherche-suggestion-nom">${surlignerMatch(j.nom, qLow)}</span>
+      ${matchHtml}
+    </li>`;
+  }).join('');
+
+  container.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
+    li.addEventListener('click', () => {
+      isolerTerritoire(li.dataset.id);
+      const j = JURIDICTIONS.find(j => j.id === li.dataset.id);
+      if (j) document.getElementById('carte-recherche-input').value = j.nom;
+      container.innerHTML = '';
+    });
+  });
+}
+
+function surlignerMatch(texte, qLow) {
+  const texteLow = texte.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+  const idx = texteLow.indexOf(qLow);
+  if (idx === -1) return escapeHtml(texte);
+  return escapeHtml(texte.slice(0, idx))
+    + `<mark class="carte-recherche-highlight">${escapeHtml(texte.slice(idx, idx + qLow.length))}</mark>`
+    + escapeHtml(texte.slice(idx + qLow.length));
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ─── Isolation d'un territoire ───────────────────────────────
+function isolerTerritoire(juridictionId) {
+  fermerIsolation();
+
+  const j = JURIDICTIONS.find(j => j.id === juridictionId);
+  const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[juridictionId])
+    ? ZONES_DATA[juridictionId]
+    : (j?.zone?.length >= 3 ? [j.zone] : null);
+
+  if (!contours) return;
+
+  isolationActive = juridictionId;
+
+  // ── 1. Rectangle sombre dans le pane "isolationFond" (z:250, sous les zones) ──
+  const W = CARTE_IMAGE.width;
+  const H = CARTE_IMAGE.height;
+  isolationRect = L.rectangle([[0, 0], [H, W]], {
+    color: 'transparent',
+    weight: 0,
+    fillColor: '#0a0805',
+    fillOpacity: 0,          // commence transparent, animé par JS
+    interactive: false,
+    pane: 'isolationFond',
+  });
+  isolationRect.addTo(carte);
+
+  // ── 2. Contour doré dans le pane "isolationContour" (z:450, au-dessus des zones) ──
+  const latlngs = contours.map(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
+  isolationLayer = L.polygon(latlngs, {
+    color: '#ffffff',
+    weight: 3,
+    opacity: 0,              // commence invisible, animé par JS
+    fillOpacity: 0,
+    interactive: false,
+    pane: 'isolationContour',
+  });
+  isolationLayer.addTo(carte);
+
+  // ── 3. Animation simultanée fond + contour ──
+  // Fond : 0 → 0.78 en 4 étapes
+  // Contour : invisible → blanc → gold
+  const etapes = [
+    { t: 0,    fond: 0.0,  contourColor: '#ffffff', contourW: 3,   contourO: 0   },
+    { t: 300,  fond: 0.35, contourColor: '#ffffff', contourW: 3,   contourO: 1   },
+    { t: 750,  fond: 0.6,  contourColor: '#d4a84b', contourW: 3.5, contourO: 1   },
+    { t: 1400, fond: 0.78, contourColor: '#c8973a', contourW: 4,   contourO: 1   },
+  ];
+
+  etapes.forEach(e => {
+    setTimeout(() => {
+      if (!isolationRect || !isolationLayer) return;
+      isolationRect.setStyle({ fillOpacity: e.fond });
+      isolationLayer.setStyle({ color: e.contourColor, weight: e.contourW, opacity: e.contourO });
+    }, e.t);
+  });
+
+  // ── 4. Zoom sur le territoire ──
+  setTimeout(() => {
+    if (!isolationLayer) return;
+    carte.fitBounds(isolationLayer.getBounds(), {
+      padding: [80, 80],
+      maxZoom: carte.getMinZoom() + 2,
+    });
+  }, 100);
+}
+
+function fermerIsolation() {
+  if (!isolationActive) return;
+  isolationActive = null;
+  if (isolationRect)  { carte.removeLayer(isolationRect);  isolationRect  = null; }
+  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
+}

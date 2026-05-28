@@ -756,11 +756,201 @@ path.leaflet-interactive:focus-visible {
   white-space: nowrap;
 }
 
+/* ─── Panneau gauche — options avancées ─────────────────────── */
+.carte-panneau-gauche {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  transition: width 0.35s ease;
+  border-right: 1px solid transparent;
+  background: linear-gradient(160deg, #141009 0%, #0e0c09 100%);
+  z-index: 1000;
+}
+
+.carte-panneau-gauche--open {
+  width: 280px;
+  border-right-color: var(--border);
+}
+
+.carte-panneau-gauche-inner {
+  width: 280px;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1.5rem 1.25rem 4rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 151, 58, 0.3) transparent;
+}
+
+.carte-panneau-gauche-toggle {
+  position: absolute;
+  top: 50%;
+  left: 0;           /* position de base : bord gauche de carte-plus */
+  transform: translateY(-50%);
+  background: linear-gradient(160deg, #141009 0%, #0e0c09 100%);
+  border: 1px solid var(--border);
+  border-left: none;
+  color: var(--mist);
+  width: 20px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: left 0.35s ease, color 0.2s, background 0.2s;
+  z-index: 1001;
+  padding: 0;
+}
+
+/* Panneau ouvert : toggle suit la largeur du panneau */
+.carte-panneau-gauche--open ~ .carte-panneau-gauche-toggle {
+  left: 280px;
+  border-left: none;
+  border-right: 1px solid var(--border);
+}
+
+.carte-panneau-gauche-toggle:hover { color: var(--gold); background: rgba(200,151,58,0.05); }
+
+/* ─── Titre section panneau gauche ─────────────────────────── */
+.carte-recherche-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ─── Champ de recherche ────────────────────────────────────── */
+.carte-recherche-wrap {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.carte-recherche-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--parchment);
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  padding: 0.5rem 2rem 0.5rem 0.65rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.carte-recherche-input::placeholder { color: var(--mist); opacity: 0.6; }
+.carte-recherche-input:focus { border-color: rgba(200,151,58,0.5); }
+
+.carte-recherche-clear {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--mist);
+  cursor: pointer;
+  font-size: 0.7rem;
+  padding: 0.2rem;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.carte-recherche-clear:hover { color: var(--gold); }
+
+/* ─── Liste de suggestions ──────────────────────────────────── */
+.carte-recherche-suggestions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200,151,58,0.3) transparent;
+}
+
+.carte-recherche-suggestion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.55rem 0.65rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(200,151,58,0.08);
+  transition: background 0.15s;
+}
+
+.carte-recherche-suggestion:last-child { border-bottom: none; }
+
+.carte-recherche-suggestion:hover,
+.carte-recherche-suggestion--active {
+  background: rgba(200,151,58,0.08);
+}
+
+.carte-recherche-suggestion-nom {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--parchment);
+}
+
+.carte-recherche-suggestion-match {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.78rem;
+  color: var(--mist);
+  font-style: italic;
+}
+
+.carte-recherche-highlight {
+  color: var(--gold-light);
+  font-style: normal;
+}
+
+.carte-recherche-vide {
+  padding: 0.75rem 0.65rem;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--mist);
+  opacity: 0.7;
+}
+
+/* ─── Overlay d'isolation territoire ────────────────────────── */
+.carte-isolation-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
+  background: rgba(10, 8, 5, 0);
+}
+
+.carte-isolation-overlay--actif {
+  pointer-events: all;
+  animation: isolationFadeIn 1.4s ease-out forwards;
+}
+
+@keyframes isolationFadeIn {
+  0%   { background: rgba(10, 8, 5, 0.0); }
+  30%  { background: rgba(10, 8, 5, 0.35); }
+  65%  { background: rgba(10, 8, 5, 0.6); }
+  100% { background: rgba(10, 8, 5, 0.78); }
+}
+
 /* ─── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 900px) {
 
   .carte-panneau,
-  .carte-panneau--open {
+  .carte-panneau--open,
+  .carte-panneau-gauche,
+  .carte-panneau-gauche--open {
     display: none;
   }
 

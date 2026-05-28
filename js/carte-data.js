@@ -119,6 +119,7 @@ const JURIDICTIONS = [
     {
         id: 'caroline-du-sud',
         nom: 'Caroline du Sud',
+        tags: ['Caroline du Sud', 'South Carolina', 'Charles Town', 'Charleston', 'Carolines'],
 
         puissance: {
             1712: 'britannique',
@@ -251,6 +252,7 @@ En novembre, la population se soulève contre les Lords Proprietors. James Moore
     {
         id: 'floride',
         nom: 'Floride',
+        tags: ['Floride', 'Florida', 'Saint-Augustin', 'San Agustín', 'Saint Augustine'],
 
         puissance: {
             1712: 'espagnole',
@@ -357,6 +359,7 @@ Benavides est maintenant bien établi et l'homme fort de la Floride. Sa politiqu
     {
         id: 'louisiane',
         nom: 'Louisiane',
+        tags: ['Louisiane', 'Louisiana', 'Mobile', 'Nouvelle-Orléans', 'New Orleans', 'Mississippi', 'Golfe du Mexique'],
 
         puissance: {
             1712: 'francaise',
@@ -460,6 +463,7 @@ La Louisiane française presse les colonies espagnoles à l'ouest et britannique
     {
         id: 'nouveau-mexique',
         nom: 'Nouveau-Mexique',
+        tags: ['Nouveau-Mexique', 'New Mexico', 'Santa Fe', 'Río Grande', 'Rio Grande'],
 
         puissance: {
             1712: 'espagnole',
@@ -537,6 +541,7 @@ En 1719, Valverde mène une expédition vers le nord-est — jusqu'au Colorado a
         id: 'nueva-galicia',
         label: 'Nueva Galicia',
         nom: 'Nueva Galicia (Guadalaxara)',
+        tags: ['Nueva Galicia', 'Guadalajara', 'Guadalaxara', 'Jalisco', 'Zacatecas', 'Sinaloa', 'Nouvelle-Galice'],
 
         puissance: {
             1712: 'espagnole',
@@ -580,6 +585,7 @@ Loin des côtes et des routes maritimes, la Nueva Galicia est absente des chroni
     {
         id: 'new-providence',
         nom: 'Nassau',
+        tags: ['Nassau', 'New Providence', 'République Pirate', 'Flying Gang'],
 
         puissance: {
             1712: 'anarchie-pirate',
@@ -697,6 +703,7 @@ Rogers gouverne avec des ressources dérisoires — ses soldats meurent de fièv
         id: 'eleuthera',
         label: 'Eleuthera',
         nom: 'Eleuthera & Harbour Island',
+        tags: ['Eleuthera', 'Harbour Island', 'Spanish Wells', 'Governor\'s Harbour'],
 
         puissance: {
             1712: 'conteste',
@@ -783,6 +790,7 @@ Harbour Island est le sas entre Nassau et le monde légal. Des marchands de Bost
     {
         id: 'bermudes',
         nom: 'Bermudes',
+        tags: ['Bermudes', 'Bermuda', 'Saint George\'s', 'Atlantique Nord'],
 
         puissance: {
             1712: 'britannique',
@@ -846,6 +854,7 @@ Le retour de Bennett coïncide avec la grande vague d'amnistie et de répression
     {
         id: 'jamaique',
         nom: 'Jamaïque',
+        tags: ['Jamaïque', 'Jamaica', 'Kingston', 'Port Royal', 'Spanish Town'],
 
         puissance: {
             1712: 'britannique',
@@ -944,6 +953,7 @@ Lawes poursuit sa politique de fer. En 1721, Charles Vane, l'un des derniers cap
     {
         id: 'saint-domingue',
         nom: 'Saint-Domingue',
+        tags: ['Saint-Domingue', 'Cap-Français', 'Cap Haïtien', 'Port-de-Paix', 'Haïti'],
 
         puissance: {
             1712: 'francaise',
@@ -1055,6 +1065,7 @@ Le mandat de Sorel correspond à la période post-Rogers. La Flying Gang est bri
         id: 'santo-domingo',
         label: 'Santo Domingo',
         nom: 'Santo Domingo (Hispaniola espagnole)',
+        tags: ['Santo Domingo', 'Hispaniola', 'République Dominicaine'],
 
         puissance: {
             1712: 'espagnole',
@@ -1126,6 +1137,7 @@ Son gouvernorat long et relativement stable couvre toute la période de la pirat
     {
         id: 'porto-rico',
         nom: 'Porto Rico',
+        tags: ['Porto Rico', 'Puerto Rico', 'San Juan', 'Borinquen'],
 
         puissance: {
             1712: 'espagnole',
@@ -1250,6 +1262,7 @@ Entre 1718 et 1720, plusieurs ouragans dévastent l'agriculture de l'île. Enrí
     {
         id: 'cuba',
         nom: 'Cuba',
+        tags: ['Cuba', 'La Havane', 'Havana', 'La Habana', 'Santiago de Cuba', 'Bayamo', 'Matanzas', 'Camagüey'],
 
         puissance: {
             1712: 'espagnole',
@@ -1362,6 +1375,7 @@ Il prend le gouvernorat en juin 1718, dans le sillage de la répression anti-pir
     {
         id: 'bahamas-archipel',
         nom: 'Bahamas',
+        tags: ['Bahamas', 'Abaco', 'Cat Island', 'Exumas', 'Turks Islands'],
 
         puissance: {
             1712: 'conteste',
@@ -1432,6 +1446,7 @@ L'arrivée de Woodes Rogers étend en principe l'autorité britannique sur tout 
         id: 'panuco',
         label: 'Pánuco',
         nom: 'Pánuco y Tampico',
+        tags: ['Pánuco', 'Tampico', 'Santiago de los Valles','Huasteca'],
 
         puissance: {
             1712: 'espagnole',
@@ -1486,6 +1501,7 @@ En 1718, Castañeda reçoit du vice-roi la licence de mener une expédition vers
     {
         id: 'nouvelle-espagne',
         nom: 'Nouvelle-Espagne',
+        tags: ['Nouvelle-Espagne', 'Mexico', 'Ciudad de México', 'Mechoacan', 'Tlascala', 'Acapulco', 'Guaxaca', 'Soco Nusco', 'Tabasco'],
 
         puissance: {
             1712: 'espagnole',
@@ -1550,6 +1566,7 @@ Né à Lima, il inaugure une ère de stabilité et de réformes administratives.
     {
         id: 'yucatan',
         nom: 'Yucatán',
+        tags: ['Yucatán', 'Mérida', 'Salamanca', 'Laguna de Términos', 'Laguna Termina', 'Chetumal', 'Bacalar'],
 
         puissance: {
             1712: 'espagnole',
@@ -1608,6 +1625,7 @@ En 1716, le vice-roi Valero envoie une expédition depuis Veracruz pour chasser 
         id: 'cayes-belize',
         label: 'Lamanay',
         nom: 'Lamanay & cayes du golfe du Honduras',
+        tags: ['Lamanay', 'Turneffe', 'Zaratan', 'Lighthouse Reef', 'Ilbob', 'Quita Zuno', 'Bélize'],
 
         puissance: {
             1712: 'conteste',
@@ -1680,6 +1698,7 @@ L'Espagne proteste régulièrement contre la présence anglaise dans ces eaux, m
     {
         id: 'honduras',
         nom: 'Honduras',
+        tags: ['Honduras', 'Comayagua', 'Trujillo', 'Nueva Segovia', 'Gracias a Dios', 'Yare River', 'Río Coco'],
 
         puissance: {
             1712: 'espagnole',
@@ -1731,6 +1750,7 @@ Les Indiens Misquitos, alliés aux Anglais de Jamaïque, razzient les missions e
         id: 'cote-miskito',
         label: 'Côte Miskito',
         nom: 'Côte Miskito (Mosquito Coast)',
+        tags: ['Côte Miskito', 'Mosquito Coast', 'Miskitos', 'Cap Camaron', 'Manglares', 'Pearl Lagoon', 'Cap Gracias a Dios'],
 
         puissance: {
             1712: 'amerindienne',
@@ -1795,6 +1815,7 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
     {
         id: 'nicaragua',
         nom: 'Nicaragua',
+        tags: ['Nicaragua', 'León', 'Granada', 'Río San Juan'],
 
         puissance: {
             1712: 'espagnole',
@@ -1832,6 +1853,7 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
     {
         id: 'guatemala',
         nom: 'Guatemala',
+        tags: ['Guatemala', 'Santiago de los Caballeros de Guatemala', 'Chiapa'],
 
         puissance: {
             1712: 'espagnole',
@@ -1877,6 +1899,7 @@ Il prend les rênes dans un contexte de tensions accrues : les Anglais étendent
     {
         id: 'costa-rica',
         nom: 'Costa Rica',
+        tags: ['Costa Rica', 'Cartago'],
 
         puissance: {
             1712: 'espagnole',
@@ -1918,6 +1941,7 @@ Granda y Balbín vient de réprimer la grande révolte de Pablo Presbere (1709) 
         id: 'panama',
         label: 'Panama',
         nom: 'Panama (Tierra Firme)',
+        tags: ['Panama', 'Tierra Firme', 'Panama City', 'Portobelo', 'Veragua'],
 
         puissance: {
             1712: 'espagnole',
@@ -2004,6 +2028,7 @@ La guerre (1718–1720) fait de Portobelo une cible potentielle pour les forces 
     {
         id: 'darien',
         nom: 'Darién',
+        tags: ['Darién', 'Nouvelle Calidonia', 'New Edinburg', 'Kuna Yala'],
 
         puissance: {
             1712: 'conteste',
@@ -2060,6 +2085,7 @@ La carte Jaillot porte encore les noms <em>Nouvelle Calédonie</em> et <em>New E
         id: 'nouvelle-grenade',
         label: 'Nouvelle-Grenade',
         nom: 'Nouvelle-Grenade & Castilla del Oro',
+        tags: ['Nouvelle-Grenade', 'Castilla del Oro', 'Santafé de Bogotá', 'Carthagène', 'Cartagena', 'Antiochia'],
 
         puissance: {
             1712: 'espagnole',
@@ -2131,6 +2157,7 @@ La réponse de Madrid est radicale : par la Real Cédula du 27 mars 1717, Philip
         id: 'cartagena',
         label: 'Carthagène',
         nom: 'Carthagène de Indias',
+        tags: ['Carthagène', 'Cartagena'],
 
         puissance: {
             1712: 'espagnole',
@@ -2187,6 +2214,7 @@ La paix revenue, la South Sea Company reprend ses droits. Les agents anglais ré
         id: 'venezuela',
         label: 'Venezuela',
         nom: 'Venezuela (Province de Caracas)',
+        tags: ['Venezuela', 'Caracas', 'Santiago de León de Caracas'],
 
         puissance: {
             1712: 'espagnole',
@@ -2253,6 +2281,7 @@ Il succède à Bertodano dans un contexte de tensions persistantes entre élites
         id: 'tortuga-venezolana',
         label: 'Isla La Tortuga',
         nom: 'Isla La Tortuga (Tortuga vénézuélienne)',
+        tags: ['Tortuga vénézuélienne', 'Isla La Tortuga'],
 
         puissance: {
             1712: 'conteste',
@@ -2294,6 +2323,7 @@ Chaque année, une flotte saisonnière de petits navires anglo-américains — N
         id: 'marguerita',
         label: 'Île Marguerita',
         nom: 'Île Marguerita (Provincia de Marguerita)',
+        tags: ['Marguerita', 'Provincia de Marguerita'],
 
         puissance: {
             1712: 'espagnole',
@@ -2346,6 +2376,7 @@ L'île de Coche (55 km²) au sud et l'îlot de Cubagua — berceau des pêcherie
         id: 'nouvelle-andalousie',
         label: 'Nouvelle-Andalousie',
         nom: 'Nouvelle-Andalousie (Cumaná)',
+        tags: ['Nouvelle-Andalousie', 'Cumaná', 'Santiago de Cumaná'],
 
         puissance: {
             1712: 'espagnole',
@@ -2416,6 +2447,7 @@ Il prend le gouvernorat dans un contexte de tensions avec les missions capucines
     {
         id: 'trinidad',
         nom: 'Trinidad',
+        tags: ['Trinidad', 'San José de Oruña', 'Puerto España', 'Port of Spain', "Port d'Espagne"],
 
         puissance: {
             1712: 'espagnole',
@@ -2524,6 +2556,7 @@ Vers 1725–1727, le <em>blast</em> achève de ruiner les plantations de cacao d
     {
         id: 'guyane',
         nom: 'Guyane',
+        tags: ['Guyane', 'Paramaribo', 'Suriname'],
 
         puissance: {
             1712: 'conteste',
@@ -2589,6 +2622,7 @@ Nominalement rattachées à la Nouvelle-Andalousie (Cumaná), les prétentions e
     {
         id: 'martinique',
         nom: 'Martinique',
+        tags: ['Martinique', 'Fort-Royal', 'Saint-Pierre'],
 
         puissance: {
             1712: 'francaise',
@@ -2685,6 +2719,7 @@ Après la mort de Montigny et la répression de la piraterie par Rogers à Nassa
     {
         id: 'barbade',
         nom: 'Barbade',
+        tags: ['Barbade', 'Bridgetown'],
 
         puissance: {
             1712: 'britannique',
@@ -2742,6 +2777,7 @@ Acquitté à Londres en faisant valoir que ses opposants sont des sympathisants 
         id: 'curaçao',
         label: 'Curaçao',
         nom: 'Curaçao (avec Aruba et Bonaire)',
+        tags: ['Curaçao', 'Aruba', 'Bonaire', 'Willemstad'],
 
         puissance: {
             1712: 'hollandaise',
@@ -2803,6 +2839,7 @@ Jonathan van Beuningen — beau-frère de van Collen — assure l'intérim dans 
     {
         id: 'dominique',
         nom: 'Dominique',
+        tags: ['Dominique', 'Roseau'],
 
         puissance: {
             1712: 'conteste',
@@ -2874,6 +2911,7 @@ En 1727, la France nomme enfin un commandant à la Dominique — reconnaissant t
         id: 'saint-vincent',
         label: 'Saint-Vincent',
         nom: 'Saint-Vincent et Boqueau',
+        tags: ['Saint-Vincent', 'Boqueau', 'Bequia'],
 
         puissance: {
             1712: 'conteste',
@@ -2933,6 +2971,7 @@ En 1719, des colons français fondent un premier établissement à Barrouallie s
     {
         id: 'sainte-lucie',
         nom: 'Sainte-Lucie',
+        tags: ['Sainte-Lucie', 'Castries', 'Vieux Fort'],
 
         puissance: {
             1712: 'conteste',
@@ -2993,6 +3032,7 @@ Un accord franco-britannique déclare formellement Sainte-Lucie île neutre. En 
     {
         id: 'guadeloupe',
         nom: 'Guadeloupe',
+        tags: ['Guadeloupe', 'Basse-Terre', 'Grande-Terre'],
 
         puissance: {
             1712: 'francaise',
@@ -3061,6 +3101,7 @@ Il prend les rênes en mars 1718. Son premier acte notable est d'obtenir l'autor
     {
         id: 'grenade',
         nom: 'Grenade (et Grenadines)',
+        tags: ['Grenade', 'Grenadines', 'Carriacou', 'Petite Martinique'],
 
         puissance: {
             1712: 'francaise',
@@ -3124,6 +3165,7 @@ Il prend le gouvernement en 1717 après une transition floue via Feuquières, ra
         id: 'saint-christophe',
         label: 'Saint-Christophe',
         nom: 'Saint-Christophe (Saint-Kitts)',
+        tags: ['Saint-Christophe', 'Saint-Kitts'],
 
         puissance: {
             1712: 'britannique',
@@ -3181,6 +3223,7 @@ Le traité d'Utrecht (avril 1713) cède officiellement à la Grande-Bretagne la 
         id: 'leeward-islands',
         label: 'Leeward Islands',
         nom: 'Leeward Islands (Antigua, Nevis, Montserrat, Anguilla, Barbuda)',
+        tags: ['Leeward Islands', 'Antigua', 'Nevis', 'Montserrat', 'Anguilla', 'Barbuda'],
 
         puissance: {
             1712: 'britannique',
@@ -3248,6 +3291,7 @@ Anguilla est quasi-abandonnée par les autorités coloniales : plate, aride, san
         id: 'saint-thomas',
         label: 'Saint-Thomas',
         nom: 'Saint-Thomas (et Saint-John)',
+        tags: ['Saint-Thomas', 'Saint-John', 'Charlotte Amalie'],
 
         puissance: {
             1712: 'danoise',
@@ -3309,6 +3353,7 @@ En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les obj
     {
         id: 'sainte-croix',
         nom: 'Sainte-Croix',
+        tags: ['Sainte-Croix'],
 
         puissance: {
             1712: 'conteste',
@@ -3359,6 +3404,7 @@ En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les obj
         id: 'iles-vierges-britanniques',
         label: 'Îles Vierges britanniques',
         nom: 'Îles Vierges britanniques (Tortola, Virgin Gorda, Anegada)',
+        tags: ['Îles Vierges britanniques', 'Tortola', 'Virgin Gorda', 'Anegada'],
 
         puissance: {
             1712: 'britannique',
@@ -3410,6 +3456,7 @@ Les nombreux mouillages abrités, les passes peu profondes que seuls les pilotes
         id: 'saint-martin',
         label: 'Saint-Martin',
         nom: 'Saint-Martin / Sint Maarten',
+        tags: ['Saint-Martin', 'Sint Maarten'],
 
         puissance: {
             1712: 'conteste',
@@ -3469,6 +3516,7 @@ Les salines de la Great Bay (côté hollandais) et de la baie d'Orient (côté f
         id: 'saba-statia',
         label: 'Saba et Saint-Eustache',
         nom: 'Saba et Saint-Eustache (Sint Eustatius)',
+        tags: ['Saba', 'Saint-Eustache', 'Sint Eustatius'],
 
         puissance: {
             1712: 'hollandaise',
@@ -3524,6 +3572,7 @@ Voisine de Statia, Saba est une île-volcan quasi inaccessible — des falaises 
     {
         id: 'saint-barth',
         nom: 'Saint-Barthélemy',
+        tags: ['Saint-Barthélemy', 'Saint-Barth'],
 
         puissance: {
             1712: 'francaise',
@@ -3575,6 +3624,7 @@ Saint-Barth est une dépendance nominale du gouverneur général des Îles du Ve
     {
         id: 'tabago',
         nom: 'Tabago',
+        tags: ['Tobago', 'Scarborough', 'Man of War Bay', 'Courland', 'île neutre', 'Petites Antilles'],
 
         puissance: {
             1712: 'conteste',
@@ -3618,6 +3668,7 @@ La baie de Courland (côté ouest) et la baie de Man of War (côté est) sont co
         id: 'iles-de-la-baie',
         label: 'Îles de la Baie',
         nom: 'Îles de la Baie (Roatan, Utila, Guanaja)',
+        tags: ['Îles de la Baie', 'Roatan', 'Utila', 'Guanaja', 'Bay Islands'],
 
         puissance: {
             1712: 'conteste',
@@ -3660,6 +3711,7 @@ Les Serrana et Serranilla — deux bancs coralliens quasi inhabités au centre d
         id: 'providence',
         label: 'Providence',
         nom: 'Providence (Old Providence) & San Andrés',
+        tags: ['Providence', 'Old Providence', 'San Andrés', 'Santa Catalina'],
 
         puissance: {
             1712: 'espagnole',
@@ -3720,6 +3772,7 @@ Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée d
         id: 'ile-du-mais',
         nom: 'Île du Maïs',
         visible_mj: true,
+        tags: ['Île du Maïs', 'Island of Corn'],
 
         puissance: {
             1712: 'conteste',
