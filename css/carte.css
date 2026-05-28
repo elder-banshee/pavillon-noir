@@ -924,7 +924,7 @@ path.leaflet-interactive:focus-visible {
 }
 
 /* ─── Overlay d'isolation territoire ────────────────────────── */
-.carte-isolation-overlay {
+/* .carte-isolation-overlay {
   position: absolute;
   inset: 0;
   z-index: 500;
@@ -935,7 +935,7 @@ path.leaflet-interactive:focus-visible {
 .carte-isolation-overlay--actif {
   pointer-events: all;
   animation: isolationFadeIn 1.4s ease-out forwards;
-}
+} */
 
 @keyframes isolationFadeIn {
   0%   { background: rgba(10, 8, 5, 0.0); }

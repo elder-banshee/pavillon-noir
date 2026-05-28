@@ -172,14 +172,14 @@ function initCarte() {
 
   L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
 
-// Pane pour le fond sombre d'isolation — entre l'image (z:200) et les zones (z:400)
+  // Pane pour le fond sombre d'isolation — entre l'image (z:200) et les zones (z:400)
   carte.createPane('isolationFond');
-  carte.getPane('isolationFond').style.zIndex = 250;
+  carte.getPane('isolationFond').style.zIndex = 410;
   carte.getPane('isolationFond').style.pointerEvents = 'none';
 
   // Pane pour le contour doré — au-dessus des zones (z:400)
   carte.createPane('isolationContour');
-  carte.getPane('isolationContour').style.zIndex = 450;
+  carte.getPane('isolationContour').style.zIndex = 420;
   carte.getPane('isolationContour').style.pointerEvents = 'none';
 
   renderZones();
@@ -1180,36 +1180,60 @@ function isolerTerritoire(juridictionId) {
   isolationLayer.addTo(carte);
 
   // ── 3. Animation simultanée fond + contour ──
-  // Fond : 0 → 0.78 en 4 étapes
-  // Contour : invisible → blanc → gold
-  const etapes = [
-    { t: 0,    fond: 0.0,  contourColor: '#ffffff', contourW: 3,   contourO: 0   },
-    { t: 300,  fond: 0.35, contourColor: '#ffffff', contourW: 3,   contourO: 1   },
-    { t: 750,  fond: 0.6,  contourColor: '#d4a84b', contourW: 3.5, contourO: 1   },
-    { t: 1400, fond: 0.78, contourColor: '#c8973a', contourW: 4,   contourO: 1   },
-  ];
+  // Appliquer une transition CSS sur le path SVG du contour
+  setTimeout(() => {
+    const paneEl = carte.getPane('isolationContour');
+    if (paneEl) {
+      const paths = paneEl.querySelectorAll('path');
+      paths.forEach(p => {
+        p.style.transition = 'stroke 0.6s ease, stroke-width 0.4s ease';
+      });
+    }
+  }, 50); // laisser Leaflet rendre le path d'abord
 
-  etapes.forEach(e => {
-    setTimeout(() => {
-      if (!isolationRect || !isolationLayer) return;
-      isolationRect.setStyle({ fillOpacity: e.fond });
-      isolationLayer.setStyle({ color: e.contourColor, weight: e.contourW, opacity: e.contourO });
-    }, e.t);
-  });
+  // Étape unique : apparition immédiate en blanc, puis gold en CSS
+  setTimeout(() => {
+    if (!isolationLayer) return;
+    isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
+  }, 60);
+
+  setTimeout(() => {
+    if (!isolationLayer) return;
+    isolationLayer.setStyle({ color: '#c8973a', weight: 4, opacity: 1 });
+  }, 300);
 
   // ── 4. Zoom sur le territoire ──
   setTimeout(() => {
     if (!isolationLayer) return;
-    carte.fitBounds(isolationLayer.getBounds(), {
+    carte.flyToBounds(isolationLayer.getBounds(), {
       padding: [80, 80],
       maxZoom: carte.getMinZoom() + 2,
+      duration: 1.2,      // secondes — ajuste à ton goût
+      easeLinearity: 0.3, // plus petit = plus souple
     });
-  }, 100);
+  }, 400); // décalé de 400ms pour laisser le fond sombre apparaître d'abord
 }
+
+carte.once('moveend', () => {
+  const pane = carte.getPane('isolationFond');
+  if (pane && isolationActive) pane.style.zIndex = 410;
+});
+
+// Réaffirmer le z-index du fond après le démarrage du flyToBounds
+// (Leaflet peut le réinitialiser pendant l'animation de zoom)
+setTimeout(() => {
+  const pane = carte.getPane('isolationFond');
+  if (pane) pane.style.zIndex = 410;
+}, 500);
+
+setTimeout(() => {
+  const pane = carte.getPane('isolationFond');
+  if (pane) pane.style.zIndex = 410;
+}, 1400);
 
 function fermerIsolation() {
   if (!isolationActive) return;
   isolationActive = null;
-  if (isolationRect)  { carte.removeLayer(isolationRect);  isolationRect  = null; }
+  if (isolationRect) { carte.removeLayer(isolationRect); isolationRect = null; }
   if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
 }
