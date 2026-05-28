@@ -15,6 +15,7 @@ let isolationLayer = null;   // couche Leaflet du contour d'isolation
 let isolationRect = null;    // rectangle Leaflet de fond sombre
 let panneauGaucheOuvert = true;
 
+
 // ─── Mode d'overlay ──────────────────────────────────────────
 // 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque'
 let overlayMode = 'geo';
@@ -306,11 +307,11 @@ function couleurAutochtone(zoneId, annee) {
   return AUTOCHTONES_COULEURS[statut] || null;
 }
 
-// ─── Weights de référence (au dézoom max) ────────────────────
+// ─── Épaisseur des contours de référence (au dézoom max) ────────────────────
 const WEIGHTS = {
   zone: 0.5,   // zone normale
   zoneActive: 2,     // zone sélectionnée
-  isolation: 4,     // contour d'isolation
+  isolation: 2,     // contour d'isolation
 };
 const ZOOM_FACTEUR = 1.5; // progression par niveau de zoom
 
@@ -1145,6 +1146,7 @@ function afficherSuggestions(q, container) {
 
   JURIDICTIONS.forEach(j => {
     if (!j.tags || !j.tags.length) return;
+    if (j.visible_mj && !modeMJ) return;
     let matchTag = null;
     for (const tag of j.tags) {
       const tagLow = tag.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
@@ -1247,7 +1249,7 @@ function isolerTerritoire(juridictionId) {
 
   // b. Déclencher les changements — le CSS s'occupe du fondu
   setTimeout(() => {
-    if (isolationRect) isolationRect.setStyle({ fillOpacity: 0.78 });
+    if (isolationRect) isolationRect.setStyle({ fillOpacity: 0.95 });
     if (isolationLayer) isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
   }, 60);
 
