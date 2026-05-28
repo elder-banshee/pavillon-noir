@@ -638,7 +638,7 @@ const ZONES_DATA = {
     ]
   ],
 
-  'guyane': [  // 2 contour(s), 141 pts
+  'suriname': [  // 2 contour(s), 141 pts
     [
       [7756, 4312], [7742, 4316], [7732, 4338], [7732, 4354], [7720, 4363], [7709, 4391],
       [7698, 4406], [7657, 4432], [7607, 4477], [7583, 4519], [7576, 4566], [7533, 4677],
@@ -1400,6 +1400,9 @@ const ZONES_DATA = {
       [5291, 2692], [5295, 2669], [5290, 2651], [5268, 2631], [5239, 2637], [5239, 2646],
       [5273, 2671], [5278, 2685], [5285, 2691]
     ],
+  ],
+
+    'tortue': [  // 1 contour(s), ??? pts
     [
       [5328, 2536], [5351, 2534], [5356, 2523], [5338, 2510], [5311, 2506], [5292, 2521],
       [5292, 2530], [5299, 2535], [5323, 2541], [5328, 2536]
@@ -1925,7 +1928,7 @@ const ZONES_DEMO = {
     statut_autochtone: null,
   },
 
-  'guyane': {
+  'suriname': {
     colons: 12000,
     esclaves: 40000,
     indiens: 55000,
@@ -2087,6 +2090,17 @@ const ZONES_DEMO = {
     population: 82000,
     superficie: 106018,
     score_densite: 0.2488,
+    statut_autochtone: null,
+  },
+
+    'tortue': {
+    colons: '200~400',
+    esclaves: 0,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 350,
+    superficie: 1272,
+    score_densite: 0.0522,
     statut_autochtone: null,
   },
 
