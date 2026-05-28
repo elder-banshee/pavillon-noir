@@ -14,6 +14,7 @@ let isolationActive = null;  // id juridiction isolée (recherche)
 let isolationLayer = null;   // couche Leaflet du contour d'isolation
 let isolationRect = null;    // rectangle Leaflet de fond sombre
 let panneauGaucheOuvert = true;
+let modeSombre = false;
 
 
 // ─── Mode d'overlay ──────────────────────────────────────────
@@ -169,10 +170,25 @@ function initCarte() {
     maxBoundsViscosity: 1.0,
     attributionControl: false,
     doubleClickZoom: false,
-    zoomAnimationThreshold: 4,
+    zoomControl: false,  // désactiver les boutons natifs
   });
 
-  L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
+  function positionnerBoutonsZoom() {
+    const wrap = document.getElementById('carte-wrap');
+    const controls = document.querySelector('.carte-zoom-controls');
+    if (!wrap || !controls) return;
+    const parent = controls.offsetParent;
+    const wrapRect = wrap.getBoundingClientRect();
+    const parentRect = parent.getBoundingClientRect();
+    // right = distance entre le bord droit du parent et le bord gauche de carte-wrap
+    controls.style.right = (parentRect.right - wrapRect.left) + 'px';
+    controls.style.top = (wrapRect.top - parentRect.top) + 'px';
+  }
+
+  carteOverlayPrincipale = L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
+
+  const el = carteOverlayPrincipale.getElement();
+  if (el) el.style.transition = 'opacity 0.9s ease';
 
   // Pane pour le fond sombre d'isolation — entre l'image (z:200) et les zones (z:400)
   carte.createPane('isolationFond');
@@ -199,12 +215,14 @@ function initCarte() {
     carte.setMinZoom(carte.getZoom());
     carte.setMaxBounds(bounds);
     majWeightsZones(); // weights initialisés après que getMinZoom() est stable
+    positionnerBoutonsZoom();
   }, 100);
 
   window.addEventListener('resize', () => {
     carte.invalidateSize();
     carte.fitBounds(bounds, { padding: [0, 0] });
     carte.setMinZoom(carte.getZoom());
+    positionnerBoutonsZoom();
   });
 
   carte.on('resize', () => {
@@ -227,6 +245,17 @@ function initCarte() {
       }, 60);
     }
   });
+
+  document.getElementById('carte-zoom-in')
+    ?.addEventListener('click', () => carte.zoomIn(0.5));
+  document.getElementById('carte-zoom-out')
+    ?.addEventListener('click', () => carte.zoomOut(0.5));
+  document.getElementById('carte-zoom-sombre')
+    ?.addEventListener('click', () => {
+      modeSombre = !modeSombre;
+      carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+      document.getElementById('carte-zoom-sombre').classList.toggle('active', modeSombre);
+    });
 }
 
 // ─── Conversion coordonnées pixel → Leaflet LatLng ───────────
@@ -1138,6 +1167,13 @@ function initRecherche() {
   // Overlay isolation : fermer au clic
   const overlayEl = document.getElementById('carte-isolation-overlay');
   if (overlayEl) overlayEl.addEventListener('click', fermerIsolation);
+
+  const btnSombre = document.getElementById('carte-mode-sombre-btn');
+  if (btnSombre) btnSombre.addEventListener('click', () => {
+    modeSombre = !modeSombre;
+    carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+    btnSombre.classList.toggle('active', modeSombre);
+  });
 }
 
 function afficherSuggestions(q, container) {
@@ -1206,20 +1242,22 @@ function isolerTerritoire(juridictionId) {
 
   isolationActive = juridictionId;
 
-  // ── 1. Rectangle sombre dans le pane "isolationFond" (z:250, sous les zones) ──
-  const W = CARTE_IMAGE.width;
-  const H = CARTE_IMAGE.height;
-  // Polygone surdimensionné (×5) pour couvrir toute animation de zoom sans bande découverte
-  const M = 5; // multiplicateur de marge
-  isolationRect = L.rectangle([[-H * M, -W * M], [H * M, W * M]], {
-    color: 'transparent',
-    weight: 0,
-    fillColor: '#0a0805',
-    fillOpacity: 0,          // commence transparent, animé par JS
-    interactive: false,
-    pane: 'isolationFond',
+  carte.getPane('overlayPane').style.pointerEvents = 'none';
+  carte.getPane('markerPane').style.pointerEvents = 'none';
+
+  // ── 1. Assombrir la carte ──
+  if (carteOverlayPrincipale) carteOverlayPrincipale.setOpacity(0.05);
+  Object.values(layersZones).forEach(groupe => {
+    groupe.eachLayer(poly => poly.setStyle({ fillOpacity: 0, opacity: 0 }));
   });
-  isolationRect.addTo(carte);
+  Object.values(markersMap).forEach(m => m.setOpacity(0));
+  // Désactiver les overlays et la carte
+  document.getElementById('carte-legende')?.classList.add('carte-isolation--disabled');
+  document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
+    btn.disabled = true;
+    btn.classList.add('carte-isolation--disabled');
+  });
+  document.getElementById('carte').style.pointerEvents = 'none';
 
   // ── 2. Contour doré dans le pane "isolationContour" (z:450, au-dessus des zones) ──
   const latlngs = contours.map(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
@@ -1272,6 +1310,16 @@ function isolerTerritoire(juridictionId) {
 function fermerIsolation() {
   if (!isolationActive) return;
   isolationActive = null;
-  if (isolationRect) { carte.removeLayer(isolationRect); isolationRect = null; }
+  // Restaurer l'opacity en tenant compte du mode sombre
+  if (carteOverlayPrincipale) carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
   if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
+  // Réactiver
+  document.getElementById('carte-legende')?.classList.remove('carte-isolation--disabled');
+  document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('carte-isolation--disabled');
+  });
+  document.getElementById('carte').style.pointerEvents = '';
+  carte.getPane('overlayPane').style.pointerEvents = '';
+  carte.getPane('markerPane').style.pointerEvents = '';
 }

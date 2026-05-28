@@ -37,6 +37,48 @@ main {
   background: var(--ink);
 }
 
+.carte-zoom-controls {
+  position: absolute;
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.carte-zoom-btn {
+  width: 36px;
+  height: 36px;
+  background: rgba(14, 12, 9, 0.92);
+  border: 1px solid var(--border);
+  border-top: none;
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  padding: 0;
+}
+
+/* Premier bouton — bord supérieur visible */
+.carte-zoom-btn:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.carte-zoom-btn:hover {
+  background: rgba(200, 151, 58, 0.1);
+  color: var(--gold-light);
+}
+
+.carte-zoom-btn--sombre.active {
+  color: var(--gold-light);
+  background: rgba(200, 151, 58, 0.08);
+  border-color: rgba(200, 151, 58, 0.5);
+}
+
 /* ─── Overrides Leaflet ─────────────────────────────────────── */
 .leaflet-container {
   background: var(--ink);
@@ -787,7 +829,8 @@ path.leaflet-interactive:focus-visible {
 .carte-panneau-gauche-toggle {
   position: absolute;
   top: 50%;
-  left: 0;           /* position de base : bord gauche de carte-plus */
+  left: 0;
+  /* position de base : bord gauche de carte-plus */
   transform: translateY(-50%);
   background: linear-gradient(160deg, #141009 0%, #0e0c09 100%);
   border: 1px solid var(--border);
@@ -806,13 +849,16 @@ path.leaflet-interactive:focus-visible {
 }
 
 /* Panneau ouvert : toggle suit la largeur du panneau */
-.carte-panneau-gauche--open ~ .carte-panneau-gauche-toggle {
+.carte-panneau-gauche--open~.carte-panneau-gauche-toggle {
   left: 280px;
   border-left: none;
   border-right: 1px solid var(--border);
 }
 
-.carte-panneau-gauche-toggle:hover { color: var(--gold); background: rgba(200,151,58,0.05); }
+.carte-panneau-gauche-toggle:hover {
+  color: var(--gold);
+  background: rgba(200, 151, 58, 0.05);
+}
 
 /* ─── Titre section panneau gauche ─────────────────────────── */
 .carte-recherche-titre {
@@ -836,7 +882,7 @@ path.leaflet-interactive:focus-visible {
 .carte-recherche-input {
   width: 100%;
   box-sizing: border-box;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border);
   color: var(--parchment);
   font-family: 'Crimson Text', serif;
@@ -846,8 +892,14 @@ path.leaflet-interactive:focus-visible {
   transition: border-color 0.2s;
 }
 
-.carte-recherche-input::placeholder { color: var(--mist); opacity: 0.6; }
-.carte-recherche-input:focus { border-color: rgba(200,151,58,0.5); }
+.carte-recherche-input::placeholder {
+  color: var(--mist);
+  opacity: 0.6;
+}
+
+.carte-recherche-input:focus {
+  border-color: rgba(200, 151, 58, 0.5);
+}
 
 .carte-recherche-clear {
   position: absolute;
@@ -864,7 +916,9 @@ path.leaflet-interactive:focus-visible {
   line-height: 1;
 }
 
-.carte-recherche-clear:hover { color: var(--gold); }
+.carte-recherche-clear:hover {
+  color: var(--gold);
+}
 
 /* ─── Liste de suggestions ──────────────────────────────────── */
 .carte-recherche-suggestions {
@@ -874,7 +928,7 @@ path.leaflet-interactive:focus-visible {
   max-height: 300px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(200,151,58,0.3) transparent;
+  scrollbar-color: rgba(200, 151, 58, 0.3) transparent;
 }
 
 .carte-recherche-suggestion {
@@ -883,15 +937,17 @@ path.leaflet-interactive:focus-visible {
   gap: 0.1rem;
   padding: 0.55rem 0.65rem;
   cursor: pointer;
-  border-bottom: 1px solid rgba(200,151,58,0.08);
+  border-bottom: 1px solid rgba(200, 151, 58, 0.08);
   transition: background 0.15s;
 }
 
-.carte-recherche-suggestion:last-child { border-bottom: none; }
+.carte-recherche-suggestion:last-child {
+  border-bottom: none;
+}
 
 .carte-recherche-suggestion:hover,
 .carte-recherche-suggestion--active {
-  background: rgba(200,151,58,0.08);
+  background: rgba(200, 151, 58, 0.08);
 }
 
 .carte-recherche-suggestion-nom {
@@ -923,6 +979,33 @@ path.leaflet-interactive:focus-visible {
   opacity: 0.7;
 }
 
+.carte-mode-sombre-btn {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--mist);
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.65rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.carte-mode-sombre-btn:hover {
+  border-color: rgba(200, 151, 58, 0.4);
+  color: var(--parchment);
+}
+
+.carte-mode-sombre-btn.active {
+  border-color: var(--gold);
+  color: var(--gold-light);
+  background: rgba(200, 151, 58, 0.06);
+}
+
 /* ─── Overlay d'isolation territoire ────────────────────────── */
 /* .carte-isolation-overlay {
   position: absolute;
@@ -937,11 +1020,28 @@ path.leaflet-interactive:focus-visible {
   animation: isolationFadeIn 1.4s ease-out forwards;
 } */
 
+.carte-isolation--disabled {
+  opacity: 0.35;
+  pointer-events: none;
+  cursor: default;
+}
+
 @keyframes isolationFadeIn {
-  0%   { background: rgba(10, 8, 5, 0.0); }
-  30%  { background: rgba(10, 8, 5, 0.35); }
-  65%  { background: rgba(10, 8, 5, 0.6); }
-  100% { background: rgba(10, 8, 5, 0.78); }
+  0% {
+    background: rgba(10, 8, 5, 0.0);
+  }
+
+  30% {
+    background: rgba(10, 8, 5, 0.35);
+  }
+
+  65% {
+    background: rgba(10, 8, 5, 0.6);
+  }
+
+  100% {
+    background: rgba(10, 8, 5, 0.78);
+  }
 }
 
 /* ─── Responsive ─────────────────────────────────────────────── */
