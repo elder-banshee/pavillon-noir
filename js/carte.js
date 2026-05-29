@@ -1202,28 +1202,31 @@ function initRecherche() {
   const input = document.getElementById('carte-recherche-input');
   const suggestions = document.getElementById('carte-recherche-suggestions');
   const clear = document.getElementById('carte-recherche-clear');
+  const fantome = document.getElementById('carte-recherche-fantome');
   if (!input || !suggestions || !clear) return;
+
+  function getSuggestion(q) {
+    if (!q) return '';
+    const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    const j = JURIDICTIONS.find(j => {
+      if (j.visible_mj && !modeMJ) return false;
+      const nomLow = j.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+      return nomLow.startsWith(qLow);
+    });
+    return j ? j.nom : '';
+  }
 
   input.addEventListener('input', () => {
     const q = input.value.trim();
     clear.style.display = q ? '' : 'none';
-    const fantome = document.getElementById('carte-recherche-fantome');
     if (fantome) fantome.textContent = '';
     if (q.length < 1) { suggestions.innerHTML = ''; return; }
+
     afficherSuggestions(q, suggestions);
 
-    // Inline autocomplete
-    const premiere = suggestions.querySelector('.carte-recherche-suggestion');
-    if (premiere && fantome) {
-      const id = premiere.dataset.id;
-      const j = JURIDICTIONS.find(j => j.id === id);
-      if (j) {
-        const nomLow = j.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        if (nomLow.startsWith(qLow)) {
-          fantome.textContent = q + j.nom.slice(q.length);
-        }
-      }
+    const sugg = getSuggestion(q);
+    if (fantome && sugg) {
+      fantome.textContent = q + sugg.slice(q.length);
     }
   });
 
@@ -1231,13 +1234,23 @@ function initRecherche() {
     input.value = '';
     clear.style.display = 'none';
     suggestions.innerHTML = '';
-    const fantome = document.getElementById('carte-recherche-fantome');
     if (fantome) fantome.textContent = '';
     fermerIsolation();
     input.focus();
   });
 
   input.addEventListener('keydown', (e) => {
+    if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome && fantome.textContent) {
+      e.preventDefault();
+      input.value = fantome.textContent;
+      fantome.textContent = '';
+      suggestions.innerHTML = '';
+      const q = input.value.trim();
+      const j = JURIDICTIONS.find(j => j.nom === q);
+      if (j) isolerTerritoire(j.id);
+      return;
+    }
+
     const items = suggestions.querySelectorAll('.carte-recherche-suggestion');
     if (!items.length) return;
     const actif = suggestions.querySelector('.carte-recherche-suggestion--active');
@@ -1259,18 +1272,12 @@ function initRecherche() {
       e.preventDefault();
       if (actif) actif.click();
       else if (items.length === 1) items[0].click();
-} else if (e.key === 'Tab') {
-      const fantome = document.getElementById('carte-recherche-fantome');
-      if (fantome && fantome.textContent) {
-        e.preventDefault();
-        const premiere = suggestions.querySelector('.carte-recherche-suggestion');
-        if (premiere) premiere.click();
-      }
     } else if (e.key === 'Escape') {
       fermerIsolation();
       input.value = '';
       clear.style.display = 'none';
       suggestions.innerHTML = '';
+      if (fantome) fantome.textContent = '';
     }
   });
 }
@@ -1315,6 +1322,16 @@ function afficherSuggestions(q, container) {
     container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
     return;
   }
+
+  // Priorité aux noms qui commencent par la frappe, puis alphabétique
+  resultats.sort((a, b) => {
+    const aNom = a.juridiction.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    const bNom = b.juridiction.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    const aDebut = aNom.startsWith(qLow) ? 0 : 1;
+    const bDebut = bNom.startsWith(qLow) ? 0 : 1;
+    if (aDebut !== bDebut) return aDebut - bDebut;
+    return aNom.localeCompare(bNom, 'fr');
+  });
 
   container.innerHTML = resultats.slice(0, 12).map(({ juridiction: j, matchTag }) => {
     const nomMatch = matchTag === j.nom;

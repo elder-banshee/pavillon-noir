@@ -32,6 +32,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
         id: 'san-agustin',
         nom: 'San Agustín (Saint Augustine)',
         capitale: true,
+        type: 'port',
         territoire: 'floride',
         coords: [3967, 1087],
 
@@ -51,6 +52,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
         id: 'mobile',
         nom: 'Mobile',
         capitale: true,
+        type: 'port',
         territoire: 'louisiane',
         coords: null,
 
@@ -68,6 +70,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
         id: 'la-nouvelle-orleans',
         nom: 'La Nouvelle-Orléans',
         capitale: true,
+        type: 'port',
         territoire: 'louisiane',
         coords: [1297, 1314],
 
@@ -83,6 +86,7 @@ Pour la campagne : La Nouvelle-Orléans n'existe pas avant 1718 — tout événe
         id: 'saint-georges-bermudes',
         nom: "Saint George's (Bermudes)",
         capitale: true,
+        type: 'port',
         territoire: 'bermudes',
         coords: null,
 
@@ -98,6 +102,7 @@ Fort Hamilton : construit à partir de 1620 environ, en état modeste à cette p
     {
         id: 'spanish-town',
         nom: 'Spanish Town (Jamaïque)',
+        type: 'port',
         territoire: 'jamaique',
         coords: null,
 
@@ -111,6 +116,7 @@ Fort Hamilton : construit à partir de 1620 environ, en état modeste à cette p
     {
         id: 'kingston',
         nom: 'Kingston & Port Royal',
+        type: 'port',
         territoire: 'jamaique',
         coords: [4833, 2890],
 
@@ -139,6 +145,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         id: 'cap-francais',
         nom: 'Cap-Français (Le Cap)',
         capitale: true,
+        type: 'port',
         territoire: 'saint-domingue',
         coords: [5497, 2541],
 
@@ -154,6 +161,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
     {
         id: 'petit-goave',
         nom: 'Petit-Goâve',
+        type: 'port',
         territoire: 'saint-domingue',
         coords: [5340, 2769],
 
@@ -170,6 +178,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
     {
         id: 'basse-terre-tortue',
         nom: 'Basse-Terre (Île de la Tortue)',
+        type: 'port',
         territoire: 'tortue',
         coords: [5310, 2528],
 
@@ -188,6 +197,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
     {
         id: 'harbour-island',
         nom: 'Harbour Island',
+        type: 'port',
         territoire: 'eleuthera',
         coords: [4719, 1610],
 
@@ -218,6 +228,7 @@ Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colo
         id: 'santo-domingo',
         nom: 'Santo Domingo',
         capitale: true,
+        type: 'port',
         territoire: 'santo-domingo',
         coords: [5821, 2780],
 
@@ -237,6 +248,7 @@ Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colo
         id: 'san-juan',
         nom: 'San Juan (Porto Rico)',
         capitale: true,
+        type: 'port',
         territoire: 'porto-rico',
         coords: [6551, 2727],
 
@@ -262,6 +274,7 @@ La figure dominante de San Juan n'est pas le gouverneur mais <strong>Miguel Enr�
         id: 'la-havane',
         nom: 'La Havane (Cuba)',
         capitale: true,
+        type: 'port',
         territoire: 'cuba',
         coords: [3695, 2084],
 
@@ -284,6 +297,7 @@ La principale richesse locale est le tabac de la Vuelta Abajo, cultivé par de p
     {
         id: 'santiago-de-cuba',
         nom: 'Santiago de Cuba',
+        type: 'port',
         territoire: 'cuba',
         coords: [4824, 2522],
 
@@ -301,6 +315,7 @@ La principale richesse locale est le tabac de la Vuelta Abajo, cultivé par de p
     {
         id: 'tampico',
         nom: 'Tampico',
+        type: 'port',
         territoire: 'panuco',
         coords: [1153, 2032],
 
@@ -315,6 +330,7 @@ La principale richesse locale est le tabac de la Vuelta Abajo, cultivé par de p
     {
         id: 'veracruz',
         nom: 'Veracruz',
+        type: 'port',
         territoire: 'nouvelle-espagne',
         coords: [1172, 2628],
 
@@ -336,6 +352,7 @@ En 1683, le flibustier Lorencillo (Laurent de Graff) et Grammont s'emparent de l
     {
         id: 'campeche',
         nom: 'Campeche',
+        type: 'port',
         territoire: 'yucatan',
         coords: [2314, 2607],
 
@@ -356,6 +373,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
     {
         id: 'trujillo',
         nom: 'Trujillo (Honduras)',
+        type: 'port',
         territoire: 'honduras',
         coords: [2949, 3278],
 
@@ -370,6 +388,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         id: 'cap-gracias-a-dios',
         nom: 'Cap Gracias a Dios',
         capitale: true,
+        type: 'port',
         territoire: 'cote-miskito',
         coords: [3568, 3452],
 
@@ -385,6 +404,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
     {
         id: 'granada-nicaragua',
         nom: 'Granada (Nicaragua)',
+        type: 'port',
         territoire: 'nicaragua',
         coords: [2772, 4009],
 
@@ -402,6 +422,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
     {
         id: 'fort-san-lorenzo',
         nom: 'Fort San Lorenzo (río Chagres)',
+        type: 'port',
         territoire: 'panama',
         coords: null,
 
@@ -423,6 +444,7 @@ Henry Morgan l'a pris d'assaut en décembre 1670 — avec pertes sévères — a
     {
         id: 'portobelo',
         nom: 'Portobelo',
+        type: 'port',
         territoire: 'panama',
         coords: [3865, 4230],
 
@@ -448,6 +470,7 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
         id: 'panama-city',
         nom: 'Panama City',
         capitale: true,
+        type: 'port',
         territoire: 'panama',
         coords: [4020, 4370],
 
@@ -465,6 +488,7 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
     {
         id: 'bocachica',
         nom: 'Fort Bocachica (Carthagène)',
+        type: 'port',
         territoire: 'nouvelle-grenade',
         coords: [4804, 4103],
 
@@ -483,6 +507,7 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
     {
         id: 'maracaibo',
         nom: 'Maracaibo',
+        type: 'port',
         territoire: 'nouvelle-grenade',
         coords: [5932, 4020],
 
@@ -503,6 +528,7 @@ La ville vit du cacao de la région — l'un des meilleurs des Caraïbes — exp
     {
         id: 'la-guaira',
         nom: 'La Guaira',
+        type: 'port',
         territoire: 'venezuela',
         coords: [6501, 4065],
 
@@ -517,6 +543,7 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
     {
         id: 'pampatar',
         nom: 'Pampatar (Île Marguerita)',
+        type: 'port',
         territoire: 'marguerita',
         coords: [6967, 3919],
 
@@ -535,6 +562,7 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
         id: 'cumana',
         nom: 'Cumaná',
         capitale: true,
+        type: 'port',
         territoire: 'nouvelle-andalousie',
         coords: [6782, 4094],
 
@@ -553,6 +581,7 @@ Trinidad dépend nominalement de la province de Cumaná jusqu'en 1731.`,
     {
         id: 'puerto-espana',
         nom: 'Puerto España (Port of Spain)',
+        type: 'port',
         territoire: 'trinidad',
         coords: [7438, 4007],
 
@@ -574,6 +603,7 @@ Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inex
         id: 'fort-royal-martinique',
         nom: 'Fort-Royal (Martinique)',
         capitale: true,
+        type: 'port',
         territoire: 'martinique',
         coords: [7400, 3318],
 
@@ -594,6 +624,7 @@ Le Gaoulé de mai 1717 — soulèvement des grands planteurs contre l'intendant 
     {
         id: 'saint-pierre',
         nom: 'Saint-Pierre (Martinique)',
+        type: 'port',
         territoire: 'martinique',
         coords: [7376, 3296],
 
@@ -613,6 +644,7 @@ Pas de fort propre — des batteries côtières légères.`,
         id: 'basse-terre-guadeloupe',
         nom: 'Basse-Terre (Guadeloupe)',
         capitale: true,
+        type: 'port',
         territoire: 'guadeloupe',
         coords: [7295, 3108],
 
@@ -630,6 +662,7 @@ Pas de fort propre — des batteries côtières légères.`,
         id: 'saint-georges-grenade',
         nom: "Saint-George's (Grenade)",
         capitale: true,
+        type: 'port',
         territoire: 'grenade',
         coords: [7326, 3797],
 
@@ -644,6 +677,7 @@ Pas de fort majeur en 1712 — des batteries côtières légères.`,
     {
         id: 'basseterre',
         nom: 'Basseterre (Saint-Kitts)',
+        type: 'port',
         territoire: 'saint-christophe',
         coords: [7095, 2880],
 
@@ -660,6 +694,7 @@ La défense de l'île est assurée depuis Brimstone Hill — voir entrée dédi�
         id: 'brimstone-hill',
         nom: 'Fort Brimstone Hill (Saint-Kitts)',
         capitale: true,
+        type: 'port',
         territoire: 'saint-christophe',
         coords: [7078, 2870],
 
@@ -681,6 +716,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
         id: 'saint-johns-antigua',
         nom: "Saint-John's (Antigua)",
         capitale: true,
+        type: 'port',
         territoire: 'leeward-islands',
         coords: [7289, 2923],
 
@@ -695,6 +731,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
     {
         id: 'english-harbour',
         nom: 'English Harbour (Antigua)',
+        type: 'port',
         territoire: 'leeward-islands',
         coords: [7298, 2934],
 
@@ -715,6 +752,7 @@ En 1712, les installations permanentes sont encore modestes — les grands arsen
         id: 'charlotte-amalie',
         nom: 'Charlotte Amalie (Saint-Thomas)',
         capitale: true,
+        type: 'port',
         territoire: 'saint-thomas',
         coords: [6807, 2732],
 
@@ -736,6 +774,7 @@ La population est délibérément cosmopolite — Danois, Hollandais, Anglais, J
         id: 'willemstad',
         nom: 'Willemstad (Curaçao)',
         capitale: true,
+        type: 'port',
         territoire: 'curaçao',
         coords: [6189, 3787],
 
@@ -757,6 +796,7 @@ Tout navire avec quelque chose à vendre ou à acheter sans questions trouve ici
         id: 'paramaribo',
         nom: 'Paramaribo (Suriname)',
         capitale: true,
+        type: 'port',
         territoire: 'suriname',
         coords: [8269, 4634],
 
@@ -779,6 +819,7 @@ Note toponymique : "Paragotos" sur la carte Jaillot désigne probablement le mê
         id: 'bridgetown',
         nom: 'Bridgetown (Barbade)',
         capitale: true,
+        type: 'port',
         territoire: 'barbade',
         coords: [7603, 3566],
 

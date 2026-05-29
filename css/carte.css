@@ -969,17 +969,20 @@ path.leaflet-interactive:focus-visible {
   border-color: rgba(200, 151, 58, 0.5);
 }
 
-.carte-recherche-suggestion-fantome {
+.carte-recherche-fantome {
   position: absolute;
   top: 0;
   left: 0;
-  padding: 0.5rem 2rem 0.5rem 0.65rem;
+  right: 2rem;
+  padding: 0.5rem 0 0.5rem 0.65rem;
   font-family: 'Crimson Text', serif;
   font-size: 0.95rem;
-  color: transparent;
+  color: var(--mist);
+  opacity: 0.45;
   pointer-events: none;
-  white-space: pre;
+  white-space: nowrap;
   overflow: hidden;
+  line-height: normal;
 }
 
 .carte-recherche-clear {
