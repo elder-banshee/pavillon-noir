@@ -15,7 +15,7 @@ const VILLES = [
         id: 'charles-town',
         nom: 'Charles Town (Charleston)',
         territoire: 'caroline-du-sud',
-        coords: null,
+        coords: [4390, 470],
 
         contexte: `Principal port des colonies britanniques du Sud. Charles Town exporte riz, indigo et esclaves africains vers l'Angleterre ; elle importe manufactures et rhum des Antilles. Son port est le seul débouché maritime de la Caroline du Sud et le point de passage de tout le commerce régional. Les marchands de Charles Town sont parmi les plus actifs fournisseurs du marché pirate de Nassau — rhum, provisions, outils contre butin revendu discrètement. En juin 1718, Barbe-Noire bloque le port avec quatre navires, prend des otages parmi les notables et impose ses conditions sans rencontrer la moindre résistance navale — épisode révélateur de l'impuissance militaire de la colonie au sortir de la guerre yamasee.`,
 
@@ -30,7 +30,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
         id: 'san-agustin',
         nom: 'San Agustín (Saint Augustine)',
         territoire: 'floride',
-        coords: null,
+        coords: [3967, 1087],
 
         contexte: `Unique ville permanente de Floride. San Agustín est d'abord un presidio — une garnison avec une ville autour — dont la valeur est stratégique plutôt qu'économique. Le Castillo de San Marcos, fort en coquina (pierre corallienne locale résistant aux boulets), domine la baie depuis 1695. La ville accueille les esclaves fugitifs des plantations caroliniennes à qui Madrid accorde la liberté contre le baptême et le service militaire — pratique qui attise les tensions avec Charles Town. La garnison ne dépasse pas 300 hommes, chroniquement sous-payés et mal équipés ; les missions franciscaines de l'arrière-pays ont été détruites par les raids anglais de 1704.`,
 
@@ -64,7 +64,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
         id: 'la-nouvelle-orleans',
         nom: 'La Nouvelle-Orléans',
         territoire: 'louisiane',
-        coords: null,
+        coords: [1297, 1314],
 
         contexte: `Fondée par Bienville en 1718 sur un méandre du Mississippi à quelques kilomètres du lac Pontchartrain. En 1718–1720, c'est un chantier dans un marais : quelques dizaines de maisons en bois, une palissade, des ouvriers qui meurent de fièvre. La Compagnie des Indes y déverse des colons recrutés parfois de force. Sa vocation est de devenir le nœud entre le bassin du Mississippi et le Golfe du Mexique — ambition que la géographie justifie, mais que les conditions de 1718 rendent difficilement crédible.`,
 
@@ -106,7 +106,7 @@ Fort Hamilton : construit à partir de 1620 environ, en état modeste à cette p
         id: 'kingston',
         nom: 'Kingston & Port Royal',
         territoire: 'jamaique',
-        coords: null,
+        coords: [4833, 2890],
 
         contexte: `<strong>Port Royal</strong> occupait avant 1692 l'angle d'un long banc de sable fermant la baie de Kingston — ville de négoce et de plaisir surnommée "la plus riche et la plus impie du Nouveau Monde". Le tremblement de terre du 7 juin 1692 a englouti les deux tiers de la ville en deux minutes, noyant entre 2 000 et 5 000 personnes. Port Royal n'a pas disparu — la péninsule a été reconsolidée, une partie des bâtiments reconstruits — mais la population civile ne s'y est jamais réinstallée massivement. Ce qui reste est militaire et pénal : la base navale de la Royal Navy, les entrepôts d'avitaillement, et le Gallows Point.
 
@@ -133,7 +133,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         id: 'cap-francais',
         nom: 'Cap-Français (Le Cap)',
         territoire: 'saint-domingue',
-        coords: null,
+        coords: [5497, 2541],
 
         contexte: `Capitale de Saint-Domingue et ville la plus active des Antilles françaises. Le Cap s'étend sur une plaine étroite coincée entre la mer et les mornes du nord d'Hispaniola. Ses quais expédient vers Bordeaux et Nantes le sucre, l'indigo et le cacao des grandes habitations de la plaine du Nord. Le Conseil supérieur y siège, le gouverneur général y réside, et les négociants de toute la Caraïbe y font escale. Les tavernes, maisons closes et entrepôts du port constituent une économie parallèle fréquentée par des marins de toutes nationalités — dont certains n'ont pas de papiers en règle. Un capitaine avec une cargaison d'origine douteuse y trouvera preneur, à condition de ne pas attirer l'attention des autorités.`,
 
@@ -148,7 +148,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         id: 'petit-goave',
         nom: 'Petit-Goâve',
         territoire: 'saint-domingue',
-        coords: null,
+        coords: [5340, 2769],
 
         contexte: `Ancienne capitale des flibustiers français de Saint-Domingue. Dans les années 1660–1690, Petit-Goâve était le point de rassemblement des boucaniers de la côte ouest d'Hispaniola — une ville de planches et de tavernes où les équipages se formaient, les prises se vendaient, et les gouverneurs fermaient les yeux. En 1712, cette époque est révolue depuis une génération : Petit-Goâve est un bourg modeste en déclin, dont les habitants vivent surtout d'un petit commerce de denrées et de pêche côtière. Il reste un mouillage commode sur la route entre Le Cap et la côte sud, mais plus rien de la turbulence d'antan.`,
 
@@ -164,7 +164,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         id: 'basse-terre-tortue',
         nom: 'Basse-Terre (Île de la Tortue)',
         territoire: 'tortue',
-        coords: null,
+        coords: [5310, 2528],
 
         contexte: `Bourg principal de l'île de la Tortue, organisé autour du Fort de la Roche — l'unique position défendable de l'île, taillée à même le promontoire rocheux qui domine la rade. En 1712, la Tortue est une dépendance administrative de Saint-Domingue sans gouverneur propre. Le bourg est modeste : quelques centaines d'habitants, des pêcheurs, une garnison squelettique. Sa seule réputation vivante est sanitaire — les marins de la côte lui prêtent un "air" qui épargne la fièvre jaune, et un homme qui se sait atteint cherche parfois à gagner l'île pour tenter sa chance.`,
 
@@ -182,7 +182,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         id: 'harbour-island',
         nom: 'Harbour Island',
         territoire: 'eleuthera',
-        coords: null,
+        coords: [4719, 1610],
 
         contexte: `Îlot de quelques kilomètres au nord-est de la pointe septentrionale d'Eleuthera, Harbour Island est le centre le plus actif de l'archipel des Bahamas hors Nassau. Sa baie naturelle, protégée par un banc de sable, offre un mouillage abrité accessible aux sloops et aux goélettes — mais difficile pour les grands bâtiments, ce qui constitue une protection naturelle.
 
@@ -211,7 +211,7 @@ Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colo
         id: 'santo-domingo',
         nom: 'Santo Domingo',
         territoire: 'santo-domingo',
-        coords: null,
+        coords: [5821, 2780],
 
         contexte: `Première ville européenne permanente des Amériques, fondée en 1498 sur la rive sud d'Hispaniola. Santo Domingo conserve son prestige historique — siège de la Real Audiencia, première cathédrale, premier palais colonial du Nouveau Monde — mais la ville est en 1712 une cité appauvrie et clairsemée. La Fortaleza Ozama, construite en 1502 sur la rive du fleuve du même nom, est le plus vieux fort européen des Amériques encore debout. La Real Audiencia de Santo Domingo exerce nominalement une juridiction sur Cuba, Porto Rico, la Floride et le Venezuela, mais cette autorité est de plus en plus fictive à mesure que Madrid réorganise son empire.`,
 
@@ -229,7 +229,7 @@ Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colo
         id: 'san-juan',
         nom: 'San Juan (Porto Rico)',
         territoire: 'porto-rico',
-        coords: null,
+        coords: [6551, 2727],
 
         contexte: `San Juan est bâtie sur un îlot rocheux relié à l'île principale par deux ponts-levis — position qui en fait naturellement une des places les mieux défendues des Antilles. Deux châteaux-forts commandent l'accès : le <strong>Castillo San Felipe del Morro</strong> à la pointe ouest de l'îlot, dominant l'entrée du chenal depuis le XVIe siècle, et le <strong>Castillo San Cristóbal</strong> à l'est, protégeant l'accès terrestre depuis la grande île. L'enceinte de murailles reliant les deux forts est pratiquement continue.
 
@@ -253,7 +253,7 @@ La figure dominante de San Juan n'est pas le gouverneur mais <strong>Miguel Enr�
         id: 'la-havane',
         nom: 'La Havane (Cuba)',
         territoire: 'cuba',
-        coords: null,
+        coords: [3695, 2084],
 
         contexte: `Pivot logistique de l'empire espagnol dans les Caraïbes occidentales. La Havane est le point de rassemblement des flottes du Trésor avant leur traversée vers Cadix — tous les galions chargés d'argent péruvien ou mexicain y font escale, s'y ravitaillent, y attendent la saison favorable. Ce statut en fait la ville la plus active et la mieux défendue du monde caraïbe hispanique.
 
@@ -275,7 +275,7 @@ La principale richesse locale est le tabac de la Vuelta Abajo, cultivé par de p
         id: 'santiago-de-cuba',
         nom: 'Santiago de Cuba',
         territoire: 'cuba',
-        coords: null,
+        coords: [4824, 2522],
 
         contexte: `Second port de Cuba, sur la côte sud orientale — à l'opposé de La Havane tant géographiquement qu'économiquement. Santiago vit dans l'orbite de la Jamaïque britannique voisine autant que dans celle de La Havane : le commerce interlope avec Kingston est structurel, toléré par des gouverneurs locaux qui y trouvent leur compte. Le <strong>Castillo del Morro de Santiago</strong> (San Pedro de la Roca, 1638–1700) domine l'entrée de la baie depuis un promontoire à 60 mètres de hauteur — l'une des positions les mieux conservées de l'architecture militaire espagnole en Amérique.`,
 
@@ -292,7 +292,7 @@ La principale richesse locale est le tabac de la Vuelta Abajo, cultivé par de p
         id: 'tampico',
         nom: 'Tampico',
         territoire: 'panuco',
-        coords: null,
+        coords: [1153, 2032],
 
         contexte: `Port modeste à l'embouchure du río Pánuco sur le Golfe du Mexique — seul débouché maritime entre Veracruz au sud et la Floride au nord. Saccagé par les pirates en 1684, le traumatisme reste présent dans les mémoires locales. Le commerce interlope avec des navires anglais de la Nouvelle-Angleterre est une réalité tolérée faute de moyens de surveillance. Aucun fort permanent en état.`,
 
@@ -306,7 +306,7 @@ La principale richesse locale est le tabac de la Vuelta Abajo, cultivé par de p
         id: 'veracruz',
         nom: 'Veracruz',
         territoire: 'nouvelle-espagne',
-        coords: null,
+        coords: [1172, 2628],
 
         contexte: `Premier port de la Nouvelle-Espagne sur l'Atlantique et unique débouché légal de tout le commerce entre Mexico et l'Espagne. L'argent des mines de Zacatecas et de Guanajuato passe par Veracruz avant d'embarquer pour Cadix — ce qui en fait la cible la plus convoitée du Golfe du Mexique.
 
@@ -327,7 +327,7 @@ En 1683, le flibustier Lorencillo (Laurent de Graff) et Grammont s'emparent de l
         id: 'campeche',
         nom: 'Campeche',
         territoire: 'yucatan',
-        coords: null,
+        coords: [2314, 2607],
 
         contexte: `Port d'exportation du bois de teinture — le <em>palo de tinte</em> (bois de campêche, *Haematoxylum campechianum*) dont la sève rouge-violet teint les draps de laine des manufactures européennes. Cette richesse en fait depuis le XVIIe siècle une cible récurrente des flibustiers : L'Olonnais en 1666, Laurent de Graff en 1685 et 1686, Morgan en 1663. La ville porte les cicatrices de ces raids — et les murailles construites en réponse.
 
@@ -347,7 +347,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         id: 'trujillo',
         nom: 'Trujillo (Honduras)',
         territoire: 'honduras',
-        coords: null,
+        coords: [2949, 3278],
 
         contexte: `Seul port espagnol de la côte Caraïbe hondurienne. Trujillo marque la frontière orientale de l'autorité de Madrid — au-delà, c'est la côte Miskito. La ville est modeste, mal défendue, chroniquement menacée par les raids miskitos et les incursions anglaises depuis la Jamaïque. Son utilité principale : point de départ des routes vers l'intérieur du Honduras et Comayagua.`,
 
@@ -360,7 +360,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         id: 'cap-gracias-a-dios',
         nom: 'Cap Gracias a Dios',
         territoire: 'cote-miskito',
-        coords: null,
+        coords: [3568, 3452],
 
         contexte: `Pointe extrême orientale de la côte hondurienne, où le littoral s'infléchit vers le sud. Siège de fait du roi Miskito, investi à Spanish Town (Jamaïque) mais résidant ici. Le Cap est le nœud de toute navigation sur la côte Miskito : les sloops jamaïcains qui viennent troquer armes et rhum contre bois et tortues y font escale. Pas d'établissement européen permanent — quelques cases, un mouillage, et la présence du roi avec ses guerriers.`,
 
@@ -375,7 +375,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         id: 'granada-nicaragua',
         nom: 'Granada (Nicaragua)',
         territoire: 'nicaragua',
-        coords: null,
+        coords: [2772, 4009],
 
         contexte: `Ville la plus riche du Nicaragua espagnol, sur la rive occidentale du lac Nicaragua. Sa vulnérabilité structurelle est géographique : le río San Juan relie le lac à la mer des Caraïbes — une voie navigable depuis la côte atlantique jusqu'au cœur de la ville. Morgan l'a remontée en 1665 pour saccager Granada. Le <strong>Fort Inmaculada</strong>, à l'embouchure du río San Juan sur la mer, est censé barrer cette route — mais la garnison est insuffisante et le fort en mauvais état permanent.`,
 
@@ -413,7 +413,7 @@ Henry Morgan l'a pris d'assaut en décembre 1670 — avec pertes sévères — a
         id: 'portobelo',
         nom: 'Portobelo',
         territoire: 'panama',
-        coords: null,
+        coords: [3865, 4230],
 
         contexte: `Portobelo est une contradiction permanente : l'un des ports les plus importants de l'empire espagnol dans une ville perpétuellement à moitié vide, dans une baie réputée mortelle pour les Européens non acclimatés. Sa valeur est entièrement liée aux foires — et les foires sont irrégulières.
 
@@ -437,7 +437,7 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
         id: 'panama-city',
         nom: 'Panama City',
         territoire: 'panama',
-        coords: null,
+        coords: [4020, 4370],
 
         contexte: `Capitale de l'isthme, sur la côte pacifique. Panama City est la tête de la route de l'argent péruvien — le Camino Real qui traverse l'isthme depuis Portobelo à l'est. C'est ici que les lingots et les pièces de huit déchargés de Callao sont reconditionnés avant de traverser la jungle jusqu'à la côte Caraïbe. La ville reconstruite après le sac de Morgan (1671) est mieux fortifiée, mais sa vulnérabilité structurelle — accessible depuis les deux côtes — demeure. En 1712, Panama City est une ville de transit et d'administration, sans grand commerce propre : tout ce qui vaut quelque chose y passe, rien n'y reste.`,
 
@@ -453,8 +453,8 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
     {
         id: 'bocachica',
         nom: 'Fort Bocachica (Carthagène)',
-        territoire: 'cartagena',
-        coords: null,
+        territoire: 'nouvelle-grenade',
+        coords: [4804, 4103],
 
         contexte: `Le Fort Bocachica contrôle l'unique chenal navigable donnant accès à la baie intérieure de Carthagène. Toute attaque navale sur Carthagène doit d'abord forcer ce passage. En 1712, le fort est en état de fonctionnement, armé de canons commandant le chenal. À quelques kilomètres de la ville, c'est une position autonome avec sa propre garnison. Francisco de Meneses, président-gouverneur renversé par ses propres oidores en 1715, y sera emprisonné après sa destitution.`,
 
@@ -471,8 +471,8 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
     {
         id: 'maracaibo',
         nom: 'Maracaibo',
-        territoire: 'venezuela',
-        coords: null,
+        territoire: 'nouvelle-grenade',
+        coords: [5932, 4020],
 
         contexte: `Maracaibo s'étend sur la rive occidentale du lac du même nom, accessible depuis la mer par un chenal étroit gardé par le <strong>Fort San Carlos de la Barra</strong>. Cette géographie en fait une position structurellement difficile à attaquer et facile à bloquer — Morgan l'a pourtant pillée deux fois (1666 et 1669), la seconde fois en brûlant la flotte espagnole qui lui barrait la retraite.
 
@@ -492,7 +492,7 @@ La ville vit du cacao de la région — l'un des meilleurs des Caraïbes — exp
         id: 'la-guaira',
         nom: 'La Guaira',
         territoire: 'venezuela',
-        coords: null,
+        coords: [6501, 4065],
 
         contexte: `Unique débarcadère de Caracas sur la mer des Caraïbes, à quelques kilomètres de la capitale par un chemin de montagne raide. La Guaira est moins une ville qu'un entrepôt portuaire : tout ce qui entre ou sort du Venezuela passe par ses quais. Le cacao de Caracas, les manufactures européennes importées — tout transite ici. La douane de La Guaira est un point de friction permanent entre les marchands et l'administration coloniale.`,
 
@@ -506,7 +506,7 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
         id: 'pampatar',
         nom: 'Pampatar (Île Marguerita)',
         territoire: 'marguerita',
-        coords: null,
+        coords: [6967, 3919] ,
 
         contexte: `Port principal de l'île Marguerita, sur la côte est. Le <strong>Castillo San Carlos Borromeo</strong> (1662–1684) est la seule fortification notable de l'île — construit après les pillages français du XVIIe siècle (1576, 1593, 1677). Fort et port sont sur le même site, gardant l'entrée de la baie de Pampatar. La capitale administrative officielle est La Asunción à l'intérieur, mais les gouverneurs préfèrent souvent résider à Pampatar.`,
 
@@ -523,7 +523,7 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
         id: 'cumana',
         nom: 'Cumaná',
         territoire: 'nouvelle-andalousie',
-        coords: null,
+        coords: [6782, 4094],
 
         contexte: `L'une des plus vieilles villes permanentes des Amériques, fondée en 1515 sur la côte nord-est du Venezuela actuel. Point de départ traditionnel des expéditions vers l'Orénoque et les Llanos, Cumaná est aussi le chef-lieu d'une province dont l'économie repose sur le cacao, la pêche et une contrebande structurelle avec les Hollandais du Surinam et les Français de la Martinique. Le <strong>Castillo San Antonio de la Eminencia</strong> domine la ville depuis une colline — fort en étoile commandant le port et ses approches.`,
 
@@ -541,7 +541,7 @@ Trinidad dépend nominalement de la province de Cumaná jusqu'en 1731.`,
         id: 'puerto-espana',
         nom: 'Puerto España (Port of Spain)',
         territoire: 'trinidad',
-        coords: null,
+        coords: [7438, 4007],
 
         contexte: `La capitale officielle de Trinidad est San José de Oruña (Saint Joseph), mais les gouverneurs résident en pratique à Puerto España, mieux située pour surveiller le trafic maritime du golfe de Paria. Puerto España est un bourg de quelques centaines de maisons sans défense organisée, dont la principale activité est un commerce de contrebande avec les Hollandais, les Français et les Anglais des îles voisines. Le cacao de Trinidad sort la nuit dans les criques du nord-ouest ; les manufactures européennes entrent de la même façon.`,
 
@@ -561,7 +561,7 @@ Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inex
         id: 'fort-royal-martinique',
         nom: 'Fort-Royal (Martinique)',
         territoire: 'martinique',
-        coords: null,
+        coords: [7400, 3318],
 
         contexte: `Capitale administrative des Îles du Vent françaises et résidence du gouverneur général. Fort-Royal tient son nom du <strong>Fort Saint-Louis</strong> qui en est l'origine et le cœur — une position sur une presqu'île commandant la grande baie de Fort-Royal, l'un des meilleurs mouillages naturels des Petites Antilles. La ville est militaire et administrative plutôt que marchande — le vrai pouls commercial de la Martinique bat à Saint-Pierre, au nord-ouest.
 
@@ -581,7 +581,7 @@ Le Gaoulé de mai 1717 — soulèvement des grands planteurs contre l'intendant 
         id: 'saint-pierre',
         nom: 'Saint-Pierre (Martinique)',
         territoire: 'martinique',
-        coords: null,
+        coords: [7376, 3296],
 
         contexte: `Premier port commercial de la Martinique et ville la plus peuplée de l'île — en tout point l'opposé de Fort-Royal. Saint-Pierre s'étend en croissant au pied de la Montagne Pelée sur la côte nord-ouest, face à une rade ouverte mais fréquentée en permanence. Les comptoirs des négociants bordelais et nantais s'alignent sur le front de mer ; les navires négriers y débarquent leur cargaison ; les rhums et les sucres partent pour la France.
 
@@ -599,7 +599,7 @@ Pas de fort propre — des batteries côtières légères.`,
         id: 'basse-terre-guadeloupe',
         nom: 'Basse-Terre (Guadeloupe)',
         territoire: 'guadeloupe',
-        coords: null,
+        coords: [7295, 3108],
 
         contexte: `Capitale administrative de la Guadeloupe, sur la côte sous le vent de la partie volcanique de l'île. Le <strong>Fort Saint-Charles</strong> domine la ville et le mouillage. Centre gouvernemental et militaire, Basse-Terre est moins active commercialement que Pointe-à-Pitre sur Grande-Terre — mais c'est là que réside le gouverneur particulier de Guadeloupe, sous l'autorité du gouverneur général des Îles du Vent à Fort-Royal.`,
 
@@ -615,7 +615,7 @@ Pas de fort propre — des batteries côtières légères.`,
         id: 'saint-georges-grenade',
         nom: "Saint-George's (Grenade)",
         territoire: 'grenade',
-        coords: null,
+        coords: [7326, 3797],
 
         contexte: `Capitale et unique port notable de la Grenade française. Saint-George's est bâtie autour d'une rade en fer à cheval, l'une des plus belles des Petites Antilles. La ville exporte sucre, cacao, indigo et les premières muscades qui feront la réputation de l'île. Point de passage entre les Antilles françaises du nord et Trinidad espagnole au sud, Saint-George's est aussi une escale pour le commerce interlope avec le Venezuela. L'éloignement de Fort-Royal lui confère une autonomie de fait que les gouverneurs successifs gèrent avec pragmatisme.`,
 
@@ -629,7 +629,7 @@ Pas de fort majeur en 1712 — des batteries côtières légères.`,
         id: 'basseterre',
         nom: 'Basseterre (Saint-Kitts)',
         territoire: 'saint-christophe',
-        coords: null,
+        coords: [7095, 2880],
 
         contexte: `Capitale de Saint-Kitts depuis le début de la colonisation anglaise (1623). Basseterre s'étend dans une plaine basse ouverte sur la côte sous le vent — position commode pour le commerce mais sans défense naturelle. La défense de l'île repose sur Brimstone Hill, à une dizaine de kilomètres au nord-ouest. Depuis le traité d'Utrecht (1713), la partie française de l'île a été cédée à la Grande-Bretagne — ses anciennes habitations sont rachetées à bas prix par les planteurs anglais, alimentant une spéculation foncière intense.`,
 
@@ -644,7 +644,7 @@ La défense de l'île est assurée depuis Brimstone Hill — voir entrée dédi�
         id: 'brimstone-hill',
         nom: 'Fort Brimstone Hill (Saint-Kitts)',
         territoire: 'saint-christophe',
-        coords: null,
+        coords: [7078, 2870],
 
         contexte: `"Le Gibraltar des Antilles" — surnom mérité pour un fort établi au sommet d'un promontoire volcanique de 240 mètres dominant toute la côte nord-ouest de Saint-Kitts. La position est naturellement imprenable par voie terrestre : les pentes sont raides, le sommet étroit, et la vue dégagée sur mer permet de signaler tout navire approchant avec plusieurs heures d'avance. Les Anglais y ont établi leurs premières batteries dans les années 1690, après le raid français sur l'île.
 
@@ -664,7 +664,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
         id: 'saint-johns-antigua',
         nom: "Saint-John's (Antigua)",
         territoire: 'leeward-islands',
-        coords: null,
+        coords: [7289, 2923],
 
         contexte: `Capitale administrative des Leeward Islands et résidence du gouverneur général. Saint-John's est une ville de fonctionnaires et de planteurs — moins active comme port que English Harbour. C'est ici que siège le Conseil et que se règlent les affaires politiques de l'archipel ; c'est ici aussi que Daniel Parke fut lynché en décembre 1710 et que son successeur Douglas monnaya le pardon royal des assassins.`,
 
@@ -678,7 +678,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
         id: 'english-harbour',
         nom: 'English Harbour (Antigua)',
         territoire: 'leeward-islands',
-        coords: null,
+        coords: [7298, 2934],
 
         contexte: `Base navale de la Royal Navy dans les Petites Antilles, à une vingtaine de kilomètres au sud-est de Saint-John's. English Harbour est un port naturel exceptionnel — une rade quasi-fermée par deux promontoires, abritée des ouragans, avec un fond suffisant pour recevoir les frégates. Le carénage y est possible à l'abri des regards et des vents : les navires sont basculés sur le côté pour gratter et goudronner leurs coques, opération impossible en pleine mer.
 
@@ -697,7 +697,7 @@ En 1712, les installations permanentes sont encore modestes — les grands arsen
         id: 'charlotte-amalie',
         nom: 'Charlotte Amalie (Saint-Thomas)',
         territoire: 'saint-thomas',
-        coords: null,
+        coords:  [6807, 2732],
 
         contexte: `Port franc danois — la ville où l'on peut tout vendre et tout acheter sans trop de questions. Charlotte Amalie s'organise autour d'une baie profonde et abritée, dominée par le <strong>Fort Christian</strong> (1672) sur son promontoire rouge. La Compagnie des Indes occidentales danoise administre formellement l'île, mais son contrôle est nominal : l'économie du port franc repose précisément sur l'absence de contrôle rigoureux.
 
@@ -717,7 +717,7 @@ La population est délibérément cosmopolite — Danois, Hollandais, Anglais, J
         id: 'willemstad',
         nom: 'Willemstad (Curaçao)',
         territoire: 'curaçao',
-        coords: null,
+        coords: [6189, 3787],
 
         contexte: `Plaque tournante du commerce hollandais dans les Caraïbes — un entrepôt neutre où transitent marchandises européennes, esclaves africains et produits coloniaux de toutes provenances. Willemstad s'organise autour de la baie de Sint Anna : le quartier de Punda abrite les entrepôts et les comptoirs des marchands ; le <strong>Fort Amsterdam</strong> (1635) domine l'entrée du chenal depuis la pointe ouest.
 
@@ -737,7 +737,7 @@ Tout navire avec quelque chose à vendre ou à acheter sans questions trouve ici
         id: 'paramaribo',
         nom: 'Paramaribo (Suriname)',
         territoire: 'suriname',
-        coords: null,
+        coords: [8269, 4634],
 
         contexte: `Capitale de la colonie hollandaise du Suriname, sur la rive droite du fleuve Suriname. Paramaribo est un hub commercial prospère — ses plantations de sucre, de cacao et de café, exploitées par une main-d'œuvre servile massive, en font l'une des colonies les plus productives des Caraïbes. Le <strong>Fort Zeelandia</strong> (1667) occupe la pointe nord de la ville.
 
@@ -758,7 +758,7 @@ Note toponymique : "Paragotos" sur la carte Jaillot désigne probablement le mê
         id: 'bridgetown',
         nom: 'Bridgetown (Barbade)',
         territoire: 'barbade',
-        coords: null,
+        coords: [7603, 3566],
 
         contexte: `Capitale et port principal de la Barbade — la plus ancienne et la plus prospère des colonies britanniques des Caraïbes. Bridgetown concentre les entrepôts des planteurs, les comptoirs des négociants de Londres et Bristol, les tavernes des équipages en escale. Le trafic négrier y est intense : la Barbade redistribue les esclaves africains vers les autres îles britanniques. Le sucre barbadien, produit par acre en quantité supérieure à toute autre île, part de ses quais vers l'Angleterre.
 
@@ -777,7 +777,7 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
         id: 'merida',
         nom: 'Mérida (Yucatán)',
         territoire: 'yucatan',
-        coords: null,
+        coords: [2665, 2456],
 
         contexte: `Capitale de la capitainerie générale du Yucatán, à l'intérieur de la péninsule, loin de la côte Caraïbe. Ville administrative et épiscopale fondée en 1542 sur les ruines de la cité maya de T'ho. Mérida n'est pas un port — son accès à la mer passe par Campeche, à une centaine de kilomètres à l'ouest. Son intérêt pour la campagne est essentiellement politique : c'est depuis Mérida que le gouverneur-capitaine général administre le Yucatán, une capitainerie distincte de la vice-royauté de Mexico.`,
 

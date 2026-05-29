@@ -169,6 +169,14 @@ path.leaflet-interactive:focus-visible {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
 }
 
+.carte-ville {
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.carte-ville:hover {
+  transform: scale(1.2);
+}
+
 /* ─── Popup scénario ────────────────────────────────────────── */
 .carte-popup-overlay {
   position: fixed;

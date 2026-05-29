@@ -14,6 +14,8 @@ let pinActive = null;
 let panneauGaucheOuvert = true;
 let modeSombre = false;
 let contourGlobalLayer = null;
+let villeActive = null;
+let markersVilles = {};
 
 // ─── Mode d'overlay ──────────────────────────────────────────
 // 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque' | 'isolation'
@@ -182,6 +184,7 @@ function initCarte() {
 
   renderZones();
   renderPins();
+  renderVilles();
 
   carte.on('click', () => {
     fermerPopup();
@@ -542,12 +545,96 @@ function renderPins() {
   });
 }
 
+// ─── Marqueurs de villes (mode MJ uniquement) ─────────────────
+function renderVilles() {
+  // Nettoyer les marqueurs existants
+  Object.values(markersVilles).forEach(m => carte.removeLayer(m));
+  markersVilles = {};
+
+  // Visible uniquement en mode MJ et hors masque/isolation
+  if (!modeMJ) return;
+  if (overlayMode === 'masque') return;
+
+  if (typeof VILLES === 'undefined') return;
+
+  VILLES.forEach(ville => {
+    if (!ville.coords) return; // coordonnées pas encore saisies
+
+    const [x, y] = ville.coords;
+    const latlng = pixelToLatLng(x, y);
+    const estCapitale = ville.capitale === true;
+
+    const icon = L.divIcon({
+      html: villeSVG(ville.type || 'ville', estCapitale),
+      className: 'carte-ville',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12],
+    });
+
+    const marker = L.marker(latlng, { icon });
+
+    marker.bindTooltip(ville.nom, {
+      permanent: false,
+      direction: 'top',
+      className: 'carte-tooltip',
+      opacity: 1,
+      offset: [0, -10],
+    });
+
+    marker.on('click', (e) => {
+      L.DomEvent.stopPropagation(e);
+      if (overlayMode === 'isolation') return;
+      fermerPopup(); // fermer popup de pin si ouverte
+      if (villeActive === ville.id) {
+        fermerPanneauVille();
+      } else {
+        ouvrirPanneauVille(ville.id);
+      }
+    });
+
+    marker.addTo(carte);
+    markersVilles[ville.id] = marker;
+  });
+}
+
 // ─── SVG du pin ──────────────────────────────────────────────
 function pinSVG() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
     <path d="M16 2C10.477 2 6 6.477 6 12c0 7 10 18 10 18S26 19 26 12c0-5.523-4.477-10-10-10z"
       fill="#c8973a" stroke="#0e0c09" stroke-width="1.5"/>
     <circle cx="16" cy="12" r="4" fill="#0e0c09"/>
+  </svg>`;
+}
+
+// ─── SVG des marqueurs de villes ─────────────────────────────
+function villeSVG(type, estCapitale) {
+  const couleur = estCapitale ? 'var(--gold)' : 'var(--mist)';
+  const fond = estCapitale ? 'rgba(200,151,58,0.15)' : 'rgba(107,124,138,0.15)';
+
+  let symbole = '';
+  if (type === 'port') {
+    // Ancre marine
+    symbole = `<path d="M12 7h8M16 7v2M16 9c0 3-2 5.5-4.5 7M16 9c0 3 2 5.5 4.5 7M13.5 16c.8.5 1.7.8 2.5.8s1.7-.3 2.5-.8M13.5 16c-.8.5-1.7.8-2.5.8"
+      stroke="${couleur}" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <circle cx="16" cy="7" r="1.2" fill="${couleur}"/>`;
+  } else if (type === 'fort') {
+    // Carré avec X (diagonales)
+    symbole = `<rect x="11" y="11" width="10" height="10" rx="0.5"
+      fill="${fond}" stroke="${couleur}" stroke-width="1.2"/>
+      <line x1="11" y1="11" x2="21" y2="21" stroke="${couleur}" stroke-width="1.2"/>
+      <line x1="21" y1="11" x2="11" y2="21" stroke="${couleur}" stroke-width="1.2"/>`;
+  } else {
+    // Ville : bâtiment simple
+    symbole = `<rect x="13" y="13" width="6" height="7" rx="0.3"
+      fill="${fond}" stroke="${couleur}" stroke-width="1.2"/>
+      <path d="M12 13l4-3.5 4 3.5" fill="${fond}" stroke="${couleur}" stroke-width="1.2" stroke-linejoin="round"/>
+      <rect x="15" y="16" width="2" height="4" fill="${couleur}" rx="0.2"/>`;
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="24" height="24">
+    <rect x="4" y="4" width="24" height="24" rx="4"
+      fill="${fond}" stroke="${couleur}" stroke-width="1.5"/>
+    ${symbole}
   </svg>`;
 }
 
@@ -623,6 +710,7 @@ function initOverlayBtns() {
       majLegende();
       renderZones();
       renderPins();
+      renderVilles();
     });
   });
 }
@@ -972,6 +1060,75 @@ function fermerPanneau() {
     zoneActive = null;
     majZone(precedent);
   }
+  villeActive = null;
+}
+
+// ─── Panneau ville ────────────────────────────────────────────
+function ouvrirPanneauVille(villeId) {
+  const ville = (typeof VILLES !== 'undefined') ? VILLES.find(v => v.id === villeId) : null;
+  if (!ville) return;
+
+  // Fermer une zone active si besoin (même panneau partagé)
+  if (zoneActive) {
+    const precedent = zoneActive;
+    zoneActive = null;
+    majZone(precedent);
+  }
+
+  villeActive = villeId;
+
+  const estCapitale = ville.capitale === true;
+  const couleurStatut = estCapitale ? 'var(--gold)' : 'var(--mist)';
+  const labelStatut = estCapitale ? 'Capitale' : null;
+  const labelType = { port: 'Port', fort: 'Fort', ville: 'Ville' }[ville.type] || 'Ville';
+
+  const inner = document.getElementById('carte-panneau-inner');
+  inner.innerHTML = `
+    <div class="panneau-puissance" style="gap:0.5rem;align-items:center;">
+      <span style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.12em;
+        text-transform:uppercase;color:${couleurStatut};">
+        ${labelType}${labelStatut ? ' · ' + labelStatut : ''}
+      </span>
+    </div>
+    <h2 class="panneau-nom">${ville.nom}</h2>
+    ${ville.contexte ? `
+      <div class="panneau-section-titre">Contexte</div>
+      <p class="panneau-contexte">${ville.contexte}</p>
+    ` : ''}
+    ${ville.population ? `
+      <div class="panneau-section-titre">Données</div>
+      <div class="panneau-meta">
+        <div class="panneau-meta-item">
+          <span class="panneau-meta-label">Population</span>
+          <span class="panneau-meta-value">${ville.population}</span>
+        </div>
+        ${ville.garnison ? `
+          <div class="panneau-meta-item">
+            <span class="panneau-meta-label">Garnison</span>
+            <span class="panneau-meta-value">${ville.garnison}</span>
+          </div>
+        ` : ''}
+      </div>
+    ` : ''}
+    ${modeMJ && ville.note_mj ? `
+      <div class="panneau-note panneau-note--mj">
+        <span class="panneau-note-mj-label">🔒 Note confidentielle — MJ</span>
+        ${ville.note_mj}
+      </div>
+    ` : ''}
+  `;
+
+  inner.scrollTop = 0;
+  const panneau = document.getElementById('carte-panneau');
+  panneau.classList.add('carte-panneau--open');
+  panneau.removeAttribute('inert');
+}
+
+function fermerPanneauVille() {
+  const panneau = document.getElementById('carte-panneau');
+  panneau.classList.remove('carte-panneau--open');
+  panneau.setAttribute('inert', '');
+  villeActive = null;
 }
 
 function majZone(juridictionId) {
@@ -1231,4 +1388,5 @@ function fermerIsolation() {
   majLegende();
   renderZones();
   renderPins();
+  renderVilles();
 }
