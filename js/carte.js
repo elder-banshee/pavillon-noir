@@ -123,6 +123,7 @@ function confirmerModeMJ() {
 
   initCurseurInline();
   renderZones();
+  renderVilles();
 }
 
 function annulerModeMJ() {

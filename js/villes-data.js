@@ -14,6 +14,8 @@ const VILLES = [
     {
         id: 'charles-town',
         nom: 'Charles Town (Charleston)',
+        capitale: true,
+        type: 'port',
         territoire: 'caroline-du-sud',
         coords: [4390, 470],
 
@@ -29,6 +31,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
     {
         id: 'san-agustin',
         nom: 'San Agustín (Saint Augustine)',
+        capitale: true,
         territoire: 'floride',
         coords: [3967, 1087],
 
@@ -47,6 +50,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
     {
         id: 'mobile',
         nom: 'Mobile',
+        capitale: true,
         territoire: 'louisiane',
         coords: null,
 
@@ -63,6 +67,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
     {
         id: 'la-nouvelle-orleans',
         nom: 'La Nouvelle-Orléans',
+        capitale: true,
         territoire: 'louisiane',
         coords: [1297, 1314],
 
@@ -77,6 +82,7 @@ Pour la campagne : La Nouvelle-Orléans n'existe pas avant 1718 — tout événe
     {
         id: 'saint-georges-bermudes',
         nom: "Saint George's (Bermudes)",
+        capitale: true,
         territoire: 'bermudes',
         coords: null,
 
@@ -132,6 +138,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
     {
         id: 'cap-francais',
         nom: 'Cap-Français (Le Cap)',
+        capitale: true,
         territoire: 'saint-domingue',
         coords: [5497, 2541],
 
@@ -210,6 +217,7 @@ Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colo
     {
         id: 'santo-domingo',
         nom: 'Santo Domingo',
+        capitale: true,
         territoire: 'santo-domingo',
         coords: [5821, 2780],
 
@@ -228,6 +236,7 @@ Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colo
     {
         id: 'san-juan',
         nom: 'San Juan (Porto Rico)',
+        capitale: true,
         territoire: 'porto-rico',
         coords: [6551, 2727],
 
@@ -252,6 +261,7 @@ La figure dominante de San Juan n'est pas le gouverneur mais <strong>Miguel Enr�
     {
         id: 'la-havane',
         nom: 'La Havane (Cuba)',
+        capitale: true,
         territoire: 'cuba',
         coords: [3695, 2084],
 
@@ -359,6 +369,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
     {
         id: 'cap-gracias-a-dios',
         nom: 'Cap Gracias a Dios',
+        capitale: true,
         territoire: 'cote-miskito',
         coords: [3568, 3452],
 
@@ -436,6 +447,7 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
     {
         id: 'panama-city',
         nom: 'Panama City',
+        capitale: true,
         territoire: 'panama',
         coords: [4020, 4370],
 
@@ -506,7 +518,7 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
         id: 'pampatar',
         nom: 'Pampatar (Île Marguerita)',
         territoire: 'marguerita',
-        coords: [6967, 3919] ,
+        coords: [6967, 3919],
 
         contexte: `Port principal de l'île Marguerita, sur la côte est. Le <strong>Castillo San Carlos Borromeo</strong> (1662–1684) est la seule fortification notable de l'île — construit après les pillages français du XVIIe siècle (1576, 1593, 1677). Fort et port sont sur le même site, gardant l'entrée de la baie de Pampatar. La capitale administrative officielle est La Asunción à l'intérieur, mais les gouverneurs préfèrent souvent résider à Pampatar.`,
 
@@ -522,6 +534,7 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
     {
         id: 'cumana',
         nom: 'Cumaná',
+        capitale: true,
         territoire: 'nouvelle-andalousie',
         coords: [6782, 4094],
 
@@ -560,6 +573,7 @@ Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inex
     {
         id: 'fort-royal-martinique',
         nom: 'Fort-Royal (Martinique)',
+        capitale: true,
         territoire: 'martinique',
         coords: [7400, 3318],
 
@@ -598,6 +612,7 @@ Pas de fort propre — des batteries côtières légères.`,
     {
         id: 'basse-terre-guadeloupe',
         nom: 'Basse-Terre (Guadeloupe)',
+        capitale: true,
         territoire: 'guadeloupe',
         coords: [7295, 3108],
 
@@ -614,6 +629,7 @@ Pas de fort propre — des batteries côtières légères.`,
     {
         id: 'saint-georges-grenade',
         nom: "Saint-George's (Grenade)",
+        capitale: true,
         territoire: 'grenade',
         coords: [7326, 3797],
 
@@ -643,6 +659,7 @@ La défense de l'île est assurée depuis Brimstone Hill — voir entrée dédi�
     {
         id: 'brimstone-hill',
         nom: 'Fort Brimstone Hill (Saint-Kitts)',
+        capitale: true,
         territoire: 'saint-christophe',
         coords: [7078, 2870],
 
@@ -663,6 +680,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
     {
         id: 'saint-johns-antigua',
         nom: "Saint-John's (Antigua)",
+        capitale: true,
         territoire: 'leeward-islands',
         coords: [7289, 2923],
 
@@ -696,8 +714,9 @@ En 1712, les installations permanentes sont encore modestes — les grands arsen
     {
         id: 'charlotte-amalie',
         nom: 'Charlotte Amalie (Saint-Thomas)',
+        capitale: true,
         territoire: 'saint-thomas',
-        coords:  [6807, 2732],
+        coords: [6807, 2732],
 
         contexte: `Port franc danois — la ville où l'on peut tout vendre et tout acheter sans trop de questions. Charlotte Amalie s'organise autour d'une baie profonde et abritée, dominée par le <strong>Fort Christian</strong> (1672) sur son promontoire rouge. La Compagnie des Indes occidentales danoise administre formellement l'île, mais son contrôle est nominal : l'économie du port franc repose précisément sur l'absence de contrôle rigoureux.
 
@@ -716,12 +735,13 @@ La population est délibérément cosmopolite — Danois, Hollandais, Anglais, J
     {
         id: 'willemstad',
         nom: 'Willemstad (Curaçao)',
+        capitale: true,
         territoire: 'curaçao',
         coords: [6189, 3787],
 
         contexte: `Plaque tournante du commerce hollandais dans les Caraïbes — un entrepôt neutre où transitent marchandises européennes, esclaves africains et produits coloniaux de toutes provenances. Willemstad s'organise autour de la baie de Sint Anna : le quartier de Punda abrite les entrepôts et les comptoirs des marchands ; le <strong>Fort Amsterdam</strong> (1635) domine l'entrée du chenal depuis la pointe ouest.
 
-Tout navire avec quelque chose à vendre ou à acheter sans questions trouve ici un interlocuteur. Le cacao de Caracas arrive à Willemstad illégalement et repart légalement ; les manufactures européennes font le chemin inverse. En février 1713, des forces françaises occupent brièvement l'île — épisode humiliant pour la WIC, réglé par la paix d'Utrecht sans indemnité.`,
+Tout navire avec quelque chose à vendre ou à acheter sans questions trouve ici un interlocuteur. Le cacao de Caracas arrive à Willemstad illégalement et repart légalement ; les manufactures européennes font le chemin inverse. En février 1713, des forces françaises occupent brièvement l'île — épisode humiliant pour la WIC, réglé par la paix d'Utrecht sans indemnité`,
 
         population: `~8 000 habitants (dont ~5 000 à 6 000 esclaves)`,
 
@@ -736,6 +756,7 @@ Tout navire avec quelque chose à vendre ou à acheter sans questions trouve ici
     {
         id: 'paramaribo',
         nom: 'Paramaribo (Suriname)',
+        capitale: true,
         territoire: 'suriname',
         coords: [8269, 4634],
 
@@ -757,6 +778,7 @@ Note toponymique : "Paragotos" sur la carte Jaillot désigne probablement le mê
     {
         id: 'bridgetown',
         nom: 'Bridgetown (Barbade)',
+        capitale: true,
         territoire: 'barbade',
         coords: [7603, 3566],
 
@@ -776,6 +798,7 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
     {
         id: 'merida',
         nom: 'Mérida (Yucatán)',
+        capitale: true,
         territoire: 'yucatan',
         coords: [2665, 2456],
 
