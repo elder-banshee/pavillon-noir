@@ -1207,14 +1207,32 @@ function initRecherche() {
   input.addEventListener('input', () => {
     const q = input.value.trim();
     clear.style.display = q ? '' : 'none';
+    const fantome = document.getElementById('carte-recherche-fantome');
+    if (fantome) fantome.textContent = '';
     if (q.length < 1) { suggestions.innerHTML = ''; return; }
     afficherSuggestions(q, suggestions);
+
+    // Inline autocomplete
+    const premiere = suggestions.querySelector('.carte-recherche-suggestion');
+    if (premiere && fantome) {
+      const id = premiere.dataset.id;
+      const j = JURIDICTIONS.find(j => j.id === id);
+      if (j) {
+        const nomLow = j.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        if (nomLow.startsWith(qLow)) {
+          fantome.textContent = q + j.nom.slice(q.length);
+        }
+      }
+    }
   });
 
   clear.addEventListener('click', () => {
     input.value = '';
     clear.style.display = 'none';
     suggestions.innerHTML = '';
+    const fantome = document.getElementById('carte-recherche-fantome');
+    if (fantome) fantome.textContent = '';
     fermerIsolation();
     input.focus();
   });
@@ -1241,6 +1259,13 @@ function initRecherche() {
       e.preventDefault();
       if (actif) actif.click();
       else if (items.length === 1) items[0].click();
+} else if (e.key === 'Tab') {
+      const fantome = document.getElementById('carte-recherche-fantome');
+      if (fantome && fantome.textContent) {
+        e.preventDefault();
+        const premiere = suggestions.querySelector('.carte-recherche-suggestion');
+        if (premiere) premiere.click();
+      }
     } else if (e.key === 'Escape') {
       fermerIsolation();
       input.value = '';

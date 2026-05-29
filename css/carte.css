@@ -969,6 +969,19 @@ path.leaflet-interactive:focus-visible {
   border-color: rgba(200, 151, 58, 0.5);
 }
 
+.carte-recherche-suggestion-fantome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5rem 2rem 0.5rem 0.65rem;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: transparent;
+  pointer-events: none;
+  white-space: pre;
+  overflow: hidden;
+}
+
 .carte-recherche-clear {
   position: absolute;
   top: 50%;
@@ -1037,13 +1050,15 @@ path.leaflet-interactive:focus-visible {
 .carte-recherche-suggestion-match {
   font-family: 'Crimson Text', serif;
   font-size: 0.78rem;
-  color: var(--mist);
+  color: var(--mist-light);
   font-style: italic;
 }
 
 .carte-recherche-highlight {
+  background: transparent;
   color: var(--gold-light);
   font-style: normal;
+  font-weight: 600;
 }
 
 .carte-recherche-vide {
