@@ -123,7 +123,7 @@ path.leaflet-interactive:focus-visible {
   box-shadow: none;
   color: var(--gold-light);
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -211,7 +211,7 @@ path.leaflet-interactive:focus-visible {
 
 .carte-popup-numero {
   font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
+  font-size: 0.63rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--mist-light);
@@ -228,7 +228,7 @@ path.leaflet-interactive:focus-visible {
 }
 
 .carte-popup-titre--lieu {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   letter-spacing: 0.15em;
   color: var(--gold);
   margin-bottom: 0.75rem;
@@ -259,7 +259,7 @@ path.leaflet-interactive:focus-visible {
 
 .carte-popup-lien {
   font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
+  font-size: 0.63rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--gold);
@@ -383,7 +383,7 @@ path.leaflet-interactive:focus-visible {
 
 .panneau-puissance-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--mist-light);
@@ -446,7 +446,7 @@ path.leaflet-interactive:focus-visible {
 
 .panneau-gouverneur-titre {
   font-family: 'Cinzel', serif;
-  font-size: 0.55rem;
+  font-size: 0.6rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--mist-light);
@@ -462,7 +462,7 @@ path.leaflet-interactive:focus-visible {
 
 .panneau-gouverneur-lien-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.5rem;
+  font-size: 0.55rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
@@ -472,7 +472,7 @@ path.leaflet-interactive:focus-visible {
 
 .panneau-section-titre {
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -505,7 +505,7 @@ path.leaflet-interactive:focus-visible {
 
 .panneau-meta-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.52rem;
+  font-size: 0.57rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--mist-light);
@@ -537,7 +537,7 @@ path.leaflet-interactive:focus-visible {
 .panneau-note-mj-label {
   display: block;
   font-family: 'Cinzel', serif;
-  font-size: 0.52rem;
+  font-size: 0.57rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--rust);
@@ -665,7 +665,7 @@ path.leaflet-interactive:focus-visible {
 
 .carte-overlay-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--mist-light);
@@ -767,7 +767,7 @@ path.leaflet-interactive:focus-visible {
   gap: 0.35rem;
   cursor: pointer;
   font-family: 'Cinzel', serif;
-  font-size: 0.55rem;
+  font-size: 0.6rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mist-light);
@@ -815,7 +815,7 @@ path.leaflet-interactive:focus-visible {
 }
 
 .carte-overlay-note {
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.08em;
   color: var(--mist-light);
   white-space: nowrap;
@@ -886,7 +886,7 @@ path.leaflet-interactive:focus-visible {
 /* ─── Titre section panneau gauche ─────────────────────────── */
 .carte-recherche-titre {
   font-family: 'Cinzel', serif;
-  font-size: 0.55rem;
+  font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1028,7 +1028,7 @@ path.leaflet-interactive:focus-visible {
 
 .carte-recherche-suggestion-nom {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--parchment);
@@ -1055,6 +1055,51 @@ path.leaflet-interactive:focus-visible {
   opacity: 0.7;
 }
 
+/* ─── Filtres marqueurs (panneau gauche) ────────────────────── */
+.carte-filtres-marqueurs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.carte-filtre-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist-light);
+  user-select: none;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.carte-filtre-check:hover {
+  color: var(--parchment);
+  border-color: var(--border);
+}
+
+.carte-filtre-check input[type="checkbox"] {
+  display: none;
+}
+
+.carte-filtre-pastille {
+  font-size: 0.8rem;
+  color: var(--gold);
+  width: 1rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.carte-filtre-check.decochee {
+  opacity: 0.6;
+}
+
 .carte-mode-sombre-btn {
   width: 100%;
   box-sizing: border-box;
@@ -1062,7 +1107,7 @@ path.leaflet-interactive:focus-visible {
   border: 1px solid var(--border);
   color: var(--mist);
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 0.5rem 0.65rem;
@@ -1083,19 +1128,6 @@ path.leaflet-interactive:focus-visible {
 }
 
 /* ─── Overlay d'isolation territoire ────────────────────────── */
-/* .carte-isolation-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 500;
-  pointer-events: none;
-  background: rgba(10, 8, 5, 0);
-}
-
-.carte-isolation-overlay--actif {
-  pointer-events: all;
-  animation: isolationFadeIn 1.4s ease-out forwards;
-} */
-
 .carte-isolation--disabled {
   opacity: 0.35;
   pointer-events: none;
