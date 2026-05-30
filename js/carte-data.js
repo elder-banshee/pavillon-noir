@@ -220,7 +220,6 @@ En novembre, la population se soulève contre les Lords Proprietors. James Moore
             },
         ],
 
-        zone: [],
 
         capitale: 'Charles Town (Charleston)',
 
@@ -336,7 +335,6 @@ Benavides est maintenant bien établi et l'homme fort de la Floride. Sa politiqu
             },
         ],
 
-        zone: [],
 
         capitale: 'San Agustín (Saint Augustine)',
 
@@ -422,7 +420,6 @@ La Louisiane française presse les colonies espagnoles à l'ouest et britannique
             },
         ],
 
-        zone: [],
 
         capitale: [
             { de: 1712, a: 1718, texte: `Mobile` },
@@ -526,7 +523,6 @@ En 1719, Valverde mène une expédition vers le nord-est — jusqu'au Colorado a
             },
         ],
 
-        zone: [],
 
         capitale: 'Santa Fe',
 
@@ -570,7 +566,6 @@ Loin des côtes et des routes maritimes, la Nueva Galicia est absente des chroni
             },
         ],
 
-        zone: [],
 
         capitale: 'Guadalajara',
         population_approx: `~15 000 colons<br>~135 000 Indiens`,
@@ -664,6 +659,13 @@ Le 26 juillet 1718, Woodes Rogers débarque à New Providence avec trois navires
                 de: 1718,
                 texte: `<strong>Le retour à l'ordre :</strong><br>
 Rogers gouverne avec des ressources dérisoires — ses soldats meurent de fièvre, ses finances sont à sec, sa garnison est insuffisante. Nassau reste fragile. La piraterie ne disparaît pas ; elle se déplace, cherche d'autres ports, d'autres pavillons.`,
+            },
+            {
+                de: 1720, a: 1721,
+                texte: `<strong>Le raid espagnol sur Nassau (février–mars 1720) :</strong><br>
+Le 24 février 1720, une force expéditionnaire espagnole — trois frégates et neuf brigantins et sloops, entre 1 300 et 2 000 hommes — paraît devant Nassau. Elle est commandée par Francisco Javier Cornejo, le même officier qui conduisait les galeones de Tierra Firme. L'objectif est d'effacer la tête de pont britannique que Rogers a établie depuis juillet 1718 et, peut-être, de récupérer un archipel que l'Espagne n'a jamais formellement cédé.
+<br>
+Rogers avait été averti dès février 1719 que les Espagnols préparaient une opération contre les Bahamas. Il avait mis ce délai à profit pour achever la reconstruction de Fort Nassau, terminée en janvier 1720 — six semaines avant l'attaque. La garnison est maigre : deux frégates et environ 600 hommes, civils armés compris. Mais le fort tient. Les Espagnols, incapables de forcer l'entrée du port, se retirent le 1er mars sans avoir débarqué. Un seul sloop espagnol est perdu.`,
             },
         ],
 
@@ -841,7 +843,6 @@ Le retour de Bennett coïncide avec la grande vague d'amnistie et de répression
             },
         ],
 
-        zone: [],
 
         capitale: 'Saint George\'s',
         population_approx: '~6 000 habitants (dont ~2 000 esclaves)',
@@ -931,7 +932,6 @@ Lawes poursuit sa politique de fer. En 1721, Charles Vane, l'un des derniers cap
             },
         ],
 
-        zone: [],
 
         capitale: 'Spanish Town (siège du gouverneur) ; Kingston (centre marchand)',
 
@@ -1037,7 +1037,6 @@ Le mandat de Sorel correspond à la période post-Rogers. La Flying Gang est bri
             },
         ],
 
-        zone: [],
 
         capitale: 'Cap-Français (Le Cap)',
 
@@ -1121,7 +1120,6 @@ La Tortue jouit d'une réputation tenace parmi les marins et les colons de la c�
 
         ],
 
-        zone: [],
 
         capitale: 'Basse-Terre (bourg principal)',
         population_approx: `Quelques centaines d'habitants — garnison, colons, pêcheurs`,
@@ -1195,7 +1193,6 @@ Son gouvernorat long et relativement stable couvre toute la période de la pirat
             },
         ],
 
-        zone: [],
 
         capitale: 'Santo Domingo',
 
@@ -1313,11 +1310,10 @@ Entre 1718 et 1720, plusieurs ouragans dévastent l'agriculture de l'île. Enrí
             },
         ],
 
-        zone: [],
 
         capitale: 'San Juan',
 
-        population_approx: `~18 000 sur l'ensemble de l'île<br>(dont ~4500 esclaves)<br>~6 000 habitants à San Juan`,
+        population_approx: `~18 000 sur l'ensemble de l'île<br>(dont ~4500 esclaves)`,
 
         economie: 'Situado royal, course et prises (réseau Enríquez), contrebande (navires anglais et hollandais via Vieques et côtes nord), gingembre, cuir, tabac, élevage',
 
@@ -1421,7 +1417,6 @@ Il prend le gouvernorat en juin 1718, dans le sillage de la répression anti-pir
             },
         ],
 
-        zone: [],
 
         capitale: 'La Havane',
 
@@ -1501,7 +1496,6 @@ L'arrivée de Woodes Rogers étend en principe l'autorité britannique sur tout 
             },
         ],
 
-        zone: [],
 
         capitale: '[Aucune — Nassau est la capitale de facto de tout l\'archipel]',
 
@@ -1559,7 +1553,6 @@ En 1718, Castañeda reçoit du vice-roi la licence de mener une expédition vers
             },
         ],
 
-        zone: [],
 
         capitale: 'Santiago de los Valles ; Tampico (accès maritime)',
         population_approx: `~50 000 habitants<br>(dont ~45 000 indiens dans la Huasteca)`,
@@ -1626,7 +1619,6 @@ Né à Lima, il inaugure une ère de stabilité et de réformes administratives.
             },
         ],
 
-        zone: [],
 
         capitale: 'Mexico (Ciudad de México)',
         population_approx: `~1 520 000 habitants<br>(dont ~1 000 000 indigènes, ~400 000 métis et ~120 000 colons blancs)`,
@@ -1684,7 +1676,6 @@ En 1716, le vice-roi Valero envoie une expédition depuis Veracruz pour chasser 
             },
         ],
 
-        zone: [],
 
         capitale: 'Mérida',
         population_approx: `~250 000 habitants<br>(dont ~225 000 Mayas)`,
@@ -1756,7 +1747,6 @@ L'Espagne proteste régulièrement contre la présence anglaise dans ces eaux, m
             },
         ],
 
-        zone: [],
 
         capitale: '[Aucune — atolls sans établissement permanent]',
         population_approx: 'Quelques équipages saisonniers de bûcherons et de pêcheurs ; passage de navires pirates et marchands',
@@ -1809,7 +1799,6 @@ Les Indiens Misquitos, alliés aux Anglais de Jamaïque, razzient les missions e
             },
         ],
 
-        zone: [],
 
         capitale: 'Comayagua',
         population_approx: `~36 500 habitants (dont ~30 000 Indiens)`,
@@ -1870,7 +1859,6 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
             },
         ],
 
-        zone: [],
 
         capitale: 'Cap Gracias a Dios',
         population_approx: `~15 000 Miskitos, Zambos et Tawiras dispersés sur l'ensemble du territoire. Présence anglaise sporadique — aucun établissement permanent avant 1732 (Black River).`,
@@ -1913,7 +1901,6 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
             },
         ],
 
-        zone: [],
 
         capitale: 'León (Santiago de los Caballeros de León)',
         population_approx: `~39 000 habitants (dont ~35 000 Indiens)`,
@@ -1959,7 +1946,6 @@ Il prend les rênes dans un contexte de tensions accrues : les Anglais étendent
             },
         ],
 
-        zone: [],
 
         capitale: 'Santiago de los Caballeros de Guatemala (Antigua)',
         population_approx: `~790 000 habitants (dont ~750 000 Indiens)`,
@@ -2000,7 +1986,6 @@ Granda y Balbín vient de réprimer la grande révolte de Pablo Presbere (1709) 
             },
         ],
 
-        zone: [],
 
         capitale: 'Cartago',
         population_approx: `~11 500 habitants<br>(dont ~8 000 Indiens)`,
@@ -2016,7 +2001,7 @@ La mention "Suere ou Blewfield River" amalgame deux fleuves distincts : le río 
         id: 'panama',
         label: 'Panama',
         nom: 'Panama (Tierra Firme)',
-        tags: ['Panama', 'Tierra Firme', 'Panama City', 'Portobelo', 'Veragua'],
+        tags: ['Panama (Tierra Firme)', 'Tierra Firme', 'Veragua'],
 
         puissance: {
             1712: 'espagnole',
@@ -2044,14 +2029,21 @@ La mention "Suere ou Blewfield River" amalgame deux fleuves distincts : le río 
             // ── La route de l'argent ───────────────────────────────
             {
                 de: 1712,
-                texte: `L'isthme de Panama est le nœud stratégique de tout l'empire espagnol dans le Pacifique. L'argent péruvien, acheminé depuis Callao jusqu'à Panama City sur la côte pacifique, traverse l'isthme par le <em>Camino Real</em> jusqu'à Portobelo sur la côte atlantique — d'où il embarque à bord des galions pour Carthagène, La Havane et Séville. Contrôler ou intercepter ce transit, c'est tenir la jugulaire de l'empire. Henry Morgan l'avait compris en saccageant Panama City en 1671 ; la ville reconstruite est depuis mieux fortifiée, mais la vulnérabilité structurelle de l'isthme demeure.`,
+                texte: `L'isthme de Panama est le nœud stratégique de tout l'empire espagnol dans le Pacifique. L'argent péruvien, acheminé depuis Callao jusqu'à Panama City sur la côte pacifique, traverse l'isthme par le <em>Camino Real</em> jusqu'à Portobelo sur la côte atlantique — d'où il devrait embarquer à bord des galions pour Carthagène, La Havane et Séville. Contrôler ou intercepter ce transit, c'est tenir la jugulaire de l'empire. Henry Morgan l'avait compris en saccageant Panama City en 1671 ; la ville reconstruite est depuis mieux fortifiée, mais la vulnérabilité structurelle de l'isthme demeure.`,
             },
 
-            // ── Les foires de Portobelo ────────────────────────────
+            // ── Portobelo — ville morte ────────────────────────────
+            {
+                de: 1712, a: 1722,
+                texte: `<strong>Portobelo, ville en attente :</strong><br>
+Depuis 1708, aucun galion espagnol n'a mouillé à Portobelo en provenance d'Espagne. Les foires sont interrompues — non pas suspendues provisoirement, mais simplement absentes, faute de flotte. La ville, insalubre et étouffante en temps ordinaire, végète : une garnison sous-équipée, quelques centaines d'habitants permanents, des guarda costas dont les moyens sont dérisoires. L'argent péruvien continue de traverser l'isthme par le Camino Real, mais il ne parvient plus à Portobelo dans les volumes d'antan : la contrebande française par le cap Horn en capte une part substantielle dès les côtes du Pacifique, avant même que l'isthme soit atteint, tandis que le commerce interlope anglais et hollandais s'en empare le long de la côte atlantique. Portobelo en 1712–1721 est un fort, pas un marché.`,
+            },
+
+            // ── Les foires de Portobelo — ce qu'elles étaient ─────
             {
                 de: 1712,
-                texte: `<strong>Les foires de Portobelo :</strong><br>
-Quand les galions arrivent, Portobelo se transforme. La ville — insalubre, étouffante, à peine habitée en temps ordinaire — devient pendant deux à six semaines l'un des plus grands marchés du monde atlantique. Des marchands de Lima, Buenos Aires, Carthagène et Séville se retrouvent dans ses rues pour échanger l'argent du Pérou contre les manufactures européennes. Les prix s'envolent, les tavernes débordent, les maladies tropicales font des ravages parmi les Européens non acclimatés. Puis les galions repartent, et Portobelo se vide — jusqu'à la prochaine foire. Cette irrégularité est elle-même une donnée stratégique : les pirates qui attendent les galions ne savent jamais exactement quand ni combien de navires arriveront.`,
+                texte: `<strong>Les foires de Portobelo — mémoire d'un système :</strong><br>
+Quand les galions arrivaient — ce qui n'est plus le cas depuis 1708 — Portobelo se transformait. Pendant deux à six semaines, elle devenait l'un des plus grands marchés du monde atlantique : marchands de Lima, Buenos Aires, Carthagène et Séville échangeaient l'argent du Pérou contre les manufactures européennes (textiles surtout — draps de laine, toiles de lin, soieries), des outils, du papier, et des marchandises asiatiques réexportées via Séville. Les prix s'envolaient, les tavernes débordaient, les fièvres tropicales décimaient les Européens non acclimatés. Puis les galions repartaient, et la ville se vidait. Cette irrégularité était elle-même une donnée stratégique : les pirates qui attendaient les galions ne savaient jamais exactement quand ni combien de navires arriveraient.`,
             },
 
             // ── Un isthme mal défendu ─────────────────────────────
@@ -2064,12 +2056,34 @@ Le Président-Gouverneur cumule la présidence de la Real Audiencia, l'autorité
             // ── Guerre de la Quadruple-Alliance ───────────────────
             {
                 de: 1718, a: 1721,
-                texte: `<strong>Guerre de la Quadruple-Alliance :</strong><br>
-La guerre (1718–1720) fait de Portobelo une cible potentielle pour les forces britanniques. La garnison est renforcée et les galions retardés. Le commerce transatlantique est perturbé — les foires de Portobelo sont suspendues pendant le conflit, privant l'empire d'une source de revenus cruciale. La ville résiste, mais sa vulnérabilité face à une marine bien commandée est évidente à tous.`,
+                texte: `<strong>Guerre de la Quadruple-Alliance (1718–1720) :</strong><br>
+Portobelo n'est pas une cible des opérations militaires britanniques. L'impact local est surtout commercial et juridique : la South Sea Company voit ses facteurs et ses biens confisqués dans les ports espagnols, le navío de permiso prévu pour 1718 est annulé. Mais comme le commerce transatlantique légal est déjà moribond depuis 1708, ces perturbations changent peu à la réalité économique de l'isthme — elles élèvent surtout le risque et le coût de la contrebande interlope, qui reste le seul circuit d'approvisionnement réel.`,
+            },
+
+            // ── Instabilité de la tutelle vice-royale ─────────────
+            {
+                de: 1718, a: 1724,
+                texte: `<strong>Une tutelle intermédiaire instable :</strong><br>
+Le décret de 1717 crée la vice-royauté de Nouvelle-Grenade, avec Santafé de Bogotá pour capitale, destiné à coiffer les territoires septentrionaux de l'Amérique du Sud — dont Panama fait nominalement partie. La structure existe donc sur le papier au-dessus du Président-Gouverneur de Panama.
+<br>
+En pratique, Panama continue de traiter directement avec Lima pour tout ce qui touche à la route de l'argent et à l'Armada del Sur — les liens économiques et logistiques avec le Pérou sont bien trop anciens et trop concrets pour se plier à un échelon administratif nouveau et mal installé. La Nouvelle-Grenade est supprimée dès 1724, six ans après sa création, victime des séquelles financières de la guerre de la Quadruple-Alliance. Elle ne sera rétablie qu'en 1739. Pour les gouverneurs de Panama, cet épisode ressemble moins à une réforme qu'à une parenthèse.`,
+            },
+
+            // ── Tentative de relance ──────────────────────────────
+            {
+                de: 1721, a: 1722,
+                texte: `<strong>La foire de 1722 — un fiasco révélateur :</strong><br>
+En 1720, Madrid décide de relancer les galeones de Tierra Firme. Ils arrivent à Carthagène en août 1721, sous le commandement du général Baltasar de Guevara.`,
+            },
+
+            // ── Tentative de relance — et son échec ───────────────
+            {
+                de: 1722, a: 1723,
+                texte: `<strong>La foire de 1722 — un fiasco révélateur :</strong><br>
+En 1720, Madrid décide de relancer les galeones de Tierra Firme. Ils arrivent à Carthagène en août 1721, sous le commandement du général Baltasar de Guevara. La foire de Portobelo se tient en 1722 — la première depuis 1708, soit quatorze ans d'interruption. Le résultat est un désastre : le marché américain est saturé par quatorze ans de contrebande ; l'infrastructure logistique est rouillée (le río Chagres obstrué, des cargaisons naufragées en transit) ; le général Guevara lui-même aurait été corrompu par les facteurs anglais de la South Sea Company pour laisser passer le navío de permiso Royal George avec le double de son tonnage légal. Les marchands péruviens préfèrent massivement la marchandise de contrebande, moins chère de 30 à 50 % faute de droits de douane. La foire est un échec retentissant et emblématique de l'agonie du système des flottes.`,
             },
         ],
 
-        zone: [],
 
         capitale: 'Panama City (Ciudad de Panamá)',
 
@@ -2077,27 +2091,29 @@ La guerre (1718–1720) fait de Portobelo une cible potentielle pour les forces 
 
         economie: [
             {
-                de: 1712, a: 1718,
-                texte: `Transit de l'argent péruvien (Camino Real), foires de Portobelo (irrégulières), commerce transatlantique, guarda costas`,
+                de: 1712,
+                texte: `Transit de l'argent péruvien (Camino Real, vers la côte atlantique — mais sans foire ni galions depuis 1708).
+Commerce de contrebande interlope (anglais, hollandais, français) comme seul circuit d'approvisionnement en manufactures européennes. Guarda costas chroniquement sous-équipés.`,
             },
             {
                 de: 1718, a: 1721,
-                texte: `Transit de l'argent péruvien (Camino Real), foires de Portobelo suspendues (guerre de la Quadruple-Alliance), commerce transatlantique perturbé`,
+                texte: `Une perturbation supplémentaire : la guerre de la Quadruple-Alliance. Biens anglais confisqués dans les ports espagnols, navío de permiso annulé. Risque accru pour la contrebande interlope, qui reste néanmoins le seul circuit actif.`,
             },
             {
-                de: 1721,
-                texte: `Transit de l'argent péruvien (Camino Real), foires de Portobelo (reprises), commerce transatlantique`,
+                de: 1722,
+                texte: `Tentative de relance des foires (foire de 1722, échec cuisant). Transit de l'argent péruvien. Contrebande toujours dominante. Suppression du vice-royauté de Nouvelle-Grenade (1724) : fragilisation durable de l'autorité coloniale sur la Tierra Firme.`,
             },
         ],
 
-        note_mj: `Panama relève du vice-roi du Pérou (Lima), pas de Mexico — distinction essentielle.
-    ✅ Séquence des gouverneurs : Wikipedia EN (Royal Governor of Panama).
-    ✅ Foires de Portobelo : actives jusqu'en 1737 sur toute notre période.
-    ✅ Saccage de Panama City par Morgan en 1671 : établi.
-    ⚠️ Veragua : province nominalement distincte, administrée en pratique depuis Panama City — gouverneur propre rare, souvent lieutenance. Population ~3 000 : estimation très approximative faute de recensement.
-    ⚠️ Suspension précise des foires pendant la guerre de la Quadruple-Alliance : vraisemblable mais à confirmer sur source primaire.
-    🎲 Le Darién oriental est traité dans le bloc 'darien' — la frontière entre les deux juridictions est purement théorique.`,
-
+        note_mj: `Panama relève du vice-roi du Pérou (Lima), pas de Mexico — distinction essentielle.<br>
+✅ Séquence des gouverneurs : Wikipedia EN (Royal Governor of Panama).<br>
+✅ Interruption des foires : 1708–1722, établi (Walker, Spanish Politics and Imperial Trade, 1979 ; Biblioteca Virtual Miguel de Cervantes, Donoso Anes).<br>
+✅ Foire de 1722 : fiasco documenté — contrebande, corruption de Guevara, Royal George en surcharge.<br>
+✅ Saccage de Panama City par Morgan en 1671 : établi.<br>
+✅ Galions de Tierra Firme absents de Portobelo 1708–1721 : foires et galions sont liés — l'un n'existe pas sans l'autre.<br>
+⚠️ Veragua : province nominalement distincte, administrée en pratique depuis Panama City — gouverneur propre rare, souvent lieutenance. Population ~3 000 : estimation très approximative faute de recensement.<br>
+⚠️ Suspension des foires pendant la guerre de la Quadruple-Alliance : la suspension est antérieure à la guerre (depuis 1708) et lui survit — la guerre n'est pas la cause, c'est la décision de 1720 de relancer les galeones qui met fin à l'interruption.<br>
+🎲 Le Darién oriental est traité dans le bloc 'darien' — la frontière entre les deux juridictions est purement théorique.`,
     },
 
     {
@@ -2139,7 +2155,6 @@ La carte Jaillot porte encore les noms <em>Nouvelle Calédonie</em> et <em>New E
             },
         ],
 
-        zone: [],
 
         capitale: `Aucune au sens européen — l'archipel de San Blas (Kuna Yala) est le cœur du territoire kuna`,
 
@@ -2160,7 +2175,7 @@ La carte Jaillot porte encore les noms <em>Nouvelle Calédonie</em> et <em>New E
         id: 'nouvelle-grenade',
         label: 'Nouvelle-Grenade',
         nom: 'Nouvelle-Grenade & Castilla del Oro',
-        tags: ['Nouvelle-Grenade', 'Castilla del Oro', 'Santafé de Bogotá', 'Carthagène', 'Cartagena', 'Antiochia'],
+        tags: ['Nouvelle-Grenade', 'Castilla del Oro', 'Santafé de Bogotá', 'Antiochia'],
 
         puissance: {
             1712: 'espagnole',
@@ -2216,7 +2231,6 @@ La réponse de Madrid est radicale : par la Real Cédula du 27 mars 1717, Philip
             },
         ],
 
-        zone: [],
 
         capitale: 'Santafé de Bogotá',
         population_approx: `~390 000 habitants<br>(dont ~15 000 esclaves et ~350 000 Indiens)`,
@@ -2228,7 +2242,7 @@ La réponse de Madrid est radicale : par la Real Cédula du 27 mars 1717, Philip
     ✅ Vice-royauté supprimée en 1723, rétablie en 1739 — établi.`,
     },
 
-    {
+/*    {
         id: 'cartagena',
         label: 'Carthagène',
         nom: 'Carthagène de Indias',
@@ -2273,7 +2287,6 @@ La paix revenue, la South Sea Company reprend ses droits. Les agents anglais ré
             },
         ],
 
-        zone: [],
 
         capitale: 'Carthagène de Indias',
         population_approx: `~20 000 habitants (dont une forte proportion d'esclaves africains et d'affranchis)`,
@@ -2284,7 +2297,7 @@ La paix revenue, la South Sea Company reprend ses droits. Les agents anglais ré
     ✅ Sac de Pointis 1697 : établi — dernier grand assaut réussi contre Carthagène avant Vernon en 1741.
     ✅ Asiento anglais (South Sea Company) depuis Utrecht 1713 : établi.`,
     },
-
+*/
     {
         id: 'venezuela',
         label: 'Venezuela',
@@ -2340,7 +2353,6 @@ Il succède à Bertodano dans un contexte de tensions persistantes entre élites
             },
         ],
 
-        zone: [],
 
         capitale: 'Santiago de León de Caracas',
         population_approx: `~66 000 habitants<br>(dont ~10 000 esclaves africains et ~48 000 Indiens)`,
@@ -2382,7 +2394,6 @@ Chaque année, une flotte saisonnière de petits navires anglo-américains — N
             },
         ],
 
-        zone: [],
 
         capitale: '[Aucune — île sans établissement permanent]',
         population_approx: `Nulle en permanence ; plusieurs centaines de marins saisonniers lors des récoltes de sel`,
@@ -2434,7 +2445,6 @@ L'île de Coche (55 km²) au sud et l'îlot de Cubagua — berceau des pêcherie
             },
         ],
 
-        zone: [],
 
         capitale: 'La Asunción (administrative) ; Pampatar (maritime)',
         population_approx: `~8 000 habitants<br>(dont ~7 000 Indiens)`,
@@ -2509,7 +2519,6 @@ Il prend le gouvernorat dans un contexte de tensions avec les missions capucines
             },
         ],
 
-        zone: [],
 
         capitale: 'Cumaná',
         population_approx: `~53 000 habitants<br>(dont ~6 000 escclaves et ~40 000 Indiens Caribes, Chaimas, Cumanagotes dans les missions capucines)<br>⤷ Cumaná (~8 000)`,
@@ -2599,7 +2608,6 @@ Vers 1725–1727, le <em>blast</em> achève de ruiner les plantations de cacao d
             },
         ],
 
-        zone: [],
 
         capitale: 'San José de Oruña (Saint Joseph) ; Puerto España (résidence de fait des gouverneurs)',
 
@@ -2682,7 +2690,6 @@ Administrée par un gouverneur nommé depuis Paris — poste peu enviable dans u
 
         ],
 
-        zone: [],
 
         capitale: 'Cayenne (française) / Paramaribo (hollandaise)',
         population_approx: `~3 000 Européens et esclaves (Cayenne)<br>~45 000 habitants (Surinam, dont ~40 000 esclaves)<br>5~10 000 population marron et indienne de l'intérieur`,
@@ -2779,7 +2786,6 @@ Après la mort de Montigny et la répression de la piraterie par Rogers à Nassa
             },
         ],
 
-        zone: [],
 
         capitale: 'Fort-Royal (Fort-de-France) — siège administratif ; Saint-Pierre — capitale marchande',
 
@@ -2843,7 +2849,6 @@ Acquitté à Londres en faisant valoir que ses opposants sont des sympathisants 
             },
         ],
 
-        zone: [],
         capitale: 'Bridgetown',
         population_approx: `~50 000 habitants (dont ~42 000 esclaves)`,
         economie: 'Sucre, rhum, mélasse ; commerce de transit vers les colonies continentales',
@@ -2903,7 +2908,6 @@ Jonathan van Beuningen — beau-frère de van Collen — assure l'intérim dans 
             },
         ],
 
-        zone: [],
         capitale: 'Willemstad (Fort Amsterdam)',
         population_approx: `~8 000 habitants<br>(dont ~5 000 à 6 000 esclaves)`,
         economie: 'Commerce interlope, transit négrier (Asiento), entrepôt de redistribution, sel (Bonaire)',
@@ -2972,7 +2976,6 @@ En 1727, la France nomme enfin un commandant à la Dominique — reconnaissant t
             },
         ],
 
-        zone: [],
         capitale: `[Aucune — Roseau est un simple mouillage kalinago et français]`,
         population_approx: `~2 000 à 3 000 Kalinago (estimation)<br>quelques dizaines de colons et coupeurs de bois français`,
         economie: 'Bois précieux (acajou, gaïac, gommier) ; troc kalinago (vivres, guides contre outils et rhum) ; refuge informel pour déserteurs et marrons',
@@ -3035,7 +3038,6 @@ En 1719, des colons français fondent un premier établissement à Barrouallie s
             },
         ],
 
-        zone: [],
         capitale: `[Aucune — Kingstown n'existe pas encore]`,
         population_approx: `~4 500 Kalinago Rouges et Garifunas`,
         economie: 'Agriculture vivrière, pêche, troc avec navires européens de passage, baleiniers à Bequia',
@@ -3095,7 +3097,6 @@ Un accord franco-britannique déclare formellement Sainte-Lucie île neutre. En 
             },
         ],
 
-        zone: [],
         capitale: `[Aucune capitale établie — Castries est le principal mouillage]`,
         population_approx: `~200 colons français<br>~4 000 Kalinago dans l'intérieur montagneux`,
         economie: 'Tabac, coton, sucre naissant, pêche ; commerce informel profitant de l\'absence d\'autorité',
@@ -3165,7 +3166,6 @@ Il prend les rênes en mars 1718. Son premier acte notable est d'obtenir l'autor
             },
         ],
 
-        zone: [],
         capitale: 'Basse-Terre',
         population_approx: `~25 000 habitants<br>(dont ~18 000 esclaves)`,
         economie: 'Sucre, cacao, coton, café ; commerce interlope actif avec Saint-Eustache et Curaçao',
@@ -3229,7 +3229,6 @@ Il prend le gouvernement en 1717 après une transition floue via Feuquières, ra
             },
         ],
 
-        zone: [],
         capitale: 'Saint-George\'s (Fort Royal)',
         population_approx: `~15 000 habitants<br>(dont ~10 000 esclaves)`,
         economie: 'Sucre, cacao, indigo, muscade (naissante) ; commerce interlope avec Trinidad et le Venezuela',
@@ -3243,8 +3242,8 @@ Il prend le gouvernement en 1717 après une transition floue via Feuquières, ra
     // ── SAINT-CHRISTOPHE (SAINT-KITTS) ───────────────────────
     {
         id: 'saint-christophe',
-        label: 'Saint-Christophe',
-        nom: 'Saint-Christophe (Saint-Kitts)',
+        label: 'Saint-Kitts',
+        nom: 'Saint-Kitts (Saint-Christophe)',
         tags: ['Saint-Christophe', 'Saint-Kitts'],
 
         puissance: {
@@ -3268,7 +3267,9 @@ Il prend le gouvernement en 1717 après une transition floue via Feuquières, ra
             // ── Situation permanente ───────────────────────────────
             {
                 de: 1712,
-                texte: `La plus ancienne colonie anglaise des Antilles, fondée en 1623 par Thomas Warner. Saint-Kitts a une histoire singulière : l'île fut partagée pendant près de cent ans entre Anglais et Français, qui coexistaient difficilement sur leurs bandes côtières respectives. La guerre de Succession d'Espagne a mis fin à ce partage — les Britanniques contrôlent toute l'île depuis 1702. Basseterre est la capitale et le principal port ; Brimstone Hill, la forteresse volcanique qui domine l'île, est surnommée le "Gibraltar des Antilles".`,
+                texte: `La plus ancienne colonie anglaise des Antilles, fondée en 1623 par Thomas Warner. Saint-Kitts a une histoire singulière : l'île fut partagée pendant près de cent ans entre Anglais et Français, qui coexistaient difficilement sur leurs bandes côtières respectives.<br>
+                La guerre de Succession d'Espagne a mis fin à ce partage : dès 1702, le gouverneur français capitule face aux forces britanniques et les colons français sont expulsés — mais c'est le traité d'Utrecht de 1713 qui consacre définitivement la souveraineté britannique sur l'île entière.<br>
+                Basseterre est la capitale et le principal port ; Brimstone Hill, la forteresse volcanique qui domine l'île, est surnommée le "Gibraltar des Antilles".`,
             },
 
             // ── Douglas et l'affaire Parke ─────────────────────────
@@ -3286,15 +3287,14 @@ Le traité d'Utrecht (avril 1713) cède officiellement à la Grande-Bretagne la 
             },
         ],
 
-        zone: [],
         capitale: 'Basseterre',
         population_approx: `~20 000 habitants<br>(dont ~15 000 esclaves)`,
         economie: 'Sucre, rhum — île parmi les plus productives des Antilles anglaises',
 
-        note_mj: `✅ Partition franco-britannique et cession Utrecht : établi.
-    ✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).
-    ✅ Affaire Douglas / extorsion : Wikipedia EN (Walter Douglas), Historic St. Kitts.
-    ✅ Assassinat de Parke (déc. 1710) : Calendar of State Papers, Encyclopedia Virginia.
+        note_mj: `✅ Partition franco-britannique et cession Utrecht : établi.<br>
+    ✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).<br>
+    ✅ Affaire Douglas / extorsion : Wikipedia EN (Walter Douglas), Historic St. Kitts.<br>
+    ✅ Assassinat de Parke (déc. 1710) : Calendar of State Papers, Encyclopedia Virginia.<br>
     ⚠️ Saint-Kitts n'a pas de gouverneur particulier séparé — le gouverneur général des Leeward Islands fait autorité sur l'ensemble.`,
     },
 
@@ -3348,21 +3348,21 @@ Au XVIIe siècle la plus riche des îles du groupe, siège de facto du premier g
             {
                 de: 1712,
                 texte: `<strong>Anguilla et Barbuda :</strong><br>
-Anguilla est quasi-abandonnée par les autorités coloniales : plate, aride, sans sucre, sans garnison. Elle survit grâce à la pêche, au sel et à la contrebande avec les îles voisines. En 1720, Hamilton signale que plusieurs planteurs ont simplement quitté l'île pour Antigua, faute de perspective. Barbuda est une dépendance d'Antigua détenue à bail par les Codrington depuis 1685 — peu peuplée, sans administration distincte, servant surtout de réserve naturelle et d'approvisionnement pour leurs plantations antiguaises.`,
+Anguilla est quasi-abandonnée par les autorités coloniales : plate, aride, sans sucre, sans garnison. Elle survit grâce à la pêche, au sel et à la contrebande avec les îles voisines. En 1720, Hamilton signale que plusieurs planteurs ont simplement quitté l'île pour Antigua, faute de perspective.<br>
+Barbuda est une dépendance d'Antigua détenue à bail par les Codrington depuis 1685 — peu peuplée, sans administration distincte, servant surtout de réserve naturelle et d'approvisionnement pour leurs plantations antiguaises.`,
             },
         ],
 
-        zone: [],
         capitale: `Saint-John's (Antigua) — siège du gouvernement général`,
         population_approx: `~35 000 habitants pour l'ensemble des îles<br>(dont ~28 000 esclaves)`,
         economie: 'Sucre (Antigua, Nevis), sel et pêche (Anguilla) ; base navale royale à English Harbour (Antigua)',
 
-        note_mj: `✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).
-    ✅ Affaire Parke (1710) : Calendar of State Papers, Encyclopedia Virginia.
-    ✅ Montserrat raids 1710–1712 : War of the Spanish Succession sources.
-    ✅ Anguilla abandon 1720 : Calendar of State Papers Colonial (CO.152/13, Hamilton, 14 juin 1720).
-    ✅ Barbuda / Codrington depuis 1685 : établi.
-    ⚠️ Bloc composite — cinq entités dans un seul id.
+        note_mj: `✅ Gouverneurs généraux : Wikipedia EN (List of governors of the Leeward Islands).<br>
+    ✅ Affaire Parke (1710) : Calendar of State Papers, Encyclopedia Virginia.<br>
+    ✅ Montserrat raids 1710–1712 : War of the Spanish Succession sources.<br>
+    ✅ Anguilla abandon 1720 : Calendar of State Papers Colonial (CO.152/13, Hamilton, 14 juin 1720).<br>
+    ✅ Barbuda / Codrington depuis 1685 : établi.<br>
+    ⚠️ Bloc composite — cinq entités dans un seul id.<br>
     📌 Note nomenclature : la carte Jaillot utilise "Leeward Isles" pour les îles vénézuéliennes hollandaises (Curaçao, Aruba, Bonaire, Roca, Orchilla, Tortuga), non pour ce groupe britannique. La convention anglaise "Leeward Islands" pour ce groupe est distincte de l'usage cartographique de Jaillot — à signaler dans l'interface si nécessaire.`,
     },
 
@@ -3419,7 +3419,6 @@ En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les obj
             },
         ],
 
-        zone: [],
         capitale: 'Charlotte Amalie (Fort Christian)',
         population_approx: `~3 600 habitants<br>(dont ~3 000 esclaves)<br>Saint-John : non colonisée avant 1718`,
         economie: 'Port franc, commerce interlope de toutes natures, transit négrier, sucre en production secondaire',
@@ -3469,7 +3468,6 @@ En 1718, le gouverneur Bredal colonise officiellement Saint-John malgré les obj
                         },*/
         ],
 
-        zone: [],
         capitale: `[Aucune<!-- — île déserte jusqu'en 1733-->]`,
         population_approx: `Zéro résidents permanents<!-- (1712–1733)-->`,
         economie: `Néant — anciens établissements à l'abandon ; escale occasionnelle`,
@@ -3520,7 +3518,6 @@ Les nombreux mouillages abrités, les passes peu profondes que seuls les pilotes
             },
         ],
 
-        zone: [],
         capitale: 'Road Town (Tortola)',
         population_approx: `~1 500 habitants<br>(dont ~1 000 esclaves)`,
         economie: 'Sucre (limité), commerce interlope avec Saint-Thomas danois, wrecking (Anegada)',
@@ -3577,7 +3574,6 @@ Les salines de la Great Bay (côté hollandais) et de la baie d'Orient (côté f
             },
         ],
 
-        zone: [],
         capitale: 'Marigot (français, nord) / Philipsburg (hollandais, sud)',
         population_approx: `~3 100 habitants toutes parties confondues<br>(dont ~2 500 esclaves)`,
         economie: 'Sel (salines des deux côtés), sucre, coton ; contrebande inter-parties',
@@ -3637,7 +3633,6 @@ Voisine de Statia, Saba est une île-volcan quasi inaccessible — des falaises 
             },
         ],
 
-        zone: [],
         capitale: 'Oranjestad (Sint Eustatius) / The Bottom (Saba)',
         population_approx: `~2 000 habitants (Sint Eustatius) ; ~300 habitants (Saba)<br>(dont ~2 200 esclaves)`,
         economie: 'Commerce interlope et transit (Sint Eustatius) ; pêche, dentelle et contrebande (Saba)',
@@ -3688,7 +3683,6 @@ Saint-Barth est une dépendance nominale du gouverneur général des Îles du Ve
             },
         ],
 
-        zone: [],
         capitale: `[Aucune ville constituée — quelques habitations dispersées]`,
         population_approx: `~700 pauvres bretons et normands`,
         economie: 'Pêche, petit élevage, sel, commerce d\'escale informel',
@@ -3733,7 +3727,6 @@ La baie de Courland (côté ouest) et la baie de Man of War (côté est) sont co
             },
         ],
 
-        zone: [],
         capitale: `[Aucune — Scarborough n'est pas encore une ville]`,
         population_approx: `Zéro résidents permanents (1712)`,
         economie: `Néant — mouillage d'opportunité, bois sur pied non exploité`,
@@ -3774,7 +3767,6 @@ Les Serrana et Serranilla — deux bancs coralliens quasi inhabités au centre d
             },
         ],
 
-        zone: [],
         capitale: `[Aucune — Port Royal (Roatan) est un mouillage, pas une ville]`,
         population_approx: `Quelques dizaines de bûcherons et flibustiers de passage`,
         economie: 'Bois de campêche (logwood), refuge pirate, eau douce et tortues',
@@ -3834,7 +3826,6 @@ Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée d
             },
         ],
 
-        zone: [],
         capitale: `[Aucune — ruines de New Westminster à Santa Catalina]`,
         population_approx: `Aucun résident permanent en 1712 ; passages occasionnels de flibustiers et de navires en transit`,
         economie: `Néant — refuge maritime, eau douce, pêche à la tortue`,
@@ -3872,7 +3863,6 @@ Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée d
                 texte: `L'île du Maïs, au large de la côte nicaraguayenne, est une île réelle avec une histoire fascinante. Elle a été colonisée par les Mayas avant d'être abandonnée, puis redécouverte par des marins espagnols au XVIe siècle. En 1712, elle est officiellement espagnole mais sans présence permanente — un refuge idéal pour les navires en difficulté ou les équipages cherchant à disparaître. Ses plages isolées, sa végétation dense et ses ruines mayas en font un lieu chargé de mystère et de légendes.`,
             },
         ],
-        zone: [],
         capitale: `[Aucune]`,
         population_approx: `Aucune`,
         economie: 'Aucune',
