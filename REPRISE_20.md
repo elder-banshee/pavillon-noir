@@ -225,89 +225,22 @@ function initRecherche() {
 
 **Tags villes :** champ `tags:` à ajouter dans `villes-data.js` pour chaque ville (noms alternatifs, variantes linguistiques). La recherche interrogera ensuite `VILLES` en plus de `JURIDICTIONS`.
 
-### Tags à supprimer de `carte-data.js` (déjà décidé, non encore appliqué)
+### Tags à supprimer de `carte-data.js`
 
-Les modifications suivantes sont **en attente d'application dans VS Code** :
-
-**`jamaique`** : supprimer `'Kingston'`, `'Port Royal'`, `'Spanish Town'`
-```javascript
-// Avant :
-tags: ['Jamaïque', 'Jamaica', 'Kingston', 'Port Royal', 'Spanish Town'],
-// Après :
-tags: ['Jamaïque', 'Jamaica'],
-```
-
-**`saint-domingue`** : supprimer `'Cap-Français'`, `'Cap Haïtien'`
-```javascript
-// Avant :
-tags: ['Saint-Domingue', 'Cap-Français', 'Cap Haïtien', 'Port-de-Paix', 'Haïti'],
-// Après :
-tags: ['Saint-Domingue', 'Haïti', 'Port-de-Paix'],
-```
-
-**`cuba`** : supprimer `'La Havane'`, `'Havana'`, `'La Habana'`, `'Santiago de Cuba'`, `'Matanzas'`
-```javascript
-// Avant :
-tags: ['Cuba', 'La Havane', 'Havana', 'La Habana', 'Santiago de Cuba', 'Bayamo', 'Matanzas', 'Camagüey'],
-// Après :
-tags: ['Cuba', 'Bayamo', 'Camagüey'],
-```
-
-**`porto-rico`** : supprimer `'San Juan'`
-```javascript
-// Avant :
-tags: ['Porto Rico', 'Puerto Rico', 'San Juan', 'Borinquen'],
-// Après :
-tags: ['Porto Rico', 'Puerto Rico', 'Borinquen'],
-```
-
-**`nouvelle-grenade`** : supprimer `'Carthagène'`, `'Cartagena'`
-```javascript
-// Avant :
-tags: ['Nouvelle-Grenade', 'Castilla del Oro', 'Santafé de Bogotá', 'Carthagène', 'Cartagena', 'Antiochia'],
-// Après :
-tags: ['Nouvelle-Grenade', 'Castilla del Oro', 'Santafé de Bogotá', 'Antiochia'],
-```
-
-**`cartagena`** : supprimer l'entrée entière de `carte-data.js` (elle migre dans `villes-data.js`).
+Tous les anciens tags qui faisaient référence à une ville du territoire disposant maintenant de son entrée dédiée.
 
 **Tags conservés en place (ne pas toucher) :**
-- `caroline-du-sud` : garder `'Charles Town'`, `'Charleston'` (pas de ville dans villes-data.js)
-- `floride` : garder `'Saint-Augustin'`, `'San Agustín'`, `'Saint Augustine'`
-- `louisiane` : garder `'Mobile'`, `'Nouvelle-Orléans'`, `'New Orleans'`
 - `new-providence` : garder `'Nassau'` (juridiction, pas ville dans villes-data.js)
 
-### Entrée `cartagena` à ajouter dans `villes-data.js`
+### Entrée `cartagena` ajoutée dans `villes-data.js`
 
-À insérer dans la Série 2 (Antilles espagnoles & Terre Ferme), après `bocachica` et avant `maracaibo` :
-
-```javascript
-{
-    id: 'cartagena',
-    nom: 'Carthagène de Indias',
-    capitale: true,
-    type: 'port',
-    territoire: 'nouvelle-grenade',
-    coords: null,
-    tags: ['Carthagène', 'Cartagena', 'Carthagène de Indias'],
-
-    contexte: `Principal port de sortie de l'empire espagnol sur la côte Caraïbe de Terre Ferme — l'or d'Antioquia, les émeraudes de Muzo, le cacao du Venezuela y transitent avant d'embarquer pour Cadix via La Havane. Carthagène est aussi l'un des grands marchés de l'Asiento — le commerce d'esclaves africains concédé aux Anglais depuis 1713.\n\nLe <strong>Château de Bocachica</strong> contrôle l'unique chenal d'accès à la baie intérieure ; les murailles de la ville, renforcées après le sac de Francis Drake (1586) et celui du baron de Pointis (1697), forment une enceinte quasi continue. La garnison est la plus nombreuse de toute la côte Caraïbe espagnole. Prendre Carthagène de force est hors de portée d'un équipage pirate — mais la contourner, la renseigner, ou en corrompre les douaniers est une autre affaire.`,
-
-    population: `~20 000 habitants (dont une forte proportion d'esclaves africains et d'affranchis)`,
-
-    garnison: `Fort Bocachica + Fort San Fernando (rive opposée du chenal) : ~200 soldats. Garnison de la ville intra-muros : ~300 soldats supplémentaires. Total estimé : ~500 hommes. Estimation d'après McFarlane, Colombia before Independence (1993).`,
-
-    note_mj: `✅ Sac de Pointis 1697 — dernier grand assaut réussi contre Carthagène avant Vernon en 1741 : établi.\n✅ Asiento anglais (South Sea Company) depuis Utrecht 1713 : établi.\n⚠️ Gouverneur militaire 1712 : non identifié depuis les sources accessibles.\nCarthagène est une alcaldía mayor et place militaire distincte de la Présidence de Santafé — son gouverneur militaire propre n'est pas subordonné au gouverneur civil de la Nouvelle-Grenade pour les affaires militaires.`,
-},
 ```
 
 ### Prochaines étapes (à implémenter en session 21)
 
-1. **Appliquer les modifications `carte-data.js`** (tags ci-dessus) dans VS Code
-2. **Ajouter l'entrée `cartagena`** dans `villes-data.js`
-3. **Ajouter le champ `tags:`** à chaque entrée de `villes-data.js`
-4. **Modifier `afficherSuggestions()`** dans `carte.js` pour interroger aussi `VILLES`
-5. **Implémenter le comportement au clic sur une ville** dans les suggestions (flyTo + masquage icône + panneau)
+1. **Ajouter le champ `tags:`** à chaque entrée de `villes-data.js`
+2. **Modifier `afficherSuggestions()`** dans `carte.js` pour interroger aussi `VILLES`
+3. **Implémenter le comportement au clic sur une ville** dans les suggestions (flyTo + masquage icône + panneau)
 
 ---
 
@@ -362,7 +295,6 @@ Cliquer dans l'ordre : Eleuthera → Marguerita → Jamaïque → puis cliquer s
 - **`j.note` dans `ouvrirPanneau()`** : aucune juridiction ne possède ce champ actuellement — réservé pour des observations joueurs au fil des aventures. Ne pas supprimer
 - **`villes-data.js` chargé après `carte-data.js` et avant `carte.js`** dans `carte.html` — ordre des scripts important
 - **Le panneau droit est partagé zones/villes** — ouvrir une ville ferme une zone et vice versa
-- **`hippogriffe` dans `chroniques-data.js`** : champ `rapport: "chroniques/rapports/marianne.md"` — nom de fichier à confirmer avec Ronan
 
 ---
 
@@ -374,6 +306,4 @@ Cliquer dans l'ordre : Eleuthera → Marguerita → Jamaïque → puis cliquer s
 - **Coordonnées manquantes** dans `villes-data.js` : `mobile`, `saint-georges-bermudes`, `fort-san-lorenzo` ont `coords: null`
 - **Brand "Pavillon Noir" dans la nav** : idée en réserve
 - **Audio** : créer les pistes, activer `AUDIO_ENABLED = true`
-- **Illustrations chroniques** : alimenter `chroniques/covers/`
-- **Rapports des chroniques** : rédiger et déposer dans `chroniques/rapports/`
 - **Champ `note`** dans `carte-data.js` : à renseigner au fil des aventures pour les observations joueurs
