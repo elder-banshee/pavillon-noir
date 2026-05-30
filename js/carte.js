@@ -658,8 +658,12 @@ function villeSVG(type, estCapitale, taille = 24) {
 // ─── Curseur temporel inline ──────────────────────────────────
 function initCurseurInline() {
   const valeur = document.getElementById('curseur-valeur');
-  const prev = document.getElementById('curseur-prev');
-  const next = document.getElementById('curseur-next');
+  const prevOld = document.getElementById('curseur-prev');
+  const nextOld = document.getElementById('curseur-next');
+  const prev = prevOld.cloneNode(true);
+  const next = nextOld.cloneNode(true);
+  prevOld.replaceWith(prev);
+  nextOld.replaceWith(next);
   if (!valeur || !prev || !next) return;
 
   const anneeMin = 1712;
@@ -678,6 +682,7 @@ function initCurseurInline() {
       renderZones();
       majLegende();
       if (zoneActive) ouvrirPanneau(zoneActive);
+      if (villeActive) ouvrirPanneauVille(villeActive);
     }
   });
 
@@ -688,6 +693,7 @@ function initCurseurInline() {
       renderZones();
       majLegende();
       if (zoneActive) ouvrirPanneau(zoneActive);
+      if (villeActive) ouvrirPanneauVille(villeActive);
     }
   });
 
@@ -995,6 +1001,7 @@ function ouvrirPanneau(juridictionId) {
 
   const precedent = zoneActive;
   zoneActive = juridictionId;
+  villeActive = null;
   if (precedent && precedent !== juridictionId) majZone(precedent);
   majZone(juridictionId);
 
@@ -1108,10 +1115,13 @@ function ouvrirPanneauVille(villeId) {
       </span>
     </div>
     <h2 class="panneau-nom">${ville.nom}</h2>
-    ${ville.contexte ? `
-      <div class="panneau-section-titre">Contexte</div>
-      <p class="panneau-contexte">${ville.contexte}</p>
-    ` : ''}
+    ${ville.contexte ? (() => {
+      const contexteHtml = rendreContexte(ville.contexte, anneeActive);
+      return contexteHtml ? `
+        <div class="panneau-section-titre">Contexte</div>
+        <p class="panneau-contexte">${contexteHtml}</p>
+      ` : '';
+    })() : ''}
     ${ville.population ? `
       <div class="panneau-section-titre">Données</div>
       <div class="panneau-meta">

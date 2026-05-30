@@ -48,10 +48,27 @@ const VILLES = [
                 de: 1712, a: 1719,
                 texte: `Les marchands de Charles Town sont parmi les plus actifs fournisseurs du marché pirate de Nassau — rhum, provisions, outils contre butin revendu discrètement.`,
             },
-                        // ── Blocus de Barbe-Noire ──────────────────────────────
+            // ── Guerre Yamasee ─────────────────────────────────────
             {
-                de: 1718, a: 1720,
-                texte: `En juin 1718, Barbe-Noire bloque le port avec quatre navires, prend des otages parmi les notables et impose ses conditions sans rencontrer la moindre résistance navale — épisode révélateur de l'impuissance militaire de la colonie au sortir de la guerre yamasee.`,
+                de: 1715, a: 1716,
+                texte: `<strong>La guerre yamasee :</strong><br>
+                Depuis avril 1715, la guerre Yamasee ravage les arrières de la Caroline du Sud. Les plantations sont brûlées à moins de cinquante kilomètres de Charles Town ; des centaines de colons fuient vers la ville. Le port reste ouvert mais la colonie est au bord de l'effondrement, incapable de défendre ses frontières sans renforts extérieurs.`,
+            },
+            {
+                de: 1716, a: 1717,
+                texte: `<strong>La guerre yamasee (depuis avril 1715) :</strong><br>
+                La coalition yamasee s'effrite : les Cherokees basculent du côté britannique au début de 1716, retournant la situation militaire. Charles Town respire, mais la reconstruction est lente et les plantations du nord restent exposées. La méfiance envers toutes les nations autochtones s'est profondément installée dans la mentalité coloniale.`,
+            },
+            {
+                de: 1717, a: 1718,
+                texte: `<strong>La guerre yamasee (avril 1715 - novembre 1717) :</strong><br>
+                La guerre Yamasee s'achève sans traité formel. Charles Town sort épuisée du conflit : dettes coloniales, milices décimées, commerce intérieur désorganisé. C'est dans ce contexte de faiblesse militaire structurelle que la menace pirate commence à peser sérieusement sur le port.`,
+            },
+            // ── Blocus de Barbe-Noire ──────────────────────────────
+            {
+                de: 1719, a: 1721,
+                texte: `<strong>Le blocus de Barbe-Noire (juin 1718) :</strong><br>
+                    En juin 1718, Barbe-Noire bloque le port avec quatre navires, prend des otages parmi les notables et impose ses conditions sans rencontrer la moindre résistance navale — épisode révélateur de l'impuissance militaire de la colonie au sortir de la guerre yamasee.`,
             },
         ],
 
