@@ -576,6 +576,7 @@ function renderVilles() {
 
   VILLES.forEach(ville => {
     if (!ville.coords) return; // coordonnées pas encore saisies
+    if (ville.visible_de && anneeActive < ville.visible_de) return;
 
     const [x, y] = ville.coords;
     const latlng = pixelToLatLng(x, y);
@@ -681,6 +682,7 @@ function initCurseurInline() {
       majAffichage();
       renderZones();
       majLegende();
+      renderVilles();
       if (zoneActive) ouvrirPanneau(zoneActive);
       if (villeActive) ouvrirPanneauVille(villeActive);
     }
@@ -692,6 +694,7 @@ function initCurseurInline() {
       majAffichage();
       renderZones();
       majLegende();
+      renderVilles();
       if (zoneActive) ouvrirPanneau(zoneActive);
       if (villeActive) ouvrirPanneauVille(villeActive);
     }

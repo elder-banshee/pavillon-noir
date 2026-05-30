@@ -20,7 +20,9 @@ const VILLES = [
         coords: [4840, 4097],
         tags: ['Carthagène', 'Cartagena', 'Carthagène de Indias'],
 
-        contexte: `Principal port de sortie de l'empire espagnol sur la côte Caraïbe de Terre Ferme — l'or d'Antioquia, les émeraudes de Muzo, le cacao du Venezuela y transitent avant d'embarquer pour Cadix via La Havane. Carthagène est aussi l'un des grands marchés de l'Asiento — le commerce d'esclaves africains concédé aux Anglais depuis 1713.\n\nLe <strong>Château de Bocachica</strong> contrôle l'unique chenal d'accès à la baie intérieure ; les murailles de la ville, renforcées après le sac de Francis Drake (1586) et celui du baron de Pointis (1697), forment une enceinte quasi continue. La garnison est la plus nombreuse de toute la côte Caraïbe espagnole. Prendre Carthagène de force est hors de portée d'un équipage pirate — mais la contourner, la renseigner, ou en corrompre les douaniers est une autre affaire.`,
+        contexte: [
+            { de: 1712, texte: `Principal port de sortie de l'empire espagnol sur la côte Caraïbe de Terre Ferme — l'or d'Antioquia, les émeraudes de Muzo, le cacao du Venezuela y transitent avant d'embarquer pour Cadix via La Havane. Carthagène est aussi l'un des grands marchés de l'Asiento — le commerce d'esclaves africains concédé aux Anglais depuis 1713.\n\nLe <strong>Château de Bocachica</strong> contrôle l'unique chenal d'accès à la baie intérieure ; les murailles de la ville, renforcées après le sac de Francis Drake (1586) et celui du baron de Pointis (1697), forment une enceinte quasi continue. La garnison est la plus nombreuse de toute la côte Caraïbe espagnole. Prendre Carthagène de force est hors de portée d'un équipage pirate — mais la contourner, la renseigner, ou en corrompre les douaniers est une autre affaire.` },
+        ],
 
         population: `~20 000 habitants (dont une forte proportion d'esclaves africains et d'affranchis)`,
 
@@ -74,8 +76,9 @@ const VILLES = [
 
         population: `~4 000 habitants intra-muros (dont ~1 500 esclaves) ; ~18 000 dans toute la province`,
 
-        note_mj: `✅ Blocus de Barbe-Noire juin 1718 : établi (Johnson, General History ; Woodard, Republic of Pirates).
-✅ Commerce interlope avec Nassau : Calendar of State Papers Colonial.
+        note_mj: `✅ Guerre Yamasee: Verner Crane, <em>The Southern Frontier</em> ; Alan Gallay, <em>The Indian Slave Trade</em>.<br>
+✅ Blocus de Barbe-Noire juin 1718 : établi (Johnson, <em>General History</em> ; Woodard, <em>Republic of Pirates</em>).<br>
+✅ Commerce interlope avec Nassau : <em>Calendar of State Papers Colonial</em>.<br>
 Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue par des palissades et deux batteries côtières modestes, insuffisantes face à une escadre.`,
     },
 
@@ -87,7 +90,9 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
         territoire: 'floride',
         coords: [3967, 1087],
 
-        contexte: `Unique ville permanente de Floride. San Agustín est d'abord un presidio — une garnison avec une ville autour — dont la valeur est stratégique plutôt qu'économique. Le Castillo de San Marcos, fort en coquina (pierre corallienne locale résistant aux boulets), domine la baie depuis 1695. La ville accueille les esclaves fugitifs des plantations caroliniennes à qui Madrid accorde la liberté contre le baptême et le service militaire — pratique qui attise les tensions avec Charles Town. La garnison ne dépasse pas 300 hommes, chroniquement sous-payés et mal équipés ; les missions franciscaines de l'arrière-pays ont été détruites par les raids anglais de 1704.`,
+        contexte: [
+            { de: 1712, texte: `Unique ville permanente de Floride. San Agustín est d'abord un presidio — une garnison avec une ville autour — dont la valeur est stratégique plutôt qu'économique. Le Castillo de San Marcos, fort en coquina (pierre corallienne locale résistant aux boulets), domine la baie depuis 1695. La ville accueille les esclaves fugitifs des plantations caroliniennes à qui Madrid accorde la liberté contre le baptême et le service militaire — pratique qui attise les tensions avec Charles Town. La garnison ne dépasse pas 300 hommes, chroniquement sous-payés et mal équipés ; les missions franciscaines de l'arrière-pays ont été détruites par les raids anglais de 1704.` },
+        ],
 
         population: `~1 500 habitants (garnison et civils) ; quelques centaines d'Indiens alliés`,
 
@@ -107,7 +112,16 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
         territoire: 'louisiane',
         coords: [1481, 909],
 
-        contexte: `Capitale de la Louisiane française jusqu'en 1718. Mobile est un comptoir plus qu'une ville — quelques centaines d'habitants autour d'un fort en bois sur la rive de la baie du même nom. Son rôle est d'ancrer l'alliance avec les Choctaws et d'affirmer la présence française entre la Floride espagnole et les colonies caroliniennes. Le commerce des peaux est la seule ressource notable. En 1718, Bienville fonde La Nouvelle-Orléans sur le Mississippi et Mobile perd définitivement sa primauté.`,
+        contexte: [
+            {
+                de: 1718,
+                texte: `Mobile est un comptoir plus qu'une ville — quelques centaines d'habitants autour d'un fort en bois sur la rive de la baie du même nom. Son rôle est d'ancrer l'alliance avec les Choctaws et d'affirmer la présence française entre la Floride espagnole et les colonies caroliniennes. Le commerce des peaux est la seule ressource notable. En 1718, Bienville fonde La Nouvelle-Orléans sur le Mississippi et Mobile perd définitivement sa primauté.`
+            },
+            {
+                de: 1712, a: 1718,
+                texte: `Mobile est la capitale de la Louisiane française — mais elle n'est pas pour autant un centre de pouvoir incontesté. La présence française dans la région est fragile, et les autorités de Mobile doivent composer avec les chefs choctaws, les colons indépendants, et les commerçants de passage. La ville est un point d'ancrage symbolique plus qu'une véritable métropole administrative ou militaire.`
+            },
+        ],
 
         population: `~250 habitants (soldats, colons, engagés) ; Choctaws alliés en transit permanent`,
 
@@ -124,8 +138,11 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
         type: 'port',
         territoire: 'louisiane',
         coords: [1297, 1314],
+        visible_de: 1718,
 
-        contexte: `Fondée par Bienville en 1718 sur un méandre du Mississippi à quelques kilomètres du lac Pontchartrain. En 1718–1720, c'est un chantier dans un marais : quelques dizaines de maisons en bois, une palissade, des ouvriers qui meurent de fièvre. La Compagnie des Indes y déverse des colons recrutés parfois de force. Sa vocation est de devenir le nœud entre le bassin du Mississippi et le Golfe du Mexique — ambition que la géographie justifie, mais que les conditions de 1718 rendent difficilement crédible.`,
+        contexte: [
+            { de: 1718, texte: `Fondée par Bienville en 1718 sur un méandre du Mississippi à quelques kilomètres du lac Pontchartrain. En 1718–1720, c'est un chantier dans un marais : quelques dizaines de maisons en bois, une palissade, des ouvriers qui meurent de fièvre. La Compagnie des Indes y déverse des colons recrutés parfois de force. Sa vocation est de devenir le nœud entre le bassin du Mississippi et le Golfe du Mexique — ambition que la géographie justifie, mais que les conditions de 1718 rendent difficilement crédible.` },
+        ],
 
         population: `Quelques centaines en 1718, croissance rapide et chaotique jusqu'à ~1 500 vers 1720`,
 
@@ -139,25 +156,30 @@ Pour la campagne : La Nouvelle-Orléans n'existe pas avant 1718 — tout événe
         capitale: true,
         type: 'port',
         territoire: 'bermudes',
-        coords: null,
+        coords: [6568, 420],
 
-        contexte: `Capitale et unique ville notable des Bermudes. Saint George's s'organise autour de son port naturel — l'un des rares bons mouillages de l'archipel — et de ses chantiers navals. Le cèdre des Bermudes produit des coques légères et durables, réputées dans tout l'Atlantique. Les pilotes bermudiens, familiers des hauts-fonds de l'archipel, se retrouvent sur tous les navires qui naviguent entre les colonies. Certains d'entre eux figurent parmi les équipages pirates de Nassau — leur connaissance des passes est un atout irremplaçable.`,
+        contexte: [
+            { de: 1712, texte: `Capitale et unique ville notable des Bermudes. Saint George's s'organise autour de son port naturel — l'un des rares bons mouillages de l'archipel — et de ses chantiers navals. Le cèdre des Bermudes produit des coques légères et durables, réputées dans tout l'Atlantique. Les pilotes bermudiens, familiers des hauts-fonds de l'archipel, se retrouvent sur tous les navires qui naviguent entre les colonies. Certains d'entre eux figurent parmi les équipages pirates de Nassau — leur connaissance des passes est un atout irremplaçable.` },
+        ],
 
         population: `~6 000 sur l'ensemble de l'archipel (dont ~2 000 esclaves) ; Saint George's regroupe l'essentiel de la population`,
 
-        note_mj: `✅ Réputation des chantiers bermudiens et des pilotes : établi (sources maritimes générales).
-✅ Bermudiens parmi les pirates de Nassau : Calendar of State Papers Colonial.
+        note_mj: `✅ Réputation des chantiers bermudiens et des pilotes : établi (sources maritimes générales).<br>
+✅ Bermudiens parmi les pirates de Nassau : <em>Calendar of State Papers Colonial</em>.<br>
 Fort Hamilton : construit à partir de 1620 environ, en état modeste à cette période — davantage une batterie côtière qu'un vrai fort de garnison.`,
     },
 
     {
         id: 'spanish-town',
         nom: 'Spanish Town (Jamaïque)',
+        capitale: true,
         type: 'port',
         territoire: 'jamaique',
-        coords: null,
+        coords: [4795, 2882],
 
-        contexte: `Capitale administrative de la Jamaïque. Spanish Town abrite le gouverneur, l'Assemblée coloniale et les tribunaux. Ville de papiers et de fonctionnaires, sans port, à une vingtaine de kilomètres à l'intérieur des terres depuis la baie de Kingston.`,
+        contexte: [
+            { de: 1712, texte: `Capitale administrative de la Jamaïque. Spanish Town abrite le gouverneur, l'Assemblée coloniale et les tribunaux. Ville de papiers et de fonctionnaires, sans port, à une vingtaine de kilomètres à l'intérieur des terres depuis la baie de Kingston.` },
+        ],
 
         population: `~2 000 habitants`,
 
@@ -171,14 +193,18 @@ Fort Hamilton : construit à partir de 1620 environ, en état modeste à cette p
         territoire: 'jamaique',
         coords: [4833, 2890],
 
-        contexte: `<strong>Port Royal</strong> occupait avant 1692 l'angle d'un long banc de sable fermant la baie de Kingston — ville de négoce et de plaisir surnommée "la plus riche et la plus impie du Nouveau Monde". Le tremblement de terre du 7 juin 1692 a englouti les deux tiers de la ville en deux minutes, noyant entre 2 000 et 5 000 personnes. Port Royal n'a pas disparu — la péninsule a été reconsolidée, une partie des bâtiments reconstruits — mais la population civile ne s'y est jamais réinstallée massivement. Ce qui reste est militaire et pénal : la base navale de la Royal Navy, les entrepôts d'avitaillement, et le Gallows Point.
-
-<strong>Le Gallows Point</strong> est le lieu d'exécution des pirates condamnés à Kingston. Les corps sont ensuite exposés en cage de fer à l'entrée du port — pour l'exemple, disent les ordonnances — visibles de tout navire entrant dans la baie. Charles Vane y est pendu en 1721 ; son corps reste exposé plusieurs mois.
-
+        contexte: [
+            { de: 1712, texte: `<strong>Port Royal</strong> occupait avant 1692 l'angle d'un long banc de sable fermant la baie de Kingston — ville de négoce et de plaisir surnommée "la plus riche et la plus impie du Nouveau Monde". Le tremblement de terre du 7 juin 1692 a englouti les deux tiers de la ville en deux minutes, noyant entre 2 000 et 5 000 personnes. Port Royal n'a pas disparu — la péninsule a été reconsolidée, une partie des bâtiments reconstruits — mais la population civile ne s'y est jamais réinstallée massivement. Ce qui reste est militaire et pénal : la base navale de la Royal Navy, les entrepôts d'avitaillement, et le Gallows Point.
+<br>
+<strong>Le Gallows Point</strong> est le lieu d'exécution des pirates condamnés à Kingston. Les corps sont ensuite exposés en cage de fer à l'entrée du port — pour l'exemple, disent les ordonnances — visibles de tout navire entrant dans la baie.
+<br>
 <strong>Kingston</strong>, fondée en 1693 sur la rive nord de la baie en face de Port Royal, est le centre marchand de fait. C'est là que les négociants jamaïcains ont leurs entrepôts, leurs comptoirs, leurs tavernes. Le butin pirate revendu par des intermédiaires discrets transite par Kingston avant de disparaître dans le circuit du commerce légal. Le sucre et le rhum jamaïcains partent de ses quais vers l'Angleterre et les colonies du Nord.
-
+<br>
 <strong>Fort Charles</strong>, à Port Royal, est la pièce maîtresse de la défense de la baie. Il commande l'entrée depuis la pointe de la péninsule.`,
-
+            },
+            { de: 1720, a: 1721, texte: `Le 18 novembre 1720, le capitaine pirate Calico Jack Rackham est exécuté à Port Royal. Il est jugé et pendu à Gallows Point, où son corps est exposé en cage de fer pendant plusieurs mois.`},
+            { de: 1721, texte: `Le 29 mars 1721, Charles Vane, l'un des chefs pirates les plus notoires de Nassau, est capturé et pendu à Gallows Point. Son corps est exposé en cage de fer à l'entrée du port pendant plusieurs mois, servant d'avertissement aux autres pirates qui pourraient être tentés de s'attaquer à la Jamaïque.`},
+        ],
         population: `Port Royal : ~2 000 (garnison, marins, personnels navals)
 Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'île`,
 
@@ -200,7 +226,9 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         territoire: 'saint-domingue',
         coords: [5497, 2541],
 
-        contexte: `Capitale de Saint-Domingue et ville la plus active des Antilles françaises. Le Cap s'étend sur une plaine étroite coincée entre la mer et les mornes du nord d'Hispaniola. Ses quais expédient vers Bordeaux et Nantes le sucre, l'indigo et le cacao des grandes habitations de la plaine du Nord. Le Conseil supérieur y siège, le gouverneur général y réside, et les négociants de toute la Caraïbe y font escale. Les tavernes, maisons closes et entrepôts du port constituent une économie parallèle fréquentée par des marins de toutes nationalités — dont certains n'ont pas de papiers en règle. Un capitaine avec une cargaison d'origine douteuse y trouvera preneur, à condition de ne pas attirer l'attention des autorités.`,
+        contexte: [
+            { de: 1712, texte: `Capitale de Saint-Domingue et ville la plus active des Antilles françaises. Le Cap s'étend sur une plaine étroite coincée entre la mer et les mornes du nord d'Hispaniola. Ses quais expédient vers Bordeaux et Nantes le sucre, l'indigo et le cacao des grandes habitations de la plaine du Nord. Le Conseil supérieur y siège, le gouverneur général y réside, et les négociants de toute la Caraïbe y font escale. Les tavernes, maisons closes et entrepôts du port constituent une économie parallèle fréquentée par des marins de toutes nationalités — dont certains n'ont pas de papiers en règle. Un capitaine avec une cargaison d'origine douteuse y trouvera preneur, à condition de ne pas attirer l'attention des autorités.` },
+        ],
 
         population: `~10 000 à 12 000 habitants (dont ~8 000 esclaves)`,
 
@@ -216,7 +244,9 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         territoire: 'saint-domingue',
         coords: [5340, 2769],
 
-        contexte: `Ancienne capitale des flibustiers français de Saint-Domingue. Dans les années 1660–1690, Petit-Goâve était le point de rassemblement des boucaniers de la côte ouest d'Hispaniola — une ville de planches et de tavernes où les équipages se formaient, les prises se vendaient, et les gouverneurs fermaient les yeux. En 1712, cette époque est révolue depuis une génération : Petit-Goâve est un bourg modeste en déclin, dont les habitants vivent surtout d'un petit commerce de denrées et de pêche côtière. Il reste un mouillage commode sur la route entre Le Cap et la côte sud, mais plus rien de la turbulence d'antan.`,
+        contexte: [
+            { de: 1712, texte: `Ancienne capitale des flibustiers français de Saint-Domingue. Dans les années 1660–1690, Petit-Goâve était le point de rassemblement des boucaniers de la côte ouest d'Hispaniola — une ville de planches et de tavernes où les équipages se formaient, les prises se vendaient, et les gouverneurs fermaient les yeux. En 1712, cette époque est révolue depuis une génération : Petit-Goâve est un bourg modeste en déclin, dont les habitants vivent surtout d'un petit commerce de denrées et de pêche côtière. Il reste un mouillage commode sur la route entre Le Cap et la côte sud, mais plus rien de la turbulence d'antan.` },
+        ],
 
         population: `~1 500 habitants`,
 
@@ -233,7 +263,9 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         territoire: 'tortue',
         coords: [5310, 2528],
 
-        contexte: `Bourg principal de l'île de la Tortue, organisé autour du Fort de la Roche — l'unique position défendable de l'île, taillée à même le promontoire rocheux qui domine la rade. En 1712, la Tortue est une dépendance administrative de Saint-Domingue sans gouverneur propre. Le bourg est modeste : quelques centaines d'habitants, des pêcheurs, une garnison squelettique. Sa seule réputation vivante est sanitaire — les marins de la côte lui prêtent un "air" qui épargne la fièvre jaune, et un homme qui se sait atteint cherche parfois à gagner l'île pour tenter sa chance.`,
+        contexte: [
+            { de: 1712, texte: `Bourg principal de l'île de la Tortue, organisé autour du Fort de la Roche — l'unique position défendable de l'île, taillée à même le promontoire rocheux qui domine la rade. En 1712, la Tortue est une dépendance administrative de Saint-Domingue sans gouverneur propre. Le bourg est modeste : quelques centaines d'habitants, des pêcheurs, une garnison squelettique. Sa seule réputation vivante est sanitaire — les marins de la côte lui prêtent un "air" qui épargne la fièvre jaune, et un homme qui se sait atteint cherche parfois à gagner l'île pour tenter sa chance.` },
+        ],
 
         population: `Quelques centaines d'habitants (garnison, pêcheurs, colons)`,
 
@@ -283,7 +315,9 @@ Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colo
         territoire: 'santo-domingo',
         coords: [5821, 2780],
 
-        contexte: `Première ville européenne permanente des Amériques, fondée en 1498 sur la rive sud d'Hispaniola. Santo Domingo conserve son prestige historique — siège de la Real Audiencia, première cathédrale, premier palais colonial du Nouveau Monde — mais la ville est en 1712 une cité appauvrie et clairsemée. La Fortaleza Ozama, construite en 1502 sur la rive du fleuve du même nom, est le plus vieux fort européen des Amériques encore debout. La Real Audiencia de Santo Domingo exerce nominalement une juridiction sur Cuba, Porto Rico, la Floride et le Venezuela, mais cette autorité est de plus en plus fictive à mesure que Madrid réorganise son empire.`,
+        contexte: [
+            { de: 1712, texte: `Première ville européenne permanente des Amériques, fondée en 1498 sur la rive sud d'Hispaniola. Santo Domingo conserve son prestige historique — siège de la Real Audiencia, première cathédrale, premier palais colonial du Nouveau Monde — mais la ville est en 1712 une cité appauvrie et clairsemée. La Fortaleza Ozama, construite en 1502 sur la rive du fleuve du même nom, est le plus vieux fort européen des Amériques encore debout. La Real Audiencia de Santo Domingo exerce nominalement une juridiction sur Cuba, Porto Rico, la Floride et le Venezuela, mais cette autorité est de plus en plus fictive à mesure que Madrid réorganise son empire.` },
+        ],
 
         population: `~5 000 à 8 000 habitants (dont ~1 500 esclaves)`,
 
@@ -352,7 +386,9 @@ La principale richesse locale est le tabac de la Vuelta Abajo, cultivé par de p
         territoire: 'cuba',
         coords: [4824, 2522],
 
-        contexte: `Second port de Cuba, sur la côte sud orientale — à l'opposé de La Havane tant géographiquement qu'économiquement. Santiago vit dans l'orbite de la Jamaïque britannique voisine autant que dans celle de La Havane : le commerce interlope avec Kingston est structurel, toléré par des gouverneurs locaux qui y trouvent leur compte. Le <strong>Castillo del Morro de Santiago</strong> (San Pedro de la Roca, 1638–1700) domine l'entrée de la baie depuis un promontoire à 60 mètres de hauteur — l'une des positions les mieux conservées de l'architecture militaire espagnole en Amérique.`,
+        contexte: [
+            { de: 1712, texte: `Second port de Cuba, sur la côte sud orientale — à l'opposé de La Havane tant géographiquement qu'économiquement. Santiago vit dans l'orbite de la Jamaïque britannique voisine autant que dans celle de La Havane : le commerce interlope avec Kingston est structurel, toléré par des gouverneurs locaux qui y trouvent leur compte. Le <strong>Castillo del Morro de Santiago</strong> (San Pedro de la Roca, 1638–1700) domine l'entrée de la baie depuis un promontoire à 60 mètres de hauteur — l'une des positions les mieux conservées de l'architecture militaire espagnole en Amérique.` },
+        ],
 
         population: `~6 000 habitants`,
 
@@ -370,7 +406,9 @@ La principale richesse locale est le tabac de la Vuelta Abajo, cultivé par de p
         territoire: 'panuco',
         coords: [1153, 2032],
 
-        contexte: `Port modeste à l'embouchure du río Pánuco sur le Golfe du Mexique — seul débouché maritime entre Veracruz au sud et la Floride au nord. Saccagé par les pirates en 1684, le traumatisme reste présent dans les mémoires locales. Le commerce interlope avec des navires anglais de la Nouvelle-Angleterre est une réalité tolérée faute de moyens de surveillance. Aucun fort permanent en état.`,
+        contexte: [
+            { de: 1712, texte: `Port modeste à l'embouchure du río Pánuco sur le Golfe du Mexique — seul débouché maritime entre Veracruz au sud et la Floride au nord. Saccagé par les pirates en 1684, le traumatisme reste présent dans les mémoires locales. Le commerce interlope avec des navires anglais de la Nouvelle-Angleterre est une réalité tolérée faute de moyens de surveillance. Aucun fort permanent en état.` },
+        ],
 
         population: `~2 000 habitants`,
 
@@ -428,7 +466,9 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         territoire: 'honduras',
         coords: [2949, 3278],
 
-        contexte: `Seul port espagnol de la côte Caraïbe hondurienne. Trujillo marque la frontière orientale de l'autorité de Madrid — au-delà, c'est la côte Miskito. La ville est modeste, mal défendue, chroniquement menacée par les raids miskitos et les incursions anglaises depuis la Jamaïque. Son utilité principale : point de départ des routes vers l'intérieur du Honduras et Comayagua.`,
+        contexte: [
+            { de: 1712, texte: `Seul port espagnol de la côte Caraïbe hondurienne. Trujillo marque la frontière orientale de l'autorité de Madrid — au-delà, c'est la côte Miskito. La ville est modeste, mal défendue, chroniquement menacée par les raids miskitos et les incursions anglaises depuis la Jamaïque. Son utilité principale : point de départ des routes vers l'intérieur du Honduras et Comayagua.` },
+        ],
 
         population: `~1 000 habitants`,
 
@@ -443,7 +483,9 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         territoire: 'cote-miskito',
         coords: [3568, 3452],
 
-        contexte: `Pointe extrême orientale de la côte hondurienne, où le littoral s'infléchit vers le sud. Siège de fait du roi Miskito, investi à Spanish Town (Jamaïque) mais résidant ici. Le Cap est le nœud de toute navigation sur la côte Miskito : les sloops jamaïcains qui viennent troquer armes et rhum contre bois et tortues y font escale. Pas d'établissement européen permanent — quelques cases, un mouillage, et la présence du roi avec ses guerriers.`,
+        contexte: [
+            { de: 1712, texte: `Pointe extrême orientale de la côte hondurienne, où le littoral s'infléchit vers le sud. Siège de fait du roi Miskito, investi à Spanish Town (Jamaïque) mais résidant ici. Le Cap est le nœud de toute navigation sur la côte Miskito : les sloops jamaïcains qui viennent troquer armes et rhum contre bois et tortues y font escale. Pas d'établissement européen permanent — quelques cases, un mouillage, et la présence du roi avec ses guerriers.` },
+        ],
 
         population: `Quelques centaines de Miskitos autour du cap ; ~15 000 Miskitos dispersés sur l'ensemble de la côte`,
 
@@ -459,7 +501,9 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         territoire: 'nicaragua',
         coords: [2772, 4009],
 
-        contexte: `Ville la plus riche du Nicaragua espagnol, sur la rive occidentale du lac Nicaragua. Sa vulnérabilité structurelle est géographique : le río San Juan relie le lac à la mer des Caraïbes — une voie navigable depuis la côte atlantique jusqu'au cœur de la ville. Morgan l'a remontée en 1665 pour saccager Granada. Le <strong>Fort Inmaculada</strong>, à l'embouchure du río San Juan sur la mer, est censé barrer cette route — mais la garnison est insuffisante et le fort en mauvais état permanent.`,
+        contexte: [
+            { de: 1712, texte: `Ville la plus riche du Nicaragua espagnol, sur la rive occidentale du lac Nicaragua. Sa vulnérabilité structurelle est géographique : le río San Juan relie le lac à la mer des Caraïbes — une voie navigable depuis la côte atlantique jusqu'au cœur de la ville. Morgan l'a remontée en 1665 pour saccager Granada. Le <strong>Fort Inmaculada</strong>, à l'embouchure du río San Juan sur la mer, est censé barrer cette route — mais la garnison est insuffisante et le fort en mauvais état permanent.` },
+        ],
 
         population: `~4 000 habitants`,
 
@@ -525,7 +569,9 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
         territoire: 'panama',
         coords: [4020, 4370],
 
-        contexte: `Capitale de l'isthme, sur la côte pacifique. Panama City est la tête de la route de l'argent péruvien — le Camino Real qui traverse l'isthme depuis Portobelo à l'est. C'est ici que les lingots et les pièces de huit déchargés de Callao sont reconditionnés avant de traverser la jungle jusqu'à la côte Caraïbe. La ville reconstruite après le sac de Morgan (1671) est mieux fortifiée, mais sa vulnérabilité structurelle — accessible depuis les deux côtes — demeure. En 1712, Panama City est une ville de transit et d'administration, sans grand commerce propre : tout ce qui vaut quelque chose y passe, rien n'y reste.`,
+        contexte: [
+            { de: 1712, texte: `Capitale de l'isthme, sur la côte pacifique. Panama City est la tête de la route de l'argent péruvien — le Camino Real qui traverse l'isthme depuis Portobelo à l'est. C'est ici que les lingots et les pièces de huit déchargés de Callao sont reconditionnés avant de traverser la jungle jusqu'à la côte Caraïbe. La ville reconstruite après le sac de Morgan (1671) est mieux fortifiée, mais sa vulnérabilité structurelle — accessible depuis les deux côtes — demeure. En 1712, Panama City est une ville de transit et d'administration, sans grand commerce propre : tout ce qui vaut quelque chose y passe, rien n'y reste.` },
+        ],
 
         population: `~8 000 habitants`,
 
@@ -543,7 +589,9 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
         territoire: 'nouvelle-grenade',
         coords: [4790, 4116],
 
-        contexte: `Le Fort Bocachica contrôle l'unique chenal navigable donnant accès à la baie intérieure de Carthagène. Toute attaque navale sur Carthagène doit d'abord forcer ce passage. En 1712, le fort est en état de fonctionnement, armé de canons commandant le chenal. À quelques kilomètres de la ville, c'est une position autonome avec sa propre garnison. Francisco de Meneses, président-gouverneur renversé par ses propres <em>oidores</em> (juges de la Real Audiencia) en 1715, y sera emprisonné après sa destitution.`,
+        contexte: [
+            { de: 1712, texte: `Le Fort Bocachica contrôle l'unique chenal navigable donnant accès à la baie intérieure de Carthagène. Toute attaque navale sur Carthagène doit d'abord forcer ce passage. En 1712, le fort est en état de fonctionnement, armé de canons commandant le chenal. À quelques kilomètres de la ville, c'est une position autonome avec sa propre garnison. Francisco de Meneses, président-gouverneur renversé par ses propres <em>oidores</em> (juges de la Real Audiencia) en 1715, y sera emprisonné après sa destitution.` },
+        ],
 
         population: `Garnison uniquement`,
 
@@ -583,7 +631,9 @@ La ville vit du cacao de la région — l'un des meilleurs des Caraïbes — exp
         territoire: 'venezuela',
         coords: [6501, 4065],
 
-        contexte: `Unique débarcadère de Caracas sur la mer des Caraïbes, à quelques kilomètres de la capitale par un chemin de montagne raide. La Guaira est moins une ville qu'un entrepôt portuaire : tout ce qui entre ou sort du Venezuela passe par ses quais. Le cacao de Caracas, les manufactures européennes importées — tout transite ici. La douane de La Guaira est un point de friction permanent entre les marchands et l'administration coloniale.`,
+        contexte: [
+            { de: 1712, texte: `Unique débarcadère de Caracas sur la mer des Caraïbes, à quelques kilomètres de la capitale par un chemin de montagne raide. La Guaira est moins une ville qu'un entrepôt portuaire : tout ce qui entre ou sort du Venezuela passe par ses quais. Le cacao de Caracas, les manufactures européennes importées — tout transite ici. La douane de La Guaira est un point de friction permanent entre les marchands et l'administration coloniale.` },
+        ],
 
         population: `~2 000 habitants permanents`,
 
@@ -598,7 +648,9 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
         territoire: 'marguerita',
         coords: [6967, 3919],
 
-        contexte: `Port principal de l'île Marguerita, sur la côte est. Le <strong>Castillo San Carlos Borromeo</strong> (1662–1684) est la seule fortification notable de l'île — construit après les pillages français du XVIIe siècle (1576, 1593, 1677). Fort et port sont sur le même site, gardant l'entrée de la baie de Pampatar. La capitale administrative officielle est La Asunción à l'intérieur, mais les gouverneurs préfèrent souvent résider à Pampatar.`,
+        contexte: [
+            { de: 1712, texte: `Port principal de l'île Marguerita, sur la côte est. Le <strong>Castillo San Carlos Borromeo</strong> (1662–1684) est la seule fortification notable de l'île — construit après les pillages français du XVIIe siècle (1576, 1593, 1677). Fort et port sont sur le même site, gardant l'entrée de la baie de Pampatar. La capitale administrative officielle est La Asunción à l'intérieur, mais les gouverneurs préfèrent souvent résider à Pampatar.` },
+        ],
 
         population: `~2 000 habitants à Pampatar ; ~8 000 sur l'ensemble de l'île`,
 
@@ -617,7 +669,9 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
         territoire: 'nouvelle-andalousie',
         coords: [6782, 4094],
 
-        contexte: `L'une des plus vieilles villes permanentes des Amériques, fondée en 1515 sur la côte nord-est du Venezuela actuel. Point de départ traditionnel des expéditions vers l'Orénoque et les Llanos, Cumaná est aussi le chef-lieu d'une province dont l'économie repose sur le cacao, la pêche et une contrebande structurelle avec les Hollandais du Surinam et les Français de la Martinique. Le <strong>Castillo San Antonio de la Eminencia</strong> domine la ville depuis une colline — fort en étoile commandant le port et ses approches.`,
+        contexte: [
+            { de: 1712, texte: `L'une des plus vieilles villes permanentes des Amériques, fondée en 1515 sur la côte nord-est du Venezuela actuel. Point de départ traditionnel des expéditions vers l'Orénoque et les Llanos, Cumaná est aussi le chef-lieu d'une province dont l'économie repose sur le cacao, la pêche et une contrebande structurelle avec les Hollandais du Surinam et les Français de la Martinique. Le <strong>Castillo San Antonio de la Eminencia</strong> domine la ville depuis une colline — fort en étoile commandant le port et ses approches.` },
+        ],
 
         population: `~8 000 habitants dans la ville ; ~53 000 dans toute la province`,
 
@@ -636,13 +690,15 @@ Trinidad dépend nominalement de la province de Cumaná jusqu'en 1731.`,
         territoire: 'trinidad',
         coords: [7387, 3989],
 
-        contexte: `La capitale officielle de Trinidad est San José de Oruña (Saint Joseph), mais les gouverneurs résident en pratique à Puerto España, mieux située pour surveiller le trafic maritime du golfe de Paria. Puerto España est un bourg de quelques centaines de maisons sans défense organisée, dont la principale activité est un commerce de contrebande avec les Hollandais, les Français et les Anglais des îles voisines. Le cacao de Trinidad sort la nuit dans les criques du nord-ouest ; les manufactures européennes entrent de la même façon.`,
+        contexte: [
+            { de: 1712, texte: `La capitale officielle de Trinidad est San José de Oruña (Saint Joseph), mais les gouverneurs résident en pratique à Puerto España, mieux située pour surveiller le trafic maritime du golfe de Paria. Puerto España est un bourg de quelques centaines de maisons sans défense organisée, dont la principale activité est un commerce de contrebande avec les Hollandais, les Français et les Anglais des îles voisines. Le cacao de Trinidad sort la nuit dans les criques du nord-ouest ; les manufactures européennes entrent de la même façon.` },
+        ],
 
         population: `~800 à 1 000 habitants`,
 
         note_mj: `✅ Préférence des gouverneurs pour Puerto España sur San José de Oruña : carte-data.js (trinidad).
 ⚠️ Population : estimation.
-Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inexistante.`,
+Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inexistante. Coordonnées Saint-Joseph de Oruña : [7410, 3990].`,
     },
 
     // ══════════════════════════════════════════════════════════
@@ -699,7 +755,9 @@ Pas de fort propre — des batteries côtières légères.`,
         territoire: 'guadeloupe',
         coords: [7246, 3090],
 
-        contexte: `Capitale administrative de la Guadeloupe, sur la côte sous le vent de la partie volcanique de l'île. Le <strong>Fort Saint-Charles</strong> domine la ville et le mouillage. Centre gouvernemental et militaire, Basse-Terre est moins active commercialement que Pointe-à-Pitre sur Grande-Terre — mais c'est là que réside le gouverneur particulier de Guadeloupe, sous l'autorité du gouverneur général des Îles du Vent à Fort-Royal.`,
+        contexte: [
+            { de: 1712, texte: `Capitale administrative de la Guadeloupe, sur la côte sous le vent de la partie volcanique de l'île. Le <strong>Fort Saint-Charles</strong> domine la ville et le mouillage. Centre gouvernemental et militaire, Basse-Terre est moins active commercialement que Pointe-à-Pitre sur Grande-Terre — mais c'est là que réside le gouverneur particulier de Guadeloupe, sous l'autorité du gouverneur général des Îles du Vent à Fort-Royal.` },
+        ],
 
         population: `~3 000 habitants à Basse-Terre ; ~25 000 sur l'ensemble de l'île (dont ~18 000 esclaves)`,
 
@@ -717,7 +775,9 @@ Pas de fort propre — des batteries côtières légères.`,
         territoire: 'grenade',
         coords: [7275, 3779],
 
-        contexte: `Capitale et unique port notable de la Grenade française. Saint-George's est bâtie autour d'une rade en fer à cheval, l'une des plus belles des Petites Antilles. La ville exporte sucre, cacao, indigo et les premières muscades qui feront la réputation de l'île. Point de passage entre les Antilles françaises du nord et Trinidad espagnole au sud, Saint-George's est aussi une escale pour le commerce interlope avec le Venezuela. L'éloignement de Fort-Royal lui confère une autonomie de fait que les gouverneurs successifs gèrent avec pragmatisme.`,
+        contexte: [
+            { de: 1712, texte: `Capitale et unique port notable de la Grenade française. Saint-George's est bâtie autour d'une rade en fer à cheval, l'une des plus belles des Petites Antilles. La ville exporte sucre, cacao, indigo et les premières muscades qui feront la réputation de l'île. Point de passage entre les Antilles françaises du nord et Trinidad espagnole au sud, Saint-George's est aussi une escale pour le commerce interlope avec le Venezuela. L'éloignement de Fort-Royal lui confère une autonomie de fait que les gouverneurs successifs gèrent avec pragmatisme.` },
+        ],
 
         population: `~2 500 habitants ; ~15 000 sur l'ensemble de l'île (dont ~10 000 esclaves)`,
 
@@ -732,7 +792,9 @@ Pas de fort majeur en 1712 — des batteries côtières légères.`,
         territoire: 'saint-christophe',
         coords: [7044, 2862],
 
-        contexte: `Capitale de Saint-Kitts depuis le début de la colonisation anglaise (1623). Basseterre s'étend dans une plaine basse ouverte sur la côte sous le vent — position commode pour le commerce mais sans défense naturelle. La défense de l'île repose sur Brimstone Hill, à une dizaine de kilomètres au nord-ouest. Depuis le traité d'Utrecht (1713), la partie française de l'île a été cédée à la Grande-Bretagne — ses anciennes habitations sont rachetées à bas prix par les planteurs anglais, alimentant une spéculation foncière intense.`,
+        contexte: [
+            { de: 1712, texte: `Capitale de Saint-Kitts depuis le début de la colonisation anglaise (1623). Basseterre s'étend dans une plaine basse ouverte sur la côte sous le vent — position commode pour le commerce mais sans défense naturelle. La défense de l'île repose sur Brimstone Hill, à une dizaine de kilomètres au nord-ouest. Depuis le traité d'Utrecht (1713), la partie française de l'île a été cédée à la Grande-Bretagne — ses anciennes habitations sont rachetées à bas prix par les planteurs anglais, alimentant une spéculation foncière intense.` },
+        ],
 
         population: `~5 000 habitants à Basseterre ; ~20 000 sur l'ensemble de l'île (dont ~15 000 esclaves)`,
 
@@ -771,7 +833,9 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
         territoire: 'leeward-islands',
         coords: [7238, 2905],
 
-        contexte: `Capitale administrative des Leeward Islands et résidence du gouverneur général. Saint-John's est une ville de fonctionnaires et de planteurs — moins active comme port que English Harbour. C'est ici que siège le Conseil et que se règlent les affaires politiques de l'archipel ; c'est ici aussi que Daniel Parke fut lynché en décembre 1710 et que son successeur Douglas monnaya le pardon royal des assassins.`,
+        contexte: [
+            { de: 1712, texte: `Capitale administrative des Leeward Islands et résidence du gouverneur général. Saint-John's est une ville de fonctionnaires et de planteurs — moins active comme port que English Harbour. C'est ici que siège le Conseil et que se règlent les affaires politiques de l'archipel ; c'est ici aussi que Daniel Parke fut lynché en décembre 1710 et que son successeur Douglas monnaya le pardon royal des assassins.` },
+        ],
 
         population: `~3 000 habitants`,
 
@@ -894,7 +958,9 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
         territoire: 'yucatan',
         coords: [2613, 2435],
 
-        contexte: `Capitale de la capitainerie générale du Yucatán, à l'intérieur de la péninsule, loin de la côte Caraïbe. Ville administrative et épiscopale fondée en 1542 sur les ruines de la cité maya de T'ho. Mérida n'est pas un port — son accès à la mer passe par Campeche, à une centaine de kilomètres à l'ouest. Son intérêt pour la campagne est essentiellement politique : c'est depuis Mérida que le gouverneur-capitaine général administre le Yucatán, une capitainerie distincte de la vice-royauté de Mexico.`,
+        contexte: [
+            { de: 1712, texte: `Capitale de la capitainerie générale du Yucatán, à l'intérieur de la péninsule, loin de la côte Caraïbe. Ville administrative et épiscopale fondée en 1542 sur les ruines de la cité maya de T'ho. Mérida n'est pas un port — son accès à la mer passe par Campeche, à une centaine de kilomètres à l'ouest. Son intérêt pour la campagne est essentiellement politique : c'est depuis Mérida que le gouverneur-capitaine général administre le Yucatán, une capitainerie distincte de la vice-royauté de Mexico.` },
+        ],
 
         population: `~8 000 habitants (dont ~6 000 Mayas)`,
 
