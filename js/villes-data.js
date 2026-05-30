@@ -12,6 +12,24 @@ const VILLES = [
     // ══════════════════════════════════════════════════════════
 
     {
+        id: 'cartagena',
+        nom: 'Carthagène de Indias',
+        capitale: true,
+        type: 'port',
+        territoire: 'nouvelle-grenade',
+        coords: [4840, 4097],
+        tags: ['Carthagène', 'Cartagena', 'Carthagène de Indias'],
+
+        contexte: `Principal port de sortie de l'empire espagnol sur la côte Caraïbe de Terre Ferme — l'or d'Antioquia, les émeraudes de Muzo, le cacao du Venezuela y transitent avant d'embarquer pour Cadix via La Havane. Carthagène est aussi l'un des grands marchés de l'Asiento — le commerce d'esclaves africains concédé aux Anglais depuis 1713.\n\nLe <strong>Château de Bocachica</strong> contrôle l'unique chenal d'accès à la baie intérieure ; les murailles de la ville, renforcées après le sac de Francis Drake (1586) et celui du baron de Pointis (1697), forment une enceinte quasi continue. La garnison est la plus nombreuse de toute la côte Caraïbe espagnole. Prendre Carthagène de force est hors de portée d'un équipage pirate — mais la contourner, la renseigner, ou en corrompre les douaniers est une autre affaire.`,
+
+        population: `~20 000 habitants (dont une forte proportion d'esclaves africains et d'affranchis)`,
+
+        garnison: `Fort Bocachica + Fort San Fernando (rive opposée du chenal) : ~200 soldats. Garnison de la ville intra-muros : ~300 soldats supplémentaires. Total estimé : ~500 hommes. Estimation d'après McFarlane, Colombia before Independence (1993).`,
+
+        note_mj: `✅ Sac de Pointis 1697 — dernier grand assaut réussi contre Carthagène avant Vernon en 1741 : établi.\n✅ Asiento anglais (South Sea Company) depuis Utrecht 1713 : établi.\n⚠️ Gouverneur militaire 1712 : non identifié depuis les sources accessibles. AGI (Audiencia de Santa Fe) : source primaire.\nCarthagène est une alcaldía mayor et place militaire distincte de la Présidence de Santafé — son gouverneur militaire propre n'est pas subordonné au gouverneur civil de la Nouvelle-Grenade pour les affaires militaires.`,
+    },
+
+    {
         id: 'charles-town',
         nom: 'Charles Town (Charleston)',
         capitale: true,
@@ -19,7 +37,23 @@ const VILLES = [
         territoire: 'caroline-du-sud',
         coords: [4390, 470],
 
-        contexte: `Principal port des colonies britanniques du Sud. Charles Town exporte riz, indigo et esclaves africains vers l'Angleterre ; elle importe manufactures et rhum des Antilles. Son port est le seul débouché maritime de la Caroline du Sud et le point de passage de tout le commerce régional. Les marchands de Charles Town sont parmi les plus actifs fournisseurs du marché pirate de Nassau — rhum, provisions, outils contre butin revendu discrètement. En juin 1718, Barbe-Noire bloque le port avec quatre navires, prend des otages parmi les notables et impose ses conditions sans rencontrer la moindre résistance navale — épisode révélateur de l'impuissance militaire de la colonie au sortir de la guerre yamasee.`,
+        contexte: [
+            // ── Situation permanente ───────────────────────────────
+            {
+                de: 1712,
+                texte: `Principal port des colonies britanniques du Sud. Charles Town exporte riz, indigo et esclaves africains vers l'Angleterre ; elle importe manufactures et rhum des Antilles. Son port est le seul débouché maritime de la Caroline du Sud et le point de passage de tout le commerce régional.`,
+            },
+            // ── Commerce interlope ─────────────────────────────────
+            {
+                de: 1712, a: 1719,
+                texte: `Les marchands de Charles Town sont parmi les plus actifs fournisseurs du marché pirate de Nassau — rhum, provisions, outils contre butin revendu discrètement.`,
+            },
+                        // ── Blocus de Barbe-Noire ──────────────────────────────
+            {
+                de: 1718, a: 1720,
+                texte: `En juin 1718, Barbe-Noire bloque le port avec quatre navires, prend des otages parmi les notables et impose ses conditions sans rencontrer la moindre résistance navale — épisode révélateur de l'impuissance militaire de la colonie au sortir de la guerre yamasee.`,
+            },
+        ],
 
         population: `~4 000 habitants intra-muros (dont ~1 500 esclaves) ; ~18 000 dans toute la province`,
 
@@ -54,7 +88,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
         capitale: true,
         type: 'port',
         territoire: 'louisiane',
-        coords: null,
+        coords: [1481, 909],
 
         contexte: `Capitale de la Louisiane française jusqu'en 1718. Mobile est un comptoir plus qu'une ville — quelques centaines d'habitants autour d'un fort en bois sur la rive de la baie du même nom. Son rôle est d'ancrer l'alliance avec les Choctaws et d'affirmer la présence française entre la Floride espagnole et les colonies caroliniennes. Le commerce des peaux est la seule ressource notable. En 1718, Bienville fonde La Nouvelle-Orléans sur le Mississippi et Mobile perd définitivement sa primauté.`,
 
@@ -488,11 +522,11 @@ Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</stro
     {
         id: 'bocachica',
         nom: 'Fort Bocachica (Carthagène)',
-        type: 'port',
+        type: 'fort',
         territoire: 'nouvelle-grenade',
-        coords: [4804, 4103],
+        coords: [4790, 4116],
 
-        contexte: `Le Fort Bocachica contrôle l'unique chenal navigable donnant accès à la baie intérieure de Carthagène. Toute attaque navale sur Carthagène doit d'abord forcer ce passage. En 1712, le fort est en état de fonctionnement, armé de canons commandant le chenal. À quelques kilomètres de la ville, c'est une position autonome avec sa propre garnison. Francisco de Meneses, président-gouverneur renversé par ses propres oidores en 1715, y sera emprisonné après sa destitution.`,
+        contexte: `Le Fort Bocachica contrôle l'unique chenal navigable donnant accès à la baie intérieure de Carthagène. Toute attaque navale sur Carthagène doit d'abord forcer ce passage. En 1712, le fort est en état de fonctionnement, armé de canons commandant le chenal. À quelques kilomètres de la ville, c'est une position autonome avec sa propre garnison. Francisco de Meneses, président-gouverneur renversé par ses propres <em>oidores</em> (juges de la Real Audiencia) en 1715, y sera emprisonné après sa destitution.`,
 
         population: `Garnison uniquement`,
 
@@ -583,7 +617,7 @@ Trinidad dépend nominalement de la province de Cumaná jusqu'en 1731.`,
         nom: 'Puerto España (Port of Spain)',
         type: 'port',
         territoire: 'trinidad',
-        coords: [7438, 4007],
+        coords: [7387, 3989],
 
         contexte: `La capitale officielle de Trinidad est San José de Oruña (Saint Joseph), mais les gouverneurs résident en pratique à Puerto España, mieux située pour surveiller le trafic maritime du golfe de Paria. Puerto España est un bourg de quelques centaines de maisons sans défense organisée, dont la principale activité est un commerce de contrebande avec les Hollandais, les Français et les Anglais des îles voisines. Le cacao de Trinidad sort la nuit dans les criques du nord-ouest ; les manufactures européennes entrent de la même façon.`,
 
@@ -605,7 +639,7 @@ Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inex
         capitale: true,
         type: 'port',
         territoire: 'martinique',
-        coords: [7400, 3318],
+        coords: [7349, 3300],
 
         contexte: `Capitale administrative des Îles du Vent françaises et résidence du gouverneur général. Fort-Royal tient son nom du <strong>Fort Saint-Louis</strong> qui en est l'origine et le cœur — une position sur une presqu'île commandant la grande baie de Fort-Royal, l'un des meilleurs mouillages naturels des Petites Antilles. La ville est militaire et administrative plutôt que marchande — le vrai pouls commercial de la Martinique bat à Saint-Pierre, au nord-ouest.
 
@@ -626,7 +660,7 @@ Le Gaoulé de mai 1717 — soulèvement des grands planteurs contre l'intendant 
         nom: 'Saint-Pierre (Martinique)',
         type: 'port',
         territoire: 'martinique',
-        coords: [7376, 3296],
+        coords: [7325, 3278],
 
         contexte: `Premier port commercial de la Martinique et ville la plus peuplée de l'île — en tout point l'opposé de Fort-Royal. Saint-Pierre s'étend en croissant au pied de la Montagne Pelée sur la côte nord-ouest, face à une rade ouverte mais fréquentée en permanence. Les comptoirs des négociants bordelais et nantais s'alignent sur le front de mer ; les navires négriers y débarquent leur cargaison ; les rhums et les sucres partent pour la France.
 
@@ -646,7 +680,7 @@ Pas de fort propre — des batteries côtières légères.`,
         capitale: true,
         type: 'port',
         territoire: 'guadeloupe',
-        coords: [7295, 3108],
+        coords: [7246, 3090],
 
         contexte: `Capitale administrative de la Guadeloupe, sur la côte sous le vent de la partie volcanique de l'île. Le <strong>Fort Saint-Charles</strong> domine la ville et le mouillage. Centre gouvernemental et militaire, Basse-Terre est moins active commercialement que Pointe-à-Pitre sur Grande-Terre — mais c'est là que réside le gouverneur particulier de Guadeloupe, sous l'autorité du gouverneur général des Îles du Vent à Fort-Royal.`,
 
@@ -664,7 +698,7 @@ Pas de fort propre — des batteries côtières légères.`,
         capitale: true,
         type: 'port',
         territoire: 'grenade',
-        coords: [7326, 3797],
+        coords: [7275, 3779],
 
         contexte: `Capitale et unique port notable de la Grenade française. Saint-George's est bâtie autour d'une rade en fer à cheval, l'une des plus belles des Petites Antilles. La ville exporte sucre, cacao, indigo et les premières muscades qui feront la réputation de l'île. Point de passage entre les Antilles françaises du nord et Trinidad espagnole au sud, Saint-George's est aussi une escale pour le commerce interlope avec le Venezuela. L'éloignement de Fort-Royal lui confère une autonomie de fait que les gouverneurs successifs gèrent avec pragmatisme.`,
 
@@ -679,7 +713,7 @@ Pas de fort majeur en 1712 — des batteries côtières légères.`,
         nom: 'Basseterre (Saint-Kitts)',
         type: 'port',
         territoire: 'saint-christophe',
-        coords: [7095, 2880],
+        coords: [7044, 2862],
 
         contexte: `Capitale de Saint-Kitts depuis le début de la colonisation anglaise (1623). Basseterre s'étend dans une plaine basse ouverte sur la côte sous le vent — position commode pour le commerce mais sans défense naturelle. La défense de l'île repose sur Brimstone Hill, à une dizaine de kilomètres au nord-ouest. Depuis le traité d'Utrecht (1713), la partie française de l'île a été cédée à la Grande-Bretagne — ses anciennes habitations sont rachetées à bas prix par les planteurs anglais, alimentant une spéculation foncière intense.`,
 
@@ -696,7 +730,7 @@ La défense de l'île est assurée depuis Brimstone Hill — voir entrée dédi�
         capitale: true,
         type: 'port',
         territoire: 'saint-christophe',
-        coords: [7078, 2870],
+        coords: [7027, 2852],
 
         contexte: `"Le Gibraltar des Antilles" — surnom mérité pour un fort établi au sommet d'un promontoire volcanique de 240 mètres dominant toute la côte nord-ouest de Saint-Kitts. La position est naturellement imprenable par voie terrestre : les pentes sont raides, le sommet étroit, et la vue dégagée sur mer permet de signaler tout navire approchant avec plusieurs heures d'avance. Les Anglais y ont établi leurs premières batteries dans les années 1690, après le raid français sur l'île.
 
@@ -718,7 +752,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
         capitale: true,
         type: 'port',
         territoire: 'leeward-islands',
-        coords: [7289, 2923],
+        coords: [7238, 2905],
 
         contexte: `Capitale administrative des Leeward Islands et résidence du gouverneur général. Saint-John's est une ville de fonctionnaires et de planteurs — moins active comme port que English Harbour. C'est ici que siège le Conseil et que se règlent les affaires politiques de l'archipel ; c'est ici aussi que Daniel Parke fut lynché en décembre 1710 et que son successeur Douglas monnaya le pardon royal des assassins.`,
 
@@ -733,7 +767,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
         nom: 'English Harbour (Antigua)',
         type: 'port',
         territoire: 'leeward-islands',
-        coords: [7298, 2934],
+        coords: [7247, 2916],
 
         contexte: `Base navale de la Royal Navy dans les Petites Antilles, à une vingtaine de kilomètres au sud-est de Saint-John's. English Harbour est un port naturel exceptionnel — une rade quasi-fermée par deux promontoires, abritée des ouragans, avec un fond suffisant pour recevoir les frégates. Le carénage y est possible à l'abri des regards et des vents : les navires sont basculés sur le côté pour gratter et goudronner leurs coques, opération impossible en pleine mer.
 
@@ -754,7 +788,7 @@ En 1712, les installations permanentes sont encore modestes — les grands arsen
         capitale: true,
         type: 'port',
         territoire: 'saint-thomas',
-        coords: [6807, 2732],
+        coords: [6756, 2714],
 
         contexte: `Port franc danois — la ville où l'on peut tout vendre et tout acheter sans trop de questions. Charlotte Amalie s'organise autour d'une baie profonde et abritée, dominée par le <strong>Fort Christian</strong> (1672) sur son promontoire rouge. La Compagnie des Indes occidentales danoise administre formellement l'île, mais son contrôle est nominal : l'économie du port franc repose précisément sur l'absence de contrôle rigoureux.
 
@@ -776,7 +810,7 @@ La population est délibérément cosmopolite — Danois, Hollandais, Anglais, J
         capitale: true,
         type: 'port',
         territoire: 'curaçao',
-        coords: [6189, 3787],
+        coords: [6138, 3769],
 
         contexte: `Plaque tournante du commerce hollandais dans les Caraïbes — un entrepôt neutre où transitent marchandises européennes, esclaves africains et produits coloniaux de toutes provenances. Willemstad s'organise autour de la baie de Sint Anna : le quartier de Punda abrite les entrepôts et les comptoirs des marchands ; le <strong>Fort Amsterdam</strong> (1635) domine l'entrée du chenal depuis la pointe ouest.
 
@@ -798,7 +832,7 @@ Tout navire avec quelque chose à vendre ou à acheter sans questions trouve ici
         capitale: true,
         type: 'port',
         territoire: 'suriname',
-        coords: [8269, 4634],
+        coords: [8218, 4616],
 
         contexte: `Capitale de la colonie hollandaise du Suriname, sur la rive droite du fleuve Suriname. Paramaribo est un hub commercial prospère — ses plantations de sucre, de cacao et de café, exploitées par une main-d'œuvre servile massive, en font l'une des colonies les plus productives des Caraïbes. Le <strong>Fort Zeelandia</strong> (1667) occupe la pointe nord de la ville.
 
@@ -821,7 +855,7 @@ Note toponymique : "Paragotos" sur la carte Jaillot désigne probablement le mê
         capitale: true,
         type: 'port',
         territoire: 'barbade',
-        coords: [7603, 3566],
+        coords: [7552, 3548],
 
         contexte: `Capitale et port principal de la Barbade — la plus ancienne et la plus prospère des colonies britanniques des Caraïbes. Bridgetown concentre les entrepôts des planteurs, les comptoirs des négociants de Londres et Bristol, les tavernes des équipages en escale. Le trafic négrier y est intense : la Barbade redistribue les esclaves africains vers les autres îles britanniques. Le sucre barbadien, produit par acre en quantité supérieure à toute autre île, part de ses quais vers l'Angleterre.
 
@@ -841,7 +875,7 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
         nom: 'Mérida (Yucatán)',
         capitale: true,
         territoire: 'yucatan',
-        coords: [2665, 2456],
+        coords: [2613, 2435],
 
         contexte: `Capitale de la capitainerie générale du Yucatán, à l'intérieur de la péninsule, loin de la côte Caraïbe. Ville administrative et épiscopale fondée en 1542 sur les ruines de la cité maya de T'ho. Mérida n'est pas un port — son accès à la mer passe par Campeche, à une centaine de kilomètres à l'ouest. Son intérêt pour la campagne est essentiellement politique : c'est depuis Mérida que le gouverneur-capitaine général administre le Yucatán, une capitainerie distincte de la vice-royauté de Mexico.`,
 
