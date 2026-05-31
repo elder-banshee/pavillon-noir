@@ -576,8 +576,8 @@ function renderPins() {
 // ─── Taille des icônes ville selon le zoom ────────────────────
 function tailleIconeVille() {
   const zoom = carte.getZoom();
-  if (zoom >= 1) return 96;
-  if (zoom >= -1) return 48;
+  if (zoom >= 1) return 60;
+  if (zoom >= -1) return 36;
   return 24;
 }
 
