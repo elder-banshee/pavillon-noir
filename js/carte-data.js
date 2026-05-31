@@ -579,7 +579,7 @@ Loin des côtes et des routes maritimes, la Nueva Galicia est absente des chroni
     // Premier exemple avec changement de puissance en 1718.
     {
         id: 'new-providence',
-        nom: 'Nassau',
+        nom: 'New Providence',
         tags: ['Nassau', 'New Providence', 'République Pirate', 'Flying Gang'],
 
         puissance: {

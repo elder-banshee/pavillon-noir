@@ -298,6 +298,75 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
     },
 
     {
+        id: 'nassau',
+        nom: 'Nassau',
+        type: 'port',
+        territoire: 'new-providence',
+        coords: [4542, 1739],
+
+        capitale: [
+            { de: 1712, a: 1718, texte: 'pirate' },
+            { de: 1718, texte: true },
+        ],
+
+        population: [
+            {
+                de: 1712, a: 1714,
+                texte: `• 150 à 200 colons résidents<br>• Population pirate flottante, pouvant atteindre 300 à 500 hommes en période de forte activité.`,
+            },
+            {
+                de: 1714, a: 1718,
+                texte: `• ~100 colons résidents<br>• Jusqu'à 1 000 pirates en escale`,
+            },
+            {
+                de: 1718,
+                texte: `800 à 1 000 personnes :<br>• 300 à 500 colons résidents<br>• 200 à 300 repentis installés<br>• 150 à 200 esclaves<br>• ~100 soldats réguliers`,
+            },
+        ],
+
+        garnison: [
+            {
+                de: 1712, a: 1718,
+                texte: `Fort Nassau : 4 canons en 1712. Garnison nulle — le fort est aux mains des pirates.`,
+            },
+            {
+                de: 1718, a: 1720,
+                texte: `Fort Nassau en reconstruction sous Rogers.<br>~100 soldats réguliers, chroniquement décimés par la fièvre.`,
+            },
+            {
+                de: 1720,
+                texte: `Reconstruction de Fort Nassau achevée en janvier 1720.<br>~100 soldats réguliers.`,
+            },
+        ],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port naturel bien protégé au nord de New Providence. Nassau est le cœur physique de la République Pirate : tavernes, entrepôts de butin, chantiers de carénage improvisés. Le fort surplombe l'entrée du port.`,
+            },
+            {
+                de: 1712, a: 1714,
+                texte: `Nassau est un port de refuge pour les pirates depuis la fin du XVIIe siècle. En 1712, c'est une petite communauté de quelques dizaines de colons, principalement des planteurs et des pêcheurs, qui vivent dans des huttes de bois autour d'un fort en ruines — le Fort Nassau, construit par les Anglais en 1697 mais jamais achevé ni entretenu. Port naturel bien protégé par un banc de sable, il s'agit du seul véritable havre de l'archipel des Bahamas — idéal pour les navires rapides comme les sloops et les goélettes. Les pirates y trouvent un refuge sûr, une base d'opérations pour leurs raids, et un marché pour leur butin. La population pirate peut atteindre plusieurs centaines en période de forte activité.`,
+            },
+            {
+                de: 1714, a: 1718,
+                texte: `<strong>La République Pirate</strong><br>
+                À partir de 1715, la population pirate de Nassau explose — jusqu'à 1 000 hommes en escale à la fois. Les pirates contrôlent effectivement le port et le fort, qui devient leur quartier général de facto. Ils y organisent des raids contre les colonies britanniques et espagnoles, y vendent leur butin à des intermédiaires, et y vivent dans une anarchie relative. La République Pirate est un mélange de camaraderie, de violence, de commerce illicite, et de défiance envers les autorités coloniales. C'est aussi un lieu de refuge pour les pirates en fuite, les mutins, et les marginaux de toutes sortes — une société à part entière avec ses propres règles et sa propre culture.`,
+            },
+            {
+                de: 1718,
+                texte: `<strong>Rétablissement de l'autorité britannique</strong><br>
+                En 1718, Woodes Rogers, fraîchement nommé Gouverneur royal des Bahamas, arrive à Nassau avec trois navires de guerre et deux cents soldats pour reprendre le contrôle de l'île. Il offre un pardon royal aux pirates qui se rendent, mais une part significative refuse et choisit de se battre ou de fuir. Rogers rétablit l'ordre, reconstruit le Fort Nassau, et tente de redynamiser l'économie locale.`,
+            },
+        ],
+
+        note_mj: `✅ Coordonnées : nord de New Providence, entrée ouest du port — à caler sur la carte.<br>
+        ✅ Fort Nassau reconstruit sous Rogers, achevé janvier 1720 : <em>Calendar of State Papers</em> .<br>
+        ✅ Garnison pré-1718 : inexistante en pratique — Walker n'a ni soldats ni budget.<br>
+        ✅ Décomposition population post-1718 et milice de 500 lors du raid espagnol de 1720 : <em>Calendar of State Papers Colonial</em> ; <em>Woodard, Republic of Pirates</em>. Les 600 combattants incluent ~100 soldats réguliers + ~500 miliciens (repentis, colons, esclaves armés en crise).`,
+    },
+
+    {
         id: 'harbour-island',
         nom: 'Harbour Island',
         type: 'port',
@@ -865,7 +934,7 @@ La défense de l'île est assurée depuis Brimstone Hill — voir entrée dédi�
         id: 'brimstone-hill',
         nom: 'Fort Brimstone Hill',
         capitale: true,
-        type: 'port',
+        type: 'fort',
         territoire: 'saint-christophe',
         coords: [7027, 2852],
 

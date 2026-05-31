@@ -18,11 +18,12 @@ let villeActive = null;
 let markersVilles = {};
 
 // ─── Mode d'overlay ──────────────────────────────────────────
-// 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque' | 'isolation'
+// 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque' | 'isolation' | 'isolationVille'
 let overlayMode = 'geo';
 let overlayModeAvantIsolation = 'geo'; // mode à restaurer à la fermeture
 let isolationJuridictionId = null;     // juridiction actuellement isolée
 let isolationLayer = null;             // couche Leaflet du contour doré
+let isolationVilleId = null;           // ville actuellement zoomée
 
 // ─── Mode MJ ─────────────────────────────────────────────────
 let modeMJ = false;
@@ -192,6 +193,7 @@ function initCarte() {
     fermerPopup();
     fermerPanneau();
     fermerIsolation();
+    fermerZoomVille();
   });
 
   setTimeout(() => {
@@ -239,7 +241,7 @@ function initCarte() {
     ?.addEventListener('click', () => {
       modeSombre = !modeSombre;
       // En mode isolation, ne pas modifier l'opacity de la carte
-      if (overlayMode !== 'isolation') {
+      if (overlayMode !== 'isolation' && overlayMode !== 'isolationVille') {
         carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
       }
       document.getElementById('carte-zoom-sombre').classList.toggle('active', modeSombre);
@@ -386,7 +388,7 @@ function renderZones() {
     const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
     const isActive = zoneActive === j.id;
     const isIsolee = overlayMode === 'isolation' && isolationJuridictionId === j.id;
-    const isEffacee = overlayMode === 'isolation' && !isIsolee;
+    const isEffacee = (overlayMode === 'isolation' && !isIsolee) || overlayMode === 'isolationVille';
 
     let couleur, fillOpacity, strokeColor, strokeWeight, strokeOpacity;
 
@@ -459,8 +461,12 @@ function renderZones() {
     polygones.forEach(poly => {
       poly.on('click', (e) => {
         L.DomEvent.stopPropagation(e);
+        if (overlayMode === 'isolationVille') {
+          fermerZoomVille();
+          ouvrirPanneau(j.id);
+          return;
+        }
         if (overlayMode === 'isolation') {
-          L.DomEvent.stopPropagation(e);
           fermerIsolation();
           ouvrirPanneau(j.id);
           return;
@@ -592,10 +598,14 @@ function renderVilles() {
 
     const [x, y] = ville.coords;
     const latlng = pixelToLatLng(x, y);
-    const estCapitale = ville.capitale === true;
+    const statutCapitale = Array.isArray(ville.capitale)
+      ? rendreChamp(ville.capitale, anneeActive)
+      : ville.capitale;
+    const estCapitale = statutCapitale === true;
+    const estPirate = statutCapitale === 'pirate';
 
     const icon = L.divIcon({
-      html: villeSVG(ville.type || 'ville', estCapitale, tailleIconeVille()),
+      html: villeSVG(ville.type || 'ville', estCapitale, tailleIconeVille(), estPirate),
       className: 'carte-ville',
       iconSize: [tailleIconeVille(), tailleIconeVille()],
       iconAnchor: [tailleIconeVille() / 2, tailleIconeVille() / 2],
@@ -613,13 +623,32 @@ function renderVilles() {
 
     marker.on('click', (e) => {
       L.DomEvent.stopPropagation(e);
+      if (overlayMode === 'isolationVille') {
+        fermerZoomVille({ ouvrirVille: true });
+        return;
+      }
       if (overlayMode === 'isolation') return;
-      fermerPopup(); // fermer popup de pin si ouverte
+      fermerPopup();
       if (villeActive === ville.id) {
         fermerPanneauVille();
       } else {
         ouvrirPanneauVille(ville.id);
       }
+    });
+
+    marker.on('mouseover', () => {
+      if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
+        setIconeVilleIsoleeHover(ville.id, true);
+        return;
+      }
+      if (villeActive !== ville.id) setIconeVilleActive(ville.id, true);
+    });
+    marker.on('mouseout', () => {
+      if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
+        setIconeVilleIsoleeHover(ville.id, false);
+        return;
+      }
+      if (villeActive !== ville.id) setIconeVilleActive(ville.id, false);
     });
 
     marker.addTo(carte);
@@ -633,9 +662,15 @@ function majTailleIconesVilles() {
   Object.entries(markersVilles).forEach(([id, marker]) => {
     const ville = VILLES.find(v => v.id === id);
     if (!ville) return;
-    const estCapitale = ville.capitale === true;
+    const statutCapitale = Array.isArray(ville.capitale)
+      ? rendreChamp(ville.capitale, anneeActive)
+      : ville.capitale;
+    const estCapitale = statutCapitale === true;
+    const estPirate = statutCapitale === 'pirate';
+    const estIsole = overlayMode === 'isolationVille' && id === isolationVilleId;
+    const estActive = !estIsole && villeActive === id;
     marker.setIcon(L.divIcon({
-      html: villeSVG(ville.type || 'ville', estCapitale, taille),
+      html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, estIsole, estActive),
       className: 'carte-ville',
       iconSize: [taille, taille],
       iconAnchor: [taille / 2, taille / 2],
@@ -653,36 +688,88 @@ function pinSVG() {
 }
 
 // ─── SVG des marqueurs de villes ─────────────────────────────
-function villeSVG(type, estCapitale, taille = 24) {
-  const fond = estCapitale ? '#b04a36' : '#6b7c8a';
+function villeSVG(type, estCapitale, taille = 24, estPirate = false, estIsole = false, estActive = false) {
+  const fond = estIsole ? 'rgba(0,0,0,0)'
+    : estActive ? (estPirate ? '#3a3a3a' : estCapitale ? '#c9695a' : '#8fa5b4')
+      : estPirate ? '#0e0c09'
+        : estCapitale ? '#b04a36'
+          : '#6b7c8a';
+
+  const couleurTrait = estIsole ? '#c8973a'
+    : estPirate ? '#f2e8d5'
+      : '#0e0c09';
 
   let symbole = '';
 
   if (type === 'port') {
     symbole = `
-      <circle cx="16" cy="9" r="2" fill="none" stroke="#0e0c09" stroke-width="1.5"/>
-      <line x1="16" y1="11" x2="16" y2="23" stroke="#0e0c09" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="10" y1="13" x2="22" y2="13" stroke="#0e0c09" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M10 19 C10 23 13 23 16 23" fill="none" stroke="#0e0c09" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M22 19 C22 23 19 23 16 23" fill="none" stroke="#0e0c09" stroke-width="1.5" stroke-linecap="round"/>`;
+      <circle cx="16" cy="9" r="2" fill="none" stroke="${couleurTrait}" stroke-width="1.5"/>
+      <line x1="16" y1="11" x2="16" y2="23" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="13" y1="14" x2="19" y2="14" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M10 19 C10 23 13 23 16 23" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M22 19 C22 23 19 23 16 23" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>`;
   } else if (type === 'fort') {
-    const croix = estCapitale ? '#f0d5cf' : '#dde6ea';
+    const couleurCroix = estIsole ? '#c8973a'
+      : estCapitale ? '#f0d5cf'
+        : '#dde6ea';
     symbole = `
-      <rect x="9" y="9" width="14" height="14" rx="1" fill="#0e0c09"/>
-      <line x1="12" y1="12" x2="20" y2="20" stroke="${croix}" stroke-width="3" stroke-linecap="round"/>
-      <line x1="20" y1="12" x2="12" y2="20" stroke="${croix}" stroke-width="3" stroke-linecap="round"/>`;
+      <rect x="9" y="9" width="14" height="14" rx="1"
+        fill="${estIsole ? 'none' : '#0e0c09'}" stroke="${estIsole ? '#c8973a' : couleurTrait}" stroke-width="1.2"/>
+      <line x1="12" y1="12" x2="20" y2="20" stroke="${couleurCroix}" stroke-width="3" stroke-linecap="round"/>
+      <line x1="20" y1="12" x2="12" y2="20" stroke="${couleurCroix}" stroke-width="3" stroke-linecap="round"/>`;
   } else {
     symbole = `
-      <path d="M10 16 L16 10 L22 16" fill="none" stroke="#0e0c09" stroke-width="1.5" stroke-linejoin="round"/>
-      <rect x="12" y="16" width="8" height="7" rx="0.5" fill="none" stroke="#0e0c09" stroke-width="1.5"/>
-      <rect x="15" y="19" width="2.5" height="4" rx="0.3" fill="#0e0c09"/>`;
+      <path d="M10 16 L16 10 L22 16" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linejoin="round"/>
+      <rect x="12" y="16" width="8" height="7" rx="0.5" fill="none" stroke="${couleurTrait}" stroke-width="1.5"/>
+      <rect x="15" y="19" width="2.5" height="4" rx="0.3" fill="${couleurTrait}"/>`;
   }
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
     <rect x="3" y="3" width="26" height="26" rx="5"
-      fill="${fond}" stroke="#0e0c09" stroke-width="1.5"/>
+      fill="${fond}" stroke="${couleurTrait}" stroke-width="1.5"/>
     ${symbole}
   </svg>`;
+}
+
+function setIconeVilleActive(villeId, actif) {
+  const marker = markersVilles[villeId];
+  const ville = VILLES.find(v => v.id === villeId);
+  if (!marker || !ville) return;
+  const statutCapitale = Array.isArray(ville.capitale)
+    ? rendreChamp(ville.capitale, anneeActive)
+    : ville.capitale;
+  const estCapitale = statutCapitale === true;
+  const estPirate = statutCapitale === 'pirate';
+  const taille = tailleIconeVille();
+  marker.setIcon(L.divIcon({
+    html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, false, actif),
+    className: 'carte-ville',
+    iconSize: [taille, taille],
+    iconAnchor: [taille / 2, taille / 2],
+  }));
+}
+
+function setIconeVilleIsoleeHover(villeId, hover) {
+  const marker = markersVilles[villeId];
+  const ville = VILLES.find(v => v.id === villeId);
+  if (!marker || !ville) return;
+  const statutCapitale = Array.isArray(ville.capitale)
+    ? rendreChamp(ville.capitale, anneeActive)
+    : ville.capitale;
+  const estCapitale = statutCapitale === true;
+  const estPirate = statutCapitale === 'pirate';
+  const taille = tailleIconeVille();
+  // Hover isolé : fond gold translucide (25%) sur l'icône isolée
+  const svgBase = villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, true, false);
+  const svgHover = hover
+    ? svgBase.replace('fill="rgba(0,0,0,0)"', 'fill="rgba(200,151,58,0.25)"')
+    : svgBase;
+  marker.setIcon(L.divIcon({
+    html: svgHover,
+    className: 'carte-ville',
+    iconSize: [taille, taille],
+    iconAnchor: [taille / 2, taille / 2],
+  }));
 }
 
 // ─── Curseur temporel inline ──────────────────────────────────
@@ -869,7 +956,7 @@ function majLegende() {
     return;
   }
 
-  if (overlayMode === 'isolation') {
+  if (overlayMode === 'isolation' || overlayMode === 'isolationVille') {
     liste.innerHTML = `<span style="font-family:'IM Fell English',serif;font-style:italic;font-size:0.85rem;color:var(--mist);">Cliquer sur la carte pour quitter.</span>`;
     legende.setAttribute('aria-hidden', 'false');
     return;
@@ -1116,7 +1203,7 @@ function fermerPanneau() {
     zoneActive = null;
     majZone(precedent);
   }
-  villeActive = null;
+  if (villeActive) { setIconeVilleActive(villeActive, false); villeActive = null; }
 }
 
 // ─── Panneau ville ────────────────────────────────────────────
@@ -1133,10 +1220,17 @@ function ouvrirPanneauVille(villeId) {
 
   villeActive = villeId;
 
-  const estCapitale = ville.capitale === true;
+  // Ne pas écraser l'icône isolée si on vient de zoomerVille()
+  if (overlayMode !== 'isolationVille') setIconeVilleActive(villeId, true);
+
+  const statutCapitale = Array.isArray(ville.capitale)
+    ? rendreChamp(ville.capitale, anneeActive)
+    : ville.capitale;
+  const estCapitale = statutCapitale === true;
+  const estPirate = statutCapitale === 'pirate';
   const couleurStatut = estCapitale ? 'var(--gold)' : 'var(--mist)';
   const labelType = { port: 'Port', fort: 'Fort', ville: 'Ville' }[ville.type] || 'Ville';
-const labelEntete = ville.description
+  const labelEntete = ville.description
     ? ville.description + (estCapitale ? ' · Capitale' : '')
     : estCapitale
       ? (ville.type && ville.type !== 'ville' ? labelType + ' · Capitale' : 'Capitale')
@@ -1163,12 +1257,12 @@ const labelEntete = ville.description
       <div class="panneau-meta">
         <div class="panneau-meta-item">
           <span class="panneau-meta-label">Population</span>
-          <span class="panneau-meta-value">${ville.population}</span>
+          <span class="panneau-meta-value">${rendreChamp(ville.population, anneeActive)}</span>
         </div>
         ${ville.garnison ? `
           <div class="panneau-meta-item">
             <span class="panneau-meta-label">Garnison</span>
-            <span class="panneau-meta-value">${ville.garnison}</span>
+            <span class="panneau-meta-value">${rendreChamp(ville.garnison, anneeActive)}</span>
           </div>
         ` : ''}
       </div>
@@ -1191,6 +1285,7 @@ function fermerPanneauVille() {
   const panneau = document.getElementById('carte-panneau');
   panneau.classList.remove('carte-panneau--open');
   panneau.setAttribute('inert', '');
+  if (villeActive) setIconeVilleActive(villeActive, false);
   villeActive = null;
 }
 
@@ -1259,10 +1354,25 @@ function initRecherche() {
       const nomLow = j.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
       return nomLow.startsWith(qLow);
     });
-    return j ? j.nom : '';
+    if (j) return j.nom;
+    if (typeof VILLES !== 'undefined') {
+      const v = VILLES.find(v => {
+        if (!v.coords) return false;
+        const nomLow = v.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        return nomLow.startsWith(qLow);
+      });
+      if (v) return v.nom;
+    }
+    return '';
   }
 
+  let valeurCompletee = null;
+  let suggestionActive = null; // mémorise l'élément actif sélectionné au clavier
+  window._suggestionActive = null; // debug
+
   input.addEventListener('input', () => {
+    valeurCompletee = null;
+    suggestionActive = null;
     const q = input.value.trim();
     clear.style.display = q ? '' : 'none';
     if (fantome) fantome.textContent = '';
@@ -1285,39 +1395,79 @@ function initRecherche() {
     input.focus();
   });
 
+  // Empêcher les suggestions de voler le focus au clic
+  suggestions.addEventListener('mousedown', e => e.preventDefault());
+
   input.addEventListener('keydown', (e) => {
     if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome && fantome.textContent) {
       e.preventDefault();
       input.value = fantome.textContent;
+      valeurCompletee = fantome.textContent;
       fantome.textContent = '';
       suggestions.innerHTML = '';
-      const q = input.value.trim();
-      const j = JURIDICTIONS.find(j => j.nom === q);
-      if (j) isolerTerritoire(j.id);
+      input.focus();
       return;
     }
 
     const items = suggestions.querySelectorAll('.carte-recherche-suggestion');
+    let idx = suggestionActive ? [...items].indexOf(suggestionActive) : -1;
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (suggestionActive) { suggestionActive.click(); suggestionActive = null; return; }
+      const actif = suggestions.querySelector('.carte-recherche-suggestion--active');
+      if (actif) { actif.click(); return; }
+      if (items.length === 1) { items[0].click(); return; }
+      // Correspondance exacte sur la saisie
+      const q = input.value.trim();
+      if (!q) return;
+      const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+      // Priorité : nom exact de juridiction
+      const j = JURIDICTIONS.find(j => {
+        if (j.visible_mj && !modeMJ) return false;
+        return j.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '') === qLow;
+      });
+      if (j) { isolerTerritoire(j.id); return; }
+      // Nom exact de ville
+      if (typeof VILLES !== 'undefined') {
+        const v = VILLES.find(v => v.coords &&
+          v.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '') === qLow);
+        if (v) { zoomerVille(v.id); return; }
+      }
+      // Tag exact de juridiction
+      const jTag = JURIDICTIONS.find(j => {
+        if (j.visible_mj && !modeMJ) return false;
+        return j.tags?.some(t => t.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '') === qLow);
+      });
+      if (jTag) { isolerTerritoire(jTag.id); return; }
+      // Valeur complétée par Tab
+      if (valeurCompletee) {
+        const jC = JURIDICTIONS.find(j => j.nom === valeurCompletee.trim());
+        if (jC) { isolerTerritoire(jC.id); valeurCompletee = null; return; }
+        if (typeof VILLES !== 'undefined') {
+          const vC = VILLES.find(v => v.nom === valeurCompletee.trim() && v.coords);
+          if (vC) { zoomerVille(vC.id); valeurCompletee = null; return; }
+        }
+      }
+      return;
+    }
+
     if (!items.length) return;
-    const actif = suggestions.querySelector('.carte-recherche-suggestion--active');
-    let idx = actif ? [...items].indexOf(actif) : -1;
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (actif) actif.classList.remove('carte-recherche-suggestion--active');
+      if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
       idx = (idx + 1) % items.length;
       items[idx].classList.add('carte-recherche-suggestion--active');
       items[idx].scrollIntoView({ block: 'nearest' });
+      suggestionActive = items[idx];
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      if (actif) actif.classList.remove('carte-recherche-suggestion--active');
+      if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
       idx = (idx - 1 + items.length) % items.length;
       items[idx].classList.add('carte-recherche-suggestion--active');
       items[idx].scrollIntoView({ block: 'nearest' });
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      if (actif) actif.click();
-      else if (items.length === 1) items[0].click();
+      suggestionActive = items[idx];
     } else if (e.key === 'Escape') {
       fermerIsolation();
       input.value = '';
@@ -1353,6 +1503,7 @@ function afficherSuggestions(q, container) {
   const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
   const resultats = [];
 
+  // ── Juridictions ──
   JURIDICTIONS.forEach(j => {
     if (!j.tags || !j.tags.length) return;
     if (j.visible_mj && !modeMJ) return;
@@ -1361,8 +1512,22 @@ function afficherSuggestions(q, container) {
       const tagLow = tag.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
       if (tagLow.includes(qLow)) { matchTag = tag; break; }
     }
-    if (matchTag) resultats.push({ juridiction: j, matchTag });
+    if (matchTag) resultats.push({ type: 'juridiction', item: j, nom: j.nom, matchTag });
   });
+
+  // ── Villes ──
+  if (typeof VILLES !== 'undefined') {
+    VILLES.forEach(ville => {
+      if (!ville.coords) return;
+      const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
+      let matchTag = null;
+      for (const tag of tags) {
+        const tagLow = tag.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        if (tagLow.includes(qLow)) { matchTag = tag; break; }
+      }
+      if (matchTag) resultats.push({ type: 'ville', item: ville, nom: ville.nom, matchTag });
+    });
+  }
 
   if (!resultats.length) {
     container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
@@ -1371,20 +1536,21 @@ function afficherSuggestions(q, container) {
 
   // Priorité aux noms qui commencent par la frappe, puis alphabétique
   resultats.sort((a, b) => {
-    const aNom = a.juridiction.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-    const bNom = b.juridiction.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    const aNom = a.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    const bNom = b.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
     const aDebut = aNom.startsWith(qLow) ? 0 : 1;
     const bDebut = bNom.startsWith(qLow) ? 0 : 1;
     if (aDebut !== bDebut) return aDebut - bDebut;
     return aNom.localeCompare(bNom, 'fr');
   });
 
-  container.innerHTML = resultats.slice(0, 12).map(({ juridiction: j, matchTag }) => {
-    const nomMatch = matchTag === j.nom;
+  container.innerHTML = resultats.slice(0, 12).map(({ type, item, nom, matchTag }) => {
+    const nomMatch = matchTag === nom;
     const matchHtml = nomMatch ? '' :
       `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
-    return `<li class="carte-recherche-suggestion" role="option" data-id="${j.id}">
-      <span class="carte-recherche-suggestion-nom">${surlignerMatch(j.nom, qLow)}</span>
+    return `<li class="carte-recherche-suggestion" role="option"
+      data-id="${item.id}" data-type="${type}">
+      <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}</span>
       ${matchHtml}
     </li>`;
   }).join('');
@@ -1392,10 +1558,17 @@ function afficherSuggestions(q, container) {
   container.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
     li.addEventListener('click', () => {
       const id = li.dataset.id;
-      const j = JURIDICTIONS.find(j => j.id === id);
-      if (j) document.getElementById('carte-recherche-input').value = j.nom;
+      const type = li.dataset.type;
       container.innerHTML = '';
-      isolerTerritoire(id);
+      if (type === 'ville') {
+        const ville = VILLES.find(v => v.id === id);
+        if (ville) document.getElementById('carte-recherche-input').value = ville.nom;
+        zoomerVille(id);
+      } else {
+        const j = JURIDICTIONS.find(j => j.id === id);
+        if (j) document.getElementById('carte-recherche-input').value = j.nom;
+        isolerTerritoire(id);
+      }
     });
   });
 }
@@ -1413,7 +1586,154 @@ function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// ─── Mode isolation ───────────────────────────────────────────
+// ─── Zoom sur une ville (depuis la recherche) ─────────────────
+function zoomerVille(villeId) {
+  const ville = (typeof VILLES !== 'undefined') ? VILLES.find(v => v.id === villeId) : null;
+  if (!ville || !ville.coords) return;
+
+  // Mémoriser le mode précédent si on ne vient pas déjà d'un zoom ville
+  if (overlayMode !== 'isolationVille') overlayModeAvantIsolation = overlayMode;
+
+  // Fermer le panneau s'il était ouvert — AVANT de changer overlayMode
+  // pour éviter que fermerPanneau→fermerZoomVille ne corrompe overlayModeAvantIsolation
+  const panneau = document.getElementById('carte-panneau');
+  if (panneau.classList.contains('carte-panneau--open')) {
+    panneau.classList.remove('carte-panneau--open');
+    panneau.setAttribute('inert', '');
+    if (zoneActive) { const p = zoneActive; zoneActive = null; majZone(p); }
+    if (villeActive) { setIconeVilleActive(villeActive, false); villeActive = null; }
+  }
+
+  overlayMode = 'isolationVille';
+  isolationVilleId = villeId;
+
+  // Assombrir la carte
+  carteOverlayPrincipale.setOpacity(0.05);
+
+  // Mettre à jour la légende
+  majLegende();
+
+  // Masquer tous les marqueurs et polygones
+  renderZones();
+  Object.values(markersMap).forEach(m => m.setOpacity(0));
+  Object.values(markersVilles).forEach(m => m.setOpacity(0));
+
+  const latlng = pixelToLatLng(ville.coords[0], ville.coords[1]);
+  const statutCapitale = Array.isArray(ville.capitale)
+    ? rendreChamp(ville.capitale, anneeActive)
+    : ville.capitale;
+  const estCapitale = statutCapitale === true;
+  const estPirate = statutCapitale === 'pirate';
+
+  // Désactiver les événements souris sur tous les marqueurs sauf la ville isolée
+  Object.entries(markersVilles).forEach(([id, m]) => {
+    const el = m.getElement();
+    if (el) el.style.pointerEvents = id === villeId ? 'auto' : 'none';
+  });
+  Object.values(markersMap).forEach(m => {
+    const el = m.getElement();
+    if (el) el.style.pointerEvents = 'none';
+  });
+
+  // Animation pré-zoom : blanc → gold-light sur l'icône
+  const marker = markersVilles[villeId];
+
+  // Élever l'icône isolée au-dessus des autres marqueurs
+  if (marker) {
+    const el = marker.getElement();
+    if (el) el.style.zIndex = 9999;
+  }
+
+  if (marker) {
+    const taille = tailleIconeVille();
+    // Blanc
+    marker.setIcon(L.divIcon({
+      html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, true, false)
+        .replace(/stroke="#c8973a"/g, 'stroke="#ffffff"')
+        .replace(/fill="#c8973a"/g, 'fill="#ffffff"'),
+      className: 'carte-ville',
+      iconSize: [taille, taille],
+      iconAnchor: [taille / 2, taille / 2],
+    }));
+    marker.setOpacity(1);
+    // Gold-light après 0.4s
+    setTimeout(() => {
+      if (isolationVilleId !== villeId) return;
+      marker.setIcon(L.divIcon({
+        html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, true, false)
+          .replace(/stroke="#c8973a"/g, 'stroke="#e2c97e"')
+          .replace(/fill="#c8973a"/g, 'fill="#e2c97e"'),
+        className: 'carte-ville',
+        iconSize: [taille, taille],
+        iconAnchor: [taille / 2, taille / 2],
+      }));
+    }, 400);
+    // Masquer pendant le flyTo
+    setTimeout(() => {
+      if (isolationVilleId !== villeId) return;
+      marker.setOpacity(0);
+    }, 800);
+  }
+
+  // FlyTo
+  setTimeout(() => {
+    carte.flyTo(latlng, carte.getMinZoom() + 2, {
+      duration: 1.2,
+      easeLinearity: 0.3,
+    });
+  }, 900);
+
+  // Réapparition gold à la fin du flyTo via moveend
+  const onMoveEnd = () => {
+    if (isolationVilleId !== villeId) { carte.off('moveend', onMoveEnd); return; }
+    const m = markersVilles[villeId];
+    if (m) {
+      const taille = tailleIconeVille();
+      m.setIcon(L.divIcon({
+        html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, true, false),
+        className: 'carte-ville',
+        iconSize: [taille, taille],
+        iconAnchor: [taille / 2, taille / 2],
+      }));
+      m.setOpacity(1);
+    }
+    carte.off('moveend', onMoveEnd);
+  };
+  carte.on('moveend', onMoveEnd);
+}
+
+function fermerZoomVille(options = {}) {
+  if (overlayMode !== 'isolationVille') return;
+
+  const villeIdFermee = isolationVilleId;
+
+  overlayMode = overlayModeAvantIsolation;
+  isolationVilleId = null;
+
+  // Restaurer l'opacity de la carte
+  carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+
+  // Restaurer pointer-events et z-index sur tous les marqueurs
+  Object.values(markersVilles).forEach(m => {
+    const el = m.getElement();
+    if (el) { el.style.pointerEvents = ''; el.style.zIndex = ''; }
+  });
+  Object.values(markersMap).forEach(m => {
+    const el = m.getElement();
+    if (el) el.style.pointerEvents = '';
+  });
+
+  majLegende();
+  renderZones();
+  renderPins();
+  renderVilles();
+
+  // Passer la ville en mode actif après recréation si demandé
+  if (options.ouvrirVille && villeIdFermee) {
+    ouvrirPanneauVille(villeIdFermee);
+  }
+}
+
 function isolerTerritoire(juridictionId) {
   // Nettoyer une isolation précédente sans restaurer l'overlay (on va en recréer une)
   if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
@@ -1430,6 +1750,9 @@ function isolerTerritoire(juridictionId) {
 
   isolationJuridictionId = juridictionId;
   overlayMode = 'isolation';
+
+  // Fermer le panneau s'il était ouvert
+  fermerPanneau();
 
   // Assombrir la carte
   carteOverlayPrincipale.setOpacity(0.05);
@@ -1448,6 +1771,7 @@ function isolerTerritoire(juridictionId) {
   renderZones();
   // Masquer les pins
   Object.values(markersMap).forEach(m => m.setOpacity(0));
+  Object.values(markersVilles).forEach(m => m.setOpacity(0));
 
   // Contour doré dans le pane isolationContour
   const latlngs = contours.map(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
@@ -1461,23 +1785,25 @@ function isolerTerritoire(juridictionId) {
   });
   isolationLayer.addTo(carte);
 
-  // Animation du contour
+  // Animation du contour : blanc → gold-light, masqué pendant flyTo, gold via moveend
   setTimeout(() => {
     const contourPane = carte.getPane('isolationContour');
     if (contourPane) contourPane.querySelectorAll('path').forEach(p => {
-      p.style.transition = 'stroke 0.6s ease, stroke-width 0.4s ease';
+      p.style.transition = 'stroke 0.4s ease, stroke-width 0.4s ease';
     });
+    if (isolationLayer) isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
   }, 50);
 
   setTimeout(() => {
-    if (isolationLayer) isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
-  }, 60);
+    if (isolationLayer) isolationLayer.setStyle({ color: '#e2c97e', weight: 4, opacity: 1 });
+  }, 450);
 
+  // Masquer pendant le flyTo
   setTimeout(() => {
-    if (isolationLayer) isolationLayer.setStyle({ color: '#c8973a', weight: 4, opacity: 1 });
-  }, 300);
+    if (isolationLayer) isolationLayer.setStyle({ opacity: 0 });
+  }, 850);
 
-  // Zoom sur le territoire
+  // FlyTo
   setTimeout(() => {
     if (!isolationLayer) return;
     carte.flyToBounds(isolationLayer.getBounds(), {
@@ -1486,7 +1812,21 @@ function isolerTerritoire(juridictionId) {
       duration: 1.2,
       easeLinearity: 0.3,
     });
-  }, 400);
+  }, 950);
+
+  // Réapparition gold via moveend
+  const onMoveEnd = () => {
+    if (isolationJuridictionId !== juridictionId) { carte.off('moveend', onMoveEnd); return; }
+    if (isolationLayer) {
+      const contourPane = carte.getPane('isolationContour');
+      if (contourPane) contourPane.querySelectorAll('path').forEach(p => {
+        p.style.transition = 'stroke 0.4s ease, stroke-width 0.4s ease';
+      });
+      isolationLayer.setStyle({ color: '#c8973a', weight: 4, opacity: 1 });
+    }
+    carte.off('moveend', onMoveEnd);
+  };
+  carte.on('moveend', onMoveEnd);
 }
 
 function fermerIsolation() {
