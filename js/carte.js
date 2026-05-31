@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closeBtn) closeBtn.addEventListener('click', fermerPanneau);
   initPanneauGauche();
   initRecherche();
+  initFiltresMarqueurs();
 });
 
 // ─── Carte Leaflet ───────────────────────────────────────────
@@ -226,6 +227,7 @@ function initCarte() {
         if (isolationLayer) isolationLayer.setStyle({ opacity: 1 });
       }, 60);
     }
+    if (modeMJ) renderVilles();
   });
 
   // Boutons zoom personnalisés
@@ -509,6 +511,9 @@ function renderPins() {
 
   if (overlayMode === 'masque') return;
 
+  const filtre = document.getElementById('filtre-scenarios');
+  if (filtre && !filtre.querySelector('input').checked) return;
+
   CARTE_PINS.forEach(pin => {
     const [x, y] = pin.coords;
     const latlng = pixelToLatLng(x, y);
@@ -546,6 +551,14 @@ function renderPins() {
   });
 }
 
+// ─── Taille des icônes ville selon le zoom ────────────────────
+function tailleIconeVille() {
+  const zoom = carte.getZoom();
+  if (zoom >= 1) return 96;
+  if (zoom >= -1) return 48;
+  return 24;
+}
+
 // ─── Marqueurs de villes (mode MJ uniquement) ─────────────────
 function renderVilles() {
   // Nettoyer les marqueurs existants
@@ -556,20 +569,24 @@ function renderVilles() {
   if (!modeMJ) return;
   if (overlayMode === 'masque') return;
 
+  const filtre = document.getElementById('filtre-villes');
+  if (filtre && !filtre.querySelector('input').checked) return;
+
   if (typeof VILLES === 'undefined') return;
 
   VILLES.forEach(ville => {
     if (!ville.coords) return; // coordonnées pas encore saisies
+    if (ville.visible_de && anneeActive < ville.visible_de) return;
 
     const [x, y] = ville.coords;
     const latlng = pixelToLatLng(x, y);
     const estCapitale = ville.capitale === true;
 
     const icon = L.divIcon({
-      html: villeSVG(ville.type || 'ville', estCapitale),
+      html: villeSVG(ville.type || 'ville', estCapitale, tailleIconeVille()),
       className: 'carte-ville',
-      iconSize: [24, 24],
-      iconAnchor: [12, 12],
+      iconSize: [tailleIconeVille(), tailleIconeVille()],
+      iconAnchor: [tailleIconeVille() / 2, tailleIconeVille() / 2],
     });
 
     const marker = L.marker(latlng, { icon });
@@ -608,7 +625,7 @@ function pinSVG() {
 }
 
 // ─── SVG des marqueurs de villes ─────────────────────────────
-function villeSVG(type, estCapitale) {
+function villeSVG(type, estCapitale, taille = 24) {
   const couleur = estCapitale ? 'var(--gold)' : 'var(--mist)';
   const fond = estCapitale ? 'rgba(200,151,58,0.15)' : 'rgba(107,124,138,0.15)';
 
@@ -632,7 +649,7 @@ function villeSVG(type, estCapitale) {
       <rect x="15" y="16" width="2" height="4" fill="${couleur}" rx="0.2"/>`;
   }
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="24" height="24">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
     <rect x="4" y="4" width="24" height="24" rx="4"
       fill="${fond}" stroke="${couleur}" stroke-width="1.5"/>
     ${symbole}
@@ -642,8 +659,12 @@ function villeSVG(type, estCapitale) {
 // ─── Curseur temporel inline ──────────────────────────────────
 function initCurseurInline() {
   const valeur = document.getElementById('curseur-valeur');
-  const prev = document.getElementById('curseur-prev');
-  const next = document.getElementById('curseur-next');
+  const prevOld = document.getElementById('curseur-prev');
+  const nextOld = document.getElementById('curseur-next');
+  const prev = prevOld.cloneNode(true);
+  const next = nextOld.cloneNode(true);
+  prevOld.replaceWith(prev);
+  nextOld.replaceWith(next);
   if (!valeur || !prev || !next) return;
 
   const anneeMin = 1712;
@@ -661,7 +682,9 @@ function initCurseurInline() {
       majAffichage();
       renderZones();
       majLegende();
+      renderVilles();
       if (zoneActive) ouvrirPanneau(zoneActive);
+      if (villeActive) ouvrirPanneauVille(villeActive);
     }
   });
 
@@ -671,7 +694,9 @@ function initCurseurInline() {
       majAffichage();
       renderZones();
       majLegende();
+      renderVilles();
       if (zoneActive) ouvrirPanneau(zoneActive);
+      if (villeActive) ouvrirPanneauVille(villeActive);
     }
   });
 
@@ -979,6 +1004,7 @@ function ouvrirPanneau(juridictionId) {
 
   const precedent = zoneActive;
   zoneActive = juridictionId;
+  villeActive = null;
   if (precedent && precedent !== juridictionId) majZone(precedent);
   majZone(juridictionId);
 
@@ -1092,10 +1118,13 @@ function ouvrirPanneauVille(villeId) {
       </span>
     </div>
     <h2 class="panneau-nom">${ville.nom}</h2>
-    ${ville.contexte ? `
-      <div class="panneau-section-titre">Contexte</div>
-      <p class="panneau-contexte">${ville.contexte}</p>
-    ` : ''}
+    ${ville.contexte ? (() => {
+      const contexteHtml = rendreContexte(ville.contexte, anneeActive);
+      return contexteHtml ? `
+        <div class="panneau-section-titre">Contexte</div>
+        <p class="panneau-contexte">${contexteHtml}</p>
+      ` : '';
+    })() : ''}
     ${ville.population ? `
       <div class="panneau-section-titre">Données</div>
       <div class="panneau-meta">
@@ -1186,24 +1215,55 @@ function initRecherche() {
   const input = document.getElementById('carte-recherche-input');
   const suggestions = document.getElementById('carte-recherche-suggestions');
   const clear = document.getElementById('carte-recherche-clear');
+  const fantome = document.getElementById('carte-recherche-fantome');
   if (!input || !suggestions || !clear) return;
+
+  function getSuggestion(q) {
+    if (!q) return '';
+    const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    const j = JURIDICTIONS.find(j => {
+      if (j.visible_mj && !modeMJ) return false;
+      const nomLow = j.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+      return nomLow.startsWith(qLow);
+    });
+    return j ? j.nom : '';
+  }
 
   input.addEventListener('input', () => {
     const q = input.value.trim();
     clear.style.display = q ? '' : 'none';
+    if (fantome) fantome.textContent = '';
     if (q.length < 1) { suggestions.innerHTML = ''; return; }
+
     afficherSuggestions(q, suggestions);
+
+    const sugg = getSuggestion(q);
+    if (fantome && sugg) {
+      fantome.textContent = q + sugg.slice(q.length);
+    }
   });
 
   clear.addEventListener('click', () => {
     input.value = '';
     clear.style.display = 'none';
     suggestions.innerHTML = '';
+    if (fantome) fantome.textContent = '';
     fermerIsolation();
     input.focus();
   });
 
   input.addEventListener('keydown', (e) => {
+    if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome && fantome.textContent) {
+      e.preventDefault();
+      input.value = fantome.textContent;
+      fantome.textContent = '';
+      suggestions.innerHTML = '';
+      const q = input.value.trim();
+      const j = JURIDICTIONS.find(j => j.nom === q);
+      if (j) isolerTerritoire(j.id);
+      return;
+    }
+
     const items = suggestions.querySelectorAll('.carte-recherche-suggestion');
     if (!items.length) return;
     const actif = suggestions.querySelector('.carte-recherche-suggestion--active');
@@ -1230,7 +1290,29 @@ function initRecherche() {
       input.value = '';
       clear.style.display = 'none';
       suggestions.innerHTML = '';
+      if (fantome) fantome.textContent = '';
     }
+  });
+}
+
+// ─── Filtres marqueurs (panneau gauche) ──────────────────────
+function initFiltresMarqueurs() {
+  const filtreScenarios = document.getElementById('filtre-scenarios');
+  const filtreVilles = document.getElementById('filtre-villes');
+  if (!filtreScenarios || !filtreVilles) return;
+
+  filtreScenarios.addEventListener('click', () => {
+    const input = filtreScenarios.querySelector('input');
+    input.checked = !input.checked;
+    filtreScenarios.classList.toggle('decochee', !input.checked);
+    renderPins();
+  });
+
+  filtreVilles.addEventListener('click', () => {
+    const input = filtreVilles.querySelector('input');
+    input.checked = !input.checked;
+    filtreVilles.classList.toggle('decochee', !input.checked);
+    renderVilles();
   });
 }
 
@@ -1253,6 +1335,16 @@ function afficherSuggestions(q, container) {
     container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
     return;
   }
+
+  // Priorité aux noms qui commencent par la frappe, puis alphabétique
+  resultats.sort((a, b) => {
+    const aNom = a.juridiction.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    const bNom = b.juridiction.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    const aDebut = aNom.startsWith(qLow) ? 0 : 1;
+    const bDebut = bNom.startsWith(qLow) ? 0 : 1;
+    if (aDebut !== bDebut) return aDebut - bDebut;
+    return aNom.localeCompare(bNom, 'fr');
+  });
 
   container.innerHTML = resultats.slice(0, 12).map(({ juridiction: j, matchTag }) => {
     const nomMatch = matchTag === j.nom;

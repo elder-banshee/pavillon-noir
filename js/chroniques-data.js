@@ -63,7 +63,7 @@ const CHRONIQUES = [
       recrues: 25,
       pertes: 7
     },
-    rapport: "chroniques/rapports/marianne.md",
+    rapport: "chroniques/rapports/hippogriffe.md",
   },
   {
     id: "marianne",

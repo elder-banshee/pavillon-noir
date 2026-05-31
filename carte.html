@@ -50,10 +50,23 @@
             <div class="carte-recherche-wrap">
               <input type="text" id="carte-recherche-input" class="carte-recherche-input" placeholder="Rechercher…"
                 autocomplete="off" spellcheck="false">
+              <span class="carte-recherche-fantome" id="carte-recherche-fantome" aria-hidden="true"></span>
               <button class="carte-recherche-clear" id="carte-recherche-clear" aria-label="Effacer"
                 style="display:none">✕</button>
+              <ul class="carte-recherche-suggestions" id="carte-recherche-suggestions" role="listbox"></ul>
             </div>
-            <ul class="carte-recherche-suggestions" id="carte-recherche-suggestions" role="listbox"></ul>
+            <div class="carte-filtres-marqueurs">
+              <label class="carte-filtre-check" id="filtre-scenarios">
+                <input type="checkbox" checked>
+                <span class="carte-filtre-pastille">⚑</span>
+                Scénarios
+              </label>
+              <label class="carte-filtre-check" id="filtre-villes">
+                <input type="checkbox" checked>
+                <span class="carte-filtre-pastille">⌂</span>
+                Villes
+              </label>
+            </div>
           </div>
         </aside>
         <button class="carte-panneau-gauche-toggle" id="carte-panneau-gauche-toggle"
