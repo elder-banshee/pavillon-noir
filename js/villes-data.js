@@ -14,6 +14,7 @@ const VILLES = [
     {
         id: 'cartagena',
         nom: 'Carthagène de Indias',
+        label: 'Carthagène',
         capitale: true,
         type: 'port',
         territoire: 'nouvelle-grenade',
@@ -45,6 +46,7 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
     {
         id: 'charles-town',
         nom: 'Charles Town (Charleston)',
+        label: 'Charles Town',
         capitale: true,
         type: 'port',
         territoire: 'caroline-du-sud',
@@ -96,6 +98,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
     {
         id: 'san-agustin',
         nom: 'San Agustín (Saint Augustine)',
+        label: 'San Agustín',
         capitale: true,
         type: 'port',
         territoire: 'floride',
@@ -118,7 +121,10 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
     {
         id: 'mobile',
         nom: 'Mobile',
-        capitale: true,
+        capitale: [
+            { de: 1712, a: 1718, texte: true },
+            { de: 1718, texte: false },
+        ],
         type: 'port',
         territoire: 'louisiane',
         coords: [1481, 909],
@@ -163,7 +169,7 @@ Pour la campagne : La Nouvelle-Orléans n'existe pas avant 1718 — tout événe
 
     {
         id: 'saint-georges-bermudes',
-        nom: "Saint George's (Bermudes)",
+        nom: "Saint George's",
         capitale: true,
         type: 'port',
         territoire: 'bermudes',
@@ -200,6 +206,7 @@ Fort Hamilton : construit à partir de 1620 environ, en état modeste à cette p
     {
         id: 'kingston',
         nom: 'Kingston & Port Royal',
+        label: 'Kingston',
         type: 'port',
         territoire: 'jamaique',
         coords: [4833, 2890],
@@ -233,6 +240,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
     {
         id: 'cap-francais',
         nom: 'Cap-Français (Le Cap)',
+        label: 'Cap-Français',
         capitale: true,
         type: 'port',
         territoire: 'saint-domingue',
@@ -270,7 +278,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
 
     {
         id: 'basse-terre-tortue',
-        nom: 'Basse-Terre (Île de la Tortue)',
+        nom: 'Basse-Terre',
         type: 'port',
         territoire: 'tortue',
         coords: [5310, 2528],
@@ -343,7 +351,7 @@ Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colo
 
     {
         id: 'san-juan',
-        nom: 'San Juan (Porto Rico)',
+        nom: 'San Juan',
         capitale: true,
         type: 'port',
         territoire: 'porto-rico',
@@ -367,7 +375,7 @@ La ville vit du situado — la subvention annuelle de Mexico finançant garnison
 
     {
         id: 'la-havane',
-        nom: 'La Havane (Cuba)',
+        nom: 'La Havane',
         capitale: true,
         type: 'port',
         territoire: 'cuba',
@@ -471,7 +479,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
 
     {
         id: 'trujillo',
-        nom: 'Trujillo (Honduras)',
+        nom: 'Trujillo',
         type: 'port',
         territoire: 'honduras',
         coords: [2949, 3278],
@@ -506,7 +514,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
 
     {
         id: 'granada-nicaragua',
-        nom: 'Granada (Nicaragua)',
+        nom: 'Granada',
         type: 'port',
         territoire: 'nicaragua',
         coords: [2772, 4009],
@@ -526,9 +534,10 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
 
     {
         id: 'fort-san-lorenzo',
-        label: 'Fort San Lorenzo (Chagres)',
+        label: 'Fort San Lorenzo',
         nom: 'Castillo de San Lorenzo el Real de Chagres',
         type: 'fort',
+        capitale: true,
         territoire: 'panama',
         coords: [3900, 4259],
 
@@ -680,7 +689,7 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
 
     {
         id: 'pampatar',
-        nom: 'Pampatar (Île Marguerita)',
+        nom: 'Pampatar',
         type: 'port',
         territoire: 'marguerita',
         coords: [6967, 3919],
@@ -722,7 +731,7 @@ Trinidad dépend nominalement de la province de Cumaná jusqu'en 1731.`,
 
     {
         id: 'puerto-espana',
-        nom: 'Puerto España (Port of Spain)',
+        nom: 'Puerto España',
         type: 'port',
         territoire: 'trinidad',
         coords: [7387, 3989],
@@ -745,7 +754,7 @@ Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inex
 
     {
         id: 'fort-royal-martinique',
-        nom: 'Fort-Royal (Martinique)',
+        nom: 'Fort-Royal',
         capitale: true,
         type: 'port',
         territoire: 'martinique',
@@ -774,7 +783,7 @@ Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inex
 
     {
         id: 'saint-pierre',
-        nom: 'Saint-Pierre (Martinique)',
+        nom: 'Saint-Pierre',
         type: 'port',
         territoire: 'martinique',
         coords: [7325, 3278],
@@ -793,14 +802,15 @@ Pas de fort propre — des batteries côtières légères.`,
 
     {
         id: 'basse-terre-guadeloupe',
-        nom: 'Basse-Terre (Guadeloupe)',
+        nom: 'Basse-Terre',
         capitale: true,
         type: 'port',
         territoire: 'guadeloupe',
         coords: [7246, 3090],
 
         contexte: [
-            { de: 1712, texte: `Capitale administrative de la Guadeloupe, sur la côte sous le vent de la partie volcanique de l'île. Le <strong>Fort Saint-Charles</strong> domine la ville et le mouillage.<br>
+            {
+                de: 1712, texte: `Capitale administrative de la Guadeloupe, sur la côte sous le vent de la partie volcanique de l'île. Le <strong>Fort Saint-Charles</strong> domine la ville et le mouillage.<br>
 Centre gouvernemental et militaire, Basse-Terre est moins active commercialement que Pointe-à-Pitre sur Grande-Terre — mais c'est là que réside le gouverneur particulier de Guadeloupe, sous l'autorité du gouverneur général des Îles du Vent à Fort-Royal.` },
         ],
 
@@ -814,14 +824,16 @@ Centre gouvernemental et militaire, Basse-Terre est moins active commercialement
 
     {
         id: 'saint-georges-grenade',
-        nom: "Saint-George's (Grenade)",
+        nom: "Saint-George's",
+        label: "Saint-George's (Grenade)",
         capitale: true,
         type: 'port',
         territoire: 'grenade',
         coords: [7275, 3779],
 
         contexte: [
-            { de: 1712, texte: `Capitale et unique port notable de la Grenade française. Saint-George's est bâtie autour d'une rade en fer à cheval, l'une des plus belles des Petites Antilles. La ville exporte sucre, cacao, indigo et les premières muscades qui feront la réputation de l'île.<br>
+            {
+                de: 1712, texte: `Capitale et unique port notable de la Grenade française. Saint-George's est bâtie autour d'une rade en fer à cheval, l'une des plus belles des Petites Antilles. La ville exporte sucre, cacao, indigo et les premières muscades qui feront la réputation de l'île.<br>
 Point de passage entre les Antilles françaises du nord et Trinidad espagnole au sud, Saint-George's est aussi une escale pour le commerce interlope avec le Venezuela. L'éloignement de Fort-Royal lui confère une autonomie de fait que les gouverneurs successifs gèrent avec pragmatisme.` },
         ],
 
@@ -833,7 +845,7 @@ Pas de fort majeur en 1712 — des batteries côtières légères.`,
 
     {
         id: 'basseterre',
-        nom: 'Basseterre (Saint-Kitts)',
+        nom: 'Basseterre',
         type: 'port',
         territoire: 'saint-christophe',
         coords: [7044, 2862],
@@ -851,7 +863,7 @@ La défense de l'île est assurée depuis Brimstone Hill — voir entrée dédi�
 
     {
         id: 'brimstone-hill',
-        nom: 'Fort Brimstone Hill (Saint-Kitts)',
+        nom: 'Fort Brimstone Hill',
         capitale: true,
         type: 'port',
         territoire: 'saint-christophe',
@@ -874,7 +886,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
 
     {
         id: 'saint-johns-antigua',
-        nom: "Saint-John's (Antigua)",
+        nom: "Saint-John's",
         capitale: true,
         type: 'port',
         territoire: 'leeward-islands',
@@ -892,7 +904,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
 
     {
         id: 'english-harbour',
-        nom: 'English Harbour (Antigua)',
+        nom: 'English Harbour',
         type: 'port',
         territoire: 'leeward-islands',
         coords: [7247, 2916],
@@ -913,7 +925,7 @@ Aucun fort majeur en 1712 — les défenses seront renforcées progressivement a
 
     {
         id: 'charlotte-amalie',
-        nom: 'Charlotte Amalie (Saint-Thomas)',
+        nom: 'Charlotte Amalie',
         capitale: true,
         type: 'port',
         territoire: 'saint-thomas',
@@ -936,7 +948,7 @@ Petite garnison pour une île dont la survie repose sur la neutralité commercia
 
     {
         id: 'willemstad',
-        nom: 'Willemstad (Curaçao)',
+        nom: 'Willemstad',
         capitale: true,
         type: 'port',
         territoire: 'curaçao',
@@ -959,7 +971,7 @@ Tout navire avec quelque chose à vendre ou à acheter sans qu'on lui pose de qu
 
     {
         id: 'paramaribo',
-        nom: 'Paramaribo (Suriname)',
+        nom: 'Paramaribo',
         capitale: true,
         type: 'port',
         territoire: 'suriname',
@@ -982,7 +994,7 @@ Note toponymique : "Paragotos" sur la carte Jaillot désigne probablement le mê
 
     {
         id: 'bridgetown',
-        nom: 'Bridgetown (Barbade)',
+        nom: 'Bridgetown',
         capitale: true,
         type: 'port',
         territoire: 'barbade',
@@ -1003,13 +1015,14 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
 
     {
         id: 'merida',
-        nom: 'Mérida (Yucatán)',
+        nom: 'Mérida',
         capitale: true,
         territoire: 'yucatan',
         coords: [2613, 2435],
 
         contexte: [
-            { de: 1712, texte: `Capitale de la capitainerie générale du Yucatán, à l'intérieur de la péninsule, loin de la côte Caraïbe. Ville administrative et épiscopale fondée en 1542 sur les ruines de la cité maya de T'ho.<br>
+            {
+                de: 1712, texte: `Capitale de la capitainerie générale du Yucatán, à l'intérieur de la péninsule, loin de la côte Caraïbe. Ville administrative et épiscopale fondée en 1542 sur les ruines de la cité maya de T'ho.<br>
                 Mérida n'est pas un port — son accès à la mer passe par Campeche, à une centaine de kilomètres à l'ouest. C'est depuis Mérida que le gouverneur-capitaine général administre le Yucatán, une capitainerie distincte de la vice-royauté de Mexico.` },
         ],
 

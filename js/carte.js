@@ -227,7 +227,7 @@ function initCarte() {
         if (isolationLayer) isolationLayer.setStyle({ opacity: 1 });
       }, 60);
     }
-    if (modeMJ) renderVilles();
+    majTailleIconesVilles();
   });
 
   // Boutons zoom personnalisés
@@ -559,14 +559,26 @@ function tailleIconeVille() {
   return 24;
 }
 
-// ─── Marqueurs de villes (mode MJ uniquement) ─────────────────
+// ─── Label affiché des villes (tooltip) ──────────────────────
+function labelVille(ville) {
+  if (ville.label) return ville.label;
+  const SEUIL_PETIT_TERRITOIRE = 25000;
+  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[ville.territoire] : null;
+  if (demo && demo.superficie < SEUIL_PETIT_TERRITOIRE) {
+    const j = JURIDICTIONS.find(j => j.id === ville.territoire);
+    const nomTerritoire = j ? (j.label || j.nom) : null;
+    if (nomTerritoire) return `${ville.nom} (${nomTerritoire})`;
+  }
+  return ville.nom;
+}
+
+// ─── Marqueurs de villes ──────────────────────────────────────
 function renderVilles() {
   // Nettoyer les marqueurs existants
   Object.values(markersVilles).forEach(m => carte.removeLayer(m));
   markersVilles = {};
 
-  // Visible uniquement en mode MJ et hors masque/isolation
-  if (!modeMJ) return;
+  // Visible uniquement hors masque/isolation
   if (overlayMode === 'masque') return;
 
   const filtre = document.getElementById('filtre-villes');
@@ -591,7 +603,7 @@ function renderVilles() {
 
     const marker = L.marker(latlng, { icon });
 
-    marker.bindTooltip(ville.nom, {
+    marker.bindTooltip(labelVille(ville), {
       permanent: false,
       direction: 'top',
       className: 'carte-tooltip',
@@ -615,6 +627,22 @@ function renderVilles() {
   });
 }
 
+// ─── Mise à jour taille icônes villes au zoom ─────────────────
+function majTailleIconesVilles() {
+  const taille = tailleIconeVille();
+  Object.entries(markersVilles).forEach(([id, marker]) => {
+    const ville = VILLES.find(v => v.id === id);
+    if (!ville) return;
+    const estCapitale = ville.capitale === true;
+    marker.setIcon(L.divIcon({
+      html: villeSVG(ville.type || 'ville', estCapitale, taille),
+      className: 'carte-ville',
+      iconSize: [taille, taille],
+      iconAnchor: [taille / 2, taille / 2],
+    }));
+  });
+}
+
 // ─── SVG du pin ──────────────────────────────────────────────
 function pinSVG() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
@@ -626,32 +654,33 @@ function pinSVG() {
 
 // ─── SVG des marqueurs de villes ─────────────────────────────
 function villeSVG(type, estCapitale, taille = 24) {
-  const couleur = estCapitale ? 'var(--gold)' : 'var(--mist)';
-  const fond = estCapitale ? 'rgba(200,151,58,0.15)' : 'rgba(107,124,138,0.15)';
+  const fond = estCapitale ? '#b04a36' : '#6b7c8a';
 
   let symbole = '';
+
   if (type === 'port') {
-    // Ancre marine
-    symbole = `<path d="M12 7h8M16 7v2M16 9c0 3-2 5.5-4.5 7M16 9c0 3 2 5.5 4.5 7M13.5 16c.8.5 1.7.8 2.5.8s1.7-.3 2.5-.8M13.5 16c-.8.5-1.7.8-2.5.8"
-      stroke="${couleur}" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-      <circle cx="16" cy="7" r="1.2" fill="${couleur}"/>`;
+    symbole = `
+      <circle cx="16" cy="9" r="2" fill="none" stroke="#0e0c09" stroke-width="1.5"/>
+      <line x1="16" y1="11" x2="16" y2="23" stroke="#0e0c09" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="10" y1="13" x2="22" y2="13" stroke="#0e0c09" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M10 19 C10 23 13 23 16 23" fill="none" stroke="#0e0c09" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M22 19 C22 23 19 23 16 23" fill="none" stroke="#0e0c09" stroke-width="1.5" stroke-linecap="round"/>`;
   } else if (type === 'fort') {
-    // Carré avec X (diagonales)
-    symbole = `<rect x="11" y="11" width="10" height="10" rx="0.5"
-      fill="${fond}" stroke="${couleur}" stroke-width="1.2"/>
-      <line x1="11" y1="11" x2="21" y2="21" stroke="${couleur}" stroke-width="1.2"/>
-      <line x1="21" y1="11" x2="11" y2="21" stroke="${couleur}" stroke-width="1.2"/>`;
+    const croix = estCapitale ? '#f0d5cf' : '#dde6ea';
+    symbole = `
+      <rect x="9" y="9" width="14" height="14" rx="1" fill="#0e0c09"/>
+      <line x1="12" y1="12" x2="20" y2="20" stroke="${croix}" stroke-width="3" stroke-linecap="round"/>
+      <line x1="20" y1="12" x2="12" y2="20" stroke="${croix}" stroke-width="3" stroke-linecap="round"/>`;
   } else {
-    // Ville : bâtiment simple
-    symbole = `<rect x="13" y="13" width="6" height="7" rx="0.3"
-      fill="${fond}" stroke="${couleur}" stroke-width="1.2"/>
-      <path d="M12 13l4-3.5 4 3.5" fill="${fond}" stroke="${couleur}" stroke-width="1.2" stroke-linejoin="round"/>
-      <rect x="15" y="16" width="2" height="4" fill="${couleur}" rx="0.2"/>`;
+    symbole = `
+      <path d="M10 16 L16 10 L22 16" fill="none" stroke="#0e0c09" stroke-width="1.5" stroke-linejoin="round"/>
+      <rect x="12" y="16" width="8" height="7" rx="0.5" fill="none" stroke="#0e0c09" stroke-width="1.5"/>
+      <rect x="15" y="19" width="2.5" height="4" rx="0.3" fill="#0e0c09"/>`;
   }
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
-    <rect x="4" y="4" width="24" height="24" rx="4"
-      fill="${fond}" stroke="${couleur}" stroke-width="1.5"/>
+    <rect x="3" y="3" width="26" height="26" rx="5"
+      fill="${fond}" stroke="#0e0c09" stroke-width="1.5"/>
     ${symbole}
   </svg>`;
 }
@@ -1106,15 +1135,19 @@ function ouvrirPanneauVille(villeId) {
 
   const estCapitale = ville.capitale === true;
   const couleurStatut = estCapitale ? 'var(--gold)' : 'var(--mist)';
-  const labelStatut = estCapitale ? 'Capitale' : null;
   const labelType = { port: 'Port', fort: 'Fort', ville: 'Ville' }[ville.type] || 'Ville';
+const labelEntete = ville.description
+    ? ville.description + (estCapitale ? ' · Capitale' : '')
+    : estCapitale
+      ? (ville.type && ville.type !== 'ville' ? labelType + ' · Capitale' : 'Capitale')
+      : labelType;
 
   const inner = document.getElementById('carte-panneau-inner');
   inner.innerHTML = `
     <div class="panneau-puissance" style="gap:0.5rem;align-items:center;">
       <span style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.12em;
         text-transform:uppercase;color:${couleurStatut};">
-        ${labelType}${labelStatut ? ' · ' + labelStatut : ''}
+        ${labelEntete}
       </span>
     </div>
     <h2 class="panneau-nom">${ville.nom}</h2>
