@@ -1635,7 +1635,7 @@ function zoomerVille(villeId) {
     if (el) el.style.pointerEvents = 'none';
   });
 
-  // Animation pré-zoom : blanc → gold-light sur l'icône
+// Animation pré-zoom : blanc → gold-light → fondu → flyTo → réapparition
   const marker = markersVilles[villeId];
 
   // Élever l'icône isolée au-dessus des autres marqueurs
@@ -1646,7 +1646,12 @@ function zoomerVille(villeId) {
 
   if (marker) {
     const taille = tailleIconeVille();
-    // Blanc
+    const el = marker.getElement();
+
+    // Activer la transition CSS sur l'opacité de l'élément DOM du marqueur
+    if (el) el.style.transition = 'opacity 0.3s ease';
+
+    // Étape 1 : blanc immédiat
     marker.setIcon(L.divIcon({
       html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, true, false)
         .replace(/stroke="#c8973a"/g, 'stroke="#ffffff"')
@@ -1656,7 +1661,8 @@ function zoomerVille(villeId) {
       iconAnchor: [taille / 2, taille / 2],
     }));
     marker.setOpacity(1);
-    // Gold-light après 0.4s
+
+    // Étape 2 : gold-light après 350ms
     setTimeout(() => {
       if (isolationVilleId !== villeId) return;
       marker.setIcon(L.divIcon({
@@ -1667,15 +1673,17 @@ function zoomerVille(villeId) {
         iconSize: [taille, taille],
         iconAnchor: [taille / 2, taille / 2],
       }));
-    }, 400);
-    // Masquer pendant le flyTo
+    }, 350);
+
+    // Étape 3 : fondu à 0 via transition CSS
     setTimeout(() => {
       if (isolationVilleId !== villeId) return;
-      marker.setOpacity(0);
-    }, 800);
+      const el2 = marker.getElement();
+      if (el2) el2.style.opacity = '0';
+    }, 680);
   }
 
-  // FlyTo
+  // FlyTo après 900ms (laisse le fondu se terminer)
   setTimeout(() => {
     carte.flyTo(latlng, carte.getMinZoom() + 2, {
       duration: 1.2,
@@ -1683,9 +1691,9 @@ function zoomerVille(villeId) {
     });
   }, 900);
 
-  // Réapparition gold à la fin du flyTo via moveend
-  const onMoveEnd = () => {
-    if (isolationVilleId !== villeId) { carte.off('moveend', onMoveEnd); return; }
+  // Réapparition après la fin estimée du flyTo (900 + 1200 + 200ms de marge)
+  setTimeout(() => {
+    if (isolationVilleId !== villeId) return;
     const m = markersVilles[villeId];
     if (m) {
       const taille = tailleIconeVille();
@@ -1695,11 +1703,18 @@ function zoomerVille(villeId) {
         iconSize: [taille, taille],
         iconAnchor: [taille / 2, taille / 2],
       }));
-      m.setOpacity(1);
+      // Transition d'apparition : opacity 0 → 1
+      const el = m.getElement();
+      if (el) {
+        el.style.transition = 'none';
+        el.style.opacity = '0';
+        // Force reflow pour que la transition s'applique depuis 0
+        void el.offsetHeight;
+        el.style.transition = 'opacity 0.45s ease';
+        el.style.opacity = '1';
+      }
     }
-    carte.off('moveend', onMoveEnd);
-  };
-  carte.on('moveend', onMoveEnd);
+  }, 2300);
 }
 
 function fermerZoomVille(options = {}) {
