@@ -1651,6 +1651,9 @@ function zoomerVille(villeId) {
   majLegende();
 
   // Masquer tous les marqueurs et polygones
+  // Nettoyer le contour gold d'un éventuel territoire précédemment isolé
+  if (isolationLayer) { isolationLayer.remove(); isolationLayer = null; }
+  isolationJuridictionId = null;
   renderZones();
   Object.values(markersMap).forEach(m => m.setOpacity(0));
   Object.values(markersVilles).forEach(m => m.setOpacity(0));
