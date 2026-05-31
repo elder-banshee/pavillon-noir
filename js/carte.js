@@ -141,17 +141,32 @@ const OVERLAY_LABELS = {
   masque: 'Carte Jaillot (1708)',
 };
 
+// ─── Écran de chargement ─────────────────────────────────────
+function masquerEcranChargement() {
+  const ecran = document.getElementById('carte-chargement');
+  if (!ecran) return;
+  ecran.style.opacity = '0';
+  setTimeout(() => ecran.remove(), 700);
+}
+
 // ─── Initialisation ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  initCarte();
-  initCurseurInline();
-  initOverlayBtns();
-  majLegende();
-  const closeBtn = document.getElementById('carte-panneau-close');
-  if (closeBtn) closeBtn.addEventListener('click', fermerPanneau);
-  initPanneauGauche();
-  initRecherche();
-  initFiltresMarqueurs();
+  function initTout() {
+    initCarte();
+    initCurseurInline();
+    initOverlayBtns();
+    majLegende();
+    const closeBtn = document.getElementById('carte-panneau-close');
+    if (closeBtn) closeBtn.addEventListener('click', fermerPanneau);
+    initPanneauGauche();
+    initRecherche();
+    initFiltresMarqueurs();
+    masquerEcranChargement();
+  }
+
+  const imgPreload = new Image();
+  imgPreload.src = CARTE_IMAGE.src;
+  imgPreload.decode().then(initTout).catch(initTout);
 });
 
 // ─── Carte Leaflet ───────────────────────────────────────────
@@ -181,6 +196,7 @@ function initCarte() {
   carte.getPane('isolationContour').style.zIndex = 420;
   carte.getPane('isolationContour').style.pointerEvents = 'none';
 
+  // Pane pour le contour global (chantier en attente)
   carte.createPane('contourGlobal');
   carte.getPane('contourGlobal').style.zIndex = 410;
   carte.getPane('contourGlobal').style.pointerEvents = 'none';
@@ -1367,8 +1383,7 @@ function initRecherche() {
   }
 
   let valeurCompletee = null;
-  let suggestionActive = null; // mémorise l'élément actif sélectionné au clavier
-  window._suggestionActive = null; // debug
+  let suggestionActive = null;
 
   input.addEventListener('input', () => {
     valeurCompletee = null;
@@ -1485,6 +1500,7 @@ function initFiltresMarqueurs() {
   if (!filtreScenarios || !filtreVilles) return;
 
   filtreScenarios.addEventListener('click', () => {
+    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
     const input = filtreScenarios.querySelector('input');
     input.checked = !input.checked;
     filtreScenarios.classList.toggle('decochee', !input.checked);
@@ -1492,6 +1508,7 @@ function initFiltresMarqueurs() {
   });
 
   filtreVilles.addEventListener('click', () => {
+    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
     const input = filtreVilles.querySelector('input');
     input.checked = !input.checked;
     filtreVilles.classList.toggle('decochee', !input.checked);
@@ -1610,6 +1627,26 @@ function zoomerVille(villeId) {
   // Assombrir la carte
   carteOverlayPrincipale.setOpacity(0.05);
 
+  // Si le filtre villes est désactivé, le réactiver silencieusement —
+  // l'utilisateur qui recherche une ville veut la voir, y compris après le zoom
+  const filtreVillesEl = document.getElementById('filtre-villes');
+  if (filtreVillesEl) {
+    const input = filtreVillesEl.querySelector('input');
+    if (input && !input.checked) {
+      input.checked = true;
+      filtreVillesEl.classList.remove('decochee');
+    }
+  }
+
+  // Griser les boutons d'overlay, les filtres et la légende
+  document.getElementById('carte-legende')?.classList.add('carte-isolation--disabled');
+  document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
+    btn.disabled = true;
+    btn.classList.add('carte-isolation--disabled');
+  });
+  document.getElementById('filtre-scenarios')?.classList.add('carte-isolation--disabled');
+  document.getElementById('filtre-villes')?.classList.add('carte-isolation--disabled');
+
   // Mettre à jour la légende
   majLegende();
 
@@ -1635,8 +1672,9 @@ function zoomerVille(villeId) {
     if (el) el.style.pointerEvents = 'none';
   });
 
-// Animation pré-zoom : blanc → gold-light → fondu → flyTo → réapparition
+  // Animation pré-zoom : blanc → gold-light, puis flyTo, puis agrandissement gold-light → gold
   const marker = markersVilles[villeId];
+  const tailleDepart = tailleIconeVille();
 
   // Élever l'icône isolée au-dessus des autres marqueurs
   if (marker) {
@@ -1645,76 +1683,70 @@ function zoomerVille(villeId) {
   }
 
   if (marker) {
-    const taille = tailleIconeVille();
-    const el = marker.getElement();
-
-    // Activer la transition CSS sur l'opacité de l'élément DOM du marqueur
-    if (el) el.style.transition = 'opacity 0.3s ease';
-
-    // Étape 1 : blanc immédiat
+    // Étape 1 : blanc immédiat, taille figée
     marker.setIcon(L.divIcon({
-      html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, true, false)
+      html: villeSVG(ville.type || 'ville', estCapitale, tailleDepart, estPirate, true, false)
         .replace(/stroke="#c8973a"/g, 'stroke="#ffffff"')
         .replace(/fill="#c8973a"/g, 'fill="#ffffff"'),
       className: 'carte-ville',
-      iconSize: [taille, taille],
-      iconAnchor: [taille / 2, taille / 2],
+      iconSize: [tailleDepart, tailleDepart],
+      iconAnchor: [tailleDepart / 2, tailleDepart / 2],
     }));
     marker.setOpacity(1);
 
-    // Étape 2 : gold-light après 350ms
+    // Étape 2 : gold-light après 400ms
     setTimeout(() => {
       if (isolationVilleId !== villeId) return;
       marker.setIcon(L.divIcon({
-        html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, true, false)
+        html: villeSVG(ville.type || 'ville', estCapitale, tailleDepart, estPirate, true, false)
           .replace(/stroke="#c8973a"/g, 'stroke="#e2c97e"')
           .replace(/fill="#c8973a"/g, 'fill="#e2c97e"'),
         className: 'carte-ville',
-        iconSize: [taille, taille],
-        iconAnchor: [taille / 2, taille / 2],
+        iconSize: [tailleDepart, tailleDepart],
+        iconAnchor: [tailleDepart / 2, tailleDepart / 2],
       }));
-    }, 350);
-
-    // Étape 3 : fondu à 0 via transition CSS
-    setTimeout(() => {
-      if (isolationVilleId !== villeId) return;
-      const el2 = marker.getElement();
-      if (el2) el2.style.opacity = '0';
-    }, 680);
+    }, 400);
   }
 
-  // FlyTo après 900ms (laisse le fondu se terminer)
+  // FlyTo après 800ms (animation pré-zoom bien visible avant le départ)
   setTimeout(() => {
     carte.flyTo(latlng, carte.getMinZoom() + 2, {
-      duration: 1.2,
-      easeLinearity: 0.3,
+      duration: 1.4,
+      easeLinearity: 0.25,
     });
-  }, 900);
+  }, 800);
 
-  // Réapparition après la fin estimée du flyTo (900 + 1200 + 200ms de marge)
-  setTimeout(() => {
-    if (isolationVilleId !== villeId) return;
+  // Agrandissement à l'atterrissage via moveend : gold-light → gold
+  const onMoveEnd = () => {
+    if (isolationVilleId !== villeId) { carte.off('moveend', onMoveEnd); return; }
     const m = markersVilles[villeId];
-    if (m) {
-      const taille = tailleIconeVille();
+    if (!m) { carte.off('moveend', onMoveEnd); return; }
+    carte.off('moveend', onMoveEnd);
+
+    const tailleArrivee = tailleIconeVille();
+
+    // Poser l'icône gold-light à la taille cible
+    m.setIcon(L.divIcon({
+      html: villeSVG(ville.type || 'ville', estCapitale, tailleArrivee, estPirate, true, false)
+        .replace(/stroke="#c8973a"/g, 'stroke="#e2c97e"')
+        .replace(/fill="#c8973a"/g, 'fill="#e2c97e"'),
+      className: 'carte-ville',
+      iconSize: [tailleArrivee, tailleArrivee],
+      iconAnchor: [tailleArrivee / 2, tailleArrivee / 2],
+    }));
+
+    // Gold après 120ms
+    setTimeout(() => {
+      if (isolationVilleId !== villeId) return;
       m.setIcon(L.divIcon({
-        html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, true, false),
+        html: villeSVG(ville.type || 'ville', estCapitale, tailleArrivee, estPirate, true, false),
         className: 'carte-ville',
-        iconSize: [taille, taille],
-        iconAnchor: [taille / 2, taille / 2],
+        iconSize: [tailleArrivee, tailleArrivee],
+        iconAnchor: [tailleArrivee / 2, tailleArrivee / 2],
       }));
-      // Transition d'apparition : opacity 0 → 1
-      const el = m.getElement();
-      if (el) {
-        el.style.transition = 'none';
-        el.style.opacity = '0';
-        // Force reflow pour que la transition s'applique depuis 0
-        void el.offsetHeight;
-        el.style.transition = 'opacity 0.45s ease';
-        el.style.opacity = '1';
-      }
-    }
-  }, 2300);
+    }, 120);
+  };
+  carte.on('moveend', onMoveEnd);
 }
 
 function fermerZoomVille(options = {}) {
@@ -1727,6 +1759,19 @@ function fermerZoomVille(options = {}) {
 
   // Restaurer l'opacity de la carte
   carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+
+  // Réactiver les boutons d'overlay, les filtres et la légende
+  document.getElementById('carte-legende')?.classList.remove('carte-isolation--disabled');
+  document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('carte-isolation--disabled');
+  });
+  document.getElementById('filtre-scenarios')?.classList.remove('carte-isolation--disabled');
+  document.getElementById('filtre-villes')?.classList.remove('carte-isolation--disabled');
+
+  // Restaurer le bouton actif
+  document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.carte-overlay-btn[data-mode="${overlayMode}"]`)?.classList.add('active');
 
   // Restaurer pointer-events et z-index sur tous les marqueurs
   Object.values(markersVilles).forEach(m => {
