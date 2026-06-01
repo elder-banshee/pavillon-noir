@@ -86,7 +86,7 @@ const ZONES_DATA = {
     ]
   ],
 
-  'bermudes': [  // 1 contour(s), 9 pts
+  'bermudes': [  // 1 contour(s), 9 pts // passer SEUILS_SPECIAUX
     [
       [6522, 452], [6540, 454], [6548, 450], [6561, 436], [6558, 428], [6549, 425],
       [6534, 445], [6523, 444], [6522, 448]
@@ -608,7 +608,7 @@ const ZONES_DATA = {
     ]
   ],
 
-  'guatemala': [  // 1 contour(s), 147 pts
+  'guatemala': [  // 1 contour(s), 147 pts -> à actualiser
     [
       [1439, 3294], [1439, 3304], [1456, 3314], [1458, 3330], [1481, 3342], [1491, 3360],
       [1505, 3359], [1508, 3374], [1524, 3380], [1532, 3396], [1554, 3395], [1562, 3390],
@@ -635,38 +635,6 @@ const ZONES_DATA = {
       [1687, 3040], [1614, 3040], [1609, 3045], [1613, 3070], [1603, 3088], [1572, 3107],
       [1560, 3140], [1525, 3164], [1515, 3203], [1503, 3218], [1479, 3234], [1474, 3265],
       [1462, 3270], [1449, 3288], [1441, 3293]
-    ]
-  ],
-
-  'suriname': [  // 2 contour(s), 141 pts
-    [
-      [7756, 4312], [7742, 4316], [7732, 4338], [7732, 4354], [7720, 4363], [7709, 4391],
-      [7698, 4406], [7657, 4432], [7607, 4477], [7583, 4519], [7576, 4566], [7533, 4677],
-      [7493, 4694], [7468, 4732], [7448, 4752], [7437, 4778], [7434, 4867], [7384, 4941],
-      [7373, 4964], [7367, 5007], [7374, 5031], [8349, 5030], [8352, 4684], [8341, 4686],
-      [8341, 4683], [8335, 4683], [8331, 4688], [8339, 4689], [8334, 4708], [8320, 4720],
-      [8314, 4715], [8328, 4686], [8345, 4670], [8356, 4649], [8354, 4644], [8327, 4634],
-      [8306, 4640], [8296, 4636], [8280, 4639], [8270, 4626], [8254, 4623], [8247, 4611],
-      [8236, 4610], [8232, 4591], [8213, 4566], [8184, 4572], [8174, 4596], [8163, 4572],
-      [8138, 4574], [8132, 4582], [8131, 4601], [8136, 4610], [8131, 4605], [8124, 4580],
-      [8108, 4587], [8102, 4580], [8092, 4580], [8084, 4593], [8067, 4592], [8061, 4602],
-      [8063, 4611], [8054, 4616], [8050, 4597], [8040, 4594], [8031, 4598], [8014, 4618],
-      [8014, 4647], [8007, 4663], [8011, 4684], [8005, 4695], [8007, 4721], [8014, 4736],
-      [8003, 4731], [7997, 4742], [7988, 4675], [7994, 4653], [7992, 4638], [7999, 4631],
-      [7998, 4612], [7994, 4608], [7982, 4610], [7973, 4628], [7973, 4598], [7960, 4597],
-      [7958, 4603], [7954, 4584], [7943, 4589], [7944, 4576], [7933, 4568], [7920, 4569],
-      [7914, 4579], [7902, 4586], [7903, 4561], [7895, 4556], [7884, 4559], [7888, 4553],
-      [7885, 4542], [7870, 4542], [7859, 4548], [7853, 4564], [7839, 4576], [7844, 4556],
-      [7857, 4546], [7865, 4519], [7854, 4496], [7845, 4496], [7846, 4458], [7842, 4453],
-      [7827, 4457], [7833, 4435], [7820, 4421], [7820, 4408], [7812, 4397], [7814, 4380],
-      [7809, 4348], [7800, 4348], [7789, 4357], [7790, 4349], [7781, 4334], [7775, 4334],
-      [7775, 4325], [7762, 4312]
-    ],
-    [
-      [8294, 4584], [8255, 4581], [8248, 4575], [8238, 4577], [8241, 4593], [8253, 4608],
-      [8265, 4613], [8269, 4622], [8284, 4622], [8296, 4631], [8326, 4627], [8361, 4636],
-      [8373, 4618], [8386, 4614], [8395, 4597], [8392, 4586], [8319, 4590], [8307, 4582],
-      [8296, 4582]
     ]
   ],
 
@@ -789,6 +757,10 @@ const ZONES_DATA = {
     [[4008, 3112], [4008, 3118], [4014, 3118], [4011, 3111]]
   ],
 
+  'ile-du-mais': [  // 1 contour(s), ??? pts
+    [[3517, 3688], [3519, 3681], [3511, 3678], [3509, 3685], [3514, 3688]]
+  ],
+
   'iles-vierges-britanniques': [  // 11 contour(s), 58 pts
     [
       [6839, 2656], [6829, 2675], [6831, 2682], [6845, 2674], [6846, 2658], [6841, 2656]
@@ -855,14 +827,6 @@ const ZONES_DATA = {
     [[6931, 2693], [6937, 2691], [6938, 2685], [6932, 2682], [6928, 2692]],
     [
       [6919, 2704], [6923, 2708], [6929, 2704], [6927, 2697], [6921, 2697], [6919, 2703]
-    ]
-  ],
-
-  'saint-christophe': [
-        [
-      [7068, 2877], [7084, 2880], [7086, 2875], [7077, 2862], [7060, 2851], [7055, 2842],
-      [7034, 2837], [7004, 2847], [7010, 2858], [7019, 2858], [7045, 2872], [7060, 2867],
-      [7067, 2876]
     ]
   ],
 
@@ -1129,7 +1093,7 @@ const ZONES_DATA = {
     ]
   ],
 
-  'nouvelle-espagne': [  // 1 contour(s), 346 pts
+  'nouvelle-espagne': [  // 1 contour(s), 346 pts // -> à actualiser
     [
       [617, 2752], [625, 2770], [625, 2782], [639, 2791], [658, 2789], [668, 2797],
       [666, 2808], [685, 2818], [694, 2835], [709, 2845], [704, 2872], [722, 2879],
@@ -1374,6 +1338,14 @@ const ZONES_DATA = {
     ]
   ],
 
+  'saint-christophe': [
+    [
+      [7068, 2877], [7084, 2880], [7086, 2875], [7077, 2862], [7060, 2851], [7055, 2842],
+      [7034, 2837], [7004, 2847], [7010, 2858], [7019, 2858], [7045, 2872], [7060, 2867],
+      [7067, 2876]
+    ]
+  ],
+
   'saint-domingue': [  // 3 contour(s), 147 pts
     [
       [5245, 2560], [5243, 2582], [5250, 2589], [5271, 2587], [5290, 2601], [5310, 2597],
@@ -1403,13 +1375,6 @@ const ZONES_DATA = {
       [5291, 2692], [5295, 2669], [5290, 2651], [5268, 2631], [5239, 2637], [5239, 2646],
       [5273, 2671], [5278, 2685], [5285, 2691]
     ],
-  ],
-
-    'tortue': [  // 1 contour(s), ??? pts
-    [
-      [5328, 2536], [5351, 2534], [5356, 2523], [5338, 2510], [5311, 2506], [5292, 2521],
-      [5292, 2530], [5299, 2535], [5323, 2541], [5328, 2536]
-    ]
   ],
 
   'saint-martin': [  // 1 contour(s), 7 pts
@@ -1485,10 +1450,50 @@ const ZONES_DATA = {
     ]
   ],
 
+  'suriname': [  // 2 contour(s), 141 pts
+    [
+      [7756, 4312], [7742, 4316], [7732, 4338], [7732, 4354], [7720, 4363], [7709, 4391],
+      [7698, 4406], [7657, 4432], [7607, 4477], [7583, 4519], [7576, 4566], [7533, 4677],
+      [7493, 4694], [7468, 4732], [7448, 4752], [7437, 4778], [7434, 4867], [7384, 4941],
+      [7373, 4964], [7367, 5007], [7374, 5031], [8349, 5030], [8352, 4684], [8341, 4686],
+      [8341, 4683], [8335, 4683], [8331, 4688], [8339, 4689], [8334, 4708], [8320, 4720],
+      [8314, 4715], [8328, 4686], [8345, 4670], [8356, 4649], [8354, 4644], [8327, 4634],
+      [8306, 4640], [8296, 4636], [8280, 4639], [8270, 4626], [8254, 4623], [8247, 4611],
+      [8236, 4610], [8232, 4591], [8213, 4566], [8184, 4572], [8174, 4596], [8163, 4572],
+      [8138, 4574], [8132, 4582], [8131, 4601], [8136, 4610], [8131, 4605], [8124, 4580],
+      [8108, 4587], [8102, 4580], [8092, 4580], [8084, 4593], [8067, 4592], [8061, 4602],
+      [8063, 4611], [8054, 4616], [8050, 4597], [8040, 4594], [8031, 4598], [8014, 4618],
+      [8014, 4647], [8007, 4663], [8011, 4684], [8005, 4695], [8007, 4721], [8014, 4736],
+      [8003, 4731], [7997, 4742], [7988, 4675], [7994, 4653], [7992, 4638], [7999, 4631],
+      [7998, 4612], [7994, 4608], [7982, 4610], [7973, 4628], [7973, 4598], [7960, 4597],
+      [7958, 4603], [7954, 4584], [7943, 4589], [7944, 4576], [7933, 4568], [7920, 4569],
+      [7914, 4579], [7902, 4586], [7903, 4561], [7895, 4556], [7884, 4559], [7888, 4553],
+      [7885, 4542], [7870, 4542], [7859, 4548], [7853, 4564], [7839, 4576], [7844, 4556],
+      [7857, 4546], [7865, 4519], [7854, 4496], [7845, 4496], [7846, 4458], [7842, 4453],
+      [7827, 4457], [7833, 4435], [7820, 4421], [7820, 4408], [7812, 4397], [7814, 4380],
+      [7809, 4348], [7800, 4348], [7789, 4357], [7790, 4349], [7781, 4334], [7775, 4334],
+      [7775, 4325], [7762, 4312]
+    ],
+    [
+      [8294, 4584], [8255, 4581], [8248, 4575], [8238, 4577], [8241, 4593], [8253, 4608],
+      [8265, 4613], [8269, 4622], [8284, 4622], [8296, 4631], [8326, 4627], [8361, 4636],
+      [8373, 4618], [8386, 4614], [8395, 4597], [8392, 4586], [8319, 4590], [8307, 4582],
+      [8296, 4582]
+    ]
+  ],
+
   'tabago': [  // 1 contour(s), 8 pts
     [
       [7565, 3869], [7544, 3875], [7523, 3890], [7519, 3898], [7533, 3901], [7549, 3895],
       [7567, 3877], [7566, 3869]
+    ]
+  ],
+
+
+  'tortue': [  // 1 contour(s), ??? pts
+    [
+      [5328, 2536], [5351, 2534], [5356, 2523], [5338, 2510], [5311, 2506], [5292, 2521],
+      [5292, 2530], [5299, 2535], [5323, 2541], [5328, 2536]
     ]
   ],
 
@@ -1627,10 +1632,6 @@ const ZONES_DATA = {
     [[2459, 2322], [2453, 2321], [2451, 2326], [2457, 2329], [2460, 2323]]
   ],
 
-  'ile-du-mais': [  // 1 contour(s), ??? pts
-    [[3517, 3688], [3519, 3681], [3511, 3678], [3509, 3685], [3514, 3688]]
-  ],
-
 };
 
 
@@ -1645,6 +1646,39 @@ const ZONES_DATA = {
 
 const ZONES_DEMO = {
 
+  'bahamas-archipel': {
+    colons: 800,
+    esclaves: 0,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 800,
+    superficie: 47771,
+    score_densite: 0.0072,
+    statut_autochtone: null,
+  },
+
+  'barbade': {
+    colons: 8000,
+    esclaves: 42000,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 50000,
+    superficie: 1272,
+    score_densite: 1.6054,
+    statut_autochtone: null,
+  },
+
+  'bermudes': {
+    colons: 4000,
+    esclaves: 2000,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 6000,
+    superficie: 534,
+    score_densite: 1.0876,
+    statut_autochtone: null,
+  },
+
   'caroline-du-sud': {
     colons: 8000,
     esclaves: 10000,
@@ -1654,6 +1688,93 @@ const ZONES_DEMO = {
     superficie: 160504,
     score_densite: 0.0582,
     statut_autochtone: 'domination',
+  },
+
+  'cayes-belize': {
+    colons: 0,
+    esclaves: 0,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 0,
+    superficie: 7774,
+    score_densite: 0.0,
+    statut_autochtone: 'resistance',
+  },
+  'cuba': {
+    colons: 25000,
+    esclaves: 10000,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 35000,
+    superficie: 326434,
+    score_densite: 0.0442,
+    statut_autochtone: null,
+  },
+
+  'curaçao': {
+    colons: 2500,
+    esclaves: 5500,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 8000,
+    superficie: 6008,
+    score_densite: 0.3676,
+    statut_autochtone: null,
+  },
+
+  'costa-rica': {
+    colons: 3500,
+    esclaves: 0,
+    indiens: 8000,
+    indiens_asservis: 500,
+    population: 11500,
+    superficie: 172026,
+    score_densite: 0.0281,
+    statut_autochtone: 'resistance',
+  },
+
+  'cote-miskito': {
+    colons: 0,
+    esclaves: 0,
+    indiens: 15000,
+    indiens_asservis: 0,
+    population: 15000,
+    superficie: 224432,
+    score_densite: 0.0281,
+    statut_autochtone: 'souverainete',
+  },
+
+  'darien': {
+    colons: 0,
+    esclaves: 0,
+    indiens: 25000,
+    indiens_asservis: 0,
+    population: 25000,
+    superficie: 243994,
+    score_densite: 0.0424,
+    statut_autochtone: 'souverainete',
+  },
+
+  'dominique': {
+    colons: 0,
+    esclaves: 0,
+    indiens: 2500,
+    indiens_asservis: 0,
+    population: 2500,
+    superficie: 1072,
+    score_densite: 0.5227,
+    statut_autochtone: 'souverainete',
+  },
+
+  'eleuthera': {
+    colons: 500,
+    esclaves: 0,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 500,
+    superficie: 4415,
+    score_densite: 0.0466,
+    statut_autochtone: null,
   },
 
   'floride': {
@@ -1667,84 +1788,29 @@ const ZONES_DEMO = {
     statut_autochtone: 'domination',
   },
 
-  'louisiane': {
-    colons: 400,
-    esclaves: 250,
-    indiens: 30000,
-    indiens_asservis: 0,
-    population: 30450,
-    superficie: 1140585,
-    score_densite: 0.0002,
-    statut_autochtone: { avant1718: 'souverainete', depuis1718: 'resistance' },
-  },
-
-  'nouveau-mexique': {
-    colons: 3000,
-    esclaves: 0,
-    indiens: 17000,
-    indiens_asservis: 8500,
-    population: 20000,
-    superficie: 97542,
-    score_densite: 0.081,
-    statut_autochtone: 'resistance',
-  },
-
-  'nueva-galicia': {
-    colons: 15000,
-    esclaves: 0,
-    indiens: 135000,
-    indiens_asservis: 40000,
-    population: 150000,
-    superficie: 592354,
-    score_densite: 0.098,
-    statut_autochtone: 'domination',
-  },
-
-  'panuco': {
-    colons: 3500,
-    esclaves: 0,
-    indiens: 45000,
-    indiens_asservis: 15000,
-    population: 48500,
-    superficie: 306684,
-    score_densite: 0.0638,
-    statut_autochtone: 'domination',
-  },
-
-  'nouvelle-espagne': {
-    colons: 120000,
-    esclaves: 0,
-    indiens: 1400000,
-    indiens_asservis: 420000,
-    population: 1520000,
-    superficie: 1238913,
-    score_densite: 0.3477,
-    statut_autochtone: 'domination',
-  },
-
-  'yucatan': {
-    colons: 25000,
-    esclaves: 0,
-    indiens: 225000,
-    indiens_asservis: 90000,
-    population: 250000,
-    superficie: 330086,
-    score_densite: 0.2449,
-    statut_autochtone: 'resistance',
-  },
-
-  'cayes-belize': {
-    colons: 0,
-    esclaves: 0,
+  'grenade': {
+    colons: 5000,
+    esclaves: 10000,
     indiens: 0,
     indiens_asservis: 0,
-    population: 0,
-    superficie: 7774,
-    score_densite: 0.0,
-    statut_autochtone: 'resistance',
+    population: 15000,
+    superficie: 1672,
+    score_densite: 0.9988,
+    statut_autochtone: null,
   },
 
-  'guatemala': {
+  'guadeloupe': {
+    colons: 7000,
+    esclaves: 18000,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 25000,
+    superficie: 1856,
+    score_densite: 1.1605,
+    statut_autochtone: null,
+  },
+
+  'guatemala': { // superficie et score_densite à recalculer
     colons: 40000,
     esclaves: 0,
     indiens: 750000,
@@ -1777,201 +1843,14 @@ const ZONES_DEMO = {
     statut_autochtone: 'souverainete',
   },
 
-  'cote-miskito': {
-    colons: 0,
-    esclaves: 0,
-    indiens: 15000,
-    indiens_asservis: 0,
-    population: 15000,
-    superficie: 224432,
-    score_densite: 0.0281,
-    statut_autochtone: 'souverainete',
-  },
-
-  'nicaragua': {
-    colons: 4000,
-    esclaves: 0,
-    indiens: 35000,
-    indiens_asservis: 10500,
-    population: 39000,
-    superficie: 317931,
-    score_densite: 0.0503,
-    statut_autochtone: 'domination',
-  },
-
-  'providence': {
-    colons: 0,
-    esclaves: 0,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 0,
-    superficie: 794,
-    score_densite: 0.0,
-    statut_autochtone: null,
-  },
-
-  'costa-rica': {
-    colons: 3500,
-    esclaves: 0,
-    indiens: 8000,
-    indiens_asservis: 500,
-    population: 11500,
-    superficie: 172026,
-    score_densite: 0.0281,
-    statut_autochtone: 'resistance',
-  },
-
-  'panama': {
-    colons: 17000,
-    esclaves: 3000,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 20000,
-    superficie: 210374,
-    score_densite: 0.0394,
-    statut_autochtone: null,
-  },
-
-  'darien': {
-    colons: 0,
-    esclaves: 0,
-    indiens: 25000,
-    indiens_asservis: 0,
-    population: 25000,
-    superficie: 243994,
-    score_densite: 0.0424,
-    statut_autochtone: 'souverainete',
-  },
-
-  'nouvelle-grenade': {
-    colons: 25000,
-    esclaves: 15000,
-    indiens: 350000,
-    indiens_asservis: 60000,
-    population: 390000,
-    superficie: 1454362,
-    score_densite: 0.1032,
-    statut_autochtone: 'resistance',
-  },
-
-  'venezuela': {
-    colons: 8000,
-    esclaves: 10000,
-    indiens: 48000,
-    indiens_asservis: 8000,
-    population: 66000,
-    superficie: 741848,
-    score_densite: 0.037,
-    statut_autochtone: 'resistance',
-  },
-
-  'marguerita': {
-    colons: 1000,
-    esclaves: 0,
-    indiens: 8000,
-    indiens_asservis: 1200,
-    population: 9000,
-    superficie: 6360,
-    score_densite: 0.567,
-    statut_autochtone: 'resistance',
-  },
-
-  'nouvelle-andalousie': {
-    colons: 7000,
-    esclaves: 6000,
-    indiens: 40000,
-    indiens_asservis: 6000,
-    population: 53000,
-    superficie: 805607,
-    score_densite: 0.0277,
-    statut_autochtone: 'resistance',
-  },
-
-  'curaçao': {
-    colons: 2500,
-    esclaves: 5500,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 8000,
-    superficie: 6008,
-    score_densite: 0.3676,
-    statut_autochtone: null,
-  },
-
-  'trinidad': {
+  'iles-vierges-britanniques': {
     colons: 500,
-    esclaves: 350,
-    indiens: 2000,
-    indiens_asservis: 0,
-    population: 2850,
-    superficie: 21146,
-    score_densite: 0.0549,
-    statut_autochtone: 'domination',
-  },
-
-  'tabago': {
-    colons: 0,
-    esclaves: 0,
+    esclaves: 1000,
     indiens: 0,
     indiens_asservis: 0,
-    population: 0,
-    superficie: 746,
-    score_densite: 0.0,
-    statut_autochtone: null,
-  },
-
-  'tortuga-venezolana': {
-    colons: 0,
-    esclaves: 0,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 0,
-    superficie: 1534,
-    score_densite: 0.0,
-    statut_autochtone: null,
-  },
-
-  'suriname': {
-    colons: 12000,
-    esclaves: 40000,
-    indiens: 55000,
-    indiens_asservis: 0,
-    population: 107000,
-    superficie: 448486,
-    score_densite: 0.0929,
-    statut_autochtone: 'resistance',
-  },
-
-  'bahamas-archipel': {
-    colons: 800,
-    esclaves: 0,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 800,
-    superficie: 47771,
-    score_densite: 0.0072,
-    statut_autochtone: null,
-  },
-
-  'new-providence': {
-    colons: 1000,
-    esclaves: 0,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 1000,
-    superficie: 1341,
-    score_densite: 0.242,
-    statut_autochtone: null,
-  },
-
-  'eleuthera': {
-    colons: 500,
-    esclaves: 0,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 500,
-    superficie: 4415,
-    score_densite: 0.0466,
+    population: 1500,
+    superficie: 1060,
+    score_densite: 0.3829,
     statut_autochtone: null,
   },
 
@@ -1986,28 +1865,6 @@ const ZONES_DEMO = {
     statut_autochtone: null,
   },
 
-  'barbade': {
-    colons: 8000,
-    esclaves: 42000,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 50000,
-    superficie: 1272,
-    score_densite: 1.6054,
-    statut_autochtone: null,
-  },
-
-  'bermudes': {
-    colons: 4000,
-    esclaves: 2000,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 6000,
-    superficie: 534,
-    score_densite: 1.0876,
-    statut_autochtone: null,
-  },
-
   'leeward-islands': {
     colons: 7000,
     esclaves: 28000,
@@ -2019,47 +1876,146 @@ const ZONES_DEMO = {
     statut_autochtone: null,
   },
 
-  'iles-vierges-britanniques': {
-    colons: 500,
-    esclaves: 1000,
+  'louisiane': {
+    colons: 400,
+    esclaves: 250,
+    indiens: 30000,
+    indiens_asservis: 0,
+    population: 30450,
+    superficie: 1140585,
+    score_densite: 0.0002,
+    statut_autochtone: { avant1718: 'souverainete', depuis1718: 'resistance' },
+  },
+
+  'marguerita': {
+    colons: 1000,
+    esclaves: 0,
+    indiens: 8000,
+    indiens_asservis: 1200,
+    population: 9000,
+    superficie: 6360,
+    score_densite: 0.567,
+    statut_autochtone: 'resistance',
+  },
+
+  'martinique': {
+    colons: 9000,
+    esclaves: 20000,
     indiens: 0,
     indiens_asservis: 0,
-    population: 1500,
-    superficie: 1060,
-    score_densite: 0.3829,
+    population: 29000,
+    superficie: 3486,
+    score_densite: 0.9694,
     statut_autochtone: null,
   },
 
-  'saint-thomas': {
-    colons: 600,
+  'new-providence': {
+    colons: 1000,
+    esclaves: 0,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 1000,
+    superficie: 1341,
+    score_densite: 0.242,
+    statut_autochtone: null,
+  },
+
+  'nicaragua': {
+    colons: 4000,
+    esclaves: 0,
+    indiens: 35000,
+    indiens_asservis: 10500,
+    population: 39000,
+    superficie: 317931,
+    score_densite: 0.0503,
+    statut_autochtone: 'domination',
+  },
+
+  'nouveau-mexique': {
+    colons: 3000,
+    esclaves: 0,
+    indiens: 17000,
+    indiens_asservis: 8500,
+    population: 20000,
+    superficie: 97542,
+    score_densite: 0.081,
+    statut_autochtone: 'resistance',
+  },
+
+  'nouvelle-andalousie': {
+    colons: 7000,
+    esclaves: 6000,
+    indiens: 40000,
+    indiens_asservis: 6000,
+    population: 53000,
+    superficie: 805607,
+    score_densite: 0.0277,
+    statut_autochtone: 'resistance',
+  },
+
+  'nouvelle-espagne': { // superficie et score_densite à recalculer
+    colons: 120000,
+    esclaves: 0,
+    indiens: 1400000,
+    indiens_asservis: 420000,
+    population: 1520000,
+    superficie: 1238913,
+    score_densite: 0.3477,
+    statut_autochtone: 'domination',
+  },
+
+  'nouvelle-grenade': {
+    colons: 25000,
+    esclaves: 15000,
+    indiens: 350000,
+    indiens_asservis: 60000,
+    population: 390000,
+    superficie: 1454362,
+    score_densite: 0.1032,
+    statut_autochtone: 'resistance',
+  },
+
+  'nueva-galicia': {
+    colons: 15000,
+    esclaves: 0,
+    indiens: 135000,
+    indiens_asservis: 40000,
+    population: 150000,
+    superficie: 592354,
+    score_densite: 0.098,
+    statut_autochtone: 'domination',
+  },
+
+  'panama': {
+    colons: 17000,
     esclaves: 3000,
     indiens: 0,
     indiens_asservis: 0,
-    population: 3600,
-    superficie: 123,
-    score_densite: 1.481,
+    population: 20000,
+    superficie: 210374,
+    score_densite: 0.0394,
     statut_autochtone: null,
   },
 
-  'sainte-croix': {
+  'panuco': {
+    colons: 3500,
+    esclaves: 0,
+    indiens: 45000,
+    indiens_asservis: 15000,
+    population: 48500,
+    superficie: 306684,
+    score_densite: 0.0638,
+    statut_autochtone: 'domination',
+  },
+
+  'providence': {
     colons: 0,
     esclaves: 0,
     indiens: 0,
     indiens_asservis: 0,
     population: 0,
-    superficie: 1553,
+    superficie: 794,
     score_densite: 0.0,
-    statut_autochtone: null,
-  },
-
-  'cuba': {
-    colons: 25000,
-    esclaves: 10000,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 35000,
-    superficie: 326434,
-    score_densite: 0.0442,
     statut_autochtone: null,
   },
 
@@ -2074,69 +2030,14 @@ const ZONES_DEMO = {
     statut_autochtone: null,
   },
 
-  'santo-domingo': {
-    colons: 15000,
-    esclaves: 5000,
+  'saba-statia': {
+    colons: 450,
+    esclaves: 2200,
     indiens: 0,
     indiens_asservis: 0,
-    population: 20000,
-    superficie: 151186,
-    score_densite: 0.054,
-    statut_autochtone: null,
-  },
-
-  'saint-domingue': {
-    colons: 12000,
-    esclaves: 70000,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 82000,
-    superficie: 106018,
-    score_densite: 0.2488,
-    statut_autochtone: null,
-  },
-
-    'tortue': {
-    colons: '200~400',
-    esclaves: 0,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 350,
-    superficie: 1272,
-    score_densite: 0.0522,
-    statut_autochtone: null,
-  },
-
-  'martinique': {
-    colons: 9000,
-    esclaves: 20000,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 29000,
-    superficie: 3486,
-    score_densite: 0.9694,
-    statut_autochtone: null,
-  },
-
-  'guadeloupe': {
-    colons: 7000,
-    esclaves: 18000,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 25000,
-    superficie: 1856,
-    score_densite: 1.1605,
-    statut_autochtone: null,
-  },
-
-  'saint-martin': {
-    colons: 600,
-    esclaves: 2500,
-    indiens: 0,
-    indiens_asservis: 0,
-    population: 3100,
-    superficie: 1161,
-    score_densite: 0.5647,
+    population: 2650,
+    superficie: 229,
+    score_densite: 1.0994,
     statut_autochtone: null,
   },
 
@@ -2151,37 +2052,48 @@ const ZONES_DEMO = {
     statut_autochtone: null,
   },
 
-  'saba-statia': {
-    colons: 450,
-    esclaves: 2200,
+  'saint-christophe': {       // superficie et score_densite à actualiser
+    colons: 5000,
+    esclaves: 15000,
     indiens: 0,
     indiens_asservis: 0,
-    population: 2650,
-    superficie: 229,
-    score_densite: 1.0994,
+    population: 20000,
+    superficie: 1470,
+    score_densite: 0.6087,
     statut_autochtone: null,
   },
 
-  'dominique': {
-    colons: 0,
-    esclaves: 0,
-    indiens: 2500,
+  'saint-domingue': {       // superficie et score_densite à actualiser
+    colons: 12000,
+    esclaves: 70000,
+    indiens: 0,
     indiens_asservis: 0,
-    population: 2500,
-    superficie: 1072,
-    score_densite: 0.5227,
-    statut_autochtone: 'souverainete',
+    population: 82000,
+    superficie: 106018,
+    score_densite: 0.2488,
+    statut_autochtone: null,
   },
 
-  'sainte-lucie': {
-    colons: 200,
-    esclaves: 0,
-    indiens: 4000,
+  'saint-martin': {
+    colons: 600,
+    esclaves: 2500,
+    indiens: 0,
     indiens_asservis: 0,
-    population: 4200,
-    superficie: 1262,
-    score_densite: 0.6363,
-    statut_autochtone: 'souverainete',
+    population: 3100,
+    superficie: 1161,
+    score_densite: 0.5647,
+    statut_autochtone: null,
+  },
+
+  'saint-thomas': {
+    colons: 600,
+    esclaves: 3000,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 3600,
+    superficie: 123,
+    score_densite: 1.481,
+    statut_autochtone: null,
   },
 
   'saint-vincent': {
@@ -2195,15 +2107,114 @@ const ZONES_DEMO = {
     statut_autochtone: 'souverainete',
   },
 
-  'grenade': {
-    colons: 5000,
-    esclaves: 10000,
+  'sainte-croix': {
+    colons: 0,
+    esclaves: 0,
     indiens: 0,
     indiens_asservis: 0,
-    population: 15000,
-    superficie: 1672,
-    score_densite: 0.9988,
+    population: 0,
+    superficie: 1553,
+    score_densite: 0.0,
     statut_autochtone: null,
+  },
+
+  'sainte-lucie': {
+    colons: 200,
+    esclaves: 0,
+    indiens: 4000,
+    indiens_asservis: 0,
+    population: 4200,
+    superficie: 1262,
+    score_densite: 0.6363,
+    statut_autochtone: 'souverainete',
+  },
+
+  'santo-domingo': {
+    colons: 15000,
+    esclaves: 5000,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 20000,
+    superficie: 151186,
+    score_densite: 0.054,
+    statut_autochtone: null,
+  },
+
+  'suriname': {
+    colons: 12000,
+    esclaves: 40000,
+    indiens: 55000,
+    indiens_asservis: 0,
+    population: 107000,
+    superficie: 448486,
+    score_densite: 0.0929,
+    statut_autochtone: 'resistance',
+  },
+
+  'tabago': {
+    colons: 0,
+    esclaves: 0,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 0,
+    superficie: 746,
+    score_densite: 0.0,
+    statut_autochtone: null,
+  },
+
+  'tortue': {               // superficie et score_densite à actualiser
+    colons: '200~400',
+    esclaves: 0,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 350,
+    superficie: 1272,
+    score_densite: 0.0522,
+    statut_autochtone: null,
+  },
+
+  'tortuga-venezolana': {
+    colons: 0,
+    esclaves: 0,
+    indiens: 0,
+    indiens_asservis: 0,
+    population: 0,
+    superficie: 1534,
+    score_densite: 0.0,
+    statut_autochtone: null,
+  },
+
+  'trinidad': {
+    colons: 500,
+    esclaves: 350,
+    indiens: 2000,
+    indiens_asservis: 0,
+    population: 2850,
+    superficie: 21146,
+    score_densite: 0.0549,
+    statut_autochtone: 'domination',
+  },
+
+  'venezuela': {
+    colons: 8000,
+    esclaves: 10000,
+    indiens: 48000,
+    indiens_asservis: 8000,
+    population: 66000,
+    superficie: 741848,
+    score_densite: 0.037,
+    statut_autochtone: 'resistance',
+  },
+
+  'yucatan': {
+    colons: 25000,
+    esclaves: 0,
+    indiens: 225000,
+    indiens_asservis: 90000,
+    population: 250000,
+    superficie: 330086,
+    score_densite: 0.2449,
+    statut_autochtone: 'resistance',
   },
 
 };
