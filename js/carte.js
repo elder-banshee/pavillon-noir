@@ -16,6 +16,9 @@ let modeSombre = false;
 let contourGlobalLayer = null;
 let villeActive = null;
 let markersVilles = {};
+let pairesChevauchement = [];
+let mouseoutTimers = {};
+let ecartementsActifs = {}; // clé = "idA:idB" → durée ms
 
 // ─── Mode d'overlay ──────────────────────────────────────────
 // 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque' | 'isolation' | 'isolationVille'
@@ -210,6 +213,17 @@ function initCarte() {
     fermerPanneau();
     fermerIsolation();
     fermerZoomVille();
+    // Réinitialiser tous les .ville-inner au cas où un état orphelin persisterait
+    document.querySelectorAll('.ville-inner').forEach(el => { el.style.transform = ''; });
+    ecartementsActifs = {};
+  });
+
+  // Fermeture globale des tooltips — évite les tooltips orphelins au mouseout
+  carte.getContainer().addEventListener('mouseleave', () => {
+    carte.eachLayer(l => { if (l.getTooltip?.() && l.isTooltipOpen?.()) l.closeTooltip(); });
+  });
+  carte.on('mouseout', () => {
+    carte.eachLayer(l => { if (l.getTooltip?.() && l.isTooltipOpen?.()) l.closeTooltip(); });
   });
 
   setTimeout(() => {
@@ -219,6 +233,7 @@ function initCarte() {
     carte.setMaxBounds(bounds);
     majWeightsZones();
     positionnerBoutonsZoom();
+    calculerPairesChevauchement();
   }, 100);
 
   window.addEventListener('resize', () => {
@@ -652,18 +667,28 @@ function renderVilles() {
     });
 
     marker.on('mouseover', () => {
+      // Annuler son propre timer et ceux des voisins de paire
+      clearTimeout(mouseoutTimers[ville.id]);
+      for (const paire of pairesChevauchement) {
+        if (paire.idA === ville.id) clearTimeout(mouseoutTimers[paire.idB]);
+        else if (paire.idB === ville.id) clearTimeout(mouseoutTimers[paire.idA]);
+      }
       if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
         setIconeVilleIsoleeHover(ville.id, true);
         return;
       }
       if (villeActive !== ville.id) setIconeVilleActive(ville.id, true);
+      ecarterVille(ville.id);
     });
     marker.on('mouseout', () => {
-      if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
-        setIconeVilleIsoleeHover(ville.id, false);
-        return;
-      }
-      if (villeActive !== ville.id) setIconeVilleActive(ville.id, false);
+      mouseoutTimers[ville.id] = setTimeout(() => {
+        if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
+          setIconeVilleIsoleeHover(ville.id, false);
+          return;
+        }
+        if (villeActive !== ville.id) setIconeVilleActive(ville.id, false);
+        if (villeActive !== ville.id) rapprocherVille(ville.id);
+      }, 550); // délai > durée max transition (520ms pour amplitude max de 13px)
     });
 
     marker.addTo(carte);
@@ -735,11 +760,11 @@ function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estAct
       <rect x="15" y="19" width="2.5" height="4" rx="0.3" fill="${couleurTrait}"/>`;
   }
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
+  return `<div class="ville-inner"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
     ${sansRecadre ? '' : `<rect x="3" y="3" width="26" height="26" rx="5"
       fill="${fond}" stroke="${couleurTrait}" stroke-width="1.5"/>`}
     ${symbole}
-  </svg>`;
+  </svg></div>`;
 }
 
 function setIconeVilleActive(villeId, actif) {
@@ -1126,7 +1151,7 @@ function ouvrirPanneau(juridictionId) {
 
   const precedent = zoneActive;
   zoneActive = juridictionId;
-  if (villeActive) { setIconeVilleActive(villeActive, false); villeActive = null; }
+  if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); villeActive = null; }
   if (precedent && precedent !== juridictionId) majZone(precedent);
   majZone(juridictionId);
 
@@ -1209,7 +1234,7 @@ function fermerPanneau() {
     zoneActive = null;
     majZone(precedent);
   }
-  if (villeActive) { setIconeVilleActive(villeActive, false); villeActive = null; }
+  if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); villeActive = null; }
 }
 
 // ─── Panneau ville ────────────────────────────────────────────
@@ -1224,11 +1249,11 @@ function ouvrirPanneauVille(villeId) {
     majZone(precedent);
   }
 
-  if (villeActive && villeActive !== villeId) { setIconeVilleActive(villeActive, false); }
+  if (villeActive && villeActive !== villeId) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); }
   villeActive = villeId;
 
   // Ne pas écraser l'icône isolée si on vient de zoomerVille()
-  if (overlayMode !== 'isolationVille') setIconeVilleActive(villeId, true);
+  if (overlayMode !== 'isolationVille') { setIconeVilleActive(villeId, true); ecarterVille(villeId); }
 
   const statutCapitale = Array.isArray(ville.capitale)
     ? rendreChamp(ville.capitale, anneeActive)
@@ -1292,7 +1317,7 @@ function fermerPanneauVille() {
   const panneau = document.getElementById('carte-panneau');
   panneau.classList.remove('carte-panneau--open');
   panneau.setAttribute('inert', '');
-  if (villeActive) setIconeVilleActive(villeActive, false);
+  if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); }
   villeActive = null;
 }
 
@@ -1343,6 +1368,77 @@ function initPanneauGauche() {
     toggle.setAttribute('aria-label', panneauGaucheOuvert ? 'Masquer le panneau' : 'Afficher la recherche');
     panneau.setAttribute('aria-hidden', panneauGaucheOuvert ? 'false' : 'true');
   });
+}
+
+// ─── Chevauchement d'icônes villes ───────────────────────────
+function calculerPairesChevauchement() {
+  pairesChevauchement = [];
+  if (typeof VILLES === 'undefined') return;
+
+  const villesAvecCoords = VILLES.filter(v => v.coords);
+  for (let i = 0; i < villesAvecCoords.length; i++) {
+    for (let j = i + 1; j < villesAvecCoords.length; j++) {
+      const vA = villesAvecCoords[i];
+      const vB = villesAvecCoords[j];
+      const ptA = carte.latLngToContainerPoint(pixelToLatLng(vA.coords[0], vA.coords[1]));
+      const ptB = carte.latLngToContainerPoint(pixelToLatLng(vB.coords[0], vB.coords[1]));
+      const dx = ptB.x - ptA.x;
+      const dy = ptB.y - ptA.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      // Seuil : 34px (diagonale d'une icône 24px — collées sans chevauchement au zoom min)
+      if (dist < 16) {
+        const len = dist || 1;
+        pairesChevauchement.push({
+          idA: vA.id, idB: vB.id,
+          vx: dx / len, vy: dy / len,
+          latlngA: pixelToLatLng(vA.coords[0], vA.coords[1]),
+          latlngB: pixelToLatLng(vB.coords[0], vB.coords[1]),
+        });
+      }
+    }
+  }
+}
+
+function ecarterVille(villeId) {
+  const CIBLE = 26; // distance cible centre-à-centre en px (légèrement > diagonale 24px)
+  for (const paire of pairesChevauchement) {
+    let vx = 0, vy = 0, autreId = null;
+    if (paire.idA === villeId) { vx = -paire.vx; vy = -paire.vy; autreId = paire.idB; }
+    else if (paire.idB === villeId) { vx = paire.vx; vy = paire.vy; autreId = paire.idA; }
+    if (!autreId) continue;
+    // Distance pixel actuelle au zoom courant
+    const ptA = carte.latLngToContainerPoint(paire.latlngA);
+    const ptB = carte.latLngToContainerPoint(paire.latlngB);
+    const dx = ptB.x - ptA.x;
+    const dy = ptB.y - ptA.y;
+    const distActuelle = Math.sqrt(dx * dx + dy * dy);
+    const amplitude = (CIBLE - distActuelle) / 2;
+    if (amplitude <= 0) continue;
+    const duree = Math.round(amplitude * 2 * 40);
+    const cle = `${paire.idA}:${paire.idB}`;
+    ecartementsActifs[cle] = duree;
+    const elA = markersVilles[villeId]?.getElement()?.querySelector('.ville-inner');
+    const elB = markersVilles[autreId]?.getElement()?.querySelector('.ville-inner');
+    if (elA) { elA.style.transition = `transform ${duree}ms ease`; void elA.offsetWidth; elA.style.transform = `translate(${vx * amplitude}px, ${vy * amplitude}px)`; }
+    if (elB) { elB.style.transition = `transform ${duree}ms ease`; void elB.offsetWidth; elB.style.transform = `translate(${-vx * amplitude}px, ${-vy * amplitude}px)`; }
+  }
+}
+
+function rapprocherVille(villeId) {
+  for (const paire of pairesChevauchement) {
+    let autreId = null;
+    if (paire.idA === villeId) autreId = paire.idB;
+    else if (paire.idB === villeId) autreId = paire.idA;
+    if (!autreId) continue;
+    if (villeActive === autreId) continue;
+    const cle = `${paire.idA}:${paire.idB}`;
+    const duree = ecartementsActifs[cle] ?? 400;
+    delete ecartementsActifs[cle];
+    const elA = markersVilles[villeId]?.getElement()?.querySelector('.ville-inner');
+    const elB = markersVilles[autreId]?.getElement()?.querySelector('.ville-inner');
+    if (elA) { elA.style.transition = `transform ${duree}ms ease`; elA.style.transform = ''; }
+    if (elB) { elB.style.transition = `transform ${duree}ms ease`; elB.style.transform = ''; }
+  }
 }
 
 // ─── Recherche prédictive ─────────────────────────────────────

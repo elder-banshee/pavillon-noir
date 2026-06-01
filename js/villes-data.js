@@ -188,7 +188,7 @@ Fort Hamilton : construit à partir de 1620 environ, en état modeste à cette p
 
     {
         id: 'spanish-town',
-        nom: 'Spanish Town (Jamaïque)',
+        nom: 'Spanish Town',
         capitale: true,
         type: 'port',
         territoire: 'jamaique',
