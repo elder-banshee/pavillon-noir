@@ -617,11 +617,10 @@ function renderVilles() {
     const statutCapitale = Array.isArray(ville.capitale)
       ? rendreChamp(ville.capitale, anneeActive)
       : ville.capitale;
-    const estCapitale = statutCapitale === true;
     const estPirate = statutCapitale === 'pirate';
 
     const icon = L.divIcon({
-      html: villeSVG(ville.type || 'ville', estCapitale, tailleIconeVille(), estPirate),
+      html: villeSVG(ville.type || 'ville', tailleIconeVille(), estPirate),
       className: 'carte-ville',
       iconSize: [tailleIconeVille(), tailleIconeVille()],
       iconAnchor: [tailleIconeVille() / 2, tailleIconeVille() / 2],
@@ -681,12 +680,11 @@ function majTailleIconesVilles() {
     const statutCapitale = Array.isArray(ville.capitale)
       ? rendreChamp(ville.capitale, anneeActive)
       : ville.capitale;
-    const estCapitale = statutCapitale === true;
     const estPirate = statutCapitale === 'pirate';
     const estIsole = overlayMode === 'isolationVille' && id === isolationVilleId;
     const estActive = !estIsole && villeActive === id;
     marker.setIcon(L.divIcon({
-      html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, estIsole, estActive),
+      html: villeSVG(ville.type || 'ville', taille, estPirate, estIsole, estActive),
       className: 'carte-ville',
       iconSize: [taille, taille],
       iconAnchor: [taille / 2, taille / 2],
@@ -704,12 +702,11 @@ function pinSVG() {
 }
 
 // ─── SVG des marqueurs de villes ─────────────────────────────
-function villeSVG(type, estCapitale, taille = 24, estPirate = false, estIsole = false, estActive = false) {
+function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false, sansRecadre = false) {
   const fond = estIsole ? 'rgba(0,0,0,0)'
-    : estActive ? (estPirate ? '#3a3a3a' : estCapitale ? '#c9695a' : '#8fa5b4')
+    : estActive ? (estPirate ? '#3a3a3a' : '#9aae9a')
       : estPirate ? '#0e0c09'
-        : estCapitale ? '#b04a36'
-          : '#6b7c8a';
+        : '#7a8c7a';
 
   const couleurTrait = estIsole ? '#c8973a'
     : estPirate ? '#f2e8d5'
@@ -725,9 +722,7 @@ function villeSVG(type, estCapitale, taille = 24, estPirate = false, estIsole = 
       <path d="M10 19 C10 23 13 23 16 23" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
       <path d="M22 19 C22 23 19 23 16 23" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>`;
   } else if (type === 'fort') {
-    const couleurCroix = estIsole ? '#c8973a'
-      : estCapitale ? '#f0d5cf'
-        : '#dde6ea';
+    const couleurCroix = estIsole ? '#c8973a' : '#e8ede8';
     symbole = `
       <rect x="9" y="9" width="14" height="14" rx="1"
         fill="${estIsole ? 'none' : '#0e0c09'}" stroke="${estIsole ? '#c8973a' : couleurTrait}" stroke-width="1.2"/>
@@ -741,8 +736,8 @@ function villeSVG(type, estCapitale, taille = 24, estPirate = false, estIsole = 
   }
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
-    <rect x="3" y="3" width="26" height="26" rx="5"
-      fill="${fond}" stroke="${couleurTrait}" stroke-width="1.5"/>
+    ${sansRecadre ? '' : `<rect x="3" y="3" width="26" height="26" rx="5"
+      fill="${fond}" stroke="${couleurTrait}" stroke-width="1.5"/>`}
     ${symbole}
   </svg>`;
 }
@@ -751,14 +746,12 @@ function setIconeVilleActive(villeId, actif) {
   const marker = markersVilles[villeId];
   const ville = VILLES.find(v => v.id === villeId);
   if (!marker || !ville) return;
-  const statutCapitale = Array.isArray(ville.capitale)
+  const estPirate = (Array.isArray(ville.capitale)
     ? rendreChamp(ville.capitale, anneeActive)
-    : ville.capitale;
-  const estCapitale = statutCapitale === true;
-  const estPirate = statutCapitale === 'pirate';
+    : ville.capitale) === 'pirate';
   const taille = tailleIconeVille();
   marker.setIcon(L.divIcon({
-    html: villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, false, actif),
+    html: villeSVG(ville.type || 'ville', taille, estPirate, false, actif),
     className: 'carte-ville',
     iconSize: [taille, taille],
     iconAnchor: [taille / 2, taille / 2],
@@ -769,14 +762,11 @@ function setIconeVilleIsoleeHover(villeId, hover) {
   const marker = markersVilles[villeId];
   const ville = VILLES.find(v => v.id === villeId);
   if (!marker || !ville) return;
-  const statutCapitale = Array.isArray(ville.capitale)
+  const estPirate = (Array.isArray(ville.capitale)
     ? rendreChamp(ville.capitale, anneeActive)
-    : ville.capitale;
-  const estCapitale = statutCapitale === true;
-  const estPirate = statutCapitale === 'pirate';
+    : ville.capitale) === 'pirate';
   const taille = tailleIconeVille();
-  // Hover isolé : fond gold translucide (25%) sur l'icône isolée
-  const svgBase = villeSVG(ville.type || 'ville', estCapitale, taille, estPirate, true, false);
+  const svgBase = villeSVG(ville.type || 'ville', taille, estPirate, true, false);
   const svgHover = hover
     ? svgBase.replace('fill="rgba(0,0,0,0)"', 'fill="rgba(200,151,58,0.25)"')
     : svgBase;
@@ -1136,7 +1126,7 @@ function ouvrirPanneau(juridictionId) {
 
   const precedent = zoneActive;
   zoneActive = juridictionId;
-  villeActive = null;
+  if (villeActive) { setIconeVilleActive(villeActive, false); villeActive = null; }
   if (precedent && precedent !== juridictionId) majZone(precedent);
   majZone(juridictionId);
 
@@ -1234,6 +1224,7 @@ function ouvrirPanneauVille(villeId) {
     majZone(precedent);
   }
 
+  if (villeActive && villeActive !== villeId) { setIconeVilleActive(villeActive, false); }
   villeActive = villeId;
 
   // Ne pas écraser l'icône isolée si on vient de zoomerVille()
@@ -1362,26 +1353,6 @@ function initRecherche() {
   const fantome = document.getElementById('carte-recherche-fantome');
   if (!input || !suggestions || !clear) return;
 
-  function getSuggestion(q) {
-    if (!q) return '';
-    const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-    const j = JURIDICTIONS.find(j => {
-      if (j.visible_mj && !modeMJ) return false;
-      const nomLow = j.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-      return nomLow.startsWith(qLow);
-    });
-    if (j) return j.nom;
-    if (typeof VILLES !== 'undefined') {
-      const v = VILLES.find(v => {
-        if (!v.coords) return false;
-        const nomLow = v.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        return nomLow.startsWith(qLow);
-      });
-      if (v) return v.nom;
-    }
-    return '';
-  }
-
   let valeurCompletee = null;
   let suggestionActive = null;
 
@@ -1395,9 +1366,17 @@ function initRecherche() {
 
     afficherSuggestions(q, suggestions);
 
-    const sugg = getSuggestion(q);
-    if (fantome && sugg) {
-      fantome.textContent = q + sugg.slice(q.length);
+    // Fantôme : lire le premier item du volet (cohérent avec le tri affiché)
+    if (fantome) {
+      const premierItem = suggestions.querySelector('.carte-recherche-suggestion');
+      const nomPremier = premierItem ? premierItem.dataset.nom : '';
+      if (nomPremier) {
+        const nomLow = nomPremier.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        const qLow2 = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        if (nomLow.startsWith(qLow2)) {
+          fantome.textContent = q + nomPremier.slice(q.length);
+        }
+      }
     }
   });
 
@@ -1429,9 +1408,20 @@ function initRecherche() {
 
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (suggestionActive) { suggestionActive.click(); suggestionActive = null; return; }
-      const actif = suggestions.querySelector('.carte-recherche-suggestion--active');
-      if (actif) { actif.click(); return; }
+      // Sélection par ArrowDown/ArrowUp : lire directement le dataset du nœud mémorisé
+      const cible = suggestionActive || suggestions.querySelector('.carte-recherche-suggestion--active');
+      if (cible) {
+        suggestionActive = null;
+        const id = cible.dataset.id;
+        const type = cible.dataset.type;
+        const nom = cible.dataset.nom || '';
+        suggestions.innerHTML = '';
+        if (fantome) fantome.textContent = '';
+        if (nom) input.value = nom;
+        if (type === 'ville') zoomerVille(id);
+        else isolerTerritoire(id);
+        return;
+      }
       if (items.length === 1) { items[0].click(); return; }
       // Correspondance exacte sur la saisie
       const q = input.value.trim();
@@ -1476,6 +1466,13 @@ function initRecherche() {
       items[idx].classList.add('carte-recherche-suggestion--active');
       items[idx].scrollIntoView({ block: 'nearest' });
       suggestionActive = items[idx];
+      if (fantome) {
+        const q = input.value.trim();
+        const nomSel = items[idx].dataset.nom || '';
+        const nomLow = nomSel.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        fantome.textContent = nomLow.startsWith(qLow) ? q + nomSel.slice(q.length) : '';
+      }
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
@@ -1483,6 +1480,13 @@ function initRecherche() {
       items[idx].classList.add('carte-recherche-suggestion--active');
       items[idx].scrollIntoView({ block: 'nearest' });
       suggestionActive = items[idx];
+      if (fantome) {
+        const q = input.value.trim();
+        const nomSel = items[idx].dataset.nom || '';
+        const nomLow = nomSel.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        fantome.textContent = nomLow.startsWith(qLow) ? q + nomSel.slice(q.length) : '';
+      }
     } else if (e.key === 'Escape') {
       fermerIsolation();
       input.value = '';
@@ -1566,7 +1570,7 @@ function afficherSuggestions(q, container) {
     const matchHtml = nomMatch ? '' :
       `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
     return `<li class="carte-recherche-suggestion" role="option"
-      data-id="${item.id}" data-type="${type}">
+      data-id="${item.id}" data-type="${type}" data-nom="${escapeHtml(nom)}">
       <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}</span>
       ${matchHtml}
     </li>`;
@@ -1577,6 +1581,7 @@ function afficherSuggestions(q, container) {
       const id = li.dataset.id;
       const type = li.dataset.type;
       container.innerHTML = '';
+      if (fantome) fantome.textContent = '';
       if (type === 'ville') {
         const ville = VILLES.find(v => v.id === id);
         if (ville) document.getElementById('carte-recherche-input').value = ville.nom;
@@ -1635,6 +1640,7 @@ function zoomerVille(villeId) {
     if (input && !input.checked) {
       input.checked = true;
       filtreVillesEl.classList.remove('decochee');
+      renderVilles(); // créer les marqueurs maintenant qu'ils sont activés
     }
   }
 
@@ -1662,7 +1668,6 @@ function zoomerVille(villeId) {
   const statutCapitale = Array.isArray(ville.capitale)
     ? rendreChamp(ville.capitale, anneeActive)
     : ville.capitale;
-  const estCapitale = statutCapitale === true;
   const estPirate = statutCapitale === 'pirate';
 
   // Désactiver les événements souris sur tous les marqueurs sauf la ville isolée
@@ -1686,9 +1691,9 @@ function zoomerVille(villeId) {
   }
 
   if (marker) {
-    // Étape 1 : blanc immédiat, taille figée
+    // Étape 1 : blanc immédiat, sans cadre, taille figée
     marker.setIcon(L.divIcon({
-      html: villeSVG(ville.type || 'ville', estCapitale, tailleDepart, estPirate, true, false)
+      html: villeSVG(ville.type || 'ville', tailleDepart, estPirate, true, false, true)
         .replace(/stroke="#c8973a"/g, 'stroke="#ffffff"')
         .replace(/fill="#c8973a"/g, 'fill="#ffffff"'),
       className: 'carte-ville',
@@ -1697,11 +1702,11 @@ function zoomerVille(villeId) {
     }));
     marker.setOpacity(1);
 
-    // Étape 2 : gold-light après 400ms
+    // Étape 2 : gold-light après 400ms, toujours sans cadre
     setTimeout(() => {
       if (isolationVilleId !== villeId) return;
       marker.setIcon(L.divIcon({
-        html: villeSVG(ville.type || 'ville', estCapitale, tailleDepart, estPirate, true, false)
+        html: villeSVG(ville.type || 'ville', tailleDepart, estPirate, true, false, true)
           .replace(/stroke="#c8973a"/g, 'stroke="#e2c97e"')
           .replace(/fill="#c8973a"/g, 'fill="#e2c97e"'),
         className: 'carte-ville',
@@ -1730,7 +1735,7 @@ function zoomerVille(villeId) {
 
     // Poser l'icône gold-light à la taille cible
     m.setIcon(L.divIcon({
-      html: villeSVG(ville.type || 'ville', estCapitale, tailleArrivee, estPirate, true, false)
+      html: villeSVG(ville.type || 'ville', tailleArrivee, estPirate, true, false)
         .replace(/stroke="#c8973a"/g, 'stroke="#e2c97e"')
         .replace(/fill="#c8973a"/g, 'fill="#e2c97e"'),
       className: 'carte-ville',
@@ -1742,7 +1747,7 @@ function zoomerVille(villeId) {
     setTimeout(() => {
       if (isolationVilleId !== villeId) return;
       m.setIcon(L.divIcon({
-        html: villeSVG(ville.type || 'ville', estCapitale, tailleArrivee, estPirate, true, false),
+        html: villeSVG(ville.type || 'ville', tailleArrivee, estPirate, true, false),
         className: 'carte-ville',
         iconSize: [tailleArrivee, tailleArrivee],
         iconAnchor: [tailleArrivee / 2, tailleArrivee / 2],

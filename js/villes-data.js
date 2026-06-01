@@ -801,6 +801,7 @@ Trinidad dépend nominalement de la province de Cumaná jusqu'en 1731.`,
     {
         id: 'puerto-espana',
         nom: 'Puerto España',
+        tags: [`Puerto-Espana`, `Port of Spain`, "Port-d'Espagne"],
         type: 'port',
         territoire: 'trinidad',
         coords: [7387, 3989],
