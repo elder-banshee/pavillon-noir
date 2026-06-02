@@ -152,6 +152,54 @@ function masquerEcranChargement() {
   setTimeout(() => ecran.remove(), 700);
 }
 
+// ─── Contour global des terres émergées ──────────────────────
+let contourGlobalSvgCache = null;
+
+async function renderContourGlobal() {
+  // Visible uniquement en mode sombre + overlay masque
+  if (!(modeSombre && overlayMode === 'masque')) {
+    if (contourGlobalLayer) { carte.removeLayer(contourGlobalLayer); contourGlobalLayer = null; }
+    return;
+  }
+  // Charger le SVG une seule fois
+  if (!contourGlobalSvgCache) {
+    try {
+      const r = await fetch('medias/cartes/jaillot_1708-tracés/jaillot_1708-contour_global.svg');
+      contourGlobalSvgCache = await r.text();
+    } catch (e) {
+      console.warn('jaillot_1708-contour_global.svg introuvable :', e);
+      return;
+    }
+  }
+  // Supprimer l'ancien layer s'il existe
+  if (contourGlobalLayer) { carte.removeLayer(contourGlobalLayer); contourGlobalLayer = null; }
+
+  // Parser le SVG et appliquer le style
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(contourGlobalSvgCache, 'image/svg+xml');
+  const svgEl = doc.querySelector('svg');
+  if (!svgEl) return;
+
+  // Appliquer stroke gold, pas de fill, sur tous les paths
+  svgEl.querySelectorAll('path, polygon, polyline').forEach(el => {
+    el.setAttribute('stroke', 'var(--gold, #c8973a)');
+    el.setAttribute('stroke-width', '3');
+    el.setAttribute('fill', 'none');
+    el.setAttribute('stroke-linejoin', 'round');
+    el.setAttribute('stroke-linecap', 'round');
+  });
+
+  const W = CARTE_IMAGE.width;
+  const H = CARTE_IMAGE.height;
+  const bounds = [[0, 0], [H, W]];
+
+  contourGlobalLayer = L.svgOverlay(svgEl, bounds, {
+    interactive: false,
+    pane: 'contourGlobal',
+  });
+  contourGlobalLayer.addTo(carte);
+}
+
 // ─── Initialisation ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   function initTout() {
@@ -290,6 +338,7 @@ function initCarte() {
         carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
       }
       document.getElementById('carte-zoom-sombre').classList.toggle('active', modeSombre);
+      renderContourGlobal();
     });
 }
 
@@ -917,6 +966,7 @@ function initOverlayBtns() {
       renderZones();
       renderPins();
       renderVilles();
+      renderContourGlobal();
     });
   });
 }
