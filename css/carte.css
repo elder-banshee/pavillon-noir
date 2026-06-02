@@ -172,9 +172,6 @@ path.leaflet-interactive:focus-visible {
 .carte-ville {
   cursor: pointer;
 }
-.carte-ville-inner {
-  /* transition gérée dynamiquement en JS selon l'amplitude de déplacement */
-}
 
 /* ─── Popup scénario ────────────────────────────────────────── */
 .carte-popup-overlay {

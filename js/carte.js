@@ -213,12 +213,26 @@ function initCarte() {
     fermerPanneau();
     fermerIsolation();
     fermerZoomVille();
-    // Réinitialiser tous les .ville-inner au cas où un état orphelin persisterait
-    document.querySelectorAll('.ville-inner').forEach(el => { el.style.transform = ''; });
+    // Réinitialiser les marqueurs écartés
+    Object.values(pairesChevauchement).forEach(paire => {
+      const elA = markersVilles[paire.idA]?.getElement();
+      const elB = markersVilles[paire.idB]?.getElement();
+      if (elA) { const t = lireTranslate3d(elA); elA.style.transition = ''; elA.style.transform = t; }
+      if (elB) { const t = lireTranslate3d(elB); elB.style.transition = ''; elB.style.transform = t; }
+    });
     ecartementsActifs = {};
   });
 
-  // Fermeture globale des tooltips — évite les tooltips orphelins au mouseout
+  carte.on('zoom', () => {
+    // Après un zoom, Leaflet réécrit translate3d — on réapplique notre décalage immédiatement
+    for (const [cle, etat] of Object.entries(ecartementsActifs)) {
+      const [idA, idB] = cle.split(':');
+      const elA = markersVilles[idA]?.getElement();
+      const elB = markersVilles[idB]?.getElement();
+      if (elA) { const t = lireTranslate3d(elA); elA.style.transition = ''; elA.style.transform = `${t} translate(${etat.dxA}px, ${etat.dyA}px)`; }
+      if (elB) { const t = lireTranslate3d(elB); elB.style.transition = ''; elB.style.transform = `${t} translate(${etat.dxB}px, ${etat.dyB}px)`; }
+    }
+  });
   carte.getContainer().addEventListener('mouseleave', () => {
     carte.eachLayer(l => { if (l.getTooltip?.() && l.isTooltipOpen?.()) l.closeTooltip(); });
   });
@@ -667,11 +681,15 @@ function renderVilles() {
     });
 
     marker.on('mouseover', () => {
-      // Annuler son propre timer et ceux des voisins de paire
+      // Annuler les timers de mouseout pour cette ville et ses voisines de paire
       clearTimeout(mouseoutTimers[ville.id]);
       for (const paire of pairesChevauchement) {
-        if (paire.idA === ville.id) clearTimeout(mouseoutTimers[paire.idB]);
-        else if (paire.idB === ville.id) clearTimeout(mouseoutTimers[paire.idA]);
+        if (paire.idA === ville.id || paire.idB === ville.id) {
+          const cle = `${paire.idA}:${paire.idB}`;
+          clearTimeout(mouseoutTimers[cle]);
+          clearTimeout(mouseoutTimers[paire.idA]);
+          clearTimeout(mouseoutTimers[paire.idB]);
+        }
       }
       if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
         setIconeVilleIsoleeHover(ville.id, true);
@@ -681,6 +699,21 @@ function renderVilles() {
       ecarterVille(ville.id);
     });
     marker.on('mouseout', () => {
+      // Timer indexé par clé de paire — un seul rapprocherVille par paire
+      for (const paire of pairesChevauchement) {
+        if (paire.idA !== ville.id && paire.idB !== ville.id) continue;
+        const cle = `${paire.idA}:${paire.idB}`;
+        clearTimeout(mouseoutTimers[cle]);
+        mouseoutTimers[cle] = setTimeout(() => {
+          if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
+            setIconeVilleIsoleeHover(ville.id, false);
+            return;
+          }
+          if (villeActive !== ville.id) setIconeVilleActive(ville.id, false);
+          if (villeActive !== ville.id) rapprocherVille(ville.id);
+        }, 550);
+      }
+      // Timer individuel pour les villes sans paire
       mouseoutTimers[ville.id] = setTimeout(() => {
         if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
           setIconeVilleIsoleeHover(ville.id, false);
@@ -688,7 +721,7 @@ function renderVilles() {
         }
         if (villeActive !== ville.id) setIconeVilleActive(ville.id, false);
         if (villeActive !== ville.id) rapprocherVille(ville.id);
-      }, 550); // délai > durée max transition (520ms pour amplitude max de 13px)
+      }, 550);
     });
 
     marker.addTo(carte);
@@ -760,11 +793,11 @@ function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estAct
       <rect x="15" y="19" width="2.5" height="4" rx="0.3" fill="${couleurTrait}"/>`;
   }
 
-  return `<div class="ville-inner"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
     ${sansRecadre ? '' : `<rect x="3" y="3" width="26" height="26" rx="5"
       fill="${fond}" stroke="${couleurTrait}" stroke-width="1.5"/>`}
     ${symbole}
-  </svg></div>`;
+  </svg>`;
 }
 
 function setIconeVilleActive(villeId, actif) {
@@ -1399,14 +1432,20 @@ function calculerPairesChevauchement() {
   }
 }
 
+function lireTranslate3d(el) {
+  // Extrait le translate3d Leaflet de style.transform
+  if (!el) return 'translate3d(0px,0px,0px)';
+  const m = el.style.transform.match(/translate3d\([^)]+\)/);
+  return m ? m[0] : 'translate3d(0px,0px,0px)';
+}
+
 function ecarterVille(villeId) {
-  const CIBLE = 26; // distance cible centre-à-centre en px (légèrement > diagonale 24px)
+  const CIBLE = 26;
   for (const paire of pairesChevauchement) {
     let vx = 0, vy = 0, autreId = null;
     if (paire.idA === villeId) { vx = -paire.vx; vy = -paire.vy; autreId = paire.idB; }
     else if (paire.idB === villeId) { vx = paire.vx; vy = paire.vy; autreId = paire.idA; }
     if (!autreId) continue;
-    // Distance pixel actuelle au zoom courant
     const ptA = carte.latLngToContainerPoint(paire.latlngA);
     const ptB = carte.latLngToContainerPoint(paire.latlngB);
     const dx = ptB.x - ptA.x;
@@ -1415,12 +1454,23 @@ function ecarterVille(villeId) {
     const amplitude = (CIBLE - distActuelle) / 2;
     if (amplitude <= 0) continue;
     const duree = Math.round(amplitude * 2 * 40);
-    const cle = `${paire.idA}:${paire.idB}`;
-    ecartementsActifs[cle] = duree;
-    const elA = markersVilles[villeId]?.getElement()?.querySelector('.ville-inner');
-    const elB = markersVilles[autreId]?.getElement()?.querySelector('.ville-inner');
-    if (elA) { elA.style.transition = `transform ${duree}ms ease`; void elA.offsetWidth; elA.style.transform = `translate(${vx * amplitude}px, ${vy * amplitude}px)`; }
-    if (elB) { elB.style.transition = `transform ${duree}ms ease`; void elB.offsetWidth; elB.style.transform = `translate(${-vx * amplitude}px, ${-vy * amplitude}px)`; }
+    ecartementsActifs[`${paire.idA}:${paire.idB}`] = {
+      duree,
+      dxA: vx * amplitude, dyA: vy * amplitude,
+      dxB: -vx * amplitude, dyB: -vy * amplitude,
+    };
+    const elA = markersVilles[villeId]?.getElement();
+    const elB = markersVilles[autreId]?.getElement();
+    if (elA) {
+      const t = lireTranslate3d(elA);
+      elA.style.transition = `transform ${duree}ms ease`;
+      elA.style.transform = `${t} translate(${vx * amplitude}px, ${vy * amplitude}px)`;
+    }
+    if (elB) {
+      const t = lireTranslate3d(elB);
+      elB.style.transition = `transform ${duree}ms ease`;
+      elB.style.transform = `${t} translate(${-vx * amplitude}px, ${-vy * amplitude}px)`;
+    }
   }
 }
 
@@ -1432,12 +1482,23 @@ function rapprocherVille(villeId) {
     if (!autreId) continue;
     if (villeActive === autreId) continue;
     const cle = `${paire.idA}:${paire.idB}`;
-    const duree = ecartementsActifs[cle] ?? 400;
+    const etat = ecartementsActifs[cle];
+    if (!etat) continue;
     delete ecartementsActifs[cle];
-    const elA = markersVilles[villeId]?.getElement()?.querySelector('.ville-inner');
-    const elB = markersVilles[autreId]?.getElement()?.querySelector('.ville-inner');
-    if (elA) { elA.style.transition = `transform ${duree}ms ease`; elA.style.transform = ''; }
-    if (elB) { elB.style.transition = `transform ${duree}ms ease`; elB.style.transform = ''; }
+    const elA = markersVilles[paire.idA]?.getElement();
+    const elB = markersVilles[paire.idB]?.getElement();
+    if (elA) {
+      const t = lireTranslate3d(elA);
+      elA.style.transition = `transform ${etat.duree}ms ease`;
+      elA.style.transform = `${t} translate(0px, 0px)`;
+      setTimeout(() => { const t2 = lireTranslate3d(elA); elA.style.transition = ''; elA.style.transform = t2; }, etat.duree);
+    }
+    if (elB) {
+      const t = lireTranslate3d(elB);
+      elB.style.transition = `transform ${etat.duree}ms ease`;
+      elB.style.transform = `${t} translate(0px, 0px)`;
+      setTimeout(() => { const t2 = lireTranslate3d(elB); elB.style.transition = ''; elB.style.transform = t2; }, etat.duree);
+    }
   }
 }
 
@@ -1778,7 +1839,6 @@ function zoomerVille(villeId) {
 
   // Animation pré-zoom : blanc → gold-light, puis flyTo, puis agrandissement gold-light → gold
   const marker = markersVilles[villeId];
-  const tailleDepart = tailleIconeVille();
 
   // Élever l'icône isolée au-dessus des autres marqueurs
   if (marker) {
@@ -1787,28 +1847,32 @@ function zoomerVille(villeId) {
   }
 
   if (marker) {
-    // Étape 1 : blanc immédiat, sans cadre, taille figée
-    marker.setIcon(L.divIcon({
-      html: villeSVG(ville.type || 'ville', tailleDepart, estPirate, true, false, true)
-        .replace(/stroke="#c8973a"/g, 'stroke="#ffffff"')
-        .replace(/fill="#c8973a"/g, 'fill="#ffffff"'),
-      className: 'carte-ville',
-      iconSize: [tailleDepart, tailleDepart],
-      iconAnchor: [tailleDepart / 2, tailleDepart / 2],
-    }));
     marker.setOpacity(1);
 
-    // Étape 2 : gold-light après 400ms, toujours sans cadre
+    // Étape 1 : blanc immédiat — modifier le SVG existant sans setIcon
+    const svgEl = marker.getElement()?.querySelector('svg');
+    if (svgEl) {
+      svgEl.querySelectorAll('rect, path, line, circle, polygon').forEach(el => {
+        if (el.getAttribute('stroke')) el.setAttribute('stroke', '#ffffff');
+        if (el.getAttribute('fill') && el.getAttribute('fill') !== 'none') el.setAttribute('fill', '#ffffff');
+      });
+      // Masquer le cadre (rect de fond)
+      const rect = svgEl.querySelector('rect');
+      if (rect) rect.setAttribute('fill', 'none');
+    }
+
+    // Étape 2 : gold-light après 400ms — toujours sans setIcon
     setTimeout(() => {
       if (isolationVilleId !== villeId) return;
-      marker.setIcon(L.divIcon({
-        html: villeSVG(ville.type || 'ville', tailleDepart, estPirate, true, false, true)
-          .replace(/stroke="#c8973a"/g, 'stroke="#e2c97e"')
-          .replace(/fill="#c8973a"/g, 'fill="#e2c97e"'),
-        className: 'carte-ville',
-        iconSize: [tailleDepart, tailleDepart],
-        iconAnchor: [tailleDepart / 2, tailleDepart / 2],
-      }));
+      const svgEl2 = marker.getElement()?.querySelector('svg');
+      if (svgEl2) {
+        svgEl2.querySelectorAll('rect, path, line, circle, polygon').forEach(el => {
+          if (el.getAttribute('stroke') && el.getAttribute('stroke') !== 'none') el.setAttribute('stroke', '#e2c97e');
+          if (el.getAttribute('fill') && el.getAttribute('fill') !== 'none') el.setAttribute('fill', '#e2c97e');
+        });
+        const rect = svgEl2.querySelector('rect');
+        if (rect) rect.setAttribute('fill', 'none');
+      }
     }, 400);
   }
 
