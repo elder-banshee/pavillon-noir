@@ -87,7 +87,7 @@ function pixelToLatLng(x, y) {
 }
 
 function normaliser(str) {
-  return str.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+  return str.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/-/g, ' ');
 }
 
 function weightPourZoom(weightBase, zoom) {
@@ -109,6 +109,7 @@ function rendreChamp(valeur, annee) {
 
 function rendreContexte(contexte, annee) {
   if (!contexte) return '';
+  if (typeof contexte === 'string') return contexte;
   return contexte
     .filter(b => annee >= (b.de ?? 0) && (b.a == null || annee < b.a))
     .map(b => b.texte)
@@ -530,6 +531,363 @@ function initCarte() {
     });
 }
 
+// ─── Curseur temporel inline ──────────────────────────────────
+function initCurseurInline() {
+  const valeur = document.getElementById('curseur-valeur');
+  const prevOld = document.getElementById('curseur-prev');
+  const nextOld = document.getElementById('curseur-next');
+  const prev = prevOld.cloneNode(true);
+  const next = nextOld.cloneNode(true);
+  prevOld.replaceWith(prev);
+  nextOld.replaceWith(next);
+  if (!valeur || !prev || !next) return;
+
+  const anneeMin = 1712;
+  const anneeMax = modeMJ ? ANNEE_MAX_MJ : CARTE_ANNEE_REFERENCE;
+
+  function majAffichage() {
+    valeur.textContent = anneeActive;
+    prev.disabled = anneeActive <= anneeMin;
+    next.disabled = anneeActive >= anneeMax;
+  }
+
+  prev.addEventListener('click', () => {
+    if (anneeActive > anneeMin) {
+      anneeActive--;
+      majAffichage();
+      renderZones();
+      majLegende();
+      renderVilles();
+      if (zoneActive) ouvrirPanneau(zoneActive);
+      if (villeActive) ouvrirPanneauVille(villeActive);
+    }
+  });
+
+  next.addEventListener('click', () => {
+    if (anneeActive < anneeMax) {
+      anneeActive++;
+      majAffichage();
+      renderZones();
+      majLegende();
+      renderVilles();
+      if (zoneActive) ouvrirPanneau(zoneActive);
+      if (villeActive) ouvrirPanneauVille(villeActive);
+    }
+  });
+
+  majAffichage();
+}
+
+// ─── Boutons overlay ──────────────────────────────────────────
+function initOverlayBtns() {
+  const btns = document.querySelectorAll('.carte-overlay-btn:not(.disabled)');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+      if (mode === overlayMode) return;
+      // Quitter l'isolation si active
+      if (overlayMode === 'isolation') fermerIsolation();
+      overlayMode = mode;
+      puissancesMasquees.clear();
+      paliersMasquesDensite.clear();
+      paliersMasquesEsclavage.clear();
+
+      document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const label = document.getElementById('carte-overlay-label');
+      if (label) label.textContent = OVERLAY_LABELS[mode] || '';
+
+      const noteEsclavage = document.getElementById('carte-overlay-note');
+      if (noteEsclavage) {
+        noteEsclavage.style.display = mode === 'esclavage' ? 'inline' : 'none';
+      }
+
+      if (overlayMode === 'masque') {
+        fermerPopup();
+        fermerPanneau();
+      }
+
+      majLegende();
+      renderZones();
+      renderPins();
+      renderVilles();
+      renderContourGlobal();
+    });
+  });
+}
+
+// ─── Panneau gauche — toggle ─────────────────────────────────
+function initPanneauGauche() {
+  const panneau = document.getElementById('carte-panneau-gauche');
+  const toggle = document.getElementById('carte-panneau-gauche-toggle');
+  if (!panneau || !toggle) return;
+
+  toggle.addEventListener('click', () => {
+    panneauGaucheOuvert = !panneauGaucheOuvert;
+    panneau.classList.toggle('carte-panneau-gauche--open', panneauGaucheOuvert);
+    toggle.textContent = panneauGaucheOuvert ? '‹' : '›';
+    toggle.setAttribute('aria-label', panneauGaucheOuvert ? 'Masquer le panneau' : 'Afficher la recherche');
+    panneau.setAttribute('aria-hidden', panneauGaucheOuvert ? 'false' : 'true');
+  });
+}
+
+// ─── Filtres marqueurs (panneau gauche) ──────────────────────
+function initFiltresMarqueurs() {
+  const filtreScenarios = document.getElementById('filtre-scenarios');
+  const filtreVilles = document.getElementById('filtre-villes');
+  if (!filtreScenarios || !filtreVilles) return;
+
+  filtreScenarios.addEventListener('click', () => {
+    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
+    const input = filtreScenarios.querySelector('input');
+    input.checked = !input.checked;
+    filtreScenarios.classList.toggle('decochee', !input.checked);
+    renderPins();
+  });
+
+  filtreVilles.addEventListener('click', () => {
+    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
+    const input = filtreVilles.querySelector('input');
+    input.checked = !input.checked;
+    filtreVilles.classList.toggle('decochee', !input.checked);
+    renderVilles();
+  });
+}
+
+// ─── Recherche prédictive ─────────────────────────────────────
+function initRecherche() {
+  const input = document.getElementById('carte-recherche-input');
+  const suggestions = document.getElementById('carte-recherche-suggestions');
+  const clear = document.getElementById('carte-recherche-clear');
+  const fantome = document.getElementById('carte-recherche-fantome');
+  if (!input || !suggestions || !clear) return;
+
+  let valeurCompletee = null;
+  let suggestionActive = null;
+
+  input.addEventListener('input', () => {
+    valeurCompletee = null;
+    suggestionActive = null;
+    const q = input.value;
+    const qTrim = q.trim();
+    clear.style.display = qTrim ? '' : 'none';
+    if (fantome) fantome.textContent = '';
+    if (!qTrim) { suggestions.innerHTML = ''; return; }
+
+    afficherSuggestions(q, suggestions);
+
+    if (fantome) {
+      const premierItem = suggestions.querySelector('.carte-recherche-suggestion');
+      if (premierItem) {
+        const qLow2 = normaliser(q);
+        const nomPremier = premierItem.dataset.nom || '';
+        const tagPremier = premierItem.dataset.matchtag || '';
+        const nomLow = normaliser(nomPremier);
+        const tagLow = normaliser(tagPremier);
+        if (nomLow.startsWith(qLow2)) {
+          fantome.textContent = q + nomPremier.slice(q.length);
+        } else if (tagLow.startsWith(qLow2)) {
+          fantome.textContent = q + tagPremier.slice(q.length);
+        }
+      }
+    }
+  });
+
+  clear.addEventListener('click', () => {
+    input.value = '';
+    clear.style.display = 'none';
+    suggestions.innerHTML = '';
+    if (fantome) fantome.textContent = '';
+    fermerIsolation();
+    input.focus();
+  });
+
+  suggestions.addEventListener('mousedown', e => e.preventDefault());
+
+  input.addEventListener('keydown', (e) => {
+    if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome && fantome.textContent) {
+      e.preventDefault();
+      input.value = fantome.textContent;
+      valeurCompletee = fantome.textContent;
+      fantome.textContent = '';
+      suggestions.innerHTML = '';
+      input.focus();
+      return;
+    }
+
+    const items = suggestions.querySelectorAll('.carte-recherche-suggestion');
+    let idx = suggestionActive ? [...items].indexOf(suggestionActive) : -1;
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const cible = suggestionActive || suggestions.querySelector('.carte-recherche-suggestion--active');
+      if (cible) {
+        suggestionActive = null;
+        const id = cible.dataset.id;
+        const type = cible.dataset.type;
+        const nom = cible.dataset.nom || '';
+        suggestions.innerHTML = '';
+        if (fantome) fantome.textContent = '';
+        if (nom) input.value = nom;
+        if (type === 'ville') zoomerVille(id);
+        else isolerTerritoire(id);
+        return;
+      }
+      if (items.length === 1) { items[0].click(); return; }
+      const q = input.value.trim();
+      if (!q) return;
+      const qLow = normaliser(q);
+      if (typeof VILLES !== 'undefined') {
+        const v = VILLES.find(v => v.coords && normaliser(v.nom) === qLow);
+        if (v) { zoomerVille(v.id); return; }
+      }
+      const j = JURIDICTIONS.find(j => {
+        if (j.visible_mj && !modeMJ) return false;
+        return normaliser(j.nom) === qLow;
+      });
+      if (j) { isolerTerritoire(j.id); return; }
+      if (typeof VILLES !== 'undefined') {
+        const vTag = VILLES.find(v => v.coords &&
+          (v.tags || [v.nom, v.label].filter(Boolean)).some(t => normaliser(t) === qLow)
+        );
+        if (vTag) { zoomerVille(vTag.id); return; }
+      }
+      const jTag = JURIDICTIONS.find(j => {
+        if (j.visible_mj && !modeMJ) return false;
+        return j.tags?.some(t => normaliser(t) === qLow);
+      });
+      if (jTag) { isolerTerritoire(jTag.id); return; }
+      if (valeurCompletee) {
+        const jC = JURIDICTIONS.find(j => j.nom === valeurCompletee.trim());
+        if (jC) { isolerTerritoire(jC.id); valeurCompletee = null; return; }
+        if (typeof VILLES !== 'undefined') {
+          const vC = VILLES.find(v => v.nom === valeurCompletee.trim() && v.coords);
+          if (vC) { zoomerVille(vC.id); valeurCompletee = null; return; }
+        }
+      }
+      return;
+    }
+
+    if (!items.length) return;
+
+    function naviguerSuggestion(delta) {
+      if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
+      idx = (idx + delta + items.length) % items.length;
+      items[idx].classList.add('carte-recherche-suggestion--active');
+      items[idx].scrollIntoView({ block: 'nearest' });
+      suggestionActive = items[idx];
+      if (fantome) {
+        const q = input.value.trim();
+        const nomSel = items[idx].dataset.nom || '';
+        fantome.textContent = normaliser(nomSel).startsWith(normaliser(q)) ? q + nomSel.slice(q.length) : '';
+      }
+    }
+
+    if (e.key === 'ArrowDown') { e.preventDefault(); naviguerSuggestion(1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); naviguerSuggestion(-1); }
+    else if (e.key === 'Escape') {
+      fermerIsolation();
+      input.value = '';
+      clear.style.display = 'none';
+      suggestions.innerHTML = '';
+      if (fantome) fantome.textContent = '';
+    }
+  });
+}
+
+function afficherSuggestions(q, container) {
+  const qLow = normaliser(q);
+  const resultats = [];
+
+  JURIDICTIONS.forEach(j => {
+    if (!j.tags || !j.tags.length) return;
+    if (j.visible_mj && !modeMJ) return;
+    let matchTag = null;
+    for (const tag of j.tags) {
+      if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
+    }
+    if (matchTag) resultats.push({ type: 'juridiction', item: j, nom: j.nom, matchTag });
+  });
+
+  if (typeof VILLES !== 'undefined') {
+    VILLES.forEach(ville => {
+      if (!ville.coords) return;
+      const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
+      let matchTag = null;
+      for (const tag of tags) {
+        if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
+      }
+      if (matchTag) resultats.push({ type: 'ville', item: ville, nom: ville.nom, matchTag });
+    });
+  }
+
+  if (!resultats.length) {
+    container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
+    return;
+  }
+
+  resultats.sort((a, b) => {
+    const rang = r => {
+      const nomLow = normaliser(r.nom);
+      const tagLow = normaliser(r.matchTag);
+      const estVille = r.type === 'ville';
+      const nomDebut = nomLow.startsWith(qLow);
+      const nomContient = nomLow.includes(qLow);
+      const tagDebut = tagLow.startsWith(qLow);
+      if (nomDebut) return estVille ? 0 : 1;
+      if (nomContient) return estVille ? 2 : 3;
+      if (tagDebut) return estVille ? 4 : 5;
+      return estVille ? 6 : 7;
+    };
+    const ra = rang(a), rb = rang(b);
+    if (ra !== rb) return ra - rb;
+    return normaliser(a.nom).localeCompare(normaliser(b.nom), 'fr');
+  });
+
+  container.innerHTML = resultats.slice(0, 12).map(({ type, item, nom, matchTag }) => {
+    const nomMatch = matchTag === nom;
+    const matchHtml = nomMatch ? '' :
+      `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
+    return `<li class="carte-recherche-suggestion" role="option"
+      data-id="${item.id}" data-type="${type}" data-nom="${escapeHtml(nom)}" data-matchtag="${escapeHtml(matchTag)}">
+      <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}</span>
+      ${matchHtml}
+    </li>`;
+  }).join('');
+
+  container.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
+    li.addEventListener('click', () => {
+      const id = li.dataset.id;
+      const type = li.dataset.type;
+      container.innerHTML = '';
+      if (fantome) fantome.textContent = '';
+      if (type === 'ville') {
+        const ville = VILLES.find(v => v.id === id);
+        if (ville) document.getElementById('carte-recherche-input').value = ville.nom;
+        zoomerVille(id);
+      } else {
+        const j = JURIDICTIONS.find(j => j.id === id);
+        if (j) document.getElementById('carte-recherche-input').value = j.nom;
+        isolerTerritoire(id);
+      }
+    });
+  });
+}
+
+function surlignerMatch(texte, qLow) {
+  const texteLow = normaliser(texte);
+  const idx = texteLow.indexOf(qLow);
+  if (idx === -1) return escapeHtml(texte);
+  return escapeHtml(texte.slice(0, idx))
+    + `<mark class="carte-recherche-highlight">${escapeHtml(texte.slice(idx, idx + qLow.length))}</mark>`
+    + escapeHtml(texte.slice(idx + qLow.length));
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 // ─── Rendu des zones ─────────────────────────────────────────
 function renderZones() {
   Object.values(layersZones).forEach(g => {
@@ -587,7 +945,7 @@ function renderZones() {
     } else if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
       const fnCouleur = overlayMode === 'densite' ? couleurDensite
         : overlayMode === 'esclavage' ? couleurEsclavage
-        : id => couleurAutochtone(id, anneeActive);
+          : id => couleurAutochtone(id, anneeActive);
       const c = fnCouleur(j.id);
       if (c) {
         couleur = c; fillOpacity = isActive ? 0.5 : 0.35;
@@ -910,343 +1268,6 @@ async function renderContourGlobal() {
   contourGlobalLayer.addTo(carte);
 }
 
-// ─── Curseur temporel inline ──────────────────────────────────
-function initCurseurInline() {
-  const valeur = document.getElementById('curseur-valeur');
-  const prevOld = document.getElementById('curseur-prev');
-  const nextOld = document.getElementById('curseur-next');
-  const prev = prevOld.cloneNode(true);
-  const next = nextOld.cloneNode(true);
-  prevOld.replaceWith(prev);
-  nextOld.replaceWith(next);
-  if (!valeur || !prev || !next) return;
-
-  const anneeMin = 1712;
-  const anneeMax = modeMJ ? ANNEE_MAX_MJ : CARTE_ANNEE_REFERENCE;
-
-  function majAffichage() {
-    valeur.textContent = anneeActive;
-    prev.disabled = anneeActive <= anneeMin;
-    next.disabled = anneeActive >= anneeMax;
-  }
-
-  prev.addEventListener('click', () => {
-    if (anneeActive > anneeMin) {
-      anneeActive--;
-      majAffichage();
-      renderZones();
-      majLegende();
-      renderVilles();
-      if (zoneActive) ouvrirPanneau(zoneActive);
-      if (villeActive) ouvrirPanneauVille(villeActive);
-    }
-  });
-
-  next.addEventListener('click', () => {
-    if (anneeActive < anneeMax) {
-      anneeActive++;
-      majAffichage();
-      renderZones();
-      majLegende();
-      renderVilles();
-      if (zoneActive) ouvrirPanneau(zoneActive);
-      if (villeActive) ouvrirPanneauVille(villeActive);
-    }
-  });
-
-  majAffichage();
-}
-
-// ─── Boutons overlay ──────────────────────────────────────────
-function initOverlayBtns() {
-  const btns = document.querySelectorAll('.carte-overlay-btn:not(.disabled)');
-  btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mode = btn.dataset.mode;
-      if (mode === overlayMode) return;
-      // Quitter l'isolation si active
-      if (overlayMode === 'isolation') fermerIsolation();
-      overlayMode = mode;
-      puissancesMasquees.clear();
-      paliersMasquesDensite.clear();
-      paliersMasquesEsclavage.clear();
-
-      document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const label = document.getElementById('carte-overlay-label');
-      if (label) label.textContent = OVERLAY_LABELS[mode] || '';
-
-      const noteEsclavage = document.getElementById('carte-overlay-note');
-      if (noteEsclavage) {
-        noteEsclavage.style.display = mode === 'esclavage' ? 'inline' : 'none';
-      }
-
-      if (overlayMode === 'masque') {
-        fermerPopup();
-        fermerPanneau();
-      }
-
-      majLegende();
-      renderZones();
-      renderPins();
-      renderVilles();
-      renderContourGlobal();
-    });
-  });
-}
-
-// ─── Panneau gauche — toggle ─────────────────────────────────
-function initPanneauGauche() {
-  const panneau = document.getElementById('carte-panneau-gauche');
-  const toggle = document.getElementById('carte-panneau-gauche-toggle');
-  if (!panneau || !toggle) return;
-
-  toggle.addEventListener('click', () => {
-    panneauGaucheOuvert = !panneauGaucheOuvert;
-    panneau.classList.toggle('carte-panneau-gauche--open', panneauGaucheOuvert);
-    toggle.textContent = panneauGaucheOuvert ? '‹' : '›';
-    toggle.setAttribute('aria-label', panneauGaucheOuvert ? 'Masquer le panneau' : 'Afficher la recherche');
-    panneau.setAttribute('aria-hidden', panneauGaucheOuvert ? 'false' : 'true');
-  });
-}
-
-// ─── Filtres marqueurs (panneau gauche) ──────────────────────
-function initFiltresMarqueurs() {
-  const filtreScenarios = document.getElementById('filtre-scenarios');
-  const filtreVilles = document.getElementById('filtre-villes');
-  if (!filtreScenarios || !filtreVilles) return;
-
-  filtreScenarios.addEventListener('click', () => {
-    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
-    const input = filtreScenarios.querySelector('input');
-    input.checked = !input.checked;
-    filtreScenarios.classList.toggle('decochee', !input.checked);
-    renderPins();
-  });
-
-  filtreVilles.addEventListener('click', () => {
-    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
-    const input = filtreVilles.querySelector('input');
-    input.checked = !input.checked;
-    filtreVilles.classList.toggle('decochee', !input.checked);
-    renderVilles();
-  });
-}
-
-// ─── Recherche prédictive ─────────────────────────────────────
-function initRecherche() {
-  const input = document.getElementById('carte-recherche-input');
-  const suggestions = document.getElementById('carte-recherche-suggestions');
-  const clear = document.getElementById('carte-recherche-clear');
-  const fantome = document.getElementById('carte-recherche-fantome');
-  if (!input || !suggestions || !clear) return;
-
-  let valeurCompletee = null;
-  let suggestionActive = null;
-
-  input.addEventListener('input', () => {
-    valeurCompletee = null;
-    suggestionActive = null;
-    const q = input.value.trim();
-    clear.style.display = q ? '' : 'none';
-    if (fantome) fantome.textContent = '';
-    if (q.length < 1) { suggestions.innerHTML = ''; return; }
-
-    afficherSuggestions(q, suggestions);
-
-    if (fantome) {
-      const premierItem = suggestions.querySelector('.carte-recherche-suggestion');
-      const nomPremier = premierItem ? premierItem.dataset.nom : '';
-      if (nomPremier) {
-        const nomLow = normaliser(nomPremier);
-        const qLow2 = normaliser(q);
-        if (nomLow.startsWith(qLow2)) {
-          fantome.textContent = q + nomPremier.slice(q.length);
-        }
-      }
-    }
-  });
-
-  clear.addEventListener('click', () => {
-    input.value = '';
-    clear.style.display = 'none';
-    suggestions.innerHTML = '';
-    if (fantome) fantome.textContent = '';
-    fermerIsolation();
-    input.focus();
-  });
-
-  suggestions.addEventListener('mousedown', e => e.preventDefault());
-
-  input.addEventListener('keydown', (e) => {
-    if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome && fantome.textContent) {
-      e.preventDefault();
-      input.value = fantome.textContent;
-      valeurCompletee = fantome.textContent;
-      fantome.textContent = '';
-      suggestions.innerHTML = '';
-      input.focus();
-      return;
-    }
-
-    const items = suggestions.querySelectorAll('.carte-recherche-suggestion');
-    let idx = suggestionActive ? [...items].indexOf(suggestionActive) : -1;
-
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      const cible = suggestionActive || suggestions.querySelector('.carte-recherche-suggestion--active');
-      if (cible) {
-        suggestionActive = null;
-        const id = cible.dataset.id;
-        const type = cible.dataset.type;
-        const nom = cible.dataset.nom || '';
-        suggestions.innerHTML = '';
-        if (fantome) fantome.textContent = '';
-        if (nom) input.value = nom;
-        if (type === 'ville') zoomerVille(id);
-        else isolerTerritoire(id);
-        return;
-      }
-      if (items.length === 1) { items[0].click(); return; }
-      const q = input.value.trim();
-      if (!q) return;
-      const qLow = normaliser(q);
-      const j = JURIDICTIONS.find(j => {
-        if (j.visible_mj && !modeMJ) return false;
-        return normaliser(j.nom) === qLow;
-      });
-      if (j) { isolerTerritoire(j.id); return; }
-      if (typeof VILLES !== 'undefined') {
-        const v = VILLES.find(v => v.coords && normaliser(v.nom) === qLow);
-        if (v) { zoomerVille(v.id); return; }
-      }
-      const jTag = JURIDICTIONS.find(j => {
-        if (j.visible_mj && !modeMJ) return false;
-        return j.tags?.some(t => normaliser(t) === qLow);
-      });
-      if (jTag) { isolerTerritoire(jTag.id); return; }
-      if (valeurCompletee) {
-        const jC = JURIDICTIONS.find(j => j.nom === valeurCompletee.trim());
-        if (jC) { isolerTerritoire(jC.id); valeurCompletee = null; return; }
-        if (typeof VILLES !== 'undefined') {
-          const vC = VILLES.find(v => v.nom === valeurCompletee.trim() && v.coords);
-          if (vC) { zoomerVille(vC.id); valeurCompletee = null; return; }
-        }
-      }
-      return;
-    }
-
-    if (!items.length) return;
-
-    function naviguerSuggestion(delta) {
-      if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
-      idx = (idx + delta + items.length) % items.length;
-      items[idx].classList.add('carte-recherche-suggestion--active');
-      items[idx].scrollIntoView({ block: 'nearest' });
-      suggestionActive = items[idx];
-      if (fantome) {
-        const q = input.value.trim();
-        const nomSel = items[idx].dataset.nom || '';
-        fantome.textContent = normaliser(nomSel).startsWith(normaliser(q)) ? q + nomSel.slice(q.length) : '';
-      }
-    }
-
-    if (e.key === 'ArrowDown') { e.preventDefault(); naviguerSuggestion(1); }
-    else if (e.key === 'ArrowUp') { e.preventDefault(); naviguerSuggestion(-1); }
-    else if (e.key === 'Escape') {
-      fermerIsolation();
-      input.value = '';
-      clear.style.display = 'none';
-      suggestions.innerHTML = '';
-      if (fantome) fantome.textContent = '';
-    }
-  });
-}
-
-function afficherSuggestions(q, container) {
-  const qLow = normaliser(q);
-  const resultats = [];
-
-  JURIDICTIONS.forEach(j => {
-    if (!j.tags || !j.tags.length) return;
-    if (j.visible_mj && !modeMJ) return;
-    let matchTag = null;
-    for (const tag of j.tags) {
-      if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
-    }
-    if (matchTag) resultats.push({ type: 'juridiction', item: j, nom: j.nom, matchTag });
-  });
-
-  if (typeof VILLES !== 'undefined') {
-    VILLES.forEach(ville => {
-      if (!ville.coords) return;
-      const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
-      let matchTag = null;
-      for (const tag of tags) {
-        if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
-      }
-      if (matchTag) resultats.push({ type: 'ville', item: ville, nom: ville.nom, matchTag });
-    });
-  }
-
-  if (!resultats.length) {
-    container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
-    return;
-  }
-
-  resultats.sort((a, b) => {
-    const aNom = normaliser(a.nom);
-    const bNom = normaliser(b.nom);
-    const aDebut = aNom.startsWith(qLow) ? 0 : 1;
-    const bDebut = bNom.startsWith(qLow) ? 0 : 1;
-    if (aDebut !== bDebut) return aDebut - bDebut;
-    return aNom.localeCompare(bNom, 'fr');
-  });
-
-  container.innerHTML = resultats.slice(0, 12).map(({ type, item, nom, matchTag }) => {
-    const nomMatch = matchTag === nom;
-    const matchHtml = nomMatch ? '' :
-      `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
-    return `<li class="carte-recherche-suggestion" role="option"
-      data-id="${item.id}" data-type="${type}" data-nom="${escapeHtml(nom)}">
-      <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}</span>
-      ${matchHtml}
-    </li>`;
-  }).join('');
-
-  container.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
-    li.addEventListener('click', () => {
-      const id = li.dataset.id;
-      const type = li.dataset.type;
-      container.innerHTML = '';
-      if (fantome) fantome.textContent = '';
-      if (type === 'ville') {
-        const ville = VILLES.find(v => v.id === id);
-        if (ville) document.getElementById('carte-recherche-input').value = ville.nom;
-        zoomerVille(id);
-      } else {
-        const j = JURIDICTIONS.find(j => j.id === id);
-        if (j) document.getElementById('carte-recherche-input').value = j.nom;
-        isolerTerritoire(id);
-      }
-    });
-  });
-}
-
-function surlignerMatch(texte, qLow) {
-  const texteLow = normaliser(texte);
-  const idx = texteLow.indexOf(qLow);
-  if (idx === -1) return escapeHtml(texte);
-  return escapeHtml(texte.slice(0, idx))
-    + `<mark class="carte-recherche-highlight">${escapeHtml(texte.slice(idx, idx + qLow.length))}</mark>`
-    + escapeHtml(texte.slice(idx + qLow.length));
-}
-
-function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
 // ─── Légende ─────────────────────────────────────────────────
 function majLegende() {
   const legende = document.getElementById('carte-legende');
@@ -1548,14 +1569,6 @@ function fermerPanneau() {
   panneau.classList.remove('carte-panneau--open');
   panneau.setAttribute('inert', '');
   if (zoneActive) { const precedent = zoneActive; zoneActive = null; majZone(precedent); }
-  villeActive = null;
-  resetEtatsVisuels();
-}
-
-function fermerPanneauVille() {
-  const panneau = document.getElementById('carte-panneau');
-  panneau.classList.remove('carte-panneau--open');
-  panneau.setAttribute('inert', '');
   villeActive = null;
   resetEtatsVisuels();
 }
