@@ -68,6 +68,12 @@ En cascade dans `carte.js` :
 
 **Correction** : `interactive: false` ajouté au `bindTooltip` des villes, `marker.openTooltip()` en tête de `mouseover`, `marker.closeTooltip()` en tête de `mouseout`. Leaflet ne gère plus ces tooltips automatiquement — les handlers en ont le contrôle exclusif, sans interférence possible.
 
+### 5. Icônes villes bloquées en état hover (`carte.js`)
+
+**Problème** : même cause que les tooltips orphelins — les handlers `mouseover`/`mouseout` pouvaient se désynchroniser à haute vitesse, laissant une icône en état hover sans qu'aucun `mouseout` ne la remette en repos.
+
+**Correction** : au `mouseover` de chaque polygone de zone et de chaque marqueur ville, toutes les icônes villes qui ne sont ni `villeActive` ni `isolationVilleId` sont repassées en repos avant toute autre logique. La ville survolée elle-même est exclue de ce reset dans son propre handler. Correction structurelle, sans timer ni debounce.
+
 ---
 
 ## Architecture technique — points clés `carte.js`
@@ -192,7 +198,6 @@ Le fichier fonctionne correctement mais l'ordre des fonctions est hérité de l'
 ## Chantiers en attente (non traités en session 25)
 
 - **Latence `flyTo`** — glissement des `divIcon` pendant l'animation Leaflet. Piste explorée en session 22 (pré-calcul trajectoires via RAF) — non implémentée.
-- **Icône bloquée en état hover dans les paires** — partiellement atténué par `resetEtatsVisuels()` à la fermeture du panneau, mais le bug peut encore survenir sans passage par le panneau. Correction envisagée : au `mouseover` sur n'importe quel marqueur, forcer le retour au repos de tous les marqueurs qui ne sont ni `villeActive` ni en isolation.
 - **Superficies et densités** — recalcul prévu pour plusieurs territoires modifiés dans `zones-data.js`.
 - **Audio** : créer les pistes, activer `AUDIO_ENABLED = true` dans `audio.js`.
 - **Pavillons** : continuer à alimenter `pnj/pavillons/`.

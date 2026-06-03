@@ -563,6 +563,10 @@ function renderZones() {
 
       poly.on('mouseover', () => {
         fermerTooltipsOrphelins();
+        // Remettre en repos toutes les icônes villes hors ville active et isolation
+        Object.keys(markersVilles).forEach(id => {
+          if (id !== villeActive && id !== isolationVilleId) setIconeVilleActive(id, false);
+        });
         if (overlayMode === 'isolation') {
           if (isIsolee) poly.setStyle({ fillColor: '#c8973a', fillOpacity: 0.25 });
           return;
@@ -720,6 +724,10 @@ function renderVilles() {
 
     marker.on('mouseover', () => {
       marker.openTooltip();
+      // Remettre en repos toutes les icônes villes hors ville survolée, active et isolation
+      Object.keys(markersVilles).forEach(id => {
+        if (id !== ville.id && id !== villeActive && id !== isolationVilleId) setIconeVilleActive(id, false);
+      });
       // Annuler les timers de mouseout pour cette ville et ses voisines de paire
       clearTimeout(mouseoutTimers[ville.id]);
       for (const paire of pairesChevauchement) {
