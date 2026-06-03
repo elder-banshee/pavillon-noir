@@ -34,7 +34,140 @@ const SEQUENCE_MJ = ['eleuthera', 'marguerita', 'jamaique'];
 let sequenceEnCours = [];
 let attenteClic_IleDuMais = false;
 
-// ─── Année max MJ ────────────────────────────────────────────
+// ─── Filtres de légende ───────────────────────────────────────
+let puissancesMasquees = new Set();
+const paliersMasquesDensite = new Set();
+const paliersMasquesEsclavage = new Set();
+
+// ─── Intitulés des modes overlay ─────────────────────────────
+const OVERLAY_LABELS = {
+  geo: 'Souverainetés revendiquées et établies',
+  densite: 'Densité de population',
+  esclavage: 'Esclavage & Encomienda',
+  autochtones: 'Foyers de populations autochtones',
+  masque: 'Carte Jaillot (1708)',
+};
+
+// ─── Paliers et couleurs des overlays ────────────────────────
+const DENSITE_PALIERS = [
+  { max: 0.05, couleur: 'hsla(69, 100%, 90%, 0.79)' },
+  { max: 0.15, couleur: 'hsla(76, 69%, 70%, 0.67)' },
+  { max: 0.5, couleur: 'hsl(83, 48%, 54%)' },
+  { max: 2, couleur: 'hsla(118, 41%, 53%, 0.86)' },
+  { max: 8, couleur: 'hsl(156, 28%, 34%)' },
+  { max: Infinity, couleur: 'hsl(144, 25%, 25%)' },
+];
+
+const ESCLAVAGE_PALIERS = [
+  { max: 0.10, fm: 'hsl(26, 28%, 79%)', ra: 'hsl(6, 29%, 79%)' },
+  { max: 0.25, fm: 'hsl(26, 40%, 71%)', ra: 'hsl(6, 43%, 70%)' },
+  { max: 0.40, fm: 'hsl(26, 53%, 62%)', ra: 'hsl(6, 57%, 61%)' },
+  { max: 0.60, fm: 'hsl(26, 65%, 53%)', ra: 'hsl(6, 71%, 52%)' },
+  { max: 0.80, fm: 'hsl(26, 78%, 44%)', ra: 'hsl(6, 85%, 42%)' },
+  { max: Infinity, fm: 'hsl(26, 90%, 36%)', ra: 'hsl(6, 99%, 33%)' },
+];
+
+const AUTOCHTONES_COULEURS = {
+  souverainete: 'hsl(19, 81%, 30%)',
+  resistance: 'hsl(28, 68%, 43%)',
+  domination: 'hsl(39, 61%, 55%)',
+};
+
+// ─── Épaisseurs de contours ───────────────────────────────────
+const WEIGHTS = {
+  zone: 0.5,
+  zoneActive: 2,
+  isolation: 2,
+};
+const ZOOM_FACTEUR = 1.5;
+
+// ─── Utilitaires purs ────────────────────────────────────────
+function pixelToLatLng(x, y) {
+  return L.latLng(CARTE_IMAGE.height - y, x);
+}
+
+function normaliser(str) {
+  return str.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+}
+
+function weightPourZoom(weightBase, zoom) {
+  const zoomMin = carte.getMinZoom();
+  return Math.max(0.2, weightBase * Math.pow(ZOOM_FACTEUR, zoom - zoomMin));
+}
+
+function rendreChamp(valeur, annee) {
+  if (!valeur) return '';
+  if (typeof valeur === 'string') return valeur;
+  if (Array.isArray(valeur)) {
+    const bloc = valeur
+      .filter(b => annee >= (b.de ?? 0) && (b.a == null || annee < b.a))
+      .sort((a, b) => (b.de ?? 0) - (a.de ?? 0))[0];
+    return bloc ? bloc.texte : '';
+  }
+  return '';
+}
+
+function rendreContexte(contexte, annee) {
+  if (!contexte) return '';
+  return contexte
+    .filter(b => annee >= (b.de ?? 0) && (b.a == null || annee < b.a))
+    .map(b => b.texte)
+    .filter(Boolean)
+    .join('<br><br>');
+}
+
+function lireTranslate3d(el) {
+  // Extrait le translate3d Leaflet de style.transform
+  if (!el) return 'translate3d(0px,0px,0px)';
+  const m = el.style.transform.match(/translate3d\([^)]+\)/);
+  return m ? m[0] : 'translate3d(0px,0px,0px)';
+}
+
+// ─── Fonctions de couleur overlay ────────────────────────────
+function couleurDensite(zoneId) {
+  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
+  if (!demo || demo.superficie === 0 || demo.population === 0) return null;
+  const score = demo.population / demo.superficie;
+  for (let i = 0; i < DENSITE_PALIERS.length; i++) {
+    if (score <= DENSITE_PALIERS[i].max) {
+      return paliersMasquesDensite.has(i) ? null : DENSITE_PALIERS[i].couleur;
+    }
+  }
+  const last = DENSITE_PALIERS.length - 1;
+  return paliersMasquesDensite.has(last) ? null : DENSITE_PALIERS[last].couleur;
+}
+
+function couleurEsclavage(zoneId) {
+  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
+  if (!demo || demo.population === 0) return null;
+  const totalAsservis = demo.esclaves + demo.indiens_asservis;
+  if (totalAsservis === 0) return null;
+  const ratio = totalAsservis / demo.population;
+  const useRa = demo.esclaves >= demo.indiens_asservis;
+  for (let i = 0; i < ESCLAVAGE_PALIERS.length; i++) {
+    if (ratio <= ESCLAVAGE_PALIERS[i].max) {
+      return paliersMasquesEsclavage.has(i) ? null : (useRa ? ESCLAVAGE_PALIERS[i].ra : ESCLAVAGE_PALIERS[i].fm);
+    }
+  }
+  const last = ESCLAVAGE_PALIERS.length - 1;
+  return paliersMasquesEsclavage.has(last) ? null : (useRa ? ESCLAVAGE_PALIERS[last].ra : ESCLAVAGE_PALIERS[last].fm);
+}
+
+function resoudreStatutAutochtone(demo, annee) {
+  if (!demo || demo.statut_autochtone === null) return null;
+  const s = demo.statut_autochtone;
+  if (typeof s === 'object') return annee >= 1718 ? s.depuis1718 : s.avant1718;
+  return s;
+}
+
+function couleurAutochtone(zoneId, annee) {
+  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
+  const statut = resoudreStatutAutochtone(demo, annee);
+  if (!statut) return null;
+  return AUTOCHTONES_COULEURS[statut] || null;
+}
+
+// ─── Calcul / année ──────────────────────────────────────────
 function calculerAnneeMax() {
   let max = CARTE_ANNEE_REFERENCE;
   function scanBlocs(val) {
@@ -55,10 +188,112 @@ function calculerAnneeMax() {
 }
 const ANNEE_MAX_MJ = calculerAnneeMax();
 
-// ─── Filtres de légende ───────────────────────────────────────
-let puissancesMasquees = new Set();
-const paliersMasquesDensite = new Set();
-const paliersMasquesEsclavage = new Set();
+// ─── SVG builders ────────────────────────────────────────────
+function pinSVG() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+    <path d="M16 2C10.477 2 6 6.477 6 12c0 7 10 18 10 18S26 19 26 12c0-5.523-4.477-10-10-10z"
+      fill="#c8973a" stroke="#0e0c09" stroke-width="1.5"/>
+    <circle cx="16" cy="12" r="4" fill="#0e0c09"/>
+  </svg>`;
+}
+
+function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false) {
+  const fond = estIsole ? 'rgba(0,0,0,0)'
+    : estActive ? (estPirate ? '#3a3a3a' : '#9aae9a')
+      : estPirate ? '#0e0c09'
+        : '#7a8c7a';
+
+  const couleurTrait = estIsole ? '#c8973a'
+    : estPirate ? '#f2e8d5'
+      : '#0e0c09';
+
+  let symbole = '';
+
+  if (type === 'port') {
+    symbole = `
+      <circle cx="16" cy="9" r="2" fill="none" stroke="${couleurTrait}" stroke-width="1.5"/>
+      <line x1="16" y1="11" x2="16" y2="23" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="13" y1="14" x2="19" y2="14" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M10 19 C10 23 13 23 16 23" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M22 19 C22 23 19 23 16 23" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>`;
+  } else if (type === 'fort') {
+    const couleurCroix = estIsole ? '#c8973a' : '#e8ede8';
+    symbole = `
+      <rect x="9" y="9" width="14" height="14" rx="1"
+        fill="${estIsole ? 'none' : '#0e0c09'}" stroke="${estIsole ? '#c8973a' : couleurTrait}" stroke-width="1.2"/>
+      <line x1="12" y1="12" x2="20" y2="20" stroke="${couleurCroix}" stroke-width="3" stroke-linecap="round"/>
+      <line x1="20" y1="12" x2="12" y2="20" stroke="${couleurCroix}" stroke-width="3" stroke-linecap="round"/>`;
+  } else {
+    symbole = `
+      <path d="M10 16 L16 10 L22 16" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linejoin="round"/>
+      <rect x="12" y="16" width="8" height="7" rx="0.5" fill="none" stroke="${couleurTrait}" stroke-width="1.5"/>
+      <rect x="15" y="19" width="2.5" height="4" rx="0.3" fill="${couleurTrait}"/>`;
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
+    <rect x="3" y="3" width="26" height="26" rx="5"
+      fill="${fond}" stroke="${couleurTrait}" stroke-width="1.5"/>
+    ${symbole}
+  </svg>`;
+}
+
+// ─── Icônes villes — helpers ─────────────────────────────────
+function tailleIconeVille() {
+  const zoom = carte.getZoom();
+  if (zoom >= 1) return 60;
+  if (zoom >= -1) return 36;
+  return 24;
+}
+
+function labelVille(ville) {
+  if (ville.label) return ville.label;
+  const SEUIL_PETIT_TERRITOIRE = 25000;
+  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[ville.territoire] : null;
+  if (demo && demo.superficie < SEUIL_PETIT_TERRITOIRE) {
+    const j = JURIDICTIONS.find(j => j.id === ville.territoire);
+    const nomTerritoire = j ? (j.label || j.nom) : null;
+    if (nomTerritoire) return `${ville.nom} (${nomTerritoire})`;
+  }
+  return ville.nom;
+}
+
+function _infoMarqueurVille(villeId) {
+  const marker = markersVilles[villeId];
+  const ville = VILLES.find(v => v.id === villeId);
+  if (!marker || !ville) return null;
+  const estPirate = (Array.isArray(ville.capitale)
+    ? rendreChamp(ville.capitale, anneeActive)
+    : ville.capitale) === 'pirate';
+  return { marker, ville, estPirate, taille: tailleIconeVille() };
+}
+
+function setIconeVilleActive(villeId, actif) {
+  const info = _infoMarqueurVille(villeId);
+  if (!info) return;
+  const { marker, ville, estPirate, taille } = info;
+  marker.setIcon(L.divIcon({
+    html: villeSVG(ville.type || 'ville', taille, estPirate, false, actif),
+    className: 'carte-ville',
+    iconSize: [taille, taille],
+    iconAnchor: [taille / 2, taille / 2],
+  }));
+}
+
+function setIconeVilleIsoleeHover(villeId, hover) {
+  const info = _infoMarqueurVille(villeId);
+  if (!info) return;
+  const { marker, ville, estPirate, taille } = info;
+  const svgBase = villeSVG(ville.type || 'ville', taille, estPirate, true, false);
+  const svgHover = hover
+    ? svgBase.replace('fill="rgba(0,0,0,0)"', 'fill="rgba(200,151,58,0.25)"')
+    : svgBase;
+  marker.setIcon(L.divIcon({
+    html: svgHover,
+    className: 'carte-ville',
+    iconSize: [taille, taille],
+    iconAnchor: [taille / 2, taille / 2],
+  }));
+}
 
 // ─── Séquence secrète MJ ─────────────────────────────────────
 function enregistrerClicSequence(zoneId) {
@@ -134,15 +369,6 @@ function annulerModeMJ() {
   renderZones();
 }
 
-// ─── Intitulés des modes overlay ─────────────────────────────
-const OVERLAY_LABELS = {
-  geo: 'Souverainetés revendiquées et établies',
-  densite: 'Densité de population',
-  esclavage: 'Esclavage & Encomienda',
-  autochtones: 'Foyers de populations autochtones',
-  masque: 'Carte Jaillot (1708)',
-};
-
 // ─── Écran de chargement ─────────────────────────────────────
 function masquerEcranChargement() {
   const ecran = document.getElementById('carte-chargement');
@@ -151,59 +377,22 @@ function masquerEcranChargement() {
   setTimeout(() => ecran.remove(), 700);
 }
 
-// ─── Contour global des terres émergées ──────────────────────
-let contourGlobalSvgCache = null;
-
-async function renderContourGlobal() {
-  // Visible uniquement en mode sombre + overlay masque
-  if (!(modeSombre && overlayMode === 'masque')) {
-    if (contourGlobalLayer) { carte.removeLayer(contourGlobalLayer); contourGlobalLayer = null; }
-    return;
-  }
-  // Charger le SVG une seule fois
-  if (!contourGlobalSvgCache) {
-    try {
-      const r = await fetch('medias/cartes/jaillot_1708-tracés/jaillot_1708-contour_global.svg');
-      contourGlobalSvgCache = await r.text();
-    } catch (e) {
-      console.warn('jaillot_1708-contour_global.svg introuvable :', e);
-      return;
-    }
-  }
-  // Supprimer l'ancien layer s'il existe
-  if (contourGlobalLayer) { carte.removeLayer(contourGlobalLayer); contourGlobalLayer = null; }
-
-  // Parser le SVG et appliquer le style
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(contourGlobalSvgCache, 'image/svg+xml');
-  const svgEl = doc.querySelector('svg');
-  if (!svgEl) return;
-
-  // Appliquer stroke gold, pas de fill, sur tous les paths
-  svgEl.querySelectorAll('path, polygon, polyline').forEach(el => {
-    el.setAttribute('stroke', 'var(--gold, #c8973a)');
-    el.setAttribute('stroke-width', '3');
-    el.setAttribute('fill', 'none');
-    el.setAttribute('stroke-linejoin', 'round');
-    el.setAttribute('stroke-linecap', 'round');
-  });
-
-  const W = CARTE_IMAGE.width;
-  const H = CARTE_IMAGE.height;
-  const bounds = [[0, 0], [H, W]];
-
-  contourGlobalLayer = L.svgOverlay(svgEl, bounds, {
-    interactive: false,
-    pane: 'contourGlobal',
-  });
-  contourGlobalLayer.addTo(carte);
-}
-
-// ─── Initialisation ──────────────────────────────────────────
 function fermerTooltipsOrphelins() {
   carte.eachLayer(l => { if (l.getTooltip?.() && l.isTooltipOpen?.()) l.closeTooltip(); });
 }
 
+function positionnerBoutonsZoom() {
+  const wrap = document.getElementById('carte-wrap');
+  const controls = document.querySelector('.carte-zoom-controls');
+  if (!wrap || !controls) return;
+  const parent = controls.offsetParent;
+  const wrapRect = wrap.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
+  controls.style.right = (parentRect.right - wrapRect.left) + 'px';
+  controls.style.top = (wrapRect.top - parentRect.top) + 'px';
+}
+
+// ─── Initialisation ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   function initTout() {
     initCarte();
@@ -339,109 +528,6 @@ function initCarte() {
       document.getElementById('carte-zoom-sombre').classList.toggle('active', modeSombre);
       renderContourGlobal();
     });
-}
-
-// ─── Positionnement des boutons zoom ─────────────────────────
-function positionnerBoutonsZoom() {
-  const wrap = document.getElementById('carte-wrap');
-  const controls = document.querySelector('.carte-zoom-controls');
-  if (!wrap || !controls) return;
-  const parent = controls.offsetParent;
-  const wrapRect = wrap.getBoundingClientRect();
-  const parentRect = parent.getBoundingClientRect();
-  controls.style.right = (parentRect.right - wrapRect.left) + 'px';
-  controls.style.top = (wrapRect.top - parentRect.top) + 'px';
-}
-
-// ─── Conversion coordonnées pixel → Leaflet LatLng ───────────
-function pixelToLatLng(x, y) {
-  return L.latLng(CARTE_IMAGE.height - y, x);
-}
-
-// ─── Normalisation pour la recherche (NFD, sans diacritiques) ─
-function normaliser(str) {
-  return str.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-}
-
-// ─── Paliers et couleurs des overlays ────────────────────────
-const DENSITE_PALIERS = [
-  { max: 0.05, couleur: 'hsla(69, 100%, 90%, 0.79)' },
-  { max: 0.15, couleur: 'hsla(76, 69%, 70%, 0.67)' },
-  { max: 0.5, couleur: 'hsl(83, 48%, 54%)' },
-  { max: 2, couleur: 'hsla(118, 41%, 53%, 0.86)' },
-  { max: 8, couleur: 'hsl(156, 28%, 34%)' },
-  { max: Infinity, couleur: 'hsl(144, 25%, 25%)' },
-];
-
-const ESCLAVAGE_PALIERS = [
-  { max: 0.10, fm: 'hsl(26, 28%, 79%)', ra: 'hsl(6, 29%, 79%)' },
-  { max: 0.25, fm: 'hsl(26, 40%, 71%)', ra: 'hsl(6, 43%, 70%)' },
-  { max: 0.40, fm: 'hsl(26, 53%, 62%)', ra: 'hsl(6, 57%, 61%)' },
-  { max: 0.60, fm: 'hsl(26, 65%, 53%)', ra: 'hsl(6, 71%, 52%)' },
-  { max: 0.80, fm: 'hsl(26, 78%, 44%)', ra: 'hsl(6, 85%, 42%)' },
-  { max: Infinity, fm: 'hsl(26, 90%, 36%)', ra: 'hsl(6, 99%, 33%)' },
-];
-
-const AUTOCHTONES_COULEURS = {
-  souverainete: 'hsl(19, 81%, 30%)',
-  resistance: 'hsl(28, 68%, 43%)',
-  domination: 'hsl(39, 61%, 55%)',
-};
-
-function couleurDensite(zoneId) {
-  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
-  if (!demo || demo.superficie === 0 || demo.population === 0) return null;
-  const score = demo.population / demo.superficie;
-  for (let i = 0; i < DENSITE_PALIERS.length; i++) {
-    if (score <= DENSITE_PALIERS[i].max) {
-      return paliersMasquesDensite.has(i) ? null : DENSITE_PALIERS[i].couleur;
-    }
-  }
-  const last = DENSITE_PALIERS.length - 1;
-  return paliersMasquesDensite.has(last) ? null : DENSITE_PALIERS[last].couleur;
-}
-
-function couleurEsclavage(zoneId) {
-  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
-  if (!demo || demo.population === 0) return null;
-  const totalAsservis = demo.esclaves + demo.indiens_asservis;
-  if (totalAsservis === 0) return null;
-  const ratio = totalAsservis / demo.population;
-  const useRa = demo.esclaves >= demo.indiens_asservis;
-  for (let i = 0; i < ESCLAVAGE_PALIERS.length; i++) {
-    if (ratio <= ESCLAVAGE_PALIERS[i].max) {
-      return paliersMasquesEsclavage.has(i) ? null : (useRa ? ESCLAVAGE_PALIERS[i].ra : ESCLAVAGE_PALIERS[i].fm);
-    }
-  }
-  const last = ESCLAVAGE_PALIERS.length - 1;
-  return paliersMasquesEsclavage.has(last) ? null : (useRa ? ESCLAVAGE_PALIERS[last].ra : ESCLAVAGE_PALIERS[last].fm);
-}
-
-function resoudreStatutAutochtone(demo, annee) {
-  if (!demo || demo.statut_autochtone === null) return null;
-  const s = demo.statut_autochtone;
-  if (typeof s === 'object') return annee >= 1718 ? s.depuis1718 : s.avant1718;
-  return s;
-}
-
-function couleurAutochtone(zoneId, annee) {
-  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[zoneId] : null;
-  const statut = resoudreStatutAutochtone(demo, annee);
-  if (!statut) return null;
-  return AUTOCHTONES_COULEURS[statut] || null;
-}
-
-// ─── Épaisseurs de contours ───────────────────────────────────
-const WEIGHTS = {
-  zone: 0.5,
-  zoneActive: 2,
-  isolation: 2,
-};
-const ZOOM_FACTEUR = 1.5;
-
-function weightPourZoom(weightBase, zoom) {
-  const zoomMin = carte.getMinZoom();
-  return Math.max(0.2, weightBase * Math.pow(ZOOM_FACTEUR, zoom - zoomMin));
 }
 
 // ─── Rendu des zones ─────────────────────────────────────────
@@ -643,27 +729,6 @@ function renderPins() {
   });
 }
 
-// ─── Taille des icônes ville selon le zoom ────────────────────
-function tailleIconeVille() {
-  const zoom = carte.getZoom();
-  if (zoom >= 1) return 60;
-  if (zoom >= -1) return 36;
-  return 24;
-}
-
-// ─── Label affiché des villes (tooltip) ──────────────────────
-function labelVille(ville) {
-  if (ville.label) return ville.label;
-  const SEUIL_PETIT_TERRITOIRE = 25000;
-  const demo = (typeof ZONES_DEMO !== 'undefined') ? ZONES_DEMO[ville.territoire] : null;
-  if (demo && demo.superficie < SEUIL_PETIT_TERRITOIRE) {
-    const j = JURIDICTIONS.find(j => j.id === ville.territoire);
-    const nomTerritoire = j ? (j.label || j.nom) : null;
-    if (nomTerritoire) return `${ville.nom} (${nomTerritoire})`;
-  }
-  return ville.nom;
-}
-
 // ─── Marqueurs de villes ──────────────────────────────────────
 function renderVilles() {
   // Nettoyer les marqueurs existants
@@ -802,92 +867,47 @@ function majTailleIconesVilles() {
   });
 }
 
-// ─── SVG du pin ──────────────────────────────────────────────
-function pinSVG() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-    <path d="M16 2C10.477 2 6 6.477 6 12c0 7 10 18 10 18S26 19 26 12c0-5.523-4.477-10-10-10z"
-      fill="#c8973a" stroke="#0e0c09" stroke-width="1.5"/>
-    <circle cx="16" cy="12" r="4" fill="#0e0c09"/>
-  </svg>`;
-}
+// ─── Contour global des terres émergées ──────────────────────
+let contourGlobalSvgCache = null;
 
-// ─── SVG des marqueurs de villes ─────────────────────────────
-function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false) {
-  const fond = estIsole ? 'rgba(0,0,0,0)'
-    : estActive ? (estPirate ? '#3a3a3a' : '#9aae9a')
-      : estPirate ? '#0e0c09'
-        : '#7a8c7a';
-
-  const couleurTrait = estIsole ? '#c8973a'
-    : estPirate ? '#f2e8d5'
-      : '#0e0c09';
-
-  let symbole = '';
-
-  if (type === 'port') {
-    symbole = `
-      <circle cx="16" cy="9" r="2" fill="none" stroke="${couleurTrait}" stroke-width="1.5"/>
-      <line x1="16" y1="11" x2="16" y2="23" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="13" y1="14" x2="19" y2="14" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M10 19 C10 23 13 23 16 23" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M22 19 C22 23 19 23 16 23" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linecap="round"/>`;
-  } else if (type === 'fort') {
-    const couleurCroix = estIsole ? '#c8973a' : '#e8ede8';
-    symbole = `
-      <rect x="9" y="9" width="14" height="14" rx="1"
-        fill="${estIsole ? 'none' : '#0e0c09'}" stroke="${estIsole ? '#c8973a' : couleurTrait}" stroke-width="1.2"/>
-      <line x1="12" y1="12" x2="20" y2="20" stroke="${couleurCroix}" stroke-width="3" stroke-linecap="round"/>
-      <line x1="20" y1="12" x2="12" y2="20" stroke="${couleurCroix}" stroke-width="3" stroke-linecap="round"/>`;
-  } else {
-    symbole = `
-      <path d="M10 16 L16 10 L22 16" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linejoin="round"/>
-      <rect x="12" y="16" width="8" height="7" rx="0.5" fill="none" stroke="${couleurTrait}" stroke-width="1.5"/>
-      <rect x="15" y="19" width="2.5" height="4" rx="0.3" fill="${couleurTrait}"/>`;
+async function renderContourGlobal() {
+  if (!(modeSombre && overlayMode === 'masque')) {
+    if (contourGlobalLayer) { carte.removeLayer(contourGlobalLayer); contourGlobalLayer = null; }
+    return;
   }
+  if (!contourGlobalSvgCache) {
+    try {
+      const r = await fetch('medias/cartes/jaillot_1708-tracés/jaillot_1708-contour_global.svg');
+      contourGlobalSvgCache = await r.text();
+    } catch (e) {
+      console.warn('jaillot_1708-contour_global.svg introuvable :', e);
+      return;
+    }
+  }
+  if (contourGlobalLayer) { carte.removeLayer(contourGlobalLayer); contourGlobalLayer = null; }
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
-    <rect x="3" y="3" width="26" height="26" rx="5"
-      fill="${fond}" stroke="${couleurTrait}" stroke-width="1.5"/>
-    ${symbole}
-  </svg>`;
-}
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(contourGlobalSvgCache, 'image/svg+xml');
+  const svgEl = doc.querySelector('svg');
+  if (!svgEl) return;
 
-function _infoMarqueurVille(villeId) {
-  const marker = markersVilles[villeId];
-  const ville = VILLES.find(v => v.id === villeId);
-  if (!marker || !ville) return null;
-  const estPirate = (Array.isArray(ville.capitale)
-    ? rendreChamp(ville.capitale, anneeActive)
-    : ville.capitale) === 'pirate';
-  return { marker, ville, estPirate, taille: tailleIconeVille() };
-}
+  svgEl.querySelectorAll('path, polygon, polyline').forEach(el => {
+    el.setAttribute('stroke', 'var(--gold, #c8973a)');
+    el.setAttribute('stroke-width', '3');
+    el.setAttribute('fill', 'none');
+    el.setAttribute('stroke-linejoin', 'round');
+    el.setAttribute('stroke-linecap', 'round');
+  });
 
-function setIconeVilleActive(villeId, actif) {
-  const info = _infoMarqueurVille(villeId);
-  if (!info) return;
-  const { marker, ville, estPirate, taille } = info;
-  marker.setIcon(L.divIcon({
-    html: villeSVG(ville.type || 'ville', taille, estPirate, false, actif),
-    className: 'carte-ville',
-    iconSize: [taille, taille],
-    iconAnchor: [taille / 2, taille / 2],
-  }));
-}
+  const W = CARTE_IMAGE.width;
+  const H = CARTE_IMAGE.height;
+  const bounds = [[0, 0], [H, W]];
 
-function setIconeVilleIsoleeHover(villeId, hover) {
-  const info = _infoMarqueurVille(villeId);
-  if (!info) return;
-  const { marker, ville, estPirate, taille } = info;
-  const svgBase = villeSVG(ville.type || 'ville', taille, estPirate, true, false);
-  const svgHover = hover
-    ? svgBase.replace('fill="rgba(0,0,0,0)"', 'fill="rgba(200,151,58,0.25)"')
-    : svgBase;
-  marker.setIcon(L.divIcon({
-    html: svgHover,
-    className: 'carte-ville',
-    iconSize: [taille, taille],
-    iconAnchor: [taille / 2, taille / 2],
-  }));
+  contourGlobalLayer = L.svgOverlay(svgEl, bounds, {
+    interactive: false,
+    pane: 'contourGlobal',
+  });
+  contourGlobalLayer.addTo(carte);
 }
 
 // ─── Curseur temporel inline ──────────────────────────────────
@@ -974,6 +994,257 @@ function initOverlayBtns() {
       renderContourGlobal();
     });
   });
+}
+
+// ─── Panneau gauche — toggle ─────────────────────────────────
+function initPanneauGauche() {
+  const panneau = document.getElementById('carte-panneau-gauche');
+  const toggle = document.getElementById('carte-panneau-gauche-toggle');
+  if (!panneau || !toggle) return;
+
+  toggle.addEventListener('click', () => {
+    panneauGaucheOuvert = !panneauGaucheOuvert;
+    panneau.classList.toggle('carte-panneau-gauche--open', panneauGaucheOuvert);
+    toggle.textContent = panneauGaucheOuvert ? '‹' : '›';
+    toggle.setAttribute('aria-label', panneauGaucheOuvert ? 'Masquer le panneau' : 'Afficher la recherche');
+    panneau.setAttribute('aria-hidden', panneauGaucheOuvert ? 'false' : 'true');
+  });
+}
+
+// ─── Filtres marqueurs (panneau gauche) ──────────────────────
+function initFiltresMarqueurs() {
+  const filtreScenarios = document.getElementById('filtre-scenarios');
+  const filtreVilles = document.getElementById('filtre-villes');
+  if (!filtreScenarios || !filtreVilles) return;
+
+  filtreScenarios.addEventListener('click', () => {
+    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
+    const input = filtreScenarios.querySelector('input');
+    input.checked = !input.checked;
+    filtreScenarios.classList.toggle('decochee', !input.checked);
+    renderPins();
+  });
+
+  filtreVilles.addEventListener('click', () => {
+    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
+    const input = filtreVilles.querySelector('input');
+    input.checked = !input.checked;
+    filtreVilles.classList.toggle('decochee', !input.checked);
+    renderVilles();
+  });
+}
+
+// ─── Recherche prédictive ─────────────────────────────────────
+function initRecherche() {
+  const input = document.getElementById('carte-recherche-input');
+  const suggestions = document.getElementById('carte-recherche-suggestions');
+  const clear = document.getElementById('carte-recherche-clear');
+  const fantome = document.getElementById('carte-recherche-fantome');
+  if (!input || !suggestions || !clear) return;
+
+  let valeurCompletee = null;
+  let suggestionActive = null;
+
+  input.addEventListener('input', () => {
+    valeurCompletee = null;
+    suggestionActive = null;
+    const q = input.value.trim();
+    clear.style.display = q ? '' : 'none';
+    if (fantome) fantome.textContent = '';
+    if (q.length < 1) { suggestions.innerHTML = ''; return; }
+
+    afficherSuggestions(q, suggestions);
+
+    if (fantome) {
+      const premierItem = suggestions.querySelector('.carte-recherche-suggestion');
+      const nomPremier = premierItem ? premierItem.dataset.nom : '';
+      if (nomPremier) {
+        const nomLow = normaliser(nomPremier);
+        const qLow2 = normaliser(q);
+        if (nomLow.startsWith(qLow2)) {
+          fantome.textContent = q + nomPremier.slice(q.length);
+        }
+      }
+    }
+  });
+
+  clear.addEventListener('click', () => {
+    input.value = '';
+    clear.style.display = 'none';
+    suggestions.innerHTML = '';
+    if (fantome) fantome.textContent = '';
+    fermerIsolation();
+    input.focus();
+  });
+
+  suggestions.addEventListener('mousedown', e => e.preventDefault());
+
+  input.addEventListener('keydown', (e) => {
+    if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome && fantome.textContent) {
+      e.preventDefault();
+      input.value = fantome.textContent;
+      valeurCompletee = fantome.textContent;
+      fantome.textContent = '';
+      suggestions.innerHTML = '';
+      input.focus();
+      return;
+    }
+
+    const items = suggestions.querySelectorAll('.carte-recherche-suggestion');
+    let idx = suggestionActive ? [...items].indexOf(suggestionActive) : -1;
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const cible = suggestionActive || suggestions.querySelector('.carte-recherche-suggestion--active');
+      if (cible) {
+        suggestionActive = null;
+        const id = cible.dataset.id;
+        const type = cible.dataset.type;
+        const nom = cible.dataset.nom || '';
+        suggestions.innerHTML = '';
+        if (fantome) fantome.textContent = '';
+        if (nom) input.value = nom;
+        if (type === 'ville') zoomerVille(id);
+        else isolerTerritoire(id);
+        return;
+      }
+      if (items.length === 1) { items[0].click(); return; }
+      const q = input.value.trim();
+      if (!q) return;
+      const qLow = normaliser(q);
+      const j = JURIDICTIONS.find(j => {
+        if (j.visible_mj && !modeMJ) return false;
+        return normaliser(j.nom) === qLow;
+      });
+      if (j) { isolerTerritoire(j.id); return; }
+      if (typeof VILLES !== 'undefined') {
+        const v = VILLES.find(v => v.coords && normaliser(v.nom) === qLow);
+        if (v) { zoomerVille(v.id); return; }
+      }
+      const jTag = JURIDICTIONS.find(j => {
+        if (j.visible_mj && !modeMJ) return false;
+        return j.tags?.some(t => normaliser(t) === qLow);
+      });
+      if (jTag) { isolerTerritoire(jTag.id); return; }
+      if (valeurCompletee) {
+        const jC = JURIDICTIONS.find(j => j.nom === valeurCompletee.trim());
+        if (jC) { isolerTerritoire(jC.id); valeurCompletee = null; return; }
+        if (typeof VILLES !== 'undefined') {
+          const vC = VILLES.find(v => v.nom === valeurCompletee.trim() && v.coords);
+          if (vC) { zoomerVille(vC.id); valeurCompletee = null; return; }
+        }
+      }
+      return;
+    }
+
+    if (!items.length) return;
+
+    function naviguerSuggestion(delta) {
+      if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
+      idx = (idx + delta + items.length) % items.length;
+      items[idx].classList.add('carte-recherche-suggestion--active');
+      items[idx].scrollIntoView({ block: 'nearest' });
+      suggestionActive = items[idx];
+      if (fantome) {
+        const q = input.value.trim();
+        const nomSel = items[idx].dataset.nom || '';
+        fantome.textContent = normaliser(nomSel).startsWith(normaliser(q)) ? q + nomSel.slice(q.length) : '';
+      }
+    }
+
+    if (e.key === 'ArrowDown') { e.preventDefault(); naviguerSuggestion(1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); naviguerSuggestion(-1); }
+    else if (e.key === 'Escape') {
+      fermerIsolation();
+      input.value = '';
+      clear.style.display = 'none';
+      suggestions.innerHTML = '';
+      if (fantome) fantome.textContent = '';
+    }
+  });
+}
+
+function afficherSuggestions(q, container) {
+  const qLow = normaliser(q);
+  const resultats = [];
+
+  JURIDICTIONS.forEach(j => {
+    if (!j.tags || !j.tags.length) return;
+    if (j.visible_mj && !modeMJ) return;
+    let matchTag = null;
+    for (const tag of j.tags) {
+      if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
+    }
+    if (matchTag) resultats.push({ type: 'juridiction', item: j, nom: j.nom, matchTag });
+  });
+
+  if (typeof VILLES !== 'undefined') {
+    VILLES.forEach(ville => {
+      if (!ville.coords) return;
+      const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
+      let matchTag = null;
+      for (const tag of tags) {
+        if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
+      }
+      if (matchTag) resultats.push({ type: 'ville', item: ville, nom: ville.nom, matchTag });
+    });
+  }
+
+  if (!resultats.length) {
+    container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
+    return;
+  }
+
+  resultats.sort((a, b) => {
+    const aNom = normaliser(a.nom);
+    const bNom = normaliser(b.nom);
+    const aDebut = aNom.startsWith(qLow) ? 0 : 1;
+    const bDebut = bNom.startsWith(qLow) ? 0 : 1;
+    if (aDebut !== bDebut) return aDebut - bDebut;
+    return aNom.localeCompare(bNom, 'fr');
+  });
+
+  container.innerHTML = resultats.slice(0, 12).map(({ type, item, nom, matchTag }) => {
+    const nomMatch = matchTag === nom;
+    const matchHtml = nomMatch ? '' :
+      `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
+    return `<li class="carte-recherche-suggestion" role="option"
+      data-id="${item.id}" data-type="${type}" data-nom="${escapeHtml(nom)}">
+      <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}</span>
+      ${matchHtml}
+    </li>`;
+  }).join('');
+
+  container.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
+    li.addEventListener('click', () => {
+      const id = li.dataset.id;
+      const type = li.dataset.type;
+      container.innerHTML = '';
+      if (fantome) fantome.textContent = '';
+      if (type === 'ville') {
+        const ville = VILLES.find(v => v.id === id);
+        if (ville) document.getElementById('carte-recherche-input').value = ville.nom;
+        zoomerVille(id);
+      } else {
+        const j = JURIDICTIONS.find(j => j.id === id);
+        if (j) document.getElementById('carte-recherche-input').value = j.nom;
+        isolerTerritoire(id);
+      }
+    });
+  });
+}
+
+function surlignerMatch(texte, qLow) {
+  const texteLow = normaliser(texte);
+  const idx = texteLow.indexOf(qLow);
+  if (idx === -1) return escapeHtml(texte);
+  return escapeHtml(texte.slice(0, idx))
+    + `<mark class="carte-recherche-highlight">${escapeHtml(texte.slice(idx, idx + qLow.length))}</mark>`
+    + escapeHtml(texte.slice(idx + qLow.length));
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // ─── Légende ─────────────────────────────────────────────────
@@ -1173,28 +1444,6 @@ function afficherPopup() {
 function fermerPopup() {
   document.getElementById('carte-popup').classList.remove('carte-popup--visible');
   pinActive = null;
-}
-
-// ─── Rendu du contexte temporel ──────────────────────────────
-function rendreChamp(valeur, annee) {
-  if (!valeur) return '';
-  if (typeof valeur === 'string') return valeur;
-  if (Array.isArray(valeur)) {
-    const bloc = valeur
-      .filter(b => annee >= (b.de ?? 0) && (b.a == null || annee < b.a))
-      .sort((a, b) => (b.de ?? 0) - (a.de ?? 0))[0];
-    return bloc ? bloc.texte : '';
-  }
-  return '';
-}
-
-function rendreContexte(contexte, annee) {
-  if (!contexte) return '';
-  return contexte
-    .filter(b => annee >= (b.de ?? 0) && (b.a == null || annee < b.a))
-    .map(b => b.texte)
-    .filter(Boolean)
-    .join('<br><br>');
 }
 
 // ─── Panneau droit ───────────────────────────────────────────
@@ -1429,367 +1678,6 @@ function majWeightsZones() {
   }
 }
 
-// ─── Panneau gauche — toggle ─────────────────────────────────
-function initPanneauGauche() {
-  const panneau = document.getElementById('carte-panneau-gauche');
-  const toggle = document.getElementById('carte-panneau-gauche-toggle');
-  if (!panneau || !toggle) return;
-
-  toggle.addEventListener('click', () => {
-    panneauGaucheOuvert = !panneauGaucheOuvert;
-    panneau.classList.toggle('carte-panneau-gauche--open', panneauGaucheOuvert);
-    toggle.textContent = panneauGaucheOuvert ? '‹' : '›';
-    toggle.setAttribute('aria-label', panneauGaucheOuvert ? 'Masquer le panneau' : 'Afficher la recherche');
-    panneau.setAttribute('aria-hidden', panneauGaucheOuvert ? 'false' : 'true');
-  });
-}
-
-// ─── Chevauchement d'icônes villes ───────────────────────────
-function calculerPairesChevauchement() {
-  pairesChevauchement = [];
-  if (typeof VILLES === 'undefined') return;
-
-  const villesAvecCoords = VILLES.filter(v => v.coords);
-  for (let i = 0; i < villesAvecCoords.length; i++) {
-    for (let j = i + 1; j < villesAvecCoords.length; j++) {
-      const vA = villesAvecCoords[i];
-      const vB = villesAvecCoords[j];
-      const ptA = carte.latLngToContainerPoint(pixelToLatLng(vA.coords[0], vA.coords[1]));
-      const ptB = carte.latLngToContainerPoint(pixelToLatLng(vB.coords[0], vB.coords[1]));
-      const dx = ptB.x - ptA.x;
-      const dy = ptB.y - ptA.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      // Seuil : 34px (diagonale d'une icône 24px — collées sans chevauchement au zoom min)
-      if (dist < 16) {
-        const len = dist || 1;
-        pairesChevauchement.push({
-          idA: vA.id, idB: vB.id,
-          vx: dx / len, vy: dy / len,
-          latlngA: pixelToLatLng(vA.coords[0], vA.coords[1]),
-          latlngB: pixelToLatLng(vB.coords[0], vB.coords[1]),
-        });
-      }
-    }
-  }
-}
-
-function lireTranslate3d(el) {
-  // Extrait le translate3d Leaflet de style.transform
-  if (!el) return 'translate3d(0px,0px,0px)';
-  const m = el.style.transform.match(/translate3d\([^)]+\)/);
-  return m ? m[0] : 'translate3d(0px,0px,0px)';
-}
-
-function ecarterVille(villeId) {
-  const CIBLE = 26;
-  for (const paire of pairesChevauchement) {
-    let vx = 0, vy = 0, autreId = null;
-    if (paire.idA === villeId) { vx = -paire.vx; vy = -paire.vy; autreId = paire.idB; }
-    else if (paire.idB === villeId) { vx = paire.vx; vy = paire.vy; autreId = paire.idA; }
-    if (!autreId) continue;
-    const ptA = carte.latLngToContainerPoint(paire.latlngA);
-    const ptB = carte.latLngToContainerPoint(paire.latlngB);
-    const dx = ptB.x - ptA.x;
-    const dy = ptB.y - ptA.y;
-    const distActuelle = Math.sqrt(dx * dx + dy * dy);
-    const amplitude = (CIBLE - distActuelle) / 2;
-    if (amplitude <= 0) continue;
-    const duree = Math.round(amplitude * 2 * 40);
-    ecartementsActifs[`${paire.idA}:${paire.idB}`] = {
-      duree,
-      dxA: vx * amplitude, dyA: vy * amplitude,
-      dxB: -vx * amplitude, dyB: -vy * amplitude,
-    };
-    const elA = markersVilles[villeId]?.getElement();
-    const elB = markersVilles[autreId]?.getElement();
-    if (elA) {
-      const t = lireTranslate3d(elA);
-      elA.style.transition = `transform ${duree}ms ease`;
-      elA.style.transform = `${t} translate(${vx * amplitude}px, ${vy * amplitude}px)`;
-    }
-    if (elB) {
-      const t = lireTranslate3d(elB);
-      elB.style.transition = `transform ${duree}ms ease`;
-      elB.style.transform = `${t} translate(${-vx * amplitude}px, ${-vy * amplitude}px)`;
-    }
-  }
-}
-
-function rapprocherVille(villeId) {
-  for (const paire of pairesChevauchement) {
-    let autreId = null;
-    if (paire.idA === villeId) autreId = paire.idB;
-    else if (paire.idB === villeId) autreId = paire.idA;
-    if (!autreId) continue;
-    if (villeActive === autreId) continue;
-    const cle = `${paire.idA}:${paire.idB}`;
-    const etat = ecartementsActifs[cle];
-    if (!etat) continue;
-    delete ecartementsActifs[cle];
-    const elA = markersVilles[paire.idA]?.getElement();
-    const elB = markersVilles[paire.idB]?.getElement();
-    if (elA) {
-      const t = lireTranslate3d(elA);
-      elA.style.transition = `transform ${etat.duree}ms ease`;
-      elA.style.transform = `${t} translate(0px, 0px)`;
-      setTimeout(() => { const t2 = lireTranslate3d(elA); elA.style.transition = ''; elA.style.transform = t2; }, etat.duree);
-    }
-    if (elB) {
-      const t = lireTranslate3d(elB);
-      elB.style.transition = `transform ${etat.duree}ms ease`;
-      elB.style.transform = `${t} translate(0px, 0px)`;
-      setTimeout(() => { const t2 = lireTranslate3d(elB); elB.style.transition = ''; elB.style.transform = t2; }, etat.duree);
-    }
-  }
-}
-
-// ─── Recherche prédictive ─────────────────────────────────────
-function initRecherche() {
-  const input = document.getElementById('carte-recherche-input');
-  const suggestions = document.getElementById('carte-recherche-suggestions');
-  const clear = document.getElementById('carte-recherche-clear');
-  const fantome = document.getElementById('carte-recherche-fantome');
-  if (!input || !suggestions || !clear) return;
-
-  let valeurCompletee = null;
-  let suggestionActive = null;
-
-  input.addEventListener('input', () => {
-    valeurCompletee = null;
-    suggestionActive = null;
-    const q = input.value.trim();
-    clear.style.display = q ? '' : 'none';
-    if (fantome) fantome.textContent = '';
-    if (q.length < 1) { suggestions.innerHTML = ''; return; }
-
-    afficherSuggestions(q, suggestions);
-
-    // Fantôme : lire le premier item du volet (cohérent avec le tri affiché)
-    if (fantome) {
-      const premierItem = suggestions.querySelector('.carte-recherche-suggestion');
-      const nomPremier = premierItem ? premierItem.dataset.nom : '';
-      if (nomPremier) {
-        const nomLow = normaliser(nomPremier);
-        const qLow2 = normaliser(q);
-        if (nomLow.startsWith(qLow2)) {
-          fantome.textContent = q + nomPremier.slice(q.length);
-        }
-      }
-    }
-  });
-
-  clear.addEventListener('click', () => {
-    input.value = '';
-    clear.style.display = 'none';
-    suggestions.innerHTML = '';
-    if (fantome) fantome.textContent = '';
-    fermerIsolation();
-    input.focus();
-  });
-
-  // Empêcher les suggestions de voler le focus au clic
-  suggestions.addEventListener('mousedown', e => e.preventDefault());
-
-  input.addEventListener('keydown', (e) => {
-    if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome && fantome.textContent) {
-      e.preventDefault();
-      input.value = fantome.textContent;
-      valeurCompletee = fantome.textContent;
-      fantome.textContent = '';
-      suggestions.innerHTML = '';
-      input.focus();
-      return;
-    }
-
-    const items = suggestions.querySelectorAll('.carte-recherche-suggestion');
-    let idx = suggestionActive ? [...items].indexOf(suggestionActive) : -1;
-
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      // Sélection par ArrowDown/ArrowUp : lire directement le dataset du nœud mémorisé
-      const cible = suggestionActive || suggestions.querySelector('.carte-recherche-suggestion--active');
-      if (cible) {
-        suggestionActive = null;
-        const id = cible.dataset.id;
-        const type = cible.dataset.type;
-        const nom = cible.dataset.nom || '';
-        suggestions.innerHTML = '';
-        if (fantome) fantome.textContent = '';
-        if (nom) input.value = nom;
-        if (type === 'ville') zoomerVille(id);
-        else isolerTerritoire(id);
-        return;
-      }
-      if (items.length === 1) { items[0].click(); return; }
-      // Correspondance exacte sur la saisie
-      const q = input.value.trim();
-      if (!q) return;
-      const qLow = normaliser(q);
-      // Priorité : nom exact de juridiction
-      const j = JURIDICTIONS.find(j => {
-        if (j.visible_mj && !modeMJ) return false;
-        return normaliser(j.nom) === qLow;
-      });
-      if (j) { isolerTerritoire(j.id); return; }
-      // Nom exact de ville
-      if (typeof VILLES !== 'undefined') {
-        const v = VILLES.find(v => v.coords && normaliser(v.nom) === qLow);
-        if (v) { zoomerVille(v.id); return; }
-      }
-      // Tag exact de juridiction
-      const jTag = JURIDICTIONS.find(j => {
-        if (j.visible_mj && !modeMJ) return false;
-        return j.tags?.some(t => normaliser(t) === qLow);
-      });
-      if (jTag) { isolerTerritoire(jTag.id); return; }
-      // Valeur complétée par Tab
-      if (valeurCompletee) {
-        const jC = JURIDICTIONS.find(j => j.nom === valeurCompletee.trim());
-        if (jC) { isolerTerritoire(jC.id); valeurCompletee = null; return; }
-        if (typeof VILLES !== 'undefined') {
-          const vC = VILLES.find(v => v.nom === valeurCompletee.trim() && v.coords);
-          if (vC) { zoomerVille(vC.id); valeurCompletee = null; return; }
-        }
-      }
-      return;
-    }
-
-    if (!items.length) return;
-
-    function naviguerSuggestion(delta) {
-      if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
-      idx = (idx + delta + items.length) % items.length;
-      items[idx].classList.add('carte-recherche-suggestion--active');
-      items[idx].scrollIntoView({ block: 'nearest' });
-      suggestionActive = items[idx];
-      if (fantome) {
-        const q = input.value.trim();
-        const nomSel = items[idx].dataset.nom || '';
-        fantome.textContent = normaliser(nomSel).startsWith(normaliser(q)) ? q + nomSel.slice(q.length) : '';
-      }
-    }
-
-    if (e.key === 'ArrowDown') { e.preventDefault(); naviguerSuggestion(1); }
-    else if (e.key === 'ArrowUp') { e.preventDefault(); naviguerSuggestion(-1); }
-    else if (e.key === 'Escape') {
-      fermerIsolation();
-      input.value = '';
-      clear.style.display = 'none';
-      suggestions.innerHTML = '';
-      if (fantome) fantome.textContent = '';
-    }
-  });
-}
-
-// ─── Filtres marqueurs (panneau gauche) ──────────────────────
-function initFiltresMarqueurs() {
-  const filtreScenarios = document.getElementById('filtre-scenarios');
-  const filtreVilles = document.getElementById('filtre-villes');
-  if (!filtreScenarios || !filtreVilles) return;
-
-  filtreScenarios.addEventListener('click', () => {
-    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
-    const input = filtreScenarios.querySelector('input');
-    input.checked = !input.checked;
-    filtreScenarios.classList.toggle('decochee', !input.checked);
-    renderPins();
-  });
-
-  filtreVilles.addEventListener('click', () => {
-    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
-    const input = filtreVilles.querySelector('input');
-    input.checked = !input.checked;
-    filtreVilles.classList.toggle('decochee', !input.checked);
-    renderVilles();
-  });
-}
-
-function afficherSuggestions(q, container) {
-  const qLow = normaliser(q);
-  const resultats = [];
-
-  // ── Juridictions ──
-  JURIDICTIONS.forEach(j => {
-    if (!j.tags || !j.tags.length) return;
-    if (j.visible_mj && !modeMJ) return;
-    let matchTag = null;
-    for (const tag of j.tags) {
-      if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
-    }
-    if (matchTag) resultats.push({ type: 'juridiction', item: j, nom: j.nom, matchTag });
-  });
-
-  // ── Villes ──
-  if (typeof VILLES !== 'undefined') {
-    VILLES.forEach(ville => {
-      if (!ville.coords) return;
-      const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
-      let matchTag = null;
-      for (const tag of tags) {
-        if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
-      }
-      if (matchTag) resultats.push({ type: 'ville', item: ville, nom: ville.nom, matchTag });
-    });
-  }
-
-  if (!resultats.length) {
-    container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
-    return;
-  }
-
-  // Priorité aux noms qui commencent par la frappe, puis alphabétique
-  resultats.sort((a, b) => {
-    const aNom = normaliser(a.nom);
-    const bNom = normaliser(b.nom);
-    const aDebut = aNom.startsWith(qLow) ? 0 : 1;
-    const bDebut = bNom.startsWith(qLow) ? 0 : 1;
-    if (aDebut !== bDebut) return aDebut - bDebut;
-    return aNom.localeCompare(bNom, 'fr');
-  });
-
-  container.innerHTML = resultats.slice(0, 12).map(({ type, item, nom, matchTag }) => {
-    const nomMatch = matchTag === nom;
-    const matchHtml = nomMatch ? '' :
-      `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
-    return `<li class="carte-recherche-suggestion" role="option"
-      data-id="${item.id}" data-type="${type}" data-nom="${escapeHtml(nom)}">
-      <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}</span>
-      ${matchHtml}
-    </li>`;
-  }).join('');
-
-  container.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
-    li.addEventListener('click', () => {
-      const id = li.dataset.id;
-      const type = li.dataset.type;
-      container.innerHTML = '';
-      if (fantome) fantome.textContent = '';
-      if (type === 'ville') {
-        const ville = VILLES.find(v => v.id === id);
-        if (ville) document.getElementById('carte-recherche-input').value = ville.nom;
-        zoomerVille(id);
-      } else {
-        const j = JURIDICTIONS.find(j => j.id === id);
-        if (j) document.getElementById('carte-recherche-input').value = j.nom;
-        isolerTerritoire(id);
-      }
-    });
-  });
-}
-
-function surlignerMatch(texte, qLow) {
-  const texteLow = normaliser(texte);
-  const idx = texteLow.indexOf(qLow);
-  if (idx === -1) return escapeHtml(texte);
-  return escapeHtml(texte.slice(0, idx))
-    + `<mark class="carte-recherche-highlight">${escapeHtml(texte.slice(idx, idx + qLow.length))}</mark>`
-    + escapeHtml(texte.slice(idx + qLow.length));
-}
-
-function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
 // ─── Zoom sur une ville (depuis la recherche) ─────────────────
 function zoomerVille(villeId) {
   const ville = (typeof VILLES !== 'undefined') ? VILLES.find(v => v.id === villeId) : null;
@@ -1942,23 +1830,7 @@ function zoomerVille(villeId) {
   carte.on('moveend', onMoveEnd);
 }
 
-function _restaurerModeNormal() {
-  carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
-  document.getElementById('carte-legende')?.classList.remove('carte-isolation--disabled');
-  document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
-    btn.disabled = false;
-    btn.classList.remove('carte-isolation--disabled');
-  });
-  document.getElementById('filtre-scenarios')?.classList.remove('carte-isolation--disabled');
-  document.getElementById('filtre-villes')?.classList.remove('carte-isolation--disabled');
-  document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.carte-overlay-btn[data-mode="${overlayMode}"]`)?.classList.add('active');
-  majLegende();
-  renderZones();
-  renderPins();
-  renderVilles();
-}
-
+// ─── Zoom sur une ville (depuis la recherche) — fermeture ─────
 function fermerZoomVille(options = {}) {
   if (overlayMode !== 'isolationVille') return;
 
@@ -1981,6 +1853,24 @@ function fermerZoomVille(options = {}) {
   if (options.ouvrirVille && villeIdFermee) {
     ouvrirPanneauVille(villeIdFermee);
   }
+}
+
+// ─── Isolation territoire ─────────────────────────────────────
+function _restaurerModeNormal() {
+  carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+  document.getElementById('carte-legende')?.classList.remove('carte-isolation--disabled');
+  document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('carte-isolation--disabled');
+  });
+  document.getElementById('filtre-scenarios')?.classList.remove('carte-isolation--disabled');
+  document.getElementById('filtre-villes')?.classList.remove('carte-isolation--disabled');
+  document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.carte-overlay-btn[data-mode="${overlayMode}"]`)?.classList.add('active');
+  majLegende();
+  renderZones();
+  renderPins();
+  renderVilles();
 }
 
 function fermerIsolation() {
@@ -2086,4 +1976,95 @@ function isolerTerritoire(juridictionId) {
     carte.off('moveend', onMoveEnd);
   };
   carte.on('moveend', onMoveEnd);
+}
+
+// ─── Chevauchement d'icônes villes ───────────────────────────
+function calculerPairesChevauchement() {
+  pairesChevauchement = [];
+  if (typeof VILLES === 'undefined') return;
+
+  const villesAvecCoords = VILLES.filter(v => v.coords);
+  for (let i = 0; i < villesAvecCoords.length; i++) {
+    for (let j = i + 1; j < villesAvecCoords.length; j++) {
+      const vA = villesAvecCoords[i];
+      const vB = villesAvecCoords[j];
+      const ptA = carte.latLngToContainerPoint(pixelToLatLng(vA.coords[0], vA.coords[1]));
+      const ptB = carte.latLngToContainerPoint(pixelToLatLng(vB.coords[0], vB.coords[1]));
+      const dx = ptB.x - ptA.x;
+      const dy = ptB.y - ptA.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 16) {
+        const len = dist || 1;
+        pairesChevauchement.push({
+          idA: vA.id, idB: vB.id,
+          vx: dx / len, vy: dy / len,
+          latlngA: pixelToLatLng(vA.coords[0], vA.coords[1]),
+          latlngB: pixelToLatLng(vB.coords[0], vB.coords[1]),
+        });
+      }
+    }
+  }
+}
+
+function ecarterVille(villeId) {
+  const CIBLE = 26;
+  for (const paire of pairesChevauchement) {
+    let vx = 0, vy = 0, autreId = null;
+    if (paire.idA === villeId) { vx = -paire.vx; vy = -paire.vy; autreId = paire.idB; }
+    else if (paire.idB === villeId) { vx = paire.vx; vy = paire.vy; autreId = paire.idA; }
+    if (!autreId) continue;
+    const ptA = carte.latLngToContainerPoint(paire.latlngA);
+    const ptB = carte.latLngToContainerPoint(paire.latlngB);
+    const dx = ptB.x - ptA.x;
+    const dy = ptB.y - ptA.y;
+    const distActuelle = Math.sqrt(dx * dx + dy * dy);
+    const amplitude = (CIBLE - distActuelle) / 2;
+    if (amplitude <= 0) continue;
+    const duree = Math.round(amplitude * 2 * 40);
+    ecartementsActifs[`${paire.idA}:${paire.idB}`] = {
+      duree,
+      dxA: vx * amplitude, dyA: vy * amplitude,
+      dxB: -vx * amplitude, dyB: -vy * amplitude,
+    };
+    const elA = markersVilles[villeId]?.getElement();
+    const elB = markersVilles[autreId]?.getElement();
+    if (elA) {
+      const t = lireTranslate3d(elA);
+      elA.style.transition = `transform ${duree}ms ease`;
+      elA.style.transform = `${t} translate(${vx * amplitude}px, ${vy * amplitude}px)`;
+    }
+    if (elB) {
+      const t = lireTranslate3d(elB);
+      elB.style.transition = `transform ${duree}ms ease`;
+      elB.style.transform = `${t} translate(${-vx * amplitude}px, ${-vy * amplitude}px)`;
+    }
+  }
+}
+
+function rapprocherVille(villeId) {
+  for (const paire of pairesChevauchement) {
+    let autreId = null;
+    if (paire.idA === villeId) autreId = paire.idB;
+    else if (paire.idB === villeId) autreId = paire.idA;
+    if (!autreId) continue;
+    if (villeActive === autreId) continue;
+    const cle = `${paire.idA}:${paire.idB}`;
+    const etat = ecartementsActifs[cle];
+    if (!etat) continue;
+    delete ecartementsActifs[cle];
+    const elA = markersVilles[paire.idA]?.getElement();
+    const elB = markersVilles[paire.idB]?.getElement();
+    if (elA) {
+      const t = lireTranslate3d(elA);
+      elA.style.transition = `transform ${etat.duree}ms ease`;
+      elA.style.transform = `${t} translate(0px, 0px)`;
+      setTimeout(() => { const t2 = lireTranslate3d(elA); elA.style.transition = ''; elA.style.transform = t2; }, etat.duree);
+    }
+    if (elB) {
+      const t = lireTranslate3d(elB);
+      elB.style.transition = `transform ${etat.duree}ms ease`;
+      elB.style.transform = `${t} translate(0px, 0px)`;
+      setTimeout(() => { const t2 = lireTranslate3d(elB); elB.style.transition = ''; elB.style.transform = t2; }, etat.duree);
+    }
+  }
 }
