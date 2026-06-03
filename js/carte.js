@@ -454,14 +454,8 @@ function initCarte() {
     fermerPanneau();
     fermerIsolation();
     fermerZoomVille();
-    // Réinitialiser les marqueurs écartés
-    pairesChevauchement.forEach(paire => {
-      const elA = markersVilles[paire.idA]?.getElement();
-      const elB = markersVilles[paire.idB]?.getElement();
-      if (elA) { const t = lireTranslate3d(elA); elA.style.transition = ''; elA.style.transform = t; }
-      if (elB) { const t = lireTranslate3d(elB); elB.style.transition = ''; elB.style.transform = t; }
-    });
-    ecartementsActifs = {};
+    // Rapprocher les marqueurs écartés avec animation
+    pairesChevauchement.forEach(paire => rapprocherVille(paire.idA));
   });
 
   carte.on('zoom', () => {
@@ -2026,6 +2020,15 @@ function ecarterVille(villeId) {
     if (paire.idA === villeId) { vx = -paire.vx; vy = -paire.vy; autreId = paire.idB; }
     else if (paire.idB === villeId) { vx = paire.vx; vy = paire.vy; autreId = paire.idA; }
     if (!autreId) continue;
+    // Nettoyer tout décalage résiduel avant de recalculer
+    const cle = `${paire.idA}:${paire.idB}`;
+    if (ecartementsActifs[cle]) {
+      delete ecartementsActifs[cle];
+      const elAn = markersVilles[paire.idA]?.getElement();
+      const elBn = markersVilles[paire.idB]?.getElement();
+      if (elAn) { const t = lireTranslate3d(elAn); elAn.style.transition = ''; elAn.style.transform = t; }
+      if (elBn) { const t = lireTranslate3d(elBn); elBn.style.transition = ''; elBn.style.transform = t; }
+    }
     const ptA = carte.latLngToContainerPoint(paire.latlngA);
     const ptB = carte.latLngToContainerPoint(paire.latlngB);
     const dx = ptB.x - ptA.x;
