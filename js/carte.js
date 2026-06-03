@@ -42,7 +42,6 @@ function calculerAnneeMax() {
     if (Array.isArray(val)) {
       val.forEach(b => {
         if (b.a && b.a > max) max = b.a;
-        if (b.versions) b.versions.forEach(v => { if (v.a && v.a > max) max = v.a; });
       });
     }
   }
@@ -201,6 +200,10 @@ async function renderContourGlobal() {
 }
 
 // ─── Initialisation ──────────────────────────────────────────
+function fermerTooltipsOrphelins() {
+  carte.eachLayer(l => { if (l.getTooltip?.() && l.isTooltipOpen?.()) l.closeTooltip(); });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   function initTout() {
     initCarte();
@@ -262,7 +265,7 @@ function initCarte() {
     fermerIsolation();
     fermerZoomVille();
     // Réinitialiser les marqueurs écartés
-    Object.values(pairesChevauchement).forEach(paire => {
+    pairesChevauchement.forEach(paire => {
       const elA = markersVilles[paire.idA]?.getElement();
       const elB = markersVilles[paire.idB]?.getElement();
       if (elA) { const t = lireTranslate3d(elA); elA.style.transition = ''; elA.style.transform = t; }
@@ -281,12 +284,8 @@ function initCarte() {
       if (elB) { const t = lireTranslate3d(elB); elB.style.transition = ''; elB.style.transform = `${t} translate(${etat.dxB}px, ${etat.dyB}px)`; }
     }
   });
-  carte.getContainer().addEventListener('mouseleave', () => {
-    carte.eachLayer(l => { if (l.getTooltip?.() && l.isTooltipOpen?.()) l.closeTooltip(); });
-  });
-  carte.on('mouseout', () => {
-    carte.eachLayer(l => { if (l.getTooltip?.() && l.isTooltipOpen?.()) l.closeTooltip(); });
-  });
+  carte.getContainer().addEventListener('mouseleave', fermerTooltipsOrphelins);
+  carte.on('mouseout', fermerTooltipsOrphelins);
 
   setTimeout(() => {
     carte.invalidateSize();
@@ -357,6 +356,11 @@ function positionnerBoutonsZoom() {
 // ─── Conversion coordonnées pixel → Leaflet LatLng ───────────
 function pixelToLatLng(x, y) {
   return L.latLng(CARTE_IMAGE.height - y, x);
+}
+
+// ─── Normalisation pour la recherche (NFD, sans diacritiques) ─
+function normaliser(str) {
+  return str.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
 }
 
 // ─── Paliers et couleurs des overlays ────────────────────────
@@ -494,28 +498,11 @@ function renderZones() {
       strokeWeight = 0;
       strokeOpacity = 0;
 
-    } else if (overlayMode === 'densite') {
-      const c = couleurDensite(j.id);
-      if (c) {
-        couleur = c; fillOpacity = isActive ? 0.5 : 0.35;
-        strokeColor = c; strokeWeight = isActive ? 2 : 0.5; strokeOpacity = 0.9;
-      } else {
-        couleur = 'transparent'; fillOpacity = 0;
-        strokeColor = 'transparent'; strokeWeight = 0; strokeOpacity = 0;
-      }
-
-    } else if (overlayMode === 'esclavage') {
-      const c = couleurEsclavage(j.id);
-      if (c) {
-        couleur = c; fillOpacity = isActive ? 0.5 : 0.35;
-        strokeColor = c; strokeWeight = isActive ? 2 : 0.5; strokeOpacity = 0.9;
-      } else {
-        couleur = 'transparent'; fillOpacity = 0;
-        strokeColor = 'transparent'; strokeWeight = 0; strokeOpacity = 0;
-      }
-
-    } else if (overlayMode === 'autochtones') {
-      const c = couleurAutochtone(j.id, anneeActive);
+    } else if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
+      const fnCouleur = overlayMode === 'densite' ? couleurDensite
+        : overlayMode === 'esclavage' ? couleurEsclavage
+        : id => couleurAutochtone(id, anneeActive);
+      const c = fnCouleur(j.id);
       if (c) {
         couleur = c; fillOpacity = isActive ? 0.5 : 0.35;
         strokeColor = c; strokeWeight = isActive ? 2 : 0.5; strokeOpacity = 0.9;
@@ -575,6 +562,7 @@ function renderZones() {
       });
 
       poly.on('mouseover', () => {
+        fermerTooltipsOrphelins();
         if (overlayMode === 'isolation') {
           if (isIsolee) poly.setStyle({ fillColor: '#c8973a', fillOpacity: 0.25 });
           return;
@@ -712,6 +700,7 @@ function renderVilles() {
       className: 'carte-tooltip',
       opacity: 1,
       offset: [0, -10],
+      interactive: false,
     });
 
     marker.on('click', (e) => {
@@ -730,6 +719,7 @@ function renderVilles() {
     });
 
     marker.on('mouseover', () => {
+      marker.openTooltip();
       // Annuler les timers de mouseout pour cette ville et ses voisines de paire
       clearTimeout(mouseoutTimers[ville.id]);
       for (const paire of pairesChevauchement) {
@@ -748,9 +738,12 @@ function renderVilles() {
       ecarterVille(ville.id);
     });
     marker.on('mouseout', () => {
+      marker.closeTooltip();
       // Timer indexé par clé de paire — un seul rapprocherVille par paire
+      let estDansUnePaire = false;
       for (const paire of pairesChevauchement) {
         if (paire.idA !== ville.id && paire.idB !== ville.id) continue;
+        estDansUnePaire = true;
         const cle = `${paire.idA}:${paire.idB}`;
         clearTimeout(mouseoutTimers[cle]);
         mouseoutTimers[cle] = setTimeout(() => {
@@ -762,15 +755,17 @@ function renderVilles() {
           if (villeActive !== ville.id) rapprocherVille(ville.id);
         }, 550);
       }
-      // Timer individuel pour les villes sans paire
-      mouseoutTimers[ville.id] = setTimeout(() => {
-        if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
-          setIconeVilleIsoleeHover(ville.id, false);
-          return;
-        }
-        if (villeActive !== ville.id) setIconeVilleActive(ville.id, false);
-        if (villeActive !== ville.id) rapprocherVille(ville.id);
-      }, 550);
+      // Timer individuel uniquement pour les villes sans paire
+      if (!estDansUnePaire) {
+        mouseoutTimers[ville.id] = setTimeout(() => {
+          if (overlayMode === 'isolationVille' && ville.id === isolationVilleId) {
+            setIconeVilleIsoleeHover(ville.id, false);
+            return;
+          }
+          if (villeActive !== ville.id) setIconeVilleActive(ville.id, false);
+          if (villeActive !== ville.id) rapprocherVille(ville.id);
+        }, 550);
+      }
     });
 
     marker.addTo(carte);
@@ -809,7 +804,7 @@ function pinSVG() {
 }
 
 // ─── SVG des marqueurs de villes ─────────────────────────────
-function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false, sansRecadre = false) {
+function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false) {
   const fond = estIsole ? 'rgba(0,0,0,0)'
     : estActive ? (estPirate ? '#3a3a3a' : '#9aae9a')
       : estPirate ? '#0e0c09'
@@ -843,20 +838,26 @@ function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estAct
   }
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="${taille}" height="${taille}">
-    ${sansRecadre ? '' : `<rect x="3" y="3" width="26" height="26" rx="5"
-      fill="${fond}" stroke="${couleurTrait}" stroke-width="1.5"/>`}
+    <rect x="3" y="3" width="26" height="26" rx="5"
+      fill="${fond}" stroke="${couleurTrait}" stroke-width="1.5"/>
     ${symbole}
   </svg>`;
 }
 
-function setIconeVilleActive(villeId, actif) {
+function _infoMarqueurVille(villeId) {
   const marker = markersVilles[villeId];
   const ville = VILLES.find(v => v.id === villeId);
-  if (!marker || !ville) return;
+  if (!marker || !ville) return null;
   const estPirate = (Array.isArray(ville.capitale)
     ? rendreChamp(ville.capitale, anneeActive)
     : ville.capitale) === 'pirate';
-  const taille = tailleIconeVille();
+  return { marker, ville, estPirate, taille: tailleIconeVille() };
+}
+
+function setIconeVilleActive(villeId, actif) {
+  const info = _infoMarqueurVille(villeId);
+  if (!info) return;
+  const { marker, ville, estPirate, taille } = info;
   marker.setIcon(L.divIcon({
     html: villeSVG(ville.type || 'ville', taille, estPirate, false, actif),
     className: 'carte-ville',
@@ -866,13 +867,9 @@ function setIconeVilleActive(villeId, actif) {
 }
 
 function setIconeVilleIsoleeHover(villeId, hover) {
-  const marker = markersVilles[villeId];
-  const ville = VILLES.find(v => v.id === villeId);
-  if (!marker || !ville) return;
-  const estPirate = (Array.isArray(ville.capitale)
-    ? rendreChamp(ville.capitale, anneeActive)
-    : ville.capitale) === 'pirate';
-  const taille = tailleIconeVille();
+  const info = _infoMarqueurVille(villeId);
+  if (!info) return;
+  const { marker, ville, estPirate, taille } = info;
   const svgBase = villeSVG(ville.type || 'ville', taille, estPirate, true, false);
   const svgHover = hover
     ? svgBase.replace('fill="rgba(0,0,0,0)"', 'fill="rgba(200,151,58,0.25)"')
@@ -1185,44 +1182,9 @@ function rendreChamp(valeur, annee) {
 
 function rendreContexte(contexte, annee) {
   if (!contexte) return '';
-  if (typeof contexte === 'string') return contexte;
-
-  if (!Array.isArray(contexte) && Object.keys(contexte).every(k => !isNaN(Number(k)))) {
-    return resoudre(contexte, annee) ?? '';
-  }
-
-  if (!Array.isArray(contexte)) {
-    const blocs = [];
-    if (contexte.permanent) blocs.push(contexte.permanent);
-    if (contexte.ponctuel?.[annee]) blocs.push(contexte.ponctuel[annee]);
-    if (contexte.depuis) {
-      const sujets = {};
-      Object.entries(contexte.depuis)
-        .filter(([a]) => Number(a) <= annee)
-        .sort(([a], [b]) => Number(a) - Number(b))
-        .forEach(([a, blocs_sujet]) => {
-          Object.entries(blocs_sujet).forEach(([sujet, texte]) => {
-            sujets[sujet] = { annee: Number(a), texte };
-          });
-        });
-      Object.values(sujets)
-        .sort((a, b) => a.annee - b.annee)
-        .forEach(({ texte }) => blocs.push(texte));
-    }
-    return blocs.join('<br><br>');
-  }
-
   return contexte
     .filter(b => annee >= (b.de ?? 0) && (b.a == null || annee < b.a))
-    .map(b => {
-      if (b.versions) {
-        const v = b.versions
-          .filter(v => annee >= (v.de ?? 0) && (v.a == null || annee < v.a))
-          .sort((a, b) => (b.de ?? 0) - (a.de ?? 0))[0];
-        return v ? v.texte : null;
-      }
-      return b.texte;
-    })
+    .map(b => b.texte)
     .filter(Boolean)
     .join('<br><br>');
 }
@@ -1308,16 +1270,37 @@ function ouvrirPanneau(juridictionId) {
   panneau.removeAttribute('inert');
 }
 
+function resetEtatsVisuels() {
+  // Remet toutes les icônes villes en repos (sauf ville isolée en cours)
+  Object.keys(markersVilles).forEach(id => {
+    if (id !== isolationVilleId) setIconeVilleActive(id, false);
+  });
+  // Remet tous les polygones de zones en repos
+  Object.keys(layersZones).forEach(id => {
+    if (id !== zoneActive) majZone(id);
+  });
+  // Referme tous les écartements actifs
+  Object.keys(ecartementsActifs).forEach(cle => {
+    const [idA, idB] = cle.split(':');
+    rapprocherVille(idA);
+  });
+}
+
 function fermerPanneau() {
   const panneau = document.getElementById('carte-panneau');
   panneau.classList.remove('carte-panneau--open');
   panneau.setAttribute('inert', '');
-  if (zoneActive) {
-    const precedent = zoneActive;
-    zoneActive = null;
-    majZone(precedent);
-  }
-  if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); villeActive = null; }
+  if (zoneActive) { const precedent = zoneActive; zoneActive = null; majZone(precedent); }
+  villeActive = null;
+  resetEtatsVisuels();
+}
+
+function fermerPanneauVille() {
+  const panneau = document.getElementById('carte-panneau');
+  panneau.classList.remove('carte-panneau--open');
+  panneau.setAttribute('inert', '');
+  villeActive = null;
+  resetEtatsVisuels();
 }
 
 // ─── Panneau ville ────────────────────────────────────────────
@@ -1578,8 +1561,8 @@ function initRecherche() {
       const premierItem = suggestions.querySelector('.carte-recherche-suggestion');
       const nomPremier = premierItem ? premierItem.dataset.nom : '';
       if (nomPremier) {
-        const nomLow = nomPremier.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        const qLow2 = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+        const nomLow = normaliser(nomPremier);
+        const qLow2 = normaliser(q);
         if (nomLow.startsWith(qLow2)) {
           fantome.textContent = q + nomPremier.slice(q.length);
         }
@@ -1633,23 +1616,22 @@ function initRecherche() {
       // Correspondance exacte sur la saisie
       const q = input.value.trim();
       if (!q) return;
-      const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+      const qLow = normaliser(q);
       // Priorité : nom exact de juridiction
       const j = JURIDICTIONS.find(j => {
         if (j.visible_mj && !modeMJ) return false;
-        return j.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '') === qLow;
+        return normaliser(j.nom) === qLow;
       });
       if (j) { isolerTerritoire(j.id); return; }
       // Nom exact de ville
       if (typeof VILLES !== 'undefined') {
-        const v = VILLES.find(v => v.coords &&
-          v.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '') === qLow);
+        const v = VILLES.find(v => v.coords && normaliser(v.nom) === qLow);
         if (v) { zoomerVille(v.id); return; }
       }
       // Tag exact de juridiction
       const jTag = JURIDICTIONS.find(j => {
         if (j.visible_mj && !modeMJ) return false;
-        return j.tags?.some(t => t.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '') === qLow);
+        return j.tags?.some(t => normaliser(t) === qLow);
       });
       if (jTag) { isolerTerritoire(jTag.id); return; }
       // Valeur complétée par Tab
@@ -1666,35 +1648,22 @@ function initRecherche() {
 
     if (!items.length) return;
 
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
+    function naviguerSuggestion(delta) {
       if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
-      idx = (idx + 1) % items.length;
+      idx = (idx + delta + items.length) % items.length;
       items[idx].classList.add('carte-recherche-suggestion--active');
       items[idx].scrollIntoView({ block: 'nearest' });
       suggestionActive = items[idx];
       if (fantome) {
         const q = input.value.trim();
         const nomSel = items[idx].dataset.nom || '';
-        const nomLow = nomSel.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        fantome.textContent = nomLow.startsWith(qLow) ? q + nomSel.slice(q.length) : '';
+        fantome.textContent = normaliser(nomSel).startsWith(normaliser(q)) ? q + nomSel.slice(q.length) : '';
       }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
-      idx = (idx - 1 + items.length) % items.length;
-      items[idx].classList.add('carte-recherche-suggestion--active');
-      items[idx].scrollIntoView({ block: 'nearest' });
-      suggestionActive = items[idx];
-      if (fantome) {
-        const q = input.value.trim();
-        const nomSel = items[idx].dataset.nom || '';
-        const nomLow = nomSel.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        fantome.textContent = nomLow.startsWith(qLow) ? q + nomSel.slice(q.length) : '';
-      }
-    } else if (e.key === 'Escape') {
+    }
+
+    if (e.key === 'ArrowDown') { e.preventDefault(); naviguerSuggestion(1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); naviguerSuggestion(-1); }
+    else if (e.key === 'Escape') {
       fermerIsolation();
       input.value = '';
       clear.style.display = 'none';
@@ -1728,7 +1697,7 @@ function initFiltresMarqueurs() {
 }
 
 function afficherSuggestions(q, container) {
-  const qLow = q.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+  const qLow = normaliser(q);
   const resultats = [];
 
   // ── Juridictions ──
@@ -1737,8 +1706,7 @@ function afficherSuggestions(q, container) {
     if (j.visible_mj && !modeMJ) return;
     let matchTag = null;
     for (const tag of j.tags) {
-      const tagLow = tag.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-      if (tagLow.includes(qLow)) { matchTag = tag; break; }
+      if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
     }
     if (matchTag) resultats.push({ type: 'juridiction', item: j, nom: j.nom, matchTag });
   });
@@ -1750,8 +1718,7 @@ function afficherSuggestions(q, container) {
       const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
       let matchTag = null;
       for (const tag of tags) {
-        const tagLow = tag.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        if (tagLow.includes(qLow)) { matchTag = tag; break; }
+        if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
       }
       if (matchTag) resultats.push({ type: 'ville', item: ville, nom: ville.nom, matchTag });
     });
@@ -1764,8 +1731,8 @@ function afficherSuggestions(q, container) {
 
   // Priorité aux noms qui commencent par la frappe, puis alphabétique
   resultats.sort((a, b) => {
-    const aNom = a.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-    const bNom = b.nom.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    const aNom = normaliser(a.nom);
+    const bNom = normaliser(b.nom);
     const aDebut = aNom.startsWith(qLow) ? 0 : 1;
     const bDebut = bNom.startsWith(qLow) ? 0 : 1;
     if (aDebut !== bDebut) return aDebut - bDebut;
@@ -1803,7 +1770,7 @@ function afficherSuggestions(q, container) {
 }
 
 function surlignerMatch(texte, qLow) {
-  const texteLow = texte.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+  const texteLow = normaliser(texte);
   const idx = texteLow.indexOf(qLow);
   if (idx === -1) return escapeHtml(texte);
   return escapeHtml(texte.slice(0, idx))
@@ -1967,18 +1934,8 @@ function zoomerVille(villeId) {
   carte.on('moveend', onMoveEnd);
 }
 
-function fermerZoomVille(options = {}) {
-  if (overlayMode !== 'isolationVille') return;
-
-  const villeIdFermee = isolationVilleId;
-
-  overlayMode = overlayModeAvantIsolation;
-  isolationVilleId = null;
-
-  // Restaurer l'opacity de la carte
+function _restaurerModeNormal() {
   carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
-
-  // Réactiver les boutons d'overlay, les filtres et la légende
   document.getElementById('carte-legende')?.classList.remove('carte-isolation--disabled');
   document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
     btn.disabled = false;
@@ -1986,10 +1943,20 @@ function fermerZoomVille(options = {}) {
   });
   document.getElementById('filtre-scenarios')?.classList.remove('carte-isolation--disabled');
   document.getElementById('filtre-villes')?.classList.remove('carte-isolation--disabled');
-
-  // Restaurer le bouton actif
   document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`.carte-overlay-btn[data-mode="${overlayMode}"]`)?.classList.add('active');
+  majLegende();
+  renderZones();
+  renderPins();
+  renderVilles();
+}
+
+function fermerZoomVille(options = {}) {
+  if (overlayMode !== 'isolationVille') return;
+
+  const villeIdFermee = isolationVilleId;
+  overlayMode = overlayModeAvantIsolation;
+  isolationVilleId = null;
 
   // Restaurer pointer-events et z-index sur tous les marqueurs
   Object.values(markersVilles).forEach(m => {
@@ -2001,15 +1968,21 @@ function fermerZoomVille(options = {}) {
     if (el) el.style.pointerEvents = '';
   });
 
-  majLegende();
-  renderZones();
-  renderPins();
-  renderVilles();
+  _restaurerModeNormal();
 
-  // Passer la ville en mode actif après recréation si demandé
   if (options.ouvrirVille && villeIdFermee) {
     ouvrirPanneauVille(villeIdFermee);
   }
+}
+
+function fermerIsolation() {
+  if (overlayMode !== 'isolation') return;
+
+  overlayMode = overlayModeAvantIsolation;
+  isolationJuridictionId = null;
+  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
+
+  _restaurerModeNormal();
 }
 
 function isolerTerritoire(juridictionId) {
@@ -2105,32 +2078,4 @@ function isolerTerritoire(juridictionId) {
     carte.off('moveend', onMoveEnd);
   };
   carte.on('moveend', onMoveEnd);
-}
-
-function fermerIsolation() {
-  if (overlayMode !== 'isolation') return;
-
-  overlayMode = overlayModeAvantIsolation;
-  isolationJuridictionId = null;
-
-  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
-
-  // Restaurer l'opacity de la carte (tenir compte du mode sombre)
-  carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
-
-  // Réactiver les boutons d'overlay et la légende
-  document.getElementById('carte-legende')?.classList.remove('carte-isolation--disabled');
-  document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
-    btn.disabled = false;
-    btn.classList.remove('carte-isolation--disabled');
-  });
-
-  // Restaurer le bouton actif
-  document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.carte-overlay-btn[data-mode="${overlayMode}"]`)?.classList.add('active');
-
-  majLegende();
-  renderZones();
-  renderPins();
-  renderVilles();
 }

@@ -185,24 +185,19 @@ La traite carolinienne — environ quarante mille Indiens exportés depuis 1680 
 
             // ── Guerre yamasee ─────────────────────────────────────
             {
-                de: 1715, a: 1722,
-                versions: [
-                    {
-                        de: 1715, a: 1716,
-                        texte: `<strong>La guerre yamasee :</strong><br>
+                de: 1715, a: 1716,
+                texte: `<strong>La guerre yamasee :</strong><br>
 Le Vendredi Saint 15 avril 1715, les Yamasees massacrent les traders anglais à Pocotaligo et déclenchent la plus grande coalition indienne jamais formée contre les colonies du Sud. Quatre cents Anglais sont tués dans les premiers mois. Port Royal est ravagé, Charles Town presque encerclée.`,
-                    },
-                    {
-                        de: 1716, a: 1717,
-                        texte: `<strong>La guerre yamasee (depuis avril 1715) :</strong><br>
+            },
+            {
+                de: 1716, a: 1717,
+                texte: `<strong>La guerre yamasee (depuis avril 1715) :</strong><br>
 Les Caroliniens convainquent les Cherokees de se retourner contre les Creeks, déchirant la coalition. Craven défait les Yamasees à Salkehatchie et les refoule en Floride, où ils s'allient aux Espagnols.`,
-                    },
-                    {
-                        de: 1717,
-                        texte: `<strong>La guerre yamasee (avril 1715 – novembre 1717) :</strong><br>
+            },
+            {
+                de: 1717, a: 1722,
+                texte: `<strong>La guerre yamasee (avril 1715 – novembre 1717) :</strong><br>
 Les Creeks signent la paix et refluent vers l'ouest. La colonie en sort épuisée et endettée, ses frontières exposées, ses Lords Proprietors discrédités. L'arrière-pays, vidé par l'exode yamasee vers la Floride, reste largement dépeuplé.`,
-                    },
-                ],
             },
 
             // ── Blocus de Barbe-Noire ──────────────────────────────
