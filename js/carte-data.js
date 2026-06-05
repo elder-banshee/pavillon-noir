@@ -2526,7 +2526,7 @@ Il prend le gouvernorat dans un contexte de tensions avec les missions capucines
     {
         id: 'trinidad',
         nom: 'Trinidad',
-        tags: ['Trinidad', 'San José de Oruña', 'Puerto España', 'Port of Spain', "Port d'Espagne"],
+        tags: ['Trinidad', 'San José de Oruña', 'Puerto España', 'Port of Spain', "Port-d'Espagne"],
 
         puissance: {
             1712: 'espagnole',

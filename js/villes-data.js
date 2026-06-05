@@ -532,7 +532,7 @@ En 1683, les flibustiers Lorencillo (Laurent de Graff) et Grammont s'emparent de
         territoire: 'yucatan',
         coords: [2314, 2607],
 
-        contexte: `Port d'exportation du bois de teinture — le <em>palo de tinte</em> (bois de campêche, *Haematoxylum campechianum*) dont la sève rouge-violet teint les draps de laine des manufactures européennes. Cette richesse en fait depuis le XVIIe siècle une cible récurrente des flibustiers : Morgan en 1663, L'Olonnais en 1666, Laurent de Graff en 1685 et 1686. La ville porte les cicatrices de ces raids — et les murailles construites en réponse.
+        contexte: `Port d'exportation du bois de teinture — le <em>palo de tinte</em> (bois de campêche, *Haematoxylum campechianum*) dont la sève rouge-violet teint les draps de laine des manufactures européennes. Cette richesse en fait depuis le XVIIe siècle une cible récurrente des flibustiers : Myngs en 1663, L'Olonnais en 1666, Laurent de Graff en 1685 et 1686. La ville porte les cicatrices de ces raids — et les murailles construites en réponse.
 
 L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les raids répétés, est en 1712 l'une des rares villes entièrement ceintes de murailles dans toute l'Amérique espagnole. Huit bastions hexagonaux complètent le système. Les Anglais de la baie du Belize coupent du bois de campêche à quelques dizaines de kilomètres au sud — tension permanente que les autorités du Yucatán n'ont pas les moyens de résoudre.`,
 
@@ -540,7 +540,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
 
         garnison: `Garnison de l'enceinte : ~300 soldats répartis sur les huit bastions. Fort San Miguel (position avancée en hauteur) : ~80 hommes.`,
 
-        note_mj: `✅ Raids flibustiers (L'Olonnais 1666, Lorencillo 1685–1686, Morgan 1663) : établis.
+        note_mj: `✅ Raids flibustiers (L'Olonnais 1666, Lorencillo 1685–1686, Myngs 1663) : établis. Morgan n'est pas encore commandant en 1663 — le raid sur Campeche est conduit par Christopher Myngs.
 ✅ Enceinte fortifiée commencée en 1686, huit bastions : établi — aujourd'hui classée à l'UNESCO.
 ✅ Bois de campêche comme richesse principale : établi.
 ⚠️ Garnison : estimation d'après Calderón Quijano, <em>Historia de las Fortificaciones en Nueva España (1984)</em> → couvre l'ensemble de la période coloniale — extrapolation pour 1712.`,
@@ -589,16 +589,14 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         coords: [2772, 4009],
 
         contexte: [
-            { de: 1712, texte: `Ville la plus riche du Nicaragua espagnol, sur la rive occidentale du lac Nicaragua. Sa vulnérabilité structurelle est géographique : le río San Juan relie le lac à la mer des Caraïbes — une voie navigable depuis la côte atlantique jusqu'au cœur de la ville. Morgan l'a remontée en 1665 pour saccager Granada. Le <strong>Fort Inmaculada</strong>, à l'embouchure du río San Juan sur la mer, est censé barrer cette route — mais la garnison est insuffisante et le fort en mauvais état permanent.` },
+            { de: 1712, texte: `Ville la plus riche du Nicaragua espagnol, sur la rive occidentale du lac Nicaragua. Sa vulnérabilité structurelle est géographique : le río San Juan relie le lac à la mer des Caraïbes — une voie navigable depuis la côte atlantique jusqu'au cœur de la ville. Morgan l'a remontée en 1665 pour saccager Granada. Le <strong>Castillo de la Inmaculada Concepción</strong>, établi sur les rapides à mi-parcours du río San Juan (à ~80 km de la côte), est censé barrer cette route — mais la garnison est insuffisante et le fort en mauvais état permanent.` },
         ],
 
         population: `~4 000 habitants`,
 
-        garnison: `Fort Inmaculada (río San Juan, à ~150 km de Granada) : ~60 à 80 soldats. Le fort est distinct de Granada — il en est la défense avancée. Estimation par analogie avec les postes nicaraguayens de même rang.`,
-
         note_mj: `✅ Saccage de Granada par Morgan via le río San Juan, 1665 : établi.
-✅ Fort Inmaculada à l'embouchure du río San Juan : établi.
-⚠️ Garnison : estimation. Le fort sera renforcé au cours du XVIIIe siècle — les effectifs de 1712 sont probablement inférieurs aux sources bourboniennes.`,
+✅ Castillo de la Inmaculada Concepción sur les rapides du San Juan, à mi-parcours — distinct de l'embouchure maritime : établi (voir entrée dédiée 'castillo-san-juan').
+⚠️ La description initiale plaçait le fort "à l'embouchure" — corrigé : El Castillo est à ~80 km de la côte, sur les rapides qui bloquent la navigation. L'embouchure maritime elle-même n'est pas fortifiée de façon permanente en 1712.`,
     },
 
     {
@@ -688,7 +686,7 @@ Panama City est la tête des deux routes qui font de l'isthme sa valeur : vers l
 
         note_mj: `✅ Sac par Morgan 1671, reconstruction sur nouveau site : établi (Earle, <em>The Sack of Panama</em>, 1981).<br>
 ✅ Panama dépend du vice-roi du Pérou (Lima) pour l'essentiel — distinction essentielle avec Mexico.<br>
-⚠️ Entre 1718 et 1724, le vice-royauté de Nouvelle-Grenade (Santafé) s'intercale nominalement dans la chaîne de commandement, mais cette structure est instable et de courte durée — supprimée dès 1724, non rétablie avant 1739. Dans les faits, Panama traite souvent directement avec Lima.<br>
+⚠️ Entre 1717 et 1723, le vice-royauté de Nouvelle-Grenade (Santafé) s'intercale nominalement dans la chaîne de commandement, mais cette structure est instable et de courte durée — supprimée dès 1723, non rétablie avant 1739. Dans les faits, Panama traite souvent directement avec Lima.<br>
 ⚠️ Garnison : estimation d'après le rang et l'importance de la place.`,
     },
 
