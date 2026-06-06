@@ -14,8 +14,8 @@ const VILLES_AJOUTS = [
     {
         id: 'pensacola',
         nom: 'Pensacola',
-        type: 'port',
-        rang: '2',
+        type: 'fort',
+        rang: '1',
         territoire: 'floride',
         coords: [1718, 864],
         // ⚠️ Absent de la carte Jaillot 1708 — coordonnées à placer manuellement.
@@ -53,7 +53,7 @@ Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été
         label: 'Mexico',
         capitale: true,
         type: 'ville',
-        rang: '2',
+        rang: '1',
         territoire: 'nouvelle-espagne',
         coords: [677, 2152],
 
@@ -162,7 +162,7 @@ La province est administrée par des <em>alcaldes mayores</em> qui contrôlent l
         id: 'acapulco',
         nom: 'Acapulco',
         type: 'port',
-        rang: '2',
+        rang: '1',
         territoire: 'nouvelle-espagne',
         coords: [930, 3027 ],
 
@@ -592,7 +592,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
         id: 'linchanchy',
         nom: 'Linchanchy',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'yucatan',
         coords: [2546, 2370],
 
@@ -2631,7 +2631,7 @@ Le nom survit sur les cartes du XVIIIe siècle par tradition cartographique hér
         id: 'tuteritona',
         nom: 'Tuteritona',
         type: 'site',
-        rang: '2',
+        rang: '3',
         territoire: 'nouvelle-andalousie',
         coords: [7130, 4780],
 
@@ -3338,7 +3338,7 @@ Le Morne de Monte Cristi — un piton calcaire caractéristique visible depuis l
         id: 'la-isabela',
         nom: 'La Isabela',
         type: 'site',
-        rang: '2',
+        rang: '3',
         territoire: 'santo-domingo',
         coords: [5774, 2539],
 
@@ -3363,7 +3363,7 @@ En 1712, il ne reste que quelques pans de murs envahis par la végétation sur u
         nom: 'Xaragua',
         label: 'Xanagua',
         type: 'site',
-        rang: '2',
+        rang: '3',
         territoire: 'saint-domingue',
         coords: [5378, 2732],
         // ⚠️ Xaragua est un nom historique taïno — le territoire du cacique
@@ -3555,29 +3555,27 @@ En 1712, "Xaragua" n'est plus qu'un souvenir cartographique : la région est peu
 // ── 129. HATO DEL CABALLERO ──────────────────────────────────────────────────
 
     {
-        id: 'hato-caballero',
-        nom: 'Hato del Caballero',
-        label: 'Hastio de Dom Cavalgero',
+        id: 'ocoa',
+        nom: 'San José de Ocoa',
+        label: 'Ocoa',
         type: 'ville',
         rang: '2',
         territoire: 'santo-domingo',
-        coords: [5634, 2798],
-        // ⚠️ "Hastio de Dom Cavalgero" sur la Jaillot — déformation probable
-        // de "Hato de Don Caballero". Un hato est un grand ranch d'élevage
-        // qui donne naissance à un bourg. Identification avec l'actuel
-        // San José de Ocoa ou un bourg similaire de l'intérieur.
+        coords: [5634, 2797],
+        // ⚠️ La Jaillot indique "Hastio de Dom. Cavalgero" comme annotation
+        // de propriété (un hato appartenant à un notable) à proximité du
+        // nom de ville "Ocoa". C'est Ocoa qui est le nom de l'établissement.
 
         contexte: [
             {
                 de: 1712,
-                texte: `Bourg né d'un grand ranch d'élevage (<em>hato</em>) dans l'intérieur d'Hispaniola. Les hatos sont la structure économique dominante de la colonie espagnole d'Hispaniola en 1712 — d'immenses propriétés d'élevage extensif de bovins et de porcs, dont les cuirs et les graisses sont exportés vers l'Espagne. Les propriétaires de hatos constituent l'oligarchie créole de Santo Domingo ; leurs propriétés couvrent des dizaines de milliers d'hectares. Ce bourg est l'un de ces centres d'exploitation dont le nom reflète la propriété d'une famille noble (<em>Don Caballero</em>).`,
+                texte: `Bourg de la vallée d'Ocoa, dans les contreforts méridionaux de la cordillère centrale d'Hispaniola — le nom "Hato de Dom Cavalgero" visible sur la carte désigne la propriété d'un notable local, non la ville elle-même. La vallée d'Ocoa est une zone d'élevage extensif — les hatos sont la structure économique dominante de la colonie espagnole d'Hispaniola — d'immenses propriétés d'élevage extensif de bovins et de porcs, dont les cuirs et les graisses sont exportés vers l'Espagne. Les propriétaires de hatos constituent l'oligarchie créole de Santo Domingo ; leurs propriétés couvrent des dizaines de milliers d'hectares. Ocoa est un bourg agricole de l'intérieur, loin des circuits commerciaux côtiers.`,
             },
         ],
 
-        population: `~500 habitants`,
+        population: `~1 000 habitants`,
 
-        note_mj: `⚠️ Identification incertaine — "Hastio de Dom Cavalgero" est une déformation de "Hato de Don Caballero". La localisation précise dans l'intérieur d'Hispaniola est cohérente avec un bourg de ranch, mais non confirmée par source primaire.
-✅ Hatos comme structure économique dominante de Santo Domingo : établi (Moya Pons).`,
+        note_mj: `⚠️ "Hastio de Dom. Cavalgero" sur la Jaillot est une annotation de propriété foncière (hato d'un don Caballero), pas le nom de la ville.<br>✅ Hatos comme structure économique dominante de Santo Domingo : établi (Moya Pons).<br>⚠️ Population : estimation.`,
     },
 
 // ── 130. SAN GERMÁN (PORTO RICO) ─────────────────────────────────────────────
@@ -3716,5 +3714,74 @@ Cette tranquillité prendra fin le 8 mai 1902, lorsqu'une nuée ardente détruir
 // + 3 corrections dans villes-data.js
 // + 1 correction interne (mombacho label + momotombo)
 // ═══════════════════════════════════════════════════════════
+
+// ── AJOUT : PÁTZCUARO (MECHOACAN) ────────────────────────────────────────────
+
+    {
+        id: 'patzcuaro',
+        nom: 'Pátzcuaro',
+        label: 'Mechoacan',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [492, 2347],
+        // ⚠️ La Jaillot indique "Mechoacan" pour ce lieu — nom de la province
+        // plutôt que de la ville. Pátzcuaro est l'identification la plus
+        // plausible : ancienne capitale purépecha, première capitale espagnole
+        // du Michoacán, sur le lac du même nom.
+        // À distinguer de Valladolid/Michoacán (id: 'valladolid-michoacan'),
+        // qui a supplanté Pátzcuaro comme capitale provinciale.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville lacustre sur les rives du lac Pátzcuaro, dans les hautes terres du Michoacán. Ancienne capitale de l'empire purépecha (tarasque) — la seule grande civilisation mésoaméricaine que les Aztèques n'ont jamais réussi à soumettre — Pátzcuaro a été choisie comme première capitale espagnole du Michoacán avant d'être supplantée par Valladolid. Elle doit sa singularité à <strong>Vasco de Quiroga</strong>, dit "Tata Vasco" — évêque juriste qui, inspiré par l'<em>Utopie</em> de Thomas More, a organisé au XVIe siècle les villages indiens des rives du lac en communautés artisanales spécialisées : chaque village produit un seul artisanat (cuivre de Santa Clara, bois laqué de Uruapan, poterie de Tzintzuntzan...), assurant à chacun une spécialité et une interdépendance pacifique.
+<br><br>
+En 1712, ce système survit dans ses grandes lignes — les villages du lac Pátzcuaro maintiennent leurs spécialités artisanales, et la basilique de la Vierge de la Salud, fondée par Quiroga, reste le principal lieu de pèlerinage du Michoacán. Le lac lui-même, à 2 000 mètres d'altitude dans un paysage de volcans et de forêts de pins, est l'un des sites les plus beaux de la Nouvelle-Espagne.`,
+            },
+        ],
+
+        population: `~10 000 habitants dans la ville et les villages du lac`,
+
+        note_mj: `✅ Pátzcuaro comme ancienne capitale purépecha : établi.
+✅ Vasco de Quiroga ("Tata Vasco"), organisation des villages artisanaux du lac : établi (Warren, <em>Vasco de Quiroga and his Pueblo-Hospitals</em>, 1963).
+✅ Résistance purépecha aux Aztèques : établi.
+✅ Basilique de la Vierge de la Salud, fondée par Quiroga : établi.
+⚠️ Population en 1712 : estimation pour la ville et l'ensemble des villages lacustres.
+La spécialisation artisanale des villages du lac Pátzcuaro est encore vivante aujourd'hui — l'une des rares réussites durables du projet de Quiroga.`,
+    },
+
+
+// ── AJOUT : MARIQUITA ────────────────────────────────────────────────────────
+
+    {
+        id: 'mariquita',
+        nom: 'Mariquita',
+        label: 'Mariguetta',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5113, 5021],
+        // ⚠️ "Mariguetta" sur la Jaillot — identification avec Mariquita
+        // confirmée par la position sur la carte moderne par rapport à Bogotá.
+        // Plus importante que les relais fluviaux en aval (Trinidad, Plasencia,
+        // El Desembarcadero) — entrée dédiée justifiée.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville du Magdalena supérieur, fondée en 1551 au pied de la cordillère centrale, sur la route fluviale entre Bogotá et Carthagène. Mariquita est l'étape clé de la navigation entre la capitale du Nuevo Reino et la côte Caraïbe : c'est ici que les voyageurs et les marchandises descendant depuis Bogotá rejoignent le Magdalena navigable, avant de s'embarquer sur les pirogues qui les porteront vers Mompox et Carthagène. La ville est aussi un centre d'exploitation minière — ses mines d'or et d'argent ont été parmi les plus actives du XVIe siècle, aujourd'hui en déclin mais encore en activité partielle.
+<br><br>
+Mariquita est entourée de forêts tropicales d'altitude où pousse le quinquina (<em>Cinchona</em>) — l'écorce dont on tire la quinine, remède contre la fièvre paludéenne. La plante est encore peu exploitée systématiquement en 1712, mais les Jésuites en ont compris la valeur médicale depuis le siècle précédent et la "poudre des Jésuites" commence à circuler en Europe.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1551, position sur la route Bogotá–Carthagène via le Magdalena : établi.
+✅ Mines d'or et d'argent actives au XVIe siècle, en déclin au XVIIIe : établi (McFarlane, <em>Colombia before Independence</em>, 1993).
+✅ Quinquina dans les forêts environnantes, "poudre des Jésuites" : établi — la quinine de cette région sera systématiquement étudiée par la mission botanique de Mutis à la fin du XVIIIe siècle.
+⚠️ Population en 1712 : estimation.`,
+    },
 
 ];
