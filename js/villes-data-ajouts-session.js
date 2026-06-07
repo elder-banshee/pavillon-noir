@@ -2143,4 +2143,124 @@ Mariquita est entourée de forêts tropicales d'altitude où pousse le quinquina
 ⚠️ Population en 1712 : estimation.`,
     },
 
+// ═══════════════════════════════════════════════════════════
+// SÉRIE CÔTE PACIFIQUE — NOUVELLE-ESPAGNE
+// ═══════════════════════════════════════════════════════════
+
+// ── MANZANILLO ───────────────────────────────────────────────────────────────
+
+    {
+        id: 'xiopa',
+        nom: 'Manzanillo',
+        label: 'Manzanillo',
+        type: 'port',
+        territoire: 'nouvelle-espagne',
+        coords: null,
+        // ⚠️ "Xiopa" sur la Jaillot — identification avec Manzanillo (Colima)
+        // d'après la position : baie fermée par un banc de sable ("a Alimcingo")
+        // avec un fleuve à l'embouchure, au nord-ouest de Zacatula/Lázaro Cárdenas,
+        // sur la côte du Colima. Comparaison carte Jaillot / carte moderne confirmée.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Mouillage naturel sur la côte du Colima, dans une baie bien abritée fermée par des hauts-fonds et des îlots au large. Manzanillo est connu des navigateurs côtiers depuis la conquête — Hernán Cortés y a établi un chantier naval au XVIe siècle pour construire les navires destinés à l'exploration du Pacifique. En 1712, ce n'est pas encore un port formel mais un mouillage fréquenté par les navires de cabotage qui relient Acapulco aux ports du nord, et par les pêcheurs locaux. L'arrière-pays produit du coton et de l'indigo, acheminés vers Acapulco ou vers les ports du Golfe par la route terrestre.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ "Xiopa" sur la Jaillot : identification avec Manzanillo (Colima) proposée d'après la position et la description de la baie — comparaison Jaillot/carte moderne cohérente.
+✅ Chantier naval de Cortés à Manzanillo au XVIe siècle : établi.
+⚠️ Manzanillo ne devient un port formel qu'au XIXe siècle — en 1712, c'est un mouillage informel.`,
+    },
+
+// ── ZACATULA ─────────────────────────────────────────────────────────────────
+
+    {
+        id: 'zacatula',
+        nom: 'Zacatula',
+        type: 'port',
+        territoire: 'nouvelle-espagne',
+        coords: null,
+        // ⚠️ À l'embouchure du río Balsas (plus grand fleuve côtier du Pacifique
+        // mexicain), marquant la frontière entre l'Audience de Mexico et Tlascala
+        // sur la Jaillot. Correspond à la zone de l'actuelle Lázaro Cárdenas
+        // (Michoacán/Guerrero).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port à l'embouchure du río Balsas — le plus grand fleuve côtier du Pacifique mexicain — marquant la frontière entre les provinces de Mexico et de Tlascala. Fondé dès 1523, Zacatula est l'un des premiers établissements espagnols de la côte Pacifique : Cortés y a fait construire des navires dès 1522 pour explorer la "Mar del Sur". Le bois des forêts tropicales du Balsas alimentait ces chantiers navals improvisés, et les premiers voyages d'exploration vers le nord du Pacifique mexicain sont partis de cette rade.
+<br><br>
+En 1712, Zacatula est retombée dans une modestie provinciale — le grand port Pacifique de la Nouvelle-Espagne est Acapulco, et Zacatula n'est plus qu'une escale de cabotage. Mais la barre du río Balsas, dangereuse par gros temps, reste un repère incontournable pour les navigateurs longeant la côte.`,
+            },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `✅ Fondation dès 1523, chantier naval de Cortés : établi (Herrera, <em>Historia General</em>).
+✅ Embouchure du río Balsas, frontière provinciale sur la Jaillot : établi géographiquement.
+✅ Correspondance avec la zone de Lázaro Cárdenas (Michoacán/Guerrero) : confirmée par comparaison Jaillot/carte moderne.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── PUERTO ESCONDIDO ─────────────────────────────────────────────────────────
+
+    {
+        id: 'puerto-escondido',
+        nom: 'Puerto Escondido',
+        label: 'Pt. Escondido',
+        type: 'port',
+        territoire: 'nouvelle-espagne',
+        coords: null,
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `"Port caché" — son nom dit tout. Puerto Escondido est une crique naturelle encaissée dans les falaises de la côte oaxacane, invisible depuis le large jusqu'à ce qu'on en soit à quelques encablures. Ce type de mouillage discret est précieux sur la côte Pacifique mexicaine, peu pourvue en abris naturels entre Acapulco et l'isthme de Tehuantepec. Les navires de cabotage qui longent la côte s'y arrêtent pour faire de l'eau et réparer loin des regards des autorités d'Acapulco. Un mouillage de contrebande autant que de nécessité.`,
+            },
+        ],
+
+        population: `Quelques dizaines d'habitants permanents`,
+
+        note_mj: `✅ Puerto Escondido sur la côte oaxacane, mouillage naturel encaissé : établi géographiquement.
+🎲 Le nom "port caché" est lui-même un indice narratif — un lieu que les autorités ne surveillent pas, sur une côte que personne ne contrôle vraiment entre Acapulco et Tehuantepec.`,
+    },
+
+// ── TEHUANTEPEC ──────────────────────────────────────────────────────────────
+
+    {
+        id: 'tehuantepec',
+        nom: 'Tehuantepec (Santo Domingo Tehuantepec)',
+        label: 'Tehuantepec',
+        type: 'ville',
+        territoire: 'nouvelle-espagne',
+        coords: null,
+        // ⚠️ "Salinas" sur la Jaillot désigne les salines côtières à l'embouchure
+        // du río Tehuantepec — le port de Salina Cruz. Tehuantepec elle-même est
+        // dans les terres, à quelques kilomètres de la côte Pacifique.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville zapotèque et coloniale au cœur de l'isthme de Tehuantepec — le point le plus étroit du continent nord-américain, où les deux océans ne sont séparés que d'une deux centaines de kilomètres. Ancienne capitale d'un puissant royaume zapotèque qui avait résisté aux Aztèques, Tehuantepec a été conquise par les Espagnols en 1521 et attribuée en encomienda à Hernán Cortés lui-même, qui y possédait l'une de ses plus grandes propriétés. Les Dominicains y ont fondé un couvent dès 1544, dont la bibliothèque est l'une des plus riches de la région.
+<br><br>
+L'isthme de Tehuantepec est une route de transit entre le Pacifique et le golfe du Mexique depuis des siècles — les marchandises venant d'Acapulco ou des Philippines peuvent traverser ici pour rejoindre Veracruz sans passer par Mexico. Cette route est moins utilisée que le Camino Real mais reste une alternative précieuse en cas de besoin discret. Les salines côtières ("Salinas" sur la Jaillot), à l'embouchure du río Tehuantepec, produisent le sel qui approvisionne toute la région.
+<br><br>
+La société téhuantepecaine est dominée par les femmes zapotèques — les <em>tehuana</em> — qui contrôlent les marchés locaux et le commerce de détail, une particularité sociale qui frappe tous les voyageurs européens qui traversent l'isthme.`,
+            },
+        ],
+
+        population: `~8 000 habitants`,
+
+        note_mj: `✅ Isthme de Tehuantepec comme point le plus étroit du continent nord-américain : établi.
+✅ Ancien royaume zapotèque résistant aux Aztèques, conquête 1521 : établi.
+✅ Encomienda de Cortés à Tehuantepec : établi (Cortés y possédait des propriétés importantes).
+✅ Couvent dominicain fondé en 1544 : établi.
+✅ Route de transit Pacifique–Golfe via l'isthme comme alternative au Camino Real : établi.
+✅ Rôle commercial dominant des femmes zapotèques (tehuana) dans les marchés : établi — observé par tous les voyageurs depuis la conquête.
+⚠️ "Salinas" sur la Jaillot = salines côtières de Salina Cruz, port maritime de Tehuantepec : établi géographiquement.
+⚠️ Population en 1712 : estimation.`,
+    },
 ];

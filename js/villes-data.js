@@ -7,10 +7,6 @@
 
 const VILLES = [
 
-    // ══════════════════════════════════════════════════════════
-    // SÉRIE 1 — Colonies britanniques & Bahamas
-    // ══════════════════════════════════════════════════════════
-
     {
         id: 'cartagena',
         nom: 'Carthagène de Indias',
@@ -42,6 +38,12 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
         ✅ Asiento anglais (South Sea Company) depuis Utrecht 1713 : établi.<br>
         ⚠️ Gouverneur militaire 1712 : non identifié depuis les sources accessibles. AGI (Audiencia de Santa Fe) : source primaire.\nCarthagène est une alcaldía mayor et place militaire distincte de la Présidence de Santafé — son gouverneur militaire propre n'est pas subordonné au gouverneur civil de la Nouvelle-Grenade pour les affaires militaires.`,
     },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE CAROLINE DU SUD
+// ═══════════════════════════════════════════════════════════
+
+// ── CHARLES TOWN ─────────────────────────────────────────────────────────────
 
     {
         id: 'charles-town',
@@ -94,6 +96,12 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
 ✅ Commerce interlope avec Nassau : <em>Calendar of State Papers Colonial</em>.<br>
 Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue par des palissades et deux batteries côtières modestes, insuffisantes face à une escadre.`,
     },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE FLORIDE
+// ═══════════════════════════════════════════════════════════
+
+// ── SAN AGUSTÍN ─────────────────────────────────────────────────────────────
 
     {
         id: 'san-agustin',
@@ -153,6 +161,12 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
 Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été intégré par le cartographe.`,
     },
 
+// ═══════════════════════════════════════════════════════════
+// SÉRIE LOUISIANE  
+// ═══════════════════════════════════════════════════════════
+
+// ── MOBILE ─────────────────────────────────────────────────────────────
+
     {
         id: 'mobile',
         nom: 'Mobile',
@@ -183,6 +197,8 @@ Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été
 ✅ Mobile capitale jusqu'en 1718 : établi.`,
     },
 
+// ── NOUVELLE-ORLÉANS ─────────────────────────────────────────────────────────────
+
     {
         id: 'la-nouvelle-orleans',
         nom: 'La Nouvelle-Orléans',
@@ -201,6 +217,12 @@ Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été
         note_mj: `✅ Fondation 1718, conditions précaires : établi (DCB, 64 Parishes/LSU).
 Pour la campagne : La Nouvelle-Orléans n'existe pas avant 1718 — tout événement antérieur dans la région se situe à Mobile ou dans les postes du Mississippi.`,
     },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE PANUCO
+// ═══════════════════════════════════════════════════════════
+
+// ── TAMPICO ─────────────────────────────────────────────────────────────
 
     {
         id: 'tampico',
@@ -221,7 +243,7 @@ Pour la campagne : La Nouvelle-Orléans n'existe pas avant 1718 — tout événe
     },
 
 // ═══════════════════════════════════════════════════════════
-// SÉRIE NOUVELLE-ESPAGNE  
+// SÉRIE NOUVELLE-ESPAGNE
 // ═══════════════════════════════════════════════════════════
 
 // ── MEXICO ─────────────────────────────────────────────────────────────────
@@ -309,14 +331,14 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
 // ── OAXACA / ANTEQUERA ──────────────────────────────────────────────────── !!!
 
     {
-        id: 'guaxaca',
+        id: 'antequera',
         nom: 'Antequera (Oaxaca)',
         label: 'Antequera',
         capitale: true,
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-espagne',
-        coords: [1154, 2738],
+        coords: [1233,2795],
 
         contexte: [
             {
@@ -419,6 +441,45 @@ Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à La Antigua s
 ⚠️ Gouverneur précis du Tabasco en 1712 : non identifié depuis les sources accessibles.`,
     },
 
+// ── TEHUACÁN ─────────────────────────────────────────────────────────
+
+    {
+        id: 'guaxaca',
+        nom: 'Tehuacán (Santa María de la Concepción Tehuacán)',
+        label: 'Tehuacan',
+        type: 'ville',
+        territoire: 'nouvelle-espagne',
+        coords: [1155, 2738],
+        // ⚠️ "Guaxaca" sur la Jaillot — la Jaillot utilise le nom de la province
+        // (Guaxaca/Oaxaca) pour désigner Tehuacán, ville majeure du bassin supérieur
+        // du río Papaloapan ("R. de Medelin" sur la Jaillot, nommé d'après Medellín
+        // de Bravo à son embouchure). Oaxaca de Juárez elle-même apparaît sous le
+        // nom "Antequera" (son nom officiel espagnol) plus à l'est-sud-est.
+        // "Capotitlan" sur la Jaillot désigne un village nahuatl mineur distinct.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville des hautes terres entre Puebla et Oaxaca, sur la route commerciale qui relie les deux provinces. Tehuacán possède en 1712 un statut unique dans toute la Nouvelle-Espagne : celui de <strong>Ciudad de Indios</strong> — titre acheté à la Couronne espagnole le 16 mars 1660, au terme d'une enchère où les caciques indigènes ont surenchéri sur les colons espagnols qui convoitaient le même statut. Ce choix délibéré — préférer la "Ciudad de Indios" à la "Villa de Españoles" — a préservé des privilèges exceptionnels : les autorités municipales sont nommées parmi les naturels et caciques indigènes ; les Espagnols ne peuvent légalement s'installer dans la ville sans permission ; la communauté dispose de son propre blason royal et de procurateurs à Mexico pour défendre ses droits.
+<br><br>
+Ces privilèges sont l'objet d'un conflit permanent avec les hacendados espagnols et les autorités coloniales qui cherchent à les rogner — et la Couronne, pragmatiquement, maintient l'élite indienne dans ses droits pour préserver la stabilité de la province. La vallée de Tehuacán est aussi un centre de production de <strong>sel</strong> (salines de Zapotitlán) et un nœud de la route commerciale entre Puebla, Oaxaca et Veracruz. Ses eaux thermales sont réputées dans toute la Nouvelle-Espagne.`,
+            },
+        ],
+
+        population: `~15 000 habitants dans la ville et sa juridiction`,
+
+        note_mj: `✅ Titre de "Ciudad de Indios" acheté le 16 mars 1660 — les indigènes ont surenchéri sur les Espagnols : établi (Wikipedia ES, Tehuacán ; Arango Puerta, <em>Anuario de Historia Regional y de las Fronteras</em>, 2023).
+✅ Privilèges : autorités indigènes, exclusion des Espagnols de la cabecera, blason royal, accès à la justice royale : établi (ibid.).
+✅ Conflit permanent avec les hacendados espagnols sur ces privilèges, 1660–1808 : établi.
+✅ Salines de Zapotitlán dans la juridiction de Tehuacán : établi.
+✅ Tehuacán dans le bassin supérieur du río Papaloapan (R. de Medelin sur la Jaillot) : cohérent géographiquement.
+⚠️ Identification "Guaxaca" (Jaillot) = Tehuacán : la Jaillot utilise le nom de la province oaxacane pour désigner cette ville du bassin du Papaloapan. Oaxaca de Juárez apparaît sous son nom officiel "Antequera" plus à l'est-sud-est. "Capotitlan" sur la Jaillot désigne un village mineur distinct, non identifié.
+⚠️ Population en 1712 : estimation — Wikipedia ES cite 2 080 familles pour 1745.
+🎲 Une ville où les autorités sont indiennes et où un Espagnol ne peut légalement s'établir sans permission — contexte inhabituel et narrativement riche pour un groupe de PJ qui arrive dans cette ville.`,
+    },
+
+    // ── VERACRUZ ─────────────────────────────────────────────────────────
+
     {
         id: 'veracruz',
         nom: 'Veracruz',
@@ -426,11 +487,16 @@ Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à La Antigua s
         territoire: 'nouvelle-espagne',
         coords: [1172, 2628],
 
-        contexte: `Premier port de la Nouvelle-Espagne sur l'Atlantique et unique débouché légal de tout le commerce entre Mexico et l'Espagne. L'argent des mines de Zacatecas et de Guanajuato passe par Veracruz avant d'embarquer pour Cadix — ce qui en fait la cible la plus convoitée du Golfe du Mexique.
-
-Le <strong>Fort San Juan de Ulúa</strong> n'est pas sur la côte mais sur un îlot corallien à quelques centaines de mètres du rivage, commandant l'entrée de la rade. Son rôle est double : défense contre les attaques maritimes, et entrepôt sécurisé pour le trésor avant embarquement.
-
+        contexte: [
+            {
+                de: 1712,
+                texte: `Premier port de la Nouvelle-Espagne sur l'Atlantique et unique débouché légal de tout le commerce entre Mexico et l'Espagne. L'argent des mines de Zacatecas et de Guanajuato passe par Veracruz avant d'embarquer pour Cadix — ce qui en fait la cible la plus convoitée du Golfe du Mexique.
+<br><br>
+Le <strong>Fort San Juan de Ulúa</strong> n'est pas sur la côte mais sur un îlot corallien à quelques centaines de mètres du rivage, commandant l'entrée de la rade. Son rôle est double : défense contre les attaques maritimes, et entrepôt sécurisé pour le trésor avant embarquement. La Jaillot distingue le fort insulaire ("Château de l'Isle de St. Jean Delua") d'un faubourg portuaire côtier au sud-est ("St Juan de Lua") — zone d'entrepôts, de chantiers et d'habitations de travailleurs liés au port, distincte de Veracruz intra-muros.
+<br><br>
 En 1683, les flibustiers Lorencillo (Laurent de Graff) et Grammont s'emparent de la ville pendant plusieurs jours — pillage mémorable qui a laissé des traces durables dans la mémoire collective. Le fort n'avait pas été pris, mais la ville fut rançonnée. Depuis lors, les défenses terrestres ont été renforcées.`,
+            },
+        ],
 
         population: `~6 000 à 8 000 habitants permanents ; peut doubler lors des arrivées de flottes`,
 
@@ -1005,22 +1071,31 @@ En 1712, l'idéal fondateur est lointain : les Dominicains gèrent leurs mission
 
     {
         id: 'amaligua',
-        nom: 'Amaligua',
-        type: 'ville',
+        nom: 'Puerto de Higüeras (Amaligua)',
+        label: 'P. de Higneras',
+        type: 'port',
         rang: '2',
         territoire: 'honduras',
         coords: [2251, 3219],
+        // ⚠️ La Jaillot indique "Amaligua" comme village et "P. de Higneras" comme
+        // port à proximité, entre l'embouchure du río Dulce et le "R. Pech" (río Patuca).
+        // "Higüeras" est le nom colonial de toute cette côte (donné par Colomb lors
+        // de son 4e voyage). Correspond à la zone de Puerto Barrios (Guatemala actuel),
+        // à l'embouchure du río Dulce donnant accès au lac Izabal.
 
         contexte: [
             {
                 de: 1712,
-                texte: `Village côtier ou fluvial de la côte Caraïbe hondurienne, dont le nom sur la Jaillot est une translittération approximative d'un nom lenca ou misumalpan. La côte hondurienne entre le cap Gracias a Dios et Trujillo est en 1712 une zone peu contrôlée par les Espagnols — quelques missions isolées, des villages indiens, et une présence anglaise de plus en plus affirmée depuis la Jamaïque et la côte Miskito.`,
+                texte: `Port à l'embouchure du río Dulce, sur la côte Caraïbe — porte d'entrée vers le lac Izabal et l'intérieur du Guatemala. "Higüeras" est le nom donné par Colomb lors de son quatrième voyage (1502) à toute cette côte hondurienne-guatémaltèque, en référence aux figuiers de Barbarie abondants sur le rivage. En 1712, c'est un mouillage actif sur la route entre les ports de la côte Caraïbe et la route fluviale vers Santiago de Guatemala via le río Dulce et le lac Izabal — la principale voie d'accès maritime à la capitainerie générale de Guatemala depuis la Caraïbe.`,
             },
         ],
 
         population: `Quelques centaines d'habitants`,
 
-        note_mj: `⚠️ Identification incertaine — toponyme non retrouvé avec certitude dans les sources coloniales honduriennes. Pourrait correspondre à un village aujourd'hui disparu ou connu sous un nom différent.`,
+        note_mj: `✅ "Higüeras" comme nom colonial de la côte, donné par Colomb (4e voyage, 1502) : établi.
+✅ Embouchure du río Dulce comme accès au lac Izabal et à l'intérieur du Guatemala : établi géographiquement.
+⚠️ Identification avec Puerto Barrios (Guatemala actuel) : probable d'après la position sur la Jaillot entre l'embouchure du río Dulce et le "R. Pech" (río Patuca). Puerto Barrios n'est fondé formellement qu'au XIXe siècle mais le mouillage est utilisé depuis la conquête.
+⚠️ "Amaligua" : village distinct à proximité, non identifié précisément — pourrait être un village garifuna ou misumalpan de la côte.`,
     },
 
 
@@ -1028,51 +1103,54 @@ En 1712, l'idéal fondateur est lointain : les Dominicains gèrent leurs mission
 
     {
         id: 'porta-domos',
-        nom: 'Porta Domos',
+        nom: 'Puerto Cortés (Puerto Caballos)',
         label: 'Porta Domos',
         type: 'port',
         rang: '2',
         territoire: 'honduras',
         coords: [2316, 3270],
-        // ⚠️ Identification probable : Puerto Caballos (aujourd'hui Puerto Cortés),
-        // principal port Caraïbe du Honduras colonial, situé en amont du cap Tres Puntas.
-        // La phonétique "Porta Domas" ne correspond pas exactement — incertitude maintenue.
+        // ⚠️ "Porta Domos" sur la Jaillot — identification confirmée avec Puerto Cortés
+        // (Puerto Caballos colonial) : principal port Caraïbe du Honduras, débouché
+        // maritime de San Pedro Sula. La phonétique reste inexpliquée.
 
         contexte: [
             {
                 de: 1712,
-                texte: `Port de la côte Caraïbe hondurienne, en amont du cap Tres Puntas. S'il s'agit bien de Puerto Caballos — identification probable mais non certaine — c'est le principal débouché maritime du Honduras colonial : indigo de San Salvador, bois précieux de l'arrière-pays, et quelques produits miniers descendent vers ce port avant d'embarquer pour l'Espagne via La Havane. Le port est modeste et ses défenses légères — suffisantes pour décourager un raid de routine, insuffisantes face à une attaque organisée.`,
+                texte: `Principal port de la côte Caraïbe hondurienne, débouché maritime de la vallée de la Sula et de San Pedro Sula. Connu sous le nom colonial de Puerto Caballos — "port des chevaux", en référence aux premiers débarquements de montures espagnoles sur cette côte — c'est par ici que transitent l'indigo et le cacao de l'arrière-pays guatémaltèque et hondurien avant d'embarquer vers l'Espagne via La Havane. Le port est protégé par le cap Tres Puntas au nord-est, qui lui offre un abri naturel contre les houles caraïbes.`,
             },
         ],
 
         population: `~1 000 habitants`,
 
-        note_mj: `⚠️ Identification de "Porta Domas" avec Puerto Caballos : probable d'après la position sur la Jaillot (en amont du cap Tres Puntas), mais la phonétique ne correspond pas — incertitude maintenue.
-✅ Puerto Caballos comme principal port Caraïbe du Honduras colonial : établi si l'identification est correcte.`,
+        note_mj: `✅ Puerto Caballos (Puerto Cortés) comme principal port Caraïbe du Honduras : établi.
+✅ Identification confirmée par la position sur la Jaillot (en amont du cap Tres Puntas) et par la présence de San Pedro Sula dans les terres comme ville de l'arrière-pays.
+⚠️ Phonétique "Porta Domos" → "Puerto Caballos" : non expliquée — déformation cartographique importante.`,
     },
 
 // ── PORTA DE SAL ─────────────────────────────────────────────────────────
 
     {
         id: 'porta-de-sal',
-        nom: 'Porta de Sal',
+        nom: 'La Ceiba (Porta de Sal)',
+        label: 'Porta de Sal',
         type: 'port',
         rang: '2',
         territoire: 'honduras',
         coords: [2478, 3296],
-        // ⚠️ À l'embouchure du "Sal River" sur la Jaillot — probablement
-        // le río Ulúa ou le río Chamelecón, côte nord hondurienne.
+        // ⚠️ "Sal River" sur la Jaillot = probable río Cangrejal (La Ceiba actuelle).
+        // Identification cohérente avec la position entre Puerto Cortés et Trujillo.
 
         contexte: [
             {
                 de: 1712,
-                texte: `Petit poste portuaire à l'embouchure du río Sal sur la côte Caraïbe hondurienne — un mouillage de fortune plutôt qu'un vrai port, utilisé par les pirogues locales et les sloops de commerce interlope. Le "Sal River" tire son nom des salines côtières, ressource modeste mais utile pour la conservation du poisson et des viandes.`,
+                texte: `Mouillage côtier à l'embouchure d'une rivière descendant des montagnes honduriennes vers la Caraïbe — le "Sal River" de la Jaillot, probablement le río Cangrejal. Ce point de la côte offre un abri modeste aux petits navires de cabotage entre Puerto Cortés à l'ouest et Trujillo à l'est. L'arrière-pays montagneux est peu colonisé — quelques missions et villages lencas dans les vallées intérieures. La plage de La Ceiba sera un port plus actif au XIXe siècle avec le développement des bananeries, mais en 1712 c'est un simple mouillage de passage.`,
             },
         ],
 
         population: `Quelques dizaines d'habitants`,
 
-        note_mj: `⚠️ Identification incertaine — "Sal River" non retrouvé avec certitude. Pourrait correspondre au río Ulúa, au río Chamelecón, ou à un cours d'eau mineur de la côte nord hondurienne. Aucune source primaire directe.`,
+        note_mj: `⚠️ Identification "Sal River" = río Cangrejal (La Ceiba) : plausible d'après la position sur la Jaillot entre Puerto Cortés et Trujillo. "Sal" pourrait être une déformation ou une traduction partielle du nom local.
+⚠️ La Ceiba ne devient un port notable qu'au XIXe siècle — en 1712, simple mouillage de passage.`,
     },
 
 // ── COMAYAGUA ────────────────────────────────────────────────────────────
@@ -1193,6 +1271,86 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
 ⚠️ Population en 1712 : estimation.`,
     },
 
+// ── SAN PEDRO SULA ───────────────────────────────────────────────────────────
+
+    {
+        id: 'san-pedro',
+        nom: 'San Pedro Sula',
+        label: 'San Pedro',
+        type: 'ville',
+        territoire: 'honduras',
+        coords: [2411, 3378],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville fondée en 1536 dans la fertile vallée de la Sula, entre les montagnes honduriennes et la côte Caraïbe. San Pedro Sula est le centre commercial de la région nord du Honduras — ses marchés redistribuent l'indigo, le cacao et le bois précieux de l'arrière-pays vers Puerto Cortés (Puerto Caballos), à quelques lieues au nord. La vallée de la Sula est l'une des plus productives du Honduras colonial : ses rivières irriguent des cultures de maïs, de cacao et de cannes à sucre, et ses forêts fournissent le bois de construction et de teinture exporté vers l'Espagne.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1536 dans la vallée de la Sula : établi.
+✅ Rôle de centre commercial de l'arrière-pays hondurien, débouché sur Puerto Cortés : établi géographiquement.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── LAC IZABAL / EL GOLFETE ──────────────────────────────────────────────────
+
+    {
+        id: 'lac-izabal',
+        nom: 'Lac Izabal (El Golfete)',
+        label: 'Lac Izabal',
+        type: 'site',
+        territoire: 'guatemala',
+        coords: [2028, 3209],
+        // ⚠️ Dessiné sans nom sur la Jaillot mais représenté sans ambiguïté.
+        // Le lac Izabal est le plus grand lac du Guatemala actuel, relié à la
+        // mer des Caraïbes par El Golfete et le río Dulce.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Le plus grand lac du Guatemala, relié à la mer des Caraïbes par une succession de plans d'eau — El Golfete d'abord, puis le canyon du río Dulce, avant d'atteindre la côte à Puerto de Higüeras. Ce système lacustre est la principale voie d'accès maritime à l'intérieur de la capitainerie générale de Guatemala depuis la Caraïbe : les marchandises débarquées à la côte remontent par pirogue le río Dulce, traversent El Golfete, puis le lac Izabal, avant d'être chargées sur des mules pour la route terrestre vers Santiago de Guatemala.
+<br><br>
+Les rives du lac sont peu peuplées par les Espagnols — quelques haciendas d'élevage et des missions parmi les Mayas q'eqchi' de l'arrière-pays. Le canyon du río Dulce, aux parois calcaires de trente mètres de hauteur couvertes de végétation tropicale, est l'un des paysages les plus spectaculaires de toute l'Amérique centrale. Les pirates et les flibustiers qui connaissent cette route y trouvent un refuge presque impénétrable.`,
+            },
+        ],
+
+        note_mj: `✅ Lac Izabal comme plus grand lac du Guatemala, relié à la Caraïbe par le río Dulce et El Golfete : établi géographiquement.
+✅ Route fluviale vers l'intérieur du Guatemala via le río Dulce : établi.
+🎲 Le canyon du río Dulce est un terrain de jeu narratif exceptionnel — étroit, impossible à surveiller, bordé de falaises, fréquenté par des pirogues indiennes et des navires qui cherchent à ne pas être vus.`,
+    },
+
+// ── GRACIAS (PRIMERA CAPITAL DE HONDURAS) ────────────────────────────────────
+
+    {
+        id: 'gratios-o-dios',
+        nom: 'Gracias (Villa de Gracias a Dios)',
+        label: 'Gratios o Dios',
+        type: 'ville',
+        territoire: 'honduras',
+        coords: [2235, 3430],
+        // ⚠️ "Gratios o Dios" sur la Jaillot, en remontant le "R. Pech" (río Patuca)
+        // depuis la côte, non loin de la frontière avec l'Audience de Guatemala.
+        // Identification avec Gracias (Lempira) confirmée par la position.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville fondée en 1536 dans les montagnes de Lempira — la première capitale du Honduras colonial et siège de la première Audiencia d'Amérique centrale (1544). Son nom complet, "Villa de Gracias a Dios", commémore le soulagement des conquistadors lorsqu'ils ont enfin trouvé une plaine propice à l'établissement après des mois d'errance dans les sierras honduriennes. La Real Audiencia de los Confines, installée ici en 1544, administrait alors toute l'Amérique centrale — avant d'être transférée à Santiago de Guatemala en 1549, laissant Gracias à son isolement montagnard.
+<br><br>
+En 1712, Gracias est une ville de second rang — chef-lieu d'une province montagneuse productrice d'élevage et de quelques mines d'argent, sur la route entre Comayagua et les provinces du Guatemala. Sa gloire passée de capitale est lointaine, mais son couvent franciscain et sa cathédrale témoignent encore de cette période fondatrice.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Fondation 1536, première capitale du Honduras : établi.
+✅ Siège de la Real Audiencia de los Confines en 1544, transférée à Santiago de Guatemala en 1549 : établi.
+✅ Étymologie du nom — soulagement des conquistadors après leur errance dans la sierra : établi (tradition documentée).
+⚠️ Population en 1712 : estimation.`,
+    },
 
 // ═══════════════════════════════════════════════════════════
 // SÉRIE NICARAGUA
