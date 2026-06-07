@@ -118,6 +118,41 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
 ⚠️ Situation exacte en 1712–1714 : situado intercepté par les Anglais, famine documentée dans la correspondance de Córcoles (AGI).`,
     },
 
+// ── PENSACOLA ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'pensacola',
+        nom: 'Pensacola',
+        type: 'fort',
+        rang: '1',
+        territoire: 'floride',
+        coords: [1718, 864],
+        // ⚠️ Absent de la carte Jaillot 1708 — coordonnées à placer manuellement.
+        // À l'embouchure du río Escambia (probable "R. Snelo" sur la Jaillot),
+        // entre les fleuves Perdido, Escambia et Blackwater, côte nord du Golfe.
+
+        contexte: [
+            {
+                de: 1712, a: 1719,
+                texte: `Presidio espagnol fondé en 1698 sur la baie du même nom, pour contrer l'expansion française depuis Mobile — les deux établissements ne sont séparés que d'une centaine de kilomètres de côte marécageuse. Pensacola est moins une ville qu'un fort avec quelques maisons autour : une garnison, une petite chapelle, des entrepôts rudimentaires. Sa valeur est entièrement stratégique : tenir la côte entre la Floride et la Louisiane, affirmer la présence espagnole face aux Français.`,
+            },
+            {
+                de: 1719,
+                texte: `Presidio espagnol fondé en 1698, pris par Bienville en mai 1719 avec une force navale française — épisode lié à la guerre de la Quadruple-Alliance (1718–1720). La ville est rendue, reprise, rendue à nouveau au fil des négociations diplomatiques. Ces allers-retours illustrent la fragilité de tout établissement sur cette côte contestée.`,
+            },
+        ],
+
+        population: `~500 habitants (garnison et civils)`,
+
+        garnison: `Fort San Carlos de Austria (ou Fort San Carlos de Pensacola) : ~200 soldats. Estimation d'après Boyd, <em>History of Pensacola</em> (1929) et Coker & Watson, <em>Indian Traders of the Southeastern Spanish Borderlands</em> (1986).`,
+
+        note_mj: `✅ Fondation 1698, objectif stratégique anti-français : établi (Boyd, 1929).
+✅ Prise par Bienville en mai 1719, puis rendue, puis reprise — guerre de la Quadruple-Alliance (1718–1720) : établi (Wikipedia EN, Pensacola).
+⚠️ Population et garnison : estimations — sources précises pour 1712–1718 fragmentaires.
+⚠️ Identification du "R. Snelo" de la Jaillot avec l'Escambia : hypothèse plausible géographiquement, non confirmée par source cartographique directe.
+Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été intégré par le cartographe.`,
+    },
+
     {
         id: 'mobile',
         nom: 'Mobile',
@@ -165,6 +200,1670 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
 
         note_mj: `✅ Fondation 1718, conditions précaires : établi (DCB, 64 Parishes/LSU).
 Pour la campagne : La Nouvelle-Orléans n'existe pas avant 1718 — tout événement antérieur dans la région se situe à Mobile ou dans les postes du Mississippi.`,
+    },
+
+    {
+        id: 'tampico',
+        nom: 'Tampico',
+        type: 'port',
+        rang: '2',
+        territoire: 'panuco',
+        coords: [1153, 2032],
+
+        contexte: [
+            { de: 1712, texte: `Port modeste à l'embouchure du río Pánuco sur le Golfe du Mexique — seul débouché maritime entre Veracruz au sud et la Floride au nord. Saccagé par les pirates en 1684, le traumatisme reste présent dans les mémoires locales. Le commerce interlope avec des navires anglais de la Nouvelle-Angleterre est une réalité tolérée faute de moyens de surveillance. Aucun fort permanent en état.` },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `✅ Saccage par les pirates en 1684 : sources locales concordantes (Herrera Casasús, UAT, 1988).
+⚠️ Population : estimation.`,
+    },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE NOUVELLE-ESPAGNE  
+// ═══════════════════════════════════════════════════════════
+
+// ── MEXICO ─────────────────────────────────────────────────────────────────
+
+    {
+        id: 'mexico',
+        nom: 'Mexico (Ciudad de México)',
+        label: 'Mexico',
+        capitale: true,
+        type: 'ville',
+        rang: '1',
+        territoire: 'nouvelle-espagne',
+        coords: [677, 2152],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de la vice-royauté de Nouvelle-Espagne et première ville du continent américain — son seul rival en population est Lima, sur le Pacifique. Mexico est bâtie sur les ruines de Tenochtitlán, l'ancienne capitale aztèque détruite par Cortés en 1521, au centre d'un système de lacs aujourd'hui partiellement asséché par deux siècles de travaux. Le Palais des vice-rois occupe l'emplacement du palais de Moctezuma ; la cathédrale métropolitaine, en construction depuis 1573, domine la Plaza Mayor.
+<br><br>
+C'est ici que convergent toutes les décisions administratives, judiciaires et fiscales de la Nouvelle-Espagne : la <strong>Real Audiencia</strong> y siège, le vice-roi y réside, les grandes familles créoles y font valoir leurs intérêts. L'argent extrait des mines de Zacatecas et Guanajuato transite par Mexico avant de descendre vers Veracruz et les flottes du roi. La ville est aussi un centre intellectuel : l'université — fondée en 1551, la première du continent — forme les lettrés et les clercs de tout le vice-royauté.
+<br><br>
+Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arrive ou repart des Caraïbes passe par ses douanes, ses négociants, ses caisses royales.`,
+            },
+        ],
+
+        population: `~100 000 habitants — la plus grande ville des Amériques`,
+
+        note_mj: `✅ Mexico comme capitale vice-royale et première ville d'Amérique : établi.
+✅ Cathédrale en construction depuis 1573, achevée en 1813 : établi.
+✅ Universidad Real y Pontificia de México, fondée 1551 : établi.
+✅ Vice-rois de la période : Linares (1711–1716), Valero (1716–1722), Casafuerte (1722–1734) — voir carte-data.js (nouvelle-espagne).
+⚠️ Population ~100 000 : estimation couramment citée pour le début du XVIIIe siècle — recensements précis postérieurs.`,
+    },
+
+// ── PUEBLA ─────────────────────────────────────────────────────────────────
+
+    {
+        id: 'los-angeles',
+        nom: 'Puebla de los Ángeles',
+        label: 'Puebla',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [790, 2342],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Deuxième ville de la Nouvelle-Espagne, fondée en 1531 dans une vallée fertile entre Mexico et Veracruz. Puebla occupe une position charnière : toute marchandise montant de la côte vers la capitale, et tout convoi d'argent descendant vers les flottes, passe par ici. La ville est un centre manufacturier actif — ses ateliers produisent textiles de laine et céramiques de faïence (la <em>talavera poblana</em>), exportées dans tout le vice-royauté. L'évêché de Puebla est l'un des plus riches et des plus influents de la Nouvelle-Espagne, parfois en tension ouverte avec le vice-roi de Mexico.`,
+            },
+        ],
+
+        population: `~50 000 habitants`,
+
+        note_mj: `✅ Fondation 1531, position sur la route Mexico–Veracruz : établi.
+✅ Talavera poblana et manufactures textiles : établi.
+⚠️ Population : estimation courante pour le début du XVIIIe siècle.`,
+    },
+
+// ── JALAPA ────────────────────────────────────────────────────────────────
+
+    {
+        id: 'xalapa',
+        nom: 'Jalapa (Xalapa)',
+        label: 'Jalapa',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [975, 2531],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville de montagne sur les contreforts de la Sierra Madre orientale, à mi-chemin entre Veracruz et Puebla. Jalapa doit sa notoriété commerciale à la <strong>Feria de Jalapa</strong> : lorsqu'une flotte espagnole arrive à Veracruz, les marchands de l'intérieur descendent à Jalapa pour y traiter avec les agents des négociants de Cadix, à l'abri de la fièvre jaune qui décime les Européens dans la chaleur côtière. La foire ne dure que quelques semaines mais brasse des millions de pesos — c'est ici que se fixent les prix de gros pour l'ensemble du marché intérieur. Entre les flottes, Jalapa retrouve sa tranquillité provinciale.`,
+            },
+        ],
+
+        population: `~8 000 habitants`,
+
+        note_mj: `✅ Feria de Jalapa, mécanisme de distribution des marchandises des flottes : établi (Walker, <em>Spanish Politics and Imperial Trade</em>, 1979).
+✅ Choix de Jalapa pour éviter la fièvre jaune de Veracruz : attesté dans les sources marchandes de l'époque.
+⚠️ Population : estimation.`,
+    },
+
+// ── OAXACA / ANTEQUERA ──────────────────────────────────────────────────── !!!
+
+    {
+        id: 'guaxaca',
+        nom: 'Antequera (Oaxaca)',
+        label: 'Antequera',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [1154, 2738],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de la province de Oaxaca, connue à l'époque coloniale sous son nom espagnol d'Antequera. La ville est le centre administratif et épiscopal d'une province dont la richesse repose sur un produit unique : la <strong>cochenille</strong> (<em>Dactylopius coccus</em>), insecte parasite du nopal élevé par les communautés indiennes zapotèques et mixtèques. Son corps séché produit le carmin — le rouge le plus intense et le plus stable disponible en Europe, utilisé pour teindre les draps de laine des manufactures anglaises, hollandaises et françaises. La cochenille d'Oaxaca est, avec l'argent, l'une des exportations les plus précieuses de la Nouvelle-Espagne.
+<br><br>
+La province est administrée par des <em>alcaldes mayores</em> qui contrôlent le commerce de la cochenille via le système du <em>repartimiento</em> : ils avancent des fournitures aux villages indiens en échange de leur production à prix fixé, maintenant les communautés dans une dépendance structurelle. Les Dominicains, implantés depuis le XVIe siècle, gèrent les missions et les couvents de l'arrière-pays.`,
+            },
+        ],
+
+        population: `~20 000 habitants dans la ville et ses environs immédiats`,
+
+        note_mj: `✅ Cochenille d'Oaxaca comme exportation majeure, repartimiento : établi (Hamnett, <em>Politics and Trade in Southern Mexico</em>, 1971).
+✅ Dominicains en Oaxaca depuis le XVIe siècle : établi.
+⚠️ Population : estimation.`,
+    },
+
+
+// ── ACAPULCO ──────────────────────────────────────────────────────────────
+
+    {
+        id: 'acapulco',
+        nom: 'Acapulco',
+        type: 'port',
+        rang: '1',
+        territoire: 'nouvelle-espagne',
+        coords: [930, 3027 ],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Le seul grand port pacifique de la Nouvelle-Espagne — et la tête de l'une des routes commerciales les plus extraordinaires du monde. Chaque année, le <strong>Galion de Manille</strong> (la <em>Nao de China</em>) relie Acapulco aux Philippines en une traversée de deux à trois mois : il emporte l'argent mexicain vers Manille, et revient chargé de soie de Chine, d'épices des Moluques, de porcelaines, de coton indien. Ces marchandises remontent ensuite vers Mexico avant de rejoindre, pour certaines, Veracruz et l'Atlantique.
+<br><br>
+La ville elle-même est modeste — une rade exceptionnelle dans un climat meurtrier. La fièvre décime régulièrement les équipages et les résidents fraîchement arrivés. En dehors des semaines d'arrivée et de départ du galion, Acapulco retourne à sa torpeur tropicale. Le <strong>Fort San Diego</strong>, présent sous une forme antérieure dès 1617, commande la baie depuis un promontoire.`,
+            },
+        ],
+
+        population: `~4 000 habitants permanents ; plusieurs milliers lors des escales du galion`,
+
+        garnison: `Fort San Diego : ~100 soldats. Estimation d'après le rang et l'importance du site.`,
+
+        note_mj: `✅ Galion de Manille (Nao de China), route annuelle Acapulco–Philippines : établi.
+✅ Fort San Diego : présent dès 1617 sous une forme initiale — la structure actuelle date de 1776 (reconstruction après séisme). Caractéristiques précises en 1712 incertaines.
+⚠️ Population et garnison : estimations.
+Le Galion de Manille est hors de portée des pirates des Caraïbes — mais son calendrier structure les flux commerciaux qui transitent ensuite par Veracruz.`,
+    },
+
+// ── LA ANTIGUA (VILLA RICA) ───────────────────────────────────────────────
+
+    {
+        id: 'antigua-veracruz',
+        nom: 'La Antigua (Villa Rica de la Vera Cruz)',
+        label: 'La Antigua',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [1166, 2436],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Premier établissement permanent fondé par Hernán Cortés en 1519 sur la côte du Golfe — la <em>Villa Rica de la Vera Cruz</em> originelle, avant que la ville ne soit déplacée vers son emplacement définitif plus au sud. En 1712, La Antigua est un bourg résiduel de quelques centaines d'habitants, conservant la <strong>Casa de Cortés</strong> — une construction du XVIe siècle que la tradition locale attribue au conquistador — et une église coloniale ancienne. Le site n'a plus aucune fonction commerciale ou militaire : Veracruz a tout absorbé. Il subsiste comme lieu de mémoire et comme bourg agricole sur la rive du río Huitzilapan.`,
+            },
+        ],
+
+        population: `~500 habitants`,
+
+        note_mj: `✅ Fondation par Cortés en 1519, premier établissement permanent de la côte : établi.
+✅ Casa de Cortés : bâtiment du XVIe siècle encore debout, attribution précise incertaine mais ancienneté établie.
+⚠️ Population en 1712 : estimation.
+Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à La Antigua sait qu'il foule le premier sol espagnol de la Nouvelle-Espagne.`,
+    },
+
+// ── VILLAHERMOSA ──────────────────────────────────────────────────────────
+
+    {
+        id: 'villahermosa',
+        nom: 'Villahermosa (Villa del Espíritu Santo)',
+        label: 'Espíritu Santo',
+        capitale: true,
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [1660, 2858],
+        // ⚠️ Apparaît sur la Jaillot sous le nom "Spirito Sancto" dans la province de Tabasco.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de la province de Tabasco, accessible depuis le Golfe du Mexique via le río Grijalva — une navigation fluviale d'une centaine de kilomètres depuis la côte, ce qui lui confère une protection naturelle tout en la gardant ouverte au commerce. Le Tabasco exporte cacao, bois de teinture et roucou (<em>achiote</em>). Ces richesses en ont fait une cible des flibustiers du XVIIe siècle : la ville a été saccagée à plusieurs reprises par des corsaires anglais et hollandais depuis la Jamaïque. La mémoire de ces raids est vive — et la méfiance envers tout navire étranger remontant le Grijalva, structurelle.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Accessible par le río Grijalva : établi.
+✅ Raids flibustiers sur le Tabasco au XVIIe siècle : établis (sources locales concordantes).
+✅ Productions : cacao, bois de teinture, achiote : établi.
+⚠️ Population en 1712 : estimation.
+⚠️ Gouverneur précis du Tabasco en 1712 : non identifié depuis les sources accessibles.`,
+    },
+
+    {
+        id: 'veracruz',
+        nom: 'Veracruz',
+        type: 'port',
+        territoire: 'nouvelle-espagne',
+        coords: [1172, 2628],
+
+        contexte: `Premier port de la Nouvelle-Espagne sur l'Atlantique et unique débouché légal de tout le commerce entre Mexico et l'Espagne. L'argent des mines de Zacatecas et de Guanajuato passe par Veracruz avant d'embarquer pour Cadix — ce qui en fait la cible la plus convoitée du Golfe du Mexique.
+
+Le <strong>Fort San Juan de Ulúa</strong> n'est pas sur la côte mais sur un îlot corallien à quelques centaines de mètres du rivage, commandant l'entrée de la rade. Son rôle est double : défense contre les attaques maritimes, et entrepôt sécurisé pour le trésor avant embarquement.
+
+En 1683, les flibustiers Lorencillo (Laurent de Graff) et Grammont s'emparent de la ville pendant plusieurs jours — pillage mémorable qui a laissé des traces durables dans la mémoire collective. Le fort n'avait pas été pris, mais la ville fut rançonnée. Depuis lors, les défenses terrestres ont été renforcées.`,
+
+        population: `~6 000 à 8 000 habitants permanents ; peut doubler lors des arrivées de flottes`,
+
+        garnison: `Fort San Juan de Ulúa : ~400 soldats et artilleurs. Garnison de la ville : ~200 soldats supplémentaires.`,
+
+        note_mj: `✅ Raid de Lorencillo et Grammont, 1683 : établi.
+✅ Fort San Juan de Ulúa sur îlot corallien : établi.
+⚠️ Garnison : estimation d'après Archer, <em>The Army in Bourbon Mexico (1977)</em> — données postérieures aux réformes, couvre la période bourbonienne tardive — effectifs de 1712 probablement inférieurs.`,
+    },
+
+// ── VILLADOLID (MICHOACÁN) ───────────────────────────────────────────────
+
+    {
+        id: 'villadolid-nouvelle-espagne',
+        nom: 'Valladolid',
+        label: 'Valladolid',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [640, 2285],
+        // ⚠️ "Villadolid" sur la Jaillot, province de Mechoacan.
+        // À ne pas confondre avec Valladolid du Yucatán (id: 'valladolid-yucatan').
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de la province de Michoacán, fondée en 1541 dans une vallée tempérée à l'ouest de Mexico. Siège épiscopal depuis 1536 — l'évêché de Michoacán est l'un des plus anciens et des plus étendus de la Nouvelle-Espagne, couvrant un territoire qui s'étire jusqu'aux côtes du Pacifique. Valladolid est une ville d'Église et de propriétaires terriens créoles : ses grandes familles tirent leur richesse de l'élevage extensif et des haciendas céréalières du Bajío, le grenier de la Nouvelle-Espagne. Les mines d'argent de Guanajuato, à l'est, font partie de sa sphère d'influence économique.`,
+            },
+        ],
+
+        population: `~15 000 habitants`,
+
+        note_mj: `✅ Fondation 1541, siège épiscopal depuis 1536 : établi.
+✅ Bajío comme grenier de la Nouvelle-Espagne, haciendas et élevage : établi.
+⚠️ Population en 1712 : estimation.
+La ville prendra le nom de Morelia en 1828, en hommage à José María Morelos, héros de l'indépendance mexicaine natif de la ville.`,
+    },
+
+// ── PÁTZCUARO (MECHOACAN) ────────────────────────────────────────────
+
+    {
+        id: 'patzcuaro',
+        nom: 'Pátzcuaro',
+        label: 'Mechoacan',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [492, 2347],
+        // ⚠️ La Jaillot indique "Mechoacan" pour ce lieu — nom de la province
+        // plutôt que de la ville. Pátzcuaro est l'identification la plus
+        // plausible : ancienne capitale purépecha, première capitale espagnole
+        // du Michoacán, sur le lac du même nom.
+        // À distinguer de Valladolid/Michoacán (id: 'valladolid-michoacan'),
+        // qui a supplanté Pátzcuaro comme capitale provinciale.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville lacustre sur les rives du lac Pátzcuaro, dans les hautes terres du Michoacán. Ancienne capitale de l'empire purépecha (tarasque) — la seule grande civilisation mésoaméricaine que les Aztèques n'ont jamais réussi à soumettre — Pátzcuaro a été choisie comme première capitale espagnole du Michoacán avant d'être supplantée par Valladolid. Elle doit sa singularité à <strong>Vasco de Quiroga</strong>, dit "Tata Vasco" — évêque juriste qui, inspiré par l'<em>Utopie</em> de Thomas More, a organisé au XVIe siècle les villages indiens des rives du lac en communautés artisanales spécialisées : chaque village produit un seul artisanat (cuivre de Santa Clara, bois laqué de Uruapan, poterie de Tzintzuntzan...), assurant à chacun une spécialité et une interdépendance pacifique.
+<br><br>
+En 1712, ce système survit dans ses grandes lignes — les villages du lac Pátzcuaro maintiennent leurs spécialités artisanales, et la basilique de la Vierge de la Salud, fondée par Quiroga, reste le principal lieu de pèlerinage du Michoacán. Le lac lui-même, à 2 000 mètres d'altitude dans un paysage de volcans et de forêts de pins, est l'un des sites les plus beaux de la Nouvelle-Espagne.`,
+            },
+        ],
+
+        population: `~10 000 habitants dans la ville et les villages du lac`,
+
+        note_mj: `✅ Pátzcuaro comme ancienne capitale purépecha : établi.
+✅ Vasco de Quiroga ("Tata Vasco"), organisation des villages artisanaux du lac : établi (Warren, <em>Vasco de Quiroga and his Pueblo-Hospitals</em>, 1963).
+✅ Résistance purépecha aux Aztèques : établi.
+✅ Basilique de la Vierge de la Salud, fondée par Quiroga : établi.
+⚠️ Population en 1712 : estimation pour la ville et l'ensemble des villages lacustres.
+La spécialisation artisanale des villages du lac Pátzcuaro est encore vivante aujourd'hui — l'une des rares réussites durables du projet de Quiroga.`,
+    },
+
+// ── POPOCATÉPETL ────────────────────────────────────────────────────────
+
+    {
+        id: 'popocatepetl',
+        nom: 'Popocatépetl',
+        label: 'Les Vulcans ou Papa Catepec',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [1230, 2881],
+        // ⚠️ La Jaillot indique "Les Vulcans ou Papa Catepec" — le Popocatépetl
+        // et l'Iztaccíhuatl, les deux volcans jumeaux entre Mexico et Puebla.
+        // "Papa Catepec" est une déformation de "Popocatépetl".
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Le Popocatépetl — "la montagne qui fume" en nahuatl — et son compagnon l'Iztaccíhuatl ("la femme blanche") forment le duo volcanique le plus célèbre de la Nouvelle-Espagne. Le Popocatépetl culmine à 5 426 mètres, l'Iztaccíhuatl à 5 230 mètres — tous deux couverts de neiges éternelles, visibles depuis Mexico par temps clair et depuis les côtes du golfe de Mexique par beau temps. Entre les deux volcans passe le col de Cortés, emprunté par le conquistador en 1519 lors de sa marche vers Tenochtitlán.
+<br><br>
+Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses éruptions périodiques couvrent de cendres Mexico et Puebla. Les Mexicas lui rendaient un culte ; les Espagnols ont tenté d'en descendre le soufre pour fabriquer de la poudre à canon dès 1519. En 1712, un sanctuaire chrétien sur ses flancs accueille les pèlerins.`,
+            },
+        ],
+
+        note_mj: `✅ Popocatépetl (5 426 m) et Iztaccíhuatl (5 230 m) : établi.
+✅ Col de Cortés entre les deux volcans, marche vers Tenochtitlán en 1519 : établi.
+✅ Extraction de soufre par les Espagnols dès 1519 : établi.
+✅ Activité volcanique continue en 1712 : établi — le Popocatépetl est en éruption fréquente tout au long de la période coloniale.`,
+    },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE YUCATÁN
+// ═══════════════════════════════════════════════════════════
+
+// ── LAGUNA DE TÉRMINOS ────────────────────────────────────────────────────
+
+    {
+        id: 'laguna-de-terminos',
+        nom: 'Laguna de Términos',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'yucatan',
+        coords: [2074, 2889] ,
+        // ⚠️ Apparaît sur la Jaillot comme "Laguna Termina" à la limite du Yucatán et de Tabasco.
+
+        contexte: [
+            {
+                de: 1712, a: 1717,
+                texte: `Vaste lagon côtier à la frontière du Yucatán et du Tabasco, accessible depuis le Golfe par plusieurs passes. La Laguna de Términos est l'un des points chauds de la confrontation entre l'Espagne et les Anglais sur la côte du Golfe : depuis des décennies, des <em>Baymen</em> — colons britanniques de la baie du Belize — remontent vers le nord pour y couper le bois de campêche (<em>palo de tinte</em>). L'île de Tris (aujourd'hui Ciudad del Carmen), au centre du lagon, est leur base principale : les Anglais y ont établi un petit établissement semi-permanent que les Espagnols ont tenté d'expulser à plusieurs reprises sans succès durable. La lagune est un espace de friction permanente, fréquenté par des navires qui préfèrent ne pas être vus.`,
+            },
+            {
+                de: 1717,
+                texte: `En 1717, le vice-roi Valero ordonne une expédition qui détruit l'établissement anglais de l'île de Tris et expulse les Baymen. La pression espagnole s'intensifie sur toute la côte du Golfe — mais les Baymen reviennent dès que la surveillance se relâche. La lagune reste une zone grise, ni vraiment espagnole ni vraiment britannique.`,
+            },
+        ],
+
+        population: `Aucune population permanente espagnole — présence anglaise flottante de quelques dizaines à quelques centaines de Baymen selon la saison`,
+
+        note_mj: `✅ Présence des Baymen à la Laguna de Términos depuis le XVIIe siècle : établi.
+✅ Expulsion par Valero en 1717 : établi (Bolland, <em>Colonialism and Resistance in Belize</em>, 1988 ; Wikipedia EN, Laguna de Términos).
+✅ Bois de campêche comme enjeu : établi — voir aussi entrée Campeche.
+🎲 Terrain de jeu idéal : eaux peu profondes, passes connues des seuls locaux, Baymen armés, patrouilles espagnoles irrégulières.`,
+    },
+
+// ── LINCHANCHY ───────────────────────────────────────────────────────────
+
+    {
+        id: 'linchanchy',
+        nom: 'Linchanchy',
+        type: 'ville',
+        rang: '3',
+        territoire: 'yucatan',
+        coords: [2546, 2370],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg maya de l'intérieur du Yucatán, dont le nom sur la Jaillot est une translittération approximative d'un toponyme maya non identifié avec certitude. Comme la plupart des localités de la péninsule, il s'organise autour d'une ancienne communauté maya convertie et encadrée par les Franciscains, vivant de maïs, de coton et d'une production artisanale locale. La péninsule du Yucatán est en 1712 une des régions les plus densément peuplées en Indiens christianisés de toute la Nouvelle-Espagne.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ Identification précise incertaine — toponyme maya translittéré approximativement sur la Jaillot. Aucune source primaire directe pour cet établissement spécifique.`,
+    },
+
+// ── CONIL ────────────────────────────────────────────────────────────────
+
+    {
+        id: 'conil-yucatan',
+        nom: 'Conil',
+        type: 'ville',
+        rang: '2',
+        territoire: 'yucatan',
+        coords: [2776, 2349],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Village côtier sur la côte nord du Yucatán, connu des cartographes depuis les premières explorations espagnoles du XVIe siècle. Conil était une importante ville maya préhispanique — c'est ici que Francisco Hernández de Córdoba débarqua lors de son exploration de 1517, premier contact documenté entre Européens et Mayas du Yucatán. En 1712, c'est un village de pêcheurs, réduit à une fraction de son importance ancienne après un siècle et demi de colonisation et d'épidémies.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `✅ Conil comme site du premier débarquement de Hernández de Córdoba en 1517 : établi (Díaz del Castillo, <em>Historia Verdadera</em>).
+✅ Ville maya importante avant la conquête : établi.
+⚠️ État en 1712 : déclin certain, détails peu documentés.`,
+    },
+
+// ── VALLADOLID (YUCATÁN) ─────────────────────────────────────────────────
+
+    {
+        id: 'valladolid-yucatan',
+        nom: 'Valladolid (Yucatán)',
+        label: 'Valladolid',
+        type: 'ville',
+        rang: '2',
+        territoire: 'yucatan',
+        coords: [2747, 2562],
+        // ⚠️ À ne pas confondre avec Valladolid du Michoacán (id: 'valladolid-michoacan').
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville fondée en 1543 sur le site de la cité maya de Zaci, dans l'est du Yucatán. Valladolid est le chef-lieu de la région orientale de la péninsule — point de passage obligé entre Mérida et la côte Caraïbe, sur la route des échanges avec le Honduras britannique et les Antilles. La ville est entourée de <em>cenotes</em> — puits naturels dans le calcaire karstique — dont dépend tout l'approvisionnement en eau de la région. Les couvents franciscains encadrent les communautés mayas des environs, spécialisées dans le coton et la cire d'abeille.`,
+            },
+        ],
+
+        population: `~5 000 habitants (dont une forte majorité de Mayas)`,
+
+        note_mj: `✅ Fondation 1543 sur le site de Zaci : établi.
+✅ Rôle de chef-lieu de la région orientale, route vers la côte Caraïbe : établi.
+✅ Cenotes comme source d'eau unique : établi — caractéristique géologique fondamentale du Yucatán.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── SALAMANCA DE BACALAR ─────────────────────────────────────────────────
+
+    {
+        id: 'salamanca',
+        nom: 'Salamanca de Bacalar',
+        label: 'Bacalar',
+        type: 'fort',
+        rang: '2',
+        territoire: 'yucatan',
+        coords: [2273, 2970],
+        // ⚠️ Mentionné dans carte-data.js (yucatan, note Casafuerte) comme
+        // "Salamanca sur la carte". Côte du Belize, face à l'atoll de Turneffe.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Poste espagnol avancé sur le lac Bacalar, à quelques kilomètres de la côte Caraïbe du Belize actuel — la frontière la plus exposée de toute la capitainerie du Yucatán. Salamanca de Bacalar existe depuis 1544, mais elle a été détruite et abandonnée à plusieurs reprises sous la pression des raids des Baymen anglais et des pirates. En 1712, c'est un poste squelettique — quelques soldats dans un fort mal entretenu, censé affirmer la souveraineté espagnole sur une côte que les Anglais fréquentent librement pour couper le bois de campêche.
+<br><br>
+Face à Turneffe et aux atolls du Belize, Salamanca est le dernier verrou espagnol avant le vide. Sa faiblesse est connue de tous — Baymen, pirates, et autorités de Mérida qui manquent de moyens pour la renforcer.`,
+            },
+            {
+                de: 1722,
+                texte: `Le marquis de Casafuerte, vice-roi de Nouvelle-Espagne, commande le premier projet sérieux de fortification de Bacalar — signal que la pression anglaise sur cette frontière est devenue intenable. Les travaux tardent, mais l'intention politique est claire.`,
+            },
+        ],
+
+        garnison: `Quelques dizaines de soldats au mieux — effectif réel souvent inférieur à l'effectif théorique faute de situado régulier.`,
+
+        note_mj: `✅ Salamanca de Bacalar, fondée 1544, détruite et rebâtie plusieurs fois : établi.
+✅ Projet de fortification de Casafuerte (1722) : carte-data.js (yucatan).
+✅ Pression des Baymen anglais sur cette frontière : établi — voir aussi entrée laguna-de-terminos.
+⚠️ Garnison en 1712 : estimation basse, aucune source primaire directe.
+🎲 Entrée et sortie naturelle entre le Yucatán espagnol et le territoire de facto des Baymen — zone de transit pour quiconque veut passer sans se faire remarquer.`,
+    },
+
+// ── CAMPECHE ───────────────────────────────────────────────────────────
+
+    {
+        id: 'campeche',
+        nom: 'Campeche',
+        type: 'port',
+        territoire: 'yucatan',
+        coords: [2314, 2607],
+
+        contexte: `Port d'exportation du bois de teinture — le <em>palo de tinte</em> (bois de campêche, *Haematoxylum campechianum*) dont la sève rouge-violet teint les draps de laine des manufactures européennes. Cette richesse en fait depuis le XVIIe siècle une cible récurrente des flibustiers : Myngs en 1663, L'Olonnais en 1666, Laurent de Graff en 1685 et 1686. La ville porte les cicatrices de ces raids — et les murailles construites en réponse.
+
+L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les raids répétés, est en 1712 l'une des rares villes entièrement ceintes de murailles dans toute l'Amérique espagnole. Huit bastions hexagonaux complètent le système. Les Anglais de la baie du Belize coupent du bois de campêche à quelques dizaines de kilomètres au sud — tension permanente que les autorités du Yucatán n'ont pas les moyens de résoudre.`,
+
+        population: `~6 000 habitants`,
+
+        garnison: `Garnison de l'enceinte : ~300 soldats répartis sur les huit bastions. Fort San Miguel (position avancée en hauteur) : ~80 hommes.`,
+
+        note_mj: `✅ Raids flibustiers (L'Olonnais 1666, Lorencillo 1685–1686, Myngs 1663) : établis. Morgan n'est pas encore commandant en 1663 — le raid sur Campeche est conduit par Christopher Myngs.
+✅ Enceinte fortifiée commencée en 1686, huit bastions : établi — aujourd'hui classée à l'UNESCO.
+✅ Bois de campêche comme richesse principale : établi.
+⚠️ Garnison : estimation d'après Calderón Quijano, <em>Historia de las Fortificaciones en Nueva España (1984)</em> → couvre l'ensemble de la période coloniale — extrapolation pour 1712.`,
+    },
+
+    {
+        id: 'merida',
+        nom: 'Mérida',
+        capitale: true,
+        territoire: 'yucatan',
+        coords: [2613, 2435],
+
+        contexte: [
+            {
+                de: 1712, texte: `Capitale de la capitainerie générale du Yucatán, à l'intérieur de la péninsule, loin de la côte Caraïbe. Ville administrative et épiscopale fondée en 1542 sur les ruines de la cité maya de T'ho.<br>
+                Mérida n'est pas un port — son accès à la mer passe par Campeche, à une centaine de kilomètres à l'ouest. C'est depuis Mérida que le gouverneur-capitaine général administre le Yucatán, une capitainerie distincte de la vice-royauté de Mexico.` },
+        ],
+
+        population: `~8 000 habitants<br>(dont ~6 000 Mayas)`,
+
+        note_mj: `Mérida n'a pas de fort militaire notable — la défense du Yucatán côté Caraïbe repose sur l'enceinte de Campeche. Entrée présente pour compléter la carte administrative ; faible intérêt narratif direct pour la campagne.`,
+    },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE GUATEMALA
+// ═══════════════════════════════════════════════════════════
+
+// ── TOCOTALPA ────────────────────────────────────────────────────────────
+
+    {
+        id: 'tocotalp-de-ciera',
+        nom: 'Tocotalpa de la Sierra',
+        label: 'Tocotalpa',
+        type: 'ville',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [1811, 3061],
+        // ⚠️ Apparaît sur la Jaillot comme "Tocatalp de Cieria" dans la province de Chiapa.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg de la sierra chiapanèque, dans la vallée du río Grijalva supérieur. Fondé comme poste de passage entre les hautes terres du Chiapas et la côte du Tabasco, Tocotalpa est un relais sur la route muletière qui descend vers Villahermosa et le Golfe. Peu documenté pour la période — un bourg de quelques centaines d'habitants vivant d'élevage et de petits commerces de transit.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ Tocotalpa de la Sierra : peu documentée pour 1712. Identifiée comme bourg de la sierra chiapanèque sur la route Chiapas–Tabasco — existence attestée, détails incertains.`,
+    },
+
+// ── SOCONUSCO (VILLE) ────────────────────────────────────────────────────
+
+    {
+        id: 'sosonusco',
+        nom: 'Soconusco',
+        type: 'ville',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [1457, 3299],
+        // ⚠️ Distinction importante : la ville de Soconusco apparaît dans la juridiction
+        // Guatemala sur la Jaillot, bien que la province de Soconusco soit rattachée
+        // administrativement à la Nouvelle-Espagne. Cas symétrique à Chiapa de Corzo
+        // (ville dans Nouvelle-Espagne, province dans Guatemala).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg côtier sur la côte pacifique méso-américaine, à la frontière entre la Nouvelle-Espagne et la capitainerie générale de Guatemala. La province de Soconusco est réputée pour produire le cacao le plus fin de toute la Nouvelle-Espagne — un produit d'exception, réservé aux tables royales et aux chocolatières des grands d'Espagne, expédié vers Mexico puis Veracruz. Ce statut d'excellence lui vaut une attention particulière de l'administration coloniale, qui surveille étroitement les exportations pour éviter la contrebande vers la Jamaïque ou les comptoirs hollandais.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `✅ Cacao du Soconusco comme production d'excellence : établi (MacLeod, <em>Spanish Central America</em>, 1973).
+⚠️ Population en 1712 : estimation.
+⚠️ Statut administratif ambigu : la province de Soconusco est rattachée à la Nouvelle-Espagne mais sa position géographique et son apparition sur la Jaillot dans la juridiction Guatemala justifient territoire: 'guatemala' pour la ville.`,
+    },
+
+// ── SANTIAGO DE GUATEMALA ────────────────────────────────────────────────
+
+    {
+        id: 'st-iago-de-guatemala',
+        nom: 'Santiago de Guatemala',
+        label: 'St Iago de Guatemala',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [1723, 3355],
+        // ⚠️ Connue aujourd'hui sous le nom d'Antigua Guatemala.
+        // Détruite par les séismes de 1773 et abandonnée — la nouvelle capitale
+        // sera transférée à Nueva Guatemala de la Asunción (Guatemala City).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de la capitainerie générale de Guatemala — l'une des plus belles villes coloniales des Amériques, et l'une des plus dangereuses à habiter. Santiago de Guatemala s'étend dans la vallée de Panchoy, dominée par trois volcans : le <strong>Volcán de Agua</strong> à l'est, dont une coulée de boue a détruit la première capitale en 1541, et les volcans de Fuego et d'Acatenango à l'ouest, dont les éruptions périodiques couvrent la ville de cendres. Les tremblements de terre sont constants — la ville a été reconstruite plusieurs fois.
+<br><br>
+Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine général, Santiago administre un territoire immense : du Chiapas au Nicaragua. Ses rues sont bordées de couvents, d'églises baroques et de palais créoles bâtis en tuf volcanique. La ville exporte indigo, cacao et cochenille vers Veracruz ; elle importe via le port de Santo Tomás de Castilla sur la côte Caraïbe.`,
+            },
+        ],
+
+        population: `~25 000 habitants`,
+
+        note_mj: `✅ Capitale de la capitainerie générale de Guatemala, siège de la Real Audiencia : établi.
+✅ Destruction de la première capitale par le Volcán de Agua en 1541 : établi.
+✅ Volcans de Agua, Fuego et Acatenango dominant la vallée : établi.
+✅ Séismes de 1773 → abandon et transfert à Guatemala City : établi — horizon postérieur à la campagne mais connu des joueurs.
+⚠️ Population en 1712 : estimation.
+⚠️ Gouverneur-capitaine général précis pour 1712 : à vérifier dans les sources guatémaltèques (AGI Guatemala).`,
+    },
+
+
+// ── SAN SALVADOR ─────────────────────────────────────────────────────────
+
+    {
+        id: 'st-salvador',
+        nom: 'San Salvador',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [1970, 3596],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Chef-lieu de l'alcaldía mayor de San Salvador, dans les hautes terres volcaniques du Salvador actuel. Fondée en 1525, la ville a été déplacée plusieurs fois à cause des tremblements de terre — une réalité permanente de cette région sismique. San Salvador est le centre administratif d'une province dont la richesse principale est l'<strong>indigo</strong> (<em>añil</em>) — la teinture bleue produite par les communautés indiennes pipiles sous le régime du repartimiento et exportée vers Veracruz puis l'Europe. L'indigo du Salvador est, au début du XVIIIe siècle, l'une des principales sources de colorant bleu pour les manufactures textiles européennes.`,
+            },
+        ],
+
+        population: `~8 000 habitants`,
+
+        note_mj: `✅ Fondation 1525, déplacements successifs dus aux séismes : établi.
+✅ Indigo (añil) comme richesse principale de la province : établi (MacLeod, <em>Spanish Central America</em>, 1973).
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── LA TRINIDAD ─────────────────────────────────────────────
+
+    {
+        id: 'la-trinidad-guatemala',
+        nom: 'La Trinidad',
+        type: 'fort',
+        rang: '3',
+        territoire: 'guatemala',
+        coords: [1936, 3613],
+        // ⚠️ Identification incertaine. Apparaît sur la Jaillot juste en aval de San Salvador,
+        // à l'embouchure du fleuve non nommé qui traverse la province — probablement le río Lempa
+        // ou un cours d'eau côtier proche. Pourrait correspondre à l'emplacement actuel
+        // de La Libertad ou de Sonsonate. Position côtière Pacifique.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Position côtière à l'embouchure du fleuve descendant de San Salvador vers le Pacifique — probablement un petit fort ou poste de surveillance commandant l'accès fluvial à la capitale provinciale. La côte Pacifique du Salvador est peu fréquentée par les navires de commerce ; le débouché maritime de San Salvador et de sa production d'indigo passe surtout par la route terrestre vers les ports du Golfe du Honduras ou via Santiago de Guatemala.`,
+            },
+        ],
+
+        note_mj: `⚠️ Identification très incertaine : "La Trinidad" sur la Jaillot à l'embouchure du fleuve au sud de San Salvador. Pourrait désigner un fort, un poste, ou simplement un nom de lieu sans établissement notable. Aucune source primaire directe identifiée.
+⚠️ Correspondance géographique possible : La Libertad (actuelle), Sonsonate, ou tout autre point côtier entre ces deux localités.`,
+    },
+
+// ── SAN MIGUEL ───────────────────────────────────────────────────────────
+
+    {
+        id: 'st-michel',
+        nom: 'San Miguel de la Frontera',
+        label: 'San Miguel',
+        type: 'ville',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [2124, 3733],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Chef-lieu de la province orientale du Salvador, à la frontière avec le Honduras. Fondée en 1530 comme poste avancé de la conquête espagnole vers le Nicaragua, San Miguel de la Frontera — "de la Frontière" — garde les routes terrestres entre le Guatemala, le Honduras et le Nicaragua. La ville vit de l'élevage et d'un commerce de transit ; elle est aussi le point de départ des routes vers le golfe de Fonseca et ses ports Pacifique.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1530, rôle de poste frontière : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── AMAPALA (GOLFE DE FONSECA) ───────────────────────────────────────────
+
+    {
+        id: 'amapal',
+        nom: 'Amapala',
+        type: 'port',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [2203, 3745],
+        // ⚠️ Apparaît sur la Jaillot comme "Amapal". Port sur l'île volcanique
+        // del Tigre, dans le golfe de Fonseca (côte Pacifique, Honduras actuel).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port naturel sur l'île volcanique del Tigre, dans le golfe de Fonseca — la seule baie Pacifique partagée entre le Honduras, le Nicaragua et le Salvador actuel. Amapala est l'escale incontournable de la navigation côtière Pacifique entre le golfe de Tehuantepec et les ports péruviens : les navires qui transportent l'argent depuis Lima jusqu'aux côtes d'Amérique centrale y font relâche. Île volcanique aux pentes abruptes, elle offre un mouillage protégé et de l'eau douce.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants permanents, population maritime variable`,
+
+        note_mj: `✅ Île del Tigre dans le golfe de Fonseca, rôle de relâche sur la route Pacifique : établi.
+⚠️ Population et installations en 1712 : peu documentées — estimation.`,
+    },
+
+// ── CHOLUTECA (XERES) ────────────────────────────────────────────────────
+
+    {
+        id: 'xeres',
+        nom: 'Choluteca (Jerez)',
+        label: 'Choluteca',
+        type: 'ville',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [2338, 3808],
+        // ⚠️ Apparaît sur la Jaillot comme "Xeres" dans le sud du Honduras.
+        // Choluteca est la ville la mieux documentée de cette région pour la période —
+        // "Jerez" ou "Xerez" est le nom alternatif porté par plusieurs bourgs d'Amérique centrale.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg du Honduras méridional, dans la plaine côtière Pacifique au nord du golfe de Fonseca. Fondée en 1535 sous le nom de Villa de Jerez de la Frontera de Choluteca, la ville est le centre administratif de la région méridionale du Honduras. Son économie repose sur l'élevage extensif — les grandes haciendas de la vallée du río Choluteca approvisionnent en bétail les ports et les mines de toute l'Amérique centrale. Éloignée des côtes Caraïbes, elle n'entre dans les circuits de la piraterie qu'indirectement.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `⚠️ Identification de "Xeres" avec Choluteca : hypothèse la plus plausible géographiquement — Choluteca est la ville principale du Honduras méridional pour cette période. Une autre localité nommée Jerez pourrait correspondre, mais n'est pas identifiée avec certitude.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── CIUDAD REAL (CHIAPAS) ─────────────────────────────────────────────────
+
+    {
+        id: 'chiapa-ciudad-real',
+        nom: 'Ciudad Real (Chiapa)',
+        label: 'Ciudad Real',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [1615, 3016],
+        // ⚠️ La province de Chiapas est dans le bloc Guatemala (carte-data.js).
+        // La carte Jaillot indique "Chiapa ou Ciudad Real" — deux noms pour la même ville.
+        // À ne pas confondre avec Chiapa de Corzo (ville indienne plus au nord,
+        // qui donne son nom à la province mais apparaît dans la juridiction Nouvelle-Espagne).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de la province de Chiapas dans les hautes terres mayas, à plus de 2 000 mètres d'altitude. Fondée en 1528 par Diego de Mazariegos — connue aujourd'hui sous le nom de San Cristóbal de las Casas, qu'elle prendra en 1848 en hommage à l'évêque dominicain Bartolomé de las Casas, qui en fit sa base pour défendre les droits des Indiens au XVIe siècle. Le diocèse de Chiapas, créé en 1539, est l'un des plus anciens du continent — et l'un des plus pauvres. L'économie repose sur le travail forcé des communautés mayas tzotziles et tzeltales dans les <em>obrajes</em> textiles et les haciendas d'élevage.`,
+            },
+        ],
+
+        population: `~5 000 habitants (dont une majorité d'Indiens mayas)`,
+
+        note_mj: `✅ Fondation 1528, nom Ciudad Real : établi.
+✅ Las Casas et création du diocèse de Chiapas en 1539 : établi.
+✅ Population maya tzotzile et tzeltale, obrajes textiles : établi.
+⚠️ Population précise en 1712 : estimation.`,
+    },
+
+// ── COBÁN (VERA PAZ) ─────────────────────────────────────────────────────
+
+    {
+        id: 'coban-vera-pax',
+        nom: 'Cobán (Vera Pax)',
+        label: 'Cobán',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [1794, 3172],
+        // ⚠️ La province de Vera Paz n'est pas nommée sur la Jaillot — frontières
+        // dessinées sans toponyme. Cobán est la capitale historique de la Vera Paz dominicaine.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de la Vera Paz — "la vraie paix" — province créée au XVIe siècle comme expérience de colonisation sans violence sous l'impulsion de Bartolomé de las Casas : les Dominicains s'installeraient seuls parmi les Mayas Q'eqchi' pour les convertir par la seule persuasion, sans soldats. L'expérience tient pendant dix ans (1537–1547). Cobán, fondée en 1538, en devient le centre administratif.
+<br><br>
+En 1712, l'idéal fondateur est lointain : les Dominicains gèrent leurs missions comme n'importe quelle province coloniale. Cobán reste une ville profondément maya, enclavée dans les hautes terres du Guatemala, sans accès maritime ni ressources minières — trop éloignée et trop pauvre pour figurer souvent dans les archives de Madrid.`,
+            },
+        ],
+
+        population: `~3 000 habitants (population majoritairement maya Q'eqchi')`,
+
+        note_mj: `✅ Expérience de colonisation pacifique de Las Casas 1537–1547 : établi (Las Casas, <em>Historia de las Indias</em> ; Wagner & Parish, 1967).
+✅ Fondation de Cobán en 1538 : établi.
+⚠️ Situation en 1712 : peu documentée — province marginale dans les archives coloniales.
+⚠️ Population : estimation très approximative.`,
+    },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE HONDURAS
+// ═══════════════════════════════════════════════════════════
+
+// ── AMALIGUA ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'amaligua',
+        nom: 'Amaligua',
+        type: 'ville',
+        rang: '2',
+        territoire: 'honduras',
+        coords: [2251, 3219],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Village côtier ou fluvial de la côte Caraïbe hondurienne, dont le nom sur la Jaillot est une translittération approximative d'un nom lenca ou misumalpan. La côte hondurienne entre le cap Gracias a Dios et Trujillo est en 1712 une zone peu contrôlée par les Espagnols — quelques missions isolées, des villages indiens, et une présence anglaise de plus en plus affirmée depuis la Jamaïque et la côte Miskito.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ Identification incertaine — toponyme non retrouvé avec certitude dans les sources coloniales honduriennes. Pourrait correspondre à un village aujourd'hui disparu ou connu sous un nom différent.`,
+    },
+
+
+// ── PORTA DOMAS (PUERTO CABALLOS ?) ──────────────────────────────────────
+
+    {
+        id: 'porta-domos',
+        nom: 'Porta Domos',
+        label: 'Porta Domos',
+        type: 'port',
+        rang: '2',
+        territoire: 'honduras',
+        coords: [2316, 3270],
+        // ⚠️ Identification probable : Puerto Caballos (aujourd'hui Puerto Cortés),
+        // principal port Caraïbe du Honduras colonial, situé en amont du cap Tres Puntas.
+        // La phonétique "Porta Domas" ne correspond pas exactement — incertitude maintenue.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port de la côte Caraïbe hondurienne, en amont du cap Tres Puntas. S'il s'agit bien de Puerto Caballos — identification probable mais non certaine — c'est le principal débouché maritime du Honduras colonial : indigo de San Salvador, bois précieux de l'arrière-pays, et quelques produits miniers descendent vers ce port avant d'embarquer pour l'Espagne via La Havane. Le port est modeste et ses défenses légères — suffisantes pour décourager un raid de routine, insuffisantes face à une attaque organisée.`,
+            },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `⚠️ Identification de "Porta Domas" avec Puerto Caballos : probable d'après la position sur la Jaillot (en amont du cap Tres Puntas), mais la phonétique ne correspond pas — incertitude maintenue.
+✅ Puerto Caballos comme principal port Caraïbe du Honduras colonial : établi si l'identification est correcte.`,
+    },
+
+// ── PORTA DE SAL ─────────────────────────────────────────────────────────
+
+    {
+        id: 'porta-de-sal',
+        nom: 'Porta de Sal',
+        type: 'port',
+        rang: '2',
+        territoire: 'honduras',
+        coords: [2478, 3296],
+        // ⚠️ À l'embouchure du "Sal River" sur la Jaillot — probablement
+        // le río Ulúa ou le río Chamelecón, côte nord hondurienne.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Petit poste portuaire à l'embouchure du río Sal sur la côte Caraïbe hondurienne — un mouillage de fortune plutôt qu'un vrai port, utilisé par les pirogues locales et les sloops de commerce interlope. Le "Sal River" tire son nom des salines côtières, ressource modeste mais utile pour la conservation du poisson et des viandes.`,
+            },
+        ],
+
+        population: `Quelques dizaines d'habitants`,
+
+        note_mj: `⚠️ Identification incertaine — "Sal River" non retrouvé avec certitude. Pourrait correspondre au río Ulúa, au río Chamelecón, ou à un cours d'eau mineur de la côte nord hondurienne. Aucune source primaire directe.`,
+    },
+
+// ── COMAYAGUA ────────────────────────────────────────────────────────────
+
+    {
+        id: 'valladolid-o-comayagua',
+        nom: 'Comayagua (Valladolid)',
+        label: 'Comayagua',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'honduras',
+        coords: [2535, 3515],
+        // ⚠️ La Jaillot indique "Valladolid o Comayagua" — les deux noms désignent
+        // la même ville : fondée sous le nom de Valladolid en 1537, rebaptisée
+        // Comayagua peu après.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de la province du Honduras, fondée en 1537 dans une vallée de l'intérieur à mi-chemin entre les deux côtes. Rebaptisée rapidement Comayagua après sa fondation sous le nom de Valladolid, elle est le siège de l'évêché du Honduras depuis 1561 et le centre administratif de la province. La ville vit de l'élevage extensif, de quelques mines d'argent en activité décroissante, et du commerce avec les ports des deux côtes.
+<br><br>
+Comayagua est éloignée de la mer — une journée de route vers Trujillo au nord, plusieurs jours vers le golfe de Fonseca au sud. Cette position centrale en fait un nœud administratif, mais lui confère une provincialité tranquille, loin des turbulences de la côte Caraïbe et de la piraterie qui l'anime.`,
+            },
+        ],
+
+        population: `~6 000 habitants`,
+
+        note_mj: `✅ Fondation 1537, siège épiscopal depuis 1561 : établi.
+✅ Double nom Valladolid/Comayagua sur les sources anciennes : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── SAINT-GEORGES (RÍO AGUÁN) ────────────────────────────────────────────
+
+    {
+        id: 'st-georges-honduras',
+        nom: "Saint-George's",
+        label: "St Georges",
+        type: 'ville',
+        rang: '2',
+        territoire: 'honduras',
+        coords: [2839, 3388],
+        // ⚠️ Sur la "Xagua River" de la Jaillot — probablement le río Aguán
+        // (aussi orthographié Xagua, Aguan sur les cartes anciennes),
+        // qui se jette dans la mer des Caraïbes près de Trujillo.
+        // Présence anglaise probable — le nom "Saint-George's" suggère un établissement
+        // britannique ou une désignation anglaise d'un mouillage utilisé depuis la Jamaïque.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Établissement sur le río Aguán (Xagua River), sur la côte Caraïbe hondurienne. Le nom anglais de "Saint-George's" suggère un poste de commerce ou un mouillage fréquenté par des navires jamaïcains — une de ces présences britanniques informelles qui parsèment la côte hondurienne, tolérées par défaut faute de garnison espagnole suffisante pour les expulser. Les commerçants jamaïcains et les Baymen de la baie du Belize utilisent les embouchures des fleuves honduriens pour faire du commerce avec l'arrière-pays et couper du bois.`,
+            },
+        ],
+
+        population: `Quelques dizaines à quelques centaines d'habitants — population mixte, probablement des Anglais, des Miskitos et des Indiens locaux`,
+
+        note_mj: `⚠️ Identification du "Xagua River" avec le río Aguán : probable géographiquement.
+⚠️ Nature de l'établissement : incertaine — le nom anglais suggère une présence britannique informelle, mais aucune source primaire directe ne documente "Saint-George's" sur le río Aguán pour cette période.`,
+    },
+
+// ── SAN JORGE DE OLANCHO ─────────────────────────────────────────────────
+
+    {
+        id: 'comajagua-st-iago-de-olancho',
+        nom: 'San Jorge de Olancho',
+        label: 'St Iago de Olancho',
+        type: 'ville',
+        rang: '2',
+        territoire: 'honduras',
+        coords: [2852, 3499],
+        // ⚠️ La Jaillot indique "Comajagua ou St Iago de Olancho" — la Jaillot
+        // amalgame deux villes distinctes : Comayagua (capitale, voir entrée dédiée)
+        // et San Jorge de Olancho (vallée d'Olancho, à l'est).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Chef-lieu de la vallée d'Olancho, dans les terres hautes de l'intérieur hondurien à l'est de Comayagua. San Jorge de Olancho est réputée pour ses mines d'or — les plus riches du Honduras colonial au XVIe siècle, aujourd'hui en déclin mais encore exploitées. La vallée est enclavée, accessible seulement par des sentiers de montagne difficiles, ce qui lui confère une autonomie de fait considérable. Les Indiens jicaques et pech des forêts environnantes résistent sporadiquement à l'autorité coloniale.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Mines d'or d'Olancho : établi — exploitées depuis le XVIe siècle, en déclin au XVIIIe.
+⚠️ La Jaillot amalgame Comayagua et Olancho sous un même nom — deux villes distinctes dans la réalité.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── NUEVA SEGOVIA ────────────────────────────────────────────────────────
+
+    {
+        id: 'nueva-segovia',
+        nom: 'Nueva Segovia',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'honduras',
+        coords: [2912, 3686],
+        // ⚠️ Nueva Segovia apparaît dans la juridiction Honduras sur la Jaillot.
+        // Fondée dans le nord du Nicaragua actuel (aujourd'hui Ocotal),
+        // elle relève administrativement de la province du Nicaragua
+        // mais sa position cartographique la place dans la zone Honduras.
+        // territoire: 'honduras' retenu pour coller à la Jaillot.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg minier fondé en 1543 dans les hautes terres de la frontière Honduras-Nicaragua. Nueva Segovia a été fondée pour exploiter les mines d'or et d'argent de la région — une richesse qui a décliné depuis le XVIe siècle mais qui justifie encore la présence d'un poste administratif. Enclavée dans la sierra, loin des côtes et des routes commerciales principales, elle est une des villes les plus isolées de toute l'Amérique centrale espagnole.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `✅ Fondation 1543, vocation minière : établi.
+⚠️ La Jaillot la place dans la zone Honduras bien qu'elle relève du Nicaragua administrativement — territoire: 'honduras' retenu pour la cohérence cartographique.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE NICARAGUA
+// ═══════════════════════════════════════════════════════════
+
+// ── LEÓN ─────────────────────────────────────────────────────────────────
+
+    {
+        id: 'leon-nicaragua',
+        nom: 'León',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'nicaragua',
+        coords: [2533, 3898],
+        // ⚠️ La première León (León Viejo) a été détruite par l'éruption du Momotombo
+        // en 1610. La ville a été reconstruite à son emplacement actuel, à ~30 km à l'ouest.
+        // En 1712, "León" désigne la ville reconstruite.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale du Nicaragua espagnol, siège de l'évêché et de l'administration provinciale. La première León, fondée en 1524 au pied du Momotombo, a été abandonnée en 1610 après les éruptions et les tremblements de terre qui l'ont rendue inhabitable — un déplacement traumatique dont la mémoire reste vive. La ville reconstruite s'organise autour de sa cathédrale et de ses couvents dans une plaine proche du lac Managua. León vit de l'élevage et de la production d'indigo et de cacao, expédiés vers le golfe de Fonseca puis vers Lima ou Veracruz.`,
+            },
+        ],
+
+        population: `~8 000 habitants`,
+
+        note_mj: `✅ Fondation de León Viejo en 1524, abandon en 1610 suite aux éruptions du Momotombo : établi.
+✅ Siège épiscopal : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── NICARAGUA (VILLE) ─────────────────────────────────────────────────────
+
+    {
+        id: 'nicaragua-ville',
+        nom: 'Nicaragua',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nicaragua',
+        coords: [2899, 4048], 
+        // ⚠️ Ville indiquée sur la Jaillot à l'est de Granada, entre le lac Nicaragua
+        // et la frontière avec le Costa Rica, à la même longitude approximative que
+        // Nueva Segovia. Pourrait correspondre à Rivas ou à un bourg aujourd'hui disparu
+        // portant le nom de la province. Identification incertaine.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg de l'isthme de Rivas, entre le lac Nicaragua et le Pacifique — la partie la plus étroite du Nicaragua, où les deux côtes ne sont séparées que d'une vingtaine de kilomètres. Ce couloir naturel est la route la plus courte entre l'Atlantique et le Pacifique en Amérique centrale, empruntée depuis la conquête par les convois transportant les marchandises entre Granada et les ports du Pacifique. En 1712, c'est un bourg agricole vivant de l'élevage et du transit des marchandises.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `⚠️ Identification incertaine : la Jaillot place "Nicaragua" comme ville distincte de Granada, à l'est de celle-ci entre le lac et la frontière Costa Rica. Correspond probablement à Rivas ou à un bourg de l'isthme portant ce nom générique.
+⚠️ Population : estimation très approximative.`,
+    },
+
+// ── MOMBACHO ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'mombacho',
+        nom: 'Volcan Mombacho',
+        label: 'Monbache',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'nicaragua',
+        coords: [2764, 4091],
+        // ⚠️ La Jaillot indique "Monbache" pour ce volcan côté Pacifique,
+        // au sud de Granada — c'est le vrai Mombacho (dominant le lac Nicaragua).
+        // "Le Grand Vulcan de Munbacho" sur la Jaillot désigne en réalité
+        // le Momotombo (volcan de León) — confusion cartographique signalée
+        // dans l'entrée dédiée 'momotombo'.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Volcan dominant la rive sud du lac Nicaragua, face à Granada. Le Mombacho culmine à environ 1 300 mètres — visible depuis Granada et depuis le lac sur une grande distance, il sert de repère de navigation aux pirogues et aux brigantins qui sillonnent le lac. Ses flancs sont couverts d'une forêt dense entrecoupée de fumerolles ; la dernière éruption majeure remonte à 1570. En 1712, le volcan est en activité fumerolienne modérée — assez pour inquiéter les habitants de Granada à chaque tremblement de terre.`,
+            },
+        ],
+
+        note_mj: `✅ Mombacho, volcan dominant Granada et le lac Nicaragua : établi.
+✅ Dernière éruption majeure 1570 : établi (Wikipedia EN, Mombacho).
+⚠️ La Jaillot l'indique comme "Monbache" et nomme "Le Grand Vulcan de Munbacho" le Momotombo de León — double confusion cartographique. Voir entrée 'momotombo'.
+⚠️ État précis en 1712 : activité fumerolienne probable, sans éruption documentée pour la période.`,
+    },
+
+// ── LA TRINIDAD (NICARAGUA) ──────────────────────────────────────────────
+
+    {
+        id: 'lastrinidad-nicaragua',
+        nom: 'La Trinidad',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nicaragua',
+        coords: [3123, 3916],
+        // ⚠️ Distinct de la Trinidad du Salvador (supprimée). Bourg minier
+        // du Nicaragua septentrional, dans le département d'Estelí actuel.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg minier du nord du Nicaragua, dans les hautes terres entre León et Nueva Segovia. La Trinidad doit son existence aux filons d'or et d'argent de la sierra nicaraguayenne — une richesse modeste mais qui justifie le maintien d'un petit poste colonial dans une région autrement peu peuplée par les Espagnols. Les Indiens sumu et miskito des forêts voisines maintiennent une indépendance de fait que les autorités de León n'ont pas les moyens de contester.`,
+            },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `⚠️ Identification avec La Trinidad (Estelí actuel) : plausible géographiquement, non confirmée par source primaire directe.
+⚠️ Population : estimation.`,
+    },
+
+// ── MENA ─────────────────────────────────────────────────────────────────
+
+    {
+        id: 'mena-nicaragua',
+        nom: 'Mena',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nicaragua',
+        coords: [3126, 3952],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg de l'intérieur nicaraguayen, non identifié avec certitude dans les sources coloniales. Probablement un petit poste agricole ou minier de l'arrière-pays, mentionné sur la Jaillot sans plus de précision. La région est peu documentée pour le début du XVIIIe siècle.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ Identification incertaine — "Mena" non retrouvé avec certitude dans les sources coloniales nicaraguayennes. Pourrait être un bourg aujourd'hui disparu ou connu sous un autre nom.`,
+    },
+
+// ── CASTILLO DE LA INMACULADA (EL CASTILLO) ──────────────────────────────
+
+    {
+        id: 'castillo-san-juan',
+        nom: 'Castillo de la Inmaculada Concepción',
+        label: 'El Castillo',
+        type: 'fort',
+        rang: '2',
+        territoire: 'nicaragua',
+        coords: [3234, 3973],
+        // ⚠️ Situé à mi-parcours du río San Juan, sur les rapides qui bloquent
+        // la navigation — à ~80 km de l'embouchure maritime et ~130 km de Granada.
+        // Correspond au fort indiqué sur la Jaillot "à mi-chemin" du lac et de la mer.
+        // L'entrée granada-nicaragua a été corrigée en conséquence.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Fort bâti en 1673 sur un promontoire rocheux dominant les rapides du río San Juan, à mi-parcours entre le lac Nicaragua et la mer des Caraïbes. C'est la clé de toute la route fluviale : les rapides rendent la navigation impossible sans débarquement et portage — ce point de rupture de charge est le seul endroit où le trafic entre l'Atlantique et le lac peut être stoppé. Le fort commande ce passage depuis un éperon rocheux de 40 mètres de hauteur.
+<br><br>
+En 1712, El Castillo est mal entretenu et sous-doté en hommes — le lot commun des postes isolés de la frontière nicaraguayenne. Sa valeur symbolique dépasse sa valeur réelle : il suffit à dissuader les raids improvisés, mais ne résisterait pas à une attaque sérieuse. Nelson tentera de le prendre en 1780 — il y sera blessé, et l'expédition britannique échouera faute de renforts.`,
+            },
+        ],
+
+        garnison: `~60 à 80 soldats. Estimation d'après l'importance stratégique du site et par analogie avec les postes nicaraguayens comparables.`,
+
+        note_mj: `✅ Fondation du Castillo de la Inmaculada Concepción en 1673 : établi.
+✅ Position sur les rapides à mi-parcours du río San Juan, ~80 km de la côte : établi — c'est précisément ce qui en fait le verrou de la route fluviale.
+✅ Expédition Nelson 1780, blessure de Nelson : établi — hors période de campagne mais connu des joueurs.
+⚠️ Garnison en 1712 : estimation.
+Correction connexe : l'entrée granada-nicaragua plaçait incorrectement le fort "à l'embouchure" — corrigé dans villes-data.js.`,
+    },
+
+// ── VILLE AU CONFLUENT SAN JUAN / RÍO FRÍO ───────────────────────────────
+
+    {
+        id: 'confluent-san-juan-frio',
+        nom: 'Confluent du San Juan',
+        type: 'site_geo',
+        rang: '3',
+        territoire: 'nicaragua',
+        coords: [3273, 3944],
+        // ⚠️ La Jaillot indique une ville non nommée au confluent du San Juan
+        // et du "Rio Cambitto" — probablement le río Frío (frontière actuelle
+        // Costa Rica/Nicaragua), point de départ de la navigation vers le lac.
+        // Ce confluent est le nœud de la route fluviale San Juan.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Point de confluence entre le río San Juan et un affluent majeur venant du sud — probablement le río Frío, qui descend des hautes terres du Costa Rica. Ce confluent marque le début de la portion navigable du San Juan depuis la côte Caraïbe : c'est ici que les embarcations choisissent leur route, vers le lac Nicaragua en remontant le San Juan, ou vers le sud en suivant l'affluent. Un poste de surveillance ou un simple relais de pirogues à cet endroit est plausible, sans qu'un établissement colonial formel soit documenté.`,
+            },
+        ],
+
+        note_mj: `⚠️ Ville non nommée sur la Jaillot à ce confluent — probablement un simple relais ou poste de surveillance, pas un établissement colonial notable. Identification du "Rio Cambitto" avec le río Frío : hypothèse géographique, non confirmée.`,
+    },
+
+// ── GRACIAS A DIOS (NICARAGUA) ───────────────────────────────────────────
+
+    {
+        id: 'gratates-iuo-dedios-nicaragua',
+        nom: 'Gracias a Dios (Nicaragua)',
+        label: 'Gra. a Dios',
+        type: 'ville',
+        rang: '3',
+        territoire: 'nicaragua',
+        coords: [3264, 4004],
+        // ⚠️ "Gratades Iuo Dedios" sur la Jaillot — déformation probable de
+        // "Gracias a Dios". Distinct du cap Gracias a Dios hondurien (déjà documenté).
+        // Position nicaraguayenne, probablement dans la région de la côte Miskito
+        // ou dans l'arrière-pays septentrional du Nicaragua.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg ou poste portant le nom de "Gracias a Dios" dans le nord du Nicaragua — distinct du cap Gracias a Dios hondurien qui marque l'extrémité orientale de la côte. Ce type de doublon toponymique est fréquent dans les colonies espagnoles, où plusieurs établissements portent le même nom de dévotion. La région est à la frontière de l'influence espagnole et du territoire miskito — une zone de friction permanente où l'autorité de León est nominale.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ "Gratades Iuo Dedios" : déformation de "Gracias a Dios" probable. Identification et position précises incertaines — à distinguer du cap Gracias a Dios hondurien (entrée cap-gracias-a-dios).`,
+    },
+
+// ── MOMOTOMBO ───────────────────────────────────────────────────────────
+
+    {
+        id: 'momotombo',
+        nom: 'Momotombo',
+        label: 'Le Grand Vulcan de Munbacho',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'nicaragua',
+        coords: [2561, 3812],
+        // ⚠️ La Jaillot désigne ce volcan "Le Grand Vulcan de Munbacho" — confusion
+        // avec le Mombacho de Granada (entrée 'mombacho', "Monbache" sur la Jaillot).
+        // Le vrai Momotombo domine le lac Managua au nord-ouest de León.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Volcan conique de 1 297 mètres dominant la rive nord-ouest du lac Managua, au nord de León. Le Momotombo est l'un des volcans les plus actifs d'Amérique centrale — et l'un des plus meurtriers pour les Espagnols : son éruption de 1610, combinée à des séismes violents, a contraint les habitants de León Viejo à abandonner la première capitale du Nicaragua et à la refonder à son emplacement actuel, à une trentaine de kilomètres. Le volcan fume en permanence, visible depuis León et depuis le lac à grande distance. Pour les marins qui remontent le río San Juan depuis la Caraïbe, c'est le premier volcan visible à l'horizon lorsqu'ils approchent du lac Nicaragua — un repère et un avertissement.`,
+            },
+        ],
+
+        note_mj: `✅ Éruption de 1610 et abandon de León Viejo : établi — voir entrée 'leon-nicaragua'.
+✅ Momotombo, volcan actif dominant le lac Managua : établi.
+⚠️ Confusion sur la Jaillot : "Le Grand Vulcan de Munbacho" désigne le Momotombo (León), tandis que "Monbache" désigne le Mombacho (Granada). Double erreur cartographique — les deux noms sont proches et les deux volcans sont nicaraguayens.`,
+    },
+
+// ── LAC NICARAGUA ───────────────────────────────────────────────────────
+
+    {
+        id: 'lac-nicaragua',
+        nom: 'Lac Nicaragua (Cocibolca)',
+        label: 'Lac Nicaragua',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'nicaragua',
+        coords: [2877, 3931] ,
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Le plus grand lac d'Amérique centrale — environ 160 km de long sur 70 km de large, parsemé d'îles dont la principale, Ometepe, porte deux volcans. Le lac Nicaragua est un plan d'eau d'eau douce mais qui communique avec la mer des Caraïbes par le río San Juan — une voie navigable de près de 200 km qui relie Granada à la côte Atlantique. Cette géographie en fait la cible stratégique de toute expédition cherchant à traverser l'isthme par voie d'eau.
+<br><br>
+Morgan l'a remontée en 1665 pour saccager Granada. La Royal Navy y enverra des expéditions au XVIIIe siècle. Le lac abrite des requins bouledogues (<em>Carcharhinus leucas</em>) — les seuls requins d'eau douce des Amériques — dont les attaques sur les pêcheurs sont documentées depuis la conquête et alimentent les récits des voyageurs.`,
+            },
+        ],
+
+        note_mj: `✅ Plus grand lac d'Amérique centrale, communication avec la Caraïbe via le San Juan : établi.
+✅ Requins bouledogues dans le lac Nicaragua : établi — phénomène documenté, les requins remontent le San Juan depuis la mer.
+✅ Raid de Morgan en 1665 via le San Juan : établi — voir entrée 'granada-nicaragua'.
+✅ Île Ometepe et ses deux volcans (Concepción et Maderas) : établi.`,
+    },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE COSTA RICA
+// ═══════════════════════════════════════════════════════════
+
+// ── 40. NICOYA ───────────────────────────────────────────────────────────────
+
+    {
+        id: 'st-lucar-nicoya',
+        nom: 'Nicoya (San Lucas de Nicoya)',
+        label: 'St Lucar Nicoya',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'costa-rica',
+        coords: [2952, 4133],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Chef-lieu de la province de Nicoya, sur la péninsule du même nom baignée par le golfe de Nicoya. Fondée en 1522 — l'une des premières villes espagnoles permanentes d'Amérique centrale — Nicoya est le centre administratif d'une région d'élevage extensif sur les savanes de la péninsule. La ville a donné son nom à la province et, plus largement, à toute la région côtière Pacifique du Costa Rica septentrional. Sa population est majoritairement indigène chorotega, convertie et encadrée par les Mercédaires.`,
+            },
+        ],
+
+        population: `~3 000 habitants (dont une forte majorité d'Indiens chorotegas)`,
+
+        note_mj: `✅ Fondation 1522, l'une des premières villes d'Amérique centrale : établi.
+✅ Population chorotega, présence mercédaire : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 41. CASTILLO DE AUSTRIA (MATINA) ─────────────────────────────────────────
+
+    {
+        id: 'chateau-de-austria',
+        nom: 'Castillo de Austria',
+        label: 'Château de Austria',
+        type: 'fort',
+        rang: '2',
+        territoire: 'costa-rica',
+        coords: [3385, 4203],
+        // ⚠️ Fort espagnol sur la côte Caraïbe du Costa Rica, probablement
+        // à l'embouchure du río Matina ou dans ses environs immédiats.
+        // Distinct du Fort San Carlos de Austria de Pensacola.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Fort espagnol sur la côte Caraïbe du Costa Rica, commandant l'accès à la vallée de Matina — la principale zone de production cacaoyère du Costa Rica colonial. La côte Caraïbe costaricaine est en 1712 l'une des frontières les plus exposées de tout l'empire espagnol en Amérique centrale : les Miskitos, alliés des Anglais de la Jamaïque, y conduisent des raids réguliers pour capturer des esclaves et piller les plantations de cacao. Le Castillo de Austria est censé barrer l'accès fluvial vers l'intérieur — mais ses effectifs sont chroniquement insuffisants et ses murs mal entretenus.
+<br><br>
+La vallée de Matina représente la richesse principale de la province : son cacao est exporté vers Portobelo et de là vers l'Espagne, mais aussi, par contrebande, vers les navires jamaïcains qui mouillent au large. Les raids miskitos et le commerce interlope sont les deux faces d'une même réalité : la côte Caraïbe du Costa Rica échappe en pratique au contrôle effectif de Cartago.`,
+            },
+        ],
+
+        garnison: `~40 à 60 soldats — effectif chroniquement insuffisant face aux raids miskitos. Estimation d'après Fernández Guardia, <em>Historia de Costa Rica</em> (1905).`,
+
+        note_mj: `✅ Raids miskitos sur la côte Caraïbe du Costa Rica, cacao de Matina comme enjeu : établi (Fernández Guardia, 1905 ; MacLeod, <em>Spanish Central America</em>, 1973).
+✅ Commerce interlope du cacao de Matina avec les Jamaïcains : établi.
+⚠️ Localisation précise du Castillo de Austria : probablement à l'embouchure du río Matina — position confirmée par les sources costariciennes mais coordonnées sur la Jaillot à vérifier.
+⚠️ Garnison : estimation basse, sources fragmentaires pour 1712.`,
+    },
+
+// ── 42. ARRANGUES ────────────────────────────────────────────────────────────
+
+    {
+        id: 'arrangues',
+        nom: 'Arrangues',
+        type: 'ville',
+        rang: '3',
+        territoire: 'costa-rica',
+        coords: [3305, 4366],
+        // ⚠️ Déformation probable d'Aranjuez ou d'un nom local du golfe de Nicoya.
+        // Identification incertaine.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Village côtier du golfe de Nicoya ou de ses environs, dont le nom sur la Jaillot est une translittération approximative d'un nom local non identifié avec certitude. La région du golfe de Nicoya est parcourue par des pêcheurs, des commerçants locaux et quelques navires de cabotage qui relient les petits ports Pacifiques de l'Amérique centrale. Peu documenté pour 1712.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ Identification incertaine — "Arrangues" non retrouvé avec certitude. Pourrait correspondre à Aranjuez (bourg de la péninsule de Nicoya), à un village du golfe de Nicoya, ou à une translittération déformée d'un nom local.`,
+    },
+
+// ── 43. CHIRIQUÍ ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'chiriqui',
+        nom: 'Chiriquí',
+        type: 'ville',
+        rang: '2',
+        territoire: 'costa-rica',
+        coords: [3461, 4403],
+        // ⚠️ La province de Chiriquí relève du Costa Rica colonial à cette période —
+        // elle sera intégrée au Panama lors de la réorganisation administrative
+        // du XIXe siècle.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Chef-lieu de la région de Chiriquí, sur la côte Pacifique à la frontière de la province de Veragua. La plaine de Chiriquí est l'une des zones d'élevage les plus productives de l'Amérique centrale — ses troupeaux approvisionnent Panama City en viande et en cuir. La région est aussi un point de passage sur la route côtière Pacifique entre le Costa Rica et l'isthme de Panama. Le volcan Barú (4 000 m), visible depuis la côte et depuis le versant Caraïbe, domine toute la région.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Plaine de Chiriquí comme zone d'élevage productive, approvisionnant Panama City : établi.
+✅ Volcan Barú dominant la région : établi.
+⚠️ Population en 1712 : estimation.
+⚠️ Appartenance administrative à cette période : Chiriquí dépend du gouvernement de Costa Rica ou de Veragua selon les sources — frontière administrative floue en pratique.`,
+    },
+
+// ── 44. PUEBLA (ALANJE) ──────────────────────────────────────────────────────
+
+    {
+        id: 'puebla-costa-rica',
+        nom: 'Puebla (Alanje)',
+        label: 'Puebla',
+        type: 'ville',
+        rang: '2',
+        territoire: 'costa-rica',
+        coords: [3524, 4365],
+        // ⚠️ Côte Pacifique à l'est de Chiriquí, à la frontière avec Veragua.
+        // Identification probable avec Alanje ou David, deux bourgs de la plaine
+        // de Chiriquí fondés au XVIIe siècle. "Puebla" est peut-être un nom
+        // générique ("la ville") plutôt qu'un nom propre.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg de la plaine de Chiriquí, à la frontière entre la province de Costa Rica et celle de Veragua. Poste de passage sur la route côtière Pacifique, vivant de l'élevage et du commerce local. La position frontalière lui confère un rôle de relais administratif entre les deux provinces — un bourg modeste sans importance particulière, mais mentionné par les cartographes comme repère sur une côte peu balisée.`,
+            },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `⚠️ Identification incertaine : "Puebla" sur la Jaillot à la frontière Chiriquí/Veragua correspond probablement à Alanje ou David (fondé sous ce nom au XVIIe siècle). "Puebla" est peut-être un nom descriptif générique plutôt qu'un nom propre de ville.
+⚠️ Population : estimation.`,
+    },
+
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE PANAMA / VERAGUA
+// ═══════════════════════════════════════════════════════════
+
+// ── 45. TRINIDAD (VERAGUA, CÔTE CARAÏBE) ─────────────────────────────────────
+
+    {
+        id: 'trinidad-veragua',
+        nom: 'Trinidad',
+        type: 'port',
+        rang: '2',
+        territoire: 'panama',
+        coords: [3706, 4240],
+        // ⚠️ Au nord de Santa Fe de Veraguas, côte Caraïbe de Veragua.
+        // À distinguer de la Trinidad vénézuélienne et de la Trinidad nicaraguayenne.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Petit port sur la côte Caraïbe de la province de Veragua, au nord de Santa Fe. La côte Caraïbe de Veragua est une des plus sauvages et des moins fréquentées de tout l'isthme — jungle dense, rivières encaissées, pas de route praticable vers l'intérieur. Trinidad est moins un port qu'un mouillage protégé accessible aux pirogues et aux petits sloops, servant de débouché maritime précaire à la province de Veragua. L'or et le cacao de l'arrière-pays y transitent avant d'embarquer vers Portobelo ou vers des navires de commerce interlope.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ Identification probable d'après la position sur la Jaillot (nord de Santa Fe, côte Caraïbe). Peu documenté pour 1712 — la côte Caraïbe de Veragua est l'une des zones les moins couvertes par les archives coloniales espagnoles.`,
+    },
+
+// ── 46. SANTA FÉ DE VERAGUA ──────────────────────────────────────────────────
+
+    {
+        id: 'santa-fe-veragua',
+        nom: 'Santa Fe de Veraguas',
+        label: 'Santa Fé',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'panama',
+        coords: [3668, 4299],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Chef-lieu de la province de Veragua, fondé en 1559 dans les hautes terres montagneuses de l'isthme occidental. Veragua est la province que Christophe Colomb avait explorée lors de son quatrième voyage (1502–1503), convaincu d'y avoir trouvé les mines du roi Salomon — une promesse qui a hanté plusieurs générations d'aventuriers. L'or existe bien dans les rivières de Veragua, mais en quantité décevante par rapport aux espoirs initiaux.
+<br><br>
+Santa Fe est une ville de l'intérieur, enclavée entre deux versants — Caraïbe au nord, Pacifique au sud — sans accès maritime direct. Son économie repose sur l'extraction aurifère artisanale et l'élevage. La province est réputée difficile à gouverner : ses Indiens ngäbe résistent sporadiquement à l'autorité coloniale depuis deux siècles.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Quatrième voyage de Colomb en Veragua, 1502–1503 : établi.
+✅ Fondation de Santa Fe de Veraguas en 1559 : établi.
+✅ Or alluvionnaire dans les rivières de Veragua : établi — en quantité modeste, jamais à la hauteur des espoirs.
+⚠️ Résistance des Ngäbe : établie sur la longue durée, épisodes précis en 1712 non documentés.
+⚠️ Population : estimation.`,
+    },
+
+// ── 47. LAVELIA ──────────────────────────────────────────────────────────────
+
+    {
+        id: 'lavelia',
+        nom: 'Lavelia',
+        type: 'ville',
+        rang: '2',
+        territoire: 'panama',
+        coords: [3834, 4513],
+        // ⚠️ Face à Natá, côté Veragua (ouest). Identification incertaine —
+        // pourrait correspondre à un bourg de la côte nord de la péninsule d'Azuero
+        // ou de la province de Veragua. "Lavelia" non retrouvé avec certitude
+        // dans les sources coloniales.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg côtier ou rural de la province de Veragua, face à Natá sur la côte Pacifique de l'isthme central. La région entre Veragua et Panama City est une zone d'élevage et de petite agriculture, traversée par la route terrestre qui relie les deux provinces. Peu documenté pour 1712.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ "Lavelia" non identifié avec certitude dans les sources coloniales. Position sur la Jaillot (face à Natá, côté Veragua) suggère un bourg de la côte Pacifique de l'isthme central. Entrée conservée pour la cohérence cartographique.`,
+    },
+
+// ── 48. VENTA DE CRUCES ───────────────────────────────────────────────────────
+// NOTE : "ChagreChat~" sur la Jaillot = "Chagre Château" = Fort San Lorenzo
+// (déjà documenté dans villes-data.js). "Venta de Cruzes" apparaît séparément
+// plus en amont sur le río Chagres — identification sans ambiguïté.
+
+    {
+        id: 'venta-de-cruzes',
+        nom: 'Venta de Cruces',
+        label: 'Venta de Cruzes',
+        type: 'ville',
+        rang: '2',
+        territoire: 'panama',
+        coords: [4011, 4330],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Relais fluvial sur le río Chagres, à mi-chemin entre l'embouchure (Fort San Lorenzo) et Panama City. C'est ici que s'effectue le transbordement obligatoire : les marchandises descendant vers la côte Caraïbe passent de la pirogue au sloop à Venta de Cruces ; celles montant vers le Pacifique passent de la pirogue aux mules du <em>Camino Real</em>. Ce nœud logistique est fréquenté en permanence — négociants, soldats, esclaves porteurs, mules chargées d'argent ou de marchandises.
+<br><br>
+C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morgan en 1671 — et c'est en remontant le Chagres depuis San Lorenzo que ses hommes sont arrivés jusqu'ici avant de traverser l'isthme à pied jusqu'à Panama City.`,
+            },
+        ],
+
+        population: `~500 habitants permanents ; plusieurs milliers en transit lors des grandes foires`,
+
+        note_mj: `✅ Venta de Cruces comme point de transbordement sur le Chagres : établi (Earle, <em>The Sack of Panama</em>, 1981).
+✅ Passage de Morgan en 1671 : établi.
+⚠️ Identification de "Chagrechat" avec Venta de Cruces : probable d'après la position sur le Chagres — la déformation du nom est cohérente avec les pratiques cartographiques de l'époque.`,
+    },
+
+// ── 49. CAPIRA ───────────────────────────────────────────────────────────────
+
+    {
+        id: 'capira',
+        nom: 'Capira',
+        label: 'P. de Capira',
+        type: 'ville',
+        rang: '2',
+        territoire: 'panama',
+        coords: [3938, 4353],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Étape sur le <em>Camino Real</em> entre Panama City et Portobelo, dans les collines de l'isthme central. Capira est un bourg de transit — ses habitants vivent de la location de mules, de l'hébergement des voyageurs et du ravitaillement des convois. La route du Camino Real est la colonne vertébrale de l'isthme : tout l'argent péruvien et toutes les marchandises traversant l'isthme depuis le Pacifique vers la côte Caraïbe passent par ici, sous escorte militaire lors des grandes foires. Entre les foires, le bourg retombe dans sa somnolence habituelle.`,
+            },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `✅ Capira sur le Camino Real Panama–Portobelo : établi.
+✅ Rôle de relais pour les convois d'argent : établi (Lane, <em>Pillaging the Empire</em>, 1998).
+⚠️ Population : estimation.`,
+    },
+
+// ── 50. NATÁ DE LOS CABALLEROS ───────────────────────────────────────────────
+
+    {
+        id: 'nata',
+        nom: 'Natá de los Caballeros',
+        label: 'Nata',
+        type: 'ville',
+        rang: '2',
+        territoire: 'panama',
+        coords: [3899, 4503],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `L'une des plus anciennes villes d'Amérique continentale, fondée en 1522 sur la côte Pacifique de l'isthme central — dix ans avant Mexico, un an avant Cartago. Natá de los Caballeros doit son surnom à la cavalerie espagnole qui a participé à sa fondation. En 1712, c'est une ville de propriétaires terriens créoles, vivant de l'élevage extensif dans les savanes de Coclé. Éloignée des grandes routes commerciales de l'isthme (le Camino Real passe plus au nord), Natá mène une existence provinciale et tranquille.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Fondation en 1522 — l'une des premières villes d'Amérique continentale : établi.
+✅ Élevage dans les savanes de Coclé : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 51. NOMBRE DE DIOS ───────────────────────────────────────────────────────
+
+    {
+        id: 'nombre-de-dios',
+        nom: 'Nombre de Dios',
+        type: 'site_hist',
+        rang: '2',
+        territoire: 'panama',
+        coords: [4099, 4229],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Site de l'ancien premier port de l'isthme, fondé en 1510 par Diego de Nicuesa — le premier établissement européen permanent sur le continent américain, avant même Panama City. Pendant près d'un siècle, Nombre de Dios a été le terminus caraïbe du Camino Real et le point de départ des flottes vers Carthagène et Cadix. Sir Francis Drake l'a attaqué en 1572 et en 1596 — lors de cette dernière expédition, il y est mort de dysenterie et a été immergé dans le lagon en cercueil de plomb.
+<br><br>
+En 1597, Madrid a déplacé le port vers Portobelo, mieux défendable. En 1712, Nombre de Dios est quasi-abandonnée — quelques cases de pêcheurs sur les ruines d'un empire. La jungle a repris ses droits sur les entrepôts et les fortifications. Les cartographes continuent de la marquer par tradition, mais il n'y a plus rien à voir.`,
+            },
+        ],
+
+        population: `Quelques dizaines d'habitants — pêcheurs`,
+
+        note_mj: `✅ Fondation 1510 par Diego de Nicuesa : établi.
+✅ Premier port Caraïbe de l'isthme, terminus du Camino Real : établi.
+✅ Raids de Drake en 1572 et 1596 : établis.
+✅ Mort de Drake dans la baie de Portobelo (pas à Nombre de Dios) en janvier 1596 : ✅ établi — enterrement en mer dans un cercueil de plomb au large de Portobelo.
+✅ Abandon au profit de Portobelo en 1597 : établi.
+⚠️ État exact en 1712 : quasi-abandon confirmé, détails sur les résidents résiduels non documentés.
+🎲 Un PJ qui cherche le cercueil de plomb de Drake dans la baie de Portobelo — et non à Nombre de Dios — suit la bonne piste.`,
+    },
+
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE DARIÉN
+// ═══════════════════════════════════════════════════════════
+
+// ── 52. BOCAS DEL TORO / CONCEPCIÓN ──────────────────────────────────────────
+
+    {
+        id: 'concepcion-bocas',
+        nom: 'Concepción (Bocas del Toro)',
+        label: 'Conception',
+        type: 'port',
+        rang: '2',
+        territoire: 'panama',
+        coords: [3647, 4231],
+        // ⚠️ Au fond de la "Bocca del Toro" sur la Jaillot, face à l'Escuada de Veragua.
+        // Correspond à la zone de l'archipel de Bocas del Toro (côte Caraïbe du Panama
+        // occidental actuel). "Concepción" est un poste espagnol documenté dans cette zone.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Poste espagnol au fond de la baie de Bocas del Toro, sur la côte Caraïbe de la province de Veragua. La baie est fermée à l'est par l'archipel de l'Escudo de Veraguas — un chapelet d'îlots et de récifs que les cartographes représentent comme un atoll. Ces eaux peu profondes et labyrinthiques sont difficiles pour les grands navires mais parfaitement adaptées aux pirogues et aux sloops légers.
+<br><br>
+Concepción est moins une ville qu'un relais : quelques maisons, un débarcadère, et la présence nominale de l'autorité espagnole sur une côte que personne ne contrôle vraiment. Les Indiens ngäbe et les Miskitos circulent librement dans ces eaux ; les navires jamaïcains y font escale pour le cacao et les écailles de tortue. L'Escudo de Veraguas, visible depuis la côte, sert de repère de navigation pour tous les marins de la côte Caraïbe occidentale.`,
+            },
+        ],
+
+        population: `Quelques dizaines d'habitants permanents`,
+
+        note_mj: `✅ Bocas del Toro et Escudo de Veraguas : identifiables sur les cartes historiques.
+✅ Présence espagnole nominale, fréquentation par les Ngäbe et les Jamaïcains : cohérent avec les sources sur la côte Caraïbe de Veragua.
+⚠️ "Concepción" comme poste espagnol : probable, non confirmé par source primaire directe pour 1712 spécifiquement.`,
+    },
+
+// ── 53. SAINT-SÉBASTIEN DE BONNE-VUE ─────────────────────────────────────────
+
+    {
+        id: 'saint-sebastien-darien',
+        nom: 'San Sebastián de Buena Vista',
+        label: 'St Sebastian de Bona Vista',
+        type: 'fort',
+        rang: '2',
+        territoire: 'panama',
+        coords: [4465, 4424],
+        // ⚠️ Poste espagnol dans la région du Darién / golfe d'Urabá.
+        // Le Darién est en 1712 le théâtre récent de la tentative d'implantation
+        // écossaise (1698–1700) et d'une présence anglaise et française intermittente.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Fort ou poste espagnol dans la région du Darién, sur la côte Caraïbe entre Portobelo et le golfe d'Urabá. Le Darién est en 1712 une zone de mémoire douloureuse pour les Espagnols : c'est ici que la Compagnie d'Écosse a tenté d'établir la colonie de Caledonia entre 1698 et 1700 — une expédition qui s'est soldée par un désastre humain et une humiliation politique, mais qui a démontré la vulnérabilité de cette côte. Madrid a depuis renforcé la vigilance dans la région, sans pour autant disposer des moyens de la contrôler vraiment.
+<br><br>
+Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis deux siècles — leur connaissance du terrain en fait des adversaires redoutables dans la jungle darienite.`,
+            },
+        ],
+
+        garnison: `Quelques dizaines de soldats — estimation par analogie avec les petits postes du Darién.`,
+
+        note_mj: `✅ Tentative écossaise de Darien (Caledonia), 1698–1700 : établi — désastre humain (~2 000 morts) et financier pour l'Écosse.
+✅ Résistance des Kunas dans le Darién : établi sur la longue durée.
+⚠️ "San Sebastián de Buena Vista" : poste espagnol probable dans la région, identification précise incertaine — plusieurs forts espagnols ont existé dans cette zone au cours du XVIIe–XVIIIe siècle.`,
     },
 
     {
@@ -484,95 +2183,6 @@ Deux fortifications commandent l'entrée du port : le <strong>Castillo de los Tr
         note_mj: `✅ Castillo del Morro de Santiago (San Pedro de la Roca), 1638–1700 : établi — classé au patrimoine mondial de l'UNESCO.
 ✅ Commerce interlope avec la Jamaïque : inféré de la géographie et des pratiques documentées.
 ⚠️ Garnison et population : estimations.`,
-    },
-
-    {
-        id: 'tampico',
-        nom: 'Tampico',
-        type: 'port',
-        territoire: 'panuco',
-        coords: [1153, 2032],
-
-        contexte: [
-            { de: 1712, texte: `Port modeste à l'embouchure du río Pánuco sur le Golfe du Mexique — seul débouché maritime entre Veracruz au sud et la Floride au nord. Saccagé par les pirates en 1684, le traumatisme reste présent dans les mémoires locales. Le commerce interlope avec des navires anglais de la Nouvelle-Angleterre est une réalité tolérée faute de moyens de surveillance. Aucun fort permanent en état.` },
-        ],
-
-        population: `~2 000 habitants`,
-
-        note_mj: `✅ Saccage par les pirates en 1684 : sources locales concordantes (Herrera Casasús, UAT, 1988).
-⚠️ Population : estimation.`,
-    },
-
-    {
-        id: 'veracruz',
-        nom: 'Veracruz',
-        type: 'port',
-        territoire: 'nouvelle-espagne',
-        coords: [1172, 2628],
-
-        contexte: `Premier port de la Nouvelle-Espagne sur l'Atlantique et unique débouché légal de tout le commerce entre Mexico et l'Espagne. L'argent des mines de Zacatecas et de Guanajuato passe par Veracruz avant d'embarquer pour Cadix — ce qui en fait la cible la plus convoitée du Golfe du Mexique.
-
-Le <strong>Fort San Juan de Ulúa</strong> n'est pas sur la côte mais sur un îlot corallien à quelques centaines de mètres du rivage, commandant l'entrée de la rade. Son rôle est double : défense contre les attaques maritimes, et entrepôt sécurisé pour le trésor avant embarquement.
-
-En 1683, les flibustiers Lorencillo (Laurent de Graff) et Grammont s'emparent de la ville pendant plusieurs jours — pillage mémorable qui a laissé des traces durables dans la mémoire collective. Le fort n'avait pas été pris, mais la ville fut rançonnée. Depuis lors, les défenses terrestres ont été renforcées.`,
-
-        population: `~6 000 à 8 000 habitants permanents ; peut doubler lors des arrivées de flottes`,
-
-        garnison: `Fort San Juan de Ulúa : ~400 soldats et artilleurs. Garnison de la ville : ~200 soldats supplémentaires.`,
-
-        note_mj: `✅ Raid de Lorencillo et Grammont, 1683 : établi.
-✅ Fort San Juan de Ulúa sur îlot corallien : établi.
-⚠️ Garnison : estimation d'après Archer, <em>The Army in Bourbon Mexico (1977)</em> — données postérieures aux réformes, couvre la période bourbonienne tardive — effectifs de 1712 probablement inférieurs.`,
-    },
-
-// ── 112. POPOCATÉPETL ────────────────────────────────────────────────────────
-
-    {
-        id: 'popocatepetl',
-        nom: 'Popocatépetl',
-        label: 'Les Vulcans ou Papa Catepec',
-        type: 'site_geo',
-        rang: '2',
-        territoire: 'nouvelle-espagne',
-        coords: [1230, 2881],
-        // ⚠️ La Jaillot indique "Les Vulcans ou Papa Catepec" — le Popocatépetl
-        // et l'Iztaccíhuatl, les deux volcans jumeaux entre Mexico et Puebla.
-        // "Papa Catepec" est une déformation de "Popocatépetl".
-
-        contexte: [
-            {
-                de: 1712,
-                texte: `Le Popocatépetl — "la montagne qui fume" en nahuatl — et son compagnon l'Iztaccíhuatl ("la femme blanche") forment le duo volcanique le plus célèbre de la Nouvelle-Espagne. Le Popocatépetl culmine à 5 426 mètres, l'Iztaccíhuatl à 5 230 mètres — tous deux couverts de neiges éternelles, visibles depuis Mexico par temps clair et depuis les côtes du golfe de Mexique par beau temps. Entre les deux volcans passe le col de Cortés, emprunté par le conquistador en 1519 lors de sa marche vers Tenochtitlán.
-<br><br>
-Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses éruptions périodiques couvrent de cendres Mexico et Puebla. Les Mexicas lui rendaient un culte ; les Espagnols ont tenté d'en descendre le soufre pour fabriquer de la poudre à canon dès 1519. En 1712, un sanctuaire chrétien sur ses flancs accueille les pèlerins.`,
-            },
-        ],
-
-        note_mj: `✅ Popocatépetl (5 426 m) et Iztaccíhuatl (5 230 m) : établi.
-✅ Col de Cortés entre les deux volcans, marche vers Tenochtitlán en 1519 : établi.
-✅ Extraction de soufre par les Espagnols dès 1519 : établi.
-✅ Activité volcanique continue en 1712 : établi — le Popocatépetl est en éruption fréquente tout au long de la période coloniale.`,
-    },
-
-    {
-        id: 'campeche',
-        nom: 'Campeche',
-        type: 'port',
-        territoire: 'yucatan',
-        coords: [2314, 2607],
-
-        contexte: `Port d'exportation du bois de teinture — le <em>palo de tinte</em> (bois de campêche, *Haematoxylum campechianum*) dont la sève rouge-violet teint les draps de laine des manufactures européennes. Cette richesse en fait depuis le XVIIe siècle une cible récurrente des flibustiers : Myngs en 1663, L'Olonnais en 1666, Laurent de Graff en 1685 et 1686. La ville porte les cicatrices de ces raids — et les murailles construites en réponse.
-
-L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les raids répétés, est en 1712 l'une des rares villes entièrement ceintes de murailles dans toute l'Amérique espagnole. Huit bastions hexagonaux complètent le système. Les Anglais de la baie du Belize coupent du bois de campêche à quelques dizaines de kilomètres au sud — tension permanente que les autorités du Yucatán n'ont pas les moyens de résoudre.`,
-
-        population: `~6 000 habitants`,
-
-        garnison: `Garnison de l'enceinte : ~300 soldats répartis sur les huit bastions. Fort San Miguel (position avancée en hauteur) : ~80 hommes.`,
-
-        note_mj: `✅ Raids flibustiers (L'Olonnais 1666, Lorencillo 1685–1686, Myngs 1663) : établis. Morgan n'est pas encore commandant en 1663 — le raid sur Campeche est conduit par Christopher Myngs.
-✅ Enceinte fortifiée commencée en 1686, huit bastions : établi — aujourd'hui classée à l'UNESCO.
-✅ Bois de campêche comme richesse principale : établi.
-⚠️ Garnison : estimation d'après Calderón Quijano, <em>Historia de las Fortificaciones en Nueva España (1984)</em> → couvre l'ensemble de la période coloniale — extrapolation pour 1712.`,
     },
 
     {
@@ -1135,24 +2745,6 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
         note_mj: `✅ Barbade comme île la plus productive et la plus peuplée des Antilles britanniques : Dunn, <em>Sugar and Slaves</em> (1972).<br>
 ✅ Gouverneur Lowther — double mandat, extorsion, rétention de navires de guerre : Wikipedia EN ; <em>History of Parliament Online</em>.<br>
 ⚠️ Garnison : estimation par analogie avec les garnisons britanniques aux Antilles pour une île de ce rang.`,
-    },
-
-    {
-        id: 'merida',
-        nom: 'Mérida',
-        capitale: true,
-        territoire: 'yucatan',
-        coords: [2613, 2435],
-
-        contexte: [
-            {
-                de: 1712, texte: `Capitale de la capitainerie générale du Yucatán, à l'intérieur de la péninsule, loin de la côte Caraïbe. Ville administrative et épiscopale fondée en 1542 sur les ruines de la cité maya de T'ho.<br>
-                Mérida n'est pas un port — son accès à la mer passe par Campeche, à une centaine de kilomètres à l'ouest. C'est depuis Mérida que le gouverneur-capitaine général administre le Yucatán, une capitainerie distincte de la vice-royauté de Mexico.` },
-        ],
-
-        population: `~8 000 habitants<br>(dont ~6 000 Mayas)`,
-
-        note_mj: `Mérida n'a pas de fort militaire notable — la défense du Yucatán côté Caraïbe repose sur l'enceinte de Campeche. Entrée présente pour compléter la carte administrative ; faible intérêt narratif direct pour la campagne.`,
     },
 
 ];
