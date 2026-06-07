@@ -56,16 +56,34 @@
               <ul class="carte-recherche-suggestions" id="carte-recherche-suggestions" role="listbox"></ul>
             </div>
             <div class="carte-filtres-marqueurs">
-              <label class="carte-filtre-check" id="filtre-scenarios">
-                <input type="checkbox" checked>
-                <span class="carte-filtre-pastille">⚑</span>
-                Scénarios
-              </label>
-              <label class="carte-filtre-check" id="filtre-villes">
-                <input type="checkbox" checked>
-                <span class="carte-filtre-pastille">⌂</span>
-                Villes
-              </label>
+              <div class="carte-filtres-groupe">
+                <label class="carte-filtre-check carte-filtre-check--maitre" id="filtre-marqueurs-tout">
+                  <input type="checkbox" checked>
+                  Marqueurs géographiques
+                </label>
+                <div class="carte-filtre-enfants">
+                  <label class="carte-filtre-check carte-filtre-check--sub" id="filtre-scenarios">
+                    <input type="checkbox" checked>
+                    <span class="carte-filtre-pastille">⚑</span>
+                    Scénarios
+                  </label>
+                  <label class="carte-filtre-check carte-filtre-check--sub" id="filtre-etablissements">
+                    <input type="checkbox" checked>
+                    <span class="carte-filtre-pastille">⌂</span>
+                    Établissements principaux
+                  </label>
+                  <label class="carte-filtre-check carte-filtre-check--sub" id="filtre-secondaires">
+                    <input type="checkbox">
+                    <span class="carte-filtre-pastille">⌂</span>
+                    Établissements secondaires
+                  </label>
+                  <label class="carte-filtre-check carte-filtre-check--sub" id="filtre-sites">
+                    <input type="checkbox" checked>
+                    <span class="carte-filtre-pastille">▲</span>
+                    Sites d'intérêt
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </aside>

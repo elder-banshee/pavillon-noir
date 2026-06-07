@@ -655,25 +655,84 @@ function initPanneauGauche() {
 
 // ─── Filtres marqueurs (panneau gauche) ──────────────────────
 function initFiltresMarqueurs() {
-  const filtreScenarios = document.getElementById('filtre-scenarios');
-  const filtreVilles = document.getElementById('filtre-villes');
-  if (!filtreScenarios || !filtreVilles) return;
+  const maitre        = document.getElementById('filtre-marqueurs-tout');
+  const scenarios     = document.getElementById('filtre-scenarios');
+  const etablissements = document.getElementById('filtre-etablissements');
+  const secondaires   = document.getElementById('filtre-secondaires');
+  const sites         = document.getElementById('filtre-sites');
 
-  filtreScenarios.addEventListener('click', () => {
-    if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
-    const input = filtreScenarios.querySelector('input');
-    input.checked = !input.checked;
-    filtreScenarios.classList.toggle('decochee', !input.checked);
-    renderPins();
-  });
+  const enfants = [scenarios, etablissements, secondaires, sites].filter(Boolean);
 
-  filtreVilles.addEventListener('click', () => {
+  function estCoche(el) { return el.querySelector('input').checked; }
+
+  function majMaitre() {
+    if (!maitre) return;
+    const nb = enfants.filter(estCoche).length;
+    const inputMaitre = maitre.querySelector('input');
+    if (nb === 0) {
+      inputMaitre.checked = false;
+      inputMaitre.indeterminate = false;
+      maitre.classList.add('decochee');
+    } else if (nb === enfants.length) {
+      inputMaitre.checked = true;
+      inputMaitre.indeterminate = false;
+      maitre.classList.remove('decochee');
+    } else {
+      inputMaitre.checked = false;
+      inputMaitre.indeterminate = true;
+      maitre.classList.remove('decochee');
+    }
+  }
+
+  function toggleEnfant(el, renderFn) {
     if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
-    const input = filtreVilles.querySelector('input');
+    const input = el.querySelector('input');
+    // Ne pas inverser ici — le preventDefault dans le listener empêche le toggle natif,
+    // donc on gère l'état manuellement
     input.checked = !input.checked;
-    filtreVilles.classList.toggle('decochee', !input.checked);
-    renderVilles();
-  });
+    el.classList.toggle('decochee', !input.checked);
+    majMaitre();
+    renderFn();
+  }
+
+  if (maitre) {
+    maitre.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
+      const inputMaitre = maitre.querySelector('input');
+      const toutCoche = enfants.every(estCoche);
+      const nouvelEtat = !toutCoche;
+      enfants.forEach(el => {
+        el.querySelector('input').checked = nouvelEtat;
+        el.classList.toggle('decochee', !nouvelEtat);
+      });
+      inputMaitre.indeterminate = false;
+      inputMaitre.checked = nouvelEtat;
+      maitre.classList.toggle('decochee', !nouvelEtat);
+      renderPins();
+      renderVilles();
+    });
+  }
+
+  function addToggle(el, renderFn) {
+    if (!el) return;
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleEnfant(el, renderFn);
+    });
+  }
+
+  addToggle(scenarios,      renderPins);
+  addToggle(etablissements, renderVilles);
+  addToggle(secondaires,    renderVilles);
+  addToggle(sites,          renderVilles);
+
+  // Initialiser l'état de la case maître au chargement
+  // (certains enfants peuvent démarrer décochés, ex. filtre-secondaires)
+  majMaitre();
+  if (secondaires && !secondaires.querySelector('input').checked) {
+    secondaires.classList.add('decochee');
+  }
 }
 
 // ─── Recherche prédictive ─────────────────────────────────────
@@ -832,8 +891,21 @@ function afficherSuggestions(q, container) {
   });
 
   if (typeof VILLES !== 'undefined') {
+    const filtreEtablissements = document.getElementById('filtre-etablissements');
+    const filtreSecondaires = document.getElementById('filtre-secondaires');
+    const filtreSites = document.getElementById('filtre-sites');
+    const afficherPrincipaux = filtreEtablissements?.querySelector('input').checked ?? true;
+    const afficherSecondaires = filtreSecondaires?.querySelector('input').checked ?? true;
+    const afficherSites = filtreSites?.querySelector('input').checked ?? true;
+
     VILLES.forEach(ville => {
       if (!ville.coords) return;
+      const rang = ville.rang ?? '1';
+      const estSite = (ville.type === 'site_geo' || ville.type === 'site_hist');
+      if (rang === '3' && !modeMJ) return;
+      if (estSite && !afficherSites) return;
+      if (!estSite && rang === '2' && !afficherSecondaires) return;
+      if (!estSite && rang !== '2' && !afficherPrincipaux) return;
       const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
       let matchTag = null;
       for (const tag of tags) {
@@ -1117,14 +1189,29 @@ function renderVilles() {
   // Visible uniquement hors masque/isolation
   if (overlayMode === 'masque') return;
 
-  const filtre = document.getElementById('filtre-villes');
-  if (filtre && !filtre.querySelector('input').checked) return;
+  const filtreEtablissements = document.getElementById('filtre-etablissements');
+  const filtreSecondaires = document.getElementById('filtre-secondaires');
+  const filtreSites = document.getElementById('filtre-sites');
+  const afficherPrincipaux = filtreEtablissements?.querySelector('input').checked ?? true;
+  const afficherSecondaires = filtreSecondaires?.querySelector('input').checked ?? true;
+  const afficherSites = filtreSites?.querySelector('input').checked ?? true;
 
   if (typeof VILLES === 'undefined') return;
 
   VILLES.forEach(ville => {
-    if (!ville.coords) return; // coordonnées pas encore saisies
+    if (!ville.coords) return;
     if (ville.visible_de && anneeActive < ville.visible_de) return;
+
+    const rang = ville.rang ?? '1';
+    const estSite = (ville.type === 'site_geo' || ville.type === 'site_hist');
+
+    // Rang 3 : visible uniquement en mode MJ
+    if (rang === '3' && !modeMJ) return;
+
+    // Filtrage par catégorie
+    if (estSite) { if (!afficherSites) return; }
+    else if (rang === '2') { if (!afficherSecondaires) return; }
+    else { if (!afficherPrincipaux) return; }
 
     const [x, y] = ville.coords;
     const latlng = pixelToLatLng(x, y);
@@ -1736,26 +1823,31 @@ function zoomerVille(villeId) {
   // Assombrir la carte
   carteOverlayPrincipale.setOpacity(0.05);
 
-  // Si le filtre villes est désactivé, le réactiver silencieusement —
+  // Si les filtres villes sont désactivés, les réactiver silencieusement —
   // l'utilisateur qui recherche une ville veut la voir, y compris après le zoom
-  const filtreVillesEl = document.getElementById('filtre-villes');
-  if (filtreVillesEl) {
-    const input = filtreVillesEl.querySelector('input');
+  ['filtre-etablissements', 'filtre-secondaires', 'filtre-sites'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const input = el.querySelector('input');
     if (input && !input.checked) {
       input.checked = true;
-      filtreVillesEl.classList.remove('decochee');
-      renderVilles(); // créer les marqueurs maintenant qu'ils sont activés
+      el.classList.remove('decochee');
     }
-  }
+  });
 
-  // Griser les boutons d'overlay, les filtres et la légende
+  // Griser les boutons d'overlay, les filtres, la légende et bloquer la recherche
   document.getElementById('carte-legende')?.classList.add('carte-isolation--disabled');
   document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
     btn.disabled = true;
     btn.classList.add('carte-isolation--disabled');
   });
+  document.getElementById('filtre-marqueurs-tout')?.classList.add('carte-isolation--disabled');
   document.getElementById('filtre-scenarios')?.classList.add('carte-isolation--disabled');
-  document.getElementById('filtre-villes')?.classList.add('carte-isolation--disabled');
+  document.getElementById('filtre-etablissements')?.classList.add('carte-isolation--disabled');
+  document.getElementById('filtre-secondaires')?.classList.add('carte-isolation--disabled');
+  document.getElementById('filtre-sites')?.classList.add('carte-isolation--disabled');
+  const rechercheInputZoom = document.getElementById('carte-recherche-input');
+  if (rechercheInputZoom) { rechercheInputZoom.disabled = true; rechercheInputZoom.blur(); }
 
   // Mettre à jour la légende
   majLegende();
@@ -1906,8 +1998,13 @@ function _restaurerModeNormal() {
     btn.disabled = false;
     btn.classList.remove('carte-isolation--disabled');
   });
+  document.getElementById('filtre-marqueurs-tout')?.classList.remove('carte-isolation--disabled');
   document.getElementById('filtre-scenarios')?.classList.remove('carte-isolation--disabled');
-  document.getElementById('filtre-villes')?.classList.remove('carte-isolation--disabled');
+  document.getElementById('filtre-etablissements')?.classList.remove('carte-isolation--disabled');
+  document.getElementById('filtre-secondaires')?.classList.remove('carte-isolation--disabled');
+  document.getElementById('filtre-sites')?.classList.remove('carte-isolation--disabled');
+  const rechercheInput = document.getElementById('carte-recherche-input');
+  if (rechercheInput) rechercheInput.disabled = false;
   document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`.carte-overlay-btn[data-mode="${overlayMode}"]`)?.classList.add('active');
   majLegende();
@@ -1949,12 +2046,19 @@ function isolerTerritoire(juridictionId) {
   // Assombrir la carte
   carteOverlayPrincipale.setOpacity(0.05);
 
-  // Griser les boutons d'overlay et la légende
+  // Griser les boutons d'overlay, la légende, les filtres, et bloquer la recherche
   document.getElementById('carte-legende')?.classList.add('carte-isolation--disabled');
   document.querySelectorAll('.carte-overlay-btn').forEach(btn => {
     btn.disabled = true;
     btn.classList.add('carte-isolation--disabled');
   });
+  document.getElementById('filtre-marqueurs-tout')?.classList.add('carte-isolation--disabled');
+  document.getElementById('filtre-scenarios')?.classList.add('carte-isolation--disabled');
+  document.getElementById('filtre-etablissements')?.classList.add('carte-isolation--disabled');
+  document.getElementById('filtre-secondaires')?.classList.add('carte-isolation--disabled');
+  document.getElementById('filtre-sites')?.classList.add('carte-isolation--disabled');
+  const rechercheInputIso = document.getElementById('carte-recherche-input');
+  if (rechercheInputIso) { rechercheInputIso.disabled = true; rechercheInputIso.blur(); }
 
   // Mettre à jour la légende (affiche "Cliquer pour quitter")
   majLegende();
