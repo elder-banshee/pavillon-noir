@@ -199,10 +199,12 @@ function pinSVG() {
 }
 
 function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false) {
+  const estSite = (type === 'site_geo' || type === 'site_hist');
   const fond = estIsole ? 'rgba(0,0,0,0)'
-    : estActive ? (estPirate ? '#3a3a3a' : '#9aae9a')
+    : estActive ? (estPirate ? '#3a3a3a' : (estSite ? '#c7edfd' : '#9aae9a'))
       : estPirate ? '#0e0c09'
-        : '#7a8c7a';
+        : estSite ? '#a8d4e8'
+          : '#7a8c7a';
 
   const couleurTrait = estIsole ? '#c8973a'
     : estPirate ? '#f2e8d5'
@@ -224,6 +226,31 @@ function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estAct
         fill="${estIsole ? 'none' : '#0e0c09'}" stroke="${estIsole ? '#c8973a' : couleurTrait}" stroke-width="1.2"/>
       <line x1="12" y1="12" x2="20" y2="20" stroke="${couleurCroix}" stroke-width="3" stroke-linecap="round"/>
       <line x1="20" y1="12" x2="12" y2="20" stroke="${couleurCroix}" stroke-width="3" stroke-linecap="round"/>`;
+  } else if (type === 'site_geo') {
+    const couleurNeige = estIsole ? '#c8973a' : '#ffffff';
+    symbole = `
+      <g transform="translate(4.85,9.12) scale(0.18)">
+        <path d="M87.22,20.9l-11,16.52L51.87.9.93,77.3H124.82Z" fill="${estIsole ? 'none' : couleurTrait}" stroke="${couleurTrait}" stroke-width="${estIsole ? '8' : '1.2'}"/>
+      </g>
+      <g transform="translate(4.85,9.12) scale(0.18)">
+        <polygon data-preserve="1" points="38.44 20.9 65.14 20.9 51.74 0.9 38.44 20.9" fill="${estIsole ? couleurTrait : couleurNeige}" stroke="${couleurTrait}" stroke-width="${estIsole ? '0' : '1.2'}"/>
+      </g>`;
+  } else if (type === 'site_hist') {
+    symbole = `
+      <g transform="translate(4.85,8.54) scale(0.19)">
+        <path d="M115.12,69.85a1,1,0,0,0-1-.75H72.45l1.15,9.43h43.8Z" fill="${couleurTrait}"/>
+        <path d="M2.27,69.85,0,78.53H43.8L45,69.1H3.25A1,1,0,0,0,2.27,69.85Z" fill="${couleurTrait}"/>
+        <path d="M107.48,65.57,105.2,56.9a1,1,0,0,0-1-.75H70.87L72,65.58h35.46Z" fill="${couleurTrait}"/>
+        <path d="M12.2,56.9,9.93,65.58H45.5l1.24-9.43H13.17A1,1,0,0,0,12.2,56.9Z" fill="${couleurTrait}"/>
+        <path d="M97.55,52.62,95.27,44a1,1,0,0,0-1-.75h-25l1.14,9.43H97.55Z" fill="${couleurTrait}"/>
+        <path d="M23.1,43.2a1,1,0,0,0-1,.75l-2.28,8.68H47.2l1.24-9.43Z" fill="${couleurTrait}"/>
+        <path d="M68.87,39.68H87.62L85.35,31a1,1,0,0,0-1-.74H67.72Z" fill="${couleurTrait}"/>
+        <path d="M50.14,30.25H33a1,1,0,0,0-1,.75l-2.27,8.68H48.9Z" fill="${couleurTrait}"/>
+        <path d="M67.29,26.72H77.7L75.42,18a1,1,0,0,0-1-.75H66.14Z" fill="${couleurTrait}"/>
+        <path d="M51.84,17.29H43A1,1,0,0,0,42,18L39.7,26.72H50.6Z" fill="${couleurTrait}"/>
+        <polygon points="55.87,17.3 47.84,78.53 69.57,78.53 62.11,17.3 55.87,17.3" fill="${couleurTrait}"/>
+        <path d="M44.7,4h2V14.24a1,1,0,0,0,1,1h7a0,0,0,0,0,0,0V10.3a4.14,4.14,0,0,1,3.65-4.19,4,4,0,0,1,4.35,4v5.1a0,0,0,0,0,0,0h7a1,1,0,0,0,1-1V4h2a1,1,0,0,0,1-1V1a1,1,0,0,0-1-1h-28a1,1,0,0,0-1,1V3A1,1,0,0,0,44.7,4Z" fill="${couleurTrait}"/>
+      </g>`;
   } else {
     symbole = `
       <path d="M10 16 L16 10 L22 16" fill="none" stroke="${couleurTrait}" stroke-width="1.5" stroke-linejoin="round"/>
@@ -1769,19 +1796,28 @@ function zoomerVille(villeId) {
   if (marker) {
     marker.setOpacity(1);
 
-    // Étape 1 : blanc immédiat — modifier le SVG existant sans setIcon
+    // Appliquer immédiatement l'état isolé (fill none sur fonds, couleurs gold sur symboles)
+    const tailleActuelle = tailleIconeVille(carte.getZoom(), ville.rang);
+    marker.setIcon(L.divIcon({
+      className: '',
+      html: villeSVG(ville.type || 'ville', tailleActuelle, estPirate, true, false),
+      iconSize: [tailleActuelle, tailleActuelle],
+      iconAnchor: [tailleActuelle / 2, tailleActuelle / 2]
+    }));
+
+    // Étape 1 : blanc immédiat sur les strokes et fills gold
     const svgEl = marker.getElement()?.querySelector('svg');
     if (svgEl) {
+      const cadre = svgEl.querySelector('rect');
+      if (cadre) cadre.setAttribute('stroke', 'none');
       svgEl.querySelectorAll('rect, path, line, circle, polygon').forEach(el => {
-        if (el.getAttribute('stroke')) el.setAttribute('stroke', '#ffffff');
+        if (el === cadre) return;
+        if (el.getAttribute('stroke') && el.getAttribute('stroke') !== 'none') el.setAttribute('stroke', '#ffffff');
         if (el.getAttribute('fill') && el.getAttribute('fill') !== 'none') el.setAttribute('fill', '#ffffff');
       });
-      // Masquer le cadre (rect de fond)
-      const rect = svgEl.querySelector('rect');
-      if (rect) rect.setAttribute('fill', 'none');
     }
 
-    // Étape 2 : gold-light après 400ms — toujours sans setIcon
+    // Étape 2 : gold-light après 400ms
     setTimeout(() => {
       if (isolationVilleId !== villeId) return;
       const svgEl2 = marker.getElement()?.querySelector('svg');

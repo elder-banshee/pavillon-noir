@@ -1512,33 +1512,6 @@ Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis
 ⚠️ "San Sebastián de Buena Vista" : poste espagnol probable dans la région, identification précise incertaine — plusieurs forts espagnols ont existé dans cette zone au cours du XVIIe–XVIIIe siècle.`,
     },
 
-// ── 54. SANTA MARÍA LA ANTIGUA DEL DARIÉN ────────────────────────────────────
-
-    {
-        id: 'santa-maria-darien',
-        nom: 'Santa María la Antigua del Darién',
-        label: 'Santa Maria',
-        type: 'site',
-        rang: '2',
-        territoire: 'panama',
-        coords: [4282, 4618],
-
-        contexte: [
-            {
-                de: 1712,
-                texte: `Site de la première ville européenne permanente fondée sur le continent américain — Santa María la Antigua del Darién, établie en 1510 par Vasco Núñez de Balboa sur la rive occidentale du golfe d'Urabá. C'est depuis ici que Balboa a traversé l'isthme et "découvert" le Pacifique en 1513. La ville a été abandonnée en 1524 lorsque le gouverneur Pedrarias Dávila a transféré l'administration à Panama City — et lorsqu'il a fait exécuter Balboa pour trahison.
-<br><br>
-En 1712, il ne reste rien de Santa María sinon la mémoire et quelques ruines englouties par la jungle darienite. Les cartographes continuent de la marquer par tradition historique. Pour un navigateur ou un aventurier qui connaît son histoire, le site est chargé : premier évêché du continent, premier tribunal, premier cimetière européen en Amérique — et lieu de naissance de la conquête du Pacifique.`,
-            },
-        ],
-
-        note_mj: `✅ Fondation de Santa María la Antigua del Darién en 1510 par Balboa : établi.
-✅ Première ville permanente d'Amérique continentale (avant Natá, avant Panama City) : établi.
-✅ Traversée de l'isthme et "découverte" du Pacifique par Balboa en 1513 : établi.
-✅ Exécution de Balboa par Pedrarias Dávila et abandon de la ville en 1524 : établi.
-État en 1712 : ruines recouvertes par la jungle, site non habité.`,
-    },
-
 // ═══════════════════════════════════════════════════════════
 // FIN DU FICHIER INTERMÉDIAIRE — Session du 2025-06-04
 // Total : 54 entrées nouvelles + 1 correction dans villes-data.js
@@ -3077,35 +3050,6 @@ En 1712, le Volcán de Agua est inactif depuis la catastrophe de 1541 — mais s
 ✅ Beatriz de la Cueva, gouverneure tuée dans la catastrophe : établi.
 ✅ Volcán de Agua inactif depuis 1541 ; Fuego actif : établi.
 ✅ Volcán de Fuego et Acatenango visibles depuis Santiago : établi.`,
-    },
-
-// ── 112. POPOCATÉPETL ────────────────────────────────────────────────────────
-
-    {
-        id: 'popocatepetl',
-        nom: 'Popocatépetl',
-        label: 'Les Vulcans ou Papa Catepec',
-        type: 'site',
-        rang: '2',
-        territoire: 'nouvelle-espagne',
-        coords: [1230, 2881],
-        // ⚠️ La Jaillot indique "Les Vulcans ou Papa Catepec" — le Popocatépetl
-        // et l'Iztaccíhuatl, les deux volcans jumeaux entre Mexico et Puebla.
-        // "Papa Catepec" est une déformation de "Popocatépetl".
-
-        contexte: [
-            {
-                de: 1712,
-                texte: `Le Popocatépetl — "la montagne qui fume" en nahuatl — et son compagnon l'Iztaccíhuatl ("la femme blanche") forment le duo volcanique le plus célèbre de la Nouvelle-Espagne. Le Popocatépetl culmine à 5 426 mètres, l'Iztaccíhuatl à 5 230 mètres — tous deux couverts de neiges éternelles, visibles depuis Mexico par temps clair et depuis les côtes du golfe de Mexique par beau temps. Entre les deux volcans passe le col de Cortés, emprunté par le conquistador en 1519 lors de sa marche vers Tenochtitlán.
-<br><br>
-Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses éruptions périodiques couvrent de cendres Mexico et Puebla. Les Mexicas lui rendaient un culte ; les Espagnols ont tenté d'en descendre le soufre pour fabriquer de la poudre à canon dès 1519. En 1712, un sanctuaire chrétien sur ses flancs accueille les pèlerins.`,
-            },
-        ],
-
-        note_mj: `✅ Popocatépetl (5 426 m) et Iztaccíhuatl (5 230 m) : établi.
-✅ Col de Cortés entre les deux volcans, marche vers Tenochtitlán en 1519 : établi.
-✅ Extraction de soufre par les Espagnols dès 1519 : établi.
-✅ Activité volcanique continue en 1712 : établi — le Popocatépetl est en éruption fréquente tout au long de la période coloniale.`,
     },
 
 // ── 113. SIERRA NEVADA DE SANTA MARTA ────────────────────────────────────────
