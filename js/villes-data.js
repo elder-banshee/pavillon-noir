@@ -697,7 +697,6 @@ La société téhuantepecaine est dominée par les femmes zapotèques — les <e
     {
         id: 'popocatepetl',
         nom: 'Popocatépetl',
-        label: 'Les Vulcans ou Papa Catepec',
         type: 'site_geo',
         rang: '2',
         territoire: 'nouvelle-espagne',

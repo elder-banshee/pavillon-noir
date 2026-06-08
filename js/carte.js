@@ -17,6 +17,7 @@ let contourGlobalLayer = null;
 let villeActive = null;
 let markersVilles = {};
 let pairesChevauchement = [];
+let clustersChevauchement = []; // clusters de 3+ icônes se chevauchant
 let mouseoutTimers = {};
 let ecartementsActifs = {}; // clé = "idA:idB" → durée ms
 
@@ -198,13 +199,14 @@ function pinSVG() {
   </svg>`;
 }
 
-function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false) {
+function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false, estRang3 = false) {
   const estSite = (type === 'site_geo' || type === 'site_hist');
   const fond = estIsole ? 'rgba(0,0,0,0)'
-    : estActive ? (estPirate ? '#3a3a3a' : (estSite ? '#c7edfd' : '#9aae9a'))
+    : estActive ? (estPirate ? '#3a3a3a' : (estSite ? '#c7edfd' : (estRang3 ? '#c45a5a' : '#9aae9a')))
       : estPirate ? '#0e0c09'
         : estSite ? '#a8d4e8'
-          : '#7a8c7a';
+          : estRang3 ? '#a03a3a'
+            : '#7a8c7a';
 
   const couleurTrait = estIsole ? '#c8973a'
     : estPirate ? '#f2e8d5'
@@ -299,8 +301,9 @@ function setIconeVilleActive(villeId, actif) {
   const info = _infoMarqueurVille(villeId);
   if (!info) return;
   const { marker, ville, estPirate, taille } = info;
+  const estRang3 = (ville.rang ?? '1') === '3';
   marker.setIcon(L.divIcon({
-    html: villeSVG(ville.type || 'ville', taille, estPirate, false, actif),
+    html: villeSVG(ville.type || 'ville', taille, estPirate, false, actif, estRang3),
     className: 'carte-ville',
     iconSize: [taille, taille],
     iconAnchor: [taille / 2, taille / 2],
@@ -390,8 +393,36 @@ function confirmerModeMJ() {
   initCurseurInline();
   renderZones();
   renderVilles();
-}
 
+  // Ajouter le filtre rang 3 dans le panneau gauche
+  const enfantsDiv = document.querySelector('.carte-filtre-enfants');
+  if (enfantsDiv && !document.getElementById('filtre-rang3')) {
+    const label = document.createElement('label');
+    label.className = 'carte-filtre-check carte-filtre-check--sub carte-filtre-check--mj';
+    label.id = 'filtre-rang3';
+    label.innerHTML = `<input type="checkbox"><span class="carte-filtre-pastille">🔒</span> Établissements masqués`;
+    enfantsDiv.appendChild(label);
+    // Brancher le listener via initFiltresMarqueurs ne suffit pas (déjà appelé) — listener direct
+    label.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
+      const input = label.querySelector('input');
+      input.checked = !input.checked;
+      label.classList.toggle('decochee', !input.checked);
+      // Mettre à jour la case maître
+      const maitre = document.getElementById('filtre-marqueurs-tout');
+      const tousEnfants = document.querySelectorAll('.carte-filtre-enfants .carte-filtre-check--sub');
+      const nb = [...tousEnfants].filter(el => el.querySelector('input').checked).length;
+      const inputMaitre = maitre?.querySelector('input');
+      if (inputMaitre) {
+        if (nb === 0) { inputMaitre.checked = false; inputMaitre.indeterminate = false; maitre.classList.add('decochee'); }
+        else if (nb === tousEnfants.length) { inputMaitre.checked = true; inputMaitre.indeterminate = false; maitre.classList.remove('decochee'); }
+        else { inputMaitre.checked = false; inputMaitre.indeterminate = true; maitre.classList.remove('decochee'); }
+      }
+      renderVilles();
+    });
+  }
+}
 function annulerModeMJ() {
   fermerPopup();
   renderZones();
@@ -533,6 +564,7 @@ function initCarte() {
       }, 60);
     }
     majTailleIconesVilles();
+    calculerPairesChevauchement();
   });
 
   // Boutons zoom personnalisés
@@ -550,6 +582,14 @@ function initCarte() {
       document.getElementById('carte-zoom-sombre').classList.toggle('active', modeSombre);
       renderContourGlobal();
     });
+
+  // Fermeture modale cluster au clic n'importe où dans la page
+  document.addEventListener('click', (e) => {
+    if (!document.querySelector('.carte-cluster-modal')) return;
+    if (e.target.closest('.carte-cluster-modal')) return;
+    if (e.target.closest('.carte-ville')) return; // clic sur icône ville — laissé au handler Leaflet
+    fermerModalCluster();
+  });
 }
 
 // ─── Curseur temporel inline ──────────────────────────────────
@@ -695,20 +735,36 @@ function initFiltresMarqueurs() {
     renderFn();
   }
 
+  // Snapshot de l'état des enfants avant "tout masquer"
+  let snapshotFiltres = null;
+
   if (maitre) {
     maitre.addEventListener('click', (e) => {
       e.preventDefault();
       if (overlayMode === 'isolation' || overlayMode === 'isolationVille') return;
+      // Relire les enfants dynamiquement pour inclure filtre-rang3 s'il existe
+      const enfantsDyn = [...document.querySelectorAll('.carte-filtre-enfants .carte-filtre-check--sub')];
       const inputMaitre = maitre.querySelector('input');
-      const toutCoche = enfants.every(estCoche);
-      const nouvelEtat = !toutCoche;
-      enfants.forEach(el => {
-        el.querySelector('input').checked = nouvelEtat;
-        el.classList.toggle('decochee', !nouvelEtat);
-      });
-      inputMaitre.indeterminate = false;
-      inputMaitre.checked = nouvelEtat;
-      maitre.classList.toggle('decochee', !nouvelEtat);
+      const auMoinsUnCoche = enfantsDyn.some(estCoche);
+
+      if (auMoinsUnCoche) {
+        snapshotFiltres = enfantsDyn.map(el => el.querySelector('input').checked);
+        enfantsDyn.forEach(el => {
+          el.querySelector('input').checked = false;
+          el.classList.add('decochee');
+        });
+        inputMaitre.checked = false;
+        inputMaitre.indeterminate = false;
+        maitre.classList.add('decochee');
+      } else {
+        const etatRestaure = snapshotFiltres ?? enfantsDyn.map(() => true);
+        enfantsDyn.forEach((el, i) => {
+          el.querySelector('input').checked = etatRestaure[i];
+          el.classList.toggle('decochee', !etatRestaure[i]);
+        });
+        snapshotFiltres = null;
+        majMaitre();
+      }
       renderPins();
       renderVilles();
     });
@@ -891,21 +947,10 @@ function afficherSuggestions(q, container) {
   });
 
   if (typeof VILLES !== 'undefined') {
-    const filtreEtablissements = document.getElementById('filtre-etablissements');
-    const filtreSecondaires = document.getElementById('filtre-secondaires');
-    const filtreSites = document.getElementById('filtre-sites');
-    const afficherPrincipaux = filtreEtablissements?.querySelector('input').checked ?? true;
-    const afficherSecondaires = filtreSecondaires?.querySelector('input').checked ?? true;
-    const afficherSites = filtreSites?.querySelector('input').checked ?? true;
-
     VILLES.forEach(ville => {
       if (!ville.coords) return;
       const rang = ville.rang ?? '1';
-      const estSite = (ville.type === 'site_geo' || ville.type === 'site_hist');
       if (rang === '3' && !modeMJ) return;
-      if (estSite && !afficherSites) return;
-      if (!estSite && rang === '2' && !afficherSecondaires) return;
-      if (!estSite && rang !== '2' && !afficherPrincipaux) return;
       const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
       let matchTag = null;
       for (const tag of tags) {
@@ -1192,9 +1237,11 @@ function renderVilles() {
   const filtreEtablissements = document.getElementById('filtre-etablissements');
   const filtreSecondaires = document.getElementById('filtre-secondaires');
   const filtreSites = document.getElementById('filtre-sites');
+  const filtreRang3 = document.getElementById('filtre-rang3');
   const afficherPrincipaux = filtreEtablissements?.querySelector('input').checked ?? true;
   const afficherSecondaires = filtreSecondaires?.querySelector('input').checked ?? true;
   const afficherSites = filtreSites?.querySelector('input').checked ?? true;
+  const afficherRang3 = filtreRang3?.querySelector('input').checked ?? false;
 
   if (typeof VILLES === 'undefined') return;
 
@@ -1205,13 +1252,14 @@ function renderVilles() {
     const rang = ville.rang ?? '1';
     const estSite = (ville.type === 'site_geo' || ville.type === 'site_hist');
 
-    // Rang 3 : visible uniquement en mode MJ
+    // Rang 3 : visible uniquement en mode MJ, et si le filtre rang 3 est coché
     if (rang === '3' && !modeMJ) return;
+    if (rang === '3' && !afficherRang3) return;
 
     // Filtrage par catégorie
     if (estSite) { if (!afficherSites) return; }
     else if (rang === '2') { if (!afficherSecondaires) return; }
-    else { if (!afficherPrincipaux) return; }
+    else if (rang !== '3') { if (!afficherPrincipaux) return; }
 
     const [x, y] = ville.coords;
     const latlng = pixelToLatLng(x, y);
@@ -1219,9 +1267,10 @@ function renderVilles() {
       ? rendreChamp(ville.capitale, anneeActive)
       : ville.capitale;
     const estPirate = statutCapitale === 'pirate';
+    const estRang3 = rang === '3';
 
     const icon = L.divIcon({
-      html: villeSVG(ville.type || 'ville', tailleIconeVille(), estPirate),
+      html: villeSVG(ville.type || 'ville', tailleIconeVille(), estPirate, false, false, estRang3),
       className: 'carte-ville',
       iconSize: [tailleIconeVille(), tailleIconeVille()],
       iconAnchor: [tailleIconeVille() / 2, tailleIconeVille() / 2],
@@ -1246,6 +1295,12 @@ function renderVilles() {
       }
       if (overlayMode === 'isolation') return;
       fermerPopup();
+      // Vérifier si cette ville appartient à un cluster
+      const cluster = clustersChevauchement.find(c => c.ids.includes(ville.id));
+      if (cluster) {
+        ouvrirModalCluster(cluster, e.containerPoint);
+        return;
+      }
       if (villeActive === ville.id) {
         fermerPanneauVille();
       } else {
@@ -1327,8 +1382,9 @@ function majTailleIconesVilles() {
     const estPirate = statutCapitale === 'pirate';
     const estIsole = overlayMode === 'isolationVille' && id === isolationVilleId;
     const estActive = !estIsole && villeActive === id;
+    const estRang3 = (ville.rang ?? '1') === '3';
     marker.setIcon(L.divIcon({
-      html: villeSVG(ville.type || 'ville', taille, estPirate, estIsole, estActive),
+      html: villeSVG(ville.type || 'ville', taille, estPirate, estIsole, estActive, estRang3),
       className: 'carte-ville',
       iconSize: [taille, taille],
       iconAnchor: [taille / 2, taille / 2],
@@ -1766,6 +1822,7 @@ function fermerPanneauVille() {
   panneau.setAttribute('inert', '');
   if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); }
   villeActive = null;
+  fermerModalCluster();
 }
 
 function majZone(juridictionId) {
@@ -1860,6 +1917,9 @@ function zoomerVille(villeId) {
   if (isolationLayer) { isolationLayer.remove(); isolationLayer = null; }
   isolationJuridictionId = null;
   renderZones();
+  // renderVilles() ici garantit que le marqueur de la ville cherchée existe,
+  // même si son filtre était décoché (réactivé silencieusement juste avant)
+  renderVilles();
   Object.values(markersMap).forEach(m => m.setOpacity(0));
   Object.values(markersVilles).forEach(m => m.setOpacity(0));
 
@@ -2131,9 +2191,14 @@ function isolerTerritoire(juridictionId) {
 // ─── Chevauchement d'icônes villes ───────────────────────────
 function calculerPairesChevauchement() {
   pairesChevauchement = [];
+  clustersChevauchement = [];
   if (!carte || !carte._loaded) return;
 
+  // — Étape 1 : collecter toutes les paires proches (dist < 16px) —
   const ids = Object.keys(markersVilles);
+  const toutesLesPaires = []; // paires brutes avant répartition paire/cluster
+  const voisins = {};         // voisins[id] = Set des ids proches
+
   for (let i = 0; i < ids.length; i++) {
     for (let j = i + 1; j < ids.length; j++) {
       const idA = ids[i], idB = ids[j];
@@ -2146,14 +2211,134 @@ function calculerPairesChevauchement() {
       const dist = Math.sqrt(dx * dx + dy * dy);
       if (dist < 16) {
         const len = dist || 1;
-        pairesChevauchement.push({
+        toutesLesPaires.push({
           idA, idB,
           vx: dx / len, vy: dy / len,
           latlngA, latlngB,
         });
+        if (!voisins[idA]) voisins[idA] = new Set();
+        if (!voisins[idB]) voisins[idB] = new Set();
+        voisins[idA].add(idB);
+        voisins[idB].add(idA);
       }
     }
   }
+
+  // — Étape 2 : regrouper en clusters connexes (propagation de voisinage) —
+  const dejaTraites = new Set();
+  const clusters = []; // chaque cluster = Set d'ids
+
+  for (const id of Object.keys(voisins)) {
+    if (dejaTraites.has(id)) continue;
+    const cluster = new Set();
+    const file = [id];
+    while (file.length) {
+      const courant = file.pop();
+      if (dejaTraites.has(courant)) continue;
+      dejaTraites.add(courant);
+      cluster.add(courant);
+      for (const voisin of (voisins[courant] || [])) {
+        if (!dejaTraites.has(voisin)) file.push(voisin);
+      }
+    }
+    clusters.push(cluster);
+  }
+
+  // — Étape 3 : répartir entre pairesChevauchement et clustersChevauchement —
+  for (const cluster of clusters) {
+    const membres = [...cluster];
+    if (membres.length === 2) {
+      // Paire isolée → écartement existant
+      const paire = toutesLesPaires.find(
+        p => (p.idA === membres[0] && p.idB === membres[1]) ||
+             (p.idA === membres[1] && p.idB === membres[0])
+      );
+      if (paire) pairesChevauchement.push(paire);
+    } else {
+      // Cluster de 3+ → modale
+      clustersChevauchement.push({ ids: membres });
+    }
+  }
+
+}
+
+function fermerModalCluster() {
+  const existante = document.querySelector('.carte-cluster-modal');
+  if (existante) existante.remove();
+}
+
+function ouvrirModalCluster(cluster, containerPoint) {
+  fermerModalCluster();
+
+  const wrap = document.getElementById('carte-wrap');
+  if (!wrap) return;
+
+  const modal = document.createElement('div');
+  modal.className = 'carte-cluster-modal';
+  modal.style.left = `${containerPoint.x}px`;
+  modal.style.top  = `${containerPoint.y}px`;
+
+  const taille = tailleIconeVille();
+
+  cluster.ids.forEach(id => {
+    const ville = VILLES.find(v => v.id === id);
+    if (!ville) return;
+
+    const statutCapitale = Array.isArray(ville.capitale)
+      ? rendreChamp(ville.capitale, anneeActive)
+      : ville.capitale;
+    const estPirate = statutCapitale === 'pirate';
+    const estRang3 = (ville.rang ?? '1') === '3';
+
+    const iconeEl = document.createElement('div');
+    iconeEl.className = 'carte-cluster-modal__icone';
+    iconeEl.dataset.villeId = id;
+    iconeEl.dataset.actif = 'false';
+    iconeEl.style.width  = `${taille}px`;
+    iconeEl.style.height = `${taille}px`;
+    iconeEl.innerHTML = villeSVG(ville.type || 'ville', taille, estPirate, false, false, estRang3);
+
+    iconeEl.addEventListener('mouseenter', () => {
+      iconeEl.innerHTML = villeSVG(ville.type || 'ville', taille, estPirate, false, true, estRang3);
+      const tip = document.createElement('div');
+      tip.className = 'carte-tooltip carte-cluster-modal__tip leaflet-tooltip leaflet-tooltip-top';
+      tip.textContent = labelVille(ville);
+      iconeEl.appendChild(tip);
+    });
+    iconeEl.addEventListener('mouseleave', () => {
+      // Ne pas repasser en normal si cette icône est l'active de la modale
+      if (iconeEl.dataset.actif === 'true') return;
+      iconeEl.innerHTML = villeSVG(ville.type || 'ville', taille, estPirate, false, false, estRang3);
+    });
+    iconeEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Désactiver l'icône précédemment active dans la modale
+      const modale = document.querySelector('.carte-cluster-modal');
+      if (modale) {
+        modale.querySelectorAll('.carte-cluster-modal__icone[data-actif="true"]').forEach(el => {
+          el.dataset.actif = 'false';
+          // Récupérer ses infos depuis data-id pour remettre le bon SVG
+          const autreId = el.dataset.villeId;
+          const autreVille = VILLES.find(v => v.id === autreId);
+          if (autreVille) {
+            const autreCapitale = Array.isArray(autreVille.capitale)
+              ? rendreChamp(autreVille.capitale, anneeActive) : autreVille.capitale;
+            const autrePirate = autreCapitale === 'pirate';
+            const autreRang3 = (autreVille.rang ?? '1') === '3';
+            el.innerHTML = villeSVG(autreVille.type || 'ville', taille, autrePirate, false, false, autreRang3);
+          }
+        });
+      }
+      // Activer cette icône
+      iconeEl.dataset.actif = 'true';
+      iconeEl.innerHTML = villeSVG(ville.type || 'ville', taille, estPirate, false, true, estRang3);
+      ouvrirPanneauVille(id);
+    });
+
+    modal.appendChild(iconeEl);
+  });
+
+  wrap.appendChild(modal);
 }
 
 function ecarterVille(villeId) {

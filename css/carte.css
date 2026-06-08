@@ -1213,7 +1213,43 @@ path.leaflet-interactive:focus-visible {
   }
 }
 
-/* ─── Responsive ─────────────────────────────────────────────── */
+/* ─── Modale cluster d'icônes ────────────────────────────────── */
+.carte-cluster-modal {
+  position: absolute;
+  z-index: 1200;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+  padding: 4px;
+  background: rgba(14, 12, 9, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -100%);
+  margin-top: -6px;
+  pointer-events: auto;
+}
+
+.carte-cluster-modal__icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 2px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.carte-cluster-modal__tip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 @media (max-width: 900px) {
 
   .carte-panneau,
