@@ -1310,6 +1310,9 @@ function renderVilles() {
     marker.addTo(carte);
     markersVilles[ville.id] = marker;
   });
+
+  // Recalculer les paires de chevauchement selon les marqueurs réellement visibles
+  calculerPairesChevauchement();
 }
 
 // ─── Mise à jour taille icônes villes au zoom ─────────────────
@@ -2128,25 +2131,25 @@ function isolerTerritoire(juridictionId) {
 // ─── Chevauchement d'icônes villes ───────────────────────────
 function calculerPairesChevauchement() {
   pairesChevauchement = [];
-  if (typeof VILLES === 'undefined') return;
+  if (!carte || !carte._loaded) return;
 
-  const villesAvecCoords = VILLES.filter(v => v.coords);
-  for (let i = 0; i < villesAvecCoords.length; i++) {
-    for (let j = i + 1; j < villesAvecCoords.length; j++) {
-      const vA = villesAvecCoords[i];
-      const vB = villesAvecCoords[j];
-      const ptA = carte.latLngToContainerPoint(pixelToLatLng(vA.coords[0], vA.coords[1]));
-      const ptB = carte.latLngToContainerPoint(pixelToLatLng(vB.coords[0], vB.coords[1]));
+  const ids = Object.keys(markersVilles);
+  for (let i = 0; i < ids.length; i++) {
+    for (let j = i + 1; j < ids.length; j++) {
+      const idA = ids[i], idB = ids[j];
+      const latlngA = markersVilles[idA].getLatLng();
+      const latlngB = markersVilles[idB].getLatLng();
+      const ptA = carte.latLngToContainerPoint(latlngA);
+      const ptB = carte.latLngToContainerPoint(latlngB);
       const dx = ptB.x - ptA.x;
       const dy = ptB.y - ptA.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
       if (dist < 16) {
         const len = dist || 1;
         pairesChevauchement.push({
-          idA: vA.id, idB: vB.id,
+          idA, idB,
           vx: dx / len, vy: dy / len,
-          latlngA: pixelToLatLng(vA.coords[0], vA.coords[1]),
-          latlngB: pixelToLatLng(vB.coords[0], vB.coords[1]),
+          latlngA, latlngB,
         });
       }
     }
