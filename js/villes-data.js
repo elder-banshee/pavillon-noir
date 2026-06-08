@@ -336,7 +336,7 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
         label: 'Antequera',
         capitale: true,
         type: 'ville',
-        rang: '2',
+        rang: '1',
         territoire: 'nouvelle-espagne',
         coords: [1233,2795],
 
@@ -393,7 +393,7 @@ Le Galion de Manille est hors de portée des pirates des Caraïbes — mais son 
         nom: 'La Antigua (Villa Rica de la Vera Cruz)',
         label: 'La Antigua',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'nouvelle-espagne',
         coords: [1166, 2436],
 
@@ -460,7 +460,7 @@ Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à La Antigua s
         contexte: [
             {
                 de: 1712,
-                texte: `Ville des hautes terres entre Puebla et Oaxaca, sur la route commerciale qui relie les deux provinces. Tehuacán possède en 1712 un statut unique dans toute la Nouvelle-Espagne : celui de <strong>Ciudad de Indios</strong> — titre acheté à la Couronne espagnole le 16 mars 1660, au terme d'une enchère où les caciques indigènes ont surenchéri sur les colons espagnols qui convoitaient le même statut. Ce choix délibéré — préférer la "Ciudad de Indios" à la "Villa de Españoles" — a préservé des privilèges exceptionnels : les autorités municipales sont nommées parmi les naturels et caciques indigènes ; les Espagnols ne peuvent légalement s'installer dans la ville sans permission ; la communauté dispose de son propre blason royal et de procurateurs à Mexico pour défendre ses droits.
+                texte: `Ville des hautes terres entre Puebla et Oaxaca, sur la route commerciale qui relie les deux provinces. Tehuacán possède en 1712 un statut unique dans toute la Nouvelle-Espagne : celui de <strong>Ciudad de Indios</strong> (<em>Cité des Indiens</em>) — titre acheté à la Couronne espagnole le 16 mars 1660, au terme d'une enchère où les caciques indigènes ont surenchéri sur les colons espagnols qui convoitaient le même statut. Ce choix délibéré — préférer la "Ciudad de Indios" à la "Villa de Españoles" — a préservé des privilèges exceptionnels : les autorités municipales sont nommées parmi les naturels et caciques indigènes ; les Espagnols ne peuvent légalement s'installer dans la ville sans permission ; la communauté dispose de son propre blason royal et de procurateurs à Mexico pour défendre ses droits.
 <br><br>
 Ces privilèges sont l'objet d'un conflit permanent avec les hacendados espagnols et les autorités coloniales qui cherchent à les rogner — et la Couronne, pragmatiquement, maintient l'élite indienne dans ses droits pour préserver la stabilité de la province. La vallée de Tehuacán est aussi un centre de production de <strong>sel</strong> (salines de Zapotitlán) et un nœud de la route commerciale entre Puebla, Oaxaca et Veracruz. Ses eaux thermales sont réputées dans toute la Nouvelle-Espagne.`,
             },
@@ -558,7 +558,7 @@ La ville prendra le nom de Morelia en 1828, en hommage à José María Morelos, 
                 de: 1712,
                 texte: `Ville lacustre sur les rives du lac Pátzcuaro, dans les hautes terres du Michoacán. Ancienne capitale de l'empire purépecha (tarasque) — la seule grande civilisation mésoaméricaine que les Aztèques n'ont jamais réussi à soumettre — Pátzcuaro a été choisie comme première capitale espagnole du Michoacán avant d'être supplantée par Valladolid. Elle doit sa singularité à <strong>Vasco de Quiroga</strong>, dit "Tata Vasco" — évêque juriste qui, inspiré par l'<em>Utopie</em> de Thomas More, a organisé au XVIe siècle les villages indiens des rives du lac en communautés artisanales spécialisées : chaque village produit un seul artisanat (cuivre de Santa Clara, bois laqué de Uruapan, poterie de Tzintzuntzan...), assurant à chacun une spécialité et une interdépendance pacifique.
 <br><br>
-En 1712, ce système survit dans ses grandes lignes — les villages du lac Pátzcuaro maintiennent leurs spécialités artisanales, et la basilique de la Vierge de la Salud, fondée par Quiroga, reste le principal lieu de pèlerinage du Michoacán. Le lac lui-même, à 2 000 mètres d'altitude dans un paysage de volcans et de forêts de pins, est l'un des sites les plus beaux de la Nouvelle-Espagne.`,
+En 1712, ce système survit dans ses grandes lignes — les villages du lac Pátzcuaro maintiennent leurs spécialités artisanales, et la basilique de la Vierge de la Salud, fondée par Quiroga, reste le principal lieu de pèlerinage du Michoacán. Le lac lui-même, à 2 000 mètres d'altitude dans un paysage de volcans et de forêts de pins, est l'un des plus beaux sites de la Nouvelle-Espagne.`,
             },
         ],
 
@@ -570,6 +570,126 @@ En 1712, ce système survit dans ses grandes lignes — les villages du lac Pát
 ✅ Basilique de la Vierge de la Salud, fondée par Quiroga : établi.
 ⚠️ Population en 1712 : estimation pour la ville et l'ensemble des villages lacustres.
 La spécialisation artisanale des villages du lac Pátzcuaro est encore vivante aujourd'hui — l'une des rares réussites durables du projet de Quiroga.`,
+    },
+
+// ── MANZANILLO ───────────────────────────────────────────────────────────────
+
+    {
+        id: 'xiopa',
+        nom: 'Manzanillo',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [268,2524],
+        // ⚠️ "Xiopa" sur la Jaillot — identification avec Manzanillo (Colima)
+        // d'après la position : baie fermée par un banc de sable ("a Alimcingo")
+        // avec un fleuve à l'embouchure, au nord-ouest de Zacatula/Lázaro Cárdenas,
+        // sur la côte du Colima. Comparaison carte Jaillot / carte moderne confirmée.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Mouillage naturel sur la côte du Colima, dans une baie bien abritée fermée par des hauts-fonds et des îlots au large. Manzanillo est connu des navigateurs côtiers depuis la conquête — Hernán Cortés y a établi un chantier naval au XVIe siècle pour construire les navires destinés à l'exploration du Pacifique. En 1712, ce n'est pas encore un port formel mais un mouillage fréquenté par les navires de cabotage qui relient Acapulco aux ports du nord, et par les pêcheurs locaux. L'arrière-pays produit du coton et de l'indigo, acheminés vers Acapulco ou vers les ports du Golfe par la route terrestre.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ "Xiopa" sur la Jaillot : identification avec Manzanillo (Colima) proposée d'après la position et la description de la baie — comparaison Jaillot/carte moderne cohérente.
+✅ Chantier naval de Cortés à Manzanillo au XVIe siècle : établi.
+⚠️ Manzanillo ne devient un port formel qu'au XIXe siècle — en 1712, c'est un mouillage informel.`,
+    },
+
+// ── ZACATULA ─────────────────────────────────────────────────────────────────
+
+    {
+        id: 'zacatula',
+        nom: 'Zacatula',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [725,2844],
+        // ⚠️ À l'embouchure du río Balsas (plus grand fleuve côtier du Pacifique
+        // mexicain), marquant la frontière entre l'Audience de Mexico et Tlascala
+        // sur la Jaillot. Correspond à la zone de l'actuelle Lázaro Cárdenas
+        // (Michoacán/Guerrero).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port à l'embouchure du río Balsas — le plus grand fleuve côtier du Pacifique mexicain — marquant la frontière entre les provinces de Mexico et de Tlascala. Fondé dès 1523, Zacatula est l'un des premiers établissements espagnols de la côte Pacifique : Cortés y a fait construire des navires dès 1522 pour explorer la "Mar del Sur". Le bois des forêts tropicales du Balsas alimentait ces chantiers navals improvisés, et les premiers voyages d'exploration vers le nord du Pacifique mexicain sont partis de cette rade.
+<br><br>
+En 1712, Zacatula est retombée dans une modestie provinciale — le grand port Pacifique de la Nouvelle-Espagne est Acapulco, et Zacatula n'est plus qu'une escale de cabotage. Mais la barre du río Balsas, dangereuse par gros temps, reste un repère incontournable pour les navigateurs longeant la côte.`,
+            },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `✅ Fondation dès 1523, chantier naval de Cortés : établi (Herrera, <em>Historia General</em>).
+✅ Embouchure du río Balsas, frontière provinciale sur la Jaillot : établi géographiquement.
+✅ Correspondance avec la zone de Lázaro Cárdenas (Michoacán/Guerrero) : confirmée par comparaison Jaillot/carte moderne.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── PUERTO ESCONDIDO ─────────────────────────────────────────────────────────
+
+    {
+        id: 'puerto-escondido',
+        nom: 'Puerto Escondido',
+        label: 'Pt. Escondido',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-espagne',
+        coords: [1227,3065],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `"Port caché" — son nom dit tout. Puerto Escondido est une crique naturelle encaissée dans les falaises de la côte oaxacane, invisible depuis le large jusqu'à ce qu'on en soit à quelques encablures. Ce type de mouillage discret est précieux sur la côte Pacifique mexicaine, peu pourvue en abris naturels entre Acapulco et l'isthme de Tehuantepec. Les navires de cabotage qui longent la côte s'y arrêtent pour faire de l'eau et réparer loin des regards des autorités d'Acapulco. Un mouillage de contrebande autant que de nécessité.`,
+            },
+        ],
+
+        population: `Quelques dizaines d'habitants permanents`,
+
+        note_mj: `✅ Puerto Escondido sur la côte oaxacane, mouillage naturel encaissé : établi géographiquement.
+🎲 Le nom "port caché" est lui-même un indice narratif — un lieu que les autorités ne surveillent pas, sur une côte que personne ne contrôle vraiment entre Acapulco et Tehuantepec.`,
+    },
+
+// ── TEHUANTEPEC ──────────────────────────────────────────────────────────────
+
+    {
+        id: 'tehuantepec',
+        nom: 'Tehuantepec (Santo Domingo Tehuantepec)',
+        label: 'Tehuantepec',
+        type: 'ville',
+        rang: '1',
+        territoire: 'nouvelle-espagne',
+        coords: [1439,3235],
+        // ⚠️ "Salinas" sur la Jaillot désigne les salines côtières à l'embouchure
+        // du río Tehuantepec — le port de Salina Cruz. Tehuantepec elle-même est
+        // dans les terres, à quelques kilomètres de la côte Pacifique.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville zapotèque et coloniale au cœur de l'isthme de Tehuantepec — le point le plus étroit du continent nord-américain, où les deux océans ne sont séparés que de deux cents kilomètres. Ancienne capitale d'un puissant royaume zapotèque qui avait résisté aux Aztèques, Tehuantepec a été conquise par les Espagnols en 1521 et attribuée en encomienda à Hernán Cortés lui-même, qui y possédait l'une de ses plus grandes propriétés. Les Dominicains y ont fondé un couvent dès 1544, dont la bibliothèque est l'une des plus riches de la région.
+<br><br>
+L'isthme de Tehuantepec est une route de transit entre le Pacifique et le golfe du Mexique depuis des siècles — les marchandises venant d'Acapulco ou des Philippines peuvent traverser ici pour rejoindre Veracruz sans passer par Mexico. Cette route est moins utilisée que le Camino Real mais reste une alternative précieuse en cas de besoin discret. Les salines côtières ("Salinas" sur la Jaillot), à l'embouchure du río Tehuantepec, produisent le sel qui approvisionne toute la région.
+<br><br>
+La société téhuantepecaine est dominée par les femmes zapotèques — les <em>tehuana</em> — qui contrôlent les marchés locaux et le commerce de détail, une particularité sociale qui frappe tous les voyageurs européens qui traversent l'isthme.`,
+            },
+        ],
+
+        population: `~8 000 habitants`,
+
+        note_mj: `✅ Isthme de Tehuantepec comme point le plus étroit du continent nord-américain : établi.
+✅ Ancien royaume zapotèque résistant aux Aztèques, conquête 1521 : établi.
+✅ Encomienda de Cortés à Tehuantepec : établi (Cortés y possédait des propriétés importantes).
+✅ Couvent dominicain fondé en 1544 : établi.
+✅ Route de transit Pacifique–Golfe via l'isthme comme alternative au Camino Real : établi.
+✅ Rôle commercial dominant des femmes zapotèques (tehuana) dans les marchés : établi — observé par tous les voyageurs depuis la conquête.
+⚠️ "Salinas" sur la Jaillot = salines côtières de Salina Cruz, port maritime de Tehuantepec : établi géographiquement.
+⚠️ Population en 1712 : estimation.`,
     },
 
 // ── POPOCATÉPETL ────────────────────────────────────────────────────────
@@ -663,7 +783,7 @@ Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses érup
         id: 'conil-yucatan',
         nom: 'Conil',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'yucatan',
         coords: [2776, 2349],
 
@@ -795,7 +915,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         nom: 'Tocotalpa de la Sierra',
         label: 'Tocotalpa',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'guatemala',
         coords: [1811, 3061],
         // ⚠️ Apparaît sur la Jaillot comme "Tocatalp de Cieria" dans la province de Chiapa.
@@ -848,7 +968,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         label: 'St Iago de Guatemala',
         capitale: true,
         type: 'ville',
-        rang: '2',
+        rang: '1',
         territoire: 'guatemala',
         coords: [1723, 3355],
         // ⚠️ Connue aujourd'hui sous le nom d'Antigua Guatemala.
@@ -882,7 +1002,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
         nom: 'San Salvador',
         capitale: true,
         type: 'ville',
-        rang: '2',
+        rang: '1',
         territoire: 'guatemala',
         coords: [1970, 3596],
 
@@ -932,7 +1052,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
         nom: 'San Miguel de la Frontera',
         label: 'San Miguel',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'guatemala',
         coords: [2124, 3733],
 
@@ -957,7 +1077,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
         type: 'port',
         rang: '2',
         territoire: 'guatemala',
-        coords: [2203, 3745],
+        coords: [2189, 3768],
         // ⚠️ Apparaît sur la Jaillot comme "Amapal". Port sur l'île volcanique
         // del Tigre, dans le golfe de Fonseca (côte Pacifique, Honduras actuel).
 
@@ -981,7 +1101,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
         nom: 'Choluteca (Jerez)',
         label: 'Choluteca',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'guatemala',
         coords: [2338, 3808],
         // ⚠️ Apparaît sur la Jaillot comme "Xeres" dans le sud du Honduras.
@@ -991,7 +1111,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
         contexte: [
             {
                 de: 1712,
-                texte: `Bourg du Honduras méridional, dans la plaine côtière Pacifique au nord du golfe de Fonseca. Fondée en 1535 sous le nom de Villa de Jerez de la Frontera de Choluteca, la ville est le centre administratif de la région méridionale du Honduras. Son économie repose sur l'élevage extensif — les grandes haciendas de la vallée du río Choluteca approvisionnent en bétail les ports et les mines de toute l'Amérique centrale. Éloignée des côtes Caraïbes, elle n'entre dans les circuits de la piraterie qu'indirectement.`,
+                texte: `Bourg du Honduras méridional, dans la plaine côtière Pacifique à l'est du golfe de Fonseca. Fondée en 1535 sous le nom de Villa de Jerez de la Frontera de Choluteca, la ville est le centre administratif de la région méridionale du Honduras. Son économie repose sur l'élevage extensif — les grandes haciendas de la vallée du río Choluteca approvisionnent en bétail les ports et les mines de toute l'Amérique centrale. Éloignée des côtes Caraïbes, elle n'entre dans les circuits de la piraterie qu'indirectement.`,
             },
         ],
 
@@ -1071,31 +1191,29 @@ En 1712, l'idéal fondateur est lointain : les Dominicains gèrent leurs mission
 
     {
         id: 'amaligua',
-        nom: 'Puerto de Higüeras (Amaligua)',
-        label: 'P. de Higneras',
+        nom: 'Santo Tomás de Castilla',
+        label: 'Santo Tomás',
         type: 'port',
         rang: '2',
         territoire: 'honduras',
         coords: [2251, 3219],
-        // ⚠️ La Jaillot indique "Amaligua" comme village et "P. de Higneras" comme
-        // port à proximité, entre l'embouchure du río Dulce et le "R. Pech" (río Patuca).
-        // "Higüeras" est le nom colonial de toute cette côte (donné par Colomb lors
-        // de son 4e voyage). Correspond à la zone de Puerto Barrios (Guatemala actuel),
-        // à l'embouchure du río Dulce donnant accès au lac Izabal.
 
         contexte: [
             {
                 de: 1712,
-                texte: `Port à l'embouchure du río Dulce, sur la côte Caraïbe — porte d'entrée vers le lac Izabal et l'intérieur du Guatemala. "Higüeras" est le nom donné par Colomb lors de son quatrième voyage (1502) à toute cette côte hondurienne-guatémaltèque, en référence aux figuiers de Barbarie abondants sur le rivage. En 1712, c'est un mouillage actif sur la route entre les ports de la côte Caraïbe et la route fluviale vers Santiago de Guatemala via le río Dulce et le lac Izabal — la principale voie d'accès maritime à la capitainerie générale de Guatemala depuis la Caraïbe.`,
+                texte: `Port de la baie d'Amatique, à l'embouchure du río Dulce — unique débouché maritime de la capitainerie générale de Guatemala sur la Caraïbe. Fondé en 1605 par le gouverneur Alonso Criado de Castilla, dont il porte le nom, Santo Tomás est la porte d'entrée de toutes les marchandises à destination de Santiago de Guatemala : depuis la rade, les navires déchargent dans des pirogues qui remontent le río Dulce, traversent El Golfete, puis le lac Izabal, avant que les marchandises ne soient chargées sur des mules pour la route terrestre vers la capitale.
+<br><br>
+En sens inverse, l'indigo, le cacao et la cochenille de la capitainerie descendent cette même route fluviale avant d'embarquer ici pour Cadix. Le port est modeste — quelques entrepôts, un quai sommaire, une garnison légère — mais son rôle est irremplaçable. Les pirates et les flibustiers qui connaissent la route du río Dulce peuvent théoriquement atteindre Santiago de Guatemala depuis ce mouillage.`,
             },
         ],
 
         population: `Quelques centaines d'habitants`,
 
-        note_mj: `✅ "Higüeras" comme nom colonial de la côte, donné par Colomb (4e voyage, 1502) : établi.
-✅ Embouchure du río Dulce comme accès au lac Izabal et à l'intérieur du Guatemala : établi géographiquement.
-⚠️ Identification avec Puerto Barrios (Guatemala actuel) : probable d'après la position sur la Jaillot entre l'embouchure du río Dulce et le "R. Pech" (río Patuca). Puerto Barrios n'est fondé formellement qu'au XIXe siècle mais le mouillage est utilisé depuis la conquête.
-⚠️ "Amaligua" : village distinct à proximité, non identifié précisément — pourrait être un village garifuna ou misumalpan de la côte.`,
+        note_mj: `✅ Fondation de Santo Tomás de Castilla en 1605 par le gouverneur Alonso Criado de Castilla : établi (Thompson, 1958 ; cité dans CEMCA).
+✅ Unique port Caraïbe légal de la capitainerie de Guatemala, route fluviale vers Santiago via río Dulce et lac Izabal : établi.
+⚠️ Territoire corrigé en 'guatemala' — le port est géographiquement en territoire guatémaltèque bien que la Jaillot le place dans la zone Honduras.
+⚠️ "Amaligua" sur la Jaillot : nom indigène (probablement maya ou misumalpan) d'un village ou d'une baie locale — non identifié dans les sources coloniales.
+⚠️ "P. de Higneras" sur la Jaillot : désignation cartographique du même mouillage — étymologie et origine du nom "Higüeras" pour cette côte non confirmées par source primaire.`,
     },
 
 
@@ -1134,7 +1252,7 @@ En 1712, l'idéal fondateur est lointain : les Dominicains gèrent leurs mission
         nom: 'La Ceiba (Porta de Sal)',
         label: 'Porta de Sal',
         type: 'port',
-        rang: '2',
+        rang: '3',
         territoire: 'honduras',
         coords: [2478, 3296],
         // ⚠️ "Sal River" sur la Jaillot = probable río Cangrejal (La Ceiba actuelle).
@@ -1161,7 +1279,7 @@ En 1712, l'idéal fondateur est lointain : les Dominicains gèrent leurs mission
         label: 'Comayagua',
         capitale: true,
         type: 'ville',
-        rang: '2',
+        rang: '1',
         territoire: 'honduras',
         coords: [2535, 3515],
         // ⚠️ La Jaillot indique "Valladolid o Comayagua" — les deux noms désignent
@@ -1191,7 +1309,7 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
         nom: "Saint-George's",
         label: "St Georges",
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'honduras',
         coords: [2839, 3388],
         // ⚠️ Sur la "Xagua River" de la Jaillot — probablement le río Aguán
@@ -1246,7 +1364,7 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
     {
         id: 'nueva-segovia',
         nom: 'Nueva Segovia',
-        capitale: true,
+        capitale: false,
         type: 'ville',
         rang: '2',
         territoire: 'honduras',
@@ -1278,6 +1396,7 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
         nom: 'San Pedro Sula',
         label: 'San Pedro',
         type: 'ville',
+        rang: '2',
         territoire: 'honduras',
         coords: [2411, 3378],
 
@@ -1301,7 +1420,8 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
         id: 'lac-izabal',
         nom: 'Lac Izabal (El Golfete)',
         label: 'Lac Izabal',
-        type: 'site',
+        type: 'site_geo',
+        rang: '2',
         territoire: 'guatemala',
         coords: [2028, 3209],
         // ⚠️ Dessiné sans nom sur la Jaillot mais représenté sans ambiguïté.
@@ -1327,8 +1447,9 @@ Les rives du lac sont peu peuplées par les Espagnols — quelques haciendas d'�
     {
         id: 'gratios-o-dios',
         nom: 'Gracias (Villa de Gracias a Dios)',
-        label: 'Gratios o Dios',
+        label: 'Gracias',
         type: 'ville',
+        rang: '2',
         territoire: 'honduras',
         coords: [2235, 3430],
         // ⚠️ "Gratios o Dios" sur la Jaillot, en remontant le "R. Pech" (río Patuca)
@@ -1355,6 +1476,35 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
 // ═══════════════════════════════════════════════════════════
 // SÉRIE NICARAGUA
 // ═══════════════════════════════════════════════════════════
+
+// ── LA POSSESSION ───────────────────────────────────────
+
+    {
+        id: 'la-possession',
+        nom: 'Chinandega (La Possession)',
+        label: 'La Possession',
+        type: 'ville',
+        rang: '3',
+        territoire: 'nicaragua',
+        coords: [2392, 3887],
+        // ⚠️ "La Possession" sur la Jaillot — nom cartographique français ou
+        // désignation de possession territoriale sans correspondance directe
+        // avec un nom colonial espagnol connu. Identification avec Chinandega
+        // (plaine du Nicaragua nord-occidental, entre León et le golfe de Fonseca)
+        // d'après la position sur la carte.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg de la plaine du Nicaragua nord-occidental, dans une région fertile entre León et le golfe de Fonseca. La plaine de Chinandega est l'une des zones agricoles les plus productives du Nicaragua colonial — cacao, maïs, élevage — irriguée par les cours d'eau descendant du volcan San Cristóbal et du massif des Maribios. La ville est modeste, sans accès maritime direct, sur la route terrestre entre León et les ports du golfe de Fonseca.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `⚠️ "La Possession" : nom cartographique non retrouvé dans les sources coloniales espagnoles du Nicaragua. Identification avec Chinandega d'après la position géographique sur la Jaillot — plausible mais non confirmée par source primaire.
+⚠️ Population en 1712 : estimation.`,
+    },
 
 // ── LEÓN ─────────────────────────────────────────────────────────────────
 
@@ -1743,7 +1893,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
         nom: 'Puebla (Alanje)',
         label: 'Puebla',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'costa-rica',
         coords: [3524, 4365],
         // ⚠️ Côte Pacifique à l'est de Chiriquí, à la frontière avec Veragua.
@@ -1775,7 +1925,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
         id: 'trinidad-veragua',
         nom: 'Trinidad',
         type: 'port',
-        rang: '2',
+        rang: '3',
         territoire: 'panama',
         coords: [3706, 4240],
         // ⚠️ Au nord de Santa Fe de Veraguas, côte Caraïbe de Veragua.
@@ -1829,7 +1979,7 @@ Santa Fe est une ville de l'intérieur, enclavée entre deux versants — Caraï
         id: 'lavelia',
         nom: 'Lavelia',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'panama',
         coords: [3834, 4513],
         // ⚠️ Face à Natá, côté Veragua (ouest). Identification incertaine —
@@ -1911,7 +2061,7 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
         nom: 'Natá de los Caballeros',
         label: 'Nata',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'panama',
         coords: [3899, 4503],
 
@@ -1959,11 +2109,6 @@ En 1597, Madrid a déplacé le port vers Portobelo, mieux défendable. En 1712, 
 🎲 Un PJ qui cherche le cercueil de plomb de Drake dans la baie de Portobelo — et non à Nombre de Dios — suit la bonne piste.`,
     },
 
-
-// ═══════════════════════════════════════════════════════════
-// SÉRIE DARIÉN
-// ═══════════════════════════════════════════════════════════
-
 // ── 52. BOCAS DEL TORO / CONCEPCIÓN ──────────────────────────────────────────
 
     {
@@ -1971,7 +2116,7 @@ En 1597, Madrid a déplacé le port vers Portobelo, mieux défendable. En 1712, 
         nom: 'Concepción (Bocas del Toro)',
         label: 'Conception',
         type: 'port',
-        rang: '2',
+        rang: '3',
         territoire: 'panama',
         coords: [3647, 4231],
         // ⚠️ Au fond de la "Bocca del Toro" sur la Jaillot, face à l'Escuada de Veragua.
@@ -1994,6 +2139,10 @@ Concepción est moins une ville qu'un relais : quelques maisons, un débarcadèr
 ⚠️ "Concepción" comme poste espagnol : probable, non confirmé par source primaire directe pour 1712 spécifiquement.`,
     },
 
+// ═══════════════════════════════════════════════════════════
+// SÉRIE DARIÉN
+// ═══════════════════════════════════════════════════════════
+
 // ── 53. SAINT-SÉBASTIEN DE BONNE-VUE ─────────────────────────────────────────
 
     {
@@ -2002,7 +2151,7 @@ Concepción est moins une ville qu'un relais : quelques maisons, un débarcadèr
         label: 'St Sebastian de Bona Vista',
         type: 'fort',
         rang: '2',
-        territoire: 'panama',
+        territoire: 'darien',
         coords: [4465, 4424],
         // ⚠️ Poste espagnol dans la région du Darién / golfe d'Urabá.
         // Le Darién est en 1712 le théâtre récent de la tentative d'implantation
@@ -2401,7 +2550,8 @@ Deux fortifications commandent l'entrée du port : le <strong>Castillo de los Tr
         label: 'Fort San Lorenzo',
         nom: 'Castillo de San Lorenzo el Real de Chagres',
         type: 'fort',
-        capitale: true,
+        rang: '2',
+        capitale: false,
         territoire: 'panama',
         coords: [3900, 4259],
 
@@ -2519,6 +2669,7 @@ En 1712, il ne reste rien de Santa María sinon la mémoire et quelques ruines e
         label: 'Fort San Luis (Bocachica)',
         nom: 'Castillo de San Luis de Bocachica',
         type: 'fort',
+        rang: '2',
         territoire: 'nouvelle-grenade',
         coords: [4790, 4116],
         tags: [`bocachica`, `San Luis`, `boca-chica`],
@@ -2767,7 +2918,7 @@ En 1712, Brimstone Hill est encore en construction dans sa forme définitive —
 
         population: `Garnison uniquement`,
 
-        garnison: `~200 soldats d'infanterie et artilleurs en 1712, effectif en croissance progressive au fil des travaux.`,
+        garnison: `~200 soldats d'infanterie et artilleurs en 1712, effectif en croissance progressive au fil de l'avancée des travaux.`,
 
         note_mj: `✅ Position sur promontoire volcanique à 240 m : établi.<br>
 ✅ Construction progressive depuis les années 1690 jusqu'à la fin du XVIIIe : établi — aujourd'hui classé à l'UNESCO.<br>
