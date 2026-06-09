@@ -402,8 +402,18 @@ function confirmerModeMJ() {
     const label = document.createElement('label');
     label.className = 'carte-filtre-check carte-filtre-check--sub carte-filtre-check--mj';
     label.id = 'filtre-rang3';
-    label.innerHTML = `<input type="checkbox"><span class="carte-filtre-pastille">🔒</span> Établissements masqués`;
+    label.innerHTML = `<input type="checkbox" checked><span class="carte-filtre-pastille">🔒</span> Établissements masqués`;
     enfantsDiv.appendChild(label);
+    renderVilles(); // affiche immédiatement les icônes rang 3
+    // Mettre à jour la case maître (filtre-rang3 coché s'ajoute aux enfants)
+    const inputMaitre = document.getElementById('filtre-marqueurs-tout')?.querySelector('input');
+    if (inputMaitre) {
+      const tousEnfants = [...document.querySelectorAll('.carte-filtre-enfants .carte-filtre-check--sub')];
+      const nb = tousEnfants.filter(el => el.querySelector('input').checked).length;
+      if (nb === 0) { inputMaitre.checked = false; inputMaitre.indeterminate = false; }
+      else if (nb === tousEnfants.length) { inputMaitre.checked = true; inputMaitre.indeterminate = false; }
+      else { inputMaitre.checked = false; inputMaitre.indeterminate = true; }
+    }
     // Brancher le listener via initFiltresMarqueurs ne suffit pas (déjà appelé) — listener direct
     label.addEventListener('click', (e) => {
       e.preventDefault();
@@ -796,9 +806,11 @@ function initFiltresMarqueurs() {
   // Initialiser l'état de la case maître au chargement
   // (certains enfants peuvent démarrer décochés, ex. filtre-secondaires)
   majMaitre();
-  if (secondaires && !secondaires.querySelector('input').checked) {
-    secondaires.classList.add('decochee');
-  }
+  [secondaires, etablissements, sites].forEach(el => {
+    if (el && !el.querySelector('input').checked) {
+      el.classList.add('decochee');
+    }
+  });
 }
 
 // ─── Recherche prédictive ─────────────────────────────────────
