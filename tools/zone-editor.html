@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Éditeur de zones — Pavillon Noir</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap">
+  <style>
+    /* ─── Variables ──────────────────────────────────────────── */
+    :root {
+      --ink: #0e0c09;
+      --ink2: #161310;
+      --parchment: #f2e8d5;
+      --parchment2: #e8d9bc;
+      --gold: #c8973a;
+      --gold-light: #e2b96a;
+      --gold-dim: rgba(200,151,58,0.18);
+      --rust: #8b3a2a;
+      --sea: #1a3a4a;
+      --mist: #6b7c8a;
+      --border: rgba(200,151,58,0.28);
+      --border-hover: rgba(200,151,58,0.55);
+      --text: #d8cbb5;
+      --text-dim: #8a7d68;
+
+      /* couleurs outil */
+      --col-select: rgba(200,151,58,0.85);
+      --col-draw:   rgba(80,180,120,0.85);
+      --col-erase:  rgba(180,60,60,0.85);
+      --col-insert: rgba(80,140,220,0.85);
+
+      --panel-w: 320px;
+      --toolbar-h: 48px;
+    }
+
+    /* ─── Reset ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      background: var(--ink);
+      color: var(--text);
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Barre du haut ──────────────────────────────────────── */
+    #toolbar {
+      height: var(--toolbar-h);
+      background: rgba(14,12,9,0.97);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+      z-index: 1000;
+      padding: 0 12px;
+    }
+
+    .tb-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding-right: 16px;
+      border-right: 1px solid var(--border);
+      margin-right: 12px;
+      white-space: nowrap;
+    }
+
+    .tb-sep {
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+      margin: 0 8px;
+      flex-shrink: 0;
+    }
+
+    /* ─── Groupe d'outils ────────────────────────────────────── */
+    .tool-group {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .tool-btn {
+      height: 34px;
+      padding: 0 10px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      border-radius: 2px;
+    }
+    .tool-btn .icon { font-size: 1rem; line-height: 1; }
+    .tool-btn:hover { background: var(--gold-dim); color: var(--parchment); border-color: var(--border); }
+    .tool-btn.active { background: var(--gold-dim); color: var(--gold-light); border-color: var(--border-hover); }
+
+    /* couleur de l'outil actif selon mode */
+    .tool-btn[data-tool="draw"].active    { border-color: rgba(80,180,120,0.5); color: #7de0a0; background: rgba(80,180,120,0.1); }
+    .tool-btn[data-tool="erase"].active   { border-color: rgba(200,80,80,0.5);  color: #f08080; background: rgba(200,80,80,0.1); }
+    .tool-btn[data-tool="insert"].active  { border-color: rgba(80,140,220,0.5); color: #80b8f0; background: rgba(80,140,220,0.1); }
+    .tool-btn[data-tool="select"].active  { border-color: var(--border-hover);  color: var(--gold-light); }
+
+    /* ─── Statut curseur ─────────────────────────────────────── */
+    #tb-coords {
+      margin-left: auto;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      min-width: 160px;
+      text-align: right;
+    }
+    #tb-coords span { color: var(--gold); }
+
+    /* ─── Corps principal ────────────────────────────────────── */
+    #app {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ─── Carte ──────────────────────────────────────────────── */
+    #map-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    #map {
+      width: 100%;
+      height: 100%;
+      background: var(--ink);
+    }
+
+    /* ─── Panneau droit ──────────────────────────────────────── */
+    #panel {
+      width: var(--panel-w);
+      flex-shrink: 0;
+      background: rgba(14,12,9,0.97);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-section {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+
+    .panel-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* ─── Info zone sélectionnée ─────────────────────────────── */
+    #info-zone-id {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      color: var(--gold-light);
+      margin-bottom: 4px;
+      word-break: break-all;
+    }
+    #info-contour {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+    #info-pts {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+    #info-pt-selected {
+      font-size: 0.78rem;
+      color: var(--parchment);
+      margin-top: 4px;
+    }
+
+    /* ─── Sélecteur de contour ───────────────────────────────── */
+    .contour-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .contour-nav button {
+      width: 26px; height: 26px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--gold);
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .contour-nav button:hover { background: var(--gold-dim); }
+    .contour-nav button:disabled { opacity: 0.3; cursor: default; }
+    #contour-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      flex: 1;
+      text-align: center;
+    }
+
+    /* ─── Bouton supprimer contour ───────────────────────────── */
+    #btn-del-contour {
+      width: 100%;
+      margin-top: 8px;
+      padding: 6px;
+      background: transparent;
+      border: 1px solid rgba(180,60,60,0.35);
+      color: rgba(220,100,100,0.7);
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    #btn-del-contour:hover { background: rgba(180,60,60,0.12); color: #f08080; }
+    #btn-del-contour:disabled { opacity: 0.3; cursor: default; }
+
+    /* ─── Panneau export ─────────────────────────────────────── */
+    #export-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 14px 16px;
+    }
+
+    #export-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    #export-hint {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    #export-box {
+      flex: 1;
+      background: #0a0806;
+      border: 1px solid var(--border);
+      padding: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem;
+      color: #a0c080;
+      overflow-y: auto;
+      white-space: pre;
+      line-height: 1.5;
+      resize: none;
+      cursor: text;
+      user-select: all;
+    }
+
+    #btn-copy {
+      margin-top: 8px;
+      padding: 8px;
+      width: 100%;
+      background: var(--gold-dim);
+      border: 1px solid var(--border-hover);
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    #btn-copy:hover { background: rgba(200,151,58,0.3); color: var(--parchment); }
+    #btn-copy.copied { background: rgba(80,180,120,0.2); border-color: rgba(80,180,120,0.5); color: #7de0a0; }
+
+    /* ─── Nouveau contour ────────────────────────────────────── */
+    #draw-controls {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    #draw-hint {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    #btn-finish-draw {
+      width: 100%;
+      padding: 7px;
+      background: rgba(80,180,120,0.12);
+      border: 1px solid rgba(80,180,120,0.4);
+      color: #7de0a0;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-bottom: 4px;
+    }
+    #btn-finish-draw:hover { background: rgba(80,180,120,0.22); }
+    #btn-cancel-draw {
+      width: 100%;
+      padding: 6px;
+      background: transparent;
+      border: 1px solid rgba(180,60,60,0.3);
+      color: rgba(220,100,100,0.6);
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    #btn-cancel-draw:hover { background: rgba(180,60,60,0.1); color: #f08080; }
+    #draw-pt-count { font-size: 0.72rem; color: var(--text-dim); margin-bottom: 8px; }
+
+    /* ─── Overrides Leaflet ──────────────────────────────────── */
+    .leaflet-container { background: var(--ink); font-family: 'Cinzel', serif; }
+    .leaflet-control-zoom { border: 1px solid var(--border) !important; border-radius: 0 !important; box-shadow: none !important; }
+    .leaflet-control-zoom a { background: rgba(14,12,9,0.92) !important; color: var(--gold) !important; border-color: var(--border) !important; border-radius: 0 !important; transition: background 0.2s; }
+    .leaflet-control-zoom a:hover { background: rgba(200,151,58,0.1) !important; color: var(--gold-light) !important; }
+    .leaflet-control-attribution { display: none; }
+    path.leaflet-interactive:focus, path.leaflet-interactive:focus-visible { outline: none; }
+
+    /* Tooltip Leaflet */
+    .leaflet-tooltip.ed-tooltip {
+      background: rgba(14,12,9,0.94);
+      border: 1px solid var(--border);
+      border-radius: 0;
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      padding: 4px 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .leaflet-tooltip.ed-tooltip::before { display: none; }
+
+    /* ─── Curseur selon outil ────────────────────────────────── */
+    #map.tool-select  { cursor: default; }
+    #map.tool-draw    { cursor: crosshair; }
+    #map.tool-erase   { cursor: cell; }
+    #map.tool-insert  { cursor: copy; }
+
+    /* ─── Badge nouveau contour ──────────────────────────────── */
+    #draw-badge {
+      position: absolute;
+      top: 8px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(80,180,120,0.92);
+      color: #0a1a10;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 5px 14px;
+      z-index: 900;
+      pointer-events: none;
+      border: 1px solid rgba(80,180,120,0.5);
+      display: none;
+    }
+
+    /* ─── Scrollbar ──────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(200,151,58,0.2); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(200,151,58,0.4); }
+
+    /* ─── Message vide ───────────────────────────────────────── */
+    .empty-msg {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-style: italic;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ BARRE D'OUTILS ═══════════════════════════════════════ -->
+<div id="toolbar">
+  <div class="tb-brand">☠ Zone Editor</div>
+
+  <div class="tool-group">
+    <button class="tool-btn active" data-tool="select" title="Sélectionner une zone / déplacer un point">
+      <span class="icon">◈</span> Sélection
+    </button>
+    <button class="tool-btn" data-tool="draw" title="Tracer un nouveau contour">
+      <span class="icon">✦</span> Nouveau contour
+    </button>
+    <button class="tool-btn" data-tool="insert" title="Insérer un point sur un segment existant">
+      <span class="icon">⊕</span> Insérer point
+    </button>
+    <button class="tool-btn" data-tool="erase" title="Supprimer un point en cliquant dessus">
+      <span class="icon">⊗</span> Supprimer point
+    </button>
+  </div>
+
+  <div class="tb-sep"></div>
+
+  <div id="tb-coords">x — y —</div>
+</div>
+
+<!-- ═══ CORPS ════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- Carte -->
+  <div id="map-wrap">
+    <div id="map" class="tool-select"></div>
+    <div id="draw-badge">MODE TRACÉ — clic droit ou bouton Terminer pour clore</div>
+  </div>
+
+  <!-- Panneau -->
+  <div id="panel">
+
+    <!-- Section : zone sélectionnée -->
+    <div class="panel-section" id="section-zone">
+      <div class="panel-title">Zone sélectionnée</div>
+      <div id="info-zone-id" class="empty-msg">Cliquez sur une zone</div>
+      <div id="info-contour"></div>
+      <div id="info-pts"></div>
+      <div id="info-pt-selected"></div>
+      <div class="contour-nav" id="contour-nav" style="display:none">
+        <button id="btn-prev-contour" title="Contour précédent">‹</button>
+        <div id="contour-label"></div>
+        <button id="btn-next-contour" title="Contour suivant">›</button>
+      </div>
+      <button id="btn-del-contour" disabled>✕ Supprimer ce contour</button>
+    </div>
+
+    <!-- Section : contrôles tracé (visible en mode draw) -->
+    <div id="draw-controls" style="display:none">
+      <div class="panel-title">Nouveau contour</div>
+      <div id="draw-pt-count">0 point(s)</div>
+      <div id="draw-hint">Clic gauche pour poser des points.<br>Clic droit ou bouton ci-dessous pour fermer le contour.</div>
+      <button id="btn-finish-draw">✦ Terminer le contour</button>
+      <button id="btn-cancel-draw">✕ Annuler</button>
+    </div>
+
+    <!-- Section : export -->
+    <div id="export-area">
+      <div id="export-title">Export JS</div>
+      <div id="export-hint">Sélectionnez une zone pour voir le bloc prêt à coller dans <code>zones-data.js</code>.</div>
+      <div id="export-box"></div>
+      <button id="btn-copy">⎘ Copier</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ SCRIPTS ══════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<!--
+  IMPORTANT — chemins relatifs depuis tools/ :
+  Adapter ces src si vous déplacez le fichier.
+  Depuis tools/zone-editor.html :
+    zones-data.js  → ../js/zones-data.js
+    carte-data.js  → ../js/carte-data.js
+-->
+<script src="../js/carte-data.js"></script>
+<script src="../js/zones-data.js"></script>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════════════════
+// CONSTANTES
+// ═══════════════════════════════════════════════════════════
+const IMG_W = CARTE_IMAGE.width;   // 8500
+const IMG_H = CARTE_IMAGE.height;  // 5320
+const IMG_SRC = '../' + CARTE_IMAGE.src; // chemin relatif depuis tools/
+
+// ─── Couleurs des polygones par état ─────────────────────────
+const STYLE_NORMAL   = { color: 'rgba(200,151,58,0.7)',  weight: 1,   fillColor: 'rgba(200,151,58,0.08)', fillOpacity: 1 };
+const STYLE_HOVER    = { color: 'rgba(226,185,106,0.9)', weight: 1.5, fillColor: 'rgba(200,151,58,0.18)', fillOpacity: 1 };
+const STYLE_SELECTED = { color: 'rgba(226,185,106,1)',   weight: 2,   fillColor: 'rgba(200,151,58,0.25)', fillOpacity: 1 };
+const STYLE_DRAW_PREVIEW = { color: 'rgba(80,180,120,0.9)', weight: 1.5, fillColor: 'rgba(80,180,120,0.12)', fillOpacity: 1, dashArray: '6 4' };
+
+// ─── Styles des poignées ──────────────────────────────────────
+const HANDLE_NORMAL  = { radius: 5, color: 'rgba(226,185,106,0.9)', weight: 1.5, fillColor: 'rgba(14,12,9,0.9)', fillOpacity: 1 };
+const HANDLE_HOVER   = { radius: 7, color: '#e2b96a', weight: 2, fillColor: 'rgba(200,151,58,0.3)', fillOpacity: 1 };
+const HANDLE_SEGMENT = { radius: 4, color: 'rgba(80,140,220,0.8)', weight: 1.5, fillColor: 'rgba(80,140,220,0.15)', fillOpacity: 1, dashArray: '2 2' };
+
+// ═══════════════════════════════════════════════════════════
+// ÉTAT
+// ═══════════════════════════════════════════════════════════
+let map = null;
+let currentTool = 'select'; // 'select' | 'draw' | 'erase' | 'insert'
+
+// Données editables : copie profonde de ZONES_DATA
+let zonesEdit = {};
+
+// Layers Leaflet
+let zoneLayers   = {}; // zoneId → [L.Polygon, ...]  (un par contour)
+let handleLayers = []; // cercles de poignées du contour sélectionné
+let segmentMarkers = []; // milieux de segments (mode insert)
+let drawLayer    = null; // L.Polyline preview du tracé en cours
+let drawMarkers  = [];   // marqueurs des points posés
+
+// Sélection
+let selectedZoneId    = null;
+let selectedContourIdx = 0;  // index dans zonesEdit[selectedZoneId]
+
+// Glisser-déposer d'un point
+let draggingHandle    = null; // { zoneId, contourIdx, ptIdx, marker }
+let draggingOrigin    = null;
+
+// Tracé en cours
+let drawPoints = []; // [[x,y], ...]
+
+// ═══════════════════════════════════════════════════════════
+// UTILITAIRES — coordonnées
+// ═══════════════════════════════════════════════════════════
+function pxToLatLng(x, y)     { return L.latLng(IMG_H - y, x); }
+function latLngToPx(latlng)   { return [Math.round(latlng.lng), Math.round(IMG_H - latlng.lat)]; }
+function eventToPx(e)         { return latLngToPx(e.latlng); }
+
+// Convertit un contour [[x,y],...] en tableau de LatLng
+function contourToLatLngs(pts) { return pts.map(([x, y]) => pxToLatLng(x, y)); }
+
+// Point milieu de deux points px
+function midPx(a, b) { return [(a[0]+b[0])/2, (a[1]+b[1])/2]; }
+
+// ═══════════════════════════════════════════════════════════
+// INIT CARTE
+// ═══════════════════════════════════════════════════════════
+function initMap() {
+  map = L.map('map', {
+    crs: L.CRS.Simple,
+    zoomControl: true,
+    doubleClickZoom: false,
+    scrollWheelZoom: true,
+    attributionControl: false,
+    minZoom: -3,
+    maxZoom: 4,
+  });
+
+  // Image de fond
+  const bounds = L.latLngBounds(pxToLatLng(0, IMG_H), pxToLatLng(IMG_W, 0));
+  L.imageOverlay(IMG_SRC, bounds).addTo(map);
+
+  setTimeout(() => {
+    map.fitBounds(bounds);
+    map.setMinZoom(map.getZoom());
+  }, 50);
+
+  // Mouvements souris → coordonnées dans la barre
+  map.on('mousemove', onMapMouseMove);
+  map.on('click',     onMapClick);
+  map.on('contextmenu', onMapRightClick);
+
+  // Copie profonde des données
+  for (const id in ZONES_DATA) {
+    zonesEdit[id] = ZONES_DATA[id].map(contour => contour.map(pt => [...pt]));
+  }
+
+  renderAllZones();
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDU DES ZONES
+// ═══════════════════════════════════════════════════════════
+function renderAllZones() {
+  // Supprimer les anciens layers
+  for (const id in zoneLayers) {
+    zoneLayers[id].forEach(l => map.removeLayer(l));
+  }
+  zoneLayers = {};
+
+  for (const id in zonesEdit) {
+    renderZone(id);
+  }
+}
+
+function renderZone(zoneId) {
+  // Nettoyer les layers existants pour cette zone
+  if (zoneLayers[zoneId]) {
+    zoneLayers[zoneId].forEach(l => map.removeLayer(l));
+  }
+  zoneLayers[zoneId] = [];
+
+  const contours = zonesEdit[zoneId];
+  contours.forEach((contour, contourIdx) => {
+    const latlngs = contourToLatLngs(contour);
+    const isSelected = (zoneId === selectedZoneId && contourIdx === selectedContourIdx);
+    const style = isSelected ? STYLE_SELECTED : STYLE_NORMAL;
+
+    const poly = L.polygon(latlngs, { ...style, interactive: true });
+    poly._zoneId = zoneId;
+    poly._contourIdx = contourIdx;
+
+    poly.on('mouseover', function() {
+      if (draggingHandle) return;
+      if (!(this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)) {
+        this.setStyle(STYLE_HOVER);
+      }
+      this.bindTooltip(this._zoneId + (zonesEdit[this._zoneId].length > 1 ? ` (contour ${this._contourIdx + 1}/${zonesEdit[this._zoneId].length})` : ''), {
+        permanent: false, className: 'ed-tooltip', direction: 'top', sticky: true
+      }).openTooltip();
+    });
+    poly.on('mouseout', function() {
+      if (!(this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)) {
+        this.setStyle(STYLE_NORMAL);
+      }
+      this.unbindTooltip();
+    });
+    poly.on('click', function(e) {
+      L.DomEvent.stopPropagation(e);
+      if (currentTool === 'select' || currentTool === 'erase' || currentTool === 'insert') {
+        selectZone(this._zoneId, this._contourIdx);
+      }
+    });
+
+    poly.addTo(map);
+    zoneLayers[zoneId].push(poly);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// SÉLECTION D'UNE ZONE / CONTOUR
+// ═══════════════════════════════════════════════════════════
+function selectZone(zoneId, contourIdx) {
+  const prevZone = selectedZoneId;
+  selectedZoneId    = zoneId;
+  selectedContourIdx = contourIdx ?? 0;
+
+  // Réappliquer le style normal sur l'ancienne sélection
+  if (prevZone && prevZone !== zoneId) renderZone(prevZone);
+  renderZone(zoneId);
+
+  updatePanel();
+  renderHandles();
+  if (currentTool === 'insert') renderSegmentMarkers();
+  updateExport();
+}
+
+function clearSelection() {
+  const prev = selectedZoneId;
+  selectedZoneId = null;
+  selectedContourIdx = 0;
+  clearHandles();
+  clearSegmentMarkers();
+  if (prev) renderZone(prev);
+  updatePanel();
+  updateExport();
+}
+
+// ═══════════════════════════════════════════════════════════
+// POIGNÉES (mode select — déplacement de points)
+// ═══════════════════════════════════════════════════════════
+function clearHandles() {
+  handleLayers.forEach(h => map.removeLayer(h));
+  handleLayers = [];
+}
+
+function renderHandles() {
+  clearHandles();
+  if (!selectedZoneId) return;
+  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+  if (!contour) return;
+
+  contour.forEach((pt, ptIdx) => {
+    const circle = L.circleMarker(pxToLatLng(pt[0], pt[1]), { ...HANDLE_NORMAL, interactive: true });
+    circle._ptIdx = ptIdx;
+
+    circle.on('mouseover', function() {
+      if (!draggingHandle) this.setStyle(HANDLE_HOVER);
+      updatePtInfo(this._ptIdx);
+    });
+    circle.on('mouseout', function() {
+      if (!draggingHandle || draggingHandle.ptIdx !== this._ptIdx) {
+        this.setStyle(HANDLE_NORMAL);
+      }
+      clearPtInfo();
+    });
+    circle.on('mousedown', function(e) {
+      if (currentTool !== 'select') return;
+      L.DomEvent.stopPropagation(e);
+      startDrag(this._ptIdx, this, e);
+    });
+    circle.on('click', function(e) {
+      L.DomEvent.stopPropagation(e);
+      if (currentTool === 'erase') {
+        erasePoint(this._ptIdx);
+      }
+    });
+
+    circle.addTo(map);
+    handleLayers.push(circle);
+  });
+
+  // Mode drag — listeners globaux sur la carte
+  map.on('mousemove', onDragMove);
+  map.on('mouseup',   onDragEnd);
+}
+
+function updatePtInfo(ptIdx) {
+  const pt = zonesEdit[selectedZoneId][selectedContourIdx][ptIdx];
+  document.getElementById('info-pt-selected').textContent = `Point ${ptIdx} → [${pt[0]}, ${pt[1]}]`;
+}
+function clearPtInfo() {
+  if (!draggingHandle) document.getElementById('info-pt-selected').textContent = '';
+}
+
+// ─── Drag & Drop d'un point ───────────────────────────────────
+function startDrag(ptIdx, marker, e) {
+  draggingHandle = { ptIdx, marker };
+  draggingOrigin = e.latlng;
+  map.dragging.disable();
+}
+
+function onDragMove(e) {
+  if (!draggingHandle) return;
+  const [nx, ny] = latLngToPx(e.latlng);
+  // Mettre à jour le point dans les données
+  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+  contour[draggingHandle.ptIdx] = [nx, ny];
+  // Déplacer le marqueur
+  draggingHandle.marker.setLatLng(pxToLatLng(nx, ny));
+  // Mettre à jour le polygon
+  updatePolyLatLngs(selectedZoneId, selectedContourIdx);
+  // Afficher coordonnées
+  document.getElementById('info-pt-selected').textContent = `Point ${draggingHandle.ptIdx} → [${nx}, ${ny}]`;
+}
+
+function onDragEnd(e) {
+  if (!draggingHandle) return;
+  map.dragging.enable();
+  const [nx, ny] = latLngToPx(e.latlng);
+  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+  contour[draggingHandle.ptIdx] = [nx, ny];
+  updatePolyLatLngs(selectedZoneId, selectedContourIdx);
+  updateExport();
+  draggingHandle = null;
+}
+
+function updatePolyLatLngs(zoneId, contourIdx) {
+  const contour = zonesEdit[zoneId][contourIdx];
+  const polyIdx = contourIdx; // 1:1
+  if (zoneLayers[zoneId] && zoneLayers[zoneId][polyIdx]) {
+    zoneLayers[zoneId][polyIdx].setLatLngs(contourToLatLngs(contour));
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MARQUEURS DE SEGMENTS (mode insert)
+// ═══════════════════════════════════════════════════════════
+function clearSegmentMarkers() {
+  segmentMarkers.forEach(m => map.removeLayer(m));
+  segmentMarkers = [];
+}
+
+function renderSegmentMarkers() {
+  clearSegmentMarkers();
+  if (!selectedZoneId) return;
+  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+  if (!contour || contour.length < 2) return;
+
+  for (let i = 0; i < contour.length; i++) {
+    const a = contour[i];
+    const b = contour[(i + 1) % contour.length];
+    const mid = midPx(a, b);
+    const after = i; // insérer après le point i
+
+    const m = L.circleMarker(pxToLatLng(mid[0], mid[1]), { ...HANDLE_SEGMENT, interactive: true });
+    m._afterIdx = after;
+
+    m.on('mouseover', function() { this.setStyle({ ...HANDLE_SEGMENT, radius: 6 }); });
+    m.on('mouseout',  function() { this.setStyle(HANDLE_SEGMENT); });
+    m.on('click', function(e) {
+      L.DomEvent.stopPropagation(e);
+      insertPoint(this._afterIdx, mid);
+    });
+    m.addTo(map);
+    segmentMarkers.push(m);
+  }
+}
+
+function insertPoint(afterIdx, pt) {
+  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+  contour.splice(afterIdx + 1, 0, [Math.round(pt[0]), Math.round(pt[1])]);
+  renderZone(selectedZoneId);
+  renderHandles();
+  renderSegmentMarkers();
+  updatePanel();
+  updateExport();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SUPPRIMER UN POINT
+// ═══════════════════════════════════════════════════════════
+function erasePoint(ptIdx) {
+  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+  if (contour.length <= 3) {
+    alert('Un contour doit avoir au moins 3 points. Utilisez "Supprimer ce contour" pour le retirer entièrement.');
+    return;
+  }
+  contour.splice(ptIdx, 1);
+  renderZone(selectedZoneId);
+  renderHandles();
+  updatePanel();
+  updateExport();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SUPPRIMER UN CONTOUR ENTIER
+// ═══════════════════════════════════════════════════════════
+function deleteContour() {
+  if (!selectedZoneId) return;
+  const contours = zonesEdit[selectedZoneId];
+  if (contours.length <= 1) {
+    alert('Cette zone n\'a qu\'un seul contour. Pour supprimer la zone entière, éditez zones-data.js manuellement.');
+    return;
+  }
+  contours.splice(selectedContourIdx, 1);
+  selectedContourIdx = Math.min(selectedContourIdx, contours.length - 1);
+  renderZone(selectedZoneId);
+  clearHandles();
+  renderHandles();
+  updatePanel();
+  updateExport();
+}
+
+// ═══════════════════════════════════════════════════════════
+// TRACÉ D'UN NOUVEAU CONTOUR
+// ═══════════════════════════════════════════════════════════
+function startDrawMode() {
+  drawPoints = [];
+  if (drawLayer) { map.removeLayer(drawLayer); drawLayer = null; }
+  drawMarkers.forEach(m => map.removeLayer(m));
+  drawMarkers = [];
+  document.getElementById('draw-badge').style.display = 'block';
+  document.getElementById('draw-controls').style.display = 'block';
+  updateDrawCount();
+}
+
+function addDrawPoint(pt) {
+  drawPoints.push([Math.round(pt[0]), Math.round(pt[1])]);
+
+  // Ajouter un petit marqueur
+  const m = L.circleMarker(pxToLatLng(pt[0], pt[1]), {
+    radius: 4, color: 'rgba(80,180,120,0.9)', weight: 1.5,
+    fillColor: 'rgba(80,180,120,0.3)', fillOpacity: 1, interactive: false
+  }).addTo(map);
+  drawMarkers.push(m);
+
+  // Mettre à jour la polyline de preview
+  if (drawLayer) map.removeLayer(drawLayer);
+  if (drawPoints.length >= 2) {
+    const pts = [...drawPoints, drawPoints[0]]; // fermer visuellement
+    drawLayer = L.polyline(pts.map(([x,y]) => pxToLatLng(x,y)), {
+      color: 'rgba(80,180,120,0.8)', weight: 1.5, dashArray: '6 4', interactive: false
+    }).addTo(map);
+  }
+  updateDrawCount();
+}
+
+function finishDraw() {
+  if (drawPoints.length < 3) {
+    alert('Un contour nécessite au moins 3 points.');
+    return;
+  }
+  if (!selectedZoneId) {
+    alert('Sélectionnez d\'abord une zone (cliquez dessus en mode Sélection) pour lui ajouter ce contour.');
+    cancelDraw();
+    return;
+  }
+  zonesEdit[selectedZoneId].push(drawPoints.map(p => [...p]));
+  cancelDraw(true);
+  selectedContourIdx = zonesEdit[selectedZoneId].length - 1;
+  renderZone(selectedZoneId);
+  renderHandles();
+  updatePanel();
+  updateExport();
+}
+
+function cancelDraw(silent) {
+  drawPoints = [];
+  if (drawLayer) { map.removeLayer(drawLayer); drawLayer = null; }
+  drawMarkers.forEach(m => map.removeLayer(m));
+  drawMarkers = [];
+  document.getElementById('draw-badge').style.display = 'none';
+  document.getElementById('draw-controls').style.display = 'none';
+  if (!silent) setTool('select');
+}
+
+function updateDrawCount() {
+  document.getElementById('draw-pt-count').textContent = `${drawPoints.length} point(s) posé(s)`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// GESTION DES CLICS SUR LA CARTE
+// ═══════════════════════════════════════════════════════════
+function onMapMouseMove(e) {
+  const [x, y] = latLngToPx(e.latlng);
+  const cx = Math.max(0, Math.min(IMG_W, x));
+  const cy = Math.max(0, Math.min(IMG_H, y));
+  document.getElementById('tb-coords').innerHTML = `x <span>${cx}</span> &nbsp; y <span>${cy}</span>`;
+}
+
+function onMapClick(e) {
+  if (currentTool === 'draw') {
+    addDrawPoint(latLngToPx(e.latlng));
+    return;
+  }
+  if (currentTool === 'select') {
+    clearSelection();
+  }
+}
+
+function onMapRightClick(e) {
+  if (currentTool === 'draw') {
+    finishDraw();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// CHANGEMENT D'OUTIL
+// ═══════════════════════════════════════════════════════════
+function setTool(tool) {
+  if (tool === currentTool && tool !== 'draw') return;
+
+  // Quitter le mode draw proprement si on change d'outil
+  if (currentTool === 'draw' && tool !== 'draw') {
+    cancelDraw(true);
+  }
+
+  currentTool = tool;
+
+  // UI
+  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-tool="${tool}"]`).classList.add('active');
+
+  // Curseur
+  const mapEl = document.getElementById('map');
+  mapEl.className = 'tool-' + tool;
+
+  // Mode draw : démarrer la session de tracé
+  if (tool === 'draw') {
+    startDrawMode();
+  } else {
+    document.getElementById('draw-badge').style.display = 'none';
+    document.getElementById('draw-controls').style.display = 'none';
+  }
+
+  // Mode insert : afficher les marqueurs de segments si zone sélectionnée
+  if (tool === 'insert' && selectedZoneId) {
+    renderSegmentMarkers();
+  } else {
+    clearSegmentMarkers();
+  }
+
+  // Rafraîchir les poignées si select/erase
+  if ((tool === 'select' || tool === 'erase') && selectedZoneId) {
+    renderHandles();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MISE À JOUR DU PANNEAU
+// ═══════════════════════════════════════════════════════════
+function updatePanel() {
+  const idEl   = document.getElementById('info-zone-id');
+  const ctEl   = document.getElementById('info-contour');
+  const ptsEl  = document.getElementById('info-pts');
+  const navEl  = document.getElementById('contour-nav');
+  const labelEl = document.getElementById('contour-label');
+  const btnPrev = document.getElementById('btn-prev-contour');
+  const btnNext = document.getElementById('btn-next-contour');
+  const btnDel  = document.getElementById('btn-del-contour');
+
+  if (!selectedZoneId) {
+    idEl.textContent   = 'Cliquez sur une zone';
+    idEl.className     = 'empty-msg';
+    ctEl.textContent   = '';
+    ptsEl.textContent  = '';
+    navEl.style.display = 'none';
+    btnDel.disabled    = true;
+    return;
+  }
+
+  const contours = zonesEdit[selectedZoneId];
+  const contour  = contours[selectedContourIdx];
+
+  idEl.textContent  = selectedZoneId;
+  idEl.className    = '';
+  ptsEl.textContent = `${contour.length} point(s)`;
+  btnDel.disabled   = false;
+
+  if (contours.length > 1) {
+    navEl.style.display = 'flex';
+    labelEl.textContent = `Contour ${selectedContourIdx + 1} / ${contours.length}`;
+    btnPrev.disabled = (selectedContourIdx === 0);
+    btnNext.disabled = (selectedContourIdx === contours.length - 1);
+    ctEl.textContent  = '';
+  } else {
+    navEl.style.display = 'none';
+    ctEl.textContent = '1 contour';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// EXPORT JS
+// ═══════════════════════════════════════════════════════════
+function updateExport() {
+  const box  = document.getElementById('export-box');
+  const hint = document.getElementById('export-hint');
+
+  if (!selectedZoneId) {
+    box.textContent = '';
+    hint.style.display = 'block';
+    return;
+  }
+
+  hint.style.display = 'none';
+  box.textContent = formatZoneJS(selectedZoneId);
+}
+
+function formatZoneJS(zoneId) {
+  const contours = zonesEdit[zoneId];
+  let out = `  '${zoneId}': [  // ${contours.length} contour(s), ${contours.reduce((s,c)=>s+c.length,0)} pts\n`;
+
+  contours.forEach((contour, ci) => {
+    out += `    [\n`;
+    // Grouper par lignes de 6 points
+    for (let i = 0; i < contour.length; i += 6) {
+      const chunk = contour.slice(i, i + 6);
+      out += '      ' + chunk.map(([x,y]) => `[${x}, ${y}]`).join(', ') + ',\n';
+    }
+    out += `    ],\n`;
+  });
+
+  out += `  ],`;
+  return out;
+}
+
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION ENTRE CONTOURS
+// ═══════════════════════════════════════════════════════════
+function goToContour(idx) {
+  if (!selectedZoneId) return;
+  const contours = zonesEdit[selectedZoneId];
+  if (idx < 0 || idx >= contours.length) return;
+
+  selectedContourIdx = idx;
+  renderZone(selectedZoneId);
+  clearHandles();
+  renderHandles();
+  if (currentTool === 'insert') renderSegmentMarkers();
+  updatePanel();
+  updateExport();
+}
+
+// ═══════════════════════════════════════════════════════════
+// BINDINGS UI
+// ═══════════════════════════════════════════════════════════
+document.querySelectorAll('.tool-btn').forEach(btn => {
+  btn.addEventListener('click', () => setTool(btn.dataset.tool));
+});
+
+document.getElementById('btn-prev-contour').addEventListener('click', () => {
+  goToContour(selectedContourIdx - 1);
+});
+document.getElementById('btn-next-contour').addEventListener('click', () => {
+  goToContour(selectedContourIdx + 1);
+});
+document.getElementById('btn-del-contour').addEventListener('click', deleteContour);
+document.getElementById('btn-finish-draw').addEventListener('click', finishDraw);
+document.getElementById('btn-cancel-draw').addEventListener('click', () => cancelDraw(false));
+
+document.getElementById('btn-copy').addEventListener('click', function() {
+  const text = document.getElementById('export-box').textContent;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    this.textContent = '✓ Copié !';
+    this.classList.add('copied');
+    setTimeout(() => {
+      this.textContent = '⎘ Copier';
+      this.classList.remove('copied');
+    }, 2000);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════
+// LANCEMENT
+// ═══════════════════════════════════════════════════════════
+window.addEventListener('load', initMap);
+</script>
+</body>
+</html>

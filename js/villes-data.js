@@ -1595,7 +1595,7 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
         id: 'lastrinidad-nicaragua',
         nom: 'La Trinidad',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'nicaragua',
         coords: [3123, 3916],
         // ⚠️ Distinct de la Trinidad du Salvador (supprimée). Bourg minier
@@ -1620,7 +1620,7 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
         id: 'mena-nicaragua',
         nom: 'Mena',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'nicaragua',
         coords: [3126, 3952],
 
@@ -2008,7 +2008,7 @@ Santa Fe est une ville de l'intérieur, enclavée entre deux versants — Caraï
         nom: 'Venta de Cruces',
         label: 'Venta de Cruzes',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'panama',
         coords: [4011, 4330],
 
@@ -2035,7 +2035,7 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
         nom: 'Capira',
         label: 'P. de Capira',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'panama',
         coords: [3938, 4353],
 
@@ -2084,7 +2084,7 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
         id: 'nombre-de-dios',
         nom: 'Nombre de Dios',
         type: 'site_hist',
-        rang: '2',
+        rang: '3',
         territoire: 'panama',
         coords: [4099, 4229],
 
