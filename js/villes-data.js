@@ -2172,6 +2172,580 @@ Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis
 ⚠️ "San Sebastián de Buena Vista" : poste espagnol probable dans la région, identification précise incertaine — plusieurs forts espagnols ont existé dans cette zone au cours du XVIIe–XVIIIe siècle.`,
     },
 
+// ═══════════════════════════════════════════════════════════
+// SÉRIE NOUVELLE-GRENADE
+// ═══════════════════════════════════════════════════════════
+
+// ── 55. TOLÚ ─────────────────────────────────────────────────────────────────
+
+    {
+        id: 'telu',
+        nom: 'Tolú',
+        label: 'Telu',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [4667, 4275],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port modeste sur le golfe de Morrosquillo, côte Caraïbe de la Nouvelle-Grenade, à l'ouest de Carthagène. Tolú exporte bois précieux, résines et quelques produits locaux vers Carthagène et l'Espagne. La ville est connue pour le <em>bálsamo de Tolú</em> — une résine aromatique tirée d'un arbre local (<em>Myroxylon balsamum</em>), utilisée en pharmacopée européenne comme expectorant et cicatrisant, exportée vers l'Espagne et de là vers toute l'Europe. Une des rares spécialités médicales du Nouveau Monde reconnues par la médecine académique européenne.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `✅ Bálsamo de Tolú comme export pharmaceutique reconnu en Europe : établi (Monardes, <em>Historia Medicinal</em>, 1565 ; pharmacopées européennes du XVIIe–XVIIIe s.).
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 56. ANTIOQUIA ────────────────────────────────────────────────────────────
+
+    {
+        id: 'antiochia',
+        nom: 'Santa Fe de Antioquia',
+        label: 'Antiochia',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [4756, 4570],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ancienne capitale de la province d'Antioquia, dans les vallées du río Cauca et de ses affluents. Fondée en 1541, Santa Fe de Antioquia est le centre d'une des régions aurifères les plus riches de la Nouvelle-Grenade — l'or d'Antioquia est extrait par des esclaves africains dans les placers des rivières, puis acheminé vers Carthagène avant d'embarquer pour Cadix. La ville est une cité de mineurs créoles et de négociants, dominée par ses couvents et par les maisons des grandes familles qui contrôlent les concessions minières.`,
+            },
+        ],
+
+        population: `~5 000 habitants`,
+
+        note_mj: `✅ Or d'Antioquia comme richesse principale, placers exploités par des esclaves africains : établi (McFarlane, <em>Colombia before Independence</em>, 1993).
+✅ Fondation 1541 : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 57. SANTA FÉ DE ANTIOQUIA (PROVINCE) ─────────────────────────────────────
+// Note : "Santa Fé" en colonne 1 entre Tolú et Antioquia correspond à
+// Santa Fe de Antioquia elle-même — c'est la même ville que l'entrée 56.
+// La Jaillot la mentionne deux fois ou la place légèrement différemment.
+// → Pas d'entrée séparée, mention dans note_mj de 'antioquia'.
+
+// ── 58. SINÚ / SAINT-MARIE ───────────────────────────────────────────────────
+
+    {
+        id: 'st-Maria-sinu',
+        nom: 'Sinú (Saint-Marie)',
+        label: 'Cenu / St Maria',
+        type: 'site',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [4847, 4330],
+        // ⚠️ "Cenu" désigne la région du río Sinú et la nation zenú (sinú) ;
+        // "St Maria" sur un affluent du Magdalena à mi-chemin Tolú–Tamalameque
+        // correspond à un bourg fluvial du Sinú moyen, probablement Ayapel
+        // ou un établissement voisin. Regroupé en une entrée de zone.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `La région du río Sinú et de ses affluents, entre la côte Caraïbe et le bas Magdalena. Les Zenús (Cenús) sont une nation indigène dont les orfèvres préhispaniques produisaient les plus belles pièces en or tumbaga de toute la Colombie — leurs tombes ont été pillées par les Espagnols depuis le XVIe siècle, alimentant la légende d'El Dorado. En 1712, la région est peu colonisée : quelques missions franciscaines, des bourgades fluviales modestes vivant de pêche, d'élevage et d'un commerce de bois et de résines vers Carthagène.`,
+            },
+        ],
+
+        population: `Population dispersée — quelques milliers d'Indiens zenús et de colons sur l'ensemble de la région`,
+
+        note_mj: `✅ Orfèvrerie zenú préhispanique, pillage des tombes depuis le XVIe siècle : établi.
+⚠️ "St Maria" sur la Jaillot : bourg fluvial du Sinú moyen, identification précise incertaine — Ayapel est la candidate la plus probable mais non confirmée.
+⚠️ Regroupement "Cenu" et "St Maria" en une entrée de zone : choix éditorial justifié par la proximité géographique et le faible niveau de documentation pour chacun séparément.`,
+    },
+
+// ── 59. BARRANCAS DE MALAMBO ─────────────────────────────────────────────────
+
+    {
+        id: 'baranca-de-malambo',
+        nom: 'Barrancas de Malambo',
+        label: 'Baranca de Malambo',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [4996, 4025],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Poste fluvial sur le río Magdalena, à quelques lieues en amont de son embouchure dans la mer des Caraïbes. Barrancas de Malambo est le premier relais de la navigation remontant le Magdalena depuis la côte — le point où les marchandises débarquées à Carthagène commencent leur long voyage vers l'intérieur du continent. Le fleuve est ici large et lent, navigable par des chaloupes et des pirogues à fond plat chargées de marchandises.`,
+            },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `✅ Position à l'entrée de la navigation fluviale du Magdalena : établie géographiquement.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 60. TENERIFE ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'tenerifa-magdalena',
+        nom: 'Tenerife',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [4943, 4254],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg sur la rive du río Magdalena, étape de la navigation fluviale entre la côte Caraïbe et Mompox. Fondé au XVIe siècle, Tenerife est un point de relais pour les pirogues et les chaloupes qui remontent le fleuve chargées de marchandises européennes ou qui le descendent avec l'or, le tabac et les cuirs de l'intérieur. La vie du bourg est rythmée par les crues saisonnières du Magdalena, qui peuvent isoler ou inonder les rives basses pendant des semaines.`,
+            },
+        ],
+
+        population: `~1 500 habitants`,
+
+        note_mj: `✅ Tenerife comme étape fluviale sur le Magdalena : établi géographiquement.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+
+// ── 61. MOMPOX ───────────────────────────────────────────────────────────────
+
+    {
+        id: 'mopox',
+        nom: 'Mompox (Santa Cruz de Mompox)',
+        label: 'Mopox',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [4970, 4356],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville fluviale sur un bras secondaire du río Magdalena, plaque tournante du commerce intérieur entre Carthagène et le cœur du Nuevo Reino de Granada. Fondée en 1537, Mompox est la ville la plus prospère du Magdalena moyen : ses marchands contrôlent le transit des marchandises entre la côte et l'intérieur, et ses orfèvres — héritiers d'une tradition qui remonte aux Zenús préhispaniques — produisent une filigrane en or réputée dans tout l'empire espagnol.
+<br><br>
+Tous les convois d'or descendant d'Antioquia vers Carthagène passent par Mompox ; toutes les marchandises européennes montant vers Bogotá y transitent. La ville est riche, marchande et relativement autonome — ses élites créoles négocient avec les autorités de Carthagène et de Bogotá d'égal à égal. Les crues du Magdalena, qui durent plusieurs mois par an, transforment ses rues en canaux navigables et isolent la ville du monde terrestre.`,
+            },
+        ],
+
+        population: `~8 000 habitants`,
+
+        note_mj: `✅ Fondation 1537, rôle de plaque tournante commerciale sur le Magdalena : établi (McFarlane, <em>Colombia before Independence</em>, 1993).
+✅ Filigrane de Mompox, orfèvrerie réputée : établi.
+✅ Crues saisonnières du Magdalena inondant la ville : établi — caractéristique géographique permanente.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 62. TAMALAMEQUE ──────────────────────────────────────────────────────────
+
+    {
+        id: 'tamalameque',
+        nom: 'Tamalameque',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5006, 4370],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg sur le río Magdalena, en amont de Mompox, à la jonction des routes fluviales vers l'intérieur du continent. Tamalameque est une étape sur la voie d'eau qui remonte vers Bogotá et vers les provinces andines — un poste de relais où les pirogues chargent vivres et eau douce avant d'affronter les rapides de la partie supérieure du fleuve. La région est connue pour la pêche et pour le tabac des rives du Magdalena.`,
+            },
+        ],
+
+        population: `~1 500 habitants`,
+
+        note_mj: `✅ Tamalameque comme étape fluviale sur le Magdalena moyen : établi géographiquement.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 63. APUERTO / EL DESEMBARCADERO / PLASENCIA / TRINIDAD (MAGDALENA) ───────
+// Ces quatre toponymes de la colonne 3 désignent des relais fluvials modestes
+// sur le Magdalena moyen-supérieur, peu ou pas documentés individuellement.
+// Regroupés en une note de zone plutôt qu'en entrées séparées.
+// → Si la carte les place clairement à des positions distinctes et espacées,
+//    des entrées minimales pourront être créées à l'occasion.
+
+// ── 64. SANTA MARTA ──────────────────────────────────────────────────────────
+
+    {
+        id: 'santa-marthe',
+        nom: 'Santa Marta',
+        label: 'Santa Marthe',
+        capitale: true,
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [4163, 3960],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Premier établissement permanent espagnol sur le continent sud-américain, fondé en 1525 — avant Carthagène, avant Lima, avant Bogotá. Santa Marta n'a jamais dépassé Carthagène dans la hiérarchie commerciale de la côte Caraïbe : son port est moins bien abrité, son arrière-pays moins accessible, et les autorités de Madrid ont systématiquement favorisé Carthagène pour les grands convois. En 1712, Santa Marta est une ville de second rang — chef-lieu d'une province côtière vivant d'un commerce de bois, de coton et de tabac, et d'une contrebande structurelle avec les navires anglais et hollandais.
+<br><br>
+La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est le plus haut massif côtier du monde — ses sommets enneigés à 5 700 mètres dominent une côte tropicale. Les Arhuacos et les Kogis qui habitent ses versants ont résisté à toute colonisation durable.`,
+            },
+        ],
+
+        population: `~5 000 habitants`,
+
+        note_mj: `✅ Fondation 1525 — premier établissement permanent sur le continent sud-américain : établi.
+✅ Sierra Nevada de Santa Marta — plus haut massif côtier du monde : établi.
+✅ Commerce interlope avec navires anglais et hollandais : cohérent avec les pratiques documentées sur la côte néogrenadine.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 65. VALLEDUPAR (CIUDAD DE LOS REYES) ─────────────────────────────────────
+
+    {
+        id: 'ciuidad-de-los-reyes',
+        nom: 'Valledupar (Ciudad de los Reyes)',
+        label: 'Ciudad de los Reyes',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5390, 4173],
+        // ⚠️ Fondée en 1550 sous le nom complet de "Ciudad de los Reyes de Valledupar".
+        // Au confluent du río César et d'un affluent, entre la Sierra Nevada de Santa Marta
+        // et la Guajira. À ne pas confondre avec Ciudad de los Reyes = Lima (Pérou).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville fondée en 1550 dans la vallée du río César, entre la Sierra Nevada de Santa Marta et la Guajira. Son nom complet — Ciudad de los Reyes de Valledupar — la distingue de Lima (aussi fondée sous le nom de Ciudad de los Reyes). Valledupar est le centre administratif d'une région d'élevage extensif et de quelques mines d'or alluvionnaire. La ville est un poste avancé face aux Wayuus de la Guajira — nation indigène qui n'a jamais été véritablement soumise à l'autorité espagnole et qui contrôle de facto la péninsule entière.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1550 sous le nom "Ciudad de los Reyes de Valledupar" : établi.
+✅ Distinction avec Lima (Ciudad de los Reyes du Pérou) : établi — même nom officiel, deux villes distinctes.
+✅ Résistance des Wayuus de la Guajira à la colonisation espagnole : établi sur la longue durée.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 66. OCAÑA ────────────────────────────────────────────────────────────────
+
+    {
+        id: 'ocana',
+        nom: 'Ocaña',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5244, 4568],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville coloniale sur les contreforts andins de la Nouvelle-Grenade, sur la route entre Santa Marta et Bogotá. Fondée en 1570, Ocaña contrôle un col stratégique entre la vallée du Magdalena et les plaines côtières du nord. La ville vit de l'agriculture andine — blé, élevage — et d'un commerce de transit entre la côte Caraïbe et l'intérieur du Nuevo Reino. Son nom reviendra dans l'histoire : c'est à Ocaña que Simón Bolívar tentera en 1828 de faire adopter une nouvelle constitution pour la Grande Colombie.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1570, position sur la route Santa Marta–Bogotá : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+
+// ── 67. VÉLEZ ────────────────────────────────────────────────────────────────
+
+    {
+        id: 'velez-colombia',
+        nom: 'Vélez',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5361, 4896],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville coloniale de la province de Santander, fondée en 1539 dans un paysage de collines tempérées entre le Magdalena et les Andes orientales. Vélez est l'une des plus anciennes villes de la Nouvelle-Grenade — elle précède Bogotá d'un an. Sa situation sur la route entre Mompox et Bogotá en fait une étape commerciale modeste mais régulière. La région produit du tabac, du coton et de la cire — des marchandises qui descendent vers Mompox et Carthagène.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1539 — une des plus anciennes villes de Nouvelle-Grenade : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 68. SANTA FÉ DE BOGOTÁ ───────────────────────────────────────────────────
+
+    {
+        id: 'bogota',
+        nom: 'Santafé de Bogotá',
+        label: 'Santa Fé de Bogota',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5364, 5083],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale du Nuevo Reino de Granada, fondée en 1538 par Gonzalo Jiménez de Quesada sur le plateau de la Sabana de Bogotá, à 2 600 mètres d'altitude. Santafé est le siège de la Real Audiencia de Santa Fe — instance judiciaire et administrative qui gouverne un territoire immense s'étendant de la côte Caraïbe aux llanos de l'Orénoque. La ville est froide, brumeuse, ecclésiastique — une capitale de lettrés et de juristes, à cinq semaines de marche de Carthagène par le Magdalena.
+<br><br>
+Son éloignement des côtes la préserve de la piraterie directe, mais les décisions prises dans ses palais déterminent les flux commerciaux, les politiques fiscales et les garnisons de tout le littoral Caraïbe de la Nouvelle-Grenade. L'or d'Antioquia, les émeraudes de Muzo, le tabac des vallées andines — tout est taxé, enregistré et redistribué depuis Santafé.
+<br><br>
+En 1717–1723, Santafé devient brièvement la capitale d'une vice-royauté propre — la vice-royauté de Nouvelle-Grenade, éphémère tentative de Madrid de mieux contrôler le nord de l'Amérique du Sud. Supprimée en 1723, elle ne sera rétablie qu'en 1739.`,
+            },
+        ],
+
+        population: `~20 000 habitants`,
+
+        note_mj: `✅ Fondation 1538 par Jiménez de Quesada : établi.
+✅ Siège de la Real Audiencia de Santa Fe : établi.
+✅ Vice-royauté de Nouvelle-Grenade 1717–1723, supprimée, rétablie 1739 : établi — voir aussi carte-data.js (nouvelle-grenade) et entrée panama-city (correction note_mj).
+✅ Émeraudes de Muzo, or d'Antioquia : établis.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 69. RIOHACHA (RÍO DE LA HACHA) ───────────────────────────────────────────
+
+    {
+        id: 'riohacha',
+        nom: 'Riohacha (Río de la Hacha)',
+        label: 'R de la Hacha',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5482, 3926],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port sur la côte de la Guajira, à l'embouchure du río Ranchería. Riohacha est le centre du commerce des perles de la côte — les bancs d'huîtres perlières du golfe de Venezuela alimentent depuis le XVIe siècle un trafic que les autorités espagnoles tentent de réguler sans grand succès. La ville est aussi un nœud de la contrebande : les Wayuus de la Guajira vendent leurs perles directement aux navires hollandais et anglais sans passer par les douanes espagnoles.
+<br><br>
+Drake a attaqué Riohacha en 1568 et 1572 pour ses perles. En 1712, la ville reste exposée — peu fortifiée, gouvernée par une garnison insuffisante, à la merci de tout navire de guerre qui se présenterait devant la rade.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Commerce des perles, bancs d'huîtres perlières : établi.
+✅ Contrebande des Wayuus avec navires hollandais et anglais : établi (Klooster, <em>Illicit Riches</em>, 1998).
+✅ Raids de Drake en 1568 et 1572 : établis.
+⚠️ Population en 1712 : estimation.
+La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas un établissement séparé. Regroupé avec Riohacha.`,
+    },
+
+// ── 70. LA RAMADA ────────────────────────────────────────────────────────────
+
+    {
+        id: 'la-ramada',
+        nom: 'La Ramada',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5452, 3958],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg côtier entre Riohacha et Santa Marta, sur la côte de la Guajira occidentale. La Ramada est mentionnée dans les sources cartographiques et les chroniques de pirates comme escale sur la côte entre les deux villes principales. La région est dominée par les Wayuus — la présence espagnole y est nominale, et les navires étrangers qui longent la côte font souvent escale dans les anses sans rencontrer d'autorité coloniale.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ La Ramada : peu documenté pour 1712. Existence attestée sur les cartes, détails incertains.`,
+    },
+
+// ── 71. GUATAPORI ────────────────────────────────────────────────────────────
+
+    {
+        id: 'guatapori',
+        nom: 'Guatapori',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5574, 4024],
+        // ⚠️ Probablement un bourg ou mission de l'intérieur de la Guajira,
+        // sur un affluent du río Ranchería ou du río César. Non identifié
+        // avec certitude dans les sources coloniales.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg de l'intérieur de la Guajira ou de la dépression du César, dont le nom sur la Jaillot est une translittération approximative d'un nom wayuu ou local. La région est une zone de contact entre l'autorité espagnole de Riohacha et l'espace autonome des Wayuus — des missions sporadiques ont tenté de s'implanter ici sans succès durable.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ Identification incertaine — "Guatapori" non retrouvé avec certitude dans les sources coloniales néogrenadines. Pourrait correspondre à un bourg wayuu ou à une mission éphémère.`,
+    },
+
+// ── 72. SAN CRISTÓBAL ────────────────────────────────────────────────────────
+
+    {
+        id: 'san-cristobal-tachira',
+        nom: 'San Cristóbal',
+        label: 'St Christophe',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5584, 4561],
+        // ⚠️ Ville andine du Táchira (Venezuela actuel), dans la juridiction
+        // de la Nouvelle-Grenade à cette époque. Sur la route entre Bogotá
+        // et Maracaibo via Pamplona.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville andine fondée en 1561 dans la vallée du Táchira, sur la route commerciale reliant Bogotá et Pamplona à Maracaibo et à la côte vénézuélienne. San Cristóbal est le principal centre de la région du Táchira — une zone agricole productive spécialisée dans le blé, le maïs et les pâturages d'altitude. Ses marchés redistribuent les marchandises entre les Andes néogrenadines et les plaines vénézuéliennes.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1561, position sur la route Bogotá–Maracaibo via Pamplona : établi.
+⚠️ Population en 1712 : estimation.
+Appartenance à la Nouvelle-Grenade pour cette période : établi — la province du Táchira relève de la Real Audiencia de Santa Fe, non de Caracas.`,
+    },
+
+// ── 73. PAMPLONA ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'pamplona-colombia',
+        nom: 'Pamplona',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5606, 4698],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville andine fondée en 1549 dans les hautes terres de la cordillère orientale, sur la route entre Bogotá et les provinces vénézuéliennes. Pamplona est un centre minier et agricole — ses mines d'or et d'argent, exploitées depuis le XVIe siècle, sont en déclin en 1712 mais pas épuisées. La ville est un nœud routier important : les routes vers Santa Marta au nord, Bogotá au sud, et Maracaibo à l'est se croisent dans ses environs. Ses grandes familles créoles contrôlent les haciendas d'élevage de la région.`,
+            },
+        ],
+
+        population: `~5 000 habitants`,
+
+        note_mj: `✅ Fondation 1549, mines d'or et d'argent : établi.
+✅ Nœud routier entre Bogotá, Santa Marta et Maracaibo : établi géographiquement.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 74. SERRANÍA DE OPÓN ─────────────────────────────────────────────────────
+
+    {
+        id: 'mont-opon',
+        nom: 'Serranía de Opón',
+        label: 'Mont de Opon',
+        type: 'site',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5499, 4752],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Massif montagneux boisé entre le río Magdalena et les Andes orientales — une zone de collines et de forêts denses que les Espagnols n'ont jamais vraiment colonisée. La serranía de Opón est réputée inaccessible et habitée par des nations indiennes non soumises. Les chroniques de la conquête rapportent que Jiménez de Quesada a traversé ces montagnes en 1536–1538 lors de son expédition depuis Santa Marta vers Bogotá — une marche épuisante dans la boue et la jungle qui a décimé son armée avant même qu'elle atteigne les plaines de la Sabana.`,
+            },
+        ],
+
+        note_mj: `✅ Serranía de Opón traversée par Jiménez de Quesada lors de la conquête du Nuevo Reino (1536–1538) : établi.
+✅ Zone non colonisée en 1712, nations indiennes non soumises : cohérent avec les sources sur la région.`,
+    },
+
+// ── 75. PORTETE / CÔTE DE LA GUAJIRA ─────────────────────────────────────────
+
+    {
+        id: 'portete',
+        nom: 'Portete (Conquibacoa)',
+        label: 'Portete',
+        type: 'site',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5725, 3758],
+        // ⚠️ Regroupe "Portete" et "Conquibaco" de la Jaillot — deux noms
+        // pour la même zone côtière de la Guajira orientale.
+        // "Conquibacoa" est le nom préhispanique de la région (utilisé par les
+        // premiers explorateurs espagnols pour désigner la zone du lac Maracaibo
+        // et de la Guajira).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Baie naturelle sur la côte orientale de la péninsule de la Guajira — l'un des rares mouillages protégés de cette côte venteuse et peu peuplée. Portete est fréquentée par les navires hollandais de Curaçao et les contrebandiers de toutes nations qui viennent acheter des perles et des écailles de tortue aux Wayuus sans passer par les douanes de Riohacha. Les autorités espagnoles tentent périodiquement d'y établir un poste de surveillance — sans succès durable.
+<br><br>
+"Conquibacoa" est le nom ancien donné par les premiers explorateurs espagnols à toute la région entre la Guajira et le lac Maracaibo, depuis l'expédition d'Alonso de Ojeda en 1499.`,
+            },
+        ],
+
+        note_mj: `✅ Portete comme mouillage de contrebande sur la Guajira : établi (Klooster, <em>Illicit Riches</em>, 1998).
+✅ "Conquibacoa" comme nom ancien de la région — expédition d'Ojeda 1499 : établi.
+✅ Résistance wayuu à toute présence espagnole permanente : établi.`,
+    },
+
+// ── MÉRIDA (ANDES VÉNÉZUÉLIENNES) ────────────────────────────────────────
+
+    {
+        id: 'merida-venezuela',
+        nom: 'Mérida',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5901, 4369],
+        // ⚠️ Mérida des Andes vénézuéliennes — à ne pas confondre avec Mérida
+        // du Yucatán (id: 'merida', déjà dans villes-data.js).
+        // Relève de la Nouvelle-Grenade à cette époque, non du Venezuela
+        // (Caracas), malgré sa position géographique.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville andine fondée en 1558 dans la sierra Nevada de Mérida, à plus de 1 600 mètres d'altitude. Mérida est le centre administratif des Andes vénézuéliennes — une région froide et fertile, spécialisée dans le blé, l'élevage et la fabrication de textiles de laine. La ville dépend administrativement de la Real Audiencia de Santa Fe (Bogotá) plutôt que de Caracas, malgré sa proximité géographique avec le Venezuela. La Sierra Nevada de Mérida, qui culmine au Pico Bolívar, est visible depuis les plaines du lac Maracaibo.`,
+            },
+        ],
+
+        population: `~6 000 habitants`,
+
+        note_mj: `✅ Fondation 1558, altitude ~1 600 m : établi.
+✅ Dépendance administrative de Santa Fe (Bogotá) et non de Caracas en 1712 : établi — la frontière entre les juridictions de Caracas et de Santa Fe dans cette zone est l'objet de tensions récurrentes.
+⚠️ Population en 1712 : estimation.
+À ne pas confondre avec Mérida du Yucatán (id: 'merida' dans villes-data.js).`,
+    },
+
+// ── MARIQUITA ──────────────────────────────────────────────────────────────
+
+    {
+        id: 'mariquita',
+        nom: 'Mariquita',
+        label: 'Mariguetta',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5113, 5021],
+        // ⚠️ "Mariguetta" sur la Jaillot — identification avec Mariquita
+        // confirmée par la position sur la carte moderne par rapport à Bogotá.
+        // Plus importante que les relais fluviaux en aval (Trinidad, Plasencia,
+        // El Desembarcadero) — entrée dédiée justifiée.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville du Magdalena supérieur, fondée en 1551 au pied de la cordillère centrale, sur la route fluviale entre Bogotá et Carthagène. Mariquita est l'étape clé de la navigation entre la capitale du Nuevo Reino et la côte Caraïbe : c'est ici que les voyageurs et les marchandises descendant depuis Bogotá rejoignent le Magdalena navigable, avant de s'embarquer sur les pirogues qui les porteront vers Mompox et Carthagène. La ville est aussi un centre d'exploitation minière — ses mines d'or et d'argent ont été parmi les plus actives du XVIe siècle, aujourd'hui en déclin mais encore en activité partielle.
+<br><br>
+Mariquita est entourée de forêts tropicales d'altitude où pousse le quinquina (<em>Cinchona</em>) — l'écorce dont on tire la quinine, remède contre la fièvre paludéenne. La plante est encore peu exploitée systématiquement en 1712, mais les Jésuites en ont compris la valeur médicale depuis le siècle précédent et la "poudre des Jésuites" commence à circuler en Europe.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1551, position sur la route Bogotá–Carthagène via le Magdalena : établi.
+✅ Mines d'or et d'argent actives au XVIe siècle, en déclin au XVIIIe : établi (McFarlane, <em>Colombia before Independence</em>, 1993).
+✅ Quinquina dans les forêts environnantes, "poudre des Jésuites" : établi — la quinine de cette région sera systématiquement étudiée par la mission botanique de Mutis à la fin du XVIIIe siècle.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+
     {
         id: 'saint-georges-bermudes',
         nom: "Saint George's",
