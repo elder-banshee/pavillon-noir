@@ -3468,7 +3468,7 @@ Le nom survit sur les cartes du XVIIIe siècle par tradition cartographique hér
         type: 'port',
         rang: '2',
         territoire: 'nouvelle-andalousie',
-        coords: [4884, 4103],
+        coords: [6884, 4103],
         // ⚠️ Position sur la Jaillot : rive sud du golfe de Cariaco,
         // au sud d'Araya et à l'est de Cumaná. Identification avec Cariaco
         // (bourg colonial sur la côte intérieure du golfe) : probable d'après
