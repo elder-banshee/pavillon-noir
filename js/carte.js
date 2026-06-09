@@ -18,6 +18,8 @@ let villeActive = null;
 let markersVilles = {};
 let pairesChevauchement = [];
 let clustersChevauchement = []; // clusters de 3+ icônes se chevauchant
+let loupeInstance = null;       // instance L.map secondaire de la loupe
+let loupeBitmap = null;         // ImageBitmap pré-décodé — évite le flash gris dans la loupe
 let mouseoutTimers = {};
 let ecartementsActifs = {}; // clé = "idA:idB" → durée ms
 
@@ -468,7 +470,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const imgPreload = new Image();
   imgPreload.src = CARTE_IMAGE.src;
-  imgPreload.decode().then(initTout).catch(initTout);
+  imgPreload.decode()
+    .then(() => {
+      // Pré-décoder en ImageBitmap GPU — évite le flash gris lors de l'ouverture de la loupe
+      if (typeof createImageBitmap === 'function') {
+        createImageBitmap(imgPreload).then(bmp => { loupeBitmap = bmp; });
+      }
+      initTout();
+    })
+    .catch(initTout);
 });
 
 // ─── Carte Leaflet ───────────────────────────────────────────
@@ -583,12 +593,12 @@ function initCarte() {
       renderContourGlobal();
     });
 
-  // Fermeture modale cluster au clic n'importe où dans la page
+  // Fermeture loupe au clic n'importe où dans la page
   document.addEventListener('click', (e) => {
-    if (!document.querySelector('.carte-cluster-modal')) return;
-    if (e.target.closest('.carte-cluster-modal')) return;
+    if (!document.getElementById('carte-loupe')) return;
+    if (e.target.closest('#carte-loupe')) return;
     if (e.target.closest('.carte-ville')) return; // clic sur icône ville — laissé au handler Leaflet
-    fermerModalCluster();
+    fermerLoupe();
   });
 }
 
@@ -1227,6 +1237,7 @@ function renderPins() {
 
 // ─── Marqueurs de villes ──────────────────────────────────────
 function renderVilles() {
+  fermerLoupe();
   // Nettoyer les marqueurs existants
   Object.values(markersVilles).forEach(m => carte.removeLayer(m));
   markersVilles = {};
@@ -1298,7 +1309,7 @@ function renderVilles() {
       // Vérifier si cette ville appartient à un cluster
       const cluster = clustersChevauchement.find(c => c.ids.includes(ville.id));
       if (cluster) {
-        ouvrirModalCluster(cluster, e.containerPoint);
+        ouvrirLoupe(ville.id, e.containerPoint);
         return;
       }
       if (villeActive === ville.id) {
@@ -1822,7 +1833,7 @@ function fermerPanneauVille() {
   panneau.setAttribute('inert', '');
   if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); }
   villeActive = null;
-  fermerModalCluster();
+  fermerLoupe();
 }
 
 function majZone(juridictionId) {
@@ -2255,90 +2266,163 @@ function calculerPairesChevauchement() {
       );
       if (paire) pairesChevauchement.push(paire);
     } else {
-      // Cluster de 3+ → modale
+      // Cluster de 3+ → loupe
       clustersChevauchement.push({ ids: membres });
     }
   }
 
 }
 
-function fermerModalCluster() {
-  const existante = document.querySelector('.carte-cluster-modal');
+// ─── Loupe cartographique ─────────────────────────────────────
+const LOUPE_RAYON = 115; // px — rayon du cercle de la loupe
+const LOUPE_ZOOM  = -0.6; // zoom fixe dans la loupe
+
+function fermerLoupe() {
+  if (loupeInstance) {
+    loupeInstance.remove();
+    loupeInstance = null;
+  }
+  const existante = document.getElementById('carte-loupe');
   if (existante) existante.remove();
 }
 
-function ouvrirModalCluster(cluster, containerPoint) {
-  fermerModalCluster();
+function ouvrirLoupe(villeId, containerPoint) {
+  fermerLoupe();
 
   const wrap = document.getElementById('carte-wrap');
   if (!wrap) return;
 
-  const modal = document.createElement('div');
-  modal.className = 'carte-cluster-modal';
-  modal.style.left = `${containerPoint.x}px`;
-  modal.style.top  = `${containerPoint.y}px`;
+  // Centrer sur l'icône cliquée par défaut
+  const latlngCentre = markersVilles[villeId]?.getLatLng();
+  if (!latlngCentre) return;
 
-  const taille = tailleIconeVille();
+  // Calculer le centroïde du cluster si disponible — sera affiné dans whenReady
+  const cluster = clustersChevauchement.find(c => c.ids.includes(villeId));
+  let centroide = latlngCentre;
+  if (cluster) {
+    const membres = cluster.ids.map(id => markersVilles[id]?.getLatLng()).filter(Boolean);
+    centroide = L.latLng(
+      membres.reduce((s, ll) => s + ll.lat, 0) / membres.length,
+      membres.reduce((s, ll) => s + ll.lng, 0) / membres.length
+    );
+  }
 
-  cluster.ids.forEach(id => {
-    const ville = VILLES.find(v => v.id === id);
-    if (!ville) return;
+  // Conteneur circulaire
+  const diametre = LOUPE_RAYON * 2;
+  const div = document.createElement('div');
+  div.id = 'carte-loupe';
+  div.style.width  = `${diametre}px`;
+  div.style.height = `${diametre}px`;
+  div.style.left   = `${containerPoint.x}px`;
+  div.style.top    = `${containerPoint.y}px`;
+  wrap.appendChild(div);
 
-    const statutCapitale = Array.isArray(ville.capitale)
-      ? rendreChamp(ville.capitale, anneeActive)
-      : ville.capitale;
-    const estPirate = statutCapitale === 'pirate';
-    const estRang3 = (ville.rang ?? '1') === '3';
-
-    const iconeEl = document.createElement('div');
-    iconeEl.className = 'carte-cluster-modal__icone';
-    iconeEl.dataset.villeId = id;
-    iconeEl.dataset.actif = 'false';
-    iconeEl.style.width  = `${taille}px`;
-    iconeEl.style.height = `${taille}px`;
-    iconeEl.innerHTML = villeSVG(ville.type || 'ville', taille, estPirate, false, false, estRang3);
-
-    iconeEl.addEventListener('mouseenter', () => {
-      iconeEl.innerHTML = villeSVG(ville.type || 'ville', taille, estPirate, false, true, estRang3);
-      const tip = document.createElement('div');
-      tip.className = 'carte-tooltip carte-cluster-modal__tip leaflet-tooltip leaflet-tooltip-top';
-      tip.textContent = labelVille(ville);
-      iconeEl.appendChild(tip);
-    });
-    iconeEl.addEventListener('mouseleave', () => {
-      // Ne pas repasser en normal si cette icône est l'active de la modale
-      if (iconeEl.dataset.actif === 'true') return;
-      iconeEl.innerHTML = villeSVG(ville.type || 'ville', taille, estPirate, false, false, estRang3);
-    });
-    iconeEl.addEventListener('click', (e) => {
-      e.stopPropagation();
-      // Désactiver l'icône précédemment active dans la modale
-      const modale = document.querySelector('.carte-cluster-modal');
-      if (modale) {
-        modale.querySelectorAll('.carte-cluster-modal__icone[data-actif="true"]').forEach(el => {
-          el.dataset.actif = 'false';
-          // Récupérer ses infos depuis data-id pour remettre le bon SVG
-          const autreId = el.dataset.villeId;
-          const autreVille = VILLES.find(v => v.id === autreId);
-          if (autreVille) {
-            const autreCapitale = Array.isArray(autreVille.capitale)
-              ? rendreChamp(autreVille.capitale, anneeActive) : autreVille.capitale;
-            const autrePirate = autreCapitale === 'pirate';
-            const autreRang3 = (autreVille.rang ?? '1') === '3';
-            el.innerHTML = villeSVG(autreVille.type || 'ville', taille, autrePirate, false, false, autreRang3);
-          }
-        });
-      }
-      // Activer cette icône
-      iconeEl.dataset.actif = 'true';
-      iconeEl.innerHTML = villeSVG(ville.type || 'ville', taille, estPirate, false, true, estRang3);
-      ouvrirPanneauVille(id);
-    });
-
-    modal.appendChild(iconeEl);
+  // Instance Leaflet secondaire — on part toujours du centroïde
+  loupeInstance = L.map(div, {
+    crs: L.CRS.Simple,
+    zoom: LOUPE_ZOOM,
+    center: centroide,
+    zoomControl: false,
+    attributionControl: false,
+    dragging: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    touchZoom: false,
+    boxZoom: false,
+    keyboard: false,
   });
 
-  wrap.appendChild(modal);
+  const W = CARTE_IMAGE.width;
+  const H = CARTE_IMAGE.height;
+  L.imageOverlay(CARTE_IMAGE.src, [[0, 0], [H, W]]).addTo(loupeInstance);
+
+  // Critère géométrique — dans whenReady, les projections sont exactes
+  loupeInstance.whenReady(() => {
+    // Centroïde valide si toutes les icônes du cluster tiennent dans le rayon
+    const centroPx = loupeInstance.latLngToContainerPoint(centroide);
+    const membresPx = cluster
+      ? cluster.ids.map(id => markersVilles[id]?.getLatLng()).filter(Boolean)
+      : [latlngCentre];
+    const tousVisibles = membresPx.every(ll => {
+      const pt = loupeInstance.latLngToContainerPoint(ll);
+      const dx = pt.x - centroPx.x;
+      const dy = pt.y - centroPx.y;
+      return Math.sqrt(dx * dx + dy * dy) <= LOUPE_RAYON;
+    });
+
+    // Si le cluster ne tient pas dans le rayon → recentrer sur l'icône cliquée
+    if (!tousVisibles) {
+      loupeInstance.setView(latlngCentre, LOUPE_ZOOM, { animate: false });
+    }
+
+    const latlngFocus = tousVisibles ? centroide : latlngCentre;
+    const centrePx = loupeInstance.latLngToContainerPoint(latlngFocus);
+    const taille = tailleIconeVille();
+
+    Object.entries(markersVilles).forEach(([id, m]) => {
+      const ll = m.getLatLng();
+      const pt = loupeInstance.latLngToContainerPoint(ll);
+      const dx = pt.x - centrePx.x;
+      const dy = pt.y - centrePx.y;
+      if (Math.sqrt(dx * dx + dy * dy) > LOUPE_RAYON) return;
+
+      const ville = VILLES.find(v => v.id === id);
+      if (!ville) return;
+
+      const statutCapitale = Array.isArray(ville.capitale)
+        ? rendreChamp(ville.capitale, anneeActive)
+        : ville.capitale;
+      const estPirate = statutCapitale === 'pirate';
+      const estRang3  = (ville.rang ?? '1') === '3';
+
+      const icon = L.divIcon({
+        html: villeSVG(ville.type || 'ville', taille, estPirate, false, false, estRang3),
+        className: 'carte-ville',
+        iconSize:   [taille, taille],
+        iconAnchor: [taille / 2, taille / 2],
+      });
+
+      const marker = L.marker(ll, { icon }).addTo(loupeInstance);
+
+      marker.bindTooltip(labelVille(ville), {
+        permanent: false,
+        direction: 'top',
+        className: 'carte-tooltip',
+        opacity: 1,
+        offset: [0, -10],
+        interactive: false,
+      });
+
+      marker.on('mouseover', () => {
+        marker.setIcon(L.divIcon({
+          html: villeSVG(ville.type || 'ville', taille, estPirate, false, true, estRang3),
+          className: 'carte-ville',
+          iconSize:   [taille, taille],
+          iconAnchor: [taille / 2, taille / 2],
+        }));
+        marker.openTooltip();
+      });
+      marker.on('mouseout', () => {
+        if (villeActive === id) return;
+        marker.setIcon(L.divIcon({
+          html: villeSVG(ville.type || 'ville', taille, estPirate, false, false, estRang3),
+          className: 'carte-ville',
+          iconSize:   [taille, taille],
+          iconAnchor: [taille / 2, taille / 2],
+        }));
+        marker.closeTooltip();
+      });
+
+      marker.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        if (villeActive === id) {
+          fermerPanneauVille(); // ferme panneau → ferme loupe
+        } else {
+          ouvrirPanneauVille(id);
+        }
+      });
+    });
+  });
 }
 
 function ecarterVille(villeId) {
