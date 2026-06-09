@@ -7,38 +7,6 @@
 
 const VILLES = [
 
-    {
-        id: 'cartagena',
-        nom: 'Carthagène de Indias',
-        label: 'Carthagène',
-        capitale: true,
-        type: 'port',
-        territoire: 'nouvelle-grenade',
-        coords: [4840, 4097],
-        tags: ['Carthagène', 'Cartagena', 'Carthagène de Indias'],
-
-        contexte: [
-            {
-                de: 1712,
-                texte: `Principal port de sortie de l'empire espagnol sur la côte Caraïbe de Terre Ferme — l'or d'Antioquia, les émeraudes de Muzo, le cacao du Venezuela y transitent avant d'embarquer pour Cadix via La Havane. Carthagène est aussi l'une des têtes de pont de l'Asiento : depuis 1713, la South Sea Company y maintient une factorerie pour le commerce des esclaves africains, qui constitue autant un prétexte légal à la pénétration commerciale anglaise qu'un négoce en lui-même.
-<br><br>
-En 1683, Laurens de Graaf et Michel de Grammont paraissent devant Carthagène avec sept navires et y demeurent près d'un mois. Les flibustiers tiennent la rade mais ne prennent pas la ville : les fortifications tiennent, et la garnison ne cède pas. Ils repartent avec trois navires capturés, et Carthagène survit au blocus, humiliée mais intacte.
-<br><br>
-En 1697, c'est une tout autre affaire : le baron de Pointis arrive avec 22 vaisseaux, 500 canons et 4 000 soldats, auxquels s'ajoutent les 7 navires et 1 200 flibustiers de Du Casse. Les Français débarquent à Boca-Chica, emportent le château de San Luis qui barre l'entrée de la baie, et la ville se rend rapidement, versant une rançon de neuf millions de livres. Pointis appareille ensuite directement pour la France en escamotant la part promise aux flibustiers. Furieux, ces derniers reviennent piller la ville une seconde fois. Le bilan est catastrophique pour Carthagène : deux sacs successifs en moins d'un mois.
-<br><br>
-Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle désormais l'unique chenal d'accès à la baie intérieure. Prendre Carthagène de force est hors de portée d'un équipage pirate — mais la contourner, la renseigner, ou en corrompre les douaniers est une autre affaire.`,
-            },
-        ],
-
-        population: `~20 000 habitants(dont une forte proportion d'esclaves africains et d'affranchis)`,
-
-        garnison: `Fort Bocachica + Fort San Fernando(rive opposée du chenal) : ~200 soldats.Garnison de la ville intra - muros : ~300 soldats supplémentaires.Total estimé : ~500 hommes.Estimation d'après McFarlane, Colombia before Independence (1993).`,
-
-        note_mj: `✅ Sac de Pointis 1697 — dernier grand assaut réussi contre Carthagène avant Vernon en 1741 : établi.<br>
-        ✅ Asiento anglais (South Sea Company) depuis Utrecht 1713 : établi.<br>
-        ⚠️ Gouverneur militaire 1712 : non identifié depuis les sources accessibles. AGI (Audiencia de Santa Fe) : source primaire.\nCarthagène est une alcaldía mayor et place militaire distincte de la Présidence de Santafé — son gouverneur militaire propre n'est pas subordonné au gouverneur civil de la Nouvelle-Grenade pour les affaires militaires.`,
-    },
-
 // ═══════════════════════════════════════════════════════════
 // SÉRIE CAROLINE DU SUD
 // ═══════════════════════════════════════════════════════════
@@ -1776,7 +1744,7 @@ Morgan l'a remontée en 1665 pour saccager Granada. La Royal Navy y enverra des 
 // SÉRIE COSTA RICA
 // ═══════════════════════════════════════════════════════════
 
-// ── 40. NICOYA ───────────────────────────────────────────────────────────────
+// ── NICOYA ───────────────────────────────────────────────────────────────
 
     {
         id: 'st-lucar-nicoya',
@@ -1802,7 +1770,7 @@ Morgan l'a remontée en 1665 pour saccager Granada. La Royal Navy y enverra des 
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 41. CASTILLO DE AUSTRIA (MATINA) ─────────────────────────────────────────
+// ── CASTILLO DE AUSTRIA (MATINA) ─────────────────────────────────────────
 
     {
         id: 'chateau-de-austria',
@@ -1833,7 +1801,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
 ⚠️ Garnison : estimation basse, sources fragmentaires pour 1712.`,
     },
 
-// ── 42. ARRANGUES ────────────────────────────────────────────────────────────
+// ── ARRANGUES ────────────────────────────────────────────────────────────
 
     {
         id: 'arrangues',
@@ -1857,7 +1825,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
         note_mj: `⚠️ Identification incertaine — "Arrangues" non retrouvé avec certitude. Pourrait correspondre à Aranjuez (bourg de la péninsule de Nicoya), à un village du golfe de Nicoya, ou à une translittération déformée d'un nom local.`,
     },
 
-// ── 43. CHIRIQUÍ ─────────────────────────────────────────────────────────────
+// ── CHIRIQUÍ ─────────────────────────────────────────────────────────────
 
     {
         id: 'chiriqui',
@@ -1885,7 +1853,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
 ⚠️ Appartenance administrative à cette période : Chiriquí dépend du gouvernement de Costa Rica ou de Veragua selon les sources — frontière administrative floue en pratique.`,
     },
 
-// ── 44. PUEBLA (ALANJE) ──────────────────────────────────────────────────────
+// ── PUEBLA (ALANJE) ──────────────────────────────────────────────────────
 
     {
         id: 'puebla-costa-rica',
@@ -1918,7 +1886,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
 // SÉRIE PANAMA / VERAGUA
 // ═══════════════════════════════════════════════════════════
 
-// ── 45. TRINIDAD (VERAGUA, CÔTE CARAÏBE) ─────────────────────────────────────
+// ── TRINIDAD (VERAGUA, CÔTE CARAÏBE) ─────────────────────────────────────
 
     {
         id: 'trinidad-veragua',
@@ -1942,7 +1910,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
         note_mj: `⚠️ Identification probable d'après la position sur la Jaillot (nord de Santa Fe, côte Caraïbe). Peu documenté pour 1712 — la côte Caraïbe de Veragua est l'une des zones les moins couvertes par les archives coloniales espagnoles.`,
     },
 
-// ── 46. SANTA FÉ DE VERAGUA ──────────────────────────────────────────────────
+// ── SANTA FÉ DE VERAGUA ──────────────────────────────────────────────────
 
     {
         id: 'santa-fe-veragua',
@@ -1972,7 +1940,7 @@ Santa Fe est une ville de l'intérieur, enclavée entre deux versants — Caraï
 ⚠️ Population : estimation.`,
     },
 
-// ── 47. LAVELIA ──────────────────────────────────────────────────────────────
+// ── LAVELIA ──────────────────────────────────────────────────────────────
 
     {
         id: 'lavelia',
@@ -1998,7 +1966,7 @@ Santa Fe est une ville de l'intérieur, enclavée entre deux versants — Caraï
         note_mj: `⚠️ "Lavelia" non identifié avec certitude dans les sources coloniales. Position sur la Jaillot (face à Natá, côté Veragua) suggère un bourg de la côte Pacifique de l'isthme central. Entrée conservée pour la cohérence cartographique.`,
     },
 
-// ── 48. VENTA DE CRUCES ───────────────────────────────────────────────────────
+// ── VENTA DE CRUCES ───────────────────────────────────────────────────────
 // NOTE : "ChagreChat~" sur la Jaillot = "Chagre Château" = Fort San Lorenzo
 // (déjà documenté dans villes-data.js). "Venta de Cruzes" apparaît séparément
 // plus en amont sur le río Chagres — identification sans ambiguïté.
@@ -2028,7 +1996,7 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
 ⚠️ Identification de "Chagrechat" avec Venta de Cruces : probable d'après la position sur le Chagres — la déformation du nom est cohérente avec les pratiques cartographiques de l'époque.`,
     },
 
-// ── 49. CAPIRA ───────────────────────────────────────────────────────────────
+// ── CAPIRA ───────────────────────────────────────────────────────────────
 
     {
         id: 'capira',
@@ -2053,7 +2021,7 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
 ⚠️ Population : estimation.`,
     },
 
-// ── 50. NATÁ DE LOS CABALLEROS ───────────────────────────────────────────────
+// ── NATÁ DE LOS CABALLEROS ───────────────────────────────────────────────
 
     {
         id: 'nata',
@@ -2078,7 +2046,7 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 51. NOMBRE DE DIOS ───────────────────────────────────────────────────────
+// ── NOMBRE DE DIOS ───────────────────────────────────────────────────────
 
     {
         id: 'nombre-de-dios',
@@ -2108,7 +2076,7 @@ En 1597, Madrid a déplacé le port vers Portobelo, mieux défendable. En 1712, 
 🎲 Un PJ qui cherche le cercueil de plomb de Drake dans la baie de Portobelo — et non à Nombre de Dios — suit la bonne piste.`,
     },
 
-// ── 52. BOCAS DEL TORO / CONCEPCIÓN ──────────────────────────────────────────
+// ── BOCAS DEL TORO / CONCEPCIÓN ──────────────────────────────────────────
 
     {
         id: 'concepcion-bocas',
@@ -2142,7 +2110,7 @@ Concepción est moins une ville qu'un relais : quelques maisons, un débarcadèr
 // SÉRIE DARIÉN
 // ═══════════════════════════════════════════════════════════
 
-// ── 53. SAINT-SÉBASTIEN DE BONNE-VUE ─────────────────────────────────────────
+// ── SAINT-SÉBASTIEN DE BONNE-VUE ─────────────────────────────────────────
 
     {
         id: 'saint-sebastien-darien',
@@ -2152,31 +2120,58 @@ Concepción est moins une ville qu'un relais : quelques maisons, un débarcadèr
         rang: '2',
         territoire: 'darien',
         coords: [4465, 4424],
-        // ⚠️ Poste espagnol dans la région du Darién / golfe d'Urabá.
-        // Le Darién est en 1712 le théâtre récent de la tentative d'implantation
-        // écossaise (1698–1700) et d'une présence anglaise et française intermittente.
 
         contexte: [
             {
                 de: 1712,
-                texte: `Fort ou poste espagnol dans la région du Darién, sur la côte Caraïbe entre Portobelo et le golfe d'Urabá. Le Darién est en 1712 une zone de mémoire douloureuse pour les Espagnols : c'est ici que la Compagnie d'Écosse a tenté d'établir la colonie de Caledonia entre 1698 et 1700 — une expédition qui s'est soldée par un désastre humain et une humiliation politique, mais qui a démontré la vulnérabilité de cette côte. Madrid a depuis renforcé la vigilance dans la région, sans pour autant disposer des moyens de la contrôler vraiment.
-<br><br>
-Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis deux siècles — leur connaissance du terrain en fait des adversaires redoutables dans la jungle darienite.`,
+                texte: `Poste espagnol sur la côte Caraïbe du Darién, entre Portobelo et le golfe d'Urabá — l'un des rares points d'ancrage de l'autorité coloniale dans une région que l'Espagne revendique mais ne contrôle pas. La garnison est maigre, le ravitaillement irrégulier, et les Kunas de l'intérieur maintiennent une pression constante sur tout établissement espagnol qui prétend s'implanter dans leur territoire. San Sebastián surveille la côte davantage qu'il ne la défend : un poste de signalement plutôt qu'un vrai fort.`,
             },
         ],
 
-        garnison: `Quelques dizaines de soldats — estimation par analogie avec les petits postes du Darién.`,
+        garnison: `Quelques dizaines de soldats — effectif réel souvent inférieur à l'effectif théorique, ravitaillement depuis Portobelo.`,
 
-        note_mj: `✅ Tentative écossaise de Darien (Caledonia), 1698–1700 : établi — désastre humain (~2 000 morts) et financier pour l'Écosse.
-✅ Résistance des Kunas dans le Darién : établi sur la longue durée.
-⚠️ "San Sebastián de Buena Vista" : poste espagnol probable dans la région, identification précise incertaine — plusieurs forts espagnols ont existé dans cette zone au cours du XVIIe–XVIIIe siècle.`,
+        note_mj: `⚠️ "San Sebastián de Buena Vista" : poste espagnol probable dans la région, identification précise incertaine — plusieurs postes espagnols ont existé dans cette zone au cours du XVIIe–XVIIIe siècle sans laisser de traces documentaires précises.
+✅ Résistance des Kunas dans le Darién, pression permanente sur les postes espagnols : établi — voir territoire 'darien' dans carte-data.js.`,
+    },
+
+// ── NEW EDINBURG (NOUVELLE CALEDONIE) ────────────────────────────────────────
+
+    {
+        id: 'new-edinburg',
+        nom: 'New Edinburgh (Nouvelle Calédonie)',
+        label: 'N. Edinburg',
+        type: 'site_hist',
+        rang: '3',
+        territoire: 'darien',
+        coords: [4348,4369],
+        // ⚠️ Absent de la carte Jaillot comme symbole de ville — mais la région
+        // est nommée "Nouvelle Calidonia" et le fort "N. Edinburg" y est indiqué.
+        // Coordonnées à placer sur la côte Caraïbe du Darién occidental,
+        // baie de Caledonia (golfe de Urabá).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ruines d'une colonie écossaise abandonnée douze ans plus tôt — et blessure nationale encore vive pour tout sujet britannique en 1712. La <strong>Compagnie d'Écosse</strong> avait envoyé ici deux expéditions successives (1698 et 1699) pour établir une colonie commerciale à l'entrée des deux océans : New Edinburgh devait devenir le pivot d'un empire commercial écossais, une tête de pont entre l'Atlantique et le Pacifique que l'Angleterre et l'Espagne ne pourraient pas ignorer.
+<br><br>
+Les deux expéditions se sont soldées par un désastre total : fièvre jaune, dysenterie, famine, mauvaise organisation, hostilité espagnole et indifférence anglaise. Près de <strong>2 000 Écossais</strong> sont morts dans la jungle du Darién ou en tentant de rentrer. En avril 1700, les survivants de la deuxième expédition se rendent aux Espagnols. Les structures de bois de New Edinburgh ont disparu sous la végétation en quelques années — les Kunas ont récupéré ce que la forêt n'avait pas englouti.
+<br><br>
+L'échec financier de la Compagnie d'Écosse a précipité l'<strong>Acte d'Union de 1707</strong> : ruinée, l'Écosse n'avait plus les moyens de refuser la fusion avec l'Angleterre. Pour un personnage écossais en 1712, le Darién n'est pas un lieu abstrait — c'est peut-être là qu'un père, un oncle ou un voisin est mort cinq ou dix ans avant sa naissance. La carte Jaillot de 1708 porte encore les noms <em>Nouvelle Calédonie</em> et <em>New Edinburgh</em> comme si la colonie existait encore — témoignage d'un monde que le cartographe n'a pas eu le temps ou l'envie d'effacer.`,
+            },
+        ],
+
+        note_mj: `✅ Compagnie d'Écosse, expéditions de 1698 et 1699–1700, ~2 000 morts : établi (Prebble, <em>The Darien Disaster</em>, 1968 ; Wikipedia EN, Darien scheme).
+✅ Lien direct entre la ruine de la Compagnie d'Écosse et l'Acte d'Union de 1707 : établi — débattu dans ses proportions exactes, mais le lien causal est reconnu par les historiens.
+✅ Kunas comme témoins de l'effondrement écossais, récupération des ruines : cohérent avec les sources sur la présence kuna dans la région (Howe, 1998).
+✅ Carte Jaillot (1708) portant encore les noms Nouvelle Calédonie et New Edinburgh : établi — anachronisme cartographique documenté.
+🎲 Un PJ écossais, un PJ qui a perdu de la famille dans l'expédition, ou simplement un navigateur qui aborde cette côte et reconnaît les noms sur sa carte — chacun a une raison différente d'être ému ou intrigué par ces ruines.`,
     },
 
 // ═══════════════════════════════════════════════════════════
 // SÉRIE NOUVELLE-GRENADE
 // ═══════════════════════════════════════════════════════════
 
-// ── 55. TOLÚ ─────────────────────────────────────────────────────────────────
+// ── TOLÚ ─────────────────────────────────────────────────────────────────
 
     {
         id: 'telu',
@@ -2200,7 +2195,70 @@ Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 56. ANTIOQUIA ────────────────────────────────────────────────────────────
+// ── BOCACHICA ────────────────────────────────────────────────────────────
+
+    {
+        id: 'bocachica',
+        label: 'Fort San Luis (Bocachica)',
+        nom: 'Castillo de San Luis de Bocachica',
+        type: 'fort',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [4790, 4116],
+        tags: [`bocachica`, `San Luis`, `boca-chica`],
+
+        contexte: [
+            {
+                de: 1712, texte: `Le Fort Bocachica contrôle l'unique chenal navigable donnant accès à la baie intérieure de Carthagène ; les murailles de la ville, renforcées après le sac de Francis Drake (1586) et celui du baron de Pointis (1697), forment une enceinte quasi continue. La garnison est la plus nombreuse de toute la côte Caraïbe espagnole. Toute attaque navale sur Carthagène doit d'abord forcer ce passage.
+                <br><br>
+                En 1712, le fort est en état de fonctionnement, armé de canons commandant le chenal. À quelques kilomètres de la ville, c'est une position autonome avec sa propre garnison. Francisco de Meneses, président-gouverneur renversé par ses propres <em>oidores</em> (juges de la Real Audiencia) en 1715, y sera emprisonné après sa destitution.` },
+        ],
+
+        population: `Garnison uniquement`,
+
+        garnison: `~80 à 120 soldats. La position est complétée par le Fort San Fernando sur la rive opposée du chenal — ensemble ils forment le double verrou de la baie.`,
+
+        note_mj: `✅ Bocachica comme verrou de la baie de Carthagène : établi — rôle confirmé lors du siège de Vernon en 1741.<br>
+✅ Emprisonnement de Meneses à Bocachica après 1715 : carte-data.js (nouvelle-grenade).<br>
+⚠️ Fort San Fernando (rive opposée) : reconstruction principale postérieure à 1741 — statut précis en 1712 incertain.<br>
+⚠️ Garnison : estimation d'après McFarlane, <em>Colombia before Independence (1993)</em>.`,
+    },
+
+// ── CARTAGENA ────────────────────────────────────────────────────────────
+
+    {
+        id: 'cartagena',
+        nom: 'Carthagène de Indias',
+        label: 'Carthagène',
+        capitale: true,
+        type: 'port',
+        territoire: 'nouvelle-grenade',
+        coords: [4840, 4097],
+        tags: ['Carthagène', 'Cartagena', 'Carthagène de Indias'],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Principal port de sortie de l'empire espagnol sur la côte Caraïbe de Terre Ferme — l'or d'Antioquia, les émeraudes de Muzo, le cacao du Venezuela y transitent avant d'embarquer pour Cadix via La Havane. Carthagène est aussi l'une des têtes de pont de l'Asiento : depuis 1713, la South Sea Company y maintient une factorerie pour le commerce des esclaves africains, qui constitue autant un prétexte légal à la pénétration commerciale anglaise qu'un négoce en lui-même.
+<br><br>
+En 1683, Laurens de Graaf et Michel de Grammont paraissent devant Carthagène avec sept navires et y demeurent près d'un mois. Les flibustiers tiennent la rade mais ne prennent pas la ville : les fortifications tiennent, et la garnison ne cède pas. Ils repartent avec trois navires capturés, et Carthagène survit au blocus, humiliée mais intacte.
+<br><br>
+En 1697, c'est une tout autre affaire : le baron de Pointis arrive avec 22 vaisseaux, 500 canons et 4 000 soldats, auxquels s'ajoutent les 7 navires et 1 200 flibustiers de Du Casse. Les Français débarquent à Boca-Chica, emportent le château de San Luis qui barre l'entrée de la baie, et la ville se rend rapidement, versant une rançon de neuf millions de livres. Pointis appareille ensuite directement pour la France en escamotant la part promise aux flibustiers. Furieux, ces derniers reviennent piller la ville une seconde fois. Le bilan est catastrophique pour Carthagène : deux sacs successifs en moins d'un mois.
+<br><br>
+Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle désormais l'unique chenal d'accès à la baie intérieure. Prendre Carthagène de force est hors de portée d'un équipage pirate — mais la contourner, la renseigner, ou en corrompre les douaniers est une autre affaire.`,
+            },
+        ],
+
+        population: `~20 000 habitants(dont une forte proportion d'esclaves africains et d'affranchis)`,
+
+        garnison: `Fort Bocachica + Fort San Fernando(rive opposée du chenal) : ~200 soldats.Garnison de la ville intra - muros : ~300 soldats supplémentaires.Total estimé : ~500 hommes.Estimation d'après McFarlane, Colombia before Independence (1993).`,
+
+        note_mj: `✅ Sac de Pointis 1697 — dernier grand assaut réussi contre Carthagène avant Vernon en 1741 : établi.<br>
+        ✅ Asiento anglais (South Sea Company) depuis Utrecht 1713 : établi.<br>
+        ⚠️ Gouverneur militaire 1712 : non identifié depuis les sources accessibles. AGI (Audiencia de Santa Fe) : source primaire.\nCarthagène est une alcaldía mayor et place militaire distincte de la Présidence de Santafé — son gouverneur militaire propre n'est pas subordonné au gouverneur civil de la Nouvelle-Grenade pour les affaires militaires.`,
+    },
+
+// ── ANTIOQUIA ────────────────────────────────────────────────────────────
 
     {
         id: 'antiochia',
@@ -2215,13 +2273,13 @@ Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis
         contexte: [
             {
                 de: 1712,
-                texte: `Ancienne capitale de la province d'Antioquia, dans les vallées du río Cauca et de ses affluents. Fondée en 1541, Santa Fe de Antioquia est le centre d'une des régions aurifères les plus riches de la Nouvelle-Grenade — l'or d'Antioquia est extrait par des esclaves africains dans les placers des rivières, puis acheminé vers Carthagène avant d'embarquer pour Cadix. La ville est une cité de mineurs créoles et de négociants, dominée par ses couvents et par les maisons des grandes familles qui contrôlent les concessions minières.`,
+                texte: `Ancienne capitale de la province d'Antioquia, dans les vallées du río Cauca et de ses affluents. Fondée en 1541, Santa Fe de Antioquia est le centre d'une des régions aurifères les plus riches de la Nouvelle-Grenade — l'or d'Antioquia est extrait par des esclaves africains dans les <em>placers</em> des rivières (gisements alluvionnaires), puis acheminé vers Carthagène avant d'embarquer pour Cadix. La ville est une cité de mineurs créoles et de négociants, dominée par ses couvents et par les maisons des grandes familles qui contrôlent les concessions minières.`,
             },
         ],
 
         population: `~5 000 habitants`,
 
-        note_mj: `✅ Or d'Antioquia comme richesse principale, placers exploités par des esclaves africains : établi (McFarlane, <em>Colombia before Independence</em>, 1993).
+        note_mj: `✅ Or d'Antioquia comme richesse principale, <em>placers</em> exploités par des esclaves africains : établi (McFarlane, <em>Colombia before Independence</em>, 1993).
 ✅ Fondation 1541 : établi.
 ⚠️ Population en 1712 : estimation.`,
     },
@@ -2232,16 +2290,16 @@ Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis
 // La Jaillot la mentionne deux fois ou la place légèrement différemment.
 // → Pas d'entrée séparée, mention dans note_mj de 'antioquia'.
 
-// ── 58. SINÚ / SAINT-MARIE ───────────────────────────────────────────────────
+// ── SINÚ / SAINT-MARIE ───────────────────────────────────────────────────
 
     {
-        id: 'st-Maria-sinu',
-        nom: 'Sinú (Saint-Marie)',
+        id: 'cenu',
+        nom: 'Sinú',
         label: 'Cenu / St Maria',
-        type: 'site',
+        type: 'ville',
         rang: '2',
         territoire: 'nouvelle-grenade',
-        coords: [4847, 4330],
+        coords: [4760, 4305],
         // ⚠️ "Cenu" désigne la région du río Sinú et la nation zenú (sinú) ;
         // "St Maria" sur un affluent du Magdalena à mi-chemin Tolú–Tamalameque
         // correspond à un bourg fluvial du Sinú moyen, probablement Ayapel
@@ -2261,7 +2319,7 @@ Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis
 ⚠️ Regroupement "Cenu" et "St Maria" en une entrée de zone : choix éditorial justifié par la proximité géographique et le faible niveau de documentation pour chacun séparément.`,
     },
 
-// ── 59. BARRANCAS DE MALAMBO ─────────────────────────────────────────────────
+// ── BARRANCAS DE MALAMBO ─────────────────────────────────────────────────
 
     {
         id: 'baranca-de-malambo',
@@ -2285,7 +2343,7 @@ Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 60. TENERIFE ─────────────────────────────────────────────────────────────
+// ── TENERIFE ─────────────────────────────────────────────────────────────
 
     {
         id: 'tenerifa-magdalena',
@@ -2309,14 +2367,14 @@ Les Kunas (Cunas) de l'intérieur résistent à la colonisation espagnole depuis
     },
 
 
-// ── 61. MOMPOX ───────────────────────────────────────────────────────────────
+// ── MOMPOX ───────────────────────────────────────────────────────────────
 
     {
         id: 'mopox',
         nom: 'Mompox (Santa Cruz de Mompox)',
         label: 'Mopox',
         type: 'port',
-        rang: '2',
+        rang: '1',
         territoire: 'nouvelle-grenade',
         coords: [4970, 4356],
 
@@ -2337,13 +2395,13 @@ Tous les convois d'or descendant d'Antioquia vers Carthagène passent par Mompox
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 62. TAMALAMEQUE ──────────────────────────────────────────────────────────
+// ── TAMALAMEQUE ──────────────────────────────────────────────────────────
 
     {
         id: 'tamalameque',
         nom: 'Tamalameque',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'nouvelle-grenade',
         coords: [5006, 4370],
 
@@ -2367,7 +2425,39 @@ Tous les convois d'or descendant d'Antioquia vers Carthagène passent par Mompox
 // → Si la carte les place clairement à des positions distinctes et espacées,
 //    des entrées minimales pourront être créées à l'occasion.
 
-// ── 64. SANTA MARTA ──────────────────────────────────────────────────────────
+// ── MARIQUITA ──────────────────────────────────────────────────────────────
+
+    {
+        id: 'mariquita',
+        nom: 'Mariquita',
+        label: 'Mariguetta',
+        type: 'ville',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5113, 5021],
+        // ⚠️ "Mariguetta" sur la Jaillot — identification avec Mariquita
+        // confirmée par la position sur la carte moderne par rapport à Bogotá.
+        // Plus importante que les relais fluviaux en aval (Trinidad, Plasencia,
+        // El Desembarcadero) — entrée dédiée justifiée.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville du Magdalena supérieur, fondée en 1551 au pied de la cordillère centrale, sur la route fluviale entre Bogotá et Carthagène. Mariquita est l'étape clé de la navigation entre la capitale du Nuevo Reino et la côte Caraïbe : c'est ici que les voyageurs et les marchandises descendant depuis Bogotá rejoignent le Magdalena navigable, avant de s'embarquer sur les pirogues qui les porteront vers Mompox et Carthagène. La ville est aussi un centre d'exploitation minière — ses mines d'or et d'argent ont été parmi les plus actives du XVIe siècle, aujourd'hui en déclin mais encore en activité partielle.
+<br><br>
+Mariquita est entourée de forêts tropicales d'altitude où pousse le quinquina (<em>Cinchona</em>) — l'écorce dont on tire la quinine, remède contre la fièvre paludéenne. La plante est encore peu exploitée systématiquement en 1712, mais les Jésuites en ont compris la valeur médicale depuis le siècle précédent et la "poudre des Jésuites" commence à circuler en Europe.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1551, position sur la route Bogotá–Carthagène via le Magdalena : établi.
+✅ Mines d'or et d'argent actives au XVIe siècle, en déclin au XVIIIe : établi (McFarlane, <em>Colombia before Independence</em>, 1993).
+✅ Quinquina dans les forêts environnantes, "poudre des Jésuites" : établi — la quinine de cette région sera systématiquement étudiée par la mission botanique de Mutis à la fin du XVIIIe siècle.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── SANTA MARTA ──────────────────────────────────────────────────────────
 
     {
         id: 'santa-marthe',
@@ -2377,7 +2467,7 @@ Tous les convois d'or descendant d'Antioquia vers Carthagène passent par Mompox
         type: 'port',
         rang: '2',
         territoire: 'nouvelle-grenade',
-        coords: [4163, 3960],
+        coords: [5163, 3960],
 
         contexte: [
             {
@@ -2396,7 +2486,7 @@ La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est l
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 65. VALLEDUPAR (CIUDAD DE LOS REYES) ─────────────────────────────────────
+// ── VALLEDUPAR (CIUDAD DE LOS REYES) ─────────────────────────────────────
 
     {
         id: 'ciuidad-de-los-reyes',
@@ -2425,7 +2515,7 @@ La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est l
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 66. OCAÑA ────────────────────────────────────────────────────────────────
+// ── OCAÑA ────────────────────────────────────────────────────────────────
 
     {
         id: 'ocana',
@@ -2449,13 +2539,13 @@ La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est l
     },
 
 
-// ── 67. VÉLEZ ────────────────────────────────────────────────────────────────
+// ── VÉLEZ ────────────────────────────────────────────────────────────────
 
     {
         id: 'velez-colombia',
         nom: 'Vélez',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'nouvelle-grenade',
         coords: [5361, 4896],
 
@@ -2472,7 +2562,7 @@ La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est l
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 68. SANTA FÉ DE BOGOTÁ ───────────────────────────────────────────────────
+// ── SANTA FÉ DE BOGOTÁ ───────────────────────────────────────────────────
 
     {
         id: 'bogota',
@@ -2480,7 +2570,7 @@ La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est l
         label: 'Santa Fé de Bogota',
         capitale: true,
         type: 'ville',
-        rang: '2',
+        rang: '1',
         territoire: 'nouvelle-grenade',
         coords: [5364, 5083],
 
@@ -2504,7 +2594,7 @@ En 1717–1723, Santafé devient brièvement la capitale d'une vice-royauté pro
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 69. RIOHACHA (RÍO DE LA HACHA) ───────────────────────────────────────────
+// ── RIOHACHA (RÍO DE LA HACHA) ───────────────────────────────────────────
 
     {
         id: 'riohacha',
@@ -2533,13 +2623,13 @@ Drake a attaqué Riohacha en 1568 et 1572 pour ses perles. En 1712, la ville res
 La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas un établissement séparé. Regroupé avec Riohacha.`,
     },
 
-// ── 70. LA RAMADA ────────────────────────────────────────────────────────────
+// ── LA RAMADA ────────────────────────────────────────────────────────────
 
     {
         id: 'la-ramada',
         nom: 'La Ramada',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'nouvelle-grenade',
         coords: [5452, 3958],
 
@@ -2555,13 +2645,13 @@ La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas
         note_mj: `⚠️ La Ramada : peu documenté pour 1712. Existence attestée sur les cartes, détails incertains.`,
     },
 
-// ── 71. GUATAPORI ────────────────────────────────────────────────────────────
+// ── GUATAPORI ────────────────────────────────────────────────────────────
 
     {
         id: 'guatapori',
         nom: 'Guatapori',
         type: 'ville',
-        rang: '2',
+        rang: '3',
         territoire: 'nouvelle-grenade',
         coords: [5574, 4024],
         // ⚠️ Probablement un bourg ou mission de l'intérieur de la Guajira,
@@ -2580,7 +2670,7 @@ La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas
         note_mj: `⚠️ Identification incertaine — "Guatapori" non retrouvé avec certitude dans les sources coloniales néogrenadines. Pourrait correspondre à un bourg wayuu ou à une mission éphémère.`,
     },
 
-// ── 72. SAN CRISTÓBAL ────────────────────────────────────────────────────────
+// ── SAN CRISTÓBAL ────────────────────────────────────────────────────────
 
     {
         id: 'san-cristobal-tachira',
@@ -2608,7 +2698,7 @@ La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas
 Appartenance à la Nouvelle-Grenade pour cette période : établi — la province du Táchira relève de la Real Audiencia de Santa Fe, non de Caracas.`,
     },
 
-// ── 73. PAMPLONA ─────────────────────────────────────────────────────────────
+// ── PAMPLONA ─────────────────────────────────────────────────────────────
 
     {
         id: 'pamplona-colombia',
@@ -2632,14 +2722,14 @@ Appartenance à la Nouvelle-Grenade pour cette période : établi — la provinc
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 74. SERRANÍA DE OPÓN ─────────────────────────────────────────────────────
+// ── SERRANÍA DE OPÓN ─────────────────────────────────────────────────────
 
     {
         id: 'mont-opon',
         nom: 'Serranía de Opón',
         label: 'Mont de Opon',
-        type: 'site',
-        rang: '2',
+        type: 'site_geo',
+        rang: '1',
         territoire: 'nouvelle-grenade',
         coords: [5499, 4752],
 
@@ -2654,14 +2744,14 @@ Appartenance à la Nouvelle-Grenade pour cette période : établi — la provinc
 ✅ Zone non colonisée en 1712, nations indiennes non soumises : cohérent avec les sources sur la région.`,
     },
 
-// ── 75. PORTETE / CÔTE DE LA GUAJIRA ─────────────────────────────────────────
+// ── PORTETE / CÔTE DE LA GUAJIRA ─────────────────────────────────────────
 
     {
         id: 'portete',
         nom: 'Portete (Conquibacoa)',
         label: 'Portete',
-        type: 'site',
-        rang: '2',
+        type: 'site_geo',
+        rang: '1',
         territoire: 'nouvelle-grenade',
         coords: [5725, 3758],
         // ⚠️ Regroupe "Portete" et "Conquibaco" de la Jaillot — deux noms
@@ -2713,37 +2803,691 @@ Appartenance à la Nouvelle-Grenade pour cette période : établi — la provinc
 À ne pas confondre avec Mérida du Yucatán (id: 'merida' dans villes-data.js).`,
     },
 
-// ── MARIQUITA ──────────────────────────────────────────────────────────────
+// ── MARACAIBO ────────────────────────────────────────────────────────
+ 
+    {
+        id: 'maracaibo',
+        nom: 'Maracaibo',
+        type: 'port',
+        territoire: 'nouvelle-grenade',
+        coords: [5932, 4020],
+
+        contexte: `Maracaibo s'étend sur la rive occidentale du lac du même nom, accessible depuis la mer par un chenal étroit gardé par le <strong>Fort San Carlos de la Barra</strong>. Cette géographie en fait une position structurellement difficile à attaquer et facile à bloquer — Morgan l'a pourtant pillée deux fois (1666 et 1669), la seconde fois en brûlant la flotte espagnole qui lui barrait la retraite.
+
+La ville vit du cacao de la région — l'un des meilleurs des Caraïbes — exporté en contrebande vers Curaçao et les Antilles hollandaises autant que légalement. Le gouverneur de Venezuela exerce une autorité nominale sur Maracaibo, mais l'éloignement lui confère une autonomie de fait considérable.`,
+
+        population: `~5 000 habitants`,
+
+        garnison: `Fort San Carlos de la Barra (entrée du lac) : ~80 soldats.`,
+
+        note_mj: `✅ Deux raids de Morgan (1666, 1669) — second raid avec destruction de la flotte espagnole : établi (Exquemelin).<br>
+✅ Fort San Carlos de la Barra : établi.<br>
+✅ Commerce interlope cacao → Curaçao : établi (carte-data.js, venezuela).<br>
+⚠️ Garnison : estimation par analogie avec les places secondaires vénézuéliennes.`,
+    },
+
+// ── RELAIS FLUVIAUX DU MAGDALENA MOYEN-SUPÉRIEUR ─────────────────────
 
     {
-        id: 'mariquita',
-        nom: 'Mariquita',
-        label: 'Mariguetta',
+        id: 'relais-magdalena',
+        nom: 'Relais du Magdalena',
+        label: 'Apuerto / El Desembarcadero / Plasencia / Trinidad',
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-grenade',
-        coords: [5113, 5021],
-        // ⚠️ "Mariguetta" sur la Jaillot — identification avec Mariquita
-        // confirmée par la position sur la carte moderne par rapport à Bogotá.
-        // Plus importante que les relais fluviaux en aval (Trinidad, Plasencia,
-        // El Desembarcadero) — entrée dédiée justifiée.
+        coords: [5112, 4850],
+        // ⚠️ Quatre toponymes de la colonne 3 (Jaillot) sur le Magdalena
+        // moyen-supérieur, entre Tamalameque et l'intérieur du Nuevo Reino.
+        // Aucun n'est identifié avec certitude comme ville majeure dans les
+        // sources coloniales — regroupés en entrée de zone.
 
         contexte: [
             {
                 de: 1712,
-                texte: `Ville du Magdalena supérieur, fondée en 1551 au pied de la cordillère centrale, sur la route fluviale entre Bogotá et Carthagène. Mariquita est l'étape clé de la navigation entre la capitale du Nuevo Reino et la côte Caraïbe : c'est ici que les voyageurs et les marchandises descendant depuis Bogotá rejoignent le Magdalena navigable, avant de s'embarquer sur les pirogues qui les porteront vers Mompox et Carthagène. La ville est aussi un centre d'exploitation minière — ses mines d'or et d'argent ont été parmi les plus actives du XVIe siècle, aujourd'hui en déclin mais encore en activité partielle.
+                texte: `Le río Magdalena entre Tamalameque et Honda est jalonné de relais, embarcadères et bourgades fluviales dont les noms varient selon les cartes et les sources. Ces postes — "Apuerto", "El Desembarcadero" (le débarquement), "Plasencia", "Trinidad" — sont moins des villes que des fonctions : points de transbordement, de ravitaillement en eau douce, d'attente entre deux sections du fleuve. Le Magdalena est ici un fleuve de méandres et de bancs de sable changeants, navigable seulement par des pirogues et des chaloupes à fond plat conduites par des bateliers locaux qui connaissent chaque passe.
 <br><br>
-Mariquita est entourée de forêts tropicales d'altitude où pousse le quinquina (<em>Cinchona</em>) — l'écorce dont on tire la quinine, remède contre la fièvre paludéenne. La plante est encore peu exploitée systématiquement en 1712, mais les Jésuites en ont compris la valeur médicale depuis le siècle précédent et la "poudre des Jésuites" commence à circuler en Europe.`,
+Ces relais constituent l'épine dorsale du commerce intérieur de la Nouvelle-Grenade : tout ce qui monte de Carthagène vers Bogotá, et tout ce qui descend des provinces andines vers la côte, passe par ces embarcadères entre lesquels les marchandises sont transbordées, les mules remplacées par des pirogues, et les voyageurs rançonnés par des bateliers indispensables.`,
+            },
+        ],
+
+        note_mj: `⚠️ Apuerto, El Desembarcadero, Plasencia, Trinidad (Magdalena) : aucun de ces quatre toponymes n'est identifié avec certitude comme établissement colonial notable dans les sources accessibles. Présents sur la Jaillot comme jalons de la navigation fluviale — regroupés en entrée de zone faute de documentation individuelle suffisante.
+Si la carte les place à des positions clairement espacées et distinctes, des entrées minimales individuelles pourront être créées ultérieurement.`,
+    },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE VENEZUELA
+// ═══════════════════════════════════════════════════════════
+
+// ── LAC MARACAIBO ───────────────────────────────────────────────────────
+
+    {
+        id: 'lac-maracaibo',
+        nom: 'Lac Maracaibo',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [5985, 4128],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Vaste étendue d'eau saumâtre reliée à la mer des Caraïbes par un détroit resserré gardé par le Fort San Carlos de la Barra — en réalité moins un lac qu'un golfe intérieur de 13 000 km², accessible depuis la mer par un chenal de quelques kilomètres de large. Ses rives portent les cacaoyers et les élevages qui font la richesse des provinces de Mérida, Trujillo et Maracaibo. La navigation sur le lac est assurée par des pirogues indiennes et des barques à fond plat qui relient les bourgades côtières.
+<br><br>
+Morgan a pillé Maracaibo à deux reprises — en 1666 et en 1669. Lors de la seconde expédition, il a brûlé la flotte espagnole qui lui barrait la retraite, forçant le passage sous les canons du fort en une manœuvre audacieuse. Le souvenir de ces raids est vif en 1712 — et le Fort San Carlos, renforcé depuis, est la seule défense du lac contre toute attaque venue de la mer.`,
+            },
+        ],
+
+        note_mj: `✅ Raids de Morgan en 1666 et 1669, destruction de la flotte espagnole : établi (Exquemelin).
+✅ Fort San Carlos de la Barra comme unique accès depuis la mer : établi — voir entrée 'maracaibo'.
+✅ Nature saumâtre du lac (golfe intérieur) : établi géographiquement.`,
+    },
+
+// ── CORO ─────────────────────────────────────────────────────────────────
+
+    {
+        id: 'coro',
+        nom: 'Coro (Santa Ana de Coro)',
+        label: 'Coro o Venezuela',
+        type: 'ville',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6025, 3997],
+        // ⚠️ La Jaillot indique "Coro o Venezuela (aux Hollandois)" —
+        // mention remarquable de l'influence hollandaise de facto sur la ville.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Première capitale du Venezuela colonial, fondée en 1527 — la plus ancienne ville permanente du Venezuela actuel. Coro a perdu sa primauté au profit de Caracas depuis 1578, mais elle reste le chef-lieu de la province de Coro et un point d'ancrage sur la côte. La mention de la Jaillot — "<em>aux Hollandois</em>" — dit l'essentiel : Coro est à portée de Curaçao, et la ville entretient des relations commerciales si étroites avec les marchands hollandais que son appartenance espagnole est en partie nominale. Marchandises européennes, esclaves africains, cacao vénézuélien — tout transite par ces canaux informels sans que les autorités de Caracas y puissent grand chose.`,
             },
         ],
 
         population: `~4 000 habitants`,
 
-        note_mj: `✅ Fondation 1551, position sur la route Bogotá–Carthagène via le Magdalena : établi.
-✅ Mines d'or et d'argent actives au XVIe siècle, en déclin au XVIIIe : établi (McFarlane, <em>Colombia before Independence</em>, 1993).
-✅ Quinquina dans les forêts environnantes, "poudre des Jésuites" : établi — la quinine de cette région sera systématiquement étudiée par la mission botanique de Mutis à la fin du XVIIIe siècle.
+        note_mj: `✅ Fondation 1527, première capitale du Venezuela : établi.
+✅ Commerce hollandais structurel via Curaçao : établi (Klooster, <em>Illicit Riches</em>, 1998).
+✅ Mention "aux Hollandois" sur la Jaillot : donnée cartographique primaire — reflet de la réalité commerciale perçue par un cartographe français de 1708.
 ⚠️ Population en 1712 : estimation.`,
     },
+
+// ── CARACAS ──────────────────────────────────────────────────────────────
+
+    {
+        id: 'caraccos',
+        nom: 'Caracas (Santiago de León de Caracas)',
+        label: 'Caraccos / St Iago de Leon',
+        capitale: true,
+        type: 'ville',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6460, 4156],
+        // ⚠️ La Jaillot distingue "Caraccos" (zone côtière / La Guaira)
+        // et "St Iago de Leon" (la ville proprement dite, au sud dans la vallée,
+        // sur le lac de Tocarigua). La Guaira est déjà documentée dans villes-data.js
+        // (entrée 'la-guaira'). Cette entrée couvre la ville de Caracas elle-même.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de la province du Venezuela, fondée en 1567 dans une vallée à 900 mètres d'altitude, séparée de la côte Caraïbe par une muraille de montagnes que seul un chemin de montagne raide relie à La Guaira. Cette géographie isole Caracas des attaques maritimes — Drake et les flibustiers ont toujours préféré rançonner les ports côtiers plutôt que d'escalader la sierra. La ville est le siège du gouverneur de la province du Venezuela et de la Compagnie de Caracas (Real Compañía Guipuzcoana, fondée en 1728 — mais dont la création est déjà discutée à Madrid pour contrer la contrebande hollandaise).
+<br><br>
+L'économie de Caracas repose sur le cacao des vallées côtières, acheminé vers La Guaira puis vers Veracruz ou directement vers l'Espagne. Le commerce interlope avec Curaçao est structurel — les autorités le tolèrent faute de moyens pour l'interdire.`,
+            },
+        ],
+
+        population: `~6 000 habitants`,
+
+        note_mj: `✅ Fondation 1567, capitale de la province du Venezuela : établi.
+✅ Séparation géographique de la côte par la sierra — protection naturelle : établi.
+✅ Commerce du cacao, contrebande avec Curaçao : établi (Klooster, 1998).
+✅ Real Compañía Guipuzcoana : fondée en 1728 — hors période mais dans l'horizon du jeu.
+⚠️ Population en 1712 : estimation.
+La Guaira (port de Caracas) est documentée séparément dans villes-data.js (entrée 'la-guaira').`,
+    },
+
+// ── CARABALLEDA ──────────────────────────────────────────────────────────
+
+    {
+        id: 'caraballeda',
+        nom: 'Nuestra Señora de Caraballeda',
+        label: 'N.S. de Carvalleda',
+        type: 'port',
+        rang: '3',
+        territoire: 'venezuela',
+        coords: [6495, 4103],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ancien port de Caracas sur la côte Caraïbe, fondé en 1548 — le premier débarcadère espagnol de la région avant que La Guaira ne le supplante définitivement. En 1712, Caraballeda n'est plus qu'un village de pêcheurs sur une plage exposée, sans défense ni commerce notable. Son intérêt est historique : c'est ici que débarquaient les colons et les marchandises à destination de Caracas avant la construction du chemin muletier vers La Guaira. La ville a été saccagée par des pirates plusieurs fois au XVIIe siècle — sa vulnérabilité structurelle (rade ouverte, pas de fort) explique son déclin.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `✅ Fondation 1548, ancien port de Caracas supplantépar La Guaira : établi.
+⚠️ État précis en 1712 : déclin confirmé, détails peu documentés.`,
+    },
+
+// ── OCUMARE / CÔTE CENTRALE ──────────────────────────────────────────────
+
+    {
+        id: 'otchierado',
+        nom: 'Ocumare de la Costa',
+        label: 'Otchierado',
+        type: 'port',
+        rang: '3',
+        territoire: 'venezuela',
+        coords: [6636, 4088],
+        // ⚠️ "Otchierado" — déformation probable d'Ocumare ou d'un village
+        // côtier entre Caraballeda et Barcelona. Identification incertaine.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Village côtier sur la côte centrale du Venezuela, entre La Guaira et Cumaná. La côte vénézuélienne entre Caracas et Cumaná est une succession de baies et de caps peu peuplés, fréquentés par les pêcheurs locaux et les navires de contrebande qui évitent La Guaira. Cacao et écailles de tortue sortent par ces anses discrètes vers Curaçao et les Antilles françaises.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `⚠️ "Otchierado" : identification avec Ocumare de la Costa probable mais non certaine. La déformation phonétique est importante — pourrait désigner un village différent sur la côte centrale vénézuélienne.`,
+    },
+
+// ── BARCELONA (COMANAGOTTA) ───────────────────────────────────────────────
+
+    {
+        id: 'barcelona-venezuela',
+        nom: 'Barcelona',
+        label: 'Comanagotta',
+        type: 'port',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6711, 4098],
+        // ⚠️ Position sur la Jaillot entre Caraballeda et Cumaná, côte centrale.
+        // Identification probable avec Barcelona de Anzoátegui (fondée 1671).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port de la côte centrale vénézuélienne, fondé en 1671 sur la baie de Pozuelos. Barcelona est encore une ville jeune en 1712 — à peine quarante ans d'existence, une communauté de colons créoles et de pêcheurs autour d'une rade commode. Sa position entre La Guaira et Cumaná en fait une escale naturelle sur la navigation côtière. Le cacao des vallées de l'arrière-pays commence à transiter par son port, annonçant une prospérité future.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `⚠️ Identification de "Comanagotta" avec Barcelona de Anzoátegui : probable d'après la position géographique. Barcelona est fondée en 1671 — la phonétique ne correspond pas au nom colonial, "Comanagotta" pourrait désigner un nom local ou une déformation d'un village antérieur.
+✅ Fondation de Barcelona en 1671 : établi.`,
+    },
+
+
+// ── TRUJILLO (ANDES) ─────────────────────────────────────────────────────
+
+    {
+        id: 'trujillo-andes',
+        nom: 'Trujillo (Nuestra Señora de la Paz)',
+        label: 'Trugillo ò N.S. della Faz',
+        type: 'ville',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [5994, 4602],
+        // ⚠️ Trujillo andin — zone montagneuse sur l'axe San Cristóbal–Tucuyo.
+        // À distinguer de "Truxillo" (rive sud du lac Maracaibo, entrée séparée).
+        // La Jaillot distingue deux établissements portant ce nom à des latitudes
+        // très différentes.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville andine fondée en 1557 dans les hauteurs de la cordillère vénézuélienne, sous le nom complet de Trujillo de Nuestra Señora de la Paz. La ville a été déplacée et refondée plusieurs fois avant de trouver son emplacement définitif — une instabilité due aux tremblements de terre et aux raids des nations indiennes non soumises. Trujillo est le centre administratif d'une région de montagne productrice de blé et d'élevage, sur la route entre San Cristóbal au sud-ouest et El Tocuyo au nord-est. Son altitude lui vaut un climat tempéré apprécié dans cette Amérique tropicale.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation 1557, déplacements multiples, nom complet incluant "de la Paz" : établi.
+⚠️ À distinguer de "Truxillo" lacustre (rive sud du lac Maracaibo) — la Jaillot semble distinguer les deux, mais les deux noms créent une confusion persistante dans les sources cartographiques.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── TRUXILLO (LAC MARACAIBO) ─────────────────────────────────────────────
+
+    {
+        id: 'truxillo-maracaibo',
+        nom: 'Truxillo (lac Maracaibo)',
+        label: 'Truxillo',
+        type: 'port',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6056, 4291],
+        // ⚠️ Extrémité sud du lac Maracaibo, ENE de Mérida sur la Jaillot.
+        // Probablement Gibraltar de Venezuela, principal port lacustre du sud
+        // du lac Maracaibo, connu sous ce nom cartographique alternatif.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port lacustre sur la rive méridionale du lac Maracaibo, à l'embouchure des rivières descendant des Andes de Mérida et de Trujillo. Ce poste collecte le cacao, le blé et les produits andins avant de les acheminer par barque vers Maracaibo et la mer Caraïbe. C'est par ce port que transitent les richesses agricoles des provinces de Mérida et de Trujillo — une route fluviale lacustre qui supplée l'absence de route terrestre praticable entre les Andes et la côte.
+<br><br>
+Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son second raid en 1669 — cherchant des fugitifs et des richesses cachées dans l'arrière-pays.`,
+            },
+        ],
+
+        population: `~1 500 habitants`,
+
+        note_mj: `⚠️ Identification avec Gibraltar de Venezuela (principal port lacustre du sud du Maracaibo) : probable — "Truxillo" sur la Jaillot à cet emplacement crée une confusion avec la ville andine. Gibraltar est le nom habituellement documenté pour ce port.
+✅ Morgan au lac Maracaibo en 1669, exploration des rives méridionales : établi (Exquemelin).
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── CARORA ───────────────────────────────────────────────────────────────
+
+    {
+        id: 'portilla-de-carrora',
+        nom: 'Carora (Ciudad del Portillo de Carora)',
+        label: 'Portilla de Carrora',
+        type: 'ville',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6101, 4317],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville coloniale fondée en 1569 dans une vallée semi-aride des contreforts andins, à mi-chemin entre Maracaibo et Barquisimeto. Carora contrôle un col important — son "portillo" (passage étroit) — sur la route entre le lac Maracaibo et l'intérieur du Venezuela. La ville vit d'un élevage caprin adapté aux conditions sèches de la région, et d'un commerce de transit. Sa position lui vaut un rôle de relais pour les marchandises circulant entre Coro, Maracaibo et El Tocuyo.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Fondation 1569, nom complet "Ciudad del Portillo de Carora" : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── VALENCIA ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'valencia-venezuela',
+        nom: 'Nueva Valencia del Rey',
+        label: 'Tieujo Nueva Valentia',
+        type: 'ville',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6287, 4181],
+        // ⚠️ "Tieujo" dans le nom sur la Jaillot pourrait désigner le lago de
+        // Tacarigua (lac de Valencia) qui borde la ville à l'est.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Deuxième ville du Venezuela colonial, fondée en 1555 dans la vallée de Carabobo, entre le lac de Tacarigua et les contreforts andins. Nueva Valencia del Rey est un centre agricole et d'élevage prospère, sur la route principale reliant Caracas à l'ouest du pays. Sa position dans une vallée fertile et tempérée lui vaut une population plus dense que bien des villes côtières. Le lac de Tacarigua, visible depuis la ville, alimente une pêcherie locale et sert de réservoir pour les terres agricoles environnantes.`,
+            },
+        ],
+
+        population: `~6 000 habitants`,
+
+        note_mj: `✅ Fondation 1555, deuxième ville du Venezuela colonial : établi.
+✅ Lago de Tacarigua (lac de Valencia) à proximité : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── LAC DE TACARIGUA ─────────────────────────────────────────────────────
+
+    {
+        id: 'lac-tacarigua',
+        nom: 'Lac de Tacarigua (lac de Valencia)',
+        label: 'Lac de Tocarigua',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6368, 4192],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Lac endoréique (sans exutoire vers la mer) dans la vallée de Carabobo, à l'ouest de Caracas. Le lac de Tacarigua — nom indigène carib, "Valencia" dans les sources espagnoles — est le plus grand lac d'eau douce du Venezuela. Ses eaux poissonneuses nourrissent les communautés riveraines ; ses rives basses et fertiles portent des cultures irriguées. Le lac n'a aucun débouché maritime — les navires ne peuvent y accéder — mais il structure la géographie humaine de toute la région centrale du Venezuela.`,
+            },
+        ],
+
+        note_mj: `✅ Lac de Tacarigua = lac de Valencia, lac endoréique : établi.
+✅ Plus grand lac d'eau douce du Venezuela : établi.`,
+    },
+
+// ── NIRGUA (NUEVA XERTZ) ─────────────────────────────────────────────────
+
+    {
+        id: 'nueva-xertz',
+        nom: 'Nirgua (Nueva Jerez)',
+        label: 'Nueva Xertz',
+        type: 'ville',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6297, 4329],
+        // ⚠️ Latitude de Carora, longitude du lac de Tacarigua,
+        // contreforts des "Monts de St Pedro". Identification avec Nirgua
+        // (fondée 1628 sous le nom Nueva Jerez de la Frontera) : solide.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville fondée en 1628 sous le nom de Nueva Jerez de la Frontera, dans les contreforts des Andes au sud-ouest du lac de Tacarigua. Nirgua est un poste frontière — comme son nom l'indique — à la limite entre les terres colonisées de la côte et les territoires des nations indiennes de l'intérieur. La ville vit d'un élevage extensif et d'une agriculture vivrière, sur une route secondaire reliant Valencia à El Tocuyo. Ses habitants font régulièrement face aux raids des Jirajara et des Ayamán, nations indiennes qui résistent à la colonisation dans les montagnes voisines.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `✅ Fondation 1628 sous le nom Nueva Jerez de la Frontera : établi.
+✅ Résistance des Jirajara et Ayamán dans la région : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── BARQUISIMETO (NUEVA SEGOVIA) ─────────────────────────────────────────
+
+    {
+        id: 'barquisimeto',
+        nom: 'Barquisimeto (Nueva Segovia)',
+        label: 'Nueva Segovia',
+        type: 'ville',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6302, 4504],
+        // ⚠️ À distinguer de Nueva Segovia hondurienne (id: 'nueva-segovia')
+        // et nicaraguayenne. Fondée en 1552 sous le nom Nueva Segovia,
+        // rebaptisée Barquisimeto. La Jaillot la désigne encore par son
+        // nom de fondation.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Fondée en 1552 sous le nom de Nueva Segovia, troisième ville du Venezuela colonial en ancienneté après Coro et El Tocuyo. La ville — connue aujourd'hui sous le nom de Barquisimeto — est le centre d'une région agricole productive dans la vallée du río Turbio. Carrefour des routes entre Coro au nord, Valencia à l'est, El Tocuyo au sud et Maracaibo à l'ouest, Barquisimeto est un nœud commercial de l'intérieur vénézuélien. Ses marchés redistribuent les marchandises entre la côte et les provinces andines.`,
+            },
+        ],
+
+        population: `~5 000 habitants`,
+
+        note_mj: `✅ Fondation 1552 sous le nom Nueva Segovia, rebaptisée Barquisimeto : établi.
+✅ Troisième ville en ancienneté au Venezuela, après Coro et El Tocuyo : établi.
+⚠️ Population en 1712 : estimation.
+À ne pas confondre avec Nueva Segovia hondurienne (id: 'nueva-segovia') ni nicaraguayenne.`,
+    },
+
+// ── EL TOCUYO ────────────────────────────────────────────────────────────
+
+    {
+        id: 'tucuyo',
+        nom: 'El Tocuyo',
+        label: 'Tucuyo',
+        type: 'ville',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6239, 4578],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Première capitale de la province du Venezuela, fondée en 1545 — la plus ancienne ville de l'intérieur vénézuélien. El Tocuyo a joué un rôle fondateur dans la colonisation du Venezuela : c'est depuis ici que sont parties la plupart des expéditions qui ont fondé Caracas, Valencia, Barquisimeto et Mérida. La ville a perdu sa primauté politique au profit de Caracas depuis 1578, mais elle reste un centre agricole important — ses vignes, ses oliviers et ses cultures céréalières en font le "grenier" de la province de Lara. L'évêché itinérant du Venezuela y a longtemps résidé avant de s'établir définitivement à Caracas.`,
+            },
+        ],
+
+        population: `~5 000 habitants`,
+
+        note_mj: `✅ Fondation 1545, première capitale du Venezuela colonial : établi.
+✅ Rôle de base de départ pour les fondations de Caracas, Valencia, Barquisimeto, Mérida : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── MONTS DE SAN PEDRO ───────────────────────────────────────────────
+
+    {
+        id: 'monts-san-pedro',
+        nom: 'Monts de San Pedro',
+        label: 'Monts de St Pedro',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'venezuela',
+        coords: [6287, 4400],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ensemble de reliefs modestes courant entre Carora à l'ouest et Nirgua à l'est — ce que la géographie moderne appelle le <strong>macizo de Nirgua</strong> et les serranías de Falcón-Lara. Ces collines et sierras d'altitude modeste (500 à 1 700 mètres) forment la transition entre la dépression de Barquisimeto-Carora au sud et la cordillère de la Costa au nord. Repère topographique pour les muletiers et voyageurs qui traversent l'intérieur vénézuélien — la route entre Carora, Barquisimeto et Valencia serpente à travers ces reliefs avant de descendre vers le lac de Tacarigua.
+<br><br>
+Ces montagnes sont le territoire des <strong>Jirajara</strong> et des <strong>Ayamán</strong> — deux nations indiennes de chasseurs-cueilleurs organisées en bandes sous l'autorité de caciques, qui ont résisté à la colonisation espagnole depuis le XVIe siècle. Les Ayamán occupent le sud de Falcón et une grande partie du Lara ; les Jirajara les montagnes de Nirgua et du Yaracuy. Leurs raids sur les bourgades espagnoles voisines — Nirgua en particulier — sont une réalité permanente que les autorités de Caracas n'ont jamais réussi à endiguer durablement.`,
+            },
+        ],
+
+        note_mj: `✅ Macizo de Nirgua et serranías de Falcón-Lara comme relief entre Carora et Nirgua : établi.
+✅ Jirajara et Ayamán dans les montagnes de Nirgua et du Lara : établi (sources vénézuéliennes concordantes).
+✅ Raids sur Nirgua, résistance à la colonisation : établi — voir entrée 'nirgua'.
+⚠️ Britannica signale les Jirajara comme "éteints dès le milieu du XVIIe siècle" — en contradiction avec les sources vénézuéliennes qui les mentionnent jusqu'au XVIIIe siècle. La réalité est probablement un déclin sévère plutôt qu'une extinction totale ; les Ayamán sont mieux documentés pour la période 1712.
+⚠️ "Monts de San Pedro" : présent sur la Jaillot, non retrouvé sous ce nom dans les sources modernes — désigne probablement une partie des serranías Falcón-Lara.`,
+    },
+
+// ═══════════════════════════════════════════════════════════
+// SÉRIE NOUVELLE-ANDALOUSIE
+// ═══════════════════════════════════════════════════════════
+
+// ── 90. ARAYA ────────────────────────────────────────────────────────────────
+
+    {
+        id: 'santiago-de-araya',
+        nom: 'Araya (Santiago de Araya)',
+        label: 'St Iago',
+        type: 'site',
+        rang: '2',
+        territoire: 'nouvelle-andalousie',
+        coords: [6890, 4048],
+        // ⚠️ Position des actuelles Araya — péninsule et salines.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Péninsule aride à l'entrée du golfe de Cariaco, en face de Cumaná — et site des plus grandes salines naturelles des Caraïbes. Les salines d'Araya ont été au cœur d'un conflit commercial et militaire majeur au XVIIe siècle : les navires hollandais venaient y charger du sel en masse sans payer de droits, défiant le monopole espagnol. Madrid a construit le <strong>Castillo de Santiago de Araya</strong> en 1625 pour les en empêcher — une forteresse massive et coûteuse, délibérément démantelée en 1762 par les Espagnols eux-mêmes pour éviter qu'elle ne tombe aux mains des Anglais.
+<br><br>
+En 1712, le château est encore debout et partiellement en service, bien que la grande époque du conflit hollandais sur le sel soit révolue. La péninsule reste un repère de navigation incontournable à l'entrée du golfe de Cariaco.`,
+            },
+        ],
+
+        garnison: `Castillo de Santiago de Araya : ~60 soldats. Effectif réduit par rapport au XVIIe siècle — la menace hollandaise s'est atténuée.`,
+
+        note_mj: `✅ Salines d'Araya, conflit hollandais au XVIIe siècle, construction du Castillo de Santiago en 1625 : établi (Goslinga, <em>The Dutch in the Caribbean</em>, 1971).
+✅ Démantèlement du château par les Espagnols en 1762 : établi — hors période mais dans l'horizon du jeu.
+⚠️ Garnison en 1712 : estimation réduite par rapport aux effectifs du XVIIe siècle.`,
+    },
+
+// ── 91. MACURO ───────────────────────────────────────────────────────────────
+
+    {
+        id: 'macuro',
+        nom: 'Macuro (San José de Macuro)',
+        label: 'St Joseph',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-andalousie',
+        coords: [7262, 4019],
+        // ⚠️ Pointe extrême orientale de la péninsule de Paria.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Village à la pointe extrême orientale de la péninsule de Paria — le premier point du continent américain où Christophe Colomb a débarqué, lors de son troisième voyage en août 1498. Colomb a compris qu'il touchait un continent (et non une île) en observant le débit d'eau douce de l'Orénoque dans le golfe de Paria. Macuro est en 1712 un village de pêcheurs modeste, ignorant de sa place dans l'histoire — mais tout navigateur lettré qui mouille dans cette anse sait qu'il pose l'ancre là où l'Europe a découvert l'Amérique du Sud.`,
+            },
+        ],
+
+        population: `Quelques centaines d'habitants`,
+
+        note_mj: `✅ Débarquement de Colomb à Macuro en août 1498, premier contact européen avec le continent sud-américain : établi.
+✅ Déduction de Colomb sur le débit de l'Orénoque comme preuve d'un continent : établi (journaux de Colomb, troisième voyage).
+⚠️ État précis du village en 1712 : peu documenté.`,
+    },
+
+// ── 92. AROMAIA (ORÉNOQUE) ────────────────────────────────────────────────────
+
+    {
+        id: 'aromaia',
+        nom: 'Aromaia',
+        type: 'site',
+        rang: '2',
+        territoire: 'nouvelle-andalousie',
+        coords: [7326, 4462],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Territoire et nation arawak de l'Orénoque moyen, connu depuis l'expédition de Walter Raleigh en 1595. C'est ici que régnait le cacique Topiawari (Morequito), que Raleigh a rencontré et dont il a recueilli les récits sur El Dorado et la cité de Manoa. Aromaia est moins un lieu précis qu'une région — les méandres et les îles de l'Orénoque dans ce secteur forment un labyrinthe que les Arawaks connaissent par cœur et que les Espagnols ne maîtrisent pas. En 1712, la présence espagnole dans cette zone se limite à quelques missions jésuites précaires.`,
+            },
+        ],
+
+        note_mj: `✅ Expédition Raleigh 1595, rencontre avec Topiawari/Morequito : établi (Raleigh, <em>The Discoverie of the Large, Rich, and Bewtiful Empyre of Guiana</em>, 1595).
+✅ Légende d'El Dorado liée à cette région : établi comme tradition, non comme fait historique.
+⚠️ Missions jésuites dans la région en 1712 : présence probable, détails peu documentés.`,
+    },
+
+// ── 93. ARIACOA ──────────────────────────────────────────────────────────────
+
+    {
+        id: 'ariacoa',
+        nom: 'Ariacoa',
+        type: 'site',
+        rang: '2',
+        territoire: 'nouvelle-andalousie',
+        coords: [7043, 4475],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Village ou mission sur l'Orénoque, dans la région de la Nouvelle-Andalousie. La zone entre Cumaná et l'Orénoque inférieur est en 1712 une frontière mouvante entre l'autorité espagnole — représentée par quelques missions capucines et jésuites — et les nations indiennes de l'Orénoque qui n'ont jamais été soumises. Ariacoa est l'un de ces postes précaires, dont l'existence dépend de la tolérance des nations locales.`,
+            },
+        ],
+
+        note_mj: `⚠️ Ariacoa : peu documenté — village ou mission de l'Orénoque inférieur, identification précise incertaine.`,
+    },
+
+// ── 94. SANTO TOMÉ DE GUAYANA ────────────────────────────────────────────────
+
+    {
+        id: 'st-thomas-guayana',
+        nom: 'Santo Tomé de Guayana',
+        label: 'St Thomas',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-andalousie',
+        coords: [7173, 4736],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Poste espagnol à la confluence de l'Orénoque et du río Caroní, fondé en 1595 — le même année où Raleigh remontait l'Orénoque à la recherche d'El Dorado. Santo Tomé est la porte d'entrée vers l'Orénoque supérieur et les llanos vénézuéliens. C'est ici que transitent les quelques marchandises qui descendent de l'intérieur — peaux, résines, quelques grammes d'or alluvionnaire — et que les missions jésuites et capucines de l'Orénoque s'approvisionnent.
+<br><br>
+La ville a été attaquée et brûlée par Raleigh en 1617 lors de son second voyage — expédition qui s'est soldée par un désastre : son fils y a été tué, il n'a trouvé ni or ni El Dorado, et il a été décapité à son retour en Angleterre. Le souvenir de ce raid marque encore les habitants.`,
+            },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `✅ Fondation 1595, position au confluent Orénoque–Caroní : établi.
+✅ Raid de Raleigh en 1617, mort de son fils, décapitation de Raleigh à Londres : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+// ── 95. MACUREVOARI ──────────────────────────────────────────────────────────
+
+    {
+        id: 'macurevoari',
+        nom: 'Macurevoari',
+        type: 'site',
+        rang: '2',
+        territoire: 'nouvelle-andalousie',
+        coords: [7224, 4634],
+        // ⚠️ Nord-nord-est de Santo Tomé, sur le lac de Caslipa
+        // (probablement le lac Capanaparo ou un lac des llanos de l'Orénoque).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Village ou mission sur les rives d'un lac des llanos de l'Orénoque, au nord-nord-est de Santo Tomé de Guayana. Les llanos sont en 1712 une zone quasi-inexplorée par les Espagnols : une immensité de savanes inondables en saison des pluies, peuplée de nations indiennes indépendantes — Achaguas, Sálivas, Guahibos — que les missions jésuites tentent de rassembler dans des <em>reducciones</em>. Les lacs des llanos sont des réservoirs de poissons et de caïmans, et des repères de navigation pour les pirogues indiennes.`,
+            },
+        ],
+
+        note_mj: `⚠️ Macurevoari : non identifié avec certitude dans les sources coloniales. Village ou mission des llanos de l'Orénoque — existence probable, détails inconnus.
+⚠️ "Lac de Caslipa" sur la Jaillot : identification incertaine — pourrait correspondre au lac Capanaparo ou à un lac des llanos aujourd'hui asséché ou renommé.`,
+    },
+
+// ── 96. MOREQUITO PORTUS ─────────────────────────────────────────────────────
+
+    {
+        id: 'morequito-portus',
+        nom: 'Porto Morequito',
+        label: 'Morequito Portus',
+        type: 'site',
+        rang: '2',
+        territoire: 'nouvelle-andalousie',
+        coords: [7086, 4870],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Mouillage de l'Orénoque associé au souvenir du cacique Morequito — chef arawak d'Aromaia rencontré par Walter Raleigh lors de son expédition de 1595. Raleigh décrit Morequito comme son principal informateur sur El Dorado et la cité de Manoa : c'est lui qui a nourri les récits de l'explorateur anglais sur les Incas réfugiés dans l'intérieur du continent. Le "porto" désigne probablement un méandre ou un bras mort de l'Orénoque utilisé comme mouillage protégé.
+<br><br>
+En 1712, le nom survit sur les cartes comme souvenir d'une rencontre qui a changé la perception européenne de l'Orénoque — mais le mouillage lui-même n'est qu'une rive de fleuve tropical sans établissement permanent.`,
+            },
+        ],
+
+        note_mj: `✅ Cacique Morequito / Topiawari, rencontre avec Raleigh en 1595 : établi (Raleigh, <em>Discoverie of Guiana</em>, 1595).
+✅ Rôle de Morequito comme informateur sur El Dorado dans le récit de Raleigh : établi.
+Le nom survit sur les cartes du XVIIIe siècle par tradition cartographique héritée de Raleigh.`,
+    },
+
+// ── 97. TUTERITONA ───────────────────────────────────────────────────────────
+
+    {
+        id: 'tuteritona',
+        nom: 'Tuteritona',
+        type: 'site',
+        rang: '3',
+        territoire: 'nouvelle-andalousie',
+        coords: [7130, 4780],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Village ou mission de l'Orénoque supérieur ou des llanos orientaux, dont le nom est une translittération d'un nom arawak ou carib non identifié avec certitude. La région est en 1712 une frontière active entre les missions jésuites de l'Orénoque et les nations indiennes non contactées de l'intérieur du continent. Ces postes précaires disparaissent et réapparaissent selon les violences, les épidémies et les retraits missionnaires.`,
+            },
+        ],
+
+        note_mj: `⚠️ Tuteritona : non identifié dans les sources coloniales accessibles. Village ou mission de l'Orénoque — existence présumée d'après la Jaillot, détails inconnus.`,
+    },
+
+
+// ── AJOUT : VERINA (CARIACO) ─────────────────────────────────────────────────
+
+    {
+        id: 'verina',
+        nom: 'Verina (Cariaco)',
+        label: 'Verina',
+        type: 'port',
+        rang: '2',
+        territoire: 'nouvelle-andalousie',
+        coords: [4884, 4103],
+        // ⚠️ Position sur la Jaillot : rive sud du golfe de Cariaco,
+        // au sud d'Araya et à l'est de Cumaná. Identification avec Cariaco
+        // (bourg colonial sur la côte intérieure du golfe) : probable d'après
+        // la géométrie cartographique — le golfe de Cariaco tire d'ailleurs
+        // son nom de cet établissement.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg sur la rive méridionale du golfe de Cariaco, eaux calmes et abritées à l'est de Cumaná. Le golfe de Cariaco — dont ce bourg a probablement donné le nom — est un plan d'eau encaissé entre la péninsule d'Araya au nord et la côte continentale au sud, à l'abri des vents et des houles de la Caraïbe ouverte. Ses eaux poissonneuses nourrissent les communautés côtières ; ses rives plantées de cacao et de tabac approvisionnent Cumaná. Un mouillage tranquille, loin des circuits commerciaux principaux, apprécié des navires qui veulent réparer ou attendre sans être vus depuis le large.`,
+            },
+        ],
+
+        population: `~1 500 habitants`,
+
+        note_mj: `⚠️ Identification de "Verina" avec Cariaco : probable d'après la position géographique sur la Jaillot — le golfe de Cariaco est la seule étendue d'eau cohérente avec le triangle Cumaná–Verina–Araya décrit par la carte. La phonétique "Verina" ne correspond pas directement à "Cariaco" — pourrait désigner un village distinct sur la même rive, aujourd'hui disparu ou renommé.
+⚠️ Population en 1712 : estimation.`,
+    },
+
 
 
     {
@@ -3235,54 +3979,6 @@ En 1712, il ne reste rien de Santa María sinon la mémoire et quelques ruines e
 ✅ Traversée de l'isthme et "découverte" du Pacifique par Balboa en 1513 : établi.
 ✅ Exécution de Balboa par Pedrarias Dávila et abandon de la ville en 1524 : établi.
 État en 1712 : ruines recouvertes par la jungle, site non habité.`,
-    },
-
-    {
-        id: 'bocachica',
-        label: 'Fort San Luis (Bocachica)',
-        nom: 'Castillo de San Luis de Bocachica',
-        type: 'fort',
-        rang: '2',
-        territoire: 'nouvelle-grenade',
-        coords: [4790, 4116],
-        tags: [`bocachica`, `San Luis`, `boca-chica`],
-
-        contexte: [
-            {
-                de: 1712, texte: `Le Fort Bocachica contrôle l'unique chenal navigable donnant accès à la baie intérieure de Carthagène ; les murailles de la ville, renforcées après le sac de Francis Drake (1586) et celui du baron de Pointis (1697), forment une enceinte quasi continue. La garnison est la plus nombreuse de toute la côte Caraïbe espagnole. Toute attaque navale sur Carthagène doit d'abord forcer ce passage.
-                <br><br>
-                En 1712, le fort est en état de fonctionnement, armé de canons commandant le chenal. À quelques kilomètres de la ville, c'est une position autonome avec sa propre garnison. Francisco de Meneses, président-gouverneur renversé par ses propres <em>oidores</em> (juges de la Real Audiencia) en 1715, y sera emprisonné après sa destitution.` },
-        ],
-
-        population: `Garnison uniquement`,
-
-        garnison: `~80 à 120 soldats. La position est complétée par le Fort San Fernando sur la rive opposée du chenal — ensemble ils forment le double verrou de la baie.`,
-
-        note_mj: `✅ Bocachica comme verrou de la baie de Carthagène : établi — rôle confirmé lors du siège de Vernon en 1741.<br>
-✅ Emprisonnement de Meneses à Bocachica après 1715 : carte-data.js (nouvelle-grenade).<br>
-⚠️ Fort San Fernando (rive opposée) : reconstruction principale postérieure à 1741 — statut précis en 1712 incertain.<br>
-⚠️ Garnison : estimation d'après McFarlane, <em>Colombia before Independence (1993)</em>.`,
-    },
- 
-    {
-        id: 'maracaibo',
-        nom: 'Maracaibo',
-        type: 'port',
-        territoire: 'nouvelle-grenade',
-        coords: [5932, 4020],
-
-        contexte: `Maracaibo s'étend sur la rive occidentale du lac du même nom, accessible depuis la mer par un chenal étroit gardé par le <strong>Fort San Carlos de la Barra</strong>. Cette géographie en fait une position structurellement difficile à attaquer et facile à bloquer — Morgan l'a pourtant pillée deux fois (1666 et 1669), la seconde fois en brûlant la flotte espagnole qui lui barrait la retraite.
-
-La ville vit du cacao de la région — l'un des meilleurs des Caraïbes — exporté en contrebande vers Curaçao et les Antilles hollandaises autant que légalement. Le gouverneur de Venezuela exerce une autorité nominale sur Maracaibo, mais l'éloignement lui confère une autonomie de fait considérable.`,
-
-        population: `~5 000 habitants`,
-
-        garnison: `Fort San Carlos de la Barra (entrée du lac) : ~80 soldats.`,
-
-        note_mj: `✅ Deux raids de Morgan (1666, 1669) — second raid avec destruction de la flotte espagnole : établi (Exquemelin).<br>
-✅ Fort San Carlos de la Barra : établi.<br>
-✅ Commerce interlope cacao → Curaçao : établi (carte-data.js, venezuela).<br>
-⚠️ Garnison : estimation par analogie avec les places secondaires vénézuéliennes.`,
     },
 
     {

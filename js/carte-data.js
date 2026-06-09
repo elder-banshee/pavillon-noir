@@ -1309,11 +1309,10 @@ Commerce de contrebande interlope (anglais, hollandais, français) comme seul ci
 Organisés en communautés villageoises autonomes dirigées chacune par un <em>sayla</em>, les Kunas ne forment pas un État centralisé mais une confédération de fait, liée par une culture commune et une résistance partagée à la colonisation espagnole. Marins accomplis dans l'archipel de San Blas, guerriers redoutables dans la forêt, ils ont repoussé toutes les tentatives espagnoles depuis le XVIe siècle — missions, présides, expéditions militaires. Ils entretiennent des rapports commerciaux discrets avec les pirates et boucaniers anglais : informations sur les galions espagnols, guidage dans les passes de l'archipel, contre armes et poudre. Cette relation n'est pas de la vassalité — les Kunas commercent sur un pied d'égalité qu'ils refusent à tout Européen colonial.`,
             },
 
-            // ── La mémoire écossaise ──────────────────────────────
+            // ── Trace écossaise ───────────────────────────────────
             {
                 de: 1712,
-                texte: `<strong>La mémoire écossaise :</strong><br>
-La carte Jaillot porte encore les noms <em>Nouvelle Calédonie</em> et <em>New Edinburgh</em> — traces de l'expédition du Darién (1698–1700), par laquelle la Compagnie écossaise tenta d'établir une colonie commerciale à l'entrée des deux océans. Deux tentatives successives se soldèrent par des milliers de morts — fièvre, dysenterie, famine — et une attaque espagnole finale en avril 1700. Les Kunas avaient accueilli les Écossais avec curiosité avant d'assister à leur effondrement ; ils récupérèrent les ruines. L'échec ruina la Compagnie d'Écosse et pesa directement sur l'Acte d'Union de 1707. Pour les personnages britanniques de la campagne, c'est une blessure nationale encore vive : douze ans, c'est la mémoire d'un père ou d'un oncle disparu là-bas. Les structures de bois de New Edinburgh ont disparu sous la végétation — mais les noms restent sur les cartes.`,
+                texte: `La Jaillot porte encore les noms <em>Nouvelle Calédonie</em> et <em>New Edinburgh</em> — traces d'une expédition écossaise dont les ruines ont été récupérées par les Kunas douze ans plus tôt. → voir <strong>New Edinburgh</strong>.`,
             },
         ],
 
