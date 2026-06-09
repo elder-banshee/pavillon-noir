@@ -2266,7 +2266,7 @@ function calculerPairesChevauchement() {
       );
       if (paire) pairesChevauchement.push(paire);
     } else {
-      // Cluster de 3+ → modale
+      // Cluster de 3+ → loupe
       clustersChevauchement.push({ ids: membres });
     }
   }
@@ -2338,19 +2338,24 @@ function ouvrirLoupe(villeId, containerPoint) {
 
   // Critère géométrique — dans whenReady, les projections sont exactes
   loupeInstance.whenReady(() => {
-    // Vérifier si l'icône cliquée est visible depuis le centroïde
-    const centroPx  = loupeInstance.latLngToContainerPoint(centroide);
-    const cliquePx  = loupeInstance.latLngToContainerPoint(latlngCentre);
-    const dxC = cliquePx.x - centroPx.x;
-    const dyC = cliquePx.y - centroPx.y;
-    const cliquéVisible = Math.sqrt(dxC * dxC + dyC * dyC) <= LOUPE_RAYON;
+    // Centroïde valide si toutes les icônes du cluster tiennent dans le rayon
+    const centroPx = loupeInstance.latLngToContainerPoint(centroide);
+    const membresPx = cluster
+      ? cluster.ids.map(id => markersVilles[id]?.getLatLng()).filter(Boolean)
+      : [latlngCentre];
+    const tousVisibles = membresPx.every(ll => {
+      const pt = loupeInstance.latLngToContainerPoint(ll);
+      const dx = pt.x - centroPx.x;
+      const dy = pt.y - centroPx.y;
+      return Math.sqrt(dx * dx + dy * dy) <= LOUPE_RAYON;
+    });
 
-    // Si l'icône cliquée sort du rayon → recentrer sur elle
-    if (!cliquéVisible) {
+    // Si le cluster ne tient pas dans le rayon → recentrer sur l'icône cliquée
+    if (!tousVisibles) {
       loupeInstance.setView(latlngCentre, LOUPE_ZOOM, { animate: false });
     }
 
-    const latlngFocus = cliquéVisible ? centroide : latlngCentre;
+    const latlngFocus = tousVisibles ? centroide : latlngCentre;
     const centrePx = loupeInstance.latLngToContainerPoint(latlngFocus);
     const taille = tailleIconeVille();
 
