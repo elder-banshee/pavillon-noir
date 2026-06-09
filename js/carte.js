@@ -833,7 +833,7 @@ function initRecherche() {
     if (fantome) fantome.textContent = '';
     if (!qTrim) { suggestions.innerHTML = ''; return; }
 
-    afficherSuggestions(q, suggestions);
+    afficherSuggestions(q, suggestions, fantome);
 
     if (fantome) {
       const premierItem = suggestions.querySelector('.carte-recherche-suggestion');
@@ -954,7 +954,7 @@ function initRecherche() {
   });
 }
 
-function afficherSuggestions(q, container) {
+function afficherSuggestions(q, container, fantome) {
   const qLow = normaliser(q);
   const resultats = [];
 

@@ -7,11 +7,11 @@
 
 const VILLES = [
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE CAROLINE DU SUD
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE CAROLINE DU SUD
+    // ═══════════════════════════════════════════════════════════
 
-// ── CHARLES TOWN ─────────────────────────────────────────────────────────────
+    // ── CHARLES TOWN ─────────────────────────────────────────────────────────────
 
     {
         id: 'charles-town',
@@ -65,11 +65,11 @@ const VILLES = [
 Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue par des palissades et deux batteries côtières modestes, insuffisantes face à une escadre.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE FLORIDE
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE FLORIDE
+    // ═══════════════════════════════════════════════════════════
 
-// ── SAN AGUSTÍN ─────────────────────────────────────────────────────────────
+    // ── SAN AGUSTÍN ─────────────────────────────────────────────────────────────
 
     {
         id: 'san-agustin',
@@ -94,7 +94,7 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
 ⚠️ Situation exacte en 1712–1714 : situado intercepté par les Anglais, famine documentée dans la correspondance de Córcoles (AGI).`,
     },
 
-// ── PENSACOLA ─────────────────────────────────────────────────────────────
+    // ── PENSACOLA ─────────────────────────────────────────────────────────────
 
     {
         id: 'pensacola',
@@ -129,11 +129,11 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
 Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été intégré par le cartographe.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE LOUISIANE  
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE LOUISIANE  
+    // ═══════════════════════════════════════════════════════════
 
-// ── MOBILE ─────────────────────────────────────────────────────────────
+    // ── MOBILE ─────────────────────────────────────────────────────────────
 
     {
         id: 'mobile',
@@ -165,7 +165,7 @@ Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été
 ✅ Mobile capitale jusqu'en 1718 : établi.`,
     },
 
-// ── NOUVELLE-ORLÉANS ─────────────────────────────────────────────────────────────
+    // ── NOUVELLE-ORLÉANS ─────────────────────────────────────────────────────────────
 
     {
         id: 'la-nouvelle-orleans',
@@ -186,11 +186,11 @@ Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été
 Pour la campagne : La Nouvelle-Orléans n'existe pas avant 1718 — tout événement antérieur dans la région se situe à Mobile ou dans les postes du Mississippi.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE PANUCO
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE PANUCO
+    // ═══════════════════════════════════════════════════════════
 
-// ── TAMPICO ─────────────────────────────────────────────────────────────
+    // ── TAMPICO ─────────────────────────────────────────────────────────────
 
     {
         id: 'tampico',
@@ -210,11 +210,11 @@ Pour la campagne : La Nouvelle-Orléans n'existe pas avant 1718 — tout événe
 ⚠️ Population : estimation.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE NOUVELLE-ESPAGNE
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE NOUVELLE-ESPAGNE
+    // ═══════════════════════════════════════════════════════════
 
-// ── MEXICO ─────────────────────────────────────────────────────────────────
+    // ── MEXICO ─────────────────────────────────────────────────────────────────
 
     {
         id: 'mexico',
@@ -246,7 +246,7 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
 ⚠️ Population ~100 000 : estimation couramment citée pour le début du XVIIIe siècle — recensements précis postérieurs.`,
     },
 
-// ── PUEBLA ─────────────────────────────────────────────────────────────────
+    // ── PUEBLA ─────────────────────────────────────────────────────────────────
 
     {
         id: 'los-angeles',
@@ -271,7 +271,7 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
 ⚠️ Population : estimation courante pour le début du XVIIIe siècle.`,
     },
 
-// ── JALAPA ────────────────────────────────────────────────────────────────
+    // ── JALAPA ────────────────────────────────────────────────────────────────
 
     {
         id: 'xalapa',
@@ -296,7 +296,7 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
 ⚠️ Population : estimation.`,
     },
 
-// ── OAXACA / ANTEQUERA ──────────────────────────────────────────────────── !!!
+    // ── OAXACA / ANTEQUERA ──────────────────────────────────────────────────── !!!
 
     {
         id: 'antequera',
@@ -306,7 +306,7 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
         type: 'ville',
         rang: '1',
         territoire: 'nouvelle-espagne',
-        coords: [1233,2795],
+        coords: [1233, 2795],
 
         contexte: [
             {
@@ -325,7 +325,7 @@ La province est administrée par des <em>alcaldes mayores</em> qui contrôlent l
     },
 
 
-// ── ACAPULCO ──────────────────────────────────────────────────────────────
+    // ── ACAPULCO ──────────────────────────────────────────────────────────────
 
     {
         id: 'acapulco',
@@ -333,7 +333,7 @@ La province est administrée par des <em>alcaldes mayores</em> qui contrôlent l
         type: 'port',
         rang: '1',
         territoire: 'nouvelle-espagne',
-        coords: [930, 3027 ],
+        coords: [930, 3027],
 
         contexte: [
             {
@@ -354,7 +354,7 @@ La ville elle-même est modeste — une rade exceptionnelle dans un climat meurt
 Le Galion de Manille est hors de portée des pirates des Caraïbes — mais son calendrier structure les flux commerciaux qui transitent ensuite par Veracruz.`,
     },
 
-// ── LA ANTIGUA (VILLA RICA) ───────────────────────────────────────────────
+    // ── LA ANTIGUA (VILLA RICA) ───────────────────────────────────────────────
 
     {
         id: 'antigua-veracruz',
@@ -380,7 +380,7 @@ Le Galion de Manille est hors de portée des pirates des Caraïbes — mais son 
 Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à La Antigua sait qu'il foule le premier sol espagnol de la Nouvelle-Espagne.`,
     },
 
-// ── VILLAHERMOSA ──────────────────────────────────────────────────────────
+    // ── VILLAHERMOSA ──────────────────────────────────────────────────────────
 
     {
         id: 'villahermosa',
@@ -409,7 +409,7 @@ Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à La Antigua s
 ⚠️ Gouverneur précis du Tabasco en 1712 : non identifié depuis les sources accessibles.`,
     },
 
-// ── TEHUACÁN ─────────────────────────────────────────────────────────
+    // ── TEHUACÁN ─────────────────────────────────────────────────────────
 
     {
         id: 'guaxaca',
@@ -475,7 +475,7 @@ En 1683, les flibustiers Lorencillo (Laurent de Graff) et Grammont s'emparent de
 ⚠️ Garnison : estimation d'après Archer, <em>The Army in Bourbon Mexico (1977)</em> — données postérieures aux réformes, couvre la période bourbonienne tardive — effectifs de 1712 probablement inférieurs.`,
     },
 
-// ── VILLADOLID (MICHOACÁN) ───────────────────────────────────────────────
+    // ── VILLADOLID (MICHOACÁN) ───────────────────────────────────────────────
 
     {
         id: 'villadolid-nouvelle-espagne',
@@ -504,7 +504,7 @@ En 1683, les flibustiers Lorencillo (Laurent de Graff) et Grammont s'emparent de
 La ville prendra le nom de Morelia en 1828, en hommage à José María Morelos, héros de l'indépendance mexicaine natif de la ville.`,
     },
 
-// ── PÁTZCUARO (MECHOACAN) ────────────────────────────────────────────
+    // ── PÁTZCUARO (MECHOACAN) ────────────────────────────────────────────
 
     {
         id: 'patzcuaro',
@@ -540,7 +540,7 @@ En 1712, ce système survit dans ses grandes lignes — les villages du lac Pát
 La spécialisation artisanale des villages du lac Pátzcuaro est encore vivante aujourd'hui — l'une des rares réussites durables du projet de Quiroga.`,
     },
 
-// ── MANZANILLO ───────────────────────────────────────────────────────────────
+    // ── MANZANILLO ───────────────────────────────────────────────────────────────
 
     {
         id: 'xiopa',
@@ -548,7 +548,7 @@ La spécialisation artisanale des villages du lac Pátzcuaro est encore vivante 
         type: 'port',
         rang: '2',
         territoire: 'nouvelle-espagne',
-        coords: [268,2524],
+        coords: [268, 2524],
         // ⚠️ "Xiopa" sur la Jaillot — identification avec Manzanillo (Colima)
         // d'après la position : baie fermée par un banc de sable ("a Alimcingo")
         // avec un fleuve à l'embouchure, au nord-ouest de Zacatula/Lázaro Cárdenas,
@@ -568,7 +568,7 @@ La spécialisation artisanale des villages du lac Pátzcuaro est encore vivante 
 ⚠️ Manzanillo ne devient un port formel qu'au XIXe siècle — en 1712, c'est un mouillage informel.`,
     },
 
-// ── ZACATULA ─────────────────────────────────────────────────────────────────
+    // ── ZACATULA ─────────────────────────────────────────────────────────────────
 
     {
         id: 'zacatula',
@@ -576,7 +576,7 @@ La spécialisation artisanale des villages du lac Pátzcuaro est encore vivante 
         type: 'port',
         rang: '2',
         territoire: 'nouvelle-espagne',
-        coords: [725,2844],
+        coords: [725, 2844],
         // ⚠️ À l'embouchure du río Balsas (plus grand fleuve côtier du Pacifique
         // mexicain), marquant la frontière entre l'Audience de Mexico et Tlascala
         // sur la Jaillot. Correspond à la zone de l'actuelle Lázaro Cárdenas
@@ -599,7 +599,7 @@ En 1712, Zacatula est retombée dans une modestie provinciale — le grand port 
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── PUERTO ESCONDIDO ─────────────────────────────────────────────────────────
+    // ── PUERTO ESCONDIDO ─────────────────────────────────────────────────────────
 
     {
         id: 'puerto-escondido',
@@ -608,7 +608,7 @@ En 1712, Zacatula est retombée dans une modestie provinciale — le grand port 
         type: 'port',
         rang: '2',
         territoire: 'nouvelle-espagne',
-        coords: [1227,3065],
+        coords: [1227, 3065],
 
         contexte: [
             {
@@ -623,7 +623,7 @@ En 1712, Zacatula est retombée dans une modestie provinciale — le grand port 
 🎲 Le nom "port caché" est lui-même un indice narratif — un lieu que les autorités ne surveillent pas, sur une côte que personne ne contrôle vraiment entre Acapulco et Tehuantepec.`,
     },
 
-// ── TEHUANTEPEC ──────────────────────────────────────────────────────────────
+    // ── TEHUANTEPEC ──────────────────────────────────────────────────────────────
 
     {
         id: 'tehuantepec',
@@ -632,7 +632,7 @@ En 1712, Zacatula est retombée dans une modestie provinciale — le grand port 
         type: 'ville',
         rang: '1',
         territoire: 'nouvelle-espagne',
-        coords: [1439,3235],
+        coords: [1439, 3235],
         // ⚠️ "Salinas" sur la Jaillot désigne les salines côtières à l'embouchure
         // du río Tehuantepec — le port de Salina Cruz. Tehuantepec elle-même est
         // dans les terres, à quelques kilomètres de la côte Pacifique.
@@ -660,7 +660,7 @@ La société téhuantepecaine est dominée par les femmes zapotèques — les <e
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── POPOCATÉPETL ────────────────────────────────────────────────────────
+    // ── POPOCATÉPETL ────────────────────────────────────────────────────────
 
     {
         id: 'popocatepetl',
@@ -688,11 +688,11 @@ Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses érup
 ✅ Activité volcanique continue en 1712 : établi — le Popocatépetl est en éruption fréquente tout au long de la période coloniale.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE YUCATÁN
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE YUCATÁN
+    // ═══════════════════════════════════════════════════════════
 
-// ── LAGUNA DE TÉRMINOS ────────────────────────────────────────────────────
+    // ── LAGUNA DE TÉRMINOS ────────────────────────────────────────────────────
 
     {
         id: 'laguna-de-terminos',
@@ -700,7 +700,7 @@ Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses érup
         type: 'site_geo',
         rang: '2',
         territoire: 'yucatan',
-        coords: [2074, 2889] ,
+        coords: [2074, 2889],
         // ⚠️ Apparaît sur la Jaillot comme "Laguna Termina" à la limite du Yucatán et de Tabasco.
 
         contexte: [
@@ -722,7 +722,7 @@ Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses érup
 🎲 Terrain de jeu idéal : eaux peu profondes, passes connues des seuls locaux, Baymen armés, patrouilles espagnoles irrégulières.`,
     },
 
-// ── LINCHANCHY ───────────────────────────────────────────────────────────
+    // ── LINCHANCHY ───────────────────────────────────────────────────────────
 
     {
         id: 'linchanchy',
@@ -744,7 +744,7 @@ Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses érup
         note_mj: `⚠️ Identification précise incertaine — toponyme maya translittéré approximativement sur la Jaillot. Aucune source primaire directe pour cet établissement spécifique.`,
     },
 
-// ── CONIL ────────────────────────────────────────────────────────────────
+    // ── CONIL ────────────────────────────────────────────────────────────────
 
     {
         id: 'conil-yucatan',
@@ -768,7 +768,7 @@ Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses érup
 ⚠️ État en 1712 : déclin certain, détails peu documentés.`,
     },
 
-// ── VALLADOLID (YUCATÁN) ─────────────────────────────────────────────────
+    // ── VALLADOLID (YUCATÁN) ─────────────────────────────────────────────────
 
     {
         id: 'valladolid-yucatan',
@@ -795,7 +795,7 @@ Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses érup
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── SALAMANCA DE BACALAR ─────────────────────────────────────────────────
+    // ── SALAMANCA DE BACALAR ─────────────────────────────────────────────────
 
     {
         id: 'salamanca',
@@ -830,7 +830,7 @@ Face à Turneffe et aux atolls du Belize, Salamanca est le dernier verrou espagn
 🎲 Entrée et sortie naturelle entre le Yucatán espagnol et le territoire de facto des Baymen — zone de transit pour quiconque veut passer sans se faire remarquer.`,
     },
 
-// ── CAMPECHE ───────────────────────────────────────────────────────────
+    // ── CAMPECHE ───────────────────────────────────────────────────────────
 
     {
         id: 'campeche',
@@ -871,11 +871,11 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         note_mj: `Mérida n'a pas de fort militaire notable — la défense du Yucatán côté Caraïbe repose sur l'enceinte de Campeche. Entrée présente pour compléter la carte administrative ; faible intérêt narratif direct pour la campagne.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE GUATEMALA
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE GUATEMALA
+    // ═══════════════════════════════════════════════════════════
 
-// ── TOCOTALPA ────────────────────────────────────────────────────────────
+    // ── TOCOTALPA ────────────────────────────────────────────────────────────
 
     {
         id: 'tocotalp-de-ciera',
@@ -899,7 +899,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
         note_mj: `⚠️ Tocotalpa de la Sierra : peu documentée pour 1712. Identifiée comme bourg de la sierra chiapanèque sur la route Chiapas–Tabasco — existence attestée, détails incertains.`,
     },
 
-// ── SOCONUSCO (VILLE) ────────────────────────────────────────────────────
+    // ── SOCONUSCO (VILLE) ────────────────────────────────────────────────────
 
     {
         id: 'sosonusco',
@@ -927,7 +927,7 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
 ⚠️ Statut administratif ambigu : la province de Soconusco est rattachée à la Nouvelle-Espagne mais sa position géographique et son apparition sur la Jaillot dans la juridiction Guatemala justifient territoire: 'guatemala' pour la ville.`,
     },
 
-// ── SANTIAGO DE GUATEMALA ────────────────────────────────────────────────
+    // ── SANTIAGO DE GUATEMALA ────────────────────────────────────────────────
 
     {
         id: 'st-iago-de-guatemala',
@@ -961,8 +961,37 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
 ⚠️ Gouverneur-capitaine général précis pour 1712 : à vérifier dans les sources guatémaltèques (AGI Guatemala).`,
     },
 
+    // ── VOLCÁN DE AGUA (GUATEMALA) ──────────────────────────────────────────
 
-// ── SAN SALVADOR ─────────────────────────────────────────────────────────
+    {
+        id: 'vulcan',
+        nom: 'Volcán de Agua',
+        label: 'Volcán de Agua',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'guatemala',
+        coords: [1757, 3329],
+        // ⚠️ La Jaillot indique simplement "Vulcan" à proximité de Santiago
+        // de Guatemala. Le Volcán de Agua (3 760 m) est le plus proche de la
+        // capitale et le plus chargé d'histoire — c'est lui qui a détruit la
+        // première capitale en 1541.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Stratovolcan de 3 760 mètres dominant la vallée de Panchoy au sud-est de Santiago de Guatemala — visible depuis la capitale et depuis toute la plaine environnante. Le Volcán de Agua doit son nom à la catastrophe de 1541 : un séisme a fissuré le cratère, libérant le lac d'eau accumulé au sommet et déclenchant une coulée de boue et de débris qui a englouti la première capitale du Guatemala (Ciudad Vieja) en quelques minutes, tuant plusieurs centaines de personnes dont Beatriz de la Cueva, gouverneure depuis deux jours seulement.
+<br><br>
+En 1712, le Volcán de Agua est inactif depuis la catastrophe de 1541 — mais ses voisins, le Fuego et l'Acatenango, fument régulièrement. La population de Santiago vit sous le regard de ces trois volcans, habituée aux tremblements de terre qui secouent la vallée plusieurs fois par an.`,
+            },
+        ],
+
+        note_mj: `✅ Catastrophe de 1541, destruction de Ciudad Vieja par coulée de débris : établi.
+✅ Beatriz de la Cueva, gouverneure tuée dans la catastrophe : établi.
+✅ Volcán de Agua inactif depuis 1541 ; Fuego actif : établi.
+✅ Volcán de Fuego et Acatenango visibles depuis Santiago : établi.`,
+    },
+
+    // ── SAN SALVADOR ─────────────────────────────────────────────────────────
 
     {
         id: 'st-salvador',
@@ -987,7 +1016,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── LA TRINIDAD ─────────────────────────────────────────────
+    // ── LA TRINIDAD ─────────────────────────────────────────────
 
     {
         id: 'la-trinidad-guatemala',
@@ -1012,7 +1041,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
 ⚠️ Correspondance géographique possible : La Libertad (actuelle), Sonsonate, ou tout autre point côtier entre ces deux localités.`,
     },
 
-// ── SAN MIGUEL ───────────────────────────────────────────────────────────
+    // ── SAN MIGUEL ───────────────────────────────────────────────────────────
 
     {
         id: 'st-michel',
@@ -1036,7 +1065,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── AMAPALA (GOLFE DE FONSECA) ───────────────────────────────────────────
+    // ── AMAPALA (GOLFE DE FONSECA) ───────────────────────────────────────────
 
     {
         id: 'amapal',
@@ -1061,7 +1090,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
 ⚠️ Population et installations en 1712 : peu documentées — estimation.`,
     },
 
-// ── CHOLUTECA (XERES) ────────────────────────────────────────────────────
+    // ── CHOLUTECA (XERES) ────────────────────────────────────────────────────
 
     {
         id: 'xeres',
@@ -1088,7 +1117,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── CIUDAD REAL (CHIAPAS) ─────────────────────────────────────────────────
+    // ── CIUDAD REAL (CHIAPAS) ─────────────────────────────────────────────────
 
     {
         id: 'chiapa-ciudad-real',
@@ -1119,7 +1148,7 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
 ⚠️ Population précise en 1712 : estimation.`,
     },
 
-// ── COBÁN (VERA PAZ) ─────────────────────────────────────────────────────
+    // ── COBÁN (VERA PAZ) ─────────────────────────────────────────────────────
 
     {
         id: 'coban-vera-pax',
@@ -1150,11 +1179,11 @@ En 1712, l'idéal fondateur est lointain : les Dominicains gèrent leurs mission
 ⚠️ Population : estimation très approximative.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE HONDURAS
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE HONDURAS
+    // ═══════════════════════════════════════════════════════════
 
-// ── AMALIGUA ─────────────────────────────────────────────────────────────
+    // ── AMALIGUA ─────────────────────────────────────────────────────────────
 
     {
         id: 'amaligua',
@@ -1184,7 +1213,7 @@ En sens inverse, l'indigo, le cacao et la cochenille de la capitainerie descende
     },
 
 
-// ── PORTA DOMAS (PUERTO CABALLOS ?) ──────────────────────────────────────
+    // ── PORTA DOMAS (PUERTO CABALLOS ?) ──────────────────────────────────────
 
     {
         id: 'porta-domos',
@@ -1212,7 +1241,7 @@ En sens inverse, l'indigo, le cacao et la cochenille de la capitainerie descende
 ⚠️ Phonétique "Porta Domos" → "Puerto Caballos" : non expliquée — déformation cartographique importante.`,
     },
 
-// ── PORTA DE SAL ─────────────────────────────────────────────────────────
+    // ── PORTA DE SAL ─────────────────────────────────────────────────────────
 
     {
         id: 'porta-de-sal',
@@ -1238,7 +1267,7 @@ En sens inverse, l'indigo, le cacao et la cochenille de la capitainerie descende
 ⚠️ La Ceiba ne devient un port notable qu'au XIXe siècle — en 1712, simple mouillage de passage.`,
     },
 
-// ── COMAYAGUA ────────────────────────────────────────────────────────────
+    // ── COMAYAGUA ────────────────────────────────────────────────────────────
 
     {
         id: 'valladolid-o-comayagua',
@@ -1269,7 +1298,7 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── SAINT-GEORGES (RÍO AGUÁN) ────────────────────────────────────────────
+    // ── SAINT-GEORGES (RÍO AGUÁN) ────────────────────────────────────────────
 
     {
         id: 'st-georges-honduras',
@@ -1298,7 +1327,7 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
 ⚠️ Nature de l'établissement : incertaine — le nom anglais suggère une présence britannique informelle, mais aucune source primaire directe ne documente "Saint-George's" sur le río Aguán pour cette période.`,
     },
 
-// ── SAN JORGE DE OLANCHO ─────────────────────────────────────────────────
+    // ── SAN JORGE DE OLANCHO ─────────────────────────────────────────────────
 
     {
         id: 'comajagua-st-iago-de-olancho',
@@ -1326,7 +1355,7 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── NUEVA SEGOVIA ────────────────────────────────────────────────────────
+    // ── NUEVA SEGOVIA ────────────────────────────────────────────────────────
 
     {
         id: 'nueva-segovia',
@@ -1356,7 +1385,7 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── SAN PEDRO SULA ───────────────────────────────────────────────────────────
+    // ── SAN PEDRO SULA ───────────────────────────────────────────────────────────
 
     {
         id: 'san-pedro',
@@ -1381,7 +1410,7 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── LAC IZABAL / EL GOLFETE ──────────────────────────────────────────────────
+    // ── LAC IZABAL / EL GOLFETE ──────────────────────────────────────────────────
 
     {
         id: 'lac-izabal',
@@ -1409,7 +1438,7 @@ Les rives du lac sont peu peuplées par les Espagnols — quelques haciendas d'�
 🎲 Le canyon du río Dulce est un terrain de jeu narratif exceptionnel — étroit, impossible à surveiller, bordé de falaises, fréquenté par des pirogues indiennes et des navires qui cherchent à ne pas être vus.`,
     },
 
-// ── GRACIAS (PRIMERA CAPITAL DE HONDURAS) ────────────────────────────────────
+    // ── GRACIAS (PRIMERA CAPITAL DE HONDURAS) ────────────────────────────────────
 
     {
         id: 'gratios-o-dios',
@@ -1440,11 +1469,54 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE NICARAGUA
-// ═══════════════════════════════════════════════════════════
+    // ── TRUJILLO (HONDURAS) ───────────────────────────────────────
 
-// ── LA POSSESSION ───────────────────────────────────────
+    {
+        id: 'trujillo',
+        nom: 'Trujillo',
+        type: 'port',
+        territoire: 'honduras',
+        coords: [2949, 3278],
+
+        contexte: [
+            { de: 1712, texte: `Seul port espagnol de la côte Caraïbe hondurienne. Trujillo marque la frontière orientale de l'autorité de Madrid — au-delà, c'est la côte Miskito. La ville est modeste, mal défendue, chroniquement menacée par les raids miskitos et les incursions anglaises depuis la Jamaïque. Son utilité principale : point de départ des routes vers l'intérieur du Honduras et Comayagua.` },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `⚠️ Trujillo est peu documentée pour cette période. Toutes les données sont des estimations par analogie avec les postes espagnols comparables de la côte Caraïbe.`,
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // CÔTE MISKITO
+    // ═══════════════════════════════════════════════════════════
+
+    // ── CAP GRACIAS A DIOS ───────────────────────────────────────
+
+    {
+        id: 'cap-gracias-a-dios',
+        nom: 'Cap Gracias a Dios',
+        capitale: true,
+        type: 'port',
+        territoire: 'cote-miskito',
+        coords: [3568, 3452],
+
+        contexte: [
+            { de: 1712, texte: `Pointe extrême orientale de la côte hondurienne, où le littoral s'infléchit vers le sud. Siège de fait du roi Miskito, investi à Spanish Town (Jamaïque) mais résidant ici. Le Cap est le nœud de toute navigation sur la côte Miskito : les sloops jamaïcains qui viennent troquer armes et rhum contre bois et tortues y font escale. Pas d'établissement européen permanent — quelques cases, un mouillage, et la présence du roi avec ses guerriers.` },
+        ],
+
+        population: `Quelques centaines de Miskitos autour du cap.`,
+
+        note_mj: `✅ Cap Gracias a Dios comme siège du roi Miskito : établi (Wikipedia EN, Miskito people).
+✅ Investiture du roi à Spanish Town, Jamaïque : établi.
+⚠️ Nom précis du roi en 1712 : non identifié. Jeremy I est documenté dans les années 1720.`,
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE NICARAGUA
+    // ═══════════════════════════════════════════════════════════
+
+    // ── LA POSSESSION ───────────────────────────────────────
 
     {
         id: 'la-possession',
@@ -1473,7 +1545,7 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── LEÓN ─────────────────────────────────────────────────────────────────
+    // ── LEÓN ─────────────────────────────────────────────────────────────────
 
     {
         id: 'leon-nicaragua',
@@ -1501,7 +1573,27 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── NICARAGUA (VILLE) ─────────────────────────────────────────────────────
+    // ── GRANADA (NICARAGUA) ─────────────────────────────────────────────────────
+
+    {
+        id: 'granada-nicaragua',
+        nom: 'Granada',
+        type: 'port',
+        territoire: 'nicaragua',
+        coords: [2772, 4009],
+
+        contexte: [
+            { de: 1712, texte: `Ville la plus riche du Nicaragua espagnol, sur la rive occidentale du lac Nicaragua. Sa vulnérabilité structurelle est géographique : le río San Juan relie le lac à la mer des Caraïbes — une voie navigable depuis la côte atlantique jusqu'au cœur de la ville. Morgan l'a remontée en 1665 pour saccager Granada. Le <strong>Castillo de la Inmaculada Concepción</strong>, établi sur les rapides à mi-parcours du río San Juan (à ~80 km de la côte), est censé barrer cette route — mais la garnison est insuffisante et le fort en mauvais état permanent.` },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Saccage de Granada par Morgan via le río San Juan, 1665 : établi.
+✅ Castillo de la Inmaculada Concepción sur les rapides du San Juan, à mi-parcours — distinct de l'embouchure maritime : établi (voir entrée dédiée 'castillo-san-juan').
+⚠️ La description initiale plaçait le fort "à l'embouchure" — corrigé : El Castillo est à ~80 km de la côte, sur les rapides qui bloquent la navigation. L'embouchure maritime elle-même n'est pas fortifiée de façon permanente en 1712.`,
+    },
+
+    // ── NICARAGUA (VILLE) ─────────────────────────────────────────────────────
 
     {
         id: 'nicaragua-ville',
@@ -1509,7 +1601,7 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
         type: 'ville',
         rang: '2',
         territoire: 'nicaragua',
-        coords: [2899, 4048], 
+        coords: [2899, 4048],
         // ⚠️ Ville indiquée sur la Jaillot à l'est de Granada, entre le lac Nicaragua
         // et la frontière avec le Costa Rica, à la même longitude approximative que
         // Nueva Segovia. Pourrait correspondre à Rivas ou à un bourg aujourd'hui disparu
@@ -1528,7 +1620,7 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
 ⚠️ Population : estimation très approximative.`,
     },
 
-// ── MOMBACHO ─────────────────────────────────────────────────────────────
+    // ── MOMBACHO ─────────────────────────────────────────────────────────────
 
     {
         id: 'mombacho',
@@ -1557,7 +1649,7 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
 ⚠️ État précis en 1712 : activité fumerolienne probable, sans éruption documentée pour la période.`,
     },
 
-// ── LA TRINIDAD (NICARAGUA) ──────────────────────────────────────────────
+    // ── LA TRINIDAD (NICARAGUA) ──────────────────────────────────────────────
 
     {
         id: 'lastrinidad-nicaragua',
@@ -1582,7 +1674,7 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
 ⚠️ Population : estimation.`,
     },
 
-// ── MENA ─────────────────────────────────────────────────────────────────
+    // ── MENA ─────────────────────────────────────────────────────────────────
 
     {
         id: 'mena-nicaragua',
@@ -1604,7 +1696,7 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
         note_mj: `⚠️ Identification incertaine — "Mena" non retrouvé avec certitude dans les sources coloniales nicaraguayennes. Pourrait être un bourg aujourd'hui disparu ou connu sous un autre nom.`,
     },
 
-// ── CASTILLO DE LA INMACULADA (EL CASTILLO) ──────────────────────────────
+    // ── CASTILLO DE LA INMACULADA (EL CASTILLO) ──────────────────────────────
 
     {
         id: 'castillo-san-juan',
@@ -1637,7 +1729,7 @@ En 1712, El Castillo est mal entretenu et sous-doté en hommes — le lot commun
 Correction connexe : l'entrée granada-nicaragua plaçait incorrectement le fort "à l'embouchure" — corrigé dans villes-data.js.`,
     },
 
-// ── VILLE AU CONFLUENT SAN JUAN / RÍO FRÍO ───────────────────────────────
+    // ── VILLE AU CONFLUENT SAN JUAN / RÍO FRÍO ───────────────────────────────
 
     {
         id: 'confluent-san-juan-frio',
@@ -1661,7 +1753,7 @@ Correction connexe : l'entrée granada-nicaragua plaçait incorrectement le fort
         note_mj: `⚠️ Ville non nommée sur la Jaillot à ce confluent — probablement un simple relais ou poste de surveillance, pas un établissement colonial notable. Identification du "Rio Cambitto" avec le río Frío : hypothèse géographique, non confirmée.`,
     },
 
-// ── GRACIAS A DIOS (NICARAGUA) ───────────────────────────────────────────
+    // ── GRACIAS A DIOS (NICARAGUA) ───────────────────────────────────────────
 
     {
         id: 'gratates-iuo-dedios-nicaragua',
@@ -1688,7 +1780,7 @@ Correction connexe : l'entrée granada-nicaragua plaçait incorrectement le fort
         note_mj: `⚠️ "Gratades Iuo Dedios" : déformation de "Gracias a Dios" probable. Identification et position précises incertaines — à distinguer du cap Gracias a Dios hondurien (entrée cap-gracias-a-dios).`,
     },
 
-// ── MOMOTOMBO ───────────────────────────────────────────────────────────
+    // ── MOMOTOMBO ───────────────────────────────────────────────────────────
 
     {
         id: 'momotombo',
@@ -1714,7 +1806,7 @@ Correction connexe : l'entrée granada-nicaragua plaçait incorrectement le fort
 ⚠️ Confusion sur la Jaillot : "Le Grand Vulcan de Munbacho" désigne le Momotombo (León), tandis que "Monbache" désigne le Mombacho (Granada). Double erreur cartographique — les deux noms sont proches et les deux volcans sont nicaraguayens.`,
     },
 
-// ── LAC NICARAGUA ───────────────────────────────────────────────────────
+    // ── LAC NICARAGUA ───────────────────────────────────────────────────────
 
     {
         id: 'lac-nicaragua',
@@ -1723,7 +1815,7 @@ Correction connexe : l'entrée granada-nicaragua plaçait incorrectement le fort
         type: 'site_geo',
         rang: '2',
         territoire: 'nicaragua',
-        coords: [2877, 3931] ,
+        coords: [2877, 3931],
 
         contexte: [
             {
@@ -1740,11 +1832,11 @@ Morgan l'a remontée en 1665 pour saccager Granada. La Royal Navy y enverra des 
 ✅ Île Ometepe et ses deux volcans (Concepción et Maderas) : établi.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE COSTA RICA
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE COSTA RICA
+    // ═══════════════════════════════════════════════════════════
 
-// ── NICOYA ───────────────────────────────────────────────────────────────
+    // ── NICOYA ───────────────────────────────────────────────────────────────
 
     {
         id: 'st-lucar-nicoya',
@@ -1770,7 +1862,7 @@ Morgan l'a remontée en 1665 pour saccager Granada. La Royal Navy y enverra des 
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── CASTILLO DE AUSTRIA (MATINA) ─────────────────────────────────────────
+    // ── CASTILLO DE AUSTRIA (MATINA) ─────────────────────────────────────────
 
     {
         id: 'chateau-de-austria',
@@ -1801,7 +1893,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
 ⚠️ Garnison : estimation basse, sources fragmentaires pour 1712.`,
     },
 
-// ── ARRANGUES ────────────────────────────────────────────────────────────
+    // ── ARRANGUES ────────────────────────────────────────────────────────────
 
     {
         id: 'arrangues',
@@ -1825,7 +1917,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
         note_mj: `⚠️ Identification incertaine — "Arrangues" non retrouvé avec certitude. Pourrait correspondre à Aranjuez (bourg de la péninsule de Nicoya), à un village du golfe de Nicoya, ou à une translittération déformée d'un nom local.`,
     },
 
-// ── CHIRIQUÍ ─────────────────────────────────────────────────────────────
+    // ── CHIRIQUÍ ─────────────────────────────────────────────────────────────
 
     {
         id: 'chiriqui',
@@ -1853,7 +1945,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
 ⚠️ Appartenance administrative à cette période : Chiriquí dépend du gouvernement de Costa Rica ou de Veragua selon les sources — frontière administrative floue en pratique.`,
     },
 
-// ── PUEBLA (ALANJE) ──────────────────────────────────────────────────────
+    // ── PUEBLA (ALANJE) ──────────────────────────────────────────────────────
 
     {
         id: 'puebla-costa-rica',
@@ -1882,11 +1974,109 @@ La vallée de Matina représente la richesse principale de la province : son cac
     },
 
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE PANAMA / VERAGUA
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE PANAMA / VERAGUA
+    // ═══════════════════════════════════════════════════════════
 
-// ── TRINIDAD (VERAGUA, CÔTE CARAÏBE) ─────────────────────────────────────
+    // ── FORT SAN LORENZO ─────────────────────────────────────
+
+    {
+        id: 'fort-san-lorenzo',
+        label: 'Fort San Lorenzo',
+        nom: 'Castillo de San Lorenzo el Real de Chagres',
+        type: 'fort',
+        rang: '2',
+        capitale: false,
+        territoire: 'panama',
+        coords: [3900, 4259],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Position isolée à l'embouchure du río Chagres sur la côte Caraïbe de l'isthme, à quelques dizaines de kilomètres à l'ouest de Portobelo. San Lorenzo est le verrou de la traversée de l'isthme : le Chagres remonte vers l'intérieur sur plus de cent kilomètres, permettant d'approcher Panama City à une journée de marche. Qui tient San Lorenzo tient la seule route rapide à travers la jungle — c'est ce qu'avait compris Morgan en le prenant d'assaut en décembre 1670, avec pertes sévères, avant de remonter le fleuve et de traverser l'isthme jusqu'à Panama City.
+        <br><br>
+Reconstruit et renforcé après ce raid, le fort occupe un promontoire de 60 mètres au-dessus du fleuve, offrant une vue dégagée sur la mer et sur l'embouchure. En 1712, c'est un poste isolé en forêt tropicale, tenu par une garnison clairsemée dans un climat meurtrier — les maladies déciment régulièrement les soldats fraîchement arrivés d'Espagne avant même qu'ils aient vu l'ennemi.`,
+            },
+        ],
+
+        population: `Garnison uniquement — aucun civil permanent`,
+
+        garnison: `~100 à 150 soldats. Le fort est réputé difficile à tenir : les maladies tropicales déciment régulièrement les garnisons fraîchement arrivées d'Espagne. Effectif réel souvent inférieur à l'effectif théorique. Estimation d'après la taille et l'importance stratégique du fort, comparable aux sources sur Portobelo (AGI Panama).`,
+
+        note_mj: `✅ Prise par Morgan, décembre 1670, combat violent : établi (Exquemelin ; Earle, The Sack of Panama, 1981).<br>
+✅ Position sur promontoire à 60 m, vue sur mer et fleuve : établi.<br>
+✅ Reconstruction post-Morgan, plan en étoile : établi.<br>
+⚠️ Garnison 1712 : estimation — les sources primaires (AGI Panama) donnent des effectifs théoriques peu fiables pour cette période.<br>
+🎲 San Lorenzo est un lieu en soi, pas une dépendance de Panama City : on n'y arrive pas par hasard.`,
+    },
+
+    // ── PORTOBELO ─────────────────────────────────────
+
+    {
+        id: 'portobelo',
+        nom: 'Portobelo',
+        type: 'port',
+        territoire: 'panama',
+        coords: [3985, 4230],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Portobelo est une contradiction permanente : l'un des ports les plus importants de l'empire espagnol sur le papier, une ville à moitié vide en pratique, dans une baie réputée mortelle pour les Européens non acclimatés. Depuis 1708, les foires sont interrompues — aucun galion espagnol n'est attendu, aucun ne vient. Portobelo est un fort et un poste douanier, pas un marché.
+<br><br>
+Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</strong> sur la rive sud à l'entrée, le <strong>Fort Santiago de la Gloria</strong> sur la rive nord face au premier, et le <strong>Fort San Fernando</strong> à l'intérieur de la baie côté ville. Aucun des trois n'est redoutable isolément — Morgan les prend tous en 1668 en quelques heures en débarquant à l'est et les attaquant à revers par voie terrestre. Le souvenir de ce raid hante les garnisons.`,
+            },
+            {
+                de: 1722, a: 1724,
+                texte: `La foire de 1722 est la première depuis 1708. Elle tourne court : voir le bloc Panama (Tierra Firme) pour le détail. Portobelo reprend nominalement son rôle de port des galions, mais le système ne se remet pas.`,
+            },
+        ],
+
+        population: `~500 habitants permanents hors période de foire. La population décuplait lors des grandes foires — mais celles-ci sont interrompues.`,
+
+        garnison: `Fort San Felipe : ~80 soldats<br>
+Fort Santiago : ~60 soldats.<br>
+Fort San Fernando : ~80 soldats.<br>
+Total en temps ordinaire : ~220 hommes, renforcés depuis Panama City et Carthagène lors des foires.`,
+
+        note_mj: `✅ Prise par Morgan en 1668 — attaque terrestre de nuit, forts pris à revers : établi (Exquemelin ; Earle, <em>The Sack of Panama</em>).<br>
+✅ Trois forts distincts (San Felipe, Santiago, San Fernando) : établi.<br>
+✅ Interruption des foires 1708–1722 : établi — voir sources dans le bloc Panama (Tierra Firme).<br>
+✅ Foire de 1722 : fiasco documenté — voir bloc Panama (Tierra Firme).<br>
+✅ Vernon 1739 : établi — hors période, mais connu des joueurs comme horizon.<br>
+⚠️ Garnison : estimation d'après Lane, <em>Pillaging the Empire</em> (1998).<br>
+🎲 Portobelo hors foire est une ville fantôme malsaine. Portobelo en foire est le plus grand marché du monde atlantique — et le plus dangereux pour la santé.`,
+    },
+
+    // ── PANAMA-CITY ─────────────────────────────────────
+
+    {
+        id: 'panama-city',
+        nom: 'Panama City',
+        capitale: true,
+        type: 'port',
+        territoire: 'panama',
+        coords: [4020, 4370],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Capitale de l'isthme, sur la côte pacifique.
+Panama City est la tête des deux routes qui font de l'isthme sa valeur : vers l'est, le Camino Real qui traverse la jungle jusqu'à Portobelo sur la côte Caraïbe ; vers le sud, la liaison maritime avec Callao, le port de Lima, d'où arrive l'argent péruvien. C'est ici que les lingots et les pièces de huit déchargés du Pacifique sont reconditionnés avant de traverser l'isthme. La ville reconstruite après le sac de Morgan (1671) est mieux fortifiée, mais sa vulnérabilité structurelle demeure : accessible depuis les deux côtes, elle ne peut être défendue que si les deux routes sont tenues simultanément. En 1712, c'est une ville de transit et d'administration — tout ce qui vaut quelque chose y passe, rien n'y reste.`,
+            },
+        ],
+
+        population: `~8 000 habitants`,
+
+        garnison: `~300 soldats d'infanterie régulière, plus une milice de colons.`,
+
+        note_mj: `✅ Sac par Morgan 1671, reconstruction sur nouveau site : établi (Earle, <em>The Sack of Panama</em>, 1981).<br>
+✅ Panama dépend du vice-roi du Pérou (Lima) pour l'essentiel — distinction essentielle avec Mexico.<br>
+⚠️ Entre 1717 et 1723, le vice-royauté de Nouvelle-Grenade (Santafé) s'intercale nominalement dans la chaîne de commandement, mais cette structure est instable et de courte durée — supprimée dès 1723, non rétablie avant 1739. Dans les faits, Panama traite souvent directement avec Lima.<br>
+⚠️ Garnison : estimation d'après le rang et l'importance de la place.`,
+    },
+
+    // ── TRINIDAD (VERAGUA, CÔTE CARAÏBE) ─────────────────────────────────────
 
     {
         id: 'trinidad-veragua',
@@ -1910,7 +2100,7 @@ La vallée de Matina représente la richesse principale de la province : son cac
         note_mj: `⚠️ Identification probable d'après la position sur la Jaillot (nord de Santa Fe, côte Caraïbe). Peu documenté pour 1712 — la côte Caraïbe de Veragua est l'une des zones les moins couvertes par les archives coloniales espagnoles.`,
     },
 
-// ── SANTA FÉ DE VERAGUA ──────────────────────────────────────────────────
+    // ── SANTA FÉ DE VERAGUA ──────────────────────────────────────────────────
 
     {
         id: 'santa-fe-veragua',
@@ -1940,7 +2130,7 @@ Santa Fe est une ville de l'intérieur, enclavée entre deux versants — Caraï
 ⚠️ Population : estimation.`,
     },
 
-// ── LAVELIA ──────────────────────────────────────────────────────────────
+    // ── LAVELIA ──────────────────────────────────────────────────────────────
 
     {
         id: 'lavelia',
@@ -1966,10 +2156,10 @@ Santa Fe est une ville de l'intérieur, enclavée entre deux versants — Caraï
         note_mj: `⚠️ "Lavelia" non identifié avec certitude dans les sources coloniales. Position sur la Jaillot (face à Natá, côté Veragua) suggère un bourg de la côte Pacifique de l'isthme central. Entrée conservée pour la cohérence cartographique.`,
     },
 
-// ── VENTA DE CRUCES ───────────────────────────────────────────────────────
-// NOTE : "ChagreChat~" sur la Jaillot = "Chagre Château" = Fort San Lorenzo
-// (déjà documenté dans villes-data.js). "Venta de Cruzes" apparaît séparément
-// plus en amont sur le río Chagres — identification sans ambiguïté.
+    // ── VENTA DE CRUCES ───────────────────────────────────────────────────────
+    // NOTE : "ChagreChat~" sur la Jaillot = "Chagre Château" = Fort San Lorenzo
+    // (déjà documenté dans villes-data.js). "Venta de Cruzes" apparaît séparément
+    // plus en amont sur le río Chagres — identification sans ambiguïté.
 
     {
         id: 'venta-de-cruzes',
@@ -1996,7 +2186,7 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
 ⚠️ Identification de "Chagrechat" avec Venta de Cruces : probable d'après la position sur le Chagres — la déformation du nom est cohérente avec les pratiques cartographiques de l'époque.`,
     },
 
-// ── CAPIRA ───────────────────────────────────────────────────────────────
+    // ── CAPIRA ───────────────────────────────────────────────────────────────
 
     {
         id: 'capira',
@@ -2021,7 +2211,7 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
 ⚠️ Population : estimation.`,
     },
 
-// ── NATÁ DE LOS CABALLEROS ───────────────────────────────────────────────
+    // ── NATÁ DE LOS CABALLEROS ───────────────────────────────────────────────
 
     {
         id: 'nata',
@@ -2046,7 +2236,7 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── NOMBRE DE DIOS ───────────────────────────────────────────────────────
+    // ── NOMBRE DE DIOS ───────────────────────────────────────────────────────
 
     {
         id: 'nombre-de-dios',
@@ -2076,7 +2266,7 @@ En 1597, Madrid a déplacé le port vers Portobelo, mieux défendable. En 1712, 
 🎲 Un PJ qui cherche le cercueil de plomb de Drake dans la baie de Portobelo — et non à Nombre de Dios — suit la bonne piste.`,
     },
 
-// ── BOCAS DEL TORO / CONCEPCIÓN ──────────────────────────────────────────
+    // ── BOCAS DEL TORO / CONCEPCIÓN ──────────────────────────────────────────
 
     {
         id: 'concepcion-bocas',
@@ -2106,11 +2296,38 @@ Concepción est moins une ville qu'un relais : quelques maisons, un débarcadèr
 ⚠️ "Concepción" comme poste espagnol : probable, non confirmé par source primaire directe pour 1712 spécifiquement.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE DARIÉN
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE DARIÉN
+    // ═══════════════════════════════════════════════════════════
 
-// ── SAINT-SÉBASTIEN DE BONNE-VUE ─────────────────────────────────────────
+    // ── SANTA MARÍA LA ANTIGUA DEL DARIÉN ────────────────────────────────────
+
+    {
+        id: 'santa-maria-darien',
+        nom: 'Santa María la Antigua del Darién',
+        label: 'Santa Maria',
+        type: 'site_hist',
+        rang: '3',
+        territoire: 'darien',
+        coords: [4282, 4618],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Site de la première ville européenne permanente fondée sur le continent américain — Santa María la Antigua del Darién, établie en 1510 par Vasco Núñez de Balboa sur la rive occidentale du golfe d'Urabá. C'est depuis ici que Balboa a traversé l'isthme et "découvert" le Pacifique en 1513. La ville a été abandonnée en 1524 lorsque le gouverneur Pedrarias Dávila a transféré l'administration à Panama City — et lorsqu'il a fait exécuter Balboa pour trahison.
+<br><br>
+En 1712, il ne reste rien de Santa María sinon la mémoire et quelques ruines englouties par la jungle darienite. Les cartographes continuent de la marquer par tradition historique. Pour un navigateur ou un aventurier qui connaît son histoire, le site est chargé : premier évêché du continent, premier tribunal, premier cimetière européen en Amérique — et lieu de naissance de la conquête du Pacifique.`,
+            },
+        ],
+
+        note_mj: `✅ Fondation de Santa María la Antigua del Darién en 1510 par Balboa : établi.
+✅ Première ville permanente d'Amérique continentale (avant Natá, avant Panama City) : établi.
+✅ Traversée de l'isthme et "découverte" du Pacifique par Balboa en 1513 : établi.
+✅ Exécution de Balboa par Pedrarias Dávila et abandon de la ville en 1524 : établi.
+État en 1712 : ruines recouvertes par la jungle, site non habité.`,
+    },
+
+    // ── SAINT-SÉBASTIEN DE BONNE-VUE ─────────────────────────────────────────
 
     {
         id: 'saint-sebastien-darien',
@@ -2134,7 +2351,7 @@ Concepción est moins une ville qu'un relais : quelques maisons, un débarcadèr
 ✅ Résistance des Kunas dans le Darién, pression permanente sur les postes espagnols : établi — voir territoire 'darien' dans carte-data.js.`,
     },
 
-// ── NEW EDINBURG (NOUVELLE CALEDONIE) ────────────────────────────────────────
+    // ── NEW EDINBURG (NOUVELLE CALEDONIE) ────────────────────────────────────────
 
     {
         id: 'new-edinburg',
@@ -2143,7 +2360,7 @@ Concepción est moins une ville qu'un relais : quelques maisons, un débarcadèr
         type: 'site_hist',
         rang: '3',
         territoire: 'darien',
-        coords: [4348,4369],
+        coords: [4348, 4369],
         // ⚠️ Absent de la carte Jaillot comme symbole de ville — mais la région
         // est nommée "Nouvelle Calidonia" et le fort "N. Edinburg" y est indiqué.
         // Coordonnées à placer sur la côte Caraïbe du Darién occidental,
@@ -2167,11 +2384,41 @@ L'échec financier de la Compagnie d'Écosse a précipité l'<strong>Acte d'Unio
 🎲 Un PJ écossais, un PJ qui a perdu de la famille dans l'expédition, ou simplement un navigateur qui aborde cette côte et reconnaît les noms sur sa carte — chacun a une raison différente d'être ému ou intrigué par ces ruines.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE NOUVELLE-GRENADE
-// ═══════════════════════════════════════════════════════════
+    // ── CARET BAY (DARIÉN) ──────────────────────────────────────────────────
 
-// ── TOLÚ ─────────────────────────────────────────────────────────────────
+    {
+        id: 'caret-bay',
+        nom: 'Caret Bay (golfe d\'Urabá)',
+        label: 'Caret Bay',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'darien',
+        coords: [4472, 4614],
+        // ⚠️ Le golfe d'Urabá s'enfonce si profondément dans les terres
+        // qu'il constitue une route maritime intérieure vers le Darién —
+        // traitement analogue à un fleuve plutôt qu'à une baie ouverte.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Vaste golfe s'enfonçant profondément dans les terres du Darién — accessible depuis la mer des Caraïbes mais si encaissé qu'il constitue une route maritime intérieure vers le cœur de l'isthme. Le golfe d'Urabá est connu des pirates et des flibustiers comme voie d'accès discrète vers le Darién, loin des garnisons de Portobelo et de Carthagène.
+<br><br>
+C'est sur ces rives que Balboa a fondé Santa María la Antigua del Darién en 1510 — premier établissement permanent du continent. C'est aussi ici que la Compagnie d'Écosse a tenté d'établir sa colonie de Caledonia en 1698–1700, sur la côte orientale du golfe — catastrophe humaine dont le souvenir est encore vif en 1712. Les Kunas de l'intérieur connaissent chaque crique de ces rives et se méfient de tout navire étranger qui s'aventure dans le golfe.`,
+            },
+        ],
+
+        note_mj: `✅ Golfe d'Urabá comme route maritime intérieure vers le Darién : établi géographiquement.
+✅ Fondation de Santa María la Antigua del Darién en 1510 sur ces rives : établi — voir entrée 'santa-maria-darien'.
+✅ Colonie écossaise de Caledonia en 1698–1700 sur la côte du golfe : établi.
+✅ Résistance des Kunas dans le Darién : établi.
+🎲 Un navire qui entre dans Caret Bay s'engage dans un cul-de-sac entouré de jungle et de Kunas — entrée facile, sortie beaucoup moins.`,
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE NOUVELLE-GRENADE
+    // ═══════════════════════════════════════════════════════════
+
+    // ── TOLÚ ─────────────────────────────────────────────────────────────────
 
     {
         id: 'telu',
@@ -2195,7 +2442,7 @@ L'échec financier de la Compagnie d'Écosse a précipité l'<strong>Acte d'Unio
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── BOCACHICA ────────────────────────────────────────────────────────────
+    // ── BOCACHICA ────────────────────────────────────────────────────────────
 
     {
         id: 'bocachica',
@@ -2224,7 +2471,7 @@ L'échec financier de la Compagnie d'Écosse a précipité l'<strong>Acte d'Unio
 ⚠️ Garnison : estimation d'après McFarlane, <em>Colombia before Independence (1993)</em>.`,
     },
 
-// ── CARTAGENA ────────────────────────────────────────────────────────────
+    // ── CARTAGENA ────────────────────────────────────────────────────────────
 
     {
         id: 'cartagena',
@@ -2258,7 +2505,7 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
         ⚠️ Gouverneur militaire 1712 : non identifié depuis les sources accessibles. AGI (Audiencia de Santa Fe) : source primaire.\nCarthagène est une alcaldía mayor et place militaire distincte de la Présidence de Santafé — son gouverneur militaire propre n'est pas subordonné au gouverneur civil de la Nouvelle-Grenade pour les affaires militaires.`,
     },
 
-// ── ANTIOQUIA ────────────────────────────────────────────────────────────
+    // ── ANTIOQUIA ────────────────────────────────────────────────────────────
 
     {
         id: 'antiochia',
@@ -2284,13 +2531,13 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 57. SANTA FÉ DE ANTIOQUIA (PROVINCE) ─────────────────────────────────────
-// Note : "Santa Fé" en colonne 1 entre Tolú et Antioquia correspond à
-// Santa Fe de Antioquia elle-même — c'est la même ville que l'entrée 56.
-// La Jaillot la mentionne deux fois ou la place légèrement différemment.
-// → Pas d'entrée séparée, mention dans note_mj de 'antioquia'.
+    // ── 57. SANTA FÉ DE ANTIOQUIA (PROVINCE) ─────────────────────────────────────
+    // Note : "Santa Fé" en colonne 1 entre Tolú et Antioquia correspond à
+    // Santa Fe de Antioquia elle-même — c'est la même ville que l'entrée 56.
+    // La Jaillot la mentionne deux fois ou la place légèrement différemment.
+    // → Pas d'entrée séparée, mention dans note_mj de 'antioquia'.
 
-// ── SINÚ / SAINT-MARIE ───────────────────────────────────────────────────
+    // ── SINÚ / SAINT-MARIE ───────────────────────────────────────────────────
 
     {
         id: 'cenu',
@@ -2319,7 +2566,7 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
 ⚠️ Regroupement "Cenu" et "St Maria" en une entrée de zone : choix éditorial justifié par la proximité géographique et le faible niveau de documentation pour chacun séparément.`,
     },
 
-// ── BARRANCAS DE MALAMBO ─────────────────────────────────────────────────
+    // ── BARRANCAS DE MALAMBO ─────────────────────────────────────────────────
 
     {
         id: 'baranca-de-malambo',
@@ -2343,7 +2590,7 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── TENERIFE ─────────────────────────────────────────────────────────────
+    // ── TENERIFE ─────────────────────────────────────────────────────────────
 
     {
         id: 'tenerifa-magdalena',
@@ -2367,7 +2614,7 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
     },
 
 
-// ── MOMPOX ───────────────────────────────────────────────────────────────
+    // ── MOMPOX ───────────────────────────────────────────────────────────────
 
     {
         id: 'mopox',
@@ -2395,7 +2642,7 @@ Tous les convois d'or descendant d'Antioquia vers Carthagène passent par Mompox
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── TAMALAMEQUE ──────────────────────────────────────────────────────────
+    // ── TAMALAMEQUE ──────────────────────────────────────────────────────────
 
     {
         id: 'tamalameque',
@@ -2418,14 +2665,14 @@ Tous les convois d'or descendant d'Antioquia vers Carthagène passent par Mompox
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 63. APUERTO / EL DESEMBARCADERO / PLASENCIA / TRINIDAD (MAGDALENA) ───────
-// Ces quatre toponymes de la colonne 3 désignent des relais fluvials modestes
-// sur le Magdalena moyen-supérieur, peu ou pas documentés individuellement.
-// Regroupés en une note de zone plutôt qu'en entrées séparées.
-// → Si la carte les place clairement à des positions distinctes et espacées,
-//    des entrées minimales pourront être créées à l'occasion.
+    // ── 63. APUERTO / EL DESEMBARCADERO / PLASENCIA / TRINIDAD (MAGDALENA) ───────
+    // Ces quatre toponymes de la colonne 3 désignent des relais fluvials modestes
+    // sur le Magdalena moyen-supérieur, peu ou pas documentés individuellement.
+    // Regroupés en une note de zone plutôt qu'en entrées séparées.
+    // → Si la carte les place clairement à des positions distinctes et espacées,
+    //    des entrées minimales pourront être créées à l'occasion.
 
-// ── MARIQUITA ──────────────────────────────────────────────────────────────
+    // ── MARIQUITA ──────────────────────────────────────────────────────────────
 
     {
         id: 'mariquita',
@@ -2457,7 +2704,7 @@ Mariquita est entourée de forêts tropicales d'altitude où pousse le quinquina
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── SANTA MARTA ──────────────────────────────────────────────────────────
+    // ── SANTA MARTA ──────────────────────────────────────────────────────────
 
     {
         id: 'santa-marthe',
@@ -2486,7 +2733,32 @@ La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est l
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── VALLEDUPAR (CIUDAD DE LOS REYES) ─────────────────────────────────────
+    // ── SIERRA NEVADA DE SANTA MARTA ────────────────────────────────────────
+
+    {
+        id: 'sierra-nevada-santa-marta',
+        nom: 'Sierra Nevada de Santa Marta',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'nouvelle-grenade',
+        coords: [5225, 3958],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Le massif le plus haut du monde directement accessible depuis la mer — ses sommets jumeaux, le Pico Cristóbal Colón et le Pico Simón Bolívar, culminent à 5 775 mètres à moins de 50 kilomètres de la côte Caraïbe. Leurs neiges éternelles sont visibles depuis la mer à plus de 150 kilomètres, par temps clair, depuis les navires naviguant entre Carthagène et Riohacha. Pour tout marin longeant la côte néogrenadine, la Sierra Nevada est l'amers de navigation le plus fiable et le plus spectaculaire des Caraïbes — une muraille de neige au-dessus d'une côte tropicale.
+<br><br>
+La Sierra abrite les Kogi, les Arhuaco et les Wiwa — nations indiennes qui ont fui vers les hauteurs lors de la conquête et maintenu leur indépendance depuis deux siècles. Aucune expédition espagnole n'a jamais soumis durablement ces communautés de montagne. Les versants inférieurs portent des plantations de cacao et quelques haciendas créoles, mais au-dessus de 2 000 mètres, l'autorité coloniale cède à celle des nations indigènes.`,
+            },
+        ],
+
+        note_mj: `✅ Sierra Nevada de Santa Marta — plus haut massif côtier du monde (5 775 m à ~50 km de la mer) : établi.
+✅ Visibilité depuis la mer à plus de 150 km : établi — repère de navigation historique.
+✅ Résistance des Kogi, Arhuaco, Wiwa à la colonisation espagnole depuis le XVIe siècle : établi.
+🎲 Pour un navigateur entrant dans la Caraïbe depuis l'est, apercevoir les neiges de la Sierra Nevada au-dessus de la ligne de côte tropicale est un moment saisissant — et un point de positionnement fiable avant l'arrivée à Riohacha ou Santa Marta.`,
+    },
+
+    // ── VALLEDUPAR (CIUDAD DE LOS REYES) ─────────────────────────────────────
 
     {
         id: 'ciuidad-de-los-reyes',
@@ -2515,7 +2787,7 @@ La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est l
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── OCAÑA ────────────────────────────────────────────────────────────────
+    // ── OCAÑA ────────────────────────────────────────────────────────────────
 
     {
         id: 'ocana',
@@ -2539,7 +2811,7 @@ La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est l
     },
 
 
-// ── VÉLEZ ────────────────────────────────────────────────────────────────
+    // ── VÉLEZ ────────────────────────────────────────────────────────────────
 
     {
         id: 'velez-colombia',
@@ -2562,7 +2834,7 @@ La Sierra Nevada de Santa Marta, visible depuis la mer à grande distance, est l
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── SANTA FÉ DE BOGOTÁ ───────────────────────────────────────────────────
+    // ── SANTA FÉ DE BOGOTÁ ───────────────────────────────────────────────────
 
     {
         id: 'bogota',
@@ -2594,7 +2866,7 @@ En 1717–1723, Santafé devient brièvement la capitale d'une vice-royauté pro
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── RIOHACHA (RÍO DE LA HACHA) ───────────────────────────────────────────
+    // ── RIOHACHA (RÍO DE LA HACHA) ───────────────────────────────────────────
 
     {
         id: 'riohacha',
@@ -2623,7 +2895,7 @@ Drake a attaqué Riohacha en 1568 et 1572 pour ses perles. En 1712, la ville res
 La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas un établissement séparé. Regroupé avec Riohacha.`,
     },
 
-// ── LA RAMADA ────────────────────────────────────────────────────────────
+    // ── LA RAMADA ────────────────────────────────────────────────────────────
 
     {
         id: 'la-ramada',
@@ -2645,7 +2917,7 @@ La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas
         note_mj: `⚠️ La Ramada : peu documenté pour 1712. Existence attestée sur les cartes, détails incertains.`,
     },
 
-// ── GUATAPORI ────────────────────────────────────────────────────────────
+    // ── GUATAPORI ────────────────────────────────────────────────────────────
 
     {
         id: 'guatapori',
@@ -2670,7 +2942,7 @@ La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas
         note_mj: `⚠️ Identification incertaine — "Guatapori" non retrouvé avec certitude dans les sources coloniales néogrenadines. Pourrait correspondre à un bourg wayuu ou à une mission éphémère.`,
     },
 
-// ── SAN CRISTÓBAL ────────────────────────────────────────────────────────
+    // ── SAN CRISTÓBAL ────────────────────────────────────────────────────────
 
     {
         id: 'san-cristobal-tachira',
@@ -2698,7 +2970,7 @@ La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas
 Appartenance à la Nouvelle-Grenade pour cette période : établi — la province du Táchira relève de la Real Audiencia de Santa Fe, non de Caracas.`,
     },
 
-// ── PAMPLONA ─────────────────────────────────────────────────────────────
+    // ── PAMPLONA ─────────────────────────────────────────────────────────────
 
     {
         id: 'pamplona-colombia',
@@ -2722,7 +2994,7 @@ Appartenance à la Nouvelle-Grenade pour cette période : établi — la provinc
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── SERRANÍA DE OPÓN ─────────────────────────────────────────────────────
+    // ── SERRANÍA DE OPÓN ─────────────────────────────────────────────────────
 
     {
         id: 'mont-opon',
@@ -2744,7 +3016,7 @@ Appartenance à la Nouvelle-Grenade pour cette période : établi — la provinc
 ✅ Zone non colonisée en 1712, nations indiennes non soumises : cohérent avec les sources sur la région.`,
     },
 
-// ── PORTETE / CÔTE DE LA GUAJIRA ─────────────────────────────────────────
+    // ── PORTETE / CÔTE DE LA GUAJIRA ─────────────────────────────────────────
 
     {
         id: 'portete',
@@ -2774,7 +3046,7 @@ Appartenance à la Nouvelle-Grenade pour cette période : établi — la provinc
 ✅ Résistance wayuu à toute présence espagnole permanente : établi.`,
     },
 
-// ── MÉRIDA (ANDES VÉNÉZUÉLIENNES) ────────────────────────────────────────
+    // ── MÉRIDA (ANDES VÉNÉZUÉLIENNES) ────────────────────────────────────────
 
     {
         id: 'merida-venezuela',
@@ -2803,8 +3075,8 @@ Appartenance à la Nouvelle-Grenade pour cette période : établi — la provinc
 À ne pas confondre avec Mérida du Yucatán (id: 'merida' dans villes-data.js).`,
     },
 
-// ── MARACAIBO ────────────────────────────────────────────────────────
- 
+    // ── MARACAIBO ────────────────────────────────────────────────────────
+
     {
         id: 'maracaibo',
         nom: 'Maracaibo',
@@ -2826,7 +3098,7 @@ La ville vit du cacao de la région — l'un des meilleurs des Caraïbes — exp
 ⚠️ Garnison : estimation par analogie avec les places secondaires vénézuéliennes.`,
     },
 
-// ── RELAIS FLUVIAUX DU MAGDALENA MOYEN-SUPÉRIEUR ─────────────────────
+    // ── RELAIS FLUVIAUX DU MAGDALENA MOYEN-SUPÉRIEUR ─────────────────────
 
     {
         id: 'relais-magdalena',
@@ -2854,11 +3126,11 @@ Ces relais constituent l'épine dorsale du commerce intérieur de la Nouvelle-Gr
 Si la carte les place à des positions clairement espacées et distinctes, des entrées minimales individuelles pourront être créées ultérieurement.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE VENEZUELA
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE VENEZUELA
+    // ═══════════════════════════════════════════════════════════
 
-// ── LAC MARACAIBO ───────────────────────────────────────────────────────
+    // ── LAC MARACAIBO ───────────────────────────────────────────────────────
 
     {
         id: 'lac-maracaibo',
@@ -2882,7 +3154,7 @@ Morgan a pillé Maracaibo à deux reprises — en 1666 et en 1669. Lors de la se
 ✅ Nature saumâtre du lac (golfe intérieur) : établi géographiquement.`,
     },
 
-// ── CORO ─────────────────────────────────────────────────────────────────
+    // ── CORO ─────────────────────────────────────────────────────────────────
 
     {
         id: 'coro',
@@ -2910,7 +3182,7 @@ Morgan a pillé Maracaibo à deux reprises — en 1666 et en 1669. Lors de la se
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── CARACAS ──────────────────────────────────────────────────────────────
+    // ── CARACAS ──────────────────────────────────────────────────────────────
 
     {
         id: 'caraccos',
@@ -2945,7 +3217,7 @@ L'économie de Caracas repose sur le cacao des vallées côtières, acheminé ve
 La Guaira (port de Caracas) est documentée séparément dans villes-data.js (entrée 'la-guaira').`,
     },
 
-// ── CARABALLEDA ──────────────────────────────────────────────────────────
+    // ── CARABALLEDA ──────────────────────────────────────────────────────────
 
     {
         id: 'caraballeda',
@@ -2969,7 +3241,7 @@ La Guaira (port de Caracas) est documentée séparément dans villes-data.js (en
 ⚠️ État précis en 1712 : déclin confirmé, détails peu documentés.`,
     },
 
-// ── OCUMARE / CÔTE CENTRALE ──────────────────────────────────────────────
+    // ── OCUMARE / CÔTE CENTRALE ──────────────────────────────────────────────
 
     {
         id: 'otchierado',
@@ -2994,7 +3266,7 @@ La Guaira (port de Caracas) est documentée séparément dans villes-data.js (en
         note_mj: `⚠️ "Otchierado" : identification avec Ocumare de la Costa probable mais non certaine. La déformation phonétique est importante — pourrait désigner un village différent sur la côte centrale vénézuélienne.`,
     },
 
-// ── BARCELONA (COMANAGOTTA) ───────────────────────────────────────────────
+    // ── BARCELONA (COMANAGOTTA) ───────────────────────────────────────────────
 
     {
         id: 'barcelona-venezuela',
@@ -3021,7 +3293,7 @@ La Guaira (port de Caracas) est documentée séparément dans villes-data.js (en
     },
 
 
-// ── TRUJILLO (ANDES) ─────────────────────────────────────────────────────
+    // ── TRUJILLO (ANDES) ─────────────────────────────────────────────────────
 
     {
         id: 'trujillo-andes',
@@ -3050,7 +3322,7 @@ La Guaira (port de Caracas) est documentée séparément dans villes-data.js (en
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── TRUXILLO (LAC MARACAIBO) ─────────────────────────────────────────────
+    // ── TRUXILLO (LAC MARACAIBO) ─────────────────────────────────────────────
 
     {
         id: 'truxillo-maracaibo',
@@ -3080,7 +3352,7 @@ Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son 
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── CARORA ───────────────────────────────────────────────────────────────
+    // ── CARORA ───────────────────────────────────────────────────────────────
 
     {
         id: 'portilla-de-carrora',
@@ -3104,7 +3376,7 @@ Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son 
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── VALENCIA ─────────────────────────────────────────────────────────────
+    // ── VALENCIA ─────────────────────────────────────────────────────────────
 
     {
         id: 'valencia-venezuela',
@@ -3131,7 +3403,7 @@ Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son 
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── LAC DE TACARIGUA ─────────────────────────────────────────────────────
+    // ── LAC DE TACARIGUA ─────────────────────────────────────────────────────
 
     {
         id: 'lac-tacarigua',
@@ -3153,7 +3425,26 @@ Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son 
 ✅ Plus grand lac d'eau douce du Venezuela : établi.`,
     },
 
-// ── NIRGUA (NUEVA XERTZ) ─────────────────────────────────────────────────
+    // ── LA GUAIRA ─────────────────────────────────────────────────
+
+    {
+        id: 'la-guaira',
+        nom: 'La Guaira',
+        type: 'port',
+        territoire: 'venezuela',
+        coords: [6501, 4065],
+
+        contexte: [
+            { de: 1712, texte: `Unique débarcadère de Caracas sur la mer des Caraïbes, à quelques kilomètres de la capitale par un chemin de montagne raide. La Guaira est moins une ville qu'un entrepôt portuaire : tout ce qui entre ou sort du Venezuela passe par ses quais. Le cacao de Caracas, les produits manufacturés européens importées — tout transite ici. La douane de La Guaira est un point de friction permanent entre les marchands et l'administration coloniale.` },
+        ],
+
+        population: `~2 000 habitants permanents`,
+
+        note_mj: `⚠️ La Guaira est peu documentée pour 1712 spécifiquement. Toutes les données sont des estimations.<br>
+Pas de fort notable en état de fonctionnement à cette date — la défense côtière est assurée par des batteries légères.`,
+    },
+
+    // ── NIRGUA (NUEVA XERTZ) ─────────────────────────────────────────────────
 
     {
         id: 'nueva-xertz',
@@ -3181,7 +3472,7 @@ Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son 
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── BARQUISIMETO (NUEVA SEGOVIA) ─────────────────────────────────────────
+    // ── BARQUISIMETO (NUEVA SEGOVIA) ─────────────────────────────────────────
 
     {
         id: 'barquisimeto',
@@ -3211,7 +3502,7 @@ Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son 
 À ne pas confondre avec Nueva Segovia hondurienne (id: 'nueva-segovia') ni nicaraguayenne.`,
     },
 
-// ── EL TOCUYO ────────────────────────────────────────────────────────────
+    // ── EL TOCUYO ────────────────────────────────────────────────────────────
 
     {
         id: 'tucuyo',
@@ -3236,7 +3527,7 @@ Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son 
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── MONTS DE SAN PEDRO ───────────────────────────────────────────────
+    // ── MONTS DE SAN PEDRO ───────────────────────────────────────────────
 
     {
         id: 'monts-san-pedro',
@@ -3263,17 +3554,96 @@ Ces montagnes sont le territoire des <strong>Jirajara</strong> et des <strong>Ay
 ⚠️ "Monts de San Pedro" : présent sur la Jaillot, non retrouvé sous ce nom dans les sources modernes — désigne probablement une partie des serranías Falcón-Lara.`,
     },
 
-// ═══════════════════════════════════════════════════════════
-// SÉRIE NOUVELLE-ANDALOUSIE
-// ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
+    // CURAÇAO
+    // ═══════════════════════════════════════════════════════════
 
-// ── 90. ARAYA ────────────────────────────────────────────────────────────────
+    // ── CURAÇAO ────────────────────────────────────────────────────────────────
+
+    {
+        id: 'willemstad',
+        nom: 'Willemstad',
+        capitale: true,
+        type: 'port',
+        territoire: 'curaçao',
+        coords: [6138, 3769],
+
+        contexte: `Plaque tournante du commerce hollandais dans les Caraïbes — un entrepôt neutre où transitent marchandises européennes, esclaves africains et produits coloniaux de toutes provenances.<br>
+Willemstad s'organise autour de la baie de Sint Anna : le quartier de Punda abrite les entrepôts et les comptoirs des marchands ; le <strong>Fort Amsterdam</strong> (1635) domine l'entrée du chenal depuis la pointe ouest.
+<br><br>
+Tout navire avec quelque chose à vendre ou à acheter sans qu'on lui pose de questions trouve ici un interlocuteur. Le cacao de Caracas arrive à Willemstad illégalement et repart légalement ; les produits manufacturés européens font le chemin inverse. En février 1713, des forces françaises occupent brièvement l'île — épisode humiliant pour la WIC, réglé par la paix d'Utrecht sans indemnité`,
+
+        population: `~8 000 habitants<br>(dont ~5 000 à 6 000 esclaves)`,
+
+        garnison: `Fort Amsterdam : ~120 soldats hollandais`,
+
+        note_mj: `✅ Occupation française de février 1713 : WorldStatesmen.org ; Klooster (1998).<br>
+✅ Commerce interlope cacao vénézuélien → Willemstad : Klooster (1998).<br>
+✅ Fort Amsterdam (1635) : établi.<br>
+⚠️ Garnison : Klooster donne des données économiques — estimation d'après Klooster, <em>Illicit Riches</em> (1998).`,
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // MARGUERITA
+    // ═══════════════════════════════════════════════════════════
+
+    // ── PAMPATAR ────────────────────────────────────────────────────────────────
+
+    {
+        id: 'pampatar',
+        nom: 'Pampatar',
+        type: 'port',
+        territoire: 'marguerita',
+        coords: [6967, 3919],
+
+        contexte: [
+            { de: 1712, texte: `Port principal de l'île Marguerita, sur la côte est. Le <strong>Castillo San Carlos Borromeo</strong> (1662–1684) est la seule fortification notable de l'île — construit après les pillages français du XVIIe siècle (1576, 1593, 1677). Fort et port sont sur le même site, gardant l'entrée de la baie de Pampatar. La capitale administrative officielle est La Asunción à l'intérieur, mais les gouverneurs préfèrent souvent résider à Pampatar.` },
+        ],
+
+        population: `~2 000 habitants`,
+
+        garnison: `Castillo San Carlos Borromeo : ~60 à 80 soldats.`,
+
+        note_mj: `✅ Castillo San Carlos Borromeo, construit 1662–1684 après les pillages français : établi.<br>
+✅ Pillages français 1576, 1593, 1677 : établis.<br>
+⚠️ Garnison et population : estimations par analogie avec les forts des provinces marginales vénézuéliennes..`,
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE NOUVELLE-ANDALOUSIE
+    // ═══════════════════════════════════════════════════════════
+
+    // ── CUMANA ────────────────────────────────────────────────────────────────
+
+    {
+        id: 'cumana',
+        nom: 'Cumaná',
+        capitale: true,
+        type: 'port',
+        territoire: 'nouvelle-andalousie',
+        coords: [6782, 4094],
+
+        contexte: [
+            { de: 1712, texte: `L'une des plus vieilles villes permanentes des Amériques, fondée en 1515 sur la côte nord-est du Venezuela actuel. Point de départ traditionnel des expéditions vers l'Orénoque et les Llanos, Cumaná est aussi le chef-lieu d'une province dont l'économie repose sur le cacao, la pêche et une contrebande structurelle avec les Hollandais du Surinam et les Français de la Martinique. Le <strong>Castillo San Antonio de la Eminencia</strong> domine la ville depuis une colline — fort en étoile commandant le port et ses approches.` },
+        ],
+
+        population: `~8 000 habitants`,
+
+        garnison: `Castillo San Antonio de la Eminencia : ~100 à 120 soldats.`,
+
+        note_mj: `✅ Fondation 1515 : établi.<br>
+✅ Castillo San Antonio de la Eminencia : établi — fort en étoile sur promontoire.<br>
+⚠️ Garnison : estimation d'après le rang de Cumaná comme chef-lieu de province.<br>
+Trinidad dépend nominalement de la province de Cumaná jusqu'en 1731.`,
+    },
+
+    // ── ARAYA ────────────────────────────────────────────────────────────────
 
     {
         id: 'santiago-de-araya',
         nom: 'Araya (Santiago de Araya)',
         label: 'St Iago',
-        type: 'site',
+        type: 'ville',
         rang: '2',
         territoire: 'nouvelle-andalousie',
         coords: [6890, 4048],
@@ -3295,7 +3665,7 @@ En 1712, le château est encore debout et partiellement en service, bien que la 
 ⚠️ Garnison en 1712 : estimation réduite par rapport aux effectifs du XVIIe siècle.`,
     },
 
-// ── 91. MACURO ───────────────────────────────────────────────────────────────
+    // ── MACURO ───────────────────────────────────────────────────────────────
 
     {
         id: 'macuro',
@@ -3321,12 +3691,12 @@ En 1712, le château est encore debout et partiellement en service, bien que la 
 ⚠️ État précis du village en 1712 : peu documenté.`,
     },
 
-// ── 92. AROMAIA (ORÉNOQUE) ────────────────────────────────────────────────────
+    // ── AROMAIA (ORÉNOQUE) ────────────────────────────────────────────────────
 
     {
         id: 'aromaia',
         nom: 'Aromaia',
-        type: 'site',
+        type: 'ville',
         rang: '2',
         territoire: 'nouvelle-andalousie',
         coords: [7326, 4462],
@@ -3343,12 +3713,12 @@ En 1712, le château est encore debout et partiellement en service, bien que la 
 ⚠️ Missions jésuites dans la région en 1712 : présence probable, détails peu documentés.`,
     },
 
-// ── 93. ARIACOA ──────────────────────────────────────────────────────────────
+    // ── ARIACOA ──────────────────────────────────────────────────────────────
 
     {
         id: 'ariacoa',
         nom: 'Ariacoa',
-        type: 'site',
+        type: 'ville',
         rang: '2',
         territoire: 'nouvelle-andalousie',
         coords: [7043, 4475],
@@ -3363,7 +3733,7 @@ En 1712, le château est encore debout et partiellement en service, bien que la 
         note_mj: `⚠️ Ariacoa : peu documenté — village ou mission de l'Orénoque inférieur, identification précise incertaine.`,
     },
 
-// ── 94. SANTO TOMÉ DE GUAYANA ────────────────────────────────────────────────
+    // ── SANTO TOMÉ DE GUAYANA ────────────────────────────────────────────────
 
     {
         id: 'st-thomas-guayana',
@@ -3390,12 +3760,12 @@ La ville a été attaquée et brûlée par Raleigh en 1617 lors de son second vo
 ⚠️ Population en 1712 : estimation.`,
     },
 
-// ── 95. MACUREVOARI ──────────────────────────────────────────────────────────
+    // ── MACUREVOARI ──────────────────────────────────────────────────────────
 
     {
         id: 'macurevoari',
         nom: 'Macurevoari',
-        type: 'site',
+        type: 'ville',
         rang: '2',
         territoire: 'nouvelle-andalousie',
         coords: [7224, 4634],
@@ -3413,14 +3783,14 @@ La ville a été attaquée et brûlée par Raleigh en 1617 lors de son second vo
 ⚠️ "Lac de Caslipa" sur la Jaillot : identification incertaine — pourrait correspondre au lac Capanaparo ou à un lac des llanos aujourd'hui asséché ou renommé.`,
     },
 
-// ── 96. MOREQUITO PORTUS ─────────────────────────────────────────────────────
+    // ── MOREQUITO PORTUS ─────────────────────────────────────────────────────
 
     {
         id: 'morequito-portus',
         nom: 'Porto Morequito',
         label: 'Morequito Portus',
-        type: 'site',
-        rang: '2',
+        type: 'ville',
+        rang: '3',
         territoire: 'nouvelle-andalousie',
         coords: [7086, 4870],
 
@@ -3438,12 +3808,12 @@ En 1712, le nom survit sur les cartes comme souvenir d'une rencontre qui a chang
 Le nom survit sur les cartes du XVIIIe siècle par tradition cartographique héritée de Raleigh.`,
     },
 
-// ── 97. TUTERITONA ───────────────────────────────────────────────────────────
+    // ── TUTERITONA ───────────────────────────────────────────────────────────
 
     {
         id: 'tuteritona',
         nom: 'Tuteritona',
-        type: 'site',
+        type: 'site_geo',
         rang: '3',
         territoire: 'nouvelle-andalousie',
         coords: [7130, 4780],
@@ -3458,8 +3828,7 @@ Le nom survit sur les cartes du XVIIIe siècle par tradition cartographique hér
         note_mj: `⚠️ Tuteritona : non identifié dans les sources coloniales accessibles. Village ou mission de l'Orénoque — existence présumée d'après la Jaillot, détails inconnus.`,
     },
 
-
-// ── AJOUT : VERINA (CARIACO) ─────────────────────────────────────────────────
+    // ── VERINA (CARIACO) ─────────────────────────────────────────────────
 
     {
         id: 'verina',
@@ -3488,137 +3857,222 @@ Le nom survit sur les cartes du XVIIIe siècle par tradition cartographique hér
 ⚠️ Population en 1712 : estimation.`,
     },
 
+    // ═══════════════════════════════════════════════════════════
+    // TRINIDAD
+    // ═══════════════════════════════════════════════════════════
 
+    // ── PUERTO ESPAÑA ────────────────────────────────────────────────────
 
     {
-        id: 'saint-georges-bermudes',
-        nom: "Saint George's",
-        capitale: true,
+        id: 'puerto-espana',
+        nom: 'Puerto España',
+        tags: [`Puerto-Espana`, `Port of Spain`, "Port-d'Espagne"],
         type: 'port',
-        territoire: 'bermudes',
-        coords: [6568, 420],
+        territoire: 'trinidad',
+        coords: [7387, 3989],
 
         contexte: [
-            { de: 1712, texte: `Capitale et unique ville notable des Bermudes. Saint George's s'organise autour de son port naturel — l'un des rares bons mouillages de l'archipel — et de ses chantiers navals. Le cèdre des Bermudes produit des coques légères et durables, réputées dans tout l'Atlantique. Les pilotes bermudiens, familiers des hauts-fonds de l'archipel, se retrouvent sur tous les navires qui naviguent entre les colonies. Certains d'entre eux figurent parmi les équipages pirates de Nassau — leur connaissance des passes est un atout irremplaçable.` },
+            { de: 1712, texte: `La capitale officielle de Trinidad est San José de Oruña (Saint Joseph), mais les gouverneurs résident en pratique à Puerto España, mieux située pour surveiller le trafic maritime du golfe de Paria. Puerto España est un bourg de quelques centaines de maisons sans défense organisée, dont la principale activité est un commerce de contrebande avec les Hollandais, les Français et les Anglais des îles voisines. Le cacao de Trinidad sort la nuit dans les criques du nord-ouest ; les manufactures européennes entrent de la même façon.` },
         ],
 
-        population: `~6 000 sur l'ensemble de l'archipel (dont ~2 000 esclaves) ; Saint George's regroupe l'essentiel de la population`,
+        population: `~800 à 1 000 habitants`,
 
-        note_mj: `✅ Réputation des chantiers bermudiens et des pilotes : établi (sources maritimes générales).<br>
-✅ Bermudiens parmi les pirates de Nassau : <em>Calendar of State Papers Colonial</em>.<br>
-Fort Hamilton : construit à partir de 1620 environ, en état modeste à cette période — davantage une batterie côtière qu'un vrai fort de garnison.`,
+        note_mj: `✅ Préférence des gouverneurs pour Puerto España sur San José de Oruña : carte-data.js (trinidad).<br>
+⚠️ Population : estimation.<br>
+Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inexistante. Coordonnées Saint-Joseph de Oruña : [7410, 3990].`,
     },
 
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE SURINAME / GUYANE HOLLANDAISE
+    // ═══════════════════════════════════════════════════════════
+
+    // ── PARAMARIBO ────────────────────────────────────────────────────
+
     {
-        id: 'spanish-town',
-        nom: 'Spanish Town',
+        id: 'paramaribo',
+        nom: 'Paramaribo',
         capitale: true,
         type: 'port',
-        territoire: 'jamaique',
-        coords: [4795, 2882],
+        territoire: 'suriname',
+        coords: [8218, 4616],
 
-        contexte: [
-            { de: 1712, texte: `Capitale administrative de la Jamaïque. Spanish Town abrite le gouverneur, l'Assemblée coloniale et les tribunaux. Ville de papiers et de fonctionnaires, sans port, à une vingtaine de kilomètres à l'intérieur des terres depuis la baie de Kingston.` },
-        ],
+        contexte: `Capitale de la colonie hollandaise du Suriname, sur la rive droite du fleuve Suriname. Paramaribo est un hub commercial prospère — ses plantations de sucre, de cacao et de café, exploitées par une main-d'œuvre servile massive, en font l'une des colonies les plus productives des Caraïbes. Le <strong>Fort Zeelandia</strong> (1667) occupe la pointe nord de la ville.
+<br><br>
+La guerre des Marrons est la réalité permanente de la colonie : des milliers d'esclaves africains fuient les plantations pour la forêt intérieure, où ils forment des communautés autonomes résistant efficacement aux expéditions militaires hollandaises depuis les années 1690. Cette guerre absorbe des ressources considérables et inquiète toutes les colonies à main-d'œuvre servile des Caraïbes.`,
 
-        population: `~2 000 habitants`,
+        population: `~5 000 à 8 000`,
 
-        note_mj: `Pas de fort ni de garnison propre — la défense de la Jamaïque est assurée depuis Port Royal. Spanish Town est mentionnée pour compléter la carte administrative, sans intérêt narratif direct pour la campagne.`,
+        garnison: `Fort Zeelandia : ~150 soldats hollandais.<br>Les expéditions contre les Marrons mobilisent des effectifs supplémentaires variables.`,
+
+        note_mj: `✅ Fort Zeelandia (1667) : établi.<br>
+✅ Guerre des Marrons depuis les années 1690 : Price (1973).<br>
+✅ Gestion tripartite Société du Surinam depuis 1683 : établi.<br>
+⚠️ Garnison : estimation d'après Price, <em>Maroon Societies</em> (1973) — Price donne des données sur les expéditions militaires plutôt que sur la garnison fixe.<br>
+Note toponymique : "Paragotos" sur la carte Jaillot désigne probablement le même site que "Suriname" — deux sources compilées sans recoupement par le cartographe.`,
     },
 
+    // ── NIEUW MIDDELBURG + FORT NIEUW ZEELAND ───────────────────────────────
+
     {
-        id: 'kingston',
-        nom: 'Kingston & Port Royal',
-        label: 'Kingston',
+        id: 'nieuw-middelburg',
+        nom: 'Nieuw Middelburg',
+        label: 'N. Middelburg',
         type: 'port',
-        territoire: 'jamaique',
-        coords: [4833, 2890],
+        rang: '2',
+        territoire: 'suriname',
+        coords: [7817, 4513],
+        // ⚠️ Sur le fleuve Pomeroon (Poumaron sur la Jaillot), côte de la
+        // Guyane hollandaise occidentale — géographiquement dans ce qui est
+        // aujourd'hui le Guyana, mais dans le bloc cartographique Suriname.
+        // Un fort associé, Fort Nieuw Zeeland, est indiqué en amont sur le
+        // même fleuve — distinct du Fort Zeelandia de Paramaribo ("Fort Funda"
+        // sur la Jaillot).
 
         contexte: [
             {
-                de: 1712, texte: `<strong>Port Royal</strong> occupait avant 1692 l'angle d'un long banc de sable fermant la baie de Kingston — ville de négoce et de plaisir surnommée "la plus riche et la plus impie du Nouveau Monde". Le tremblement de terre du 7 juin 1692 a englouti les deux tiers de la ville en deux minutes, noyant entre 2 000 et 5 000 personnes. Port Royal n'a pas disparu — la péninsule a été reconsolidée, une partie des bâtiments reconstruits — mais la population civile ne s'y est jamais réinstallée massivement. Ce qui reste est militaire et pénal : la base navale de la Royal Navy, les entrepôts d'avitaillement, et le Gallows Point.
-<br>
-<strong>Le Gallows Point</strong> est le lieu d'exécution des pirates condamnés à Kingston. Les corps sont ensuite exposés en cage de fer à l'entrée du port — pour l'exemple, disent les ordonnances — visibles de tout navire entrant dans la baie.
-<br>
-<strong>Kingston</strong>, fondée en 1693 sur la rive nord de la baie en face de Port Royal, est le centre marchand de fait. C'est là que les négociants jamaïcains ont leurs entrepôts, leurs comptoirs, leurs tavernes. Le butin pirate revendu par des intermédiaires discrets transite par Kingston avant de disparaître dans le circuit du commerce légal. Le sucre et le rhum jamaïcains partent de ses quais vers l'Angleterre et les colonies du Nord.
-<br>
-<strong>Fort Charles</strong>, à Port Royal, est la pièce maîtresse de la défense de la baie. Il commande l'entrée depuis la pointe de la péninsule.`,
+                de: 1712,
+                texte: `Établissement hollandais sur le fleuve Pomeroon, dans la zone de la colonie d'Essequibo — l'une des trois colonies hollandaises de Guyane avec Berbice et Suriname, administrées séparément sous l'autorité de la Compagnie des Indes occidentales (WIC). Nieuw Middelburg est un comptoir de plantation et de commerce avec les nations indiennes arawaks de l'arrière-pays, défendu en amont par le Fort Nieuw Zeeland.
+<br><br>
+La région porte sur la Jaillot la mention "<em>Suriname, aux Anglois et Hollandois</em>" — reflet d'une réalité de 1712 : la côte entre l'embouchure de l'Orénoque et celle de l'Essequibo est partiellement occupée par des planteurs anglais installés sous protection hollandaise, et par des postes hollandais dont la souveraineté reste contestée. Les Anglais ont officiellement cédé le Suriname aux Hollandais en 1667 (traité de Breda) en échange de la Nouvelle-Amsterdam (New York) — mais des planteurs anglais y sont restés.`,
             },
-            { de: 1720, a: 1721, texte: `Le 18 novembre 1720, le capitaine pirate Calico Jack Rackham est exécuté à Port Royal. Il est jugé et pendu à Gallows Point, où son corps est exposé en cage de fer pendant plusieurs mois.` },
-            { de: 1721, texte: `Le 29 mars 1721, Charles Vane, l'un des chefs pirates les plus notoires de Nassau, est capturé et pendu à Gallows Point. Son corps est exposé en cage de fer à l'entrée du port pendant plusieurs mois.` },
         ],
-        population: `Port Royal : ~2 000 (garnison, marins, personnels navals)
-Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'île`,
 
-        garnison: `Fort Charles : ~200 soldats d'infanterie régulière, plus la garnison maritime variable selon la présence de la Royal Navy. La Jamaica Station peut compter 3 à 6 frégates en temps ordinaire, davantage en période de crise. Effectif de terre : estimation d'après Pawson & Buisseret, Port Royal, Jamaica (1975).`,
+        population: `Quelques centaines d'habitants — planteurs, engagés, esclaves africains`,
 
-        note_mj: `✅ Tremblement de terre 1692, mort de 2 000 à 5 000 personnes : établi (Pawson & Buisseret, 1975 ; Dunn, Sugar and Slaves, 1972).
-✅ Fondation de Kingston 1693 : établi.
-✅ Gallows Point — exécution de Vane 1721 : Johnson, General History (1724) ; Wikipedia EN (Charles Vane).
-✅ Commerce interlope du butin pirate via Kingston : Calendar of State Papers ; Woodard (2008).
-⚠️ Effectif exact de Fort Charles : Pawson & Buisseret donnent des données pour la fin du XVIIe — extrapolation pour 1712–1720.
-🎲 Kingston est le passage obligé pour tout navire qui veut commercer légalement en Jamaïque. Port Royal est le passage obligé pour tout navire qui veut être inspecté, armé, ou pendu.`,
+        garnison: `Fort Nieuw Zeeland (en amont sur le Pomeroon) : quelques dizaines de soldats. Estimation par analogie avec les petits postes de la WIC en Guyane.`,
+
+        note_mj: `✅ Colonies hollandaises d'Essequibo, Berbice, Suriname — trois entités distinctes sous la WIC : établi.
+✅ Traité de Breda 1667, échange Suriname contre Nouvelle-Amsterdam : établi.
+✅ Présence anglaise résiduelle au Suriname après 1667 : établi — de nombreux planteurs anglais sont restés malgré le changement de souveraineté.
+⚠️ Nieuw Middelburg sur le Pomeroon : établissement documenté dans les archives de la WIC, détails précis pour 1712 peu accessibles.
+⚠️ Fort Nieuw Zeeland : distinct du Fort Zeelandia de Paramaribo ("Fort Funda" sur la Jaillot) — même nom, deux forts différents.`,
     },
+
+    // ── FORT KYK-OVER-AL ────────────────────────────────────────────────────
 
     {
-        id: 'cap-francais',
-        nom: 'Cap-Français (Le Cap)',
-        label: 'Cap-Français',
-        capitale: true,
-        type: 'port',
-        territoire: 'saint-domingue',
-        coords: [5497, 2541],
+        id: 'fort-kyk-over-al',
+        nom: 'Fort Kyk-Over-Al',
+        label: 'Fort Kyck Overal',
+        type: 'fort',
+        rang: '2',
+        territoire: 'suriname',
+        coords: [7824, 4602],
+        // ⚠️ Sur un îlot au confluent de l'Essequibo et du Mazaruni,
+        // dans ce qui est aujourd'hui le Guyana — dans le bloc cartographique
+        // Suriname de la Jaillot.
 
         contexte: [
-            { de: 1712, texte: `Capitale de Saint-Domingue et ville la plus active des Antilles françaises. Le Cap s'étend sur une plaine étroite coincée entre la mer et les mornes du nord d'Hispaniola. Ses quais expédient vers Bordeaux et Nantes le sucre, l'indigo et le cacao des grandes habitations de la plaine du Nord. Le Conseil supérieur y siège, le gouverneur général y réside, et les négociants de toute la Caraïbe y font escale. Les tavernes, maisons closes et entrepôts du port constituent une économie parallèle fréquentée par des marins de toutes nationalités — dont certains n'ont pas de papiers en règle. Un capitaine avec une cargaison d'origine douteuse y trouvera preneur, à condition de ne pas attirer l'attention des autorités.` },
+            {
+                de: 1712,
+                texte: `Premier fort hollandais de Guyane, fondé en 1616 sur un îlot rocheux au confluent de l'Essequibo et du Mazaruni — position qui lui vaut son nom : <em>Kyk-Over-Al</em>, "regarde partout" en hollandais. Du haut de ses murs, la vue porte sur les trois cours d'eau qui convergent au même point. Le fort est la tête de la colonie d'Essequibo depuis près d'un siècle : c'est depuis ici que les marchands hollandais organisent le commerce avec les nations arawaks de l'intérieur — coton, rocou, bois de teinture contre haches, couteaux et perles de verre.
+<br><br>
+En 1712, le fort est en service mais son rôle décline : les plantations côtières de cacao et de sucre, plus accessibles et plus rentables, déplacent le centre de gravité de la colonie vers l'aval. Kyk-Over-Al reste un symbole et une position de surveillance, mais les grandes décisions de la colonie se prennent désormais plus près de la côte.`,
+            },
         ],
 
-        population: `~10 000 à 12 000 habitants (dont ~8 000 esclaves)`,
+        garnison: `~30 à 50 soldats. Estimation d'après Hartsinck, <em>Beschryving van Guiana</em> (1770) — source postérieure mais couvrant l'histoire coloniale de la période.`,
 
-        note_mj: `✅ Capitale de Saint-Domingue, siège du gouverneur général : établi (ANOM).
-✅ Rôle commercial — sucre, indigo, cacao vers Bordeaux : Debien, Les esclaves aux Antilles françaises (1974).
-🎲 Le Cap est le décor de Satiété engendre Démesure (janvier 1714, sous Blénac).`,
+        note_mj: `✅ Fondation 1616, position au confluent Essequibo–Mazaruni : établi (Hartsinck, 1770 ; Wikipedia EN, Fort Kyk-Over-Al).
+✅ Nom hollandais "Kyk-Over-Al" — vue panoramique sur les trois confluents : établi.
+✅ Rôle central dans la colonie d'Essequibo depuis le XVIIe siècle : établi.
+⚠️ Garnison en 1712 : estimation — Hartsinck donne des données générales, pas des effectifs précis par année.`,
     },
+
+    // ── VILLAGES DU DELTA (MARAWALLI, MAPUETA, MACHARIBI, VAPERON) ──────────
 
     {
-        id: 'petit-goave',
-        nom: 'Petit-Goâve',
-        type: 'port',
-        territoire: 'saint-domingue',
-        coords: [5340, 2769],
+        id: 'villages-delta-suriname',
+        nom: 'Villages du delta surinamais',
+        label: 'Marawalli · Mapueta · Macharibi · Vaperon',
+        type: 'ville',
+        rang: '2',
+        territoire: 'suriname',
+        coords: [7975, 4691],
+        // ⚠️ Quatre villages arawaks ou caribs représentés sur la Jaillot
+        // dans le delta du Suriname et des fleuves voisins.
+        // Identifications approximatives :
+        // · Marawalli → probablement sur le Marowijne (Maroni) ou un distributaire
+        // · Mapueta → probablement sur le Coppename ou le Saramacca
+        // · Macharibi → non identifié, fleuve occidental du Suriname
+        // · Vaperon → pourrait correspondre à Warapicou ou village carib du bas Maroni
 
         contexte: [
-            { de: 1712, texte: `Ancienne capitale des flibustiers français de Saint-Domingue. Dans les années 1660–1690, Petit-Goâve était le point de rassemblement des boucaniers de la côte ouest d'Hispaniola — une ville de planches et de tavernes où les équipages se formaient, les prises se vendaient, et les gouverneurs fermaient les yeux. En 1712, cette époque est révolue depuis une génération : Petit-Goâve est un bourg modeste en déclin, dont les habitants vivent surtout d'un petit commerce de denrées et de pêche côtière. Il reste un mouillage commode sur la route entre Le Cap et la côte sud, mais plus rien de la turbulence d'antan.` },
+            {
+                de: 1712,
+                texte: `Villages arawaks et caribs dans le delta surinamais et sur les fleuves côtiers de la Guyane hollandaise. Ces communautés indigènes sont les intermédiaires indispensables du commerce hollandais avec l'intérieur : elles fournissent vivres, pirogues, guides et informations sur les routes fluviales vers les forêts de l'arrière-pays. Les marchands de Paramaribo et d'Essequibo entretiennent avec elles des relations commerciales stables depuis plusieurs générations — échanges de coton, de rocou et de bois contre outils de métal, perles et eau-de-vie.
+<br><br>
+Ces mêmes villages sont aussi des refuges potentiels pour les esclaves marrons qui fuient les plantations hollandaises — tension permanente que les autorités de Paramaribo tentent de gérer en maintenant des traités distincts avec chaque communauté. La guerre des Marrons qui absorbe une part croissante des ressources militaires de la colonie oppose précisément les Hollandais aux esclaves fugitifs qui ont trouvé refuge dans la forêt avec l'aide, parfois, de ces villages côtiers.`,
+            },
         ],
 
-        population: `~1 500 habitants`,
-
-        note_mj: `✅ Rôle boucanier 1660–1690 : Exquemelin, Flibustiers et boucaniers ; Du Tertre, Histoire générale des Antilles.
-✅ Déclin après 1700 : Paris a progressivement centralisé l'administration à Cap-Français et interdit les lettres de marque sauvages.
-⚠️ Population 1712 : estimation — aucun recensement précis disponible pour cette date.
-🎲 Un PJ qui cherche ici l'animation d'antan sera déçu — et c'est précisément ce décalage qui peut être narrativement intéressant.`,
+        note_mj: `⚠️ Identifications individuelles incertaines — noms translittérés approximativement par les cartographes hollandais puis français. Les quatre toponymes correspondent à des villages réels en 1712 mais leur identification précise avec des lieux actuels est hasardeuse.
+✅ Rôle des communautés arawaks et caribs comme intermédiaires commerciaux dans la colonie d'Essequibo et du Suriname : établi (Price, <em>Maroon Societies</em>, 1973).
+✅ Guerre des Marrons et tensions avec les villages indigènes côtiers : établi.`,
     },
+
+    // ── MATUNERE MONTAGNES (TUMUC-HUMAC) ────────────────────────────────────
 
     {
-        id: 'basse-terre-tortue',
-        nom: 'Basse-Terre',
-        type: 'port',
-        territoire: 'tortue',
-        coords: [5310, 2528],
+        id: 'matunere-montagnes',
+        nom: 'Matunere Montagnes (Tumuc-Humac)',
+        label: 'Matunere Montagnes',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'suriname',
+        coords: [7618, 4967],
+        // ⚠️ Massif à la frontière entre le Suriname, la Guyane française
+        // et le Brésil. La Jaillot les place comme limite méridionale du
+        // Suriname — au-delà commence la "Guiane" sans établissement.
 
         contexte: [
-            { de: 1712, texte: `Bourg principal de l'île de la Tortue, organisé autour du Fort de la Roche — l'unique position défendable de l'île, taillée à même le promontoire rocheux qui domine la rade. En 1712, la Tortue est une dépendance administrative de Saint-Domingue sans gouverneur propre. Le bourg est modeste : quelques centaines d'habitants, des pêcheurs, une garnison squelettique.` },
+            {
+                de: 1712,
+                texte: `Massif montagneux formant la ligne de partage des eaux entre les fleuves côtiers du Suriname au nord et les affluents de l'Amazone au sud — frontière naturelle entre le monde connu des colonies hollandaises et la forêt amazonienne inexplorée. Les Hollandais n'ont jamais franchi ces montagnes ; les Amérindiens qui les habitent — Tiriyós, Wayanas — n'ont jamais été contactés par les Européens. Au-delà commence la <em>Guiane</em> que la Jaillot représente comme un blanc sur la carte, sans nom ni établissement.
+<br><br>
+C'est depuis ces hauteurs que naissent les fleuves où les esclaves marrons du Suriname établissent leurs communautés autonomes — Saramaka, Ndyuka — à l'abri des expéditions militaires hollandaises qui peinent à pénétrer dans ces forêts.`,
+            },
         ],
 
-        population: `Quelques centaines d'habitants (garnison, pêcheurs, colons)`,
-
-        garnison: `Fort de la Roche : ~30 à 50 soldats. Estimation par analogie avec les petits postes français des Antilles à population et importance comparables. Aucune source primaire directe disponible pour 1712.`,
-
-        note_mj: `✅ Réputation sanitaire (fièvre jaune rare) : attestée dans les sources de l'époque — Du Tertre, Labat. Explication réelle inconnue des contemporains (altitude, absence de zones marécageuses étendues, moins de moustiques Aedes aegypti).
-✅ Fort de la Roche : construit sous d'Ogeron (~1665–1675), en état de fonctionnement au début du XVIIIe.
-⚠️ Garnison et population : estimations — aucune source directe.
-À ne pas confondre avec l'Isla La Tortuga vénézuélienne.`,
+        note_mj: `✅ Tumuc-Humac comme ligne de partage des eaux Suriname–Amazone : établi géographiquement.
+✅ Communautés marrons (Saramaka, Ndyuka) dans les fleuves intérieurs du Suriname : établi (Price, <em>Maroon Societies</em>, 1973).
+✅ Tiriyós et Wayanas dans les hauteurs — non contactés par les Européens en 1712 : établi.
+La "Guiane" au sud des Matunere est hors carte pour les établissements — Cayenne est hors cadre de la Jaillot.`,
     },
+
+    // ═══════════════════════════════════════════════════════════
+    // BAHAMAS
+    // ═══════════════════════════════════════════════════════════
+
+    // ── BAHAMAS ─────────────────────────────────────────────
+
+    {
+        id: 'harbour-island',
+        nom: 'Harbour Island',
+        type: 'port',
+        territoire: 'eleuthera',
+        coords: [4719, 1610],
+
+        contexte: `Îlot de quelques kilomètres au nord-est de la pointe septentrionale d'Eleuthera, Harbour Island est le centre le plus actif de l'archipel des Bahamas hors Nassau. Sa baie naturelle, protégée par un banc de sable, offre un mouillage abrité accessible aux sloops et aux goélettes — mais difficile pour les grands bâtiments, ce qui constitue une protection naturelle.
+
+La communauté résidente compte une trentaine de familles en 1717 — descendants des fondateurs puritains de 1648, protestants républicains hostiles par tradition à la monarchie. <!--Cette mémoire les range sans hésitation dans le camp hanovrien en 1718 quand la question du pardon royal divise Nassau. -->
+
+Harbour Island est le sas entre Nassau et le monde légal. Des marchands de Boston et de Charles Town y traitent avec les pirates sans se compromettre directement à Nassau. Les familles Darvill et Stillwell fournissent vivres, eau douce et rhum ; Richard Thompson et John Cockram importent depuis Curaçao et les colonies continentales les marchandises manufacturées que les pirates ne peuvent obtenir ailleurs.
+
+La batterie côtière construite par le vice-gouverneur Walker vers 1710 — quatre canons et quelques pierriers commandant l'entrée du port — change de mains selon les circonstances. En 1717, les pirates l'occupent avec une cinquantaine d'hommes.`,
+
+        population: `~150 à 200 résidents permanents (1717) ; population flottante variable — un seul navire pirate représente 60 à 100 hommes supplémentaires`,
+
+        garnison: `Batterie Walker (~1710) : 4 canons, quelques pierriers. Pas de garnison régulière — occupée selon les circonstances par des civils armés, des pirates, ou laissée à l'abandon. Mentionnée dans les rapports de Woodes Rogers (1718).`,
+
+        note_mj: `✅ Rapport Musson 1717 (deux navires de Boston) : Calendar of State Papers Colonial.
+✅ Personnages attestés : Jonathan Darvill, Daniel Stillwell, Richard Thompson, John Cockram — B.C. Brooks, Bahamas Shipping Records 1721–1725 ; Wikipedia EN (John Cockram).
+✅ Batterie Walker ~1710, 4 canons, occupation pirate 1717 : Calendar of State Papers ; Rogers rapports 1718.
+✅ Recensement Rogers 1722 : 124 blancs + 5 noirs à Harbour Island, 28 hommes en âge de porter les armes.
+Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colonial ; Woodard (2008).`,
+    },
+
+    // ── NEW-PROVIDENCE ─────────────────────────────────────────────
 
     {
         id: 'nassau',
@@ -3689,81 +4143,11 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         ✅ Décomposition population post-1718 et milice de 500 lors du raid espagnol de 1720 : <em>Calendar of State Papers Colonial</em> ; <em>Woodard, Republic of Pirates</em>. Les 600 combattants incluent ~100 soldats réguliers + ~500 miliciens (repentis, colons, esclaves armés en crise).`,
     },
 
-    {
-        id: 'harbour-island',
-        nom: 'Harbour Island',
-        type: 'port',
-        territoire: 'eleuthera',
-        coords: [4719, 1610],
+    // ═══════════════════════════════════════════════════════════
+    // SÉRIE GRANDES ANTILLES
+    // ═══════════════════════════════════════════════════════════
 
-        contexte: `Îlot de quelques kilomètres au nord-est de la pointe septentrionale d'Eleuthera, Harbour Island est le centre le plus actif de l'archipel des Bahamas hors Nassau. Sa baie naturelle, protégée par un banc de sable, offre un mouillage abrité accessible aux sloops et aux goélettes — mais difficile pour les grands bâtiments, ce qui constitue une protection naturelle.
-
-La communauté résidente compte une trentaine de familles en 1717 — descendants des fondateurs puritains de 1648, protestants républicains hostiles par tradition à la monarchie. <!--Cette mémoire les range sans hésitation dans le camp hanovrien en 1718 quand la question du pardon royal divise Nassau. -->
-
-Harbour Island est le sas entre Nassau et le monde légal. Des marchands de Boston et de Charles Town y traitent avec les pirates sans se compromettre directement à Nassau. Les familles Darvill et Stillwell fournissent vivres, eau douce et rhum ; Richard Thompson et John Cockram importent depuis Curaçao et les colonies continentales les marchandises manufacturées que les pirates ne peuvent obtenir ailleurs.
-
-La batterie côtière construite par le vice-gouverneur Walker vers 1710 — quatre canons et quelques pierriers commandant l'entrée du port — change de mains selon les circonstances. En 1717, les pirates l'occupent avec une cinquantaine d'hommes.`,
-
-        population: `~150 à 200 résidents permanents (1717) ; population flottante variable — un seul navire pirate représente 60 à 100 hommes supplémentaires`,
-
-        garnison: `Batterie Walker (~1710) : 4 canons, quelques pierriers. Pas de garnison régulière — occupée selon les circonstances par des civils armés, des pirates, ou laissée à l'abandon. Mentionnée dans les rapports de Woodes Rogers (1718).`,
-
-        note_mj: `✅ Rapport Musson 1717 (deux navires de Boston) : Calendar of State Papers Colonial.
-✅ Personnages attestés : Jonathan Darvill, Daniel Stillwell, Richard Thompson, John Cockram — B.C. Brooks, Bahamas Shipping Records 1721–1725 ; Wikipedia EN (John Cockram).
-✅ Batterie Walker ~1710, 4 canons, occupation pirate 1717 : Calendar of State Papers ; Rogers rapports 1718.
-✅ Recensement Rogers 1722 : 124 blancs + 5 noirs à Harbour Island, 28 hommes en âge de porter les armes.
-Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colonial ; Woodard (2008).`,
-    },
-
-    // ══════════════════════════════════════════════════════════
-    // SÉRIE 2 — Antilles espagnoles & Terre Ferme
-    // ══════════════════════════════════════════════════════════
-
-    {
-        id: 'santo-domingo',
-        nom: 'Santo Domingo',
-        capitale: true,
-        type: 'port',
-        territoire: 'santo-domingo',
-        coords: [5821, 2780],
-
-        contexte: [
-            { de: 1712, texte: `Première ville européenne permanente des Amériques, fondée en 1498 sur la rive sud d'Hispaniola. Santo Domingo conserve son prestige historique — siège de la Real Audiencia, première cathédrale, premier palais colonial du Nouveau Monde — mais la ville est en 1712 une cité appauvrie et clairsemée. La Fortaleza Ozama, construite en 1502 sur la rive du fleuve du même nom, est le plus vieux fort européen des Amériques encore debout. La Real Audiencia de Santo Domingo exerce nominalement une juridiction sur Cuba, Porto Rico, la Floride et le Venezuela, mais cette autorité est de plus en plus théorique à mesure que Madrid réorganise son empire.` },
-        ],
-
-        population: `~5 000 à 8 000 habitants (dont ~1 500 esclaves)`,
-
-        garnison: `Fortaleza Ozama : ~80 à 120 soldats. Estimation par analogie avec les garnisons des places espagnoles de même rang et de même éloignement des circuits principaux. Aucune source primaire directe pour 1712.`,
-
-        note_mj: `✅ Fortaleza Ozama, 1502 — plus vieux fort européen des Amériques : établi.
-✅ Real Audiencia compétente sur Cuba, Porto Rico, Floride, Venezuela : établi.
-⚠️ Garnison et population : estimations.
-⚠️ Gouverneur de 1712 non identifié avec certitude avant Pedro de Niela y Torres (1713).`,
-    },
-
-    {
-        id: 'san-juan',
-        nom: 'San Juan',
-        capitale: true,
-        type: 'port',
-        territoire: 'porto-rico',
-        coords: [6551, 2727],
-
-        contexte: `San Juan est bâtie sur un îlot rocheux relié à l'île principale par deux ponts-levis — position qui en fait naturellement une des places les mieux défendues des Antilles. Deux châteaux-forts commandent l'accès : le <strong>Castillo San Felipe del Morro</strong> à la pointe ouest de l'îlot, dominant l'entrée du chenal depuis le XVIe siècle, et le <strong>Castillo San Cristóbal</strong> à l'est, protégeant l'accès terrestre depuis la grande île. L'enceinte de murailles reliant les deux forts est pratiquement continue.
-
-La ville vit du situado — la subvention annuelle de Mexico finançant garnison et administration — et d'un commerce de contrebande que tout le monde pratique et que personne n'avoue. Les marchands anglais et hollandais qui ne peuvent entrer légalement font escale à Vieques (Boreque sur la carte), à 8 km au sud-est, ou dans les anses de la côte nord.`,
-
-        population: `~6 000 habitants intra-muros`,
-
-        garnison: `Castillo San Felipe del Morro : ~300 soldats. Castillo San Cristóbal : ~150 soldats. Total garnison de la place : ~500 hommes, auxquels s'ajoutent les équipages des navires de course d'Enríquez (variables). Estimation d'après Caro Costas, Legislación Municipal Puertorriqueña, et EnciclopediaPR.`,
-
-        note_mj: `✅ Architecture de la défense (Morro + San Cristóbal + murailles continues) : établi.
-✅ Miguel Enríquez — biographie, Medalla de oro 1713, flotte de 30 navires : Wikipedia EN (Miguel Enríquez) ; EnciclopediaPR.
-✅ Arrivée de Ribera le 23 décembre 1713 à bord du navire d'Enríquez La Gloria : Wikipedia EN.
-✅ Vieques (Boreque) — mouillage de substitution pour les navires étrangers : inféré de la géographie et de la pratique documentée.
-⚠️ Effectifs de garnison : les listes d'AGI donnent des effectifs théoriques ; les effectifs réels sont structurellement inférieurs (désertions, maladies, postes non pourvus).
-🎲 Enríquez est jouable comme PNJ à part entière : mulâtre, fils d'esclave, anobli de fait, le plus riche des Caraïbes espagnoles, en guerre permanente avec les gouverneurs successifs.`,
-    },
+    // ── LA HAVANE ─────────────────────────────────────────
 
     {
         id: 'la-havane',
@@ -3789,6 +4173,8 @@ Deux fortifications commandent l'entrée du port : le <strong>Castillo de los Tr
 ⚠️ Garnison : Kuethe & Marchena couvrent la période bourbonienne tardive — extrapolation pour 1712–1724, antérieure aux grandes réformes militaires.`,
     },
 
+    // ── SANTIAGO DE CUBA ─────────────────────────────────────────
+
     {
         id: 'santiago-de-cuba',
         nom: 'Santiago de Cuba',
@@ -3809,260 +4195,692 @@ Deux fortifications commandent l'entrée du port : le <strong>Castillo de los Tr
 ⚠️ Garnison et population : estimations.`,
     },
 
+    // ── SANTA CRUZ DEL NORTE (CUBA) ─────────────────────────────────────────
+
     {
-        id: 'trujillo',
-        nom: 'Trujillo',
-        type: 'port',
-        territoire: 'honduras',
-        coords: [2949, 3278],
+        id: 'santa-cruz-cuba',
+        nom: 'Santa Cruz del Norte',
+        label: 'Santa Cruz',
+        type: 'ville',
+        rang: '3',
+        territoire: 'cuba',
+        coords: [3845, 2076],
+        // ⚠️ Côte nord de Cuba, à l'est de La Havane.
 
         contexte: [
-            { de: 1712, texte: `Seul port espagnol de la côte Caraïbe hondurienne. Trujillo marque la frontière orientale de l'autorité de Madrid — au-delà, c'est la côte Miskito. La ville est modeste, mal défendue, chroniquement menacée par les raids miskitos et les incursions anglaises depuis la Jamaïque. Son utilité principale : point de départ des routes vers l'intérieur du Honduras et Comayagua.` },
+            {
+                de: 1712,
+                texte: `Bourg côtier sur la côte nord de Cuba, à l'est de La Havane. Santa Cruz del Norte est une escale sur la navigation côtière entre La Havane et Santiago — un point de relâche pour les navires qui longent la côte cubaine, avec un abri modeste et des provisions. La région produit du tabac et de la mélasse ; quelques petits ingenios (moulins à sucre) commencent à s'établir dans l'arrière-pays.`,
+            },
         ],
 
         population: `~1 000 habitants`,
 
-        note_mj: `⚠️ Trujillo est peu documentée pour cette période. Toutes les données sont des estimations par analogie avec les postes espagnols comparables de la côte Caraïbe.`,
+        note_mj: `⚠️ Santa Cruz del Norte : identification d'après la position sur la Jaillot (côte nord, à l'est de La Havane). Peu documenté pour 1712 spécifiquement.
+⚠️ Population : estimation.`,
     },
 
-    {
-        id: 'cap-gracias-a-dios',
-        nom: 'Cap Gracias a Dios',
-        capitale: true,
-        type: 'port',
-        territoire: 'cote-miskito',
-        coords: [3568, 3452],
-
-        contexte: [
-            { de: 1712, texte: `Pointe extrême orientale de la côte hondurienne, où le littoral s'infléchit vers le sud. Siège de fait du roi Miskito, investi à Spanish Town (Jamaïque) mais résidant ici. Le Cap est le nœud de toute navigation sur la côte Miskito : les sloops jamaïcains qui viennent troquer armes et rhum contre bois et tortues y font escale. Pas d'établissement européen permanent — quelques cases, un mouillage, et la présence du roi avec ses guerriers.` },
-        ],
-
-        population: `Quelques centaines de Miskitos autour du cap.`,
-
-        note_mj: `✅ Cap Gracias a Dios comme siège du roi Miskito : établi (Wikipedia EN, Miskito people).
-✅ Investiture du roi à Spanish Town, Jamaïque : établi.
-⚠️ Nom précis du roi en 1712 : non identifié. Jeremy I est documenté dans les années 1720.`,
-    },
+    // ── SANCTI SPÍRITUS ─────────────────────────────────────────────────────
 
     {
-        id: 'granada-nicaragua',
-        nom: 'Granada',
-        type: 'port',
-        territoire: 'nicaragua',
-        coords: [2772, 4009],
-
-        contexte: [
-            { de: 1712, texte: `Ville la plus riche du Nicaragua espagnol, sur la rive occidentale du lac Nicaragua. Sa vulnérabilité structurelle est géographique : le río San Juan relie le lac à la mer des Caraïbes — une voie navigable depuis la côte atlantique jusqu'au cœur de la ville. Morgan l'a remontée en 1665 pour saccager Granada. Le <strong>Castillo de la Inmaculada Concepción</strong>, établi sur les rapides à mi-parcours du río San Juan (à ~80 km de la côte), est censé barrer cette route — mais la garnison est insuffisante et le fort en mauvais état permanent.` },
-        ],
-
-        population: `~4 000 habitants`,
-
-        note_mj: `✅ Saccage de Granada par Morgan via le río San Juan, 1665 : établi.
-✅ Castillo de la Inmaculada Concepción sur les rapides du San Juan, à mi-parcours — distinct de l'embouchure maritime : établi (voir entrée dédiée 'castillo-san-juan').
-⚠️ La description initiale plaçait le fort "à l'embouchure" — corrigé : El Castillo est à ~80 km de la côte, sur les rapides qui bloquent la navigation. L'embouchure maritime elle-même n'est pas fortifiée de façon permanente en 1712.`,
-    },
-
-    {
-        id: 'fort-san-lorenzo',
-        label: 'Fort San Lorenzo',
-        nom: 'Castillo de San Lorenzo el Real de Chagres',
-        type: 'fort',
+        id: 'sancti-spiritus',
+        nom: 'Sancti Spíritus',
+        label: 'Sta Spirito',
+        type: 'ville',
         rang: '2',
-        capitale: false,
-        territoire: 'panama',
-        coords: [3900, 4259],
+        territoire: 'cuba',
+        coords: [4149, 2370],
 
         contexte: [
             {
                 de: 1712,
-                texte: `Position isolée à l'embouchure du río Chagres sur la côte Caraïbe de l'isthme, à quelques dizaines de kilomètres à l'ouest de Portobelo. San Lorenzo est le verrou de la traversée de l'isthme : le Chagres remonte vers l'intérieur sur plus de cent kilomètres, permettant d'approcher Panama City à une journée de marche. Qui tient San Lorenzo tient la seule route rapide à travers la jungle — c'est ce qu'avait compris Morgan en le prenant d'assaut en décembre 1670, avec pertes sévères, avant de remonter le fleuve et de traverser l'isthme jusqu'à Panama City.
-        <br><br>
-Reconstruit et renforcé après ce raid, le fort occupe un promontoire de 60 mètres au-dessus du fleuve, offrant une vue dégagée sur la mer et sur l'embouchure. En 1712, c'est un poste isolé en forêt tropicale, tenu par une garnison clairsemée dans un climat meurtrier — les maladies déciment régulièrement les soldats fraîchement arrivés d'Espagne avant même qu'ils aient vu l'ennemi.`,
+                texte: `L'une des sept villas fondées par Diego Velázquez lors de la conquête de Cuba (1514), dans les plaines du centre de l'île. Sancti Spíritus est une ville agricole tranquille — élevage extensif, culture du tabac, quelques petits moulins à sucre — loin des turbulences des ports de La Havane et de Santiago. Sa position à mi-chemin entre les deux extrémités de l'île en fait un relais commercial sur la route terrestre qui traverse Cuba d'ouest en est.`,
             },
         ],
 
-        population: `Garnison uniquement — aucun civil permanent`,
+        population: `~3 000 habitants`,
 
-        garnison: `~100 à 150 soldats. Le fort est réputé difficile à tenir : les maladies tropicales déciment régulièrement les garnisons fraîchement arrivées d'Espagne. Effectif réel souvent inférieur à l'effectif théorique. Estimation d'après la taille et l'importance stratégique du fort, comparable aux sources sur Portobelo (AGI Panama).`,
-
-        note_mj: `✅ Prise par Morgan, décembre 1670, combat violent : établi (Exquemelin ; Earle, The Sack of Panama, 1981).<br>
-✅ Position sur promontoire à 60 m, vue sur mer et fleuve : établi.<br>
-✅ Reconstruction post-Morgan, plan en étoile : établi.<br>
-⚠️ Garnison 1712 : estimation — les sources primaires (AGI Panama) donnent des effectifs théoriques peu fiables pour cette période.<br>
-🎲 San Lorenzo est un lieu en soi, pas une dépendance de Panama City : on n'y arrive pas par hasard.`,
+        note_mj: `✅ Fondation 1514 par Diego Velázquez, l'une des sept villas originelles de Cuba : établi.
+⚠️ Population en 1712 : estimation.`,
     },
 
+    // ── MANZANILLO ──────────────────────────────────────────────────────────
+
     {
-        id: 'portobelo',
-        nom: 'Portobelo',
+        id: 'mancanilla-cuba',
+        nom: 'Manzanillo',
+        label: 'Mancanilla',
         type: 'port',
-        territoire: 'panama',
-        coords: [3985, 4230],
+        rang: '2',
+        territoire: 'cuba',
+        coords: [4556, 2500],
 
         contexte: [
             {
                 de: 1712,
-                texte: `Portobelo est une contradiction permanente : l'un des ports les plus importants de l'empire espagnol sur le papier, une ville à moitié vide en pratique, dans une baie réputée mortelle pour les Européens non acclimatés. Depuis 1708, les foires sont interrompues — aucun galion espagnol n'est attendu, aucun ne vient. Portobelo est un fort et un poste douanier, pas un marché.
-<br><br>
-Trois forts commandent la baie : le <strong>Fort San Felipe de Todo Fierro</strong> sur la rive sud à l'entrée, le <strong>Fort Santiago de la Gloria</strong> sur la rive nord face au premier, et le <strong>Fort San Fernando</strong> à l'intérieur de la baie côté ville. Aucun des trois n'est redoutable isolément — Morgan les prend tous en 1668 en quelques heures en débarquant à l'est et les attaquant à revers par voie terrestre. Le souvenir de ce raid hante les garnisons.`,
-            },
-            {
-                de: 1722, a: 1724,
-                texte: `La foire de 1722 est la première depuis 1708. Elle tourne court : voir le bloc Panama (Tierra Firme) pour le détail. Portobelo reprend nominalement son rôle de port des galions, mais le système ne se remet pas.`,
+                texte: `Port modeste sur la côte méridionale de Cuba orientale, dans le golfe de Guacanayabo. Manzanillo est un port de cabotage actif malgré sa taille réduite — sa position sur la côte méridionale cubaine en fait une escale sur la route entre Santiago de Cuba et La Havane par le sud, et un point de contact commercial avec les boucaniers et les marchands de Saint-Domingue français à travers le canal du Vent. Le commerce interlope avec la partie française d'Hispaniola y est structurel.`,
             },
         ],
 
-        population: `~500 habitants permanents hors période de foire. La population décuplait lors des grandes foires — mais celles-ci sont interrompues.`,
+        population: `~1 500 habitants`,
 
-        garnison: `Fort San Felipe : ~80 soldats<br>
-Fort Santiago : ~60 soldats.<br>
-Fort San Fernando : ~80 soldats.<br>
-Total en temps ordinaire : ~220 hommes, renforcés depuis Panama City et Carthagène lors des foires.`,
-
-        note_mj: `✅ Prise par Morgan en 1668 — attaque terrestre de nuit, forts pris à revers : établi (Exquemelin ; Earle, <em>The Sack of Panama</em>).<br>
-✅ Trois forts distincts (San Felipe, Santiago, San Fernando) : établi.<br>
-✅ Interruption des foires 1708–1722 : établi — voir sources dans le bloc Panama (Tierra Firme).<br>
-✅ Foire de 1722 : fiasco documenté — voir bloc Panama (Tierra Firme).<br>
-✅ Vernon 1739 : établi — hors période, mais connu des joueurs comme horizon.<br>
-⚠️ Garnison : estimation d'après Lane, <em>Pillaging the Empire</em> (1998).<br>
-🎲 Portobelo hors foire est une ville fantôme malsaine. Portobelo en foire est le plus grand marché du monde atlantique — et le plus dangereux pour la santé.`,
+        note_mj: `✅ Manzanillo sur la côte méridionale de Cuba, commerce avec Saint-Domingue : cohérent avec les sources sur le commerce interlope cubain.
+⚠️ Population en 1712 : estimation.`,
     },
 
+    // ── SPANISH TOWN ─────────────────────────────────────────────────────────────
+
     {
-        id: 'panama-city',
-        nom: 'Panama City',
+        id: 'spanish-town',
+        nom: 'Spanish Town',
         capitale: true,
         type: 'port',
-        territoire: 'panama',
-        coords: [4020, 4370],
+        territoire: 'jamaique',
+        coords: [4795, 2882],
 
         contexte: [
-            {
-                de: 1712,
-                texte: `Capitale de l'isthme, sur la côte pacifique.
-Panama City est la tête des deux routes qui font de l'isthme sa valeur : vers l'est, le Camino Real qui traverse la jungle jusqu'à Portobelo sur la côte Caraïbe ; vers le sud, la liaison maritime avec Callao, le port de Lima, d'où arrive l'argent péruvien. C'est ici que les lingots et les pièces de huit déchargés du Pacifique sont reconditionnés avant de traverser l'isthme. La ville reconstruite après le sac de Morgan (1671) est mieux fortifiée, mais sa vulnérabilité structurelle demeure : accessible depuis les deux côtes, elle ne peut être défendue que si les deux routes sont tenues simultanément. En 1712, c'est une ville de transit et d'administration — tout ce qui vaut quelque chose y passe, rien n'y reste.`,
-            },
-        ],
-
-        population: `~8 000 habitants`,
-
-        garnison: `~300 soldats d'infanterie régulière, plus une milice de colons.`,
-
-        note_mj: `✅ Sac par Morgan 1671, reconstruction sur nouveau site : établi (Earle, <em>The Sack of Panama</em>, 1981).<br>
-✅ Panama dépend du vice-roi du Pérou (Lima) pour l'essentiel — distinction essentielle avec Mexico.<br>
-⚠️ Entre 1717 et 1723, le vice-royauté de Nouvelle-Grenade (Santafé) s'intercale nominalement dans la chaîne de commandement, mais cette structure est instable et de courte durée — supprimée dès 1723, non rétablie avant 1739. Dans les faits, Panama traite souvent directement avec Lima.<br>
-⚠️ Garnison : estimation d'après le rang et l'importance de la place.`,
-    },
-
-// ── 54. SANTA MARÍA LA ANTIGUA DEL DARIÉN ────────────────────────────────────
-
-    {
-        id: 'santa-maria-darien',
-        nom: 'Santa María la Antigua del Darién',
-        label: 'Santa Maria',
-        type: 'site_hist',
-        rang: '3',
-        territoire: 'darien',
-        coords: [4282, 4618],
-
-        contexte: [
-            {
-                de: 1712,
-                texte: `Site de la première ville européenne permanente fondée sur le continent américain — Santa María la Antigua del Darién, établie en 1510 par Vasco Núñez de Balboa sur la rive occidentale du golfe d'Urabá. C'est depuis ici que Balboa a traversé l'isthme et "découvert" le Pacifique en 1513. La ville a été abandonnée en 1524 lorsque le gouverneur Pedrarias Dávila a transféré l'administration à Panama City — et lorsqu'il a fait exécuter Balboa pour trahison.
-<br><br>
-En 1712, il ne reste rien de Santa María sinon la mémoire et quelques ruines englouties par la jungle darienite. Les cartographes continuent de la marquer par tradition historique. Pour un navigateur ou un aventurier qui connaît son histoire, le site est chargé : premier évêché du continent, premier tribunal, premier cimetière européen en Amérique — et lieu de naissance de la conquête du Pacifique.`,
-            },
-        ],
-
-        note_mj: `✅ Fondation de Santa María la Antigua del Darién en 1510 par Balboa : établi.
-✅ Première ville permanente d'Amérique continentale (avant Natá, avant Panama City) : établi.
-✅ Traversée de l'isthme et "découverte" du Pacifique par Balboa en 1513 : établi.
-✅ Exécution de Balboa par Pedrarias Dávila et abandon de la ville en 1524 : établi.
-État en 1712 : ruines recouvertes par la jungle, site non habité.`,
-    },
-
-    {
-        id: 'la-guaira',
-        nom: 'La Guaira',
-        type: 'port',
-        territoire: 'venezuela',
-        coords: [6501, 4065],
-
-        contexte: [
-            { de: 1712, texte: `Unique débarcadère de Caracas sur la mer des Caraïbes, à quelques kilomètres de la capitale par un chemin de montagne raide. La Guaira est moins une ville qu'un entrepôt portuaire : tout ce qui entre ou sort du Venezuela passe par ses quais. Le cacao de Caracas, les produits manufacturés européens importées — tout transite ici. La douane de La Guaira est un point de friction permanent entre les marchands et l'administration coloniale.` },
-        ],
-
-        population: `~2 000 habitants permanents`,
-
-        note_mj: `⚠️ La Guaira est peu documentée pour 1712 spécifiquement. Toutes les données sont des estimations.<br>
-Pas de fort notable en état de fonctionnement à cette date — la défense côtière est assurée par des batteries légères.`,
-    },
-
-    {
-        id: 'pampatar',
-        nom: 'Pampatar',
-        type: 'port',
-        territoire: 'marguerita',
-        coords: [6967, 3919],
-
-        contexte: [
-            { de: 1712, texte: `Port principal de l'île Marguerita, sur la côte est. Le <strong>Castillo San Carlos Borromeo</strong> (1662–1684) est la seule fortification notable de l'île — construit après les pillages français du XVIIe siècle (1576, 1593, 1677). Fort et port sont sur le même site, gardant l'entrée de la baie de Pampatar. La capitale administrative officielle est La Asunción à l'intérieur, mais les gouverneurs préfèrent souvent résider à Pampatar.` },
+            { de: 1712, texte: `Capitale administrative de la Jamaïque. Spanish Town abrite le gouverneur, l'Assemblée coloniale et les tribunaux. Ville de papiers et de fonctionnaires, sans port, à une vingtaine de kilomètres à l'intérieur des terres depuis la baie de Kingston.` },
         ],
 
         population: `~2 000 habitants`,
 
-        garnison: `Castillo San Carlos Borromeo : ~60 à 80 soldats.`,
-
-        note_mj: `✅ Castillo San Carlos Borromeo, construit 1662–1684 après les pillages français : établi.<br>
-✅ Pillages français 1576, 1593, 1677 : établis.<br>
-⚠️ Garnison et population : estimations par analogie avec les forts des provinces marginales vénézuéliennes..`,
+        note_mj: `Pas de fort ni de garnison propre — la défense de la Jamaïque est assurée depuis Port Royal. Spanish Town est mentionnée pour compléter la carte administrative, sans intérêt narratif direct pour la campagne.`,
     },
 
+    // ── KINGSTON & PORT ROYAL ─────────────────────────────────────────────────────────────
+
     {
-        id: 'cumana',
-        nom: 'Cumaná',
+        id: 'kingston',
+        nom: 'Kingston & Port Royal',
+        label: 'Kingston',
+        type: 'port',
+        territoire: 'jamaique',
+        coords: [4833, 2890],
+
+        contexte: [
+            {
+                de: 1712, texte: `<strong>Port Royal</strong> occupait avant 1692 l'angle d'un long banc de sable fermant la baie de Kingston — ville de négoce et de plaisir surnommée "la plus riche et la plus impie du Nouveau Monde". Le tremblement de terre du 7 juin 1692 a englouti les deux tiers de la ville en deux minutes, noyant entre 2 000 et 5 000 personnes. Port Royal n'a pas disparu — la péninsule a été reconsolidée, une partie des bâtiments reconstruits — mais la population civile ne s'y est jamais réinstallée massivement. Ce qui reste est militaire et pénal : la base navale de la Royal Navy, les entrepôts d'avitaillement, et le Gallows Point.
+<br>
+<strong>Le Gallows Point</strong> est le lieu d'exécution des pirates condamnés à Kingston. Les corps sont ensuite exposés en cage de fer à l'entrée du port — pour l'exemple, disent les ordonnances — visibles de tout navire entrant dans la baie.
+<br>
+<strong>Kingston</strong>, fondée en 1693 sur la rive nord de la baie en face de Port Royal, est le centre marchand de fait. C'est là que les négociants jamaïcains ont leurs entrepôts, leurs comptoirs, leurs tavernes. Le butin pirate revendu par des intermédiaires discrets transite par Kingston avant de disparaître dans le circuit du commerce légal. Le sucre et le rhum jamaïcains partent de ses quais vers l'Angleterre et les colonies du Nord.
+<br>
+<strong>Fort Charles</strong>, à Port Royal, est la pièce maîtresse de la défense de la baie. Il commande l'entrée depuis la pointe de la péninsule.`,
+            },
+            { de: 1720, a: 1721, texte: `Le 18 novembre 1720, le capitaine pirate Calico Jack Rackham est exécuté à Port Royal. Il est jugé et pendu à Gallows Point, où son corps est exposé en cage de fer pendant plusieurs mois.` },
+            { de: 1721, texte: `Le 29 mars 1721, Charles Vane, l'un des chefs pirates les plus notoires de Nassau, est capturé et pendu à Gallows Point. Son corps est exposé en cage de fer à l'entrée du port pendant plusieurs mois.` },
+        ],
+        population: `Port Royal : ~2 000 (garnison, marins, personnels navals)
+Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'île`,
+
+        garnison: `Fort Charles : ~200 soldats d'infanterie régulière, plus la garnison maritime variable selon la présence de la Royal Navy. La Jamaica Station peut compter 3 à 6 frégates en temps ordinaire, davantage en période de crise. Effectif de terre : estimation d'après Pawson & Buisseret, Port Royal, Jamaica (1975).`,
+
+        note_mj: `✅ Tremblement de terre 1692, mort de 2 000 à 5 000 personnes : établi (Pawson & Buisseret, 1975 ; Dunn, Sugar and Slaves, 1972).
+✅ Fondation de Kingston 1693 : établi.
+✅ Gallows Point — exécution de Vane 1721 : Johnson, General History (1724) ; Wikipedia EN (Charles Vane).
+✅ Commerce interlope du butin pirate via Kingston : Calendar of State Papers ; Woodard (2008).
+⚠️ Effectif exact de Fort Charles : Pawson & Buisseret donnent des données pour la fin du XVIIe — extrapolation pour 1712–1720.
+🎲 Kingston est le passage obligé pour tout navire qui veut commercer légalement en Jamaïque. Port Royal est le passage obligé pour tout navire qui veut être inspecté, armé, ou pendu.`,
+    },
+
+    // ── PORT-SAINT-MARC (HISPANIOLA FRANÇAISE) ───────────────────────────────
+
+    {
+        id: 'port-saint-marc',
+        nom: 'Port-Saint-Marc',
+        label: "Port d'Guanives ou Port St Marco",
+        type: 'port',
+        rang: '3',
+        territoire: 'saint-domingue',
+        coords: [5348, 2634],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port sur la côte ouest d'Hispaniola, dans la baie de la Gonâve, au nord du golfe de la Gonâve. La double dénomination de la Jaillot — "Port de Guanives ou Port Saint-Marc" — reflète la transition entre l'ancien nom taïno de la baie (Guanives) et le nom français en cours d'imposition. Port-Saint-Marc est en 1712 un port secondaire de Saint-Domingue, moins actif que Port-de-Paix ou Léogâne mais utile comme escale sur la côte occidentale — sucre et indigo de l'arrière-pays immédiat commencent à transiter par ses quais.`,
+            },
+        ],
+
+        population: `~1 500 habitants`,
+
+        note_mj: `✅ Double toponymie Guanives / Port-Saint-Marc : reflet documenté de la transition coloniale.
+⚠️ Population en 1712 : estimation — Port-Saint-Marc est encore peu développé à cette date.`,
+    },
+
+    // ── XARAGUA (HISPANIOLA FRANÇAISE) ──────────────────────────────────────
+
+    {
+        id: 'xaragua',
+        nom: 'Xaragua',
+        label: 'Xanagua',
+        type: 'site_hist',
+        rang: '3',
+        territoire: 'saint-domingue',
+        coords: [5378, 2732],
+        // ⚠️ Xaragua est un nom historique taïno — le territoire du cacique
+        // Anacaona, dans le sud-ouest d'Hispaniola. En 1712, cette zone est
+        // française (Les Cayes, Léogâne). La Jaillot de 1708 peut encore
+        // porter ce nom par tradition cartographique.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Nom historique du territoire taïno du sud-ouest d'Hispaniola — le caciquat d'Anacaona, la "Fleur d'Or", reine poète qui régna sur Xaragua à la fin du XVe siècle. En 1503, le gouverneur Nicolás de Ovando a convié Anacaona et ses chefs à un festin de paix avant de les massacrer ou de les pendre — l'un des épisodes les plus brutaux de la conquête d'Hispaniola, qui a durablement marqué la mémoire locale.
+<br><br>
+En 1712, "Xaragua" n'est plus qu'un souvenir cartographique : la région est peuplée de colons français et d'esclaves africains cultivant le sucre et l'indigo dans les plaines des Cayes. Le nom taïno survit sur les cartes anciennes comme trace d'un monde effacé.`,
+            },
+        ],
+
+        note_mj: `✅ Caciquat de Xaragua, reine Anacaona : établi (Las Casas, <em>Brevísima Relación</em>).
+✅ Massacre d'Anacaona par Ovando en 1503 : établi.
+✅ Zone française en 1712 malgré la représentation espagnole sur la Jaillot de 1708 : la frontière de Ryswick (1697) place le sud-ouest dans la colonie française — la Jaillot peut être en retard sur cette réalité.`,
+    },
+
+    // ── AZUA / SAVANA ───────────────────────────────────────────────────────
+
+    {
+        id: 'savana',
+        nom: 'Cavaillon (Savana)',
+        label: 'Savana',
+        type: 'ville',
+        rang: '3',
+        territoire: 'saint-domingue',
+        coords: [5236, 2851],
+        // ⚠️ La Jaillot (1708) place ce lieu côté espagnol, mais la position
+        // au nord de l'Île-à-Vache ("I. Vaca") est sans ambiguïté française
+        // en 1712. Correspond à la zone de Cavaillon / Les Cayes /
+        // Saint-Louis-du-Sud sur la côte méridionale de Saint-Domingue français.
+        // La Jaillot est en retard sur la frontière réelle issue de Ryswick (1697).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg de la côte méridionale de Saint-Domingue, au nord de l'Île-à-Vache — l'île où Morgan a hiverné en 1668–1669 avant son raid sur Maracaibo, et qui lui a servi de base pour organiser ses expéditions. La côte méridionale française est en 1712 moins développée que la côte nord (Cap-Français, Port-de-Paix), mais ses plaines commencent à attirer des colons : sucre, indigo et coton y poussent dans les vallées irriguées par les rivières descendant des montagnes du sud. La région correspond à l'actuelle zone des Cayes — qui deviendra au XVIIIe siècle l'une des plaines sucrières les plus productives de l'île.`,
+            },
+        ],
+
+        population: `~1 500 habitants`,
+
+        note_mj: `⚠️ Identification avec Cavaillon / zone des Cayes : probable d'après la position au nord de l'Île-à-Vache. La Jaillot (1708) place ce lieu côté espagnol — erreur cartographique ou retard sur la frontière de Ryswick (1697). Territoire corrigé en 'saint-domingue' pour la campagne (1712).
+✅ Île-à-Vache comme base de Morgan en 1668–1669 : établi (Exquemelin).
+⚠️ Population : estimation.`,
+    },
+
+
+    // ── YAQUIMO ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'yaquimo',
+        nom: 'Yaquimo (Jacmel)',
+        label: 'Yaquimo',
+        type: 'port',
+        rang: '2',
+        territoire: 'saint-domingue',
+        coords: [5393, 2884],
+        // ⚠️ La Jaillot (1708) place Yaquimo côté espagnol, mais correspond
+        // sans ambiguïté à Jacmel (arrondissement de Jacmel) — côté français
+        // en 1712. Même décalage cartographique que pour Cavaillon/Savana :
+        // la Jaillot est en retard sur la frontière de Ryswick (1697).
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port de la côte méridionale de Saint-Domingue, dont le nom taïno — Yaquimo — rappelle l'occupation précolombienne. La baie de Jacmel est l'un des meilleurs mouillages naturels de la côte sud d'Hispaniola : bien abritée, accessible, avec de l'eau douce disponible. En 1712, c'est un port secondaire de la colonie française, moins actif que Port-de-Paix ou Léogâne mais dont la rade accueille les navires de commerce régionaux et quelques corsaires qui préfèrent la discrétion de la côte méridionale à l'animation du nord. Le café et le coton de l'arrière-pays commencent à transiter par ses quais.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `✅ Identification de Yaquimo avec Jacmel : sans ambiguïté d'après la position sur la Jaillot.
+⚠️ La Jaillot (1708) place Yaquimo côté espagnol — erreur cartographique corrigée : territoire 'saint-domingue' retenu pour la campagne (1712).
+⚠️ Population : estimation.`,
+    },
+
+    // ── CAP-FRANÇAIS ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'cap-francais',
+        nom: 'Cap-Français (Le Cap)',
+        label: 'Cap-Français',
         capitale: true,
         type: 'port',
-        territoire: 'nouvelle-andalousie',
-        coords: [6782, 4094],
+        territoire: 'saint-domingue',
+        coords: [5497, 2541],
 
         contexte: [
-            { de: 1712, texte: `L'une des plus vieilles villes permanentes des Amériques, fondée en 1515 sur la côte nord-est du Venezuela actuel. Point de départ traditionnel des expéditions vers l'Orénoque et les Llanos, Cumaná est aussi le chef-lieu d'une province dont l'économie repose sur le cacao, la pêche et une contrebande structurelle avec les Hollandais du Surinam et les Français de la Martinique. Le <strong>Castillo San Antonio de la Eminencia</strong> domine la ville depuis une colline — fort en étoile commandant le port et ses approches.` },
+            { de: 1712, texte: `Capitale de Saint-Domingue et ville la plus active des Antilles françaises. Le Cap s'étend sur une plaine étroite coincée entre la mer et les mornes du nord d'Hispaniola. Ses quais expédient vers Bordeaux et Nantes le sucre, l'indigo et le cacao des grandes habitations de la plaine du Nord. Le Conseil supérieur y siège, le gouverneur général y réside, et les négociants de toute la Caraïbe y font escale. Les tavernes, maisons closes et entrepôts du port constituent une économie parallèle fréquentée par des marins de toutes nationalités — dont certains n'ont pas de papiers en règle. Un capitaine avec une cargaison d'origine douteuse y trouvera preneur, à condition de ne pas attirer l'attention des autorités.` },
         ],
 
-        population: `~8 000 habitants`,
+        population: `~10 000 à 12 000 habitants (dont ~8 000 esclaves)`,
 
-        garnison: `Castillo San Antonio de la Eminencia : ~100 à 120 soldats.`,
+        note_mj: `✅ Capitale de Saint-Domingue, siège du gouverneur général : établi (ANOM).
+✅ Rôle commercial — sucre, indigo, cacao vers Bordeaux : Debien, Les esclaves aux Antilles françaises (1974).
+🎲 Le Cap est le décor de Satiété engendre Démesure (janvier 1714, sous Blénac).`,
+    },
 
-        note_mj: `✅ Fondation 1515 : établi.<br>
-✅ Castillo San Antonio de la Eminencia : établi — fort en étoile sur promontoire.<br>
-⚠️ Garnison : estimation d'après le rang de Cumaná comme chef-lieu de province.<br>
-Trinidad dépend nominalement de la province de Cumaná jusqu'en 1731.`,
+    // ── PETIT GOÂVE ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'petit-goave',
+        nom: 'Petit-Goâve',
+        type: 'port',
+        territoire: 'saint-domingue',
+        coords: [5340, 2769],
+
+        contexte: [
+            { de: 1712, texte: `Ancienne capitale des flibustiers français de Saint-Domingue. Dans les années 1660–1690, Petit-Goâve était le point de rassemblement des boucaniers de la côte ouest d'Hispaniola — une ville de planches et de tavernes où les équipages se formaient, les prises se vendaient, et les gouverneurs fermaient les yeux. En 1712, cette époque est révolue depuis une génération : Petit-Goâve est un bourg modeste en déclin, dont les habitants vivent surtout d'un petit commerce de denrées et de pêche côtière. Il reste un mouillage commode sur la route entre Le Cap et la côte sud, mais plus rien de la turbulence d'antan.` },
+        ],
+
+        population: `~1 500 habitants`,
+
+        note_mj: `✅ Rôle boucanier 1660–1690 : Exquemelin, Flibustiers et boucaniers ; Du Tertre, Histoire générale des Antilles.
+✅ Déclin après 1700 : Paris a progressivement centralisé l'administration à Cap-Français et interdit les lettres de marque sauvages.
+⚠️ Population 1712 : estimation — aucun recensement précis disponible pour cette date.
+🎲 Un PJ qui cherche ici l'animation d'antan sera déçu — et c'est précisément ce décalage qui peut être narrativement intéressant.`,
+    },
+
+    // ── BASSE-TERRE (LA TORTUE) ─────────────────────────────────────────────────────────────
+
+    {
+        id: 'basse-terre-tortue',
+        nom: 'Basse-Terre',
+        type: 'port',
+        territoire: 'tortue',
+        coords: [5310, 2528],
+
+        contexte: [
+            { de: 1712, texte: `Bourg principal de l'île de la Tortue, organisé autour du Fort de la Roche — l'unique position défendable de l'île, taillée à même le promontoire rocheux qui domine la rade. En 1712, la Tortue est une dépendance administrative de Saint-Domingue sans gouverneur propre. Le bourg est modeste : quelques centaines d'habitants, des pêcheurs, une garnison squelettique.` },
+        ],
+
+        population: `Quelques centaines d'habitants (garnison, pêcheurs, colons)`,
+
+        garnison: `Fort de la Roche : ~30 à 50 soldats. Estimation par analogie avec les petits postes français des Antilles à population et importance comparables. Aucune source primaire directe disponible pour 1712.`,
+
+        note_mj: `✅ Réputation sanitaire (fièvre jaune rare) : attestée dans les sources de l'époque — Du Tertre, Labat. Explication réelle inconnue des contemporains (altitude, absence de zones marécageuses étendues, moins de moustiques Aedes aegypti).
+✅ Fort de la Roche : construit sous d'Ogeron (~1665–1675), en état de fonctionnement au début du XVIIIe.
+⚠️ Garnison et population : estimations — aucune source directe.
+À ne pas confondre avec l'Isla La Tortuga vénézuélienne.`,
+    },
+
+    // ── SANTO-DOMINGO ────────────────────────────────────────────────────────
+
+    {
+        id: 'santo-domingo',
+        nom: 'Santo Domingo',
+        capitale: true,
+        type: 'port',
+        territoire: 'santo-domingo',
+        coords: [5821, 2780],
+
+        contexte: [
+            { de: 1712, texte: `Première ville européenne permanente des Amériques, fondée en 1498 sur la rive sud d'Hispaniola. Santo Domingo conserve son prestige historique — siège de la Real Audiencia, première cathédrale, premier palais colonial du Nouveau Monde — mais la ville est en 1712 une cité appauvrie et clairsemée. La Fortaleza Ozama, construite en 1502 sur la rive du fleuve du même nom, est le plus vieux fort européen des Amériques encore debout. La Real Audiencia de Santo Domingo exerce nominalement une juridiction sur Cuba, Porto Rico, la Floride et le Venezuela, mais cette autorité est de plus en plus théorique à mesure que Madrid réorganise son empire.` },
+        ],
+
+        population: `~5 000 à 8 000 habitants (dont ~1 500 esclaves)`,
+
+        garnison: `Fortaleza Ozama : ~80 à 120 soldats. Estimation par analogie avec les garnisons des places espagnoles de même rang et de même éloignement des circuits principaux. Aucune source primaire directe pour 1712.`,
+
+        note_mj: `✅ Fortaleza Ozama, 1502 — plus vieux fort européen des Amériques : établi.
+✅ Real Audiencia compétente sur Cuba, Porto Rico, Floride, Venezuela : établi.
+⚠️ Garnison et population : estimations.
+⚠️ Gouverneur de 1712 non identifié avec certitude avant Pedro de Niela y Torres (1713).`,
+    },
+
+    // ── MONTE CRISTI ────────────────────────────────────────────────────────
+
+    {
+        id: 'monte-cristi',
+        nom: 'Monte Cristi',
+        label: 'Monte Christo',
+        type: 'port',
+        rang: '2',
+        territoire: 'santo-domingo',
+        coords: [5685, 2532],
+        // ⚠️ Monte Cristi est sur la côte nord-ouest d'Hispaniola, dans la
+        // partie espagnole — mais c'est une zone de tension avec les boucaniers
+        // français depuis des décennies. La frontière dans ce secteur est floue
+        // en pratique en 1712.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Port de la côte nord-ouest d'Hispaniola, dans la partie espagnole — mais si proche de la frontière française que son identité coloniale est équivoque. Monte Cristi est depuis longtemps un point de contact et de friction entre les boucaniers français de Tortue et les autorités espagnoles de Santo Domingo. La ville a été dévastée lors des <em>devastaciones</em> ordonnées par Madrid en 1605–1606 — les Espagnols ont délibérément brûlé les villes du nord d'Hispaniola pour priver les interlopes hollandais et français de bases commerciales. Elle s'est lentement repeuplée depuis, mais reste modeste.
+<br><br>
+Le Morne de Monte Cristi — un piton calcaire caractéristique visible depuis la mer — est l'amers de navigation le plus connu de la côte nord-ouest d'Hispaniola.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `✅ Devastaciones de 1605–1606, destruction délibérée des villes du nord d'Hispaniola : établi.
+✅ Morne de Monte Cristi comme repère de navigation : établi.
+✅ Zone de friction franco-espagnole sur la frontière nord-ouest : établi pour la période 1650–1697 ; en 1712, la frontière est fixée par Ryswick mais peu surveillée.
+⚠️ Population en 1712 : estimation — la ville se relève lentement des devastaciones.`,
+    },
+
+    // ── LA ISABELA ──────────────────────────────────────────────────────────
+
+    {
+        id: 'la-isabela',
+        nom: 'La Isabela',
+        type: 'site_hist',
+        rang: '3',
+        territoire: 'santo-domingo',
+        coords: [5774, 2539],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ruines du premier établissement européen permanent des Amériques, fondé par Christophe Colomb en janvier 1493 sur la côte nord d'Hispaniola — quelques semaines après son premier débarquement à Guanahani. La Isabela a été abandonnée dès 1498, trop exposée aux maladies et trop éloignée des mines d'or du Cibao. Colomb lui-même l'a désertée pour fonder Santo Domingo sur la côte méridionale.
+<br><br>
+En 1712, il ne reste que quelques pans de murs envahis par la végétation sur un promontoire côtier — mais le nom figure encore sur toutes les cartes par tradition. Pour un navigateur cultivé qui longe la côte nord d'Hispaniola, aborder à La Isabela c'est fouler le premier sol colonisé d'un continent entier.`,
+            },
+        ],
+
+        note_mj: `✅ Fondation en janvier 1493 par Colomb, premier établissement permanent des Amériques : établi.
+✅ Abandon dès 1498 au profit de Santo Domingo : établi.
+État en 1712 : ruines côtières, site non habité — présent sur les cartes par tradition cartographique.`,
+    },
+
+    // ── SAN JUAN DE LA MAGUANA ──────────────────────────────────────────────
+
+    {
+        id: 'maguana',
+        nom: 'San Juan de la Maguana',
+        label: 'Maguana',
+        type: 'ville',
+        rang: '3',
+        territoire: 'santo-domingo',
+        coords: [5657, 2691],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville de l'intérieur d'Hispaniola, dans la vallée centrale entre les deux chaînes de montagnes qui traversent l'île. San Juan de la Maguana occupe le site d'un ancien caciquat taïno — Maguana était l'un des cinq grands caciquats de l'île avant la conquête. La ville espagnole fondée sur ce site vit de l'élevage extensif dans la vallée fertile et d'un commerce modeste avec Santo Domingo. L'éloignement des côtes la préserve des raids pirates mais l'isole aussi des circuits commerciaux.`,
+            },
+        ],
+
+        population: `~2 000 habitants`,
+
+        note_mj: `✅ Maguana comme ancien caciquat taïno, l'un des cinq grands caciquats d'Hispaniola : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+    // ── LA CONCEPCIÓN DE LA VEGA ────────────────────────────────────────────
+
+    {
+        id: 'conception-vega',
+        nom: 'La Concepción de la Vega',
+        label: 'Conception',
+        type: 'ville',
+        rang: '2',
+        territoire: 'santo-domingo',
+        coords: [5846, 2656],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Ville du Cibao, dans la grande plaine centrale d'Hispaniola — la région la plus fertile de l'île. Fondée par Colomb en 1494, La Vega est l'une des plus anciennes villes européennes des Amériques. Elle a été détruite par un séisme en 1562 et reconstruite quelques kilomètres plus loin — la "Vega Vieja" en ruines est encore visible. La plaine du Cibao produit du tabac, du cacao et des vivres ; La Vega en est le centre de redistribution vers Santo Domingo.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation par Colomb en 1494 : établi.
+✅ Séisme de 1562 et reconstruction : établi.
+✅ Vega Vieja (ruines) distincte de la ville reconstruite : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+    // ── SANTIAGO DE LOS CABALLEROS ──────────────────────────────────────────
+
+    {
+        id: 'santiago-hispaniola',
+        nom: 'Santiago de los Caballeros',
+        label: 'St Iago',
+        type: 'ville',
+        rang: '2',
+        territoire: 'santo-domingo',
+        coords: [5798, 2588],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Principale ville du Cibao et deuxième ville de la colonie espagnole d'Hispaniola, sur la rive du río Yaque del Norte. Fondée en 1495, elle doit son nom aux nobles espagnols (<em>caballeros</em>) qui l'ont établie. Santiago est le centre du commerce du tabac du Cibao — la région produit les feuilles les plus prisées de l'île, exportées vers l'Espagne et, par contrebande, vers les colonies anglaises et françaises voisines. La ville est aussi un nœud routier : les chemins vers Monte Cristi au nord, La Vega au sud et Santo Domingo à l'est convergent ici.`,
+            },
+        ],
+
+        population: `~6 000 habitants`,
+
+        note_mj: `✅ Fondation 1495, tabac du Cibao : établi.
+✅ Commerce interlope du tabac avec colonies anglaises et françaises : établi (Moya Pons, <em>Historia del Caribe</em>).
+⚠️ Population en 1712 : estimation.`,
+    },
+
+    // ── SEIBO / HIGÜEY / SABANA DE HIGÜEY ───────────────────────────────────
+
+    {
+        id: 'huguey',
+        nom: 'Higüey (El Seibo, Sabana de Higüey)',
+        label: 'Huguey',
+        type: 'ville',
+        rang: '2',
+        territoire: 'santo-domingo',
+        coords: [6054, 2779],
+        // ⚠️ La Jaillot place 4 noms pour 3 symboles dans le sud-est d'Hispaniola.
+        // Identification :
+        // · Syrbo → El Seibo, bourg de l'est de l'île
+        // · Hibona → Higüey (ville), fondée 1502
+        // · Sabialeonde + Huguey → deux noms pour un même symbole :
+        //   "Sabana de Higüey" (la plaine) + "Higüey" (la ville)
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `La région orientale d'Hispaniola regroupe plusieurs bourgs dans la plaine de Higüey et ses environs. <strong>Higüey</strong> (fondée en 1502) est le centre religieux de la région — sa basilique Notre-Dame d'Altagracia, bâtie sur le site d'une apparition mariale, est le principal lieu de pèlerinage d'Hispaniola. <strong>El Seibo</strong>, bourg voisin, est un centre d'élevage dans les plaines orientales. La <strong>Sabana de Higüey</strong> — grande plaine côtière au sud — est un territoire d'élevage extensif, les plus grands hatos de l'est de l'île s'y trouvant. Juan Ponce de León, qui partira à la conquête de Porto Rico en 1508 puis cherchera la Fontaine de Jouvence en Floride, était gouverneur de cette région.`,
+            },
+        ],
+
+        population: `~5 000 habitants pour l'ensemble de la région`,
+
+        note_mj: `✅ Basilique d'Altagracia à Higüey, lieu de pèlerinage : établi.
+✅ Juan Ponce de León comme gouverneur de la région de Higüey avant Porto Rico : établi.
+⚠️ La Jaillot dédouble Higüey en "Hibona" (ville) et "Sabialeonde/Huguey" (plaine + ville) — confusion cartographique par superposition de deux noms pour le même lieu.
+⚠️ Population : estimation pour l'ensemble de la zone.`,
+    },
+
+    // ── HATO DEL CABALLERO ──────────────────────────────────────────────────
+
+    {
+        id: 'ocoa',
+        nom: 'San José de Ocoa',
+        label: 'Ocoa',
+        type: 'ville',
+        rang: '3',
+        territoire: 'santo-domingo',
+        coords: [5634, 2797],
+        // ⚠️ La Jaillot indique "Hastio de Dom. Cavalgero" comme annotation
+        // de propriété (un hato appartenant à un notable) à proximité du
+        // nom de ville "Ocoa". C'est Ocoa qui est le nom de l'établissement.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Bourg de la vallée d'Ocoa, dans les contreforts méridionaux de la cordillère centrale d'Hispaniola — le nom "Hato de Dom Cavalgero" visible sur la carte désigne la propriété d'un notable local, non la ville elle-même. La vallée d'Ocoa est une zone d'élevage extensif — les hatos sont la structure économique dominante de la colonie espagnole d'Hispaniola — d'immenses propriétés d'élevage extensif de bovins et de porcs, dont les cuirs et les graisses sont exportés vers l'Espagne. Les propriétaires de hatos constituent l'oligarchie créole de Santo Domingo ; leurs propriétés couvrent des dizaines de milliers d'hectares. Ocoa est un bourg agricole de l'intérieur, loin des circuits commerciaux côtiers.`,
+            },
+        ],
+
+        population: `~1 000 habitants`,
+
+        note_mj: `⚠️ "Hastio de Dom. Cavalgero" sur la Jaillot est une annotation de propriété foncière (hato d'un don Caballero), pas le nom de la ville.<br>✅ Hatos comme structure économique dominante de Santo Domingo : établi (Moya Pons).<br>⚠️ Population : estimation.`,
+    },
+
+    // ── SAN JUAN (PORTO RICO) ─────────────────────────────────────────────
+
+    {
+        id: 'san-juan',
+        nom: 'San Juan',
+        capitale: true,
+        type: 'port',
+        territoire: 'porto-rico',
+        coords: [6551, 2727],
+
+        contexte: `San Juan est bâtie sur un îlot rocheux relié à l'île principale par deux ponts-levis — position qui en fait naturellement une des places les mieux défendues des Antilles. Deux châteaux-forts commandent l'accès : le <strong>Castillo San Felipe del Morro</strong> à la pointe ouest de l'îlot, dominant l'entrée du chenal depuis le XVIe siècle, et le <strong>Castillo San Cristóbal</strong> à l'est, protégeant l'accès terrestre depuis la grande île. L'enceinte de murailles reliant les deux forts est pratiquement continue.
+
+La ville vit du situado — la subvention annuelle de Mexico finançant garnison et administration — et d'un commerce de contrebande que tout le monde pratique et que personne n'avoue. Les marchands anglais et hollandais qui ne peuvent entrer légalement font escale à Vieques (Boreque sur la carte), à 8 km au sud-est, ou dans les anses de la côte nord.`,
+
+        population: `~6 000 habitants intra-muros`,
+
+        garnison: `Castillo San Felipe del Morro : ~300 soldats. Castillo San Cristóbal : ~150 soldats. Total garnison de la place : ~500 hommes, auxquels s'ajoutent les équipages des navires de course d'Enríquez (variables). Estimation d'après Caro Costas, Legislación Municipal Puertorriqueña, et EnciclopediaPR.`,
+
+        note_mj: `✅ Architecture de la défense (Morro + San Cristóbal + murailles continues) : établi.
+✅ Miguel Enríquez — biographie, Medalla de oro 1713, flotte de 30 navires : Wikipedia EN (Miguel Enríquez) ; EnciclopediaPR.
+✅ Arrivée de Ribera le 23 décembre 1713 à bord du navire d'Enríquez La Gloria : Wikipedia EN.
+✅ Vieques (Boreque) — mouillage de substitution pour les navires étrangers : inféré de la géographie et de la pratique documentée.
+⚠️ Effectifs de garnison : les listes d'AGI donnent des effectifs théoriques ; les effectifs réels sont structurellement inférieurs (désertions, maladies, postes non pourvus).
+🎲 Enríquez est jouable comme PNJ à part entière : mulâtre, fils d'esclave, anobli de fait, le plus riche des Caraïbes espagnoles, en guerre permanente avec les gouverneurs successifs.`,
+    },
+
+
+    // ── SAN GERMÁN (PORTO RICO) ─────────────────────────────────────────────
+
+    {
+        id: 'san-german',
+        nom: 'San Germán',
+        label: 'St German',
+        type: 'ville',
+        rang: '2',
+        territoire: 'porto-rico',
+        coords: [6408, 2749],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Deuxième ville de Porto Rico, fondée en 1511 à l'extrémité occidentale de l'île. San Germán a été déplacée plusieurs fois avant de trouver son emplacement définitif dans les collines de l'ouest — chaque version précédente ayant été détruite par des raids de Carib ou de flibustiers. En 1712, c'est une ville tranquille de l'intérieur, sur les hauteurs qui dominent la côte méridionale. La région produit du sucre, du coton et du gingembre. San Germán abrite le couvent de Porta Coeli (1609), l'un des plus anciens d'Amérique encore debout.`,
+            },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Fondation 1511, déplacements multiples dus aux raids : établi.
+✅ Couvent de Porta Coeli (1609) : établi — toujours debout aujourd'hui.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // SITES DES PETITES ANTILLES
+    // ═══════════════════════════════════════════════════════════
+
+    // ── LEEWARD ISLANDS ─────────────────────────────────────────────
+
+    {
+        id: 'saint-johns-antigua',
+        nom: "Saint-John's",
+        capitale: true,
+        type: 'port',
+        territoire: 'leeward-islands',
+        coords: [7238, 2905],
+
+        contexte: [
+            { de: 1712, texte: `Capitale administrative des Leeward Islands et résidence du gouverneur général. Saint-John's est une ville de fonctionnaires et de planteurs — moins active comme port que English Harbour. C'est ici que siège le Conseil et que se règlent les affaires politiques de l'archipel ; c'est ici aussi que Daniel Parke fut lynché en décembre 1710 et que son successeur Douglas monnaya le pardon royal des assassins.` },
+        ],
+
+        population: `~3 000 habitants`,
+
+        note_mj: `✅ Assassinat de Parke, décembre 1710 : Calendar of State Papers ; Encyclopedia Virginia.<br>
+✅ Extorsion de Douglas — 10 000 livres pour publier la grâce royale : Wikipedia EN (Walter Douglas).`,
     },
 
     {
-        id: 'puerto-espana',
-        nom: 'Puerto España',
-        tags: [`Puerto-Espana`, `Port of Spain`, "Port-d'Espagne"],
+        id: 'english-harbour',
+        nom: 'English Harbour',
         type: 'port',
-        territoire: 'trinidad',
-        coords: [7387, 3989],
+        territoire: 'leeward-islands',
+        coords: [7247, 2916],
 
-        contexte: [
-            { de: 1712, texte: `La capitale officielle de Trinidad est San José de Oruña (Saint Joseph), mais les gouverneurs résident en pratique à Puerto España, mieux située pour surveiller le trafic maritime du golfe de Paria. Puerto España est un bourg de quelques centaines de maisons sans défense organisée, dont la principale activité est un commerce de contrebande avec les Hollandais, les Français et les Anglais des îles voisines. Le cacao de Trinidad sort la nuit dans les criques du nord-ouest ; les manufactures européennes entrent de la même façon.` },
-        ],
+        contexte: `Base navale de la Royal Navy dans les Petites Antilles, à une vingtaine de kilomètres au sud-est de Saint-John's. English Harbour est un port naturel exceptionnel — une rade quasi-fermée par deux promontoires, abritée des ouragans, avec un fond suffisant pour recevoir les frégates. Le carénage y est possible à l'abri des regards et des vents : les navires sont basculés sur le côté pour gratter et goudronner leurs coques, opération impossible en pleine mer.
+        <br><br>
+En 1712, les installations permanentes sont encore modestes — les grands arsenaux et corderies de la Nelson's Dockyard seront construits plus tard dans le siècle. Mais la rade est déjà utilisée régulièrement par les frégates de la Jamaica Station et des Leeward Islands. Pour un navire qui veut savoir où se trouve la Royal Navy dans les Petites Antilles, English Harbour est la première réponse.`,
 
-        population: `~800 à 1 000 habitants`,
+        population: `Quelques centaines — personnel naval, artisans, esclaves employés aux chantiers`,
 
-        note_mj: `✅ Préférence des gouverneurs pour Puerto España sur San José de Oruña : carte-data.js (trinidad).<br>
-⚠️ Population : estimation.<br>
-Pas de fort à Puerto España en 1712 — la défense de Trinidad est quasi inexistante. Coordonnées Saint-Joseph de Oruña : [7410, 3990].`,
+        garnison: `Batteries côtières aux deux pointes de l'entrée : ~60 à 80 soldats et artilleurs.<br>
+Aucun fort majeur en 1712 — les défenses seront renforcées progressivement au cours du siècle.`,
+
+        note_mj: `✅ Qualités nautiques d'English Harbour (rade fermée, carénage possible) : établi.<br>
+✅ Nelson's Dockyard — installations permanentes majeures construites à partir des années 1740–1780 : établi. En 1712, les infrastructures sont rudimentaires.<br>
+⚠️ Garnison et installations précises en 1712 : peu documentés.`,
     },
 
-    // ══════════════════════════════════════════════════════════
-    // SÉRIE 3 — Antilles françaises, hollandaises, danoises
-    //           + forts isolés
-    // ══════════════════════════════════════════════════════════
+    // ── SAINT-THOMAS ─────────────────────────────────────────────
+
+    {
+        id: 'charlotte-amalie',
+        nom: 'Charlotte Amalie',
+        capitale: true,
+        type: 'port',
+        territoire: 'saint-thomas',
+        coords: [6756, 2714],
+
+        contexte: `Port franc danois — la ville où l'on peut tout vendre et tout acheter sans trop de questions. Charlotte Amalie s'organise autour d'une baie profonde et abritée, dominée par le <strong>Fort Christian</strong> (1672) sur son promontoire rouge. La Compagnie des Indes occidentales danoise administre formellement l'île, mais son contrôle est nominal : l'économie du port franc repose précisément sur l'absence de contrôle rigoureux.
+<br><br>
+La population est délibérément cosmopolite — Danois, Hollandais, Anglais, Juifs séfarades coexistent sans que nul ne pose de questions sur les origines. Les esclaves africains représentent les cinq sixièmes de la population totale, transitant vers les colonies espagnoles ou employés dans les plantations. En 1712, la pression britannique commence à peser sur les Danois, mais l'économie fondamentale du port franc reste intacte.`,
+
+        population: `~3 600 habitants (dont ~3 000 esclaves)`,
+
+        garnison: `Fort Christian : ~80 soldats danois.<br>
+Petite garnison pour une île dont la survie repose sur la neutralité commerciale plutôt que sur la force militaire.`,
+
+        note_mj: `✅ Fort Christian (1672) : établi.<br>
+✅ Population cosmopolite, commerce sans questions, communauté juive séfarade : Westergaard (1917) ; Wikipedia EN (Danish West Indies).<br>
+✅ Colonisation de Saint-John par Bredal en 1718, tension avec Hamilton des Leeward Islands : St. John Historical Society.<br>
+⚠️ Garnison : estimation d'après Westergaard, <em>The Danish West Indies under Company Rule</em> (1917).`,
+    },
+
+    // ── SAINT-CHRISTOPHE ─────────────────────────────────────────────
+
+    {
+        id: 'basseterre',
+        nom: 'Basseterre',
+        type: 'port',
+        territoire: 'saint-christophe',
+        coords: [7044, 2862],
+
+        contexte: [
+            { de: 1712, texte: `Capitale de Saint-Kitts depuis le début de la colonisation anglaise (1623). Basseterre s'étend dans une plaine basse ouverte sur la côte sous le vent — position commode pour le commerce mais sans défense naturelle. La défense de l'île repose sur Brimstone Hill, à une dizaine de kilomètres au nord-ouest. Depuis le traité d'Utrecht (1713), la partie française de l'île a été cédée à la Grande-Bretagne — ses anciennes habitations sont rachetées à bas prix par les planteurs anglais, alimentant une spéculation foncière intense.` },
+        ],
+
+        population: `~5 000 habitants à Basseterre`,
+
+        note_mj: `✅ Cession de la partie française par Utrecht 1713 : établi.<br>
+✅ Spéculation foncière post-Utrecht : Wikipedia EN (Saint Kitts).<br>
+La défense de l'île est assurée depuis Brimstone Hill — voir entrée dédiée.`,
+    },
+
+    {
+        id: 'brimstone-hill',
+        nom: 'Fort Brimstone Hill',
+        capitale: true,
+        type: 'fort',
+        territoire: 'saint-christophe',
+        coords: [7027, 2852],
+
+        contexte: `"Le Gibraltar des Antilles" — surnom mérité pour un fort établi au sommet d'un promontoire volcanique de 240 mètres dominant toute la côte nord-ouest de Saint-Kitts. La position est naturellement imprenable par voie terrestre : les pentes sont raides, le sommet étroit, et la vue dégagée sur mer permet de signaler tout navire approchant avec plusieurs heures d'avance. Les Anglais y ont établi leurs premières batteries dans les années 1690, après le raid français sur l'île.
+
+En 1712, Brimstone Hill est encore en construction dans sa forme définitive — les travaux s'étalent sur tout le XVIIIe siècle — mais les bastions principaux et l'artillerie sont en place. C'est la clé de la défense des Leeward Islands britanniques dans les Petites Antilles.`,
+
+        population: `Garnison uniquement`,
+
+        garnison: `~200 soldats d'infanterie et artilleurs en 1712, effectif en croissance progressive au fil de l'avancée des travaux.`,
+
+        note_mj: `✅ Position sur promontoire volcanique à 240 m : établi.<br>
+✅ Construction progressive depuis les années 1690 jusqu'à la fin du XVIIIe : établi — aujourd'hui classé à l'UNESCO.<br>
+⚠️ Garnison précise en 1712 : effectif exact non vérifié sur source primaire<br>
+⤷ estimation d'après Hartog, History of St. Eustatius, et les archives de Brimstone Hill (St. Kitts National Archives).<br>
+🎲 Brimstone Hill est visible depuis la mer à grande distance — point de repère incontournable pour tout navigateur longeant la côte nord de Saint-Kitts.`,
+    },
+
+    // ── MARTINIQUE ─────────────────────────────────────────────
 
     {
         id: 'fort-royal-martinique',
@@ -4112,6 +4930,8 @@ Saint-Pierre sera détruite le 8 mai 1902 par l'éruption de la Montagne Pelée 
 Pas de fort propre — des batteries côtières légères.`,
     },
 
+    // ── GUADELOUPE ─────────────────────────────────────────────
+
     {
         id: 'basse-terre-guadeloupe',
         nom: 'Basse-Terre',
@@ -4134,175 +4954,7 @@ Centre gouvernemental et militaire, Basse-Terre est moins active commercialement
 ⚠️ Garnison : estimation par analogie avec Fort-Royal, compte tenu du rang secondaire de Basse-Terre dans la hiérarchie des Îles du Vent.`,
     },
 
-    {
-        id: 'saint-georges-grenade',
-        nom: "Saint-George's",
-        label: "Saint-George's (Grenade)",
-        capitale: true,
-        type: 'port',
-        territoire: 'grenade',
-        coords: [7275, 3779],
-
-        contexte: [
-            {
-                de: 1712, texte: `Capitale et unique port notable de la Grenade française. Saint-George's est bâtie autour d'une rade en fer à cheval, l'une des plus belles des Petites Antilles. La ville exporte sucre, cacao, indigo et les premières muscades qui feront la réputation de l'île.<br>
-Point de passage entre les Antilles françaises du nord et Trinidad espagnole au sud, Saint-George's est aussi une escale pour le commerce interlope avec le Venezuela. L'éloignement de Fort-Royal lui confère une autonomie de fait que les gouverneurs successifs gèrent avec pragmatisme.` },
-        ],
-
-        population: `~2 500 habitants`,
-
-        note_mj: `✅ Rôle commercial — cacao, sucre, muscade naissante : carte-data.js (grenade).<br>
-Pas de fort majeur en 1712 — des batteries côtières légères.`,
-    },
-
-    {
-        id: 'basseterre',
-        nom: 'Basseterre',
-        type: 'port',
-        territoire: 'saint-christophe',
-        coords: [7044, 2862],
-
-        contexte: [
-            { de: 1712, texte: `Capitale de Saint-Kitts depuis le début de la colonisation anglaise (1623). Basseterre s'étend dans une plaine basse ouverte sur la côte sous le vent — position commode pour le commerce mais sans défense naturelle. La défense de l'île repose sur Brimstone Hill, à une dizaine de kilomètres au nord-ouest. Depuis le traité d'Utrecht (1713), la partie française de l'île a été cédée à la Grande-Bretagne — ses anciennes habitations sont rachetées à bas prix par les planteurs anglais, alimentant une spéculation foncière intense.` },
-        ],
-
-        population: `~5 000 habitants à Basseterre`,
-
-        note_mj: `✅ Cession de la partie française par Utrecht 1713 : établi.<br>
-✅ Spéculation foncière post-Utrecht : Wikipedia EN (Saint Kitts).<br>
-La défense de l'île est assurée depuis Brimstone Hill — voir entrée dédiée.`,
-    },
-
-    {
-        id: 'brimstone-hill',
-        nom: 'Fort Brimstone Hill',
-        capitale: true,
-        type: 'fort',
-        territoire: 'saint-christophe',
-        coords: [7027, 2852],
-
-        contexte: `"Le Gibraltar des Antilles" — surnom mérité pour un fort établi au sommet d'un promontoire volcanique de 240 mètres dominant toute la côte nord-ouest de Saint-Kitts. La position est naturellement imprenable par voie terrestre : les pentes sont raides, le sommet étroit, et la vue dégagée sur mer permet de signaler tout navire approchant avec plusieurs heures d'avance. Les Anglais y ont établi leurs premières batteries dans les années 1690, après le raid français sur l'île.
-
-En 1712, Brimstone Hill est encore en construction dans sa forme définitive — les travaux s'étalent sur tout le XVIIIe siècle — mais les bastions principaux et l'artillerie sont en place. C'est la clé de la défense des Leeward Islands britanniques dans les Petites Antilles.`,
-
-        population: `Garnison uniquement`,
-
-        garnison: `~200 soldats d'infanterie et artilleurs en 1712, effectif en croissance progressive au fil de l'avancée des travaux.`,
-
-        note_mj: `✅ Position sur promontoire volcanique à 240 m : établi.<br>
-✅ Construction progressive depuis les années 1690 jusqu'à la fin du XVIIIe : établi — aujourd'hui classé à l'UNESCO.<br>
-⚠️ Garnison précise en 1712 : effectif exact non vérifié sur source primaire<br>
-⤷ estimation d'après Hartog, History of St. Eustatius, et les archives de Brimstone Hill (St. Kitts National Archives).<br>
-🎲 Brimstone Hill est visible depuis la mer à grande distance — point de repère incontournable pour tout navigateur longeant la côte nord de Saint-Kitts.`,
-    },
-
-    {
-        id: 'saint-johns-antigua',
-        nom: "Saint-John's",
-        capitale: true,
-        type: 'port',
-        territoire: 'leeward-islands',
-        coords: [7238, 2905],
-
-        contexte: [
-            { de: 1712, texte: `Capitale administrative des Leeward Islands et résidence du gouverneur général. Saint-John's est une ville de fonctionnaires et de planteurs — moins active comme port que English Harbour. C'est ici que siège le Conseil et que se règlent les affaires politiques de l'archipel ; c'est ici aussi que Daniel Parke fut lynché en décembre 1710 et que son successeur Douglas monnaya le pardon royal des assassins.` },
-        ],
-
-        population: `~3 000 habitants`,
-
-        note_mj: `✅ Assassinat de Parke, décembre 1710 : Calendar of State Papers ; Encyclopedia Virginia.<br>
-✅ Extorsion de Douglas — 10 000 livres pour publier la grâce royale : Wikipedia EN (Walter Douglas).`,
-    },
-
-    {
-        id: 'english-harbour',
-        nom: 'English Harbour',
-        type: 'port',
-        territoire: 'leeward-islands',
-        coords: [7247, 2916],
-
-        contexte: `Base navale de la Royal Navy dans les Petites Antilles, à une vingtaine de kilomètres au sud-est de Saint-John's. English Harbour est un port naturel exceptionnel — une rade quasi-fermée par deux promontoires, abritée des ouragans, avec un fond suffisant pour recevoir les frégates. Le carénage y est possible à l'abri des regards et des vents : les navires sont basculés sur le côté pour gratter et goudronner leurs coques, opération impossible en pleine mer.
-        <br><br>
-En 1712, les installations permanentes sont encore modestes — les grands arsenaux et corderies de la Nelson's Dockyard seront construits plus tard dans le siècle. Mais la rade est déjà utilisée régulièrement par les frégates de la Jamaica Station et des Leeward Islands. Pour un navire qui veut savoir où se trouve la Royal Navy dans les Petites Antilles, English Harbour est la première réponse.`,
-
-        population: `Quelques centaines — personnel naval, artisans, esclaves employés aux chantiers`,
-
-        garnison: `Batteries côtières aux deux pointes de l'entrée : ~60 à 80 soldats et artilleurs.<br>
-Aucun fort majeur en 1712 — les défenses seront renforcées progressivement au cours du siècle.`,
-
-        note_mj: `✅ Qualités nautiques d'English Harbour (rade fermée, carénage possible) : établi.<br>
-✅ Nelson's Dockyard — installations permanentes majeures construites à partir des années 1740–1780 : établi. En 1712, les infrastructures sont rudimentaires.<br>
-⚠️ Garnison et installations précises en 1712 : peu documentés.`,
-    },
-
-    {
-        id: 'charlotte-amalie',
-        nom: 'Charlotte Amalie',
-        capitale: true,
-        type: 'port',
-        territoire: 'saint-thomas',
-        coords: [6756, 2714],
-
-        contexte: `Port franc danois — la ville où l'on peut tout vendre et tout acheter sans trop de questions. Charlotte Amalie s'organise autour d'une baie profonde et abritée, dominée par le <strong>Fort Christian</strong> (1672) sur son promontoire rouge. La Compagnie des Indes occidentales danoise administre formellement l'île, mais son contrôle est nominal : l'économie du port franc repose précisément sur l'absence de contrôle rigoureux.
-<br><br>
-La population est délibérément cosmopolite — Danois, Hollandais, Anglais, Juifs séfarades coexistent sans que nul ne pose de questions sur les origines. Les esclaves africains représentent les cinq sixièmes de la population totale, transitant vers les colonies espagnoles ou employés dans les plantations. En 1712, la pression britannique commence à peser sur les Danois, mais l'économie fondamentale du port franc reste intacte.`,
-
-        population: `~3 600 habitants (dont ~3 000 esclaves)`,
-
-        garnison: `Fort Christian : ~80 soldats danois.<br>
-Petite garnison pour une île dont la survie repose sur la neutralité commerciale plutôt que sur la force militaire.`,
-
-        note_mj: `✅ Fort Christian (1672) : établi.<br>
-✅ Population cosmopolite, commerce sans questions, communauté juive séfarade : Westergaard (1917) ; Wikipedia EN (Danish West Indies).<br>
-✅ Colonisation de Saint-John par Bredal en 1718, tension avec Hamilton des Leeward Islands : St. John Historical Society.<br>
-⚠️ Garnison : estimation d'après Westergaard, <em>The Danish West Indies under Company Rule</em> (1917).`,
-    },
-
-    {
-        id: 'willemstad',
-        nom: 'Willemstad',
-        capitale: true,
-        type: 'port',
-        territoire: 'curaçao',
-        coords: [6138, 3769],
-
-        contexte: `Plaque tournante du commerce hollandais dans les Caraïbes — un entrepôt neutre où transitent marchandises européennes, esclaves africains et produits coloniaux de toutes provenances.<br>
-Willemstad s'organise autour de la baie de Sint Anna : le quartier de Punda abrite les entrepôts et les comptoirs des marchands ; le <strong>Fort Amsterdam</strong> (1635) domine l'entrée du chenal depuis la pointe ouest.
-<br><br>
-Tout navire avec quelque chose à vendre ou à acheter sans qu'on lui pose de questions trouve ici un interlocuteur. Le cacao de Caracas arrive à Willemstad illégalement et repart légalement ; les produits manufacturés européens font le chemin inverse. En février 1713, des forces françaises occupent brièvement l'île — épisode humiliant pour la WIC, réglé par la paix d'Utrecht sans indemnité`,
-
-        population: `~8 000 habitants<br>(dont ~5 000 à 6 000 esclaves)`,
-
-        garnison: `Fort Amsterdam : ~120 soldats hollandais`,
-
-        note_mj: `✅ Occupation française de février 1713 : WorldStatesmen.org ; Klooster (1998).<br>
-✅ Commerce interlope cacao vénézuélien → Willemstad : Klooster (1998).<br>
-✅ Fort Amsterdam (1635) : établi.<br>
-⚠️ Garnison : Klooster donne des données économiques — estimation d'après Klooster, <em>Illicit Riches</em> (1998).`,
-    },
-
-    {
-        id: 'paramaribo',
-        nom: 'Paramaribo',
-        capitale: true,
-        type: 'port',
-        territoire: 'suriname',
-        coords: [8218, 4616],
-
-        contexte: `Capitale de la colonie hollandaise du Suriname, sur la rive droite du fleuve Suriname. Paramaribo est un hub commercial prospère — ses plantations de sucre, de cacao et de café, exploitées par une main-d'œuvre servile massive, en font l'une des colonies les plus productives des Caraïbes. Le <strong>Fort Zeelandia</strong> (1667) occupe la pointe nord de la ville.
-<br><br>
-La guerre des Marrons est la réalité permanente de la colonie : des milliers d'esclaves africains fuient les plantations pour la forêt intérieure, où ils forment des communautés autonomes résistant efficacement aux expéditions militaires hollandaises depuis les années 1690. Cette guerre absorbe des ressources considérables et inquiète toutes les colonies à main-d'œuvre servile des Caraïbes.`,
-
-        population: `~5 000 à 8 000`,
-
-        garnison: `Fort Zeelandia : ~150 soldats hollandais.<br>Les expéditions contre les Marrons mobilisent des effectifs supplémentaires variables.`,
-
-        note_mj: `✅ Fort Zeelandia (1667) : établi.<br>
-✅ Guerre des Marrons depuis les années 1690 : Price (1973).<br>
-✅ Gestion tripartite Société du Surinam depuis 1683 : établi.<br>
-⚠️ Garnison : estimation d'après Price, <em>Maroon Societies</em> (1973) — Price donne des données sur les expéditions militaires plutôt que sur la garnison fixe.<br>
-Note toponymique : "Paragotos" sur la carte Jaillot désigne probablement le même site que "Suriname" — deux sources compilées sans recoupement par le cartographe.`,
-    },
+    // ── BARBADE ─────────────────────────────────────────────
 
     {
         id: 'bridgetown',
@@ -4325,4 +4977,47 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
 ⚠️ Garnison : estimation par analogie avec les garnisons britanniques aux Antilles pour une île de ce rang.`,
     },
 
+    // ── GRENADE ─────────────────────────────────────────────
+
+    {
+        id: 'saint-georges-grenade',
+        nom: "Saint-George's",
+        label: "Saint-George's (Grenade)",
+        capitale: true,
+        type: 'port',
+        territoire: 'grenade',
+        coords: [7275, 3779],
+
+        contexte: [
+            {
+                de: 1712, texte: `Capitale et unique port notable de la Grenade française. Saint-George's est bâtie autour d'une rade en fer à cheval, l'une des plus belles des Petites Antilles. La ville exporte sucre, cacao, indigo et les premières muscades qui feront la réputation de l'île.<br>
+Point de passage entre les Antilles françaises du nord et Trinidad espagnole au sud, Saint-George's est aussi une escale pour le commerce interlope avec le Venezuela. L'éloignement de Fort-Royal lui confère une autonomie de fait que les gouverneurs successifs gèrent avec pragmatisme.` },
+        ],
+
+        population: `~2 500 habitants`,
+
+        note_mj: `✅ Rôle commercial — cacao, sucre, muscade naissante : carte-data.js (grenade).<br>
+Pas de fort majeur en 1712 — des batteries côtières légères.`,
+    },
+
+    // ── BERMUDES ─────────────────────────────────────────────
+
+    {
+        id: 'saint-georges-bermudes',
+        nom: "Saint George's",
+        capitale: true,
+        type: 'port',
+        territoire: 'bermudes',
+        coords: [6568, 420],
+
+        contexte: [
+            { de: 1712, texte: `Capitale et unique ville notable des Bermudes. Saint George's s'organise autour de son port naturel — l'un des rares bons mouillages de l'archipel — et de ses chantiers navals. Le cèdre des Bermudes produit des coques légères et durables, réputées dans tout l'Atlantique. Les pilotes bermudiens, familiers des hauts-fonds de l'archipel, se retrouvent sur tous les navires qui naviguent entre les colonies. Certains d'entre eux figurent parmi les équipages pirates de Nassau — leur connaissance des passes est un atout irremplaçable.` },
+        ],
+
+        population: `~6 000 sur l'ensemble de l'archipel (dont ~2 000 esclaves) ; Saint George's regroupe l'essentiel de la population`,
+
+        note_mj: `✅ Réputation des chantiers bermudiens et des pilotes : établi (sources maritimes générales).<br>
+✅ Bermudiens parmi les pirates de Nassau : <em>Calendar of State Papers Colonial</em>.<br>
+Fort Hamilton : construit à partir de 1620 environ, en état modeste à cette période — davantage une batterie côtière qu'un vrai fort de garnison.`,
+    },
 ];
