@@ -4323,6 +4323,70 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
 🎲 Kingston est le passage obligé pour tout navire qui veut commercer légalement en Jamaïque. Port Royal est le passage obligé pour tout navire qui veut être inspecté, armé, ou pendu.`,
     },
 
+    // ══════════════════════════════════════════════════════════
+    // SAINT-DOMINGUE (PARTIE FRANÇAISE)
+    // ══════════════════════════════════════════════════════════
+
+    // ── LÉOGÂNE ──────────────────────────────────────────────────────────────
+
+    {
+        id: 'leogane',
+        nom: 'Léogâne (Yaguana)',
+        label: 'Léogâne',
+        type: 'port',
+        rang: '2',
+        territoire: 'saint-domingue',
+        coords: [5378, 2732],
+        // ⚠️ Indiqué "G. de Yaguana" sur la Jaillot — nom de la baie,
+        // conservant le souvenir de la ville espagnole Yaguana détruite
+        // lors des devastaciones de 1605.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Chef-lieu de la province du Sud de Saint-Domingue, à l'entrée du golfe de la Gonâve. Léogâne est fondée sur les ruines de l'ancienne ville espagnole de Yaguana — détruite en 1605 lors des <em>devastaciones</em> ordonnées par Madrid pour priver les interlopes hollandais et français de leurs bases d'approvisionnement. Les Français ont refondé l'établissement sur la même baie, dont le nom taïno "Yaguana" survit sur toutes les cartes.
+<br><br>
+En 1712, Léogâne est l'une des villes les plus actives de Saint-Domingue : ses plaines côtières portent des habitations sucrières en plein essor, et son port expédie sucre, indigo et coton vers La Rochelle et Nantes. La ville est aussi un souvenir flibustier — c'est depuis Léogâne que plusieurs expéditions contre les côtes espagnoles ont été organisées au XVIIe siècle, et nombre de ses habitants descendent de boucaniers reconvertis en planteurs.`,
+            },
+        ],
+
+        population: `~5 000 habitants dans la ville et ses environs immédiats`,
+
+        note_mj: `✅ Yaguana détruite lors des devastaciones de 1605 : établi.
+✅ Léogâne comme chef-lieu de la province du Sud de Saint-Domingue : établi.
+✅ Essor sucrier de la plaine de Léogâne au début du XVIIIe siècle : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
+    // ── PORT-DE-PAIX ──────────────────────────────────────────────────────────
+
+    {
+        id: 'port-de-paix',
+        nom: 'Port-de-Paix',
+        label: 'Port-de-Paix',
+        type: 'port',
+        rang: '2',
+        territoire: 'saint-domingue',
+        coords: [5433,2563],
+        // ⚠️ Indiqué "P. Paix" sur la Jaillot, côte nord-ouest de Saint-Domingue.
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Premier établissement français permanent d'Hispaniola, fondé en 1664 sur la côte nord-ouest de l'île — une position choisie pour sa proximité avec l'île de la Tortue, base historique des flibustiers français. Port-de-Paix est le berceau de la colonisation française de Saint-Domingue : c'est depuis ce port que les boucaniers de la Tortue ont progressivement étendu leur emprise sur la partie occidentale de l'île, jusqu'à ce que le traité de Ryswick (1697) reconnaisse officiellement la souveraineté française sur Saint-Domingue.
+<br><br>
+En 1712, Port-de-Paix est dépassé par Le Cap-Français comme premier port de la colonie, mais il conserve une importance stratégique sur la côte nord-ouest. Son histoire flibustière est dans toutes les mémoires — les anciens de la ville se souviennent d'une époque où les frères de la côte y vendaient leurs prises avant de repartir chasser le galion. Aujourd'hui, les planteurs ont remplacé les corsaires, mais l'esprit de la frontière n'est pas tout à fait mort.`,
+            },
+        ],
+
+        population: `~4 000 habitants`,
+
+        note_mj: `✅ Fondation en 1664 comme premier établissement français permanent d'Hispaniola : établi.
+✅ Lien historique avec la Tortue et les flibustiers français : établi — voir entrée 'tortue'.
+✅ Traité de Ryswick 1697, reconnaissance de la souveraineté française sur Saint-Domingue : établi.
+⚠️ Population en 1712 : estimation.`,
+    },
+
     // ── PORT-SAINT-MARC (HISPANIOLA FRANÇAISE) ───────────────────────────────
 
     {
@@ -4356,7 +4420,7 @@ Kingston : ~8 000 (dont ~6 000 esclaves) — centre de gravité commercial de l'
         type: 'site_hist',
         rang: '3',
         territoire: 'saint-domingue',
-        coords: [5378, 2732],
+        coords: [5305, 2714],
         // ⚠️ Xaragua est un nom historique taïno — le territoire du cacique
         // Anacaona, dans le sud-ouest d'Hispaniola. En 1712, cette zone est
         // française (Les Cayes, Léogâne). La Jaillot de 1708 peut encore
@@ -4930,6 +4994,32 @@ Saint-Pierre sera détruite le 8 mai 1902 par l'éruption de la Montagne Pelée 
 Pas de fort propre — des batteries côtières légères.`,
     },
 
+    // ── LA PELÉE (MARTINIQUE) ────────────────────────────────────────────────
+
+    {
+        id: 'montagne-pelee',
+        nom: 'Montagne Pelée',
+        label: 'La Pelée',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'martinique',
+        coords: [7322, 3267],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Volcan actif dominant le nord de la Martinique depuis 1 397 mètres. La Montagne Pelée est en 1712 un volcan qui fume par intermittence — des colonnes de vapeur et de soufre s'échappent du cratère, visibles depuis Fort-Royal et depuis les navires au large. Les habitants de Saint-Pierre, au pied du volcan, vivent depuis un siècle avec ce voisinage volcanique sans que jamais une éruption majeure ne se soit produite. Le volcan est considéré comme un repère et une curiosité plutôt que comme une menace réelle.
+<br><br>
+Cette tranquillité prendra fin le 8 mai 1902, lorsqu'une nuée ardente détruira Saint-Pierre en quelques minutes et tuera 30 000 personnes — la pire éruption volcanique de l'histoire moderne. En 1712, rien ne laisse présager cette catastrophe.`,
+            },
+        ],
+
+        note_mj: `✅ Montagne Pelée, volcan dominant le nord de la Martinique : établi.
+✅ Activité fumerolienne en 1712 : probable — le volcan a des épisodes d'activité modérée tout au long de la période coloniale.
+✅ Éruption de 1902 et destruction de Saint-Pierre : établi — hors période mais connue des joueurs.
+🎲 Un joueur qui connaît 1902 et visite Saint-Pierre en 1712 a une connaissance que son personnage n'a pas — tension narrative intéressante.`,
+    },
+
     // ── GUADELOUPE ─────────────────────────────────────────────
 
     {
@@ -4954,6 +5044,54 @@ Centre gouvernemental et militaire, Basse-Terre est moins active commercialement
 ⚠️ Garnison : estimation par analogie avec Fort-Royal, compte tenu du rang secondaire de Basse-Terre dans la hiérarchie des Îles du Vent.`,
     },
 
+    // ── LA SOUFRIÈRE (GUADELOUPE) ───────────────────────────────────────────
+
+    {
+        id: 'soufriere-guadeloupe',
+        nom: 'La Soufrière (Guadeloupe)',
+        label: 'La Soufrière (Guadeloupe)',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'guadeloupe',
+        coords: [7249, 3088],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Volcan actif dominant la Basse-Terre de la Guadeloupe depuis 1 467 mètres — le point culminant de l'arc des petites Antilles. La Soufrière est un repère de navigation incontournable : sa silhouette fumante est visible depuis la mer à grande distance, et son panache de soufre se sent par vent favorable bien avant de voir la côte. L'éruption de 1690 est dans toutes les mémoires — elle a couvert l'île de cendres et provoqué des tremblements de terre qui ont endommagé les habitations. En 1712, le volcan est en activité fumerolienne permanente, avec des épisodes de grondements et de projections de gaz qui agitent périodiquement la population de Basse-Terre.`,
+            },
+        ],
+
+        note_mj: `✅ La Soufrière, plus haut sommet de l'arc antillais (1 467 m), volcan actif : établi.
+✅ Éruption de 1690 : établie dans les sources historiques guadeloupéennes.
+✅ Activité fumerolienne permanente : établi.
+🎲 Un navire qui approche de la Guadeloupe par le sud reconnaît d'abord le panache de la Soufrière avant de voir la côte — repère d'approche fiable par tous les temps.`,
+    },
+
+    // ── MORNE DIABLOTIN (DOMINIQUE) ─────────────────────────────────────────
+
+    {
+        id: 'morne-diablotin',
+        nom: 'Morne Diablotin',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'dominique',
+        coords: [7295, 3169],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Plus haut sommet des petites Antilles (1 447 mètres), dominant l'île de la Dominique depuis son extrémité nord. Le Morne Diablotin est visible depuis la mer à très grande distance — depuis la Guadeloupe au nord comme depuis la Martinique au sud, par temps dégagé. Pour les navigateurs des petites Antilles, c'est le principal amers de la chaîne insulaire entre Porto Rico et Sainte-Lucie : son profil caractéristique permet de situer la Dominique sans ambiguïté, et donc de corriger sa route dans l'arc antillais.
+<br><br>
+L'île de la Dominique est en 1712 sous contrôle nominal français mais en réalité habitée principalement par les Kalinagos (Carib) — la seule île des petites Antilles que les Européens n'ont pas réussi à coloniser durablement. Le traité de 1660 entre France, Angleterre et Carib a théoriquement réservé la Dominique et Saint-Vincent aux Kalinagos, mais des colons français s'y sont installés malgré tout sur les côtes.`,
+            },
+        ],
+
+        note_mj: `✅ Morne Diablotin (1 447 m), point culminant des petites Antilles : établi.
+✅ Dominique comme île kalinago — traité de 1660 : établi.
+✅ Rôle de repère de navigation dans l'arc antillais : établi par les sources de navigation de l'époque.`,
+    },
+
     // ── BARBADE ─────────────────────────────────────────────
 
     {
@@ -4975,6 +5113,32 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
         note_mj: `✅ Barbade comme île la plus productive et la plus peuplée des Antilles britanniques : Dunn, <em>Sugar and Slaves</em> (1972).<br>
 ✅ Gouverneur Lowther — double mandat, extorsion, rétention de navires de guerre : Wikipedia EN ; <em>History of Parliament Online</em>.<br>
 ⚠️ Garnison : estimation par analogie avec les garnisons britanniques aux Antilles pour une île de ce rang.`,
+    },
+
+    // ── LA SOUFRIÈRE (SAINT-VINCENT) ────────────────────────────────────────
+
+    {
+        id: 'soufriere-saint-vincent',
+        nom: 'La Soufrière (Saint-Vincent)',
+        label: 'La Soufrière (Saint-Vincent)',
+        type: 'site_geo',
+        rang: '2',
+        territoire: 'saint-vincent',
+        coords: [7342, 3549],
+        // ⚠️ À ne pas confondre avec la Soufrière de Guadeloupe
+        // (id: 'soufriere-guadeloupe').
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Volcan actif dominant le nord de Saint-Vincent depuis 1 234 mètres. En 1718, une éruption majeure modifiera significativement le paysage du nord de l'île — en 1712, des signes précurseurs sont probablement perceptibles : fumerolles, grondements souterrains, sources chaudes. Saint-Vincent est en 1712 une île à dominante kalinago (Carib), partiellement fréquentée par des colons français clandestins mais sans présence coloniale établie. La Soufrière domine une île sauvage et peu connue des Européens en dehors des boucaniers et des marins qui en longent les côtes.`,
+            },
+        ],
+
+        note_mj: `✅ Éruption de la Soufrière de Saint-Vincent en 1718 : établi — dans la période de jeu.
+✅ Saint-Vincent comme île kalinago en 1712, sans présence coloniale établie : établi.
+⚠️ Activité précurseur avant 1718 : probable mais non documentée précisément.
+À ne pas confondre avec la Soufrière de Guadeloupe.`,
     },
 
     // ── GRENADE ─────────────────────────────────────────────
