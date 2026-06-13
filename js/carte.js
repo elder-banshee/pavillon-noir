@@ -715,11 +715,11 @@ function initPanneauGauche() {
 
 // ─── Filtres marqueurs (panneau gauche) ──────────────────────
 function initFiltresMarqueurs() {
-  const maitre        = document.getElementById('filtre-marqueurs-tout');
-  const scenarios     = document.getElementById('filtre-scenarios');
+  const maitre = document.getElementById('filtre-marqueurs-tout');
+  const scenarios = document.getElementById('filtre-scenarios');
   const etablissements = document.getElementById('filtre-etablissements');
-  const secondaires   = document.getElementById('filtre-secondaires');
-  const sites         = document.getElementById('filtre-sites');
+  const secondaires = document.getElementById('filtre-secondaires');
+  const sites = document.getElementById('filtre-sites');
 
   const enfants = [scenarios, etablissements, secondaires, sites].filter(Boolean);
 
@@ -798,10 +798,10 @@ function initFiltresMarqueurs() {
     });
   }
 
-  addToggle(scenarios,      renderPins);
+  addToggle(scenarios, renderPins);
   addToggle(etablissements, renderVilles);
-  addToggle(secondaires,    renderVilles);
-  addToggle(sites,          renderVilles);
+  addToggle(secondaires, renderVilles);
+  addToggle(sites, renderVilles);
 
   // Initialiser l'état de la case maître au chargement
   // (certains enfants peuvent démarrer décochés, ex. filtre-secondaires)
@@ -1353,6 +1353,12 @@ function renderVilles() {
       }
       if (villeActive !== ville.id) setIconeVilleActive(ville.id, true);
       ecarterVille(ville.id);
+      // Curseur loupe si la ville appartient à un cluster
+      const elSurvol = marker.getElement();
+      if (elSurvol) {
+        const dansCluster = clustersChevauchement.some(c => c.ids.includes(ville.id));
+        elSurvol.style.cursor = dansCluster ? 'zoom-in' : '';
+      }
     });
     marker.on('mouseout', () => {
       marker.closeTooltip();
@@ -2274,7 +2280,7 @@ function calculerPairesChevauchement() {
       // Paire isolée → écartement existant
       const paire = toutesLesPaires.find(
         p => (p.idA === membres[0] && p.idB === membres[1]) ||
-             (p.idA === membres[1] && p.idB === membres[0])
+          (p.idA === membres[1] && p.idB === membres[0])
       );
       if (paire) pairesChevauchement.push(paire);
     } else {
@@ -2287,7 +2293,7 @@ function calculerPairesChevauchement() {
 
 // ─── Loupe cartographique ─────────────────────────────────────
 const LOUPE_RAYON = 115; // px — rayon du cercle de la loupe
-const LOUPE_ZOOM  = -0.6; // zoom fixe dans la loupe
+const LOUPE_ZOOM = -0.6; // zoom fixe dans la loupe
 
 function fermerLoupe() {
   if (loupeInstance) {
@@ -2323,10 +2329,10 @@ function ouvrirLoupe(villeId, containerPoint) {
   const diametre = LOUPE_RAYON * 2;
   const div = document.createElement('div');
   div.id = 'carte-loupe';
-  div.style.width  = `${diametre}px`;
+  div.style.width = `${diametre}px`;
   div.style.height = `${diametre}px`;
-  div.style.left   = `${containerPoint.x}px`;
-  div.style.top    = `${containerPoint.y}px`;
+  div.style.left = `${containerPoint.x}px`;
+  div.style.top = `${containerPoint.y}px`;
   wrap.appendChild(div);
 
   // Instance Leaflet secondaire — on part toujours du centroïde
@@ -2385,12 +2391,12 @@ function ouvrirLoupe(villeId, containerPoint) {
         ? rendreChamp(ville.capitale, anneeActive)
         : ville.capitale;
       const estPirate = statutCapitale === 'pirate';
-      const estRang3  = (ville.rang ?? '1') === '3';
+      const estRang3 = (ville.rang ?? '1') === '3';
 
       const icon = L.divIcon({
         html: villeSVG(ville.type || 'ville', taille, estPirate, false, false, estRang3),
         className: 'carte-ville',
-        iconSize:   [taille, taille],
+        iconSize: [taille, taille],
         iconAnchor: [taille / 2, taille / 2],
       });
 
@@ -2409,7 +2415,7 @@ function ouvrirLoupe(villeId, containerPoint) {
         marker.setIcon(L.divIcon({
           html: villeSVG(ville.type || 'ville', taille, estPirate, false, true, estRang3),
           className: 'carte-ville',
-          iconSize:   [taille, taille],
+          iconSize: [taille, taille],
           iconAnchor: [taille / 2, taille / 2],
         }));
         marker.openTooltip();
@@ -2419,7 +2425,7 @@ function ouvrirLoupe(villeId, containerPoint) {
         marker.setIcon(L.divIcon({
           html: villeSVG(ville.type || 'ville', taille, estPirate, false, false, estRang3),
           className: 'carte-ville',
-          iconSize:   [taille, taille],
+          iconSize: [taille, taille],
           iconAnchor: [taille / 2, taille / 2],
         }));
         marker.closeTooltip();
