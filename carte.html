@@ -8,6 +8,7 @@
   <meta name="description" content="Carte géopolitique des Caraïbes — Campagne Pavillon Noir">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/carte.css">
+  <link rel="stylesheet" href="css/carte-mobile.css" media="(max-width: 768px)">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>">
@@ -254,8 +255,7 @@
         <!-- Droite : crédit carte -->
         <div class="carte-credit" id="carte-credit">
           Teatre de la Guerre en Amerique — Jaillot, Mortier &amp; Sanson, 1708.
-          <a href="https://www.davidrumsey.com" target="_blank"
-            rel="noopener">David Rumsey Map Collection</a>
+          <a href="https://www.davidrumsey.com" target="_blank" rel="noopener">David Rumsey Map Collection</a>
         </div>
 
       </div><!-- fin .carte-barre -->
@@ -288,10 +288,12 @@
   <script src="js/carte-data.js"></script>
   <script src="js/villes-data.js"></script>
   <script src="js/villes-data-ajouts-session.js"></script>
-  <script src="js/carte.js"></script>
   <script src="js/audio.js"></script>
   <script>audioInit(null);</script>
   <script src="js/mobile-nav.js"></script>
+  <script>window._MOBILE = window.matchMedia('(max-width: 768px)').matches;</script>
+  <script>if (window._MOBILE) document.write('<scr' + 'ipt src="js/carte-mobile.js"><\/scr' + 'ipt>');</script>
+  <script>if (!window._MOBILE) document.write('<scr' + 'ipt src="js/carte.js"><\/scr' + 'ipt>');</script>
 
 </body>
 

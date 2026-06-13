@@ -1,0 +1,767 @@
+/* ═══════════════════════════════════════════════════════════
+   CARTE MOBILE — Styles interface Maps
+   Chargé uniquement sur mobile (≤ 768px)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Reset plein écran ────────────────────────────────────── */
+body {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+#carte {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ─── Barre de recherche haute ─────────────────────────────── */
+#mob-barre-recherche {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none; /* les enfants interceptent */
+}
+
+#mob-recherche-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface, #1a1712);
+  border: 1px solid var(--border, rgba(200,151,58,0.2));
+  border-radius: 24px;
+  padding: 11px 16px;
+  pointer-events: auto;
+  cursor: text;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+#mob-recherche-icone {
+  font-size: 1rem;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+#mob-recherche-placeholder {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--mist, #8b9fab);
+  flex: 1;
+}
+
+/* ─── Chips filtres ────────────────────────────────────────── */
+#mob-filtres-chips-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  pointer-events: auto;
+}
+#mob-filtres-chips-scroll::-webkit-scrollbar { display: none; }
+
+#mob-filtres-chips {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 2px; /* évite coupure box-shadow */
+  width: max-content;
+}
+
+.mob-filtre-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface, #1a1712);
+  border: 1px solid var(--border, rgba(200,151,58,0.2));
+  border-radius: 20px;
+  padding: 6px 13px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mist, #8b9fab);
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mob-filtre-chip--actif {
+  background: var(--surface, #1a1712);
+  border-color: var(--gold, #c8973a);
+  color: var(--gold-light, #e2c97e);
+}
+
+.mob-filtre-chip--mj {
+  border-color: rgba(139,58,42,0.4);
+  color: rgba(200,120,80,0.8);
+}
+
+.mob-filtre-chip--mj.mob-filtre-chip--actif {
+  background: rgba(139,58,42,0.12);
+  border-color: rgba(139,58,42,0.7);
+  color: rgba(220,140,100,0.9);
+}
+
+.carte-isolation--disabled {
+  opacity: 0.35 !important;
+  pointer-events: none !important;
+}
+
+/* ─── Boutons flottants droits ─────────────────────────────── */
+#mob-boutons-flottants {
+  position: absolute;
+  bottom: 200px; /* au-dessus de la sheet ville réduite */
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mob-btn-flottant {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: var(--surface, #1a1712);
+  border: 1px solid var(--border, rgba(200,151,58,0.2));
+  border-radius: 10px;
+  padding: 0;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s;
+}
+
+.mob-btn-flottant:active {
+  border-color: var(--gold, #c8973a);
+}
+
+.mob-btn-flottant-icone {
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--mist, #8b9fab);
+}
+
+.mob-btn-flottant-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  color: var(--mist, #8b9fab);
+  text-transform: uppercase;
+}
+
+/* ─── Fond overlay (fermeture sheets) ──────────────────────── */
+#mob-fond-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1099;
+  background: transparent;
+}
+#mob-fond-overlay.mob-fond-overlay--visible {
+  display: block;
+}
+
+/* ─── Sheet ville — bottom sheet expandable ────────────────── */
+#mob-sheet-ville {
+  position: absolute;
+  bottom: 52px;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  height: 0;
+  background: var(--surface, #1a1712);
+  border-top: 1px solid var(--border, rgba(200,151,58,0.2));
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+  transition: height 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#mob-sheet-ville.mob-sheet-ville--ouverte {
+  height: 32vh;
+}
+
+#mob-sheet-ville-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(200,151,58,0.3);
+  border-radius: 2px;
+  margin: 10px auto 0;
+  flex-shrink: 0;
+  cursor: ns-resize;
+}
+
+#mob-sheet-ville-contenu {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  min-height: 0;
+}
+
+/* ─── Contenu panneau (commun ville et territoire) ─────────── */
+.mob-panneau-header {
+  position: relative;
+  padding: 1rem 2.5rem 0.75rem 1rem;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.15));
+}
+
+.mob-panneau-surtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold, #c8973a);
+  margin-bottom: 0.25rem;
+}
+
+.mob-panneau-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--parchment, #f2e8d5);
+  letter-spacing: 0.05em;
+}
+
+.mob-panneau-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--mist, #8b9fab);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mob-panneau-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mob-panneau-meta {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.85rem;
+  color: var(--mist-light, #c4ccd4);
+}
+
+.mob-panneau-meta-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold, #c8973a);
+  margin-right: 0.5rem;
+}
+
+.mob-panneau-section {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--mist-light, #c4ccd4);
+}
+
+.mob-panneau-sub-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold, #c8973a);
+  margin-top: 0.5rem;
+}
+
+.mob-panneau-lien {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.85rem;
+  color: var(--gold-light, #e2c97e);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.12));
+  cursor: pointer;
+}
+
+/* ─── Sheet filtres ────────────────────────────────────────── */
+#mob-sheet-filtres {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1150;
+  max-height: 80vh;
+  background: var(--surface, #1a1712);
+  border-top: 1px solid var(--border, rgba(200,151,58,0.2));
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#mob-sheet-filtres.mob-sheet-filtres--ouverte {
+  transform: translateY(0);
+}
+
+#mob-sheet-filtres-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.15));
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--parchment, #f2e8d5);
+  flex-shrink: 0;
+}
+
+#mob-sheet-filtres-close {
+  background: none;
+  border: none;
+  color: var(--mist, #8b9fab);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+#mob-sheet-filtres-inner {
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.mob-filtre-ligne {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.08));
+  font-family: 'IM Fell English', serif;
+  font-size: 0.88rem;
+  color: var(--mist-light, #c4ccd4);
+  cursor: pointer;
+}
+
+.mob-filtre-pastille {
+  font-size: 0.9rem;
+  color: var(--gold, #c8973a);
+  width: 1.2rem;
+  text-align: center;
+}
+
+/* ─── Sheet calques et année (depuis le bas) ───────────────── */
+#mob-sheet-calques,
+#mob-sheet-annee {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1150;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#mob-sheet-calques.mob-sheet-calques--ouverte,
+#mob-sheet-annee.mob-sheet-annee--ouverte {
+  transform: translateY(0);
+}
+
+.mob-sheet-bottom {
+  background: var(--surface, #1a1712);
+  border-top: 1px solid var(--border, rgba(200,151,58,0.2));
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.mob-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(200,151,58,0.3);
+  border-radius: 2px;
+  margin: 10px auto 0;
+}
+
+.mob-sheet-bottom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.15));
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--parchment, #f2e8d5);
+}
+
+.mob-sheet-close-btn {
+  background: none;
+  border: none;
+  color: var(--mist, #8b9fab);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.mob-sheet-bottom-section {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.08));
+}
+
+.mob-sheet-section-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold, #c8973a);
+  margin-bottom: 0.75rem;
+}
+
+/* ─── Grille overlay ───────────────────────────────────────── */
+.mob-overlay-grille {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* Conteneur wrap : bouton carré + label dessous */
+.mob-overlay-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.mob-overlay-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border, rgba(200,151,58,0.15));
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
+
+.mob-overlay-item--actif {
+  border-color: var(--gold, #c8973a);
+}
+
+/* Couleurs actives par overlay — ciblées via data-mode */
+.mob-overlay-item--actif[data-mode="geo"]         { background: var(--sea-light, #4a7a8a); }
+.mob-overlay-item--actif[data-mode="densite"]     { background: #4a8c5c; }
+.mob-overlay-item--actif[data-mode="esclavage"]   { background: var(--rust, #8b3a2a); }
+.mob-overlay-item--actif[data-mode="autochtones"] { background: #a05c38; }
+.mob-overlay-item--actif[data-mode="masque"]      { background: var(--parchment2, #c8b89a); }
+
+.mob-overlay-icone {
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--mist, #8b9fab);
+}
+
+.mob-overlay-item--actif .mob-overlay-icone {
+  filter: brightness(0) invert(0.15);
+}
+
+.mob-overlay-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mist, #8b9fab);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ─── Légende dans sheet calques ───────────────────────────── */
+#mob-legende-inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* Wrap légende : carré couleur + label dessous */
+.mob-legende-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.mob-legende-item {
+  width: 40%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.mob-legende-nom {
+  font-family: 'Cinzel', serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mist, #8b9fab);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.mob-legende-wrap--masquee {
+  opacity: 0.35;
+}
+
+.mob-legende-info {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--mist, #8b9fab);
+}
+
+/* ─── Sheet année ──────────────────────────────────────────── */
+#mob-annee-affichage {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold-light, #e2c97e);
+  text-align: center;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+#mob-annee-controls {
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+#mob-annee-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: var(--border, rgba(200,151,58,0.2));
+  border-radius: 2px;
+  outline: none;
+}
+
+#mob-annee-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--gold, #c8973a);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(200,151,58,0.2);
+}
+
+/* ─── Sheet recherche plein écran ──────────────────────────── */
+#mob-sheet-recherche {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: var(--bg, #0e0c09);
+  display: flex;
+  flex-direction: column;
+}
+
+#mob-recherche-header {
+  padding: 12px;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.15));
+  flex-shrink: 0;
+}
+
+#mob-recherche-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface, #1a1712);
+  border: 1px solid var(--gold, #c8973a);
+  border-radius: 24px;
+  padding: 11px 16px;
+}
+
+#mob-recherche-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'IM Fell English', serif;
+  font-size: 0.95rem;
+  color: var(--parchment, #f2e8d5);
+}
+
+#mob-recherche-cancel {
+  background: none;
+  border: none;
+  color: var(--mist, #8b9fab);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+#mob-recherche-suggestions-wrap {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#mob-recherche-suggestions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mob-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.08));
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mob-suggestion:active {
+  background: rgba(200,151,58,0.05);
+}
+
+.mob-suggestion-icone {
+  font-size: 0.9rem;
+  color: var(--gold, #c8973a);
+  flex-shrink: 0;
+}
+
+.mob-suggestion-nom {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.9rem;
+  color: var(--mist-light, #c4ccd4);
+}
+
+/* ─── Bouton action dans sheet ─────────────────────────────── */
+.mob-action-btn {
+  padding: 0.6rem 1.25rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--border, rgba(200,151,58,0.3));
+  background: none;
+  color: var(--mist, #8b9fab);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.mob-action-btn--gold {
+  border-color: var(--gold, #c8973a);
+  color: var(--gold, #c8973a);
+}
+
+/* ─── Barre basse ──────────────────────────────────────────── */
+#mob-barre-basse {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  height: 52px;
+  background: var(--surface, #1a1712);
+  border-top: 1px solid var(--border, rgba(200,151,58,0.2));
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+}
+
+.mob-barre-basse-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  padding: 6px 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mob-barre-basse-btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.mob-barre-basse-btn--actif .mob-barre-basse-icone,
+.mob-barre-basse-btn--actif .mob-barre-basse-label {
+  color: var(--gold, #c8973a);
+}
+
+.mob-barre-basse-icone {
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--mist, #8b9fab);
+}
+
+.mob-barre-basse-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mist, #8b9fab);
+}
+
+/* Boutons flottants et sheet ville au-dessus de la barre */
+#mob-boutons-flottants { bottom: 64px; }
+
+.mob-panneau-scenario-entree {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.1));
+}
+.mob-panneau-scenario-entree:last-child {
+  border-bottom: none;
+}
+.mob-panneau-scenario-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--parchment, #f2e8d5);
+  margin-bottom: 0.2rem;
+}
+.mob-panneau-scenario-date {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--gold, #c8973a);
+  margin-bottom: 0.3rem;
+}
+
+/* ─── Boutons flottants — décalés au-dessus de la barre basse ─ */
+#mob-boutons-flottants {
+  bottom: 68px;
+}
