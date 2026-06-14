@@ -3,20 +3,16 @@
 // Remplace carte.js sur écrans ≤ 768px
 // ═══════════════════════════════════════════════════════════
 
-// ─── État global — identique à carte.js ──────────────────────
+// ─── État global ──────────────────────────────────────────────
 let carte = null;
 let carteOverlayPrincipale = null;
 let anneeActive = CARTE_ANNEE_REFERENCE;
 let zoneActive = null;
 let layersZones = {};
-let markersMap = {};
 let pinActive = null;
 let modeSombre = false;
-let contourGlobalLayer = null;
 let villeActive = null;
 let markersVilles = {};
-
-// ─── Mode overlay ─────────────────────────────────────────────
 let overlayMode = 'geo';
 let overlayModeAvantIsolation = 'geo';
 let isolationJuridictionId = null;
@@ -39,7 +35,7 @@ let sheetVilleOuverte = false;
 let sheetFiltresOuverte = false;
 let sheetCalquesOuverte = false;
 let sheetAnneeOuverte = false;
-let sheetHauteur = 'reduite'; // 'reduite' | 'mi-hauteur' | 'pleine'
+let sheetHauteur = 'reduite'; // 'peek' | 'reduite' | 'pleine'
 
 // ─── Constantes overlay ───────────────────────────────────────
 const OVERLAY_LABELS = {
@@ -48,14 +44,6 @@ const OVERLAY_LABELS = {
   esclavage: 'Esclavage & Encomienda',
   autochtones: 'Foyers autochtones',
   masque: 'Carte Jaillot (1708)',
-};
-
-const OVERLAY_ICONES = {
-  geo: '⚑',
-  densite: '♟',
-  esclavage: '⛓',
-  autochtones: '➶',
-  masque: '✕',
 };
 
 // ─── Paliers et couleurs des overlays ────────────────────────
@@ -87,7 +75,7 @@ const WEIGHTS = { zone: 0.5, zoneActive: 2, isolation: 2 };
 const ZOOM_FACTEUR = 1.5;
 
 // ═══════════════════════════════════════════════════════════
-// UTILITAIRES PURS — identiques à carte.js
+// UTILITAIRES PURS
 // ═══════════════════════════════════════════════════════════
 
 function pixelToLatLng(x, y) {
@@ -175,23 +163,8 @@ function couleurAutochtone(zoneId, annee) {
   return AUTOCHTONES_COULEURS[statut] || null;
 }
 
-// ─── Calcul année max MJ ─────────────────────────────────────
-function calculerAnneeMax() {
-  let max = CARTE_ANNEE_REFERENCE;
-  function scanBlocs(val) {
-    if (!val || typeof val !== 'object') return;
-    if (Array.isArray(val)) val.forEach(b => { if (b.a && b.a > max) max = b.a; });
-  }
-  JURIDICTIONS.forEach(j => {
-    scanBlocs(j.contexte); scanBlocs(j.capitale);
-    scanBlocs(j.population_approx); scanBlocs(j.economie);
-  });
-  return max;
-}
-const ANNEE_MAX_MJ = calculerAnneeMax();
-
 // ═══════════════════════════════════════════════════════════
-// SVG BUILDERS — identiques à carte.js
+// SVG BUILDERS
 // ═══════════════════════════════════════════════════════════
 
 function pinSVG() {
@@ -316,175 +289,27 @@ function setIconeVilleActive(villeId, actif) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// SÉQUENCE SECRÈTE MJ — identique à carte.js
+// Calcul année max MJ
 // ═══════════════════════════════════════════════════════════
 
-function enregistrerClicSequence(zoneId) {
-  if (modeMJ) return false;
-  if (attenteClic_IleDuMais) {
-    if (zoneId === 'ile-du-mais') {
-      attenteClic_IleDuMais = false;
-      ouvrirPopupConfirmationMJ();
-      return true;
-    } else {
-      attenteClic_IleDuMais = false;
-      sequenceEnCours = [];
-      renderZones();
-      return false;
-    }
+function calculerAnneeMax() {
+  let max = CARTE_ANNEE_REFERENCE;
+  function scanBlocs(val) {
+    if (!val || typeof val !== 'object') return;
+    if (Array.isArray(val)) val.forEach(b => { if (b.a && b.a > max) max = b.a; });
   }
-  const attendu = SEQUENCE_MJ[sequenceEnCours.length];
-  if (zoneId === attendu) {
-    sequenceEnCours.push(zoneId);
-    if (sequenceEnCours.length === SEQUENCE_MJ.length) {
-      attenteClic_IleDuMais = true;
-      sequenceEnCours = [];
-      renderZones();
-    }
-  } else {
-    sequenceEnCours = (zoneId === SEQUENCE_MJ[0]) ? [zoneId] : [];
-  }
-  return false;
+  JURIDICTIONS.forEach(j => {
+    scanBlocs(j.contexte); scanBlocs(j.capitale);
+    scanBlocs(j.population_approx); scanBlocs(j.economie);
+  });
+  return max;
 }
-
-function ouvrirPopupConfirmationMJ() {
-  // Sur mobile : la confirmation passe par la sheet ville réutilisée
-  const contenu = `
-    <div style="padding: 1.5rem 1rem 1rem;">
-      <h3 style="font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); margin-bottom:0.75rem; letter-spacing:0.08em;">
-        Mode Maître de Jeu
-      </h3>
-      <p style="font-family:'IM Fell English',serif; font-size:0.9rem; color:var(--mist-light); line-height:1.5; margin-bottom:1.25rem;">
-        Activer le mode MJ ? Les notes confidentielles et les données futures seront visibles jusqu'au rechargement de la page.
-      </p>
-      <div style="display:flex; gap:0.75rem;">
-        <button class="mob-action-btn mob-action-btn--gold" onclick="confirmerModeMJ()">Confirmer</button>
-        <button class="mob-action-btn" onclick="annulerModeMJ()">Annuler</button>
-      </div>
-    </div>`;
-  pinActive = '__mj_confirm__';
-  ouvrirSheetVilleAvecContenu(contenu, 'mi-hauteur');
-}
-
-function confirmerModeMJ() {
-  modeMJ = true;
-  fermerSheetVille();
-
-  // Badge MJ
-  const wrap = document.getElementById('carte-wrap');
-  if (wrap && !document.getElementById('mj-badge')) {
-    const badge = document.createElement('div');
-    badge.id = 'mj-badge';
-    badge.textContent = '🔒 MJ';
-    badge.style.cssText = `
-      position:absolute; bottom:0.5rem; left:0.5rem; z-index:900;
-      pointer-events:none; font-family:'Cinzel',serif; font-size:0.55rem;
-      letter-spacing:0.1em; text-transform:uppercase;
-      color:var(--gold-light); background:rgba(14,12,9,0.75);
-      padding:0.2rem 0.5rem; border:1px solid rgba(139,58,42,0.3);`;
-    wrap.appendChild(badge);
-  }
-
-  // Débrider le slider année
-  const slider = document.getElementById('mob-annee-slider');
-  if (slider) slider.max = ANNEE_MAX_MJ;
-
-  majCurseurAnnee();
-  renderZones();
-  renderVilles();
-
-  // Ajouter chip filtre rang 3 dans la barre haute
-  const conteneurFiltresMJ = document.getElementById('mob-filtres-mj');
-  if (conteneurFiltresMJ && !document.getElementById('mob-filtre-rang3')) {
-    const chip = document.createElement('button');
-    chip.id = 'mob-filtre-rang3';
-    chip.className = 'mob-filtre-chip mob-filtre-chip--mj mob-filtre-chip--actif';
-    chip.dataset.filtre = 'rang3';
-    chip.innerHTML = '🔒 Masqués';
-    chip.addEventListener('click', () => {
-      chip.classList.toggle('mob-filtre-chip--actif');
-      // Synchroniser la checkbox interne utilisée par renderVilles
-      let cb = document.getElementById('mfl-rang3');
-      if (!cb) {
-        cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.id = 'mfl-rang3';
-        cb.style.display = 'none';
-        document.body.appendChild(cb);
-      }
-      cb.checked = chip.classList.contains('mob-filtre-chip--actif');
-      renderVilles();
-    });
-    conteneurFiltresMJ.appendChild(chip);
-
-    // Créer la checkbox cachée initiale (cochée)
-    if (!document.getElementById('mfl-rang3')) {
-      const cb = document.createElement('input');
-      cb.type = 'checkbox';
-      cb.id = 'mfl-rang3';
-      cb.checked = true;
-      cb.style.display = 'none';
-      document.body.appendChild(cb);
-    }
-
-    renderVilles();
-  }
-}
-
-function annulerModeMJ() {
-  fermerSheetVille();
-  renderZones();
-}
-
-// ─── Écran de chargement ─────────────────────────────────────
-function masquerEcranChargement() {
-  const ecran = document.getElementById('carte-chargement');
-  if (!ecran) return;
-  ecran.style.opacity = '0';
-  setTimeout(() => ecran.remove(), 700);
-}
+const ANNEE_MAX_MJ = calculerAnneeMax();
 
 // ═══════════════════════════════════════════════════════════
-// INITIALISATION PRINCIPALE
+// Injection HTML mobile
 // ═══════════════════════════════════════════════════════════
 
-function _initMobile() {
-  try {
-    injecterStructureMobile();
-
-    function initTout() {
-      initCarte();
-      initBarreRecherche();
-      initFiltresChips();
-      initBoutonsFlottants();
-      initSheetCalques();
-      initSheetAnnee();
-      initSheetVille();
-      initSheetFiltres();
-      masquerEcranChargement();
-    }
-
-    const imgPreload = new Image();
-    imgPreload.src = CARTE_IMAGE.src;
-    imgPreload.decode()
-      .then(() => {
-        initTout();
-      })
-      .catch(initTout);
-
-  } catch (e) {
-    document.body.innerHTML = '<pre style="color:red;padding:1rem;font-size:0.8rem;white-space:pre-wrap;">'
-      + (e.stack || e.message || String(e)) + '</pre>';
-  }
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', _initMobile);
-} else {
-  _initMobile();
-}
-
-// ─── Injection HTML mobile ────────────────────────────────────
 function injecterStructureMobile() {
   // Masquer nav et header desktop — inutiles sur mobile
   document.querySelector('.site-nav')?.style.setProperty('display', 'none', 'important');
@@ -567,7 +392,7 @@ function injecterStructureMobile() {
   sheetFiltres.innerHTML = `
     <div id="mob-sheet-filtres-header">
       <span>Filtres</span>
-      <button id="mob-sheet-filtres-close" aria-label="Fermer">✕</button>
+      <button id="mob-sheet-filtres-close" class="mob-close-btn" aria-label="Fermer">✕</button>
     </div>
     <div id="mob-sheet-filtres-inner">
       <div class="mob-sheet-section-titre">Marqueurs géographiques</div>
@@ -605,7 +430,7 @@ function injecterStructureMobile() {
       <div class="mob-sheet-handle"></div>
       <div class="mob-sheet-bottom-header">
         <span>Type de carte</span>
-        <button class="mob-sheet-close-btn" id="mob-calques-close">✕</button>
+        <button class="mob-sheet-close-btn mob-close-btn" id="mob-calques-close">✕</button>
       </div>
       <div class="mob-sheet-bottom-section">
         <div class="mob-sheet-section-titre">Overlay</div>
@@ -648,7 +473,7 @@ function injecterStructureMobile() {
       <div class="mob-sheet-handle"></div>
       <div class="mob-sheet-bottom-header">
         <span>Année</span>
-        <button class="mob-sheet-close-btn" id="mob-annee-close">✕</button>
+        <button class="mob-sheet-close-btn mob-close-btn" id="mob-annee-close">✕</button>
       </div>
       <div class="mob-sheet-bottom-section">
         <div id="mob-annee-affichage">1716</div>
@@ -677,14 +502,8 @@ function injecterStructureMobile() {
     </button>`;
   document.body.appendChild(barreBasse);
 
-  // Mode sombre
-  document.getElementById('mob-btn-sombre')?.addEventListener('click', function () {
-    modeSombre = !modeSombre;
-    this.classList.toggle('mob-barre-basse-btn--actif', modeSombre);
-    if (overlayMode !== 'isolation' && overlayMode !== 'isolationVille') {
-      carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
-    }
-  });
+  // Mode sombre — le bouton barre basse appelle toggleModeSombre (définie après initCarte)
+  document.getElementById('mob-btn-sombre')?.addEventListener('click', () => toggleModeSombre());
 
   // Plein écran
   document.getElementById('mob-btn-pleinecran')?.addEventListener('click', function () {
@@ -711,6 +530,46 @@ function injecterStructureMobile() {
     fermerSheetVille();
   });
   document.body.appendChild(fondOverlay);
+}
+
+// ═══════════════════════════════════════════════════════════
+// INITIALISATION PRINCIPALE
+// ═══════════════════════════════════════════════════════════
+
+function _initMobile() {
+  try {
+    injecterStructureMobile();
+
+    function initTout() {
+      initCarte();
+      initBarreRecherche();
+      initFiltresChips();
+      initBoutonsFlottants();
+      initSheetCalques();
+      initSheetAnnee();
+      initSheetVille();
+      initSheetFiltres();
+      masquerEcranChargement();
+    }
+
+    const imgPreload = new Image();
+    imgPreload.src = CARTE_IMAGE.src;
+    imgPreload.decode()
+      .then(() => {
+        initTout();
+      })
+      .catch(initTout);
+
+  } catch (e) {
+    document.body.innerHTML = '<pre style="color:red;padding:1rem;font-size:0.8rem;white-space:pre-wrap;">'
+      + (e.stack || e.message || String(e)) + '</pre>';
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _initMobile);
+} else {
+  _initMobile();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -747,7 +606,6 @@ function initCarte() {
   carte.getPane('contourGlobal').style.pointerEvents = 'none';
 
   renderZones();
-  renderPins();
   renderVilles();
 
   carte.on('click', (e) => {
@@ -757,16 +615,16 @@ function initCarte() {
 
     fermerToutesSheets();
 
-    if (sheetVilleOuverte) {
-      // Premier tap : fermer le panneau, garder l'élément en surbrillance
-      fermerSheetVille();
+    if (sheetVilleOuverte && sheetHauteur !== 'peek') {
+      // Volet ouvert (réduit ou plein) → replier en peek
+      setSheetHauteur('peek');
     } else {
-      // Second tap (panneau déjà fermé) : désactiver l'élément
+      // Volet en peek ou fermé → fermer complètement ET désactiver
+      fermerSheetVille();
       if (villeActive) setIconeVilleActive(villeActive, false);
       villeActive = null;
       zoneActive = null;
       pinActive = null;
-      // Remettre le poids des zones au repos
       Object.values(layersZones).forEach(groupe => {
         groupe.eachLayer?.(poly => poly.setStyle({
           weight: weightPourZoom(WEIGHTS.zone, carte.getZoom())
@@ -851,8 +709,991 @@ function initCarte() {
   document.addEventListener('fullscreenchange', () => {
     setTimeout(_recalibrerVue, 150);
   });
+}
 
+// ═══════════════════════════════════════════════════════════
+// RENDU ZONES
+// ═══════════════════════════════════════════════════════════
 
+function renderZones() {
+  Object.values(layersZones).forEach(g => {
+    g.eachLayer(poly => carte.removeLayer(poly));
+    carte.removeLayer(g);
+  });
+  layersZones = {};
+
+  if (overlayMode === 'masque') return;
+
+  function surfaceApprox(contours) {
+    if (!contours || !contours.length) return 0;
+    const pts = contours[0];
+    if (pts.length < 3) return 0;
+    let a = 0;
+    for (let i = 0; i < pts.length; i++) {
+      const j = (i + 1) % pts.length;
+      a += pts[i][0] * pts[j][1];
+      a -= pts[j][0] * pts[i][1];
+    }
+    return Math.abs(a / 2);
+  }
+
+  const juridictionsTri = [...JURIDICTIONS]
+    .filter(j => !j.visible_mj || modeMJ || attenteClic_IleDuMais)
+    .sort((a, b) => {
+      const sa = surfaceApprox(ZONES_DATA?.[a.id] ?? (a.zone?.length >= 3 ? [a.zone] : null));
+      const sb = surfaceApprox(ZONES_DATA?.[b.id] ?? (b.zone?.length >= 3 ? [b.zone] : null));
+      return sb - sa;
+    });
+
+  juridictionsTri.forEach(j => {
+    const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
+      ? ZONES_DATA[j.id]
+      : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
+
+    if (!contours) return;
+
+    const puissanceId = resoudre(j.puissance, anneeActive);
+    const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
+    const isActive = zoneActive === j.id;
+    const isIsolee = overlayMode === 'isolation' && isolationJuridictionId === j.id;
+    const isEffacee = (overlayMode === 'isolation' && !isIsolee) || overlayMode === 'isolationVille';
+
+    let couleur, fillOpacity, strokeColor, strokeWeight, strokeOpacity;
+
+    if (isEffacee) {
+      // Toutes les autres zones sont invisibles en mode isolation
+      couleur = 'transparent';
+      fillOpacity = 0;
+      strokeColor = 'transparent';
+      strokeWeight = 0;
+      strokeOpacity = 0;
+
+    } else if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
+      const fnCouleur = overlayMode === 'densite' ? couleurDensite
+        : overlayMode === 'esclavage' ? couleurEsclavage
+          : id => couleurAutochtone(id, anneeActive);
+      const c = fnCouleur(j.id);
+      if (c) {
+        couleur = c; fillOpacity = isActive ? 0.5 : 0.35;
+        strokeColor = c; strokeWeight = isActive ? 2 : 0.5; strokeOpacity = 0.9;
+      } else {
+        couleur = 'transparent'; fillOpacity = 0;
+        strokeColor = 'transparent'; strokeWeight = 0; strokeOpacity = 0;
+      }
+
+    } else {
+      // Mode géopolitique (y compris zone isolée en mode isolation)
+      const masquee = overlayMode === 'geo' && puissancesMasquees.has(puissanceId);
+      const estEspagne = puissanceId === 'espagnole';
+      couleur = masquee ? 'rgba(107,124,138,0.6)' : puissance.couleur;
+      fillOpacity = isActive ? 0.45 : (masquee ? 0.08 : (isIsolee ? 0 : 0.23));
+      strokeColor = isIsolee ? '#c8973a' : (estEspagne ? '#c84a1c' : couleur);
+      strokeWeight = isIsolee ? weightPourZoom(WEIGHTS.zone, carte.getZoom()) : (isActive ? 2 : 0.5);
+      strokeOpacity = isIsolee ? 1 : (masquee ? 0.4 : (estEspagne ? 1 : 0.8));
+    }
+
+    const style = {
+      color: strokeColor,
+      weight: strokeWeight,
+      opacity: strokeOpacity,
+      fillColor: couleur,
+      fillOpacity: fillOpacity,
+      fillRule: 'nonzero',
+      className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
+    };
+
+    const polygones = contours.map(pts => {
+      const latlngs = pts.map(([x, y]) => pixelToLatLng(x, y));
+      return L.polygon(latlngs, style);
+    });
+
+    const groupe = L.layerGroup(polygones);
+
+    polygones.forEach(poly => {
+      poly.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        if (overlayMode === 'isolationVille') {
+          fermerZoomVille();
+          ouvrirPanneau(j.id);
+          return;
+        }
+        if (overlayMode === 'isolation') {
+          fermerIsolation();
+          ouvrirPanneau(j.id);
+          return;
+        }
+        const intercepte = enregistrerClicSequence(j.id);
+        if (intercepte) return;
+        if (zoneActive === j.id) {
+          fermerPanneau();
+        } else {
+          ouvrirPanneau(j.id);
+        }
+      });
+
+      poly.on('mouseover', () => {
+        fermerTooltipsOrphelins();
+        // Remettre en repos toutes les icônes villes hors ville active et isolation
+        Object.keys(markersVilles).forEach(id => {
+          if (id !== villeActive && id !== isolationVilleId) setIconeVilleActive(id, false);
+        });
+        if (overlayMode === 'isolation') {
+          if (isIsolee) poly.setStyle({ fillColor: '#c8973a', fillOpacity: 0.25 });
+          return;
+        }
+        if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zoneActive, carte.getZoom()) });
+      });
+      poly.on('mouseout', () => {
+        if (overlayMode === 'isolation') {
+          if (isIsolee) poly.setStyle({ fillColor: 'transparent', fillOpacity: 0 });
+          return;
+        }
+        if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zone, carte.getZoom()) });
+      });
+
+      if (overlayMode !== 'isolation') {
+        poly.bindTooltip(j.label || j.nom, {
+          permanent: false,
+          direction: 'top',
+          className: 'carte-tooltip',
+          opacity: 1,
+        });
+      }
+    });
+
+    groupe.addTo(carte);
+    layersZones[j.id] = groupe;
+  });
+}
+
+function majWeightsZones() {
+  if (!carte) return;
+  const zoom = carte.getZoom();
+  Object.values(layersZones).forEach(groupe => {
+    if (groupe.eachLayer) {
+      groupe.eachLayer(poly => poly.setStyle({ weight: weightPourZoom(WEIGHTS.zone, zoom) }));
+    } else if (groupe.setStyle) {
+      groupe.setStyle({ weight: weightPourZoom(WEIGHTS.zone, zoom) });
+    }
+  });
+}
+
+// ─── Panneaux — zones, villes, scénarios ─────────────────────
+
+function ouvrirPanneau(juridictionId) {
+  const j = JURIDICTIONS.find(j => j.id === juridictionId);
+  if (!j) return;
+  if (j.visible_mj && !modeMJ) return;
+
+  zoneActive = juridictionId;
+
+  // Mettre à jour le style de la zone active
+  Object.entries(layersZones).forEach(([id, groupe]) => {
+    const isActive = id === juridictionId;
+    groupe.eachLayer?.(poly => {
+      poly.setStyle({ weight: weightPourZoom(isActive ? WEIGHTS.zoneActive : WEIGHTS.zone, carte.getZoom()) });
+    });
+  });
+
+  const contenu = construireContenuPanneauJuridiction(j);
+  mobOuvrirSheet(contenu);
+}
+
+function fermerPanneau() {
+  zoneActive = null;
+  fermerSheetVille();
+  Object.values(layersZones).forEach(groupe => {
+    groupe.eachLayer?.(poly => {
+      poly.setStyle({ weight: weightPourZoom(WEIGHTS.zone, carte.getZoom()) });
+    });
+  });
+}
+
+function ouvrirPanneauVille(villeId) {
+  const ville = VILLES.find(v => v.id === villeId);
+  if (!ville) return;
+
+  villeActive = villeId;
+  setIconeVilleActive(villeId, true);
+
+  const contenu = construireContenuPanneauVille(ville);
+  mobOuvrirSheet(contenu);
+}
+
+function fermerPanneauVille() {
+  if (villeActive) setIconeVilleActive(villeActive, false);
+  villeActive = null;
+  fermerSheetVille();
+}
+
+// ─── Constructeurs de contenu panneau ────────────────────────
+// Produisent le HTML injecté dans la sheet ville.
+// Inspirés de carte.js mais sans la structure #carte-panneau.
+
+function construireContenuPanneauJuridiction(j) {
+  const puissanceId = resoudre(j.puissance, anneeActive);
+  const puissance = PUISSANCES[puissanceId] || {};
+  const nomPuissance = puissance.nom || puissanceId || '';
+
+  const pop = rendreChamp(j.population_approx, anneeActive);
+  const capitale = rendreChamp(j.capitale, anneeActive);
+  const contexte = rendreContexte(j.contexte, anneeActive);
+  const economie = rendreContexte(j.economie, anneeActive);
+
+  return `
+    <div class="mob-panneau-header">
+      <div class="mob-panneau-surtitle">${nomPuissance}</div>
+      <div class="mob-panneau-titre">${j.label || j.nom}</div>
+      <button class="mob-panneau-close" aria-label="Fermer">✕</button>
+    </div>
+    <div class="mob-panneau-body">
+      ${capitale ? `<div class="mob-panneau-meta"><span class="mob-panneau-meta-label">Capitale</span> ${capitale}</div>` : ''}
+      ${pop ? `<div class="mob-panneau-meta"><span class="mob-panneau-meta-label">Population</span> ~${pop}</div>` : ''}
+      ${contexte ? `<div class="mob-panneau-section">${contexte}</div>` : ''}
+      ${economie ? `<div class="mob-panneau-section mob-panneau-section--economie">${economie}</div>` : ''}
+    </div>`;
+}
+
+function construireContenuPanneauVille(ville) {
+  const contexte = rendreContexte(ville.contexte, anneeActive);
+  const territoireNom = (() => {
+    const j = JURIDICTIONS.find(j => j.id === ville.territoire);
+    return j ? (j.label || j.nom) : '';
+  })();
+
+  const chroniquesLiees = (typeof CHRONIQUES !== 'undefined')
+    ? CHRONIQUES.filter(c => c.lieux?.includes(ville.id))
+    : [];
+  const pnjLies = (typeof PNJ !== 'undefined')
+    ? PNJ.filter(p => p.lieux?.includes(ville.id) && (!p.visible_mj || modeMJ))
+    : [];
+
+  const chroniquesHtml = chroniquesLiees.length ? `
+    <div class="mob-panneau-sub-titre">Chroniques</div>
+    ${chroniquesLiees.map(c => `
+      <div class="mob-panneau-lien" onclick="naviguerVers('chroniques.html#${c.id}')">
+        ${c.titre || c.id}
+      </div>`).join('')}` : '';
+
+  const pnjHtml = pnjLies.length ? `
+    <div class="mob-panneau-sub-titre">Personnages</div>
+    ${pnjLies.map(p => `
+      <div class="mob-panneau-lien" onclick="naviguerVers('pnj.html#${p.id}')">
+        ${p.nom || p.id}
+      </div>`).join('')}` : '';
+
+  return `
+    <div class="mob-panneau-header">
+      <div class="mob-panneau-surtitle">${territoireNom}</div>
+      <div class="mob-panneau-titre">${ville.label || ville.nom}</div>
+      <button class="mob-panneau-close" aria-label="Fermer">✕</button>
+    </div>
+    <div class="mob-panneau-body">
+      ${contexte ? `<div class="mob-panneau-section">${contexte}</div>` : ''}
+      ${chroniquesHtml}
+      ${pnjHtml}
+    </div>`;
+}
+
+function naviguerVers(url) {
+  window.location.href = url;
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER VILLES — adapté mobile (même logique, curseur mobile)
+// ═══════════════════════════════════════════════════════════
+
+function renderVilles() {
+  Object.values(markersVilles).forEach(m => carte.removeLayer(m));
+  markersVilles = {};
+
+  if (overlayMode === 'masque') return;
+
+  const filtreEtab = document.getElementById('mfl-etablissements')?.checked ?? false;
+  const filtreSecond = document.getElementById('mfl-secondaires')?.checked ?? false;
+  const filtreSites = document.getElementById('mfl-sites')?.checked ?? false;
+  const filtreRang3 = document.getElementById('mfl-rang3')?.checked ?? false;
+
+  VILLES.forEach(ville => {
+    if (!ville.coords) return;
+
+    const rang = ville.rang ?? '1';
+    if (rang === '3' && !modeMJ) return;
+    if (rang === '3' && !filtreRang3) return;
+
+    const visibleDe = ville.visible_de ?? null;
+    if (visibleDe !== null && anneeActive < visibleDe) return;
+
+    const type = ville.type || 'ville';
+    const estSite = (type === 'site_geo' || type === 'site_hist');
+    const estEtab = (type === 'port' || type === 'fort' || type === 'ville');
+    const estSecond = rang === '2';
+
+    if (estSite && !filtreSites) return;
+    if (estEtab && estSecond && !filtreSecond) return;
+    if (estEtab && !estSecond && !filtreEtab && rang !== '3') return;
+
+    const latlng = pixelToLatLng(ville.coords[0], ville.coords[1]);
+    const statutCapitale = Array.isArray(ville.capitale)
+      ? rendreChamp(ville.capitale, anneeActive)
+      : ville.capitale;
+    const estPirate = statutCapitale === 'pirate';
+    const estRang3 = rang === '3';
+
+    const icon = L.divIcon({
+      html: villeSVG(ville.type || 'ville', tailleIconeVille(), estPirate, false, false, estRang3),
+      className: 'carte-ville',
+      iconSize: [tailleIconeVille(), tailleIconeVille()],
+      iconAnchor: [tailleIconeVille() / 2, tailleIconeVille() / 2],
+    });
+
+    const marker = L.marker(latlng, { icon });
+
+    marker.bindTooltip(labelVille(ville), {
+      permanent: false,
+      direction: 'top',
+      className: 'carte-tooltip',
+      opacity: 1,
+      offset: [0, -10],
+      interactive: false,
+    });
+
+    marker.on('click', (e) => {
+      L.DomEvent.stopPropagation(e);
+      if (overlayMode === 'isolationVille') {
+        fermerZoomVille({ ouvrirVille: true });
+        return;
+      }
+      if (overlayMode === 'isolation') return;
+      fermerToutesSheets();
+      if (villeActive === ville.id) {
+        fermerPanneauVille();
+      } else {
+        ouvrirPanneauVille(ville.id);
+      }
+    });
+
+    marker.addTo(carte);
+    markersVilles[ville.id] = marker;
+  });
+
+  // ─── Scénarios — intégrés comme marqueurs standard ──────────
+  const filtreScenarios = document.getElementById('mfl-scenarios')?.checked ?? true;
+  if (filtreScenarios && overlayMode !== 'masque') {
+    CARTE_PINS.forEach(pin => {
+      const [x, y] = pin.coords;
+      const latlng = pixelToLatLng(x, y);
+
+      const marker = L.marker(latlng, {
+        icon: L.divIcon({
+          html: pinSVG(),
+          className: 'carte-ville', // même classe que les villes → pas de transition parasite
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+        }),
+      });
+
+      marker.bindTooltip(pin.label, {
+        permanent: false,
+        direction: 'top',
+        className: 'carte-tooltip',
+        opacity: 1,
+        offset: [0, -28],
+        interactive: false,
+      });
+
+      marker.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        if (overlayMode === 'isolation') return;
+        fermerToutesSheets();
+        if (pinActive === pin.id) {
+          fermerPopup();
+        } else {
+          ouvrirPopupScenario(pin);
+        }
+      });
+
+      marker.addTo(carte);
+      markersVilles[pin.id] = marker;
+    });
+  }
+}
+
+function majTailleIconesVilles() {
+  const taille = tailleIconeVille();
+  Object.entries(markersVilles).forEach(([id, marker]) => {
+    const ville = VILLES.find(v => v.id === id);
+    if (!ville) return;
+    const statutCapitale = Array.isArray(ville.capitale)
+      ? rendreChamp(ville.capitale, anneeActive)
+      : ville.capitale;
+    const estPirate = statutCapitale === 'pirate';
+    const estIsole = overlayMode === 'isolationVille' && id === isolationVilleId;
+    const estActive = !estIsole && villeActive === id;
+    const estRang3 = (ville.rang ?? '1') === '3';
+    marker.setIcon(L.divIcon({
+      html: villeSVG(ville.type || 'ville', taille, estPirate, estIsole, estActive, estRang3),
+      className: 'carte-ville',
+      iconSize: [taille, taille],
+      iconAnchor: [taille / 2, taille / 2],
+    }));
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ISOLATION TERRITOIRE & VILLE — EN ATTENTE D'ARBITRAGE MOBILE
+   Ces fonctions sont commentées le temps de décider si les modes
+   isolation/zoom ont leur place sur mobile. Les références dans
+   renderZones, renderVilles et initCarte (fermerIsolation,
+   fermerZoomVille, overlayMode === 'isolation'…) restent actives
+   pour éviter des erreurs JS, mais les points d'entrée
+   (isolerTerritoire, zoomerVille) ne sont plus appelés nulle part.
+   ═══════════════════════════════════════════════════════════
+
+function _restaurerModeNormal() {
+  carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
+  document.querySelectorAll('.mob-overlay-item').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('carte-isolation--disabled');
+  });
+  document.querySelectorAll('.mob-filtre-chip').forEach(c => c.classList.remove('carte-isolation--disabled'));
+  majLegende();
+  renderZones();
+  renderVilles();
+}
+
+function fermerIsolation() {
+  if (overlayMode !== 'isolation') return;
+  overlayMode = overlayModeAvantIsolation;
+  isolationJuridictionId = null;
+  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
+  _restaurerModeNormal();
+}
+
+function isolerTerritoire(juridictionId) {
+  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
+
+  const j = JURIDICTIONS.find(j => j.id === juridictionId);
+  const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[juridictionId])
+    ? ZONES_DATA[juridictionId]
+    : (j?.zone?.length >= 3 ? [j.zone] : null);
+  if (!contours) return;
+
+  if (overlayMode !== 'isolation') overlayModeAvantIsolation = overlayMode;
+  isolationJuridictionId = juridictionId;
+  overlayMode = 'isolation';
+
+  fermerPanneau();
+  carteOverlayPrincipale.setOpacity(0.05);
+
+  document.querySelectorAll('.mob-filtre-chip, .mob-overlay-item').forEach(el => {
+    el.disabled = true;
+    el.classList.add('carte-isolation--disabled');
+  });
+
+  majLegende();
+  renderZones();
+  Object.values(markersMap).forEach(m => m.setOpacity(0));
+  Object.values(markersVilles).forEach(m => m.setOpacity(0));
+
+  const latlngs = contours.map(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
+  isolationLayer = L.polygon(latlngs, {
+    color: '#ffffff', weight: 3, opacity: 0, fillOpacity: 0,
+    interactive: false, pane: 'isolationContour',
+  });
+  isolationLayer.addTo(carte);
+
+  setTimeout(() => {
+    if (isolationLayer) isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
+  }, 50);
+  setTimeout(() => {
+    if (isolationLayer) isolationLayer.setStyle({ color: '#e2c97e', weight: 4, opacity: 1 });
+  }, 450);
+  setTimeout(() => {
+    if (isolationLayer) isolationLayer.setStyle({ opacity: 0 });
+  }, 850);
+  setTimeout(() => {
+    if (!isolationLayer) return;
+    carte.flyToBounds(isolationLayer.getBounds(), {
+      padding: [40, 40], maxZoom: carte.getMinZoom() + 2, duration: 1.2,
+    });
+  }, 900);
+}
+
+function zoomerVille(villeId) {
+  const ville = VILLES.find(v => v.id === villeId);
+  if (!ville || !ville.coords) return;
+
+  overlayModeAvantIsolation = overlayMode;
+  fermerPanneau();
+  overlayMode = 'isolationVille';
+  isolationVilleId = villeId;
+
+  carteOverlayPrincipale.setOpacity(0.05);
+
+  document.querySelectorAll('.mob-filtre-chip, .mob-overlay-item, .mob-btn-flottant').forEach(el => {
+    el.disabled = true;
+    el.classList.add('carte-isolation--disabled');
+  });
+
+  majLegende();
+  renderZones();
+  Object.entries(markersMap).forEach(([, m]) => m.setOpacity(0));
+  Object.entries(markersVilles).forEach(([id, m]) => {
+    m.setOpacity(id === villeId ? 1 : 0);
+  });
+
+  const latlng = pixelToLatLng(ville.coords[0], ville.coords[1]);
+  setTimeout(() => {
+    carte.flyTo(latlng, Math.min(carte.getMaxZoom(), carte.getZoom() + 2), { duration: 1.0 });
+  }, 100);
+
+  setTimeout(() => ouvrirPanneauVille(villeId), 1200);
+}
+
+   ═══════════════════════════════════════════════════════════ */
+
+// Les deux fonctions fermer* restent actives car appelées en défensif
+// depuis renderZones, renderVilles et le handler click carte.
+
+function _restaurerModeNormal() {
+  carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
+  document.querySelectorAll('.mob-overlay-item').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('carte-isolation--disabled');
+  });
+  document.querySelectorAll('.mob-filtre-chip').forEach(c => c.classList.remove('carte-isolation--disabled'));
+  majLegende();
+  renderZones();
+  renderVilles();
+}
+
+function fermerIsolation() {
+  if (overlayMode !== 'isolation') return;
+  overlayMode = overlayModeAvantIsolation;
+  isolationJuridictionId = null;
+  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
+  _restaurerModeNormal();
+}
+
+function fermerZoomVille(options = {}) {
+  if (overlayMode !== 'isolationVille') return;
+  overlayMode = overlayModeAvantIsolation;
+  isolationVilleId = null;
+  carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
+  document.querySelectorAll('.mob-filtre-chip, .mob-overlay-item, .mob-btn-flottant').forEach(el => {
+    el.disabled = false;
+    el.classList.remove('carte-isolation--disabled');
+  });
+  majLegende();
+  renderZones();
+  renderVilles();
+  if (options.ouvrirVille && villeActive) ouvrirPanneauVille(villeActive);
+}
+
+// ═══════════════════════════════════════════════════════════
+// POPUP SCÉNARIO — adapté mobile (sheet plutôt que popup overlay)
+// ═══════════════════════════════════════════════════════════
+
+function fermerPopup() {
+  pinActive = null;
+  fermerSheetVille();
+}
+
+function ouvrirPopupScenario(pin) {
+  pinActive = pin.id;
+
+  const entrees = pin.groupe
+    ? pin.groupe
+    : [{ label: pin.label, date: pin.date, extrait: pin.extrait, chronique_id: pin.chronique_id }];
+
+  const entreesHtml = entrees.map(e => `
+    <div class="mob-panneau-scenario-entree">
+      <div class="mob-panneau-scenario-label">${e.label || ''}</div>
+      ${e.date ? `<div class="mob-panneau-scenario-date">${e.date}</div>` : ''}
+      ${e.extrait ? `<div class="mob-panneau-section">${e.extrait}</div>` : ''}
+      ${e.chronique_id ? `<div class="mob-panneau-lien" onclick="naviguerVers('chroniques.html#${e.chronique_id}')">Lire la chronique →</div>` : ''}
+    </div>`).join('');
+
+  const contenu = `
+    <div class="mob-panneau-header">
+      <div class="mob-panneau-surtitle">Scénario</div>
+      <div class="mob-panneau-titre">${pin.label}</div>
+      <button class="mob-panneau-close" aria-label="Fermer">✕</button>
+    </div>
+    <div class="mob-panneau-body">
+      ${entreesHtml}
+    </div>`;
+  mobOuvrirSheet(contenu);
+}
+
+// ═══════════════════════════════════════════════════════════
+// SHEETS — GESTION GÉNÉRIQUE
+// ═══════════════════════════════════════════════════════════
+
+function afficherFondOverlay() {
+  document.getElementById('mob-fond-overlay')?.classList.add('mob-fond-overlay--visible');
+}
+
+function cacherFondOverlay() {
+  document.getElementById('mob-fond-overlay')?.classList.remove('mob-fond-overlay--visible');
+}
+
+function fermerToutesSheets() {
+  fermerSheetCalques();
+  fermerSheetAnnee();
+  fermerSheetFiltres();
+  cacherFondOverlay();
+}
+
+// ─── Sheet ville (bottom sheet expandable) ───────────────────
+
+const NIVEAUX_SHEET = ['fermee', 'peek', 'reduite', 'pleine'];
+
+function _hauteurPx(niveau) {
+  if (niveau === 'fermee') return 0;
+  if (niveau === 'peek')   return 40; // poignée seule, sans contenu visible
+  const vh = window.innerHeight;
+  if (niveau === 'reduite') return Math.round(vh * 0.32);
+  if (niveau === 'pleine') {
+    const barre = document.getElementById('mob-barre-recherche');
+    const barreBottom = 52; // hauteur barre basse
+    if (barre) {
+      const rect = barre.getBoundingClientRect();
+      if (document.fullscreenElement) {
+        // Plein écran : monter jusqu'au bord supérieur de la barre recherche
+        // (chips couverts — inutiles volet ouvert, on profite de l'espace)
+        const haut = rect.top - 4;
+        return Math.round(vh - haut);
+      } else {
+        // Mode normal : couvrir jusqu'au bord supérieur de la barre recherche
+        const haut = rect.top - 4;
+        return Math.round(vh - barreBottom - haut);
+      }
+    }
+    return Math.round(vh * 0.88);
+  }
+  return 0;
+}
+
+function setSheetHauteur(niveau) {
+  sheetHauteur = niveau;
+  const sheet = document.getElementById('mob-sheet-ville');
+  if (!sheet) return;
+  const px = _hauteurPx(niveau);
+  sheet.style.height = px + 'px';
+  sheet.dataset.hauteur = niveau;
+  _majPositionBoutonsFlottants(px, niveau);
+}
+
+function _majPositionBoutonsFlottants(sheetPx, niveau) {
+  const boutons = document.getElementById('mob-boutons-flottants');
+  if (!boutons) return;
+  if (niveau === 'pleine') {
+    // Volet plein : masquer les boutons (inutiles, inaccessibles)
+    boutons.style.opacity    = '0';
+    boutons.style.pointerEvents = 'none';
+  } else {
+    boutons.style.opacity    = '1';
+    boutons.style.pointerEvents = '';
+    // Remonter au-dessus du volet : 52px (barre basse) + hauteur volet + 8px marge
+    const bottom = 52 + sheetPx + 8;
+    boutons.style.bottom = bottom + 'px';
+  }
+}
+
+function initSheetVille() {
+  const sheet = document.getElementById('mob-sheet-ville');
+  if (!sheet) return;
+
+  // Délégation — bouton ✕ injecté dynamiquement
+  sheet.addEventListener('click', (e) => {
+    if (!e.target.closest('.mob-panneau-close')) return;
+    if (villeActive) { fermerPanneauVille(); return; }
+    if (zoneActive)  { fermerPanneau();       return; }
+    if (pinActive)   { fermerPopup();          return; }
+    fermerSheetVille();
+  });
+
+  // ─── Poignée swipable avec drag live ─────────────────────
+  const handle = document.getElementById('mob-sheet-ville-handle');
+  if (!handle) return;
+
+  let startY   = 0;
+  let startH   = 0;
+  let lastY    = 0;
+  let lastT    = 0;
+  let vy       = 0;    // vélocité px/ms, positif = vers le haut
+  let dragging = false;
+
+  handle.addEventListener('pointerdown', (e) => {
+    startY   = e.clientY;
+    lastY    = e.clientY;
+    lastT    = e.timeStamp;
+    startH   = _hauteurPx(sheetHauteur);
+    vy       = 0;
+    dragging = true;
+    handle.setPointerCapture(e.pointerId);
+    sheet.style.transition = 'none';   // désactiver pendant le drag
+  });
+
+  handle.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const dy = startY - e.clientY;     // positif = tiré vers le haut
+    const dt = e.timeStamp - lastT;
+    if (dt > 0) vy = (lastY - e.clientY) / dt;
+    lastY = e.clientY;
+    lastT = e.timeStamp;
+    const maxH = _hauteurPx('pleine');
+    const h = Math.max(0, Math.min(maxH, startH + dy));
+    sheet.style.height = h + 'px';
+    _majPositionBoutonsFlottants(h, h >= maxH * 0.85 ? 'pleine' : 'autre');
+  });
+
+  handle.addEventListener('pointerup', () => {
+    if (!dragging) return;
+    dragging = false;
+    sheet.style.transition = 'height 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+
+    const VY_HAUT = 0.35;   // px/ms — swipe rapide vers le haut
+    const VY_BAS  = 0.5;  // px/ms — swipe rapide vers le bas
+
+    if (vy > VY_HAUT) {
+      // Swipe rapide vers le haut → pleine
+      setSheetHauteur('pleine');
+    } else if (vy < -VY_BAS) {
+      // Swipe rapide vers le bas → peek (pas fermeture : le tap carte suffit pour ça)
+      setSheetHauteur('peek');
+    } else {
+      // Swipe lent → snap à la position la plus proche (fermee exclue : tap carte pour ça)
+      const currentH = parseFloat(sheet.style.height);
+      const cible = ['peek', 'reduite', 'pleine']
+        .map(n => ({ niveau: n, dist: Math.abs(_hauteurPx(n) - currentH) }))
+        .sort((a, b) => a.dist - b.dist)[0].niveau;
+      setSheetHauteur(cible);
+    }
+  });
+
+  handle.addEventListener('pointercancel', () => {
+    if (!dragging) return;
+    dragging = false;
+    sheet.style.transition = 'height 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+    setSheetHauteur(sheetHauteur);  // revenir à la position avant drag
+  });
+}
+
+function mobOuvrirSheet(contenuHtml, niveau = 'reduite') {
+  const sheet = document.getElementById('mob-sheet-ville');
+  const contenu = document.getElementById('mob-sheet-ville-contenu');
+  if (!sheet || !contenu) return;
+  contenu.innerHTML = contenuHtml;
+  sheetVilleOuverte = true;
+  setSheetHauteur(niveau);
+  sheet.classList.add('mob-sheet-ville--ouverte');
+  sheet.setAttribute('aria-hidden', 'false');
+}
+
+function fermerSheetVille() {
+  const sheet = document.getElementById('mob-sheet-ville');
+  if (!sheet) return;
+  if (sheet.contains(document.activeElement)) document.activeElement.blur();
+  sheetVilleOuverte = false;
+  sheetHauteur = 'reduite';
+  sheet.style.height = '0';
+  sheet.classList.remove('mob-sheet-ville--ouverte');
+  sheet.setAttribute('aria-hidden', 'true');
+  // Remettre les boutons flottants à leur position de repos
+  const boutons = document.getElementById('mob-boutons-flottants');
+  if (boutons) {
+    boutons.style.opacity = '1';
+    boutons.style.pointerEvents = '';
+    boutons.style.bottom = '68px';
+  }
+  // ← villeActive, zoneActive, pinActive : NE PAS toucher ici
+}
+window.fermerSheetVille = fermerSheetVille;
+
+// ─── Sheet filtres (drawer complet depuis le bas) ────────────
+function initSheetFiltres() {
+  const closeBtn = document.getElementById('mob-sheet-filtres-close');
+  closeBtn?.addEventListener('click', fermerSheetFiltres);
+
+  // Synchronisation des checkboxes internes → chips barre haute
+  const cbMap = {
+    'mfl-scenarios': 'scenarios',
+    'mfl-etablissements': 'etablissements',
+    'mfl-secondaires': 'secondaires',
+    'mfl-sites': 'sites',
+  };
+  Object.entries(cbMap).forEach(([cbId, filtre]) => {
+    const cb = document.getElementById(cbId);
+    cb?.addEventListener('change', () => {
+      const chip = document.querySelector(`.mob-filtre-chip[data-filtre="${filtre}"]`);
+      if (chip) chip.classList.toggle('mob-filtre-chip--actif', cb.checked);
+      renderVilles();
+    });
+  });
+
+  // Bouton mode sombre dans la sheet filtres
+  document.getElementById('mob-mode-sombre')?.addEventListener('click', () => toggleModeSombre());
+}
+
+function toggleModeSombre() {
+  modeSombre = !modeSombre;
+  document.getElementById('mob-btn-sombre')?.classList.toggle('mob-barre-basse-btn--actif', modeSombre);
+  document.getElementById('mob-mode-sombre')?.classList.toggle('mob-filtre-chip--actif', modeSombre);
+  if (overlayMode !== 'isolation' && overlayMode !== 'isolationVille') {
+    carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
+  }
+}
+
+function ouvrirSheetFiltres() {
+  fermerSheetCalques();
+  fermerSheetAnnee();
+  const sheet = document.getElementById('mob-sheet-filtres');
+  if (!sheet) return;
+  sheetFiltresOuverte = true;
+  sheet.classList.add('mob-sheet-filtres--ouverte');
+  sheet.setAttribute('aria-hidden', 'false');
+  afficherFondOverlay();
+}
+
+function fermerSheetFiltres() {
+  const sheet = document.getElementById('mob-sheet-filtres');
+  if (!sheet) return;
+  sheetFiltresOuverte = false;
+  sheet.classList.remove('mob-sheet-filtres--ouverte');
+  sheet.setAttribute('aria-hidden', 'true');
+  cacherFondOverlay();
+}
+
+// ─── Sheet calques (overlay + légende) ───────────────────────
+function initSheetCalques() {
+  document.getElementById('mob-calques-close')?.addEventListener('click', fermerSheetCalques);
+
+  document.querySelectorAll('.mob-overlay-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+      if (mode === overlayMode) return;
+      if (overlayMode === 'isolation') fermerIsolation();
+      overlayMode = mode;
+      puissancesMasquees.clear();
+      paliersMasquesDensite.clear();
+      paliersMasquesEsclavage.clear();
+      document.querySelectorAll('.mob-overlay-item').forEach(b => b.classList.remove('mob-overlay-item--actif'));
+      btn.classList.add('mob-overlay-item--actif');
+      majLegende();
+      renderZones();
+      renderVilles();
+      // Mettre à jour le bouton flottant
+      const label = document.getElementById('mob-btn-calques-label');
+      if (label) label.textContent = OVERLAY_LABELS[mode] || '';
+    });
+  });
+}
+
+function ouvrirSheetCalques() {
+  fermerSheetFiltres();
+  fermerSheetAnnee();
+  majLegende(); // Mettre à jour la légende avant d'afficher
+  const sheet = document.getElementById('mob-sheet-calques');
+  if (!sheet) return;
+  sheetCalquesOuverte = true;
+  sheet.classList.add('mob-sheet-calques--ouverte');
+  sheet.setAttribute('aria-hidden', 'false');
+  afficherFondOverlay();
+}
+
+function fermerSheetCalques() {
+  const sheet = document.getElementById('mob-sheet-calques');
+  if (!sheet) return;
+  if (sheet.contains(document.activeElement)) document.activeElement.blur();
+  sheetCalquesOuverte = false;
+  sheet.classList.remove('mob-sheet-calques--ouverte');
+  sheet.setAttribute('aria-hidden', 'true');
+  cacherFondOverlay();
+}
+
+// ─── Sheet année ──────────────────────────────────────────────
+function initSheetAnnee() {
+  document.getElementById('mob-annee-close')?.addEventListener('click', fermerSheetAnnee);
+
+  const slider = document.getElementById('mob-annee-slider');
+  const affichage = document.getElementById('mob-annee-affichage');
+  const prevBtn = document.getElementById('mob-annee-prev');
+  const nextBtn = document.getElementById('mob-annee-next');
+
+  if (!slider) return;
+
+  const anneeMin = 1712;
+  const anneeMax = modeMJ ? ANNEE_MAX_MJ : CARTE_ANNEE_REFERENCE;
+  slider.min = anneeMin;
+  slider.max = anneeMax;
+  slider.value = anneeActive;
+
+  function majDepuisSlider() {
+    anneeActive = parseInt(slider.value);
+    if (affichage) affichage.textContent = anneeActive;
+    majCurseurAnnee();
+    renderZones();
+    majLegende();
+    renderVilles();
+    if (zoneActive) ouvrirPanneau(zoneActive);
+    if (villeActive) ouvrirPanneauVille(villeActive);
+  }
+
+  slider.addEventListener('input', majDepuisSlider);
+
+  prevBtn?.addEventListener('click', () => {
+    const anneeMin = parseInt(slider.min);
+    if (anneeActive > anneeMin) { slider.value = --anneeActive; majDepuisSlider(); }
+  });
+  nextBtn?.addEventListener('click', () => {
+    const anneeMax = parseInt(slider.max);
+    if (anneeActive < anneeMax) { slider.value = ++anneeActive; majDepuisSlider(); }
+  });
+}
+
+function majCurseurAnnee() {
+  const affichage = document.getElementById('mob-annee-affichage');
+  if (affichage) affichage.textContent = anneeActive;
+  const slider = document.getElementById('mob-annee-slider');
+  if (slider) slider.value = anneeActive;
+  const btnLabel = document.getElementById('mob-btn-annee-label');
+  if (btnLabel) btnLabel.textContent = anneeActive;
+}
+
+function ouvrirSheetAnnee() {
+  fermerSheetCalques();
+  fermerSheetFiltres();
+  const sheet = document.getElementById('mob-sheet-annee');
+  if (!sheet) return;
+  sheetAnneeOuverte = true;
+  sheet.classList.add('mob-sheet-annee--ouverte');
+  sheet.setAttribute('aria-hidden', 'false');
+  afficherFondOverlay();
+}
+
+function fermerSheetAnnee() {
+  const sheet = document.getElementById('mob-sheet-annee');
+  if (!sheet) return;
+  if (sheet.contains(document.activeElement)) document.activeElement.blur();
+  sheetAnneeOuverte = false;
+  sheet.classList.remove('mob-sheet-annee--ouverte');
+  sheet.setAttribute('aria-hidden', 'true');
+  cacherFondOverlay();
+}
+
+// ─── Boutons flottants ────────────────────────────────────────
+function initBoutonsFlottants() {
+  document.getElementById('mob-btn-calques')?.addEventListener('click', () => {
+    sheetCalquesOuverte ? fermerSheetCalques() : ouvrirSheetCalques();
+  });
+  document.getElementById('mob-btn-annee')?.addEventListener('click', () => {
+    sheetAnneeOuverte ? fermerSheetAnnee() : ouvrirSheetAnnee();
+  });
+  // Initialiser le label année
+  majCurseurAnnee();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1032,921 +1873,166 @@ function zoomerVersTerrritoire(territoireId) {
   ouvrirPanneau(territoireId);
 }
 
-// ─── Chips filtres (barre haute) ─────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// Chips filtres (barre haute)
+// ═══════════════════════════════════════════════════════════
+
 function initFiltresChips() {
   const chips = document.querySelectorAll('.mob-filtre-chip[data-filtre]');
   chips.forEach(chip => {
     chip.addEventListener('click', () => {
       chip.classList.toggle('mob-filtre-chip--actif');
       syncFiltresDepuisChips();
-      renderPins();
       renderVilles();
     });
   });
 }
 
 function syncFiltresDepuisChips() {
-  // Synchronise l'état des chips vers les checkboxes internes (utilisées par renderVilles)
   const map = {
-    scenarios: 'mfl-scenarios',
+    scenarios:      'mfl-scenarios',
     etablissements: 'mfl-etablissements',
-    secondaires: 'mfl-secondaires',
-    sites: 'mfl-sites',
-    rang3: 'mfl-rang3',
+    secondaires:    'mfl-secondaires',
+    sites:          'mfl-sites',
+    rang3:          'mfl-rang3',
   };
   document.querySelectorAll('.mob-filtre-chip[data-filtre]').forEach(chip => {
-    const cible = document.getElementById(map[chip.dataset.filtre]);
-    if (cible) cible.checked = chip.classList.contains('mob-filtre-chip--actif');
-  });
-  // Synchroniser aussi la sheet filtres si elle existe
-  Object.entries(map).forEach(([filtre, id]) => {
-    const chip = document.querySelector(`.mob-filtre-chip[data-filtre="${filtre}"]`);
-    const cb = document.getElementById(id);
-    if (chip && cb) cb.checked = chip.classList.contains('mob-filtre-chip--actif');
+    const cb = document.getElementById(map[chip.dataset.filtre]);
+    if (cb) cb.checked = chip.classList.contains('mob-filtre-chip--actif');
   });
 }
 
 // ═══════════════════════════════════════════════════════════
-// SHEETS — GESTION GÉNÉRIQUE
+// SÉQUENCE SECRÈTE MJ
 // ═══════════════════════════════════════════════════════════
 
-function afficherFondOverlay() {
-  document.getElementById('mob-fond-overlay')?.classList.add('mob-fond-overlay--visible');
-}
-
-function cacherFondOverlay() {
-  document.getElementById('mob-fond-overlay')?.classList.remove('mob-fond-overlay--visible');
-}
-
-function fermerToutesSheets() {
-  fermerSheetCalques();
-  fermerSheetAnnee();
-  fermerSheetFiltres();
-  cacherFondOverlay();
-}
-
-// ─── Sheet ville (bottom sheet expandable) ───────────────────
-function initSheetVille() {
-  const sheet = document.getElementById('mob-sheet-ville');
-  if (!sheet) return;
-
-  // Délégation — bouton ✕ injecté dynamiquement
-  sheet.addEventListener('click', (e) => {
-    if (!e.target.closest('.mob-panneau-close')) return;
-    if (villeActive) { fermerPanneauVille(); return; }
-    if (zoneActive) { fermerPanneau(); return; }
-    if (pinActive) { fermerPopup(); return; }
-    fermerSheetVille();
-  });
-
-  // Poignée swipable
-  const handle = document.getElementById('mob-sheet-ville-handle');
-  if (!handle) return;
-  let startY = 0;
-  handle.addEventListener('pointerdown', (e) => {
-    startY = e.clientY;
-    handle.setPointerCapture(e.pointerId);
-  });
-  handle.addEventListener('pointerup', (e) => {
-    const dy = startY - e.clientY;
-    if (dy > 30) {
-      if (sheetHauteur === 'reduite') setSheetHauteur('mi-hauteur');
-      else if (sheetHauteur === 'mi-hauteur') setSheetHauteur('pleine');
-    } else if (dy < -30) {
-      if (sheetHauteur === 'pleine') setSheetHauteur('mi-hauteur');
-      else if (sheetHauteur === 'mi-hauteur') setSheetHauteur('reduite');
-      else fermerSheetVille();
-    }
-  });
-}
-
-function setSheetHauteur(niveau) {
-  sheetHauteur = niveau;
-  const sheet = document.getElementById('mob-sheet-ville');
-  if (!sheet) return;
-  const HAUTEURS = { reduite: '32vh', 'mi-hauteur': '58vh', pleine: '90vh' };
-  sheet.style.height = HAUTEURS[niveau] || '32vh';
-  sheet.dataset.hauteur = niveau;
-}
-
-function ouvrirSheetVille(contenuHtml) {
-  ouvrirSheetVilleAvecContenu(contenuHtml, 'reduite');
-}
-
-function ouvrirSheetVilleAvecContenu(contenuHtml, niveau = 'reduite') {
-  const sheet = document.getElementById('mob-sheet-ville');
-  const contenu = document.getElementById('mob-sheet-ville-contenu');
-  if (!sheet || !contenu) return;
-  contenu.innerHTML = contenuHtml;
-  sheetVilleOuverte = true;
-  setSheetHauteur(niveau);
-  sheet.classList.add('mob-sheet-ville--ouverte');
-  sheet.setAttribute('aria-hidden', 'false');
-}
-
-function fermerSheetVille() {
-  const sheet = document.getElementById('mob-sheet-ville');
-  if (!sheet) return;
-  if (sheet.contains(document.activeElement)) document.activeElement.blur();
-  sheetVilleOuverte = false;
-  sheetHauteur = 'reduite';
-  sheet.style.height = '0';
-  sheet.classList.remove('mob-sheet-ville--ouverte');
-  sheet.setAttribute('aria-hidden', 'true');
-  // ← villeActive, zoneActive, pinActive : NE PAS toucher ici
-}
-window.fermerSheetVille = fermerSheetVille;
-
-// ─── Sheet filtres (drawer complet depuis le bas) ────────────
-function initSheetFiltres() {
-  const closeBtn = document.getElementById('mob-sheet-filtres-close');
-  closeBtn?.addEventListener('click', fermerSheetFiltres);
-
-  // Synchronisation des checkboxes internes → chips barre haute
-  const cbMap = {
-    'mfl-scenarios': 'scenarios',
-    'mfl-etablissements': 'etablissements',
-    'mfl-secondaires': 'secondaires',
-    'mfl-sites': 'sites',
-  };
-  Object.entries(cbMap).forEach(([cbId, filtre]) => {
-    const cb = document.getElementById(cbId);
-    cb?.addEventListener('change', () => {
-      const chip = document.querySelector(`.mob-filtre-chip[data-filtre="${filtre}"]`);
-      if (chip) chip.classList.toggle('mob-filtre-chip--actif', cb.checked);
-      renderPins();
-      renderVilles();
-    });
-  });
-
-  // Bouton mode sombre
-  document.getElementById('mob-mode-sombre')?.addEventListener('click', function () {
-    modeSombre = !modeSombre;
-    this.classList.toggle('mob-filtre-chip--actif', modeSombre);
-    if (overlayMode !== 'isolation' && overlayMode !== 'isolationVille') {
-      carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
-    }
-  });
-}
-
-function ouvrirSheetFiltres() {
-  fermerSheetCalques();
-  fermerSheetAnnee();
-  const sheet = document.getElementById('mob-sheet-filtres');
-  if (!sheet) return;
-  sheetFiltresOuverte = true;
-  sheet.classList.add('mob-sheet-filtres--ouverte');
-  sheet.setAttribute('aria-hidden', 'false');
-  afficherFondOverlay();
-}
-
-function fermerSheetFiltres() {
-  const sheet = document.getElementById('mob-sheet-filtres');
-  if (!sheet) return;
-  sheetFiltresOuverte = false;
-  sheet.classList.remove('mob-sheet-filtres--ouverte');
-  sheet.setAttribute('aria-hidden', 'true');
-  cacherFondOverlay();
-}
-
-// ─── Sheet calques (overlay + légende) ───────────────────────
-function initSheetCalques() {
-  document.getElementById('mob-calques-close')?.addEventListener('click', fermerSheetCalques);
-
-  document.querySelectorAll('.mob-overlay-item').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mode = btn.dataset.mode;
-      if (mode === overlayMode) return;
-      if (overlayMode === 'isolation') fermerIsolation();
-      overlayMode = mode;
-      puissancesMasquees.clear();
-      paliersMasquesDensite.clear();
-      paliersMasquesEsclavage.clear();
-      document.querySelectorAll('.mob-overlay-item').forEach(b => b.classList.remove('mob-overlay-item--actif'));
-      btn.classList.add('mob-overlay-item--actif');
-      majLegende();
-      renderZones();
-      renderPins();
-      renderVilles();
-      // Mettre à jour le bouton flottant
-      const label = document.getElementById('mob-btn-calques-label');
-      if (label) label.textContent = OVERLAY_LABELS[mode] || '';
-    });
-  });
-}
-
-function ouvrirSheetCalques() {
-  fermerSheetFiltres();
-  fermerSheetAnnee();
-  majLegende(); // Mettre à jour la légende avant d'afficher
-  const sheet = document.getElementById('mob-sheet-calques');
-  if (!sheet) return;
-  sheetCalquesOuverte = true;
-  sheet.classList.add('mob-sheet-calques--ouverte');
-  sheet.setAttribute('aria-hidden', 'false');
-  afficherFondOverlay();
-}
-
-function fermerSheetCalques() {
-  const sheet = document.getElementById('mob-sheet-calques');
-  if (!sheet) return;
-  if (sheet.contains(document.activeElement)) document.activeElement.blur();
-  sheetCalquesOuverte = false;
-  sheet.classList.remove('mob-sheet-calques--ouverte');
-  sheet.setAttribute('aria-hidden', 'true');
-  cacherFondOverlay();
-}
-
-// ─── Sheet année ──────────────────────────────────────────────
-function initSheetAnnee() {
-  document.getElementById('mob-annee-close')?.addEventListener('click', fermerSheetAnnee);
-
-  const slider = document.getElementById('mob-annee-slider');
-  const affichage = document.getElementById('mob-annee-affichage');
-  const prevBtn = document.getElementById('mob-annee-prev');
-  const nextBtn = document.getElementById('mob-annee-next');
-
-  if (!slider) return;
-
-  const anneeMin = 1712;
-  const anneeMax = modeMJ ? ANNEE_MAX_MJ : CARTE_ANNEE_REFERENCE;
-  slider.min = anneeMin;
-  slider.max = anneeMax;
-  slider.value = anneeActive;
-
-  function majDepuisSlider() {
-    anneeActive = parseInt(slider.value);
-    if (affichage) affichage.textContent = anneeActive;
-    majCurseurAnnee();
-    renderZones();
-    majLegende();
-    renderVilles();
-    if (zoneActive) ouvrirPanneau(zoneActive);
-    if (villeActive) ouvrirPanneauVille(villeActive);
-  }
-
-  slider.addEventListener('input', majDepuisSlider);
-
-  prevBtn?.addEventListener('click', () => {
-    const anneeMin = parseInt(slider.min);
-    if (anneeActive > anneeMin) { slider.value = --anneeActive; majDepuisSlider(); }
-  });
-  nextBtn?.addEventListener('click', () => {
-    const anneeMax = parseInt(slider.max);
-    if (anneeActive < anneeMax) { slider.value = ++anneeActive; majDepuisSlider(); }
-  });
-}
-
-function majCurseurAnnee() {
-  const affichage = document.getElementById('mob-annee-affichage');
-  if (affichage) affichage.textContent = anneeActive;
-  const slider = document.getElementById('mob-annee-slider');
-  if (slider) slider.value = anneeActive;
-  const btnLabel = document.getElementById('mob-btn-annee-label');
-  if (btnLabel) btnLabel.textContent = anneeActive;
-}
-
-function ouvrirSheetAnnee() {
-  fermerSheetCalques();
-  fermerSheetFiltres();
-  const sheet = document.getElementById('mob-sheet-annee');
-  if (!sheet) return;
-  sheetAnneeOuverte = true;
-  sheet.classList.add('mob-sheet-annee--ouverte');
-  sheet.setAttribute('aria-hidden', 'false');
-  afficherFondOverlay();
-}
-
-function fermerSheetAnnee() {
-  const sheet = document.getElementById('mob-sheet-annee');
-  if (!sheet) return;
-  if (sheet.contains(document.activeElement)) document.activeElement.blur();
-  sheetAnneeOuverte = false;
-  sheet.classList.remove('mob-sheet-annee--ouverte');
-  sheet.setAttribute('aria-hidden', 'true');
-  cacherFondOverlay();
-}
-
-// ─── Boutons flottants ────────────────────────────────────────
-function initBoutonsFlottants() {
-  document.getElementById('mob-btn-calques')?.addEventListener('click', () => {
-    sheetCalquesOuverte ? fermerSheetCalques() : ouvrirSheetCalques();
-  });
-  document.getElementById('mob-btn-annee')?.addEventListener('click', () => {
-    sheetAnneeOuverte ? fermerSheetAnnee() : ouvrirSheetAnnee();
-  });
-  // Initialiser le label année
-  majCurseurAnnee();
-}
-
-// ═══════════════════════════════════════════════════════════
-// RENDU ZONES — identique à carte.js
-// ═══════════════════════════════════════════════════════════
-
-function renderZones() {
-  Object.values(layersZones).forEach(g => {
-    g.eachLayer(poly => carte.removeLayer(poly));
-    carte.removeLayer(g);
-  });
-  layersZones = {};
-
-  if (overlayMode === 'masque') return;
-
-  function surfaceApprox(contours) {
-    if (!contours || !contours.length) return 0;
-    const pts = contours[0];
-    if (pts.length < 3) return 0;
-    let a = 0;
-    for (let i = 0; i < pts.length; i++) {
-      const j = (i + 1) % pts.length;
-      a += pts[i][0] * pts[j][1];
-      a -= pts[j][0] * pts[i][1];
-    }
-    return Math.abs(a / 2);
-  }
-
-  const juridictionsTri = [...JURIDICTIONS]
-    .filter(j => !j.visible_mj || modeMJ || attenteClic_IleDuMais)
-    .sort((a, b) => {
-      const sa = surfaceApprox(ZONES_DATA?.[a.id] ?? (a.zone?.length >= 3 ? [a.zone] : null));
-      const sb = surfaceApprox(ZONES_DATA?.[b.id] ?? (b.zone?.length >= 3 ? [b.zone] : null));
-      return sb - sa;
-    });
-
-  juridictionsTri.forEach(j => {
-    const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
-      ? ZONES_DATA[j.id]
-      : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
-
-    if (!contours) return;
-
-    const puissanceId = resoudre(j.puissance, anneeActive);
-    const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
-    const isActive = zoneActive === j.id;
-    const isIsolee = overlayMode === 'isolation' && isolationJuridictionId === j.id;
-    const isEffacee = (overlayMode === 'isolation' && !isIsolee) || overlayMode === 'isolationVille';
-
-    let couleur, fillOpacity, strokeColor, strokeWeight, strokeOpacity;
-
-    if (isEffacee) {
-      // Toutes les autres zones sont invisibles en mode isolation
-      couleur = 'transparent';
-      fillOpacity = 0;
-      strokeColor = 'transparent';
-      strokeWeight = 0;
-      strokeOpacity = 0;
-
-    } else if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
-      const fnCouleur = overlayMode === 'densite' ? couleurDensite
-        : overlayMode === 'esclavage' ? couleurEsclavage
-          : id => couleurAutochtone(id, anneeActive);
-      const c = fnCouleur(j.id);
-      if (c) {
-        couleur = c; fillOpacity = isActive ? 0.5 : 0.35;
-        strokeColor = c; strokeWeight = isActive ? 2 : 0.5; strokeOpacity = 0.9;
-      } else {
-        couleur = 'transparent'; fillOpacity = 0;
-        strokeColor = 'transparent'; strokeWeight = 0; strokeOpacity = 0;
-      }
-
+function enregistrerClicSequence(zoneId) {
+  if (modeMJ) return false;
+  if (attenteClic_IleDuMais) {
+    if (zoneId === 'ile-du-mais') {
+      attenteClic_IleDuMais = false;
+      ouvrirPopupConfirmationMJ();
+      return true;
     } else {
-      // Mode géopolitique (y compris zone isolée en mode isolation)
-      const masquee = overlayMode === 'geo' && puissancesMasquees.has(puissanceId);
-      const estEspagne = puissanceId === 'espagnole';
-      couleur = masquee ? 'rgba(107,124,138,0.6)' : puissance.couleur;
-      fillOpacity = isActive ? 0.45 : (masquee ? 0.08 : (isIsolee ? 0 : 0.23));
-      strokeColor = isIsolee ? '#c8973a' : (estEspagne ? '#c84a1c' : couleur);
-      strokeWeight = isIsolee ? weightPourZoom(WEIGHTS.zone, carte.getZoom()) : (isActive ? 2 : 0.5);
-      strokeOpacity = isIsolee ? 1 : (masquee ? 0.4 : (estEspagne ? 1 : 0.8));
+      attenteClic_IleDuMais = false;
+      sequenceEnCours = [];
+      renderZones();
+      return false;
     }
-
-    const style = {
-      color: strokeColor,
-      weight: strokeWeight,
-      opacity: strokeOpacity,
-      fillColor: couleur,
-      fillOpacity: fillOpacity,
-      fillRule: 'nonzero',
-      className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
-    };
-
-    const polygones = contours.map(pts => {
-      const latlngs = pts.map(([x, y]) => pixelToLatLng(x, y));
-      return L.polygon(latlngs, style);
-    });
-
-    const groupe = L.layerGroup(polygones);
-
-    polygones.forEach(poly => {
-      poly.on('click', (e) => {
-        L.DomEvent.stopPropagation(e);
-        if (overlayMode === 'isolationVille') {
-          fermerZoomVille();
-          ouvrirPanneau(j.id);
-          return;
-        }
-        if (overlayMode === 'isolation') {
-          fermerIsolation();
-          ouvrirPanneau(j.id);
-          return;
-        }
-        const intercepte = enregistrerClicSequence(j.id);
-        if (intercepte) return;
-        if (zoneActive === j.id) {
-          fermerPanneau();
-        } else {
-          ouvrirPanneau(j.id);
-        }
-      });
-
-      poly.on('mouseover', () => {
-        fermerTooltipsOrphelins();
-        // Remettre en repos toutes les icônes villes hors ville active et isolation
-        Object.keys(markersVilles).forEach(id => {
-          if (id !== villeActive && id !== isolationVilleId) setIconeVilleActive(id, false);
-        });
-        if (overlayMode === 'isolation') {
-          if (isIsolee) poly.setStyle({ fillColor: '#c8973a', fillOpacity: 0.25 });
-          return;
-        }
-        if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zoneActive, carte.getZoom()) });
-      });
-      poly.on('mouseout', () => {
-        if (overlayMode === 'isolation') {
-          if (isIsolee) poly.setStyle({ fillColor: 'transparent', fillOpacity: 0 });
-          return;
-        }
-        if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zone, carte.getZoom()) });
-      });
-
-      if (overlayMode !== 'isolation') {
-        poly.bindTooltip(j.label || j.nom, {
-          permanent: false,
-          direction: 'top',
-          className: 'carte-tooltip',
-          opacity: 1,
-        });
-      }
-    });
-
-    groupe.addTo(carte);
-    layersZones[j.id] = groupe;
-  });
-}
-
-function majWeightsZones() {
-  if (!carte) return;
-  const zoom = carte.getZoom();
-  Object.values(layersZones).forEach(groupe => {
-    if (groupe.eachLayer) {
-      groupe.eachLayer(poly => poly.setStyle({ weight: weightPourZoom(WEIGHTS.zone, zoom) }));
-    } else if (groupe.setStyle) {
-      groupe.setStyle({ weight: weightPourZoom(WEIGHTS.zone, zoom) });
+  }
+  const attendu = SEQUENCE_MJ[sequenceEnCours.length];
+  if (zoneId === attendu) {
+    sequenceEnCours.push(zoneId);
+    if (sequenceEnCours.length === SEQUENCE_MJ.length) {
+      attenteClic_IleDuMais = true;
+      sequenceEnCours = [];
+      renderZones();
     }
-  });
+  } else {
+    sequenceEnCours = (zoneId === SEQUENCE_MJ[0]) ? [zoneId] : [];
+  }
+  return false;
 }
 
-// ─── Pins de scénarios ───────────────────────────────────────
-function renderPins() {
-  Object.values(markersMap).forEach(m => carte.removeLayer(m));
-  markersMap = {};
-
-  if (overlayMode === 'masque') return;
-
-  const filtre = document.getElementById('filtre-scenarios');
-  if (filtre && !filtre.querySelector('input').checked) return;
-
-  CARTE_PINS.forEach(pin => {
-    const [x, y] = pin.coords;
-    const latlng = pixelToLatLng(x, y);
-
-    const icon = L.divIcon({
-      html: pinSVG(),
-      className: 'carte-pin',
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
-    });
-
-    const marker = L.marker(latlng, { icon });
-
-    marker.bindTooltip(pin.label, {
-      permanent: false,
-      direction: 'top',
-      className: 'carte-tooltip',
-      opacity: 1,
-      offset: [0, -28],
-    });
-
-    marker.on('click', (e) => {
-      L.DomEvent.stopPropagation(e);
-      if (overlayMode === 'isolation') return;
-      if (pinActive === pin.id) { fermerPopup(); return; }
-      ouvrirPopupScenario(pin);
-    });
-
-    marker.addTo(carte);
-    markersMap[pin.id] = marker;
-  });
-}
-
-// ─── Panneaux — zones, villes, scénarios ─────────────────────
-
-function ouvrirPanneau(juridictionId) {
-  const j = JURIDICTIONS.find(j => j.id === juridictionId);
-  if (!j) return;
-  if (j.visible_mj && !modeMJ) return;
-
-  zoneActive = juridictionId;
-
-  // Mettre à jour le style de la zone active
-  Object.entries(layersZones).forEach(([id, groupe]) => {
-    const isActive = id === juridictionId;
-    groupe.eachLayer?.(poly => {
-      poly.setStyle({ weight: weightPourZoom(isActive ? WEIGHTS.zoneActive : WEIGHTS.zone, carte.getZoom()) });
-    });
-  });
-
-  const contenu = construireContenuPanneauJuridiction(j);
-  ouvrirSheetVille(contenu);
-}
-
-function fermerPanneau() {
-  zoneActive = null;
-  fermerSheetVille();
-  Object.values(layersZones).forEach(groupe => {
-    groupe.eachLayer?.(poly => {
-      poly.setStyle({ weight: weightPourZoom(WEIGHTS.zone, carte.getZoom()) });
-    });
-  });
-}
-
-function ouvrirPanneauVille(villeId) {
-  const ville = VILLES.find(v => v.id === villeId);
-  if (!ville) return;
-
-  villeActive = villeId;
-  setIconeVilleActive(villeId, true);
-
-  const contenu = construireContenuPanneauVille(ville);
-  ouvrirSheetVille(contenu);
-}
-
-function fermerPanneauVille() {
-  if (villeActive) setIconeVilleActive(villeActive, false);
-  villeActive = null;
-  fermerSheetVille();
-}
-
-// ─── Constructeurs de contenu panneau ────────────────────────
-// Produisent le HTML injecté dans la sheet ville.
-// Inspirés de carte.js mais sans la structure #carte-panneau.
-
-function construireContenuPanneauJuridiction(j) {
-  const puissanceId = resoudre(j.puissance, anneeActive);
-  const puissance = PUISSANCES[puissanceId] || {};
-  const nomPuissance = puissance.nom || puissanceId || '';
-
-  const pop = rendreChamp(j.population_approx, anneeActive);
-  const capitale = rendreChamp(j.capitale, anneeActive);
-  const contexte = rendreContexte(j.contexte, anneeActive);
-  const economie = rendreContexte(j.economie, anneeActive);
-
-  return `
-    <div class="mob-panneau-header">
-      <div class="mob-panneau-surtitle">${nomPuissance}</div>
-      <div class="mob-panneau-titre">${j.label || j.nom}</div>
-      <button class="mob-panneau-close" aria-label="Fermer">✕</button>
-    </div>
-    <div class="mob-panneau-body">
-      ${capitale ? `<div class="mob-panneau-meta"><span class="mob-panneau-meta-label">Capitale</span> ${capitale}</div>` : ''}
-      ${pop ? `<div class="mob-panneau-meta"><span class="mob-panneau-meta-label">Population</span> ~${pop}</div>` : ''}
-      ${contexte ? `<div class="mob-panneau-section">${contexte}</div>` : ''}
-      ${economie ? `<div class="mob-panneau-section mob-panneau-section--economie">${economie}</div>` : ''}
-    </div>`;
-}
-
-function construireContenuPanneauVille(ville) {
-  const contexte = rendreContexte(ville.contexte, anneeActive);
-  const territoireNom = (() => {
-    const j = JURIDICTIONS.find(j => j.id === ville.territoire);
-    return j ? (j.label || j.nom) : '';
-  })();
-
-  const chroniquesLiees = (typeof CHRONIQUES !== 'undefined')
-    ? CHRONIQUES.filter(c => c.lieux?.includes(ville.id))
-    : [];
-  const pnjLies = (typeof PNJ !== 'undefined')
-    ? PNJ.filter(p => p.lieux?.includes(ville.id) && (!p.visible_mj || modeMJ))
-    : [];
-
-  const chroniquesHtml = chroniquesLiees.length ? `
-    <div class="mob-panneau-sub-titre">Chroniques</div>
-    ${chroniquesLiees.map(c => `
-      <div class="mob-panneau-lien" onclick="naviguerVers('chroniques.html#${c.id}')">
-        ${c.titre || c.id}
-      </div>`).join('')}` : '';
-
-  const pnjHtml = pnjLies.length ? `
-    <div class="mob-panneau-sub-titre">Personnages</div>
-    ${pnjLies.map(p => `
-      <div class="mob-panneau-lien" onclick="naviguerVers('pnj.html#${p.id}')">
-        ${p.nom || p.id}
-      </div>`).join('')}` : '';
-
-  return `
-    <div class="mob-panneau-header">
-      <div class="mob-panneau-surtitle">${territoireNom}</div>
-      <div class="mob-panneau-titre">${ville.label || ville.nom}</div>
-      <button class="mob-panneau-close" aria-label="Fermer">✕</button>
-    </div>
-    <div class="mob-panneau-body">
-      ${contexte ? `<div class="mob-panneau-section">${contexte}</div>` : ''}
-      ${chroniquesHtml}
-      ${pnjHtml}
-    </div>`;
-}
-
-function naviguerVers(url) {
-  window.location.href = url;
-}
-
-// ═══════════════════════════════════════════════════════════
-// RENDER VILLES — adapté mobile (même logique, curseur mobile)
-// ═══════════════════════════════════════════════════════════
-
-function renderVilles() {
-  Object.values(markersVilles).forEach(m => carte.removeLayer(m));
-  markersVilles = {};
-
-  if (overlayMode === 'masque') return;
-
-  const filtreEtab = document.getElementById('mfl-etablissements')?.checked ?? false;
-  const filtreSecond = document.getElementById('mfl-secondaires')?.checked ?? false;
-  const filtreSites = document.getElementById('mfl-sites')?.checked ?? false;
-  const filtreRang3 = document.getElementById('mfl-rang3')?.checked ?? false;
-
-  VILLES.forEach(ville => {
-    if (!ville.coords) return;
-
-    const rang = ville.rang ?? '1';
-    if (rang === '3' && !modeMJ) return;
-    if (rang === '3' && !filtreRang3) return;
-
-    const visibleDe = ville.visible_de ?? null;
-    if (visibleDe !== null && anneeActive < visibleDe) return;
-
-    const type = ville.type || 'ville';
-    const estSite = (type === 'site_geo' || type === 'site_hist');
-    const estEtab = (type === 'port' || type === 'fort' || type === 'ville');
-    const estSecond = rang === '2';
-
-    if (estSite && !filtreSites) return;
-    if (estEtab && estSecond && !filtreSecond) return;
-    if (estEtab && !estSecond && !filtreEtab && rang !== '3') return;
-
-    const latlng = pixelToLatLng(ville.coords[0], ville.coords[1]);
-    const statutCapitale = Array.isArray(ville.capitale)
-      ? rendreChamp(ville.capitale, anneeActive)
-      : ville.capitale;
-    const estPirate = statutCapitale === 'pirate';
-    const estRang3 = rang === '3';
-
-    const icon = L.divIcon({
-      html: villeSVG(ville.type || 'ville', tailleIconeVille(), estPirate, false, false, estRang3),
-      className: 'carte-ville',
-      iconSize: [tailleIconeVille(), tailleIconeVille()],
-      iconAnchor: [tailleIconeVille() / 2, tailleIconeVille() / 2],
-    });
-
-    const marker = L.marker(latlng, { icon });
-
-    marker.bindTooltip(labelVille(ville), {
-      permanent: false,
-      direction: 'top',
-      className: 'carte-tooltip',
-      opacity: 1,
-      offset: [0, -10],
-      interactive: false,
-    });
-
-    marker.on('click', (e) => {
-      L.DomEvent.stopPropagation(e);
-      if (overlayMode === 'isolationVille') {
-        fermerZoomVille({ ouvrirVille: true });
-        return;
-      }
-      if (overlayMode === 'isolation') return;
-      fermerToutesSheets();
-      if (villeActive === ville.id) {
-        fermerPanneauVille();
-      } else {
-        ouvrirPanneauVille(ville.id);
-      }
-    });
-
-    marker.addTo(carte);
-    markersVilles[ville.id] = marker;
-  });
-}
-
-function majTailleIconesVilles() {
-  const taille = tailleIconeVille();
-  Object.entries(markersVilles).forEach(([id, marker]) => {
-    const ville = VILLES.find(v => v.id === id);
-    if (!ville) return;
-    const statutCapitale = Array.isArray(ville.capitale)
-      ? rendreChamp(ville.capitale, anneeActive)
-      : ville.capitale;
-    const estPirate = statutCapitale === 'pirate';
-    const estIsole = overlayMode === 'isolationVille' && id === isolationVilleId;
-    const estActive = !estIsole && villeActive === id;
-    const estRang3 = (ville.rang ?? '1') === '3';
-    marker.setIcon(L.divIcon({
-      html: villeSVG(ville.type || 'ville', taille, estPirate, estIsole, estActive, estRang3),
-      className: 'carte-ville',
-      iconSize: [taille, taille],
-      iconAnchor: [taille / 2, taille / 2],
-    }));
-  });
-}
-
-// ═══════════════════════════════════════════════════════════
-// ISOLATION TERRITOIRE — adapté mobile
-// (identique à carte.js sauf les refs aux éléments DOM desktop)
-// ═══════════════════════════════════════════════════════════
-
-function _restaurerModeNormal() {
-  carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
-  // Réactiver boutons overlay mobile
-  document.querySelectorAll('.mob-overlay-item').forEach(btn => {
-    btn.disabled = false;
-    btn.classList.remove('carte-isolation--disabled');
-  });
-  // Réactiver chips filtres
-  document.querySelectorAll('.mob-filtre-chip').forEach(c => c.classList.remove('carte-isolation--disabled'));
-  majLegende();
-  renderZones();
-  renderPins();
-  renderVilles();
-}
-
-function fermerIsolation() {
-  if (overlayMode !== 'isolation') return;
-  overlayMode = overlayModeAvantIsolation;
-  isolationJuridictionId = null;
-  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
-  _restaurerModeNormal();
-}
-
-function isolerTerritoire(juridictionId) {
-  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
-
-  const j = JURIDICTIONS.find(j => j.id === juridictionId);
-  const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[juridictionId])
-    ? ZONES_DATA[juridictionId]
-    : (j?.zone?.length >= 3 ? [j.zone] : null);
-  if (!contours) return;
-
-  if (overlayMode !== 'isolation') overlayModeAvantIsolation = overlayMode;
-  isolationJuridictionId = juridictionId;
-  overlayMode = 'isolation';
-
-  fermerPanneau();
-  carteOverlayPrincipale.setOpacity(0.05);
-
-  // Griser les chips filtres et overlay
-  document.querySelectorAll('.mob-filtre-chip, .mob-overlay-item').forEach(el => {
-    el.disabled = true;
-    el.classList.add('carte-isolation--disabled');
-  });
-
-  majLegende();
-  renderZones();
-  Object.values(markersMap).forEach(m => m.setOpacity(0));
-  Object.values(markersVilles).forEach(m => m.setOpacity(0));
-
-  const latlngs = contours.map(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
-  isolationLayer = L.polygon(latlngs, {
-    color: '#ffffff', weight: 3, opacity: 0, fillOpacity: 0,
-    interactive: false, pane: 'isolationContour',
-  });
-  isolationLayer.addTo(carte);
-
-  setTimeout(() => {
-    if (isolationLayer) isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
-  }, 50);
-  setTimeout(() => {
-    if (isolationLayer) isolationLayer.setStyle({ color: '#e2c97e', weight: 4, opacity: 1 });
-  }, 450);
-  setTimeout(() => {
-    if (isolationLayer) isolationLayer.setStyle({ opacity: 0 });
-  }, 850);
-  setTimeout(() => {
-    if (!isolationLayer) return;
-    carte.flyToBounds(isolationLayer.getBounds(), {
-      padding: [40, 40], maxZoom: carte.getMinZoom() + 2, duration: 1.2,
-    });
-  }, 900);
-  // Réafficher contour après flyTo via moveend (géré dans initCarte → carte.on('moveend'))
-}
-
-// ═══════════════════════════════════════════════════════════
-// ISOLATION VILLE — adapté mobile
-// ═══════════════════════════════════════════════════════════
-
-function zoomerVille(villeId) {
-  const ville = VILLES.find(v => v.id === villeId);
-  if (!ville || !ville.coords) return;
-
-  overlayModeAvantIsolation = overlayMode;
-  fermerPanneau();
-  overlayMode = 'isolationVille';
-  isolationVilleId = villeId;
-
-  carteOverlayPrincipale.setOpacity(0.05);
-
-  // Griser contrôles
-  document.querySelectorAll('.mob-filtre-chip, .mob-overlay-item, .mob-btn-flottant').forEach(el => {
-    el.disabled = true;
-    el.classList.add('carte-isolation--disabled');
-  });
-
-  majLegende();
-  renderZones();
-  // Masquer tous les marqueurs sauf la ville isolée
-  Object.entries(markersMap).forEach(([, m]) => m.setOpacity(0));
-  Object.entries(markersVilles).forEach(([id, m]) => {
-    m.setOpacity(id === villeId ? 1 : 0);
-  });
-
-  const latlng = pixelToLatLng(ville.coords[0], ville.coords[1]);
-  setTimeout(() => {
-    carte.flyTo(latlng, Math.min(carte.getMaxZoom(), carte.getZoom() + 2), { duration: 1.0 });
-  }, 100);
-
-  setTimeout(() => ouvrirPanneauVille(villeId), 1200);
-}
-
-function fermerZoomVille(options = {}) {
-  if (overlayMode !== 'isolationVille') return;
-
-  overlayMode = overlayModeAvantIsolation;
-  isolationVilleId = null;
-
-  carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
-
-  // Réactiver contrôles
-  document.querySelectorAll('.mob-filtre-chip, .mob-overlay-item, .mob-btn-flottant').forEach(el => {
-    el.disabled = false;
-    el.classList.remove('carte-isolation--disabled');
-  });
-
-  majLegende();
-  renderZones();
-  renderPins();
-  renderVilles();
-
-  if (options.ouvrirVille && villeActive) ouvrirPanneauVille(villeActive);
-}
-
-// ═══════════════════════════════════════════════════════════
-// POPUP SCÉNARIO — adapté mobile (sheet plutôt que popup overlay)
-// ═══════════════════════════════════════════════════════════
-
-function fermerPopup() {
-  pinActive = null;
-  fermerSheetVille();
-}
-
-function ouvrirPopupScenario(pin) {
-  pinActive = pin.id;
-
-  const entrees = pin.groupe
-    ? pin.groupe
-    : [{ label: pin.label, date: pin.date, extrait: pin.extrait, chronique_id: pin.chronique_id }];
-
-  const entreesHtml = entrees.map(e => `
-    <div class="mob-panneau-scenario-entree">
-      <div class="mob-panneau-scenario-label">${e.label || ''}</div>
-      ${e.date ? `<div class="mob-panneau-scenario-date">${e.date}</div>` : ''}
-      ${e.extrait ? `<div class="mob-panneau-section">${e.extrait}</div>` : ''}
-      ${e.chronique_id ? `<div class="mob-panneau-lien" onclick="naviguerVers('chroniques.html#${e.chronique_id}')">Lire la chronique →</div>` : ''}
-    </div>`).join('');
-
+function ouvrirPopupConfirmationMJ() {
+  // Sur mobile : la confirmation passe par la sheet ville réutilisée
   const contenu = `
-    <div class="mob-panneau-header">
-      <div class="mob-panneau-surtitle">Scénario</div>
-      <div class="mob-panneau-titre">${pin.label}</div>
-      <button class="mob-panneau-close" aria-label="Fermer">✕</button>
-    </div>
-    <div class="mob-panneau-body">
-      ${entreesHtml}
+    <div style="padding: 1.5rem 1rem 1rem;">
+      <h3 style="font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); margin-bottom:0.75rem; letter-spacing:0.08em;">
+        Mode Maître de Jeu
+      </h3>
+      <p style="font-family:'IM Fell English',serif; font-size:0.9rem; color:var(--mist-light); line-height:1.5; margin-bottom:1.25rem;">
+        Activer le mode MJ ? Les notes confidentielles et les données futures seront visibles jusqu'au rechargement de la page.
+      </p>
+      <div style="display:flex; gap:0.75rem;">
+        <button class="mob-action-btn mob-action-btn--gold" onclick="confirmerModeMJ()">Confirmer</button>
+        <button class="mob-action-btn" onclick="annulerModeMJ()">Annuler</button>
+      </div>
     </div>`;
-  ouvrirSheetVille(contenu);
+  pinActive = '__mj_confirm__';
+  mobOuvrirSheet(contenu, 'reduite');
+}
+
+function confirmerModeMJ() {
+  modeMJ = true;
+  fermerSheetVille();
+
+  // Badge MJ
+  const wrap = document.getElementById('carte-wrap');
+  if (wrap && !document.getElementById('mj-badge')) {
+    const badge = document.createElement('div');
+    badge.id = 'mj-badge';
+    badge.textContent = '🔒 MJ';
+    badge.style.cssText = `
+      position:absolute; bottom:0.5rem; left:0.5rem; z-index:900;
+      pointer-events:none; font-family:'Cinzel',serif; font-size:0.55rem;
+      letter-spacing:0.1em; text-transform:uppercase;
+      color:var(--gold-light); background:rgba(14,12,9,0.75);
+      padding:0.2rem 0.5rem; border:1px solid rgba(139,58,42,0.3);`;
+    wrap.appendChild(badge);
+  }
+
+  // Débrider le slider année
+  const slider = document.getElementById('mob-annee-slider');
+  if (slider) slider.max = ANNEE_MAX_MJ;
+
+  majCurseurAnnee();
+  renderZones();
+  renderVilles();
+
+  // Ajouter chip filtre rang 3 dans la barre haute
+  const conteneurFiltresMJ = document.getElementById('mob-filtres-mj');
+  if (conteneurFiltresMJ && !document.getElementById('mob-filtre-rang3')) {
+    const chip = document.createElement('button');
+    chip.id = 'mob-filtre-rang3';
+    chip.className = 'mob-filtre-chip mob-filtre-chip--mj mob-filtre-chip--actif';
+    chip.dataset.filtre = 'rang3';
+    chip.innerHTML = '🔒 Masqués';
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('mob-filtre-chip--actif');
+      // Synchroniser la checkbox interne utilisée par renderVilles
+      let cb = document.getElementById('mfl-rang3');
+      if (!cb) {
+        cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = 'mfl-rang3';
+        cb.style.display = 'none';
+        document.body.appendChild(cb);
+      }
+      cb.checked = chip.classList.contains('mob-filtre-chip--actif');
+      renderVilles();
+    });
+    conteneurFiltresMJ.appendChild(chip);
+
+    // Créer la checkbox cachée initiale (cochée)
+    if (!document.getElementById('mfl-rang3')) {
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = 'mfl-rang3';
+      cb.checked = true;
+      cb.style.display = 'none';
+      document.body.appendChild(cb);
+    }
+
+    renderVilles();
+  }
+}
+
+function annulerModeMJ() {
+  fermerSheetVille();
+  renderZones();
+}
+
+// ─── Écran de chargement ─────────────────────────────────────
+function masquerEcranChargement() {
+  const ecran = document.getElementById('carte-chargement');
+  if (!ecran) return;
+  ecran.style.opacity = '0';
+  setTimeout(() => ecran.remove(), 700);
 }
 
 // ═══════════════════════════════════════════════════════════
-// LÉGENDE MOBILE — dans mob-legende-inner (sheet calques)
+// LÉGENDE MOBILE
 // ═══════════════════════════════════════════════════════════
 
 function majLegende() {

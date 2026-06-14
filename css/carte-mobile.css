@@ -120,12 +120,14 @@ body {
 /* ─── Boutons flottants droits ─────────────────────────────── */
 #mob-boutons-flottants {
   position: absolute;
-  bottom: 200px; /* au-dessus de la sheet ville réduite */
+  bottom: 68px; /* au-dessus de la barre basse (52px) + marge */
   right: 12px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  transition: bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              opacity 0.2s ease;
 }
 
 .mob-btn-flottant {
@@ -200,24 +202,30 @@ body {
   border-top: 1px solid var(--border, rgba(200,151,58,0.2));
   border-radius: 16px 16px 0 0;
   box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
-  transition: height 0.3s ease;
+  transition: height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
-#mob-sheet-ville.mob-sheet-ville--ouverte {
-  height: 32vh;
+#mob-sheet-ville-handle {
+  /* Zone de touch généreuse — le visuel est rendu via ::after */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: ns-resize;
+  touch-action: none;  /* empêche le scroll natif pendant le drag */
 }
 
-#mob-sheet-ville-handle {
+#mob-sheet-ville-handle::after {
+  content: '';
   width: 36px;
   height: 4px;
   background: rgba(200,151,58,0.3);
   border-radius: 2px;
-  margin: 10px auto 0;
-  flex-shrink: 0;
-  cursor: ns-resize;
+  display: block;
 }
 
 #mob-sheet-ville-contenu {
@@ -312,7 +320,29 @@ body {
   cursor: pointer;
 }
 
-/* ─── Sheet filtres ────────────────────────────────────────── */
+/* ─── Bouton fermeture — commun à toutes les sheets ───────── */
+.mob-close-btn {
+  background: none;
+  border: none;
+  color: var(--mist, #8b9fab);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* ─── En-tête commun de sheet (calques, année, filtres) ────── */
+.mob-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border, rgba(200,151,58,0.15));
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--parchment, #f2e8d5);
+}
 #mob-sheet-filtres {
   position: fixed;
   bottom: 0;
@@ -336,26 +366,8 @@ body {
 }
 
 #mob-sheet-filtres-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1rem 0.75rem;
-  border-bottom: 1px solid var(--border, rgba(200,151,58,0.15));
-  font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--parchment, #f2e8d5);
   flex-shrink: 0;
-}
-
-#mob-sheet-filtres-close {
-  background: none;
-  border: none;
-  color: var(--mist, #8b9fab);
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 4px 8px;
+  padding: 1rem 1rem 0.75rem; /* légèrement plus haut que le header standard */
 }
 
 #mob-sheet-filtres-inner {
@@ -416,7 +428,8 @@ body {
   margin: 10px auto 0;
 }
 
-.mob-sheet-bottom-header {
+/* En-têtes des sheets calques et année */
+.mob-sheet-bottom-header { /* alias de .mob-sheet-header pour les sheets génériques */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -427,15 +440,6 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--parchment, #f2e8d5);
-}
-
-.mob-sheet-close-btn {
-  background: none;
-  border: none;
-  color: var(--mist, #8b9fab);
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 4px 8px;
 }
 
 .mob-sheet-bottom-section {
@@ -504,7 +508,9 @@ body {
   filter: brightness(0) invert(0.15);
 }
 
-.mob-overlay-label {
+/* Labels overlay et légende — styles identiques */
+.mob-overlay-label,
+.mob-legende-nom {
   font-family: 'Cinzel', serif;
   font-size: 0.5rem;
   letter-spacing: 0.05em;
@@ -537,16 +543,6 @@ body {
   border-radius: 10px;
   flex-shrink: 0;
   transition: opacity 0.2s;
-}
-
-.mob-legende-nom {
-  font-family: 'Cinzel', serif;
-  font-size: 0.5rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--mist, #8b9fab);
-  text-align: center;
-  line-height: 1.2;
 }
 
 .mob-legende-wrap--masquee {
@@ -812,9 +808,6 @@ body {
   color: var(--mist, #8b9fab);
 }
 
-/* Boutons flottants et sheet ville au-dessus de la barre */
-#mob-boutons-flottants { bottom: 64px; }
-
 .mob-panneau-scenario-entree {
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--border, rgba(200,151,58,0.1));
@@ -834,9 +827,4 @@ body {
   font-size: 0.78rem;
   color: var(--gold, #c8973a);
   margin-bottom: 0.3rem;
-}
-
-/* ─── Boutons flottants — décalés au-dessus de la barre basse ─ */
-#mob-boutons-flottants {
-  bottom: 68px;
 }

@@ -17,7 +17,7 @@ const PNJ_DATA = [
     pavillon: "pnj/pavillons/bellamy.svg",
     source: [
       { objet: 'pavillon', credit: 'ET Fox, 2020', url: 'https://commons.wikimedia.org/wiki/File:Samuel_Bellamy_Flag.svg' }
-      ],
+    ],
     bio: `Sauveur d’Antonio, interceptant le navire qui le conduisait à la potence. Sauveur à nouveau d’Antonio, Fañch et Dusmãtis, alors qu’ils dérivaient en mer sur une épave non loin de Nassau. Son charisme surnaturel lui permet de discuter d’égal à égal avec les plus humbles comme les plus puissant, et lui assure la loyauté de tous.
     
     A volé la Sainte-Marie à Jennings sans que cela ne l’empêche de s’associer à nouveau avec lui quelques semaines plus tard pour piller les Épaves de la Flotte au Trésor.`
@@ -79,7 +79,7 @@ const PNJ_DATA = [
     
     Portrait : la barbe noire est réelle, et son effet soigné. C'est un colosse : stature imposante, présence physique immédiate.`
   },
-    {
+  {
     id: "buse",
     epingle: false,
     nom: "La Buse",
@@ -105,7 +105,9 @@ const PNJ_DATA = [
     tags: ["Nassau", "Caraïbes", "Flying Gang", "La Marianne", "Les épaves de la Flotte au Trésor"],
     portrait: "pnj/portraits/paulsgrave.jpg",
     pavillon: "pnj/pavillons/bellamy.svg",
-    source: null,
+    source: [
+      { objet: 'pavillon', credit: 'ET Fox, 2020', url: 'https://commons.wikimedia.org/wiki/File:Samuel_Bellamy_Flag.svg' }
+    ],
     bio: `Associé de Bellamy — compagnon d'armes, pas subordonné. Devenu pirate sur le tard, avec derrière lui une vie apparemment confortable, comme si Bellamy l'avait un jour convaincu qu'une vie d'aventures était la seule digne d'être vécue, et que l'argument avait suffi.
     
     En présence de Bellamy, il disparaît dans son ombre — ce qui n'est pas le propre d'un homme faible, mais d'un homme qui n'a aucune ambition de premier rôle et n'en ressent pas le besoin. Les aventuriers l'ont à peine remarqué lors de leurs interactions — ce qui est à peu près l'effet qu'il produit sur tout le monde. Toujours affable et courtois dans le peu qu'ils ont échangé.`
@@ -156,7 +158,7 @@ const PNJ_DATA = [
     portrait: "pnj/portraits/ruggiero.jpg",
     source: [
       { objet: 'portrait', credit: 'Librement inspiré de Mandy Patinkin' }
-      ],
+    ],
     bio: `Vieux maître d'armes italien. Ancien précepteur d'Antonio à Trinidad : un alcoolique de génie, payé en gîte, couvert et tafia, qui était véritablement brillant quand il parvenait à rester sobre. A transmis à Antonio un style d'escrime unique, mélange de techniques italiennes et de fougue espagnole.
 `
   },
@@ -172,7 +174,7 @@ const PNJ_DATA = [
     portrait: "pnj/portraits/sloane.jpg",
     source: [
       { objet: 'portrait', credit: 'Stephen Slaughter, 1736 — National Portrait Gallery', url: 'https://commons.wikimedia.org/wiki/File:Stephen_Slaughter_(1697-1765)_-_Sir_Hans_Sloane,_Bt_-_NPG_569_-_National_Portrait_Gallery.jpg' }
-      ],
+    ],
     bio: `Médecin naturaliste, secrétaire de la Royal Society. Professeur de Fañch au Royal College of Physicians de Londres — une influence décisive dans sa formation, transmettant autant une philosophie qu'un savoir : voir dans chaque spécimen végétal une potentielle source de guérison.
 
     C'est également lui qui a remis à Edward Sutherland sa lettre de mission — rédigée en urgence, encore non signée par le Président, avant de l'envoyer obtenir lui-même le précieux visa.`
@@ -189,7 +191,7 @@ const PNJ_DATA = [
     portrait: "pnj/portraits/newton.jpg",
     source: [
       { objet: 'portrait', credit: 'James Thornhill, c.1709-1712 — Woolsthorpe Manor', url: 'https://commons.wikimedia.org/wiki/File:James_Thornhill_Portrait_of_Sir_Isaac_Newton.jpg' }
-      ],
+    ],
     bio: `Président de la Royal Society (1703–1727). A signé la lettre de mission d'Edward Sutherland lors d'une rencontre improvisée dans son jardin — où il l'avait contraint à planter des pommiers pendant qu'il l'écoutait. La lettre vaut passe-droit auprès des gouverneurs coloniaux.`
   },
   {
@@ -253,11 +255,11 @@ const PNJ_DATA = [
     naissance: "vers 1685 — vers 1720",
     origine: "Irlandais",
     tags: ["Nassau", "The Pirate Round", "La Marianne"],
-    portrait: "pnj/portraits/england.jpg",    
+    portrait: "pnj/portraits/england.jpg",
     pavillon: "pnj/pavillons/generic.svg",
     source: [
       { objet: 'portrait', credit: 'Auteur inconnu — lithographie XVIIIe', url: 'https://commons.wikimedia.org/wiki/File:England,_Edward.JPG' }
-      ],
+    ],
     bio: `Pirate irlandais de son vrai nom Edward Seegar. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Révolté par ce qu'il a vu, a quitté les Caraïbes pour l'océan Indien. Connu pour sa clémence envers les vaincus — l'exact opposé de Jennings.`
   },
   {
@@ -273,7 +275,7 @@ const PNJ_DATA = [
     pavillon: "pnj/pavillons/generic.svg",
     source: [
       { objet: 'portrait', credit: 'Auteur inconnu — Museo Puerta de Tierra', url: 'https://commons.wikimedia.org/wiki/File:Cornelis_%E2%80%9CPegleg%E2%80%9D_Jol.jpg' }
-      ],
+    ],
     bio: `Quartier-Maître d’Edward England. Présent lors du massacre ordonné par Jennings après la prise de la Marianne (décembre 1715). Observait la scène avec une fascination froide, sans intervenir.`
   },
 
@@ -440,7 +442,7 @@ const PNJ_DATA = [
     source: null,
     bio: `Tueur non identifié. Responsable de la mort de Ruggiero della Scala à La Tortue. Description physique : homme de taille moyenne, cheveux courts poivre et sel, fine moustache, accent italien, porte une rapière. Disparu après les faits.`
   },
- 
+
   {
     id: "thorn",
     visible: false,
@@ -454,7 +456,7 @@ const PNJ_DATA = [
     source: null,
     bio: `Officier anglais stationné en Jamaïque. Aide de camp du gouverneur et Deputy Naval Officer à Kingston. Froid, patibulaire, sans charme social. Porte à Portobelo un sabre de belle facture qui attire l'œil.`
   },
- 
+
   {
     id: "harrington",
     visible: false,
@@ -468,7 +470,7 @@ const PNJ_DATA = [
     source: null,
     bio: `Tailleur de pierre anglais. A réalisé le mausolée de Henry Morgan à Port-Royal selon des spécifications inhabituelles et très précises. A laissé des carnets détaillant son travail.`
   },
- 
+
   // PNJ Île des Ombres
   {
     id: "hobbs",
@@ -634,7 +636,7 @@ const PNJ_DATA = [
     naissance: "vers 1675 (Le Borgne) & vers 1680 (La Gazelle)",
     origine: "Français (Saint-Domingue)",
     tags: ["Caraïbes", "Saint-Domingue", "Le dernier voyage de l'Hippogriffe"],
-    portrait:"pnj/portraits/gazelle-borgne.jpg",
+    portrait: "pnj/portraits/gazelle-borgne.jpg",
     source: null,
     bio: `Deux boucaniers de Saint-Domingue, matelots au sens pirate du terme — associés par contrat autant que par tempérament. Arrivés à Little Savannah après qu'une tempête a détruit leur embarcation alors qu'ils cherchaient de nouveaux territoires de chasse. Projet d'origine : s'enfoncer dans les terres américaines pour chasser le bison.
 
@@ -668,7 +670,7 @@ const PNJ_DATA = [
     portrait: "pnj/portraits/kabo.jpg",
     source: [
       { objet: 'portrait', credit: "D'après Evan Schneider (UN Photos), 2015 — United Nations", url: 'https://media.un.org/photo/en/asset/oun7/oun718669' }
-      ],
+    ],
     bio: `Plongeur Mosquito, originaire du rivage nicaraguayen. A été recruté parmi les esclaves libérés lors du pillage des épaves de la Flotte au Trésor.`
   },
   // Factions
@@ -687,7 +689,7 @@ const PNJ_DATA = [
     source: null,
     bio: ``
   },
-   {
+  {
     id: "conseil-nassau",
     nom: "Conseil de Nassau",
     accroche: "Instance dirigeante de la République Pirate",
@@ -696,7 +698,7 @@ const PNJ_DATA = [
     naissance: null,
     origine: "Nassau (Bahamas)",
     tags: ["Nassau", "Caraïbes", "Conseil de Nassau", "Flying Gang"],
-    portrait:  "pnj/portraits/conseil-nassau.jpg",
+    portrait: "pnj/portraits/conseil-nassau.jpg",
     pavillon: "pnj/pavillons/nassau.svg",
     source: null,
     bio: `La République Pirate de Nassau est fondée par Hornigold et ses pairs. Cinq magistrats élus en janvier 1716 à l'issue des évènements de la Flotte au Trésor : Benjami Hornigold, Edward Teach, Henry Jennings, John Cockram, Josiah Burgess. Structure fragile, personnelle, sans constitution écrite — elle tient par les hommes qui la composent autant que par les principes qu'elle défend.`
@@ -716,9 +718,9 @@ const PNJ_DATA = [
     bio: `Réseau d'entraide ayant exfiltré et mandaté Robert pour documenter les événements et personnages extraordinaires des Indes Occidentales.`
   },
 
- 
+
   // ── Factions ─────────────────────────────────────────────────
- 
+
   {
     id: "piagnoni",
     visible: false,
@@ -732,7 +734,7 @@ const PNJ_DATA = [
     source: null,
     bio: `Secte aux origines et objectifs encore mal cernés. Des agents au profil similaire ont été signalés dans plusieurs ports des Caraïbes. Manifeste une hostilité envers certains objets et documents anciens. Ruggiero della Scala a été tué par l'un d'eux.`
   },
- 
+
   {
     id: "trident",
     visible: false,
@@ -746,7 +748,7 @@ const PNJ_DATA = [
     source: null,
     bio: `Réseau de contrebande actif dans l'ensemble des Caraïbes. Absorbe ou élimine les réseaux artisanaux existants. Corrompt systématiquement les fonctionnaires coloniaux de toutes nationalités. Direction inconnue. Nicholas Woodall en est une victime.`
   },
- 
+
   {
     id: "jesuites",
     visible: false,
@@ -760,9 +762,9 @@ const PNJ_DATA = [
     source: null,
     bio: `Réseau jésuite aux Caraïbes, visible à travers la présence du Père Morelet d'Aboville à Cap-Français et de personnages gravitant dans son orbite. Étendue et objectifs réels : inconnus.`
   },
- 
+
   // ── Candidats en réserve ─────────────────────────────────────
- 
+
   {
     id: "keroualle",
     visible: false,
@@ -776,7 +778,7 @@ const PNJ_DATA = [
     source: null,
     bio: `Bretonne, ancienne maîtresse officielle de Charles II d'Angleterre, agent d'influence de Louis XIV à la cour anglaise. En 1715, 65 ans, retirée à Aubigny. Femme de mémoire longue qui a survécu à trois règnes.`
   },
- 
+
   {
     id: "ruysch-frederik",
     visible: false,
@@ -790,7 +792,7 @@ const PNJ_DATA = [
     source: null,
     bio: `Anatomiste et botaniste hollandais. Créateur du cabinet de curiosités le plus célèbre d'Europe — plus de 2 000 spécimens. A vendu l'intégralité de sa collection à Pierre le Grand en 1717 pour 30 000 guilders.`
   },
- 
+
   {
     id: "ruysch-rachel",
     visible: false,
@@ -804,4 +806,4 @@ const PNJ_DATA = [
     source: null,
     bio: `Peintre néerlandaise de natures mortes florales, fille de Frederik Ruysch. Première femme admise à la Confrérie Pictura de La Haye. Peintre de cour de Johann Wilhelm, électeur palatin à Düsseldorf, jusqu'en 1716. Fortune et réputation indépendantes.`
   },
-    ];
+];
