@@ -15,12 +15,6 @@ let modeSombre = false;
 let contourGlobalLayer = null;
 let villeActive = null;
 let markersVilles = {};
-let pairesChevauchement = [];
-let clustersChevauchement = [];
-let loupeInstance = null;
-let loupeBitmap = null;
-let mouseoutTimers = {};
-let ecartementsActifs = {};
 
 // ─── Mode overlay ─────────────────────────────────────────────
 let overlayMode = 'geo';
@@ -321,22 +315,6 @@ function setIconeVilleActive(villeId, actif) {
   }));
 }
 
-function setIconeVilleIsoleeHover(villeId, hover) {
-  const info = _infoMarqueurVille(villeId);
-  if (!info) return;
-  const { marker, ville, estPirate, taille } = info;
-  const svgBase = villeSVG(ville.type || 'ville', taille, estPirate, true, false);
-  const svgHover = hover
-    ? svgBase.replace('fill="rgba(0,0,0,0)"', 'fill="rgba(200,151,58,0.25)"')
-    : svgBase;
-  marker.setIcon(L.divIcon({
-    html: svgHover,
-    className: 'carte-ville',
-    iconSize: [taille, taille],
-    iconAnchor: [taille / 2, taille / 2],
-  }));
-}
-
 // ═══════════════════════════════════════════════════════════
 // SÉQUENCE SECRÈTE MJ — identique à carte.js
 // ═══════════════════════════════════════════════════════════
@@ -490,9 +468,6 @@ function _initMobile() {
     imgPreload.src = CARTE_IMAGE.src;
     imgPreload.decode()
       .then(() => {
-        if (typeof createImageBitmap === 'function') {
-          createImageBitmap(imgPreload).then(bmp => { loupeBitmap = bmp; });
-        }
         initTout();
       })
       .catch(initTout);
@@ -780,7 +755,6 @@ function initCarte() {
     if (overlayMode === 'isolation') { fermerIsolation(); return; }
     if (overlayMode === 'isolationVille') { fermerZoomVille(); return; }
 
-    fermerLoupe();
     fermerToutesSheets();
 
     if (sheetVilleOuverte) {
@@ -792,23 +766,12 @@ function initCarte() {
       villeActive = null;
       zoneActive = null;
       pinActive = null;
-      pairesChevauchement.forEach(paire => rapprocherVille(paire.idA));
       // Remettre le poids des zones au repos
       Object.values(layersZones).forEach(groupe => {
         groupe.eachLayer?.(poly => poly.setStyle({
           weight: weightPourZoom(WEIGHTS.zone, carte.getZoom())
         }));
       });
-    }
-  });
-
-  carte.on('zoom', () => {
-    for (const [cle, etat] of Object.entries(ecartementsActifs)) {
-      const [idA, idB] = cle.split(':');
-      const elA = markersVilles[idA]?.getElement();
-      const elB = markersVilles[idB]?.getElement();
-      if (elA) { const t = lireTranslate3d(elA); elA.style.transition = ''; elA.style.transform = `${t} translate(${etat.dxA}px, ${etat.dyA}px)`; }
-      if (elB) { const t = lireTranslate3d(elB); elB.style.transition = ''; elB.style.transform = `${t} translate(${etat.dxB}px, ${etat.dyB}px)`; }
     }
   });
 
@@ -823,14 +786,6 @@ function initCarte() {
       setTimeout(() => { if (isolationLayer) isolationLayer.setStyle({ opacity: 1 }); }, 60);
     }
     majTailleIconesVilles();
-    calculerPairesChevauchement();
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!document.getElementById('carte-loupe')) return;
-    if (e.target.closest('#carte-loupe')) return;
-    if (e.target.closest('.carte-ville')) return;
-    fermerLoupe();
   });
 
   // Calcule le zoom qui fait tenir la hauteur carte dans l'espace disponible
@@ -864,7 +819,6 @@ function initCarte() {
     carte.setMaxBounds([[0, 0], [CARTE_IMAGE.height, CARTE_IMAGE.width]]);
     console.log('[mobile] zMin=', zMin, 'containerH=', carte.getSize().y, 'imageH=', CARTE_IMAGE.height, 'getMinZoom=', carte.getMinZoom());
     majWeightsZones();
-    calculerPairesChevauchement();
     const ecran = document.getElementById('carte-chargement');
     if (ecran) { ecran.style.display = 'none'; ecran.remove(); }
   }, 500);
@@ -1595,30 +1549,7 @@ function renderPins() {
   });
 }
 
-// ═══════════════════════════════════════════════════════════
-// FONCTIONS RÉUTILISÉES TELLES QUELLES DEPUIS carte.js
-// Les fonctions suivantes sont identiques et importées :
-//   renderZones(), majWeightsZones(), fermerTooltipsOrphelins()
-//   renderPins(), renderVilles(), majTailleIconesVilles()
-//   ouvrirPanneau(), fermerPanneau(), ouvrirPanneauVille(), fermerPanneauVille()
-//   zoomerVille(), fermerZoomVille(), isolerTerritoire(), fermerIsolation()
-//   ouvrirLoupe(), fermerLoupe(), calculerPairesChevauchement()
-//   ecarterVille(), rapprocherVille()
-//   fermerPopup(), ouvrirPopupScenario()
-//   afficherSuggestions(), surlignerMatch(), escapeHtml()
-//   majLegende()
-//   resoudre() [si présente dans carte-data.js]
-//
-// NOTE D'IMPLÉMENTATION :
-// Ces fonctions sont chargées depuis carte-shared.js (fichier commun à créer
-// en session suivante) OU dupliquées ici au besoin.
-// Pour cette session initiale, on les adapte au contexte mobile
-// uniquement sur les points qui diffèrent.
-// ═══════════════════════════════════════════════════════════
-
-// ─── Adaptation mobile : ouvrirPanneau ────────────────────────
-// Sur desktop : injecte dans #carte-panneau (panneau droit fixe)
-// Sur mobile  : injecte dans la sheet ville (bottom sheet)
+// ─── Panneaux — zones, villes, scénarios ─────────────────────
 
 function ouvrirPanneau(juridictionId) {
   const j = JURIDICTIONS.find(j => j.id === juridictionId);
@@ -1664,7 +1595,6 @@ function fermerPanneauVille() {
   if (villeActive) setIconeVilleActive(villeActive, false);
   villeActive = null;
   fermerSheetVille();
-  fermerLoupe();
 }
 
 // ─── Constructeurs de contenu panneau ────────────────────────
@@ -1745,7 +1675,6 @@ function naviguerVers(url) {
 // ═══════════════════════════════════════════════════════════
 
 function renderVilles() {
-  fermerLoupe();
   Object.values(markersVilles).forEach(m => carte.removeLayer(m));
   markersVilles = {};
 
@@ -1808,11 +1737,6 @@ function renderVilles() {
       }
       if (overlayMode === 'isolation') return;
       fermerToutesSheets();
-      const cluster = clustersChevauchement.find(c => c.ids.includes(ville.id));
-      if (cluster) {
-        ouvrirLoupe(ville.id, e.containerPoint);
-        return;
-      }
       if (villeActive === ville.id) {
         fermerPanneauVille();
       } else {
@@ -1820,50 +1744,9 @@ function renderVilles() {
       }
     });
 
-    // Sur mobile, mouseover/mouseout remplacés par touchstart/touchend
-    // L'écartement reste fonctionnel mais sans le timer mouseout
-    marker.on('mouseover', () => {
-      marker.openTooltip();
-      Object.keys(markersVilles).forEach(id => {
-        if (id !== ville.id && id !== villeActive && id !== isolationVilleId)
-          setIconeVilleActive(id, false);
-      });
-      clearTimeout(mouseoutTimers[ville.id]);
-      if (villeActive !== ville.id) setIconeVilleActive(ville.id, true);
-      ecarterVille(ville.id);
-      // Curseur loupe si cluster
-      const elSurvol = marker.getElement();
-      if (elSurvol) {
-        const dansCluster = clustersChevauchement.some(c => c.ids.includes(ville.id));
-        elSurvol.style.cursor = dansCluster ? 'zoom-in' : '';
-      }
-    });
-
-    marker.on('mouseout', () => {
-      marker.closeTooltip();
-      let estDansUnePaire = false;
-      for (const paire of pairesChevauchement) {
-        if (paire.idA !== ville.id && paire.idB !== ville.id) continue;
-        estDansUnePaire = true;
-        const cle = `${paire.idA}:${paire.idB}`;
-        clearTimeout(mouseoutTimers[cle]);
-        mouseoutTimers[cle] = setTimeout(() => {
-          if (villeActive !== ville.id) setIconeVilleActive(ville.id, false);
-          if (villeActive !== ville.id) rapprocherVille(ville.id);
-        }, 550);
-      }
-      if (!estDansUnePaire) {
-        mouseoutTimers[ville.id] = setTimeout(() => {
-          if (villeActive !== ville.id) setIconeVilleActive(ville.id, false);
-        }, 550);
-      }
-    });
-
     marker.addTo(carte);
     markersVilles[ville.id] = marker;
   });
-
-  calculerPairesChevauchement();
 }
 
 function majTailleIconesVilles() {
@@ -2024,267 +1907,6 @@ function fermerZoomVille(options = {}) {
   renderVilles();
 
   if (options.ouvrirVille && villeActive) ouvrirPanneauVille(villeActive);
-}
-
-// ═══════════════════════════════════════════════════════════
-// LOUPE CARTOGRAPHIQUE — identique à carte.js
-// ═══════════════════════════════════════════════════════════
-
-const LOUPE_RAYON = 115;
-const LOUPE_ZOOM = -0.6;
-
-function fermerLoupe() {
-  if (loupeInstance) { loupeInstance.remove(); loupeInstance = null; }
-  const existante = document.getElementById('carte-loupe');
-  if (existante) existante.remove();
-}
-
-function ouvrirLoupe(villeId, containerPoint) {
-  fermerLoupe();
-
-  const markerCible = markersVilles[villeId];
-  if (!markerCible) return;
-  const latlngCentre = markerCible.getLatLng();
-
-  // Centroïde du cluster
-  const cluster = clustersChevauchement.find(c => c.ids.includes(villeId));
-  let latlngFocus = latlngCentre;
-  if (cluster) {
-    const membres = cluster.ids.map(id => markersVilles[id]?.getLatLng()).filter(Boolean);
-    if (membres.length) {
-      const latMoy = membres.reduce((s, ll) => s + ll.lat, 0) / membres.length;
-      const lngMoy = membres.reduce((s, ll) => s + ll.lng, 0) / membres.length;
-      latlngFocus = L.latLng(latMoy, lngMoy);
-    }
-  }
-
-  // Créer le div loupe
-  const carteWrap = document.getElementById('carte-wrap');
-  if (!carteWrap) return;
-
-  const diameter = LOUPE_RAYON * 2;
-  const loupe = document.createElement('div');
-  loupe.id = 'carte-loupe';
-  loupe.style.width = diameter + 'px';
-  loupe.style.height = diameter + 'px';
-  loupe.style.left = containerPoint.x + 'px';
-  loupe.style.top = containerPoint.y + 'px';
-  carteWrap.appendChild(loupe);
-
-  // Instance Leaflet secondaire
-  loupeInstance = L.map(loupe, {
-    crs: L.CRS.Simple,
-    center: latlngFocus,
-    zoom: LOUPE_ZOOM,
-    zoomSnap: 0,
-    dragging: false,
-    scrollWheelZoom: false,
-    doubleClickZoom: false,
-    boxZoom: false,
-    keyboard: false,
-    touchZoom: false,
-    tap: false,
-    zoomControl: false,
-    attributionControl: false,
-  });
-
-  const W = CARTE_IMAGE.width;
-  const H = CARTE_IMAGE.height;
-  L.imageOverlay(CARTE_IMAGE.src, [[0, 0], [H, W]]).addTo(loupeInstance);
-
-  loupeInstance.whenReady(() => {
-    const centrePx = loupeInstance.latLngToContainerPoint(latlngFocus);
-
-    Object.entries(markersVilles).forEach(([id, m]) => {
-      const ll = m.getLatLng();
-      const px = loupeInstance.latLngToContainerPoint(ll);
-      const dx = px.x - centrePx.x;
-      const dy = px.y - centrePx.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist > LOUPE_RAYON) return;
-
-      const ville = VILLES.find(v => v.id === id);
-      if (!ville) return;
-      const taille = 36;
-      const statutCapitale = Array.isArray(ville.capitale)
-        ? rendreChamp(ville.capitale, anneeActive)
-        : ville.capitale;
-      const estPirate = statutCapitale === 'pirate';
-      const estActive = villeActive === id;
-      const estRang3 = (ville.rang ?? '1') === '3';
-
-      const iconLoupe = L.divIcon({
-        html: villeSVG(ville.type || 'ville', taille, estPirate, false, estActive, estRang3),
-        className: 'carte-ville',
-        iconSize: [taille, taille],
-        iconAnchor: [taille / 2, taille / 2],
-      });
-      const markerLoupe = L.marker(ll, { icon: iconLoupe });
-
-      markerLoupe.on('mouseover', () => {
-        markerLoupe.setIcon(L.divIcon({
-          html: villeSVG(ville.type || 'ville', taille, estPirate, false, true, estRang3),
-          className: 'carte-ville', iconSize: [taille, taille], iconAnchor: [taille / 2, taille / 2],
-        }));
-      });
-      markerLoupe.on('mouseout', () => {
-        markerLoupe.setIcon(L.divIcon({
-          html: villeSVG(ville.type || 'ville', taille, estPirate, false, estActive, estRang3),
-          className: 'carte-ville', iconSize: [taille, taille], iconAnchor: [taille / 2, taille / 2],
-        }));
-      });
-      markerLoupe.on('click', () => {
-        if (villeActive === id) {
-          fermerPanneauVille();
-        } else {
-          ouvrirPanneauVille(id);
-        }
-      });
-
-      markerLoupe.addTo(loupeInstance);
-    });
-  });
-}
-
-// ═══════════════════════════════════════════════════════════
-// CALCUL CHEVAUCHEMENT — identique à carte.js
-// ═══════════════════════════════════════════════════════════
-
-function calculerPairesChevauchement() {
-  if (!carte || !carte._loaded) return;
-
-  const ids = Object.keys(markersVilles);
-  const SEUIL = 16;
-  const voisins = {};
-  ids.forEach(id => { voisins[id] = new Set(); });
-
-  const pairesDetectees = [];
-
-  for (let i = 0; i < ids.length; i++) {
-    for (let j = i + 1; j < ids.length; j++) {
-      const idA = ids[i], idB = ids[j];
-      const mA = markersVilles[idA], mB = markersVilles[idB];
-      if (!mA || !mB) continue;
-      const ptA = carte.latLngToContainerPoint(mA.getLatLng());
-      const ptB = carte.latLngToContainerPoint(mB.getLatLng());
-      const dx = ptB.x - ptA.x, dy = ptB.y - ptA.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < SEUIL) {
-        const nx = dx / dist || 0, ny = dy / dist || 0;
-        pairesDetectees.push({
-          idA, idB, dist, vx: nx, vy: ny,
-          latlngA: mA.getLatLng(), latlngB: mB.getLatLng()
-        });
-        voisins[idA].add(idB);
-        voisins[idB].add(idA);
-      }
-    }
-  }
-
-  // DFS pour grouper les membres connexes
-  const vus = new Set();
-  const groupes = [];
-  ids.forEach(id => {
-    if (vus.has(id) || voisins[id].size === 0) return;
-    const groupe = [];
-    const pile = [id];
-    while (pile.length) {
-      const cur = pile.pop();
-      if (vus.has(cur)) continue;
-      vus.add(cur);
-      groupe.push(cur);
-      voisins[cur].forEach(v => { if (!vus.has(v)) pile.push(v); });
-    }
-    if (groupe.length >= 2) groupes.push(groupe);
-  });
-
-  pairesChevauchement = [];
-  clustersChevauchement = [];
-
-  groupes.forEach(groupe => {
-    if (groupe.length === 2) {
-      const p = pairesDetectees.find(
-        p => (p.idA === groupe[0] && p.idB === groupe[1]) ||
-          (p.idA === groupe[1] && p.idB === groupe[0])
-      );
-      if (p) pairesChevauchement.push(p);
-    } else {
-      clustersChevauchement.push({ ids: groupe });
-    }
-  });
-}
-
-// ═══════════════════════════════════════════════════════════
-// ÉCARTEMENT ICÔNES — identique à carte.js
-// ═══════════════════════════════════════════════════════════
-
-function ecarterVille(villeId) {
-  const CIBLE = 26;
-  for (const paire of pairesChevauchement) {
-    let vx = 0, vy = 0, autreId = null;
-    if (paire.idA === villeId) { vx = -paire.vx; vy = -paire.vy; autreId = paire.idB; }
-    else if (paire.idB === villeId) { vx = paire.vx; vy = paire.vy; autreId = paire.idA; }
-    if (!autreId) continue;
-    const cle = `${paire.idA}:${paire.idB}`;
-    if (ecartementsActifs[cle]) {
-      delete ecartementsActifs[cle];
-      const elAn = markersVilles[paire.idA]?.getElement();
-      const elBn = markersVilles[paire.idB]?.getElement();
-      if (elAn) { const t = lireTranslate3d(elAn); elAn.style.transition = ''; elAn.style.transform = t; }
-      if (elBn) { const t = lireTranslate3d(elBn); elBn.style.transition = ''; elBn.style.transform = t; }
-    }
-    const ptA = carte.latLngToContainerPoint(paire.latlngA);
-    const ptB = carte.latLngToContainerPoint(paire.latlngB);
-    const dx = ptB.x - ptA.x, dy = ptB.y - ptA.y;
-    const distActuelle = Math.sqrt(dx * dx + dy * dy);
-    const amplitude = (CIBLE - distActuelle) / 2;
-    if (amplitude <= 0) continue;
-    const duree = Math.round(amplitude * 2 * 40);
-    ecartementsActifs[cle] = {
-      duree, dxA: vx * amplitude, dyA: vy * amplitude,
-      dxB: -vx * amplitude, dyB: -vy * amplitude
-    };
-    const elA = markersVilles[villeId]?.getElement();
-    const elB = markersVilles[autreId]?.getElement();
-    if (elA) {
-      const t = lireTranslate3d(elA);
-      elA.style.transition = `transform ${duree}ms ease`;
-      elA.style.transform = `${t} translate(${vx * amplitude}px, ${vy * amplitude}px)`;
-    }
-    if (elB) {
-      const t = lireTranslate3d(elB);
-      elB.style.transition = `transform ${duree}ms ease`;
-      elB.style.transform = `${t} translate(${-vx * amplitude}px, ${-vy * amplitude}px)`;
-    }
-  }
-}
-
-function rapprocherVille(villeId) {
-  for (const paire of pairesChevauchement) {
-    let autreId = null;
-    if (paire.idA === villeId) autreId = paire.idB;
-    else if (paire.idB === villeId) autreId = paire.idA;
-    if (!autreId) continue;
-    if (villeActive === autreId) continue;
-    const cle = `${paire.idA}:${paire.idB}`;
-    const etat = ecartementsActifs[cle];
-    if (!etat) continue;
-    delete ecartementsActifs[cle];
-    const elA = markersVilles[paire.idA]?.getElement();
-    const elB = markersVilles[paire.idB]?.getElement();
-    if (elA) {
-      const t = lireTranslate3d(elA);
-      elA.style.transition = `transform ${etat.duree}ms ease`;
-      elA.style.transform = `${t} translate(0px, 0px)`;
-      setTimeout(() => { const t2 = lireTranslate3d(elA); elA.style.transition = ''; elA.style.transform = t2; }, etat.duree);
-    }
-    if (elB) {
-      const t = lireTranslate3d(elB);
-      elB.style.transition = `transform ${etat.duree}ms ease`;
-      elB.style.transform = `${t} translate(0px, 0px)`;
-      setTimeout(() => { const t2 = lireTranslate3d(elB); elB.style.transition = ''; elB.style.transform = t2; }, etat.duree);
-    }
-  }
 }
 
 // ═══════════════════════════════════════════════════════════
