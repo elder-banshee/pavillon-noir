@@ -1356,20 +1356,16 @@ function _hauteurPx(niveau) {
   const vh = window.innerHeight;
   if (niveau === 'reduite') return Math.round(vh * 0.32);
   if (niveau === 'pleine') {
-    const barre = document.getElementById('mob-barre-recherche');
-    const barreBottom = 52; // hauteur barre basse
-    if (barre) {
-      const rect = barre.getBoundingClientRect();
-      if (document.fullscreenElement) {
-        // Plein écran : monter jusqu'au bord supérieur de la barre recherche
-        // (chips couverts — inutiles volet ouvert, on profite de l'espace)
-        const haut = rect.top - 4;
-        return Math.round(vh - haut);
-      } else {
-        // Mode normal : couvrir jusqu'au bord supérieur de la barre recherche
-        const haut = rect.top - 4;
-        return Math.round(vh - barreBottom - haut);
-      }
+    const barreBottom = 52;
+    // Cible dynamique selon le mode :
+    // - normal     → bord supérieur du champ recherche (couvre les chips, pas le field)
+    // - plein écran → bord supérieur des chips (profite de l'espace supplémentaire)
+    const cibleId = document.fullscreenElement ? 'mob-filtres-chips' : 'mob-recherche-field';
+    const cible = document.getElementById(cibleId)
+               ?? document.getElementById('mob-barre-recherche'); // fallback
+    if (cible) {
+      const top = cible.getBoundingClientRect().top;
+      return Math.round(vh - barreBottom - top);
     }
     return Math.round(vh * 0.88);
   }
