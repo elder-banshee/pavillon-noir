@@ -18,6 +18,7 @@ let overlayModeAvantIsolation = 'geo';
 let isolationJuridictionId = null;
 let isolationLayer = null;
 let isolationVilleId = null;
+let recalibrerVue = () => {}; // initialisée dans initCarte
 
 // ─── Mode MJ ─────────────────────────────────────────────────
 let modeMJ = false;
@@ -661,7 +662,6 @@ function initCarte() {
     const zMin = _caliberZoomMin();
     carte.setMinZoom(zMin);
     const nassau = pixelToLatLng(4542, 1739);
-    // Si on est plus dézoomé que le nouveau minimum, on recadre
     if (carte.getZoom() < zMin) {
       carte.setView(nassau, zMin, { animate: false });
     }
@@ -675,10 +675,30 @@ function initCarte() {
     carte.setMinZoom(zMin);
     carte.setView(nassau, zMin, { animate: false });
     carte.setMaxBounds([[0, 0], [CARTE_IMAGE.height, CARTE_IMAGE.width]]);
-    console.log('[mobile] zMin=', zMin, 'containerH=', carte.getSize().y, 'imageH=', CARTE_IMAGE.height, 'getMinZoom=', carte.getMinZoom());
     majWeightsZones();
-    const ecran = document.getElementById('carte-chargement');
-    if (ecran) { ecran.style.display = 'none'; ecran.remove(); }
+
+    // Préchauffage : parcourir silencieusement plusieurs niveaux de zoom
+    // pendant que l'écran de chargement est encore visible, pour que
+    // Leaflet ait déjà calculé les positions au moment du premier flyTo.
+    const zooms = [0, -2, -4, zMin];
+    let i = 0;
+    const prechauffer = () => {
+      if (i >= zooms.length) {
+        carte.setView(nassau, zMin, { animate: false });
+        // Forcer carte._loaded = true et fire moveend pour que flyTo/flyToBounds
+        // fonctionnent immédiatement sans attendre une première interaction utilisateur.
+        // setView({ animate: false }) ne déclenche pas moveend dans Leaflet,
+        // donc _loaded reste false et flyTo retourne silencieusement.
+        carte._loaded = true;
+        carte.fire('moveend');
+        const ecran = document.getElementById('carte-chargement');
+        if (ecran) { ecran.style.display = 'none'; ecran.remove(); }
+        return;
+      }
+      carte.setView(nassau, zooms[i++], { animate: false });
+      requestAnimationFrame(prechauffer);
+    };
+    requestAnimationFrame(prechauffer);
   }, 500);
 
   // Leaflet 1.9 appelle _move({pinch:true}) directement depuis TouchZoom,
@@ -709,6 +729,10 @@ function initCarte() {
   document.addEventListener('fullscreenchange', () => {
     setTimeout(_recalibrerVue, 150);
   });
+
+  // Exposer _recalibrerVue pour les fonctions qui doivent forcer
+  // un recalibrage avant un flyTo (ex: après fermeture du clavier virtuel)
+  recalibrerVue = _recalibrerVue;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1746,8 +1770,11 @@ function ouvrirRechercheComplete() {
     if (premier) {
       const { id, type } = premier.dataset;
       fermerRechercheComplete();
-      if (type === 'ville') zoomerVersVille(id);
-      else zoomerVersTerrritoire(id);
+      setTimeout(() => {
+        _recalibrerVue();
+        if (type === 'ville') zoomerVersVille(id);
+        else zoomerVersTerrritoire(id);
+      }, 500);
     }
   });
 
@@ -1833,8 +1860,11 @@ function ouvrirRechercheComplete() {
       li.addEventListener('click', () => {
         const { id, type } = li.dataset;
         fermerRechercheComplete();
-        if (type === 'ville') zoomerVersVille(id);
-        else zoomerVersTerrritoire(id);
+        setTimeout(() => {
+          recalibrerVue();
+          if (type === 'ville') zoomerVersVille(id);
+          else zoomerVersTerrritoire(id);
+        }, 500);
       });
     });
   });
@@ -1844,28 +1874,133 @@ function fermerRechercheComplete() {
   document.getElementById('mob-sheet-recherche')?.remove();
 }
 
+function _assurerFiltreActif(villeId, villeObj) {
+  // Correspondance alignée sur la logique de renderVilles :
+  //   estSite  → type === 'site_geo' || 'site_hist'
+  //   estEtab  → type === 'port' || 'fort' || 'ville'  (rang 1, non secondaire)
+  //   estSecond → rang === '2'
+  const type = villeObj?.type ?? '';
+  const rang  = villeObj?.rang  ?? '1';
+
+  const estScenario = !!(CARTE_PINS?.find(p => p.id === villeId));
+  const estSite     = (type === 'site_geo' || type === 'site_hist');
+  const estSecond   = (rang === '2');
+  const estEtab     = !estSite && !estSecond && !estScenario
+                      && (type === 'port' || type === 'fort' || type === 'ville');
+
+  const filtreCle = estScenario ? 'scenarios'
+    : estSite     ? 'sites'
+    : estSecond   ? 'secondaires'
+    : estEtab     ? 'etablissements'
+    : null; // villes principales rang 1 sans chip — toujours visibles
+
+  if (!filtreCle) return;
+
+  const chip = document.querySelector(`.mob-filtre-chip[data-filtre="${filtreCle}"]`);
+  if (!chip || chip.classList.contains('mob-filtre-chip--actif')) return;
+
+  chip.classList.add('mob-filtre-chip--actif');
+  syncFiltresDepuisChips();
+  renderVilles(); // synchrone — markersVilles à jour après cet appel
+}
+
 function zoomerVersVille(villeId) {
-  const marker = markersVilles[villeId];
-  if (!marker) {
-    // Si le marqueur n'existe pas (filtre), on tente d'ouvrir le panneau directement
+  const ville = VILLES.find(v => v.id === villeId)
+             ?? CARTE_PINS?.find(p => p.id === villeId);
+
+  // Réactiver le filtre si nécessaire
+  _assurerFiltreActif(villeId, ville ?? null);
+
+  // Coordonnées : depuis le marker s'il existe, sinon depuis les données
+  const markerLatLng = markersVilles[villeId]?.getLatLng()
+    ?? (ville?.coords ? pixelToLatLng(ville.coords[0], ville.coords[1]) : null);
+
+  if (!markerLatLng) {
+    // Dernier recours : ouvrir le panneau sans flyTo
     ouvrirPanneauVille(villeId);
     return;
   }
-  carte.flyTo(marker.getLatLng(), Math.max(carte.getZoom(), -1), { duration: 0.8 });
-  setTimeout(() => ouvrirPanneauVille(villeId), 850);
+
+  carte.flyTo(markerLatLng, 0, { duration: 0.8 });
+  setTimeout(() => {
+    // Décalage post-flyTo pour centrer dans la zone visible
+    const markerPtFinal = carte.latLngToContainerPoint(markerLatLng);
+    const chips    = document.getElementById('mob-filtres-chips');
+    const vh       = window.innerHeight;
+    const zoneHaut = chips ? chips.getBoundingClientRect().bottom : 100;
+    const zoneBas  = vh - 52 - _hauteurPx('reduite');
+    const cy = zoneHaut + (zoneBas - zoneHaut) / 2;
+    const cx = window.innerWidth / 2;
+    carte.panBy([markerPtFinal.x - cx, markerPtFinal.y - cy], { animate: true, duration: 0.3 });
+    ouvrirPanneauVille(villeId);
+  }, 900);
+}
+
+// Wrapper flyToBounds qui contourne le blocage Leaflet depuis le zoom minimum :
+// flyToBounds échoue silencieusement quand getZoom() === getMinZoom() car Leaflet
+// refuse d'animer vers un zoom ≤ zoom courant au minimum. On force un micro-décalage
+// imperceptible (+0.01) avant de lancer l'animation, puis on restaure minZoom.
+function _flyToBoundsSansBlocage(bounds, options) {
+  const zMinSaved = carte.getMinZoom();
+  carte.setMinZoom(-10);
+
+  const maxZoom = options.maxZoom ?? 0;
+  const zoomCible = Math.min(maxZoom, carte.getBoundsZoom(bounds));
+  const centre = bounds.getCenter();
+
+  void carte.getSize();
+  carte.setView(centre, zoomCible, { animate: true, duration: options.duration ?? 0.8 });
+  carte.once('moveend', () => carte.setMinZoom(zMinSaved));
+}
+
+// Extrait les bounds d'un LayerGroup de polygones.
+function _boundsFromGroupe(groupe) {
+  const latlngs = [];
+  groupe.eachLayer?.(poly => {
+    poly.getLatLngs?.()?.flat(Infinity).forEach(ll => latlngs.push(ll));
+  });
+  return latlngs.length ? L.latLngBounds(latlngs) : null;
 }
 
 function zoomerVersTerrritoire(territoireId) {
-  // Chercher un layer de zone correspondant
-  const layer = layersZones[territoireId];
-  if (layer) {
-    const bounds = layer.getBounds?.();
-    if (bounds) {
-      carte.flyToBounds(bounds, { padding: [40, 40], duration: 0.8 });
-      setTimeout(() => ouvrirPanneau(territoireId), 850);
+  const chips = document.getElementById('mob-filtres-chips');
+  const paddingHaut = chips ? Math.round(chips.getBoundingClientRect().bottom) + 8 : 50;
+  const paddingBas  = Math.round(_hauteurPx('reduite')) + 8;
+  const flyOpts = {
+    paddingTopLeft:     [20, paddingHaut],
+    paddingBottomRight: [20, paddingBas],
+    maxZoom: 0,
+    duration: 0.8,
+  };
+
+  // 1. Bounds depuis le LayerGroup rendu (polygones du groupe)
+  const groupe = layersZones[territoireId];
+  if (groupe) {
+    const bounds = _boundsFromGroupe(groupe);
+    if (bounds?.isValid()) {
+      _flyToBoundsSansBlocage(bounds, flyOpts);
+      carte.once('moveend', () => ouvrirPanneau(territoireId));
       return;
     }
   }
+
+  // 2. Fallback : reconstruire depuis ZONES_DATA ou JURIDICTIONS
+  const j = JURIDICTIONS.find(j => j.id === territoireId);
+  const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[territoireId])
+    ? ZONES_DATA[territoireId]
+    : (j?.zone?.length >= 3 ? [j.zone] : null);
+
+  if (contours) {
+    const latlngs = contours.flatMap(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
+    const bounds = L.latLngBounds(latlngs);
+    if (bounds.isValid()) {
+      _flyToBoundsSansBlocage(bounds, flyOpts);
+      carte.once('moveend', () => ouvrirPanneau(territoireId));
+      return;
+    }
+  }
+
+  // 3. Dernier recours : ouvrir le panneau sans navigation
   ouvrirPanneau(territoireId);
 }
 
