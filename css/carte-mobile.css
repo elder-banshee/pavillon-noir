@@ -164,6 +164,18 @@ body {
   text-transform: uppercase;
 }
 
+/* Bouton Date : l'année seule, centrée, tient lieu d'icône et de label */
+.mob-btn-annee-annee {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--mist, #8b9fab);
+  line-height: 1;
+  transform: scaleY(1.2);
+  display: inline-block;
+}
+
 /* ─── Fond overlay (fermeture sheets) ──────────────────────── */
 #mob-fond-overlay {
   display: none;
@@ -444,7 +456,7 @@ body {
 .mob-overlay-grille {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 8px;
 }
 
 /* Conteneur wrap : bouton carré + label dessous */
@@ -460,6 +472,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
+  max-width: 64px;
   aspect-ratio: 1;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border, rgba(200,151,58,0.15));
@@ -505,7 +518,7 @@ body {
 #mob-legende-inner {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 8px;
 }
 
 /* Wrap légende : carré couleur + label dessous */
@@ -518,7 +531,8 @@ body {
 }
 
 .mob-legende-item {
-  width: 40%;
+  width: 100%;
+  max-width: 32px;
   aspect-ratio: 1;
   border-radius: 10px;
   flex-shrink: 0;
@@ -544,6 +558,16 @@ body {
   font-style: italic;
   font-size: 0.82rem;
   color: var(--mist, #8b9fab);
+  grid-column: 1 / -1;
+}
+
+.mob-legende-info a {
+  color: var(--gold, #c8973a);
+  text-decoration: none;
+}
+
+.mob-legende-info a:hover {
+  text-decoration: underline;
 }
 
 /* ─── Sheet année ──────────────────────────────────────────── */
@@ -609,14 +633,55 @@ body {
   padding: 11px 16px;
 }
 
-#mob-recherche-input {
+/* Conteneur pour superposer fantôme + input réel */
+#mob-recherche-field-wrap {
   flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#mob-recherche-fantome,
+#mob-recherche-input {
+  width: 100%;
   background: none;
   border: none;
   outline: none;
   font-family: 'IM Fell English', serif;
   font-size: 0.95rem;
+  line-height: 1.4;
+  padding: 0;
+  margin: 0;
+}
+
+#mob-recherche-fantome {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: auto;
+  color: var(--mist, #8b9fab);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#mob-recherche-input {
+  position: relative;
   color: var(--parchment, #f2e8d5);
+  background: transparent;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: text;
+}
+
+/* Placeholder via ::before sur contenteditable vide */
+#mob-recherche-input:empty::before {
+  content: attr(data-placeholder);
+  color: var(--mist, #8b9fab);
+  pointer-events: none;
 }
 
 #mob-recherche-cancel {
@@ -642,28 +707,38 @@ body {
 
 .mob-suggestion {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 1rem;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--border, rgba(200,151,58,0.08));
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
 .mob-suggestion:active {
-  background: rgba(200,151,58,0.05);
-}
-
-.mob-suggestion-icone {
-  font-size: 0.9rem;
-  color: var(--gold, #c8973a);
-  flex-shrink: 0;
+  background: rgba(200,151,58,0.08);
 }
 
 .mob-suggestion-nom {
-  font-family: 'IM Fell English', serif;
-  font-size: 0.9rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--parchment, #f2e8d5);
+}
+
+.mob-suggestion-match {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.82rem;
   color: var(--mist-light, #c4ccd4);
+  font-style: italic;
+}
+
+.mob-suggestion-highlight {
+  background: transparent;
+  color: var(--gold-light, #e2c97e);
+  font-style: normal;
+  font-weight: 600;
 }
 
 /* ─── Bouton action dans sheet ─────────────────────────────── */

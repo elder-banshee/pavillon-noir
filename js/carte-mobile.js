@@ -572,8 +572,7 @@ function injecterStructureMobile() {
       <span class="mob-btn-flottant-label">Calques</span>
     </button>
     <button class="mob-btn-flottant" id="mob-btn-annee" aria-label="Année">
-      <span class="mob-btn-flottant-icone">📅</span>
-      <span class="mob-btn-flottant-label" id="mob-btn-annee-label">1716</span>
+      <span class="mob-btn-annee-annee" id="mob-btn-annee-label">1716</span>
     </button>`;
   document.querySelector('.carte-plus')?.appendChild(boutonsFlottants);
 
@@ -777,13 +776,30 @@ function initCarte() {
   renderVilles();
 
   carte.on('click', (e) => {
-    fermerPopup();
-    fermerIsolation();
-    fermerZoomVille();
+    // Tap sur la carte quand un mode isolation est actif → quitter l'isolation
+    if (overlayMode === 'isolation') { fermerIsolation(); return; }
+    if (overlayMode === 'isolationVille') { fermerZoomVille(); return; }
+
     fermerLoupe();
     fermerToutesSheets();
-    fermerSheetVille();
-    pairesChevauchement.forEach(paire => rapprocherVille(paire.idA));
+
+    if (sheetVilleOuverte) {
+      // Premier tap : fermer le panneau, garder l'élément en surbrillance
+      fermerSheetVille();
+    } else {
+      // Second tap (panneau déjà fermé) : désactiver l'élément
+      if (villeActive) setIconeVilleActive(villeActive, false);
+      villeActive = null;
+      zoneActive = null;
+      pinActive = null;
+      pairesChevauchement.forEach(paire => rapprocherVille(paire.idA));
+      // Remettre le poids des zones au repos
+      Object.values(layersZones).forEach(groupe => {
+        groupe.eachLayer?.(poly => poly.setStyle({
+          weight: weightPourZoom(WEIGHTS.zone, carte.getZoom())
+        }));
+      });
+    }
   });
 
   carte.on('zoom', () => {
@@ -859,7 +875,7 @@ function initCarte() {
   // où le zoom calculé serait sous le minimum.
   if (carte.touchZoom && carte.touchZoom._onTouchMove) {
     const _onTouchMoveOrig = carte.touchZoom._onTouchMove.bind(carte.touchZoom);
-    carte.touchZoom._onTouchMove = function(e) {
+    carte.touchZoom._onTouchMove = function (e) {
       // Calculer le zoom que ce geste produirait, sans l'appliquer
       if (e.touches && e.touches.length === 2) {
         const p1 = carte.mouseEventToContainerPoint(e.touches[0]);
@@ -905,9 +921,14 @@ function ouvrirRechercheComplete() {
   sheet.innerHTML = `
     <div id="mob-recherche-header">
       <div id="mob-recherche-input-wrap">
-        <span>🔍</span>
-        <input type="text" id="mob-recherche-input" placeholder="Rechercher un lieu…"
-          autocomplete="off" spellcheck="false">
+        <span id="mob-recherche-loupe" style="cursor:pointer;">🔍</span>
+        <div id="mob-recherche-field-wrap">
+          <input type="text" id="mob-recherche-fantome" tabindex="-1" aria-hidden="true" readonly>
+          <div id="mob-recherche-input" contenteditable="plaintext-only"
+            role="searchbox" aria-label="Rechercher un lieu"
+            aria-autocomplete="list" spellcheck="false"
+            data-placeholder="Rechercher un lieu…"></div>
+        </div>
         <button id="mob-recherche-cancel">✕</button>
       </div>
     </div>
@@ -917,44 +938,105 @@ function ouvrirRechercheComplete() {
   document.body.appendChild(sheet);
 
   const input = document.getElementById('mob-recherche-input');
+  const fantome = document.getElementById('mob-recherche-fantome');
   const suggestionsEl = document.getElementById('mob-recherche-suggestions');
   const cancelBtn = document.getElementById('mob-recherche-cancel');
+  const loupeBtn = document.getElementById('mob-recherche-loupe');
 
   // Forcer le focus après insertion (décalé pour contourner iOS)
   setTimeout(() => input?.focus(), 100);
 
   cancelBtn?.addEventListener('click', () => fermerRechercheComplete());
 
+  // Tap sur la loupe : valide le premier résultat du volet
+  loupeBtn?.addEventListener('click', () => {
+    if (!(input?.textContent || '').trim()) return;
+    const premier = suggestionsEl?.querySelector('.mob-suggestion');
+    if (premier) {
+      const { id, type } = premier.dataset;
+      fermerRechercheComplete();
+      if (type === 'ville') zoomerVersVille(id);
+      else zoomerVersTerrritoire(id);
+    }
+  });
+
   // Branchement de la logique de suggestions (réutilise les données VILLES + JURIDICTIONS)
   input?.addEventListener('input', () => {
-    const val = input.value.trim();
+    const val = (input.textContent || '').trim();
+    if (fantome) fantome.value = '';
     if (!val) { suggestionsEl.innerHTML = ''; return; }
     const norm = normaliser(val);
 
     const resultats = [];
 
-    // Villes
+    // Juridictions — recherche sur tags
+    JURIDICTIONS.forEach(j => {
+      if (j.visible_mj && !modeMJ) return;
+      const tags = j.tags?.length ? j.tags : [j.label || j.nom].filter(Boolean);
+      let matchTag = null;
+      for (const tag of tags) {
+        if (normaliser(tag).includes(norm)) { matchTag = tag; break; }
+      }
+      if (matchTag) resultats.push({ type: 'territoire', id: j.id, nom: j.nom, matchTag });
+    });
+
+    // Villes — recherche sur tags, filtre rang 3 hors MJ
     VILLES.forEach(v => {
       if (!v.coords) return;
-      const noms = [v.nom, v.label].filter(Boolean);
-      if (noms.some(n => normaliser(n).includes(norm))) {
-        resultats.push({ type: 'ville', id: v.id, nom: v.label || v.nom });
+      if (v.visible_mj && !modeMJ) return;
+      if ((v.rang ?? '1') === '3' && !modeMJ) return;
+      const tags = v.tags?.length ? v.tags : [v.nom, v.label].filter(Boolean);
+      let matchTag = null;
+      for (const tag of tags) {
+        if (normaliser(tag).includes(norm)) { matchTag = tag; break; }
       }
+      if (matchTag) resultats.push({ type: 'ville', id: v.id, nom: v.label || v.nom, matchTag });
     });
 
-    // Juridictions / territoires
-    JURIDICTIONS.forEach(j => {
-      const label = j.label || j.nom;
-      if (normaliser(label).includes(norm)) {
-        resultats.push({ type: 'territoire', id: j.id, nom: label });
-      }
+    // Tri par pertinence — aligné sur carte.js
+    resultats.sort((a, b) => {
+      const rang = r => {
+        const nomLow = normaliser(r.nom);
+        const tagLow = normaliser(r.matchTag);
+        const estVille = r.type === 'ville';
+        if (nomLow.startsWith(norm)) return estVille ? 0 : 1;
+        if (nomLow.includes(norm)) return estVille ? 2 : 3;
+        if (tagLow.startsWith(norm)) return estVille ? 4 : 5;
+        return estVille ? 6 : 7;
+      };
+      const ra = rang(a), rb = rang(b);
+      if (ra !== rb) return ra - rb;
+      return normaliser(a.nom).localeCompare(normaliser(b.nom), 'fr');
     });
 
-    suggestionsEl.innerHTML = resultats.slice(0, 12).map(r => `
-      <li class="mob-suggestion" data-id="${r.id}" data-type="${r.type}" role="option">
-        <span class="mob-suggestion-icone">${r.type === 'ville' ? '⌂' : '◈'}</span>
-        <span class="mob-suggestion-nom">${r.nom}</span>
-      </li>`).join('');
+    const _esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const _surligner = (texte, q) => {
+      const idx = normaliser(texte).indexOf(q);
+      if (idx === -1) return _esc(texte);
+      return _esc(texte.slice(0, idx))
+        + `<mark class="mob-suggestion-highlight">${_esc(texte.slice(idx, idx + q.length))}</mark>`
+        + _esc(texte.slice(idx + q.length));
+    };
+
+    suggestionsEl.innerHTML = resultats.slice(0, 12).map(r => {
+      const nomMatch = r.matchTag === r.nom;
+      const matchHtml = nomMatch ? '' :
+        `<span class="mob-suggestion-match">${_surligner(r.matchTag, norm)}</span>`;
+      return `<li class="mob-suggestion" data-id="${r.id}" data-type="${r.type}" data-nom="${_esc(r.nom)}" role="option">
+        <span class="mob-suggestion-nom">${_surligner(r.nom, norm)}</span>
+        ${matchHtml}
+      </li>`;
+    }).join('');
+
+    // Fantôme : premier résultat dont le nom commence par la saisie (pas forcément le [0])
+    if (fantome) {
+      fantome.value = '';
+      const candidat = resultats.find(r => normaliser(r.nom).startsWith(norm));
+      if (candidat) {
+        const saisie = input.textContent || '';
+        fantome.value = saisie + candidat.nom.slice(saisie.length);
+      }
+    }
 
     suggestionsEl.querySelectorAll('.mob-suggestion').forEach(li => {
       li.addEventListener('click', () => {
@@ -1056,7 +1138,11 @@ function initSheetVille() {
 
   // Délégation — bouton ✕ injecté dynamiquement
   sheet.addEventListener('click', (e) => {
-    if (e.target.closest('.mob-panneau-close')) fermerSheetVille();
+    if (!e.target.closest('.mob-panneau-close')) return;
+    if (villeActive) { fermerPanneauVille(); return; }
+    if (zoneActive) { fermerPanneau(); return; }
+    if (pinActive) { fermerPopup(); return; }
+    fermerSheetVille();
   });
 
   // Poignée swipable
@@ -1107,14 +1193,13 @@ function ouvrirSheetVilleAvecContenu(contenuHtml, niveau = 'reduite') {
 function fermerSheetVille() {
   const sheet = document.getElementById('mob-sheet-ville');
   if (!sheet) return;
+  if (sheet.contains(document.activeElement)) document.activeElement.blur();
   sheetVilleOuverte = false;
   sheetHauteur = 'reduite';
   sheet.style.height = '0';
   sheet.classList.remove('mob-sheet-ville--ouverte');
   sheet.setAttribute('aria-hidden', 'true');
-  villeActive = null;
-  zoneActive = null;
-  pinActive = null;
+  // ← villeActive, zoneActive, pinActive : NE PAS toucher ici
 }
 window.fermerSheetVille = fermerSheetVille;
 
@@ -1211,6 +1296,7 @@ function ouvrirSheetCalques() {
 function fermerSheetCalques() {
   const sheet = document.getElementById('mob-sheet-calques');
   if (!sheet) return;
+  if (sheet.contains(document.activeElement)) document.activeElement.blur();
   sheetCalquesOuverte = false;
   sheet.classList.remove('mob-sheet-calques--ouverte');
   sheet.setAttribute('aria-hidden', 'true');
@@ -1280,6 +1366,7 @@ function ouvrirSheetAnnee() {
 function fermerSheetAnnee() {
   const sheet = document.getElementById('mob-sheet-annee');
   if (!sheet) return;
+  if (sheet.contains(document.activeElement)) document.activeElement.blur();
   sheetAnneeOuverte = false;
   sheet.classList.remove('mob-sheet-annee--ouverte');
   sheet.setAttribute('aria-hidden', 'true');
