@@ -441,13 +441,7 @@ body {
   display: block;
 }
 
-.mob-sheet-handle {
-  width: 36px;
-  height: 4px;
-  /*background: rgba(200,151,58,0.3);*/
-  border-radius: 2px;
-  margin: 10px auto 0;
-}
+/* .mob-sheet-handle supprimé — zone et trait gérés par #mob-calques-handle / #mob-annee-handle + ::after */
 
 /* En-têtes des sheets calques et année */
 .mob-sheet-bottom-header { /* alias de .mob-sheet-header pour les sheets génériques */
@@ -554,7 +548,11 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 5px;
+}
+
+.mob-legende-wrap--cliquable {
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mob-legende-item {
@@ -566,8 +564,52 @@ body {
   transition: opacity 0.2s;
 }
 
+/* Paire de demi-carrés (overlay esclavage : encomienda + traite) */
+.mob-legende-paire {
+  display: flex;
+  width: 100%;
+  max-width: 32px;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mob-legende-demi {
+  flex: 1;
+}
+
 .mob-legende-wrap--masquee {
   opacity: 0.35;
+}
+
+/* Sous-titre de légende — pleine largeur, au-dessus des items */
+.mob-legende-soustitre {
+  grid-column: 1 / -1;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.72rem;
+  color: var(--mist, #8b9fab);
+  line-height: 1.4;
+  margin: 0 0 4px;
+  text-align: center;
+}
+
+/* Petite puce carrée inline dans le sous-titre esclavage */
+.mob-legende-puce {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
+/* Carré vide = population absente ou éteinte (overlay autochtones) */
+.mob-legende-item--vide {
+  background: transparent;
+  border: 1.5px solid var(--gold, #c8973a);
+  opacity: 0.6;
 }
 
 .mob-legende-info {

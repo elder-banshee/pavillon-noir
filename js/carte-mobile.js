@@ -41,7 +41,7 @@ let sheetHauteur = 'reduite'; // 'peek' | 'reduite' | 'pleine'
 // ─── Constantes overlay ───────────────────────────────────────
 const OVERLAY_LABELS = {
   geo: 'Géopolitique',
-  densite: 'Densité de population',
+  densite: 'Densité Pop.',
   esclavage: 'Esclavage & Encomienda',
   autochtones: 'Foyers autochtones',
   masque: 'Carte Jaillot (1708)',
@@ -639,6 +639,10 @@ function initCarte() {
   });
 
   carte.on('moveend', () => {
+    console.log('[MOVEEND]', {
+      center: `${carte.getCenter().lat.toFixed(2)},${carte.getCenter().lng.toFixed(2)}`,
+      zoom: carte.getZoom().toFixed(4),
+    });
     majWeightsZones();
     if (isolationLayer) {
       isolationLayer.setStyle({ weight: weightPourZoom(WEIGHTS.isolation, carte.getZoom()) });
@@ -704,24 +708,52 @@ function initCarte() {
 
   // Leaflet 1.9 appelle _move({pinch:true}) directement depuis TouchZoom,
   // avec zoom et centre déjà couplés — on ne peut pas les dissocier.
-  // On patch le handler _onTouchMove de TouchZoom pour ignorer les frames
-  // où le zoom calculé serait sous le minimum.
+  // On patch _onTouchMove pour bloquer les frames sous le minZoom,
+  // avec resync complète de l'état interne pour éviter l'accumulation
+  // de décalage entre les frames bloquées et la réalité des doigts.
+  // Note : le patch _move({pinch}) pour bloquer le pan a été testé et
+  // abandonné — il empêche Leaflet de mettre à jour sa position interne,
+  // ce qui produit des sauts massifs à chaque touchend, y compris hors
+  // zone de blocage zoom.
   if (carte.touchZoom && carte.touchZoom._onTouchMove) {
     const _onTouchMoveOrig = carte.touchZoom._onTouchMove.bind(carte.touchZoom);
     carte.touchZoom._onTouchMove = function (e) {
-      // Calculer le zoom que ce geste produirait, sans l'appliquer
       if (e.touches && e.touches.length === 2) {
         const p1 = carte.mouseEventToContainerPoint(e.touches[0]);
         const p2 = carte.mouseEventToContainerPoint(e.touches[1]);
         const dist = p1.distanceTo(p2);
         if (this._startDist && dist < this._startDist) {
-          // pinch fermant — calculer le zoom résultant
           const scale = dist / this._startDist;
           const zoom = carte.getScaleZoom(scale, this._startZoom);
-          if (zoom < carte.getMinZoom()) return; // ignorer ce frame
+          if (zoom < carte.getMinZoom()) {
+            if (this._animRequest) {
+              L.Util.cancelAnimFrame(this._animRequest);
+              this._animRequest = null;
+            }
+            const midpoint = p1._add(p2)._divideBy(2);
+            this._startDist   = dist;
+            this._startZoom   = carte.getMinZoom();
+            this._centerPoint = midpoint;
+            // _pinchStartLatLng : ne pas modifier — casse le calcul spatial (testé)
+            return;
+          }
         }
       }
+      console.log('[MOVE]', { animRequest: this._animRequest });
       return _onTouchMoveOrig(e);
+    };
+
+    const _onTouchEndOrig = carte.touchZoom._onTouchEnd.bind(carte.touchZoom);
+    carte.touchZoom._onTouchEnd = function () {
+      console.log('[TOUCH END]', {
+        zoom: this._zoom?.toFixed(4),
+        minZoom: carte.getMinZoom().toFixed(4),
+        center: this._center ? `${this._center.lat.toFixed(2)},${this._center.lng.toFixed(2)}` : 'none',
+        currentCenter: `${carte.getCenter().lat.toFixed(2)},${carte.getCenter().lng.toFixed(2)}`,
+        animRequest: this._animRequest,
+        moved: this._moved,
+      });
+      return _onTouchEndOrig();
     };
   }
 
@@ -1662,12 +1694,10 @@ function _bindPoigneeSwipe(poigneeId, sheetId, fermerFn) {
     const dy = Math.max(0, e.clientY - startY);
     inner.style.transition = '';
     if (dy > SEUIL) {
-      // Animer la fermeture depuis la position actuelle
-      inner.style.transform = `translateY(100%)`;
-      setTimeout(() => {
-        inner.style.transform = '';
-        fermerFn();
-      }, 250);
+      // Fermer d'abord (retire --ouverte), puis réinitialiser le transform
+      // sans délai pour éviter le flash de retour avant masquage.
+      fermerFn();
+      inner.style.transform = '';
     } else {
       // Revenir en position
       inner.style.transform = '';
@@ -1967,7 +1997,15 @@ function ouvrirRechercheComplete() {
 }
 
 function fermerRechercheComplete() {
-  document.getElementById('mob-sheet-recherche')?.remove();
+  // Blur explicite + délai fixe : laisse le clavier Android amorcer
+  // sa fermeture pendant que la sheet est encore visible, de sorte que
+  // le redimensionnement du viewport se produise derrière la sheet
+  // et non sur la carte.
+  const input = document.getElementById('mob-recherche-input');
+  input?.blur();
+  setTimeout(() => {
+    document.getElementById('mob-sheet-recherche')?.remove();
+  }, 300);
 }
 
 function _assurerFiltreActif(villeId, villeObj) {
@@ -2282,7 +2320,9 @@ function majLegende() {
   // Helper : crée un wrap légende (carré couleur + nom dessous)
   function _legendeItem(couleur, nom, masquee, onClick) {
     const wrap = document.createElement('div');
-    wrap.className = 'mob-legende-wrap' + (masquee ? ' mob-legende-wrap--masquee' : '');
+    wrap.className = 'mob-legende-wrap'
+      + (masquee ? ' mob-legende-wrap--masquee' : '')
+      + (onClick  ? ' mob-legende-wrap--cliquable' : '');
     const carre = document.createElement('div');
     carre.className = 'mob-legende-item';
     carre.style.background = couleur;
@@ -2302,20 +2342,26 @@ function majLegende() {
       const p = resoudre(j.puissance, anneeActive);
       if (p) puissancesVisibles.add(p);
     });
-    [...puissancesVisibles].forEach(p => {
-      const puissance = PUISSANCES[p];
-      if (!puissance) return;
-      const masquee = puissancesMasquees.has(p);
-      legende.appendChild(_legendeItem(puissance.couleur, puissance.nom || p, masquee, () => {
-        if (masquee) puissancesMasquees.delete(p); else puissancesMasquees.add(p);
-        majLegende(); renderZones();
-      }));
-    });
+    [...puissancesVisibles]
+      .sort((a, b) => (PUISSANCES[a]?.ordre ?? 99) - (PUISSANCES[b]?.ordre ?? 99))
+      .forEach(p => {
+        const puissance = PUISSANCES[p];
+        if (!puissance) return;
+        const masquee = puissancesMasquees.has(p);
+        legende.appendChild(_legendeItem(puissance.couleur, puissance.labelCourt || puissance.label || p, masquee, () => {
+          if (masquee) puissancesMasquees.delete(p); else puissancesMasquees.add(p);
+          majLegende(); renderZones();
+        }));
+      });
     return;
   }
 
   if (overlayMode === 'densite') {
-    const labels = ['< 0,05 hab/km²', '0,05–0,15', '0,15–0,5', '0,5–2', '2–8', '> 8'];
+    const sousTitre = document.createElement('p');
+    sousTitre.className = 'mob-legende-soustitre';
+    sousTitre.textContent = 'Habitants par km²';
+    legende.appendChild(sousTitre);
+    const labels = ['< 0,05', '0,05–0,15', '0,15–0,5', '0,5–2', '2–8', '> 8'];
     DENSITE_PALIERS.forEach((palier, i) => {
       const masque = paliersMasquesDensite.has(i);
       legende.appendChild(_legendeItem(palier.couleur, labels[i] || '', masque, () => {
@@ -2327,13 +2373,38 @@ function majLegende() {
   }
 
   if (overlayMode === 'esclavage') {
+    // Sous-titre : deux demi-carrés inline + libellés + unité
+    const sousTitre = document.createElement('p');
+    sousTitre.className = 'mob-legende-soustitre';
+    sousTitre.innerHTML =
+      `<span class="mob-legende-puce" style="background:${ESCLAVAGE_PALIERS[3].fm}"></span>Encomienda`
+      + `&ensp;<span class="mob-legende-puce" style="background:${ESCLAVAGE_PALIERS[3].ra}"></span>Traite négrière`
+      + `<br>En % de la population`;
+    legende.appendChild(sousTitre);
     const labels = ['< 10%', '10–25%', '25–40%', '40–60%', '60–80%', '> 80%'];
     ESCLAVAGE_PALIERS.forEach((palier, i) => {
       const masque = paliersMasquesEsclavage.has(i);
-      legende.appendChild(_legendeItem(palier.ra, labels[i] + ' esclaves', masque, () => {
+      // Deux demi-carrés : encomienda (fm) + traite négrière (ra)
+      const wrap = document.createElement('div');
+      wrap.className = 'mob-legende-wrap' + (masque ? ' mob-legende-wrap--masquee' : '');
+      const paire = document.createElement('div');
+      paire.className = 'mob-legende-paire';
+      [palier.fm, palier.ra].forEach(couleur => {
+        const demi = document.createElement('div');
+        demi.className = 'mob-legende-demi';
+        demi.style.background = couleur;
+        paire.appendChild(demi);
+      });
+      const label = document.createElement('span');
+      label.className = 'mob-legende-nom';
+      label.textContent = labels[i];
+      wrap.appendChild(paire);
+      wrap.appendChild(label);
+      wrap.addEventListener('click', () => {
         if (masque) paliersMasquesEsclavage.delete(i); else paliersMasquesEsclavage.add(i);
         majLegende(); renderZones();
-      }));
+      });
+      legende.appendChild(wrap);
     });
     return;
   }
@@ -2347,6 +2418,17 @@ function majLegende() {
     items.forEach(({ statut, label }) => {
       legende.appendChild(_legendeItem(AUTOCHTONES_COULEURS[statut], label, false, null));
     });
+    // Carré vide = population absente ou éteinte
+    const wrapVide = document.createElement('div');
+    wrapVide.className = 'mob-legende-wrap';
+    const carreVide = document.createElement('div');
+    carreVide.className = 'mob-legende-item mob-legende-item--vide';
+    const labelVide = document.createElement('span');
+    labelVide.className = 'mob-legende-nom';
+    labelVide.textContent = 'Pop. éteinte';
+    wrapVide.appendChild(carreVide);
+    wrapVide.appendChild(labelVide);
+    legende.appendChild(wrapVide);
     return;
   }
 }
