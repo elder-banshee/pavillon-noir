@@ -112,11 +112,6 @@ body {
   color: rgba(220,140,100,0.9);
 }
 
-.carte-isolation--disabled {
-  opacity: 0.35 !important;
-  pointer-events: none !important;
-}
-
 /* ─── Boutons flottants droits ─────────────────────────────── */
 #mob-boutons-flottants {
   position: absolute;
@@ -126,7 +121,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transition: bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+  transition: bottom 0.3s ease-out,
               opacity 0.2s ease;
 }
 
@@ -331,7 +326,9 @@ body {
 }
 
 /* ─── En-tête commun de sheet (calques, année, filtres) ────── */
-.mob-sheet-header {
+.mob-sheet-header,
+.mob-sheet-bottom-header,
+#mob-sheet-filtres-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -439,22 +436,6 @@ body {
   background: rgba(200,151,58,0.3);
   border-radius: 2px;
   display: block;
-}
-
-/* .mob-sheet-handle supprimé — zone et trait gérés par #mob-calques-handle / #mob-annee-handle + ::after */
-
-/* En-têtes des sheets calques et année */
-.mob-sheet-bottom-header { /* alias de .mob-sheet-header pour les sheets génériques */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--border, rgba(200,151,58,0.15));
-  font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--parchment, #f2e8d5);
 }
 
 .mob-sheet-bottom-section {

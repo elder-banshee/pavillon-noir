@@ -14,10 +14,6 @@ let modeSombre = false;
 let villeActive = null;
 let markersVilles = {};
 let overlayMode = 'geo';
-let overlayModeAvantIsolation = 'geo';
-let isolationJuridictionId = null;
-let isolationLayer = null;
-let isolationVilleId = null;
 let recalibrerVue = () => {}; // initialisée dans initCarte
 
 // ─── Mode MJ ─────────────────────────────────────────────────
@@ -72,7 +68,7 @@ const AUTOCHTONES_COULEURS = {
   domination: 'hsl(39, 61%, 55%)',
 };
 
-const WEIGHTS = { zone: 0.5, zoneActive: 2, isolation: 2 };
+const WEIGHTS = { zone: 0.5, zoneActive: 2 };
 const ZOOM_FACTEUR = 1.5;
 
 // ═══════════════════════════════════════════════════════════
@@ -428,10 +424,10 @@ function injecterStructureMobile() {
   sheetCalques.setAttribute('aria-hidden', 'true');
   sheetCalques.innerHTML = `
     <div class="mob-sheet-bottom">
-      <div class="mob-sheet-handle" id="mob-calques-handle"></div>
+      <div id="mob-calques-handle"></div>
       <div class="mob-sheet-bottom-header">
         <span>Type de carte</span>
-        <button class="mob-sheet-close-btn mob-close-btn" id="mob-calques-close">✕</button>
+        <button class="mob-close-btn" id="mob-calques-close">✕</button>
       </div>
       <div class="mob-sheet-bottom-section">
         <div class="mob-sheet-section-titre">Overlay</div>
@@ -471,10 +467,10 @@ function injecterStructureMobile() {
   sheetAnnee.setAttribute('aria-hidden', 'true');
   sheetAnnee.innerHTML = `
     <div class="mob-sheet-bottom">
-      <div class="mob-sheet-handle" id="mob-annee-handle"></div>
+      <div id="mob-annee-handle"></div>
       <div class="mob-sheet-bottom-header">
         <span>Année</span>
-        <button class="mob-sheet-close-btn mob-close-btn" id="mob-annee-close">✕</button>
+        <button class="mob-close-btn" id="mob-annee-close">✕</button>
       </div>
       <div class="mob-sheet-bottom-section">
         <div id="mob-annee-affichage">1716</div>
@@ -600,9 +596,6 @@ function initCarte() {
   carteOverlayPrincipale = L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
   const el = carteOverlayPrincipale.getElement();
   if (el) el.style.transition = 'opacity 0.9s ease';
-  carte.createPane('isolationContour');
-  carte.getPane('isolationContour').style.zIndex = 420;
-  carte.getPane('isolationContour').style.pointerEvents = 'none';
   carte.createPane('contourGlobal');
   carte.getPane('contourGlobal').style.zIndex = 410;
   carte.getPane('contourGlobal').style.pointerEvents = 'none';
@@ -611,10 +604,6 @@ function initCarte() {
   renderVilles();
 
   carte.on('click', (e) => {
-    // Tap sur la carte quand un mode isolation est actif → quitter l'isolation
-    if (overlayMode === 'isolation') { fermerIsolation(); return; }
-    if (overlayMode === 'isolationVille') { fermerZoomVille(); return; }
-
     fermerToutesSheets();
 
     if (sheetVilleOuverte && sheetHauteur !== 'peek') {
@@ -635,16 +624,8 @@ function initCarte() {
     }
   });
 
-  carte.on('zoomstart', () => {
-    if (isolationLayer) isolationLayer.setStyle({ opacity: 0 });
-  });
-
   carte.on('moveend', () => {
     majWeightsZones();
-    if (isolationLayer) {
-      isolationLayer.setStyle({ weight: weightPourZoom(WEIGHTS.isolation, carte.getZoom()) });
-      setTimeout(() => { if (isolationLayer) isolationLayer.setStyle({ opacity: 1 }); }, 60);
-    }
     majTailleIconesVilles();
   });
 
@@ -859,20 +840,10 @@ function renderZones() {
     const puissanceId = resoudre(j.puissance, anneeActive);
     const puissance = PUISSANCES[puissanceId] || PUISSANCES.conteste;
     const isActive = zoneActive === j.id;
-    const isIsolee = overlayMode === 'isolation' && isolationJuridictionId === j.id;
-    const isEffacee = (overlayMode === 'isolation' && !isIsolee) || overlayMode === 'isolationVille';
 
     let couleur, fillOpacity, strokeColor, strokeWeight, strokeOpacity;
 
-    if (isEffacee) {
-      // Toutes les autres zones sont invisibles en mode isolation
-      couleur = 'transparent';
-      fillOpacity = 0;
-      strokeColor = 'transparent';
-      strokeWeight = 0;
-      strokeOpacity = 0;
-
-    } else if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
+    if (overlayMode === 'densite' || overlayMode === 'esclavage' || overlayMode === 'autochtones') {
       const fnCouleur = overlayMode === 'densite' ? couleurDensite
         : overlayMode === 'esclavage' ? couleurEsclavage
           : id => couleurAutochtone(id, anneeActive);
@@ -886,14 +857,14 @@ function renderZones() {
       }
 
     } else {
-      // Mode géopolitique (y compris zone isolée en mode isolation)
+      // Mode géopolitique
       const masquee = overlayMode === 'geo' && puissancesMasquees.has(puissanceId);
       const estEspagne = puissanceId === 'espagnole';
       couleur = masquee ? 'rgba(107,124,138,0.6)' : puissance.couleur;
-      fillOpacity = isActive ? 0.45 : (masquee ? 0.08 : (isIsolee ? 0 : 0.23));
-      strokeColor = isIsolee ? '#c8973a' : (estEspagne ? '#c84a1c' : couleur);
-      strokeWeight = isIsolee ? weightPourZoom(WEIGHTS.zone, carte.getZoom()) : (isActive ? 2 : 0.5);
-      strokeOpacity = isIsolee ? 1 : (masquee ? 0.4 : (estEspagne ? 1 : 0.8));
+      fillOpacity = isActive ? 0.45 : (masquee ? 0.08 : 0.23);
+      strokeColor = estEspagne ? '#c84a1c' : couleur;
+      strokeWeight = isActive ? 2 : 0.5;
+      strokeOpacity = masquee ? 0.4 : (estEspagne ? 1 : 0.8);
     }
 
     const style = {
@@ -916,16 +887,6 @@ function renderZones() {
     polygones.forEach(poly => {
       poly.on('click', (e) => {
         L.DomEvent.stopPropagation(e);
-        if (overlayMode === 'isolationVille') {
-          fermerZoomVille();
-          ouvrirPanneau(j.id);
-          return;
-        }
-        if (overlayMode === 'isolation') {
-          fermerIsolation();
-          ouvrirPanneau(j.id);
-          return;
-        }
         const intercepte = enregistrerClicSequence(j.id);
         if (intercepte) return;
         if (zoneActive === j.id) {
@@ -937,32 +898,22 @@ function renderZones() {
 
       poly.on('mouseover', () => {
         fermerTooltipsOrphelins();
-        // Remettre en repos toutes les icônes villes hors ville active et isolation
+        // Remettre en repos toutes les icônes villes hors ville active.
         Object.keys(markersVilles).forEach(id => {
-          if (id !== villeActive && id !== isolationVilleId) setIconeVilleActive(id, false);
+          if (id !== villeActive) setIconeVilleActive(id, false);
         });
-        if (overlayMode === 'isolation') {
-          if (isIsolee) poly.setStyle({ fillColor: '#c8973a', fillOpacity: 0.25 });
-          return;
-        }
         if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zoneActive, carte.getZoom()) });
       });
       poly.on('mouseout', () => {
-        if (overlayMode === 'isolation') {
-          if (isIsolee) poly.setStyle({ fillColor: 'transparent', fillOpacity: 0 });
-          return;
-        }
         if (zoneActive !== j.id) poly.setStyle({ weight: weightPourZoom(WEIGHTS.zone, carte.getZoom()) });
       });
 
-      if (overlayMode !== 'isolation') {
-        poly.bindTooltip(j.label || j.nom, {
-          permanent: false,
-          direction: 'top',
-          className: 'carte-tooltip',
-          opacity: 1,
-        });
-      }
+      poly.bindTooltip(j.label || j.nom, {
+        permanent: false,
+        direction: 'top',
+        className: 'carte-tooltip',
+        opacity: 1,
+      });
     });
 
     groupe.addTo(carte);
@@ -1164,11 +1115,6 @@ function renderVilles() {
 
     marker.on('click', (e) => {
       L.DomEvent.stopPropagation(e);
-      if (overlayMode === 'isolationVille') {
-        fermerZoomVille({ ouvrirVille: true });
-        return;
-      }
-      if (overlayMode === 'isolation') return;
       fermerToutesSheets();
       if (villeActive === ville.id) {
         fermerPanneauVille();
@@ -1208,7 +1154,6 @@ function renderVilles() {
 
       marker.on('click', (e) => {
         L.DomEvent.stopPropagation(e);
-        if (overlayMode === 'isolation') return;
         fermerToutesSheets();
         if (pinActive === pin.id) {
           fermerPopup();
@@ -1232,167 +1177,15 @@ function majTailleIconesVilles() {
       ? rendreChamp(ville.capitale, anneeActive)
       : ville.capitale;
     const estPirate = statutCapitale === 'pirate';
-    const estIsole = overlayMode === 'isolationVille' && id === isolationVilleId;
-    const estActive = !estIsole && villeActive === id;
+    const estActive = villeActive === id;
     const estRang3 = (ville.rang ?? '1') === '3';
     marker.setIcon(L.divIcon({
-      html: villeSVG(ville.type || 'ville', taille, estPirate, estIsole, estActive, estRang3),
+      html: villeSVG(ville.type || 'ville', taille, estPirate, false, estActive, estRang3),
       className: 'carte-ville',
       iconSize: [taille, taille],
       iconAnchor: [taille / 2, taille / 2],
     }));
   });
-}
-
-/* ═══════════════════════════════════════════════════════════
-   ISOLATION TERRITOIRE & VILLE — EN ATTENTE D'ARBITRAGE MOBILE
-   Ces fonctions sont commentées le temps de décider si les modes
-   isolation/zoom ont leur place sur mobile. Les références dans
-   renderZones, renderVilles et initCarte (fermerIsolation,
-   fermerZoomVille, overlayMode === 'isolation'…) restent actives
-   pour éviter des erreurs JS, mais les points d'entrée
-   (isolerTerritoire, zoomerVille) ne sont plus appelés nulle part.
-   ═══════════════════════════════════════════════════════════
-
-function _restaurerModeNormal() {
-  carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
-  document.querySelectorAll('.mob-overlay-item').forEach(btn => {
-    btn.disabled = false;
-    btn.classList.remove('carte-isolation--disabled');
-  });
-  document.querySelectorAll('.mob-filtre-chip').forEach(c => c.classList.remove('carte-isolation--disabled'));
-  majLegende();
-  renderZones();
-  renderVilles();
-}
-
-function fermerIsolation() {
-  if (overlayMode !== 'isolation') return;
-  overlayMode = overlayModeAvantIsolation;
-  isolationJuridictionId = null;
-  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
-  _restaurerModeNormal();
-}
-
-function isolerTerritoire(juridictionId) {
-  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
-
-  const j = JURIDICTIONS.find(j => j.id === juridictionId);
-  const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[juridictionId])
-    ? ZONES_DATA[juridictionId]
-    : (j?.zone?.length >= 3 ? [j.zone] : null);
-  if (!contours) return;
-
-  if (overlayMode !== 'isolation') overlayModeAvantIsolation = overlayMode;
-  isolationJuridictionId = juridictionId;
-  overlayMode = 'isolation';
-
-  fermerPanneau();
-  carteOverlayPrincipale.setOpacity(0.05);
-
-  document.querySelectorAll('.mob-filtre-chip, .mob-overlay-item').forEach(el => {
-    el.disabled = true;
-    el.classList.add('carte-isolation--disabled');
-  });
-
-  majLegende();
-  renderZones();
-  Object.values(markersMap).forEach(m => m.setOpacity(0));
-  Object.values(markersVilles).forEach(m => m.setOpacity(0));
-
-  const latlngs = contours.map(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
-  isolationLayer = L.polygon(latlngs, {
-    color: '#ffffff', weight: 3, opacity: 0, fillOpacity: 0,
-    interactive: false, pane: 'isolationContour',
-  });
-  isolationLayer.addTo(carte);
-
-  setTimeout(() => {
-    if (isolationLayer) isolationLayer.setStyle({ color: '#ffffff', weight: 3, opacity: 1 });
-  }, 50);
-  setTimeout(() => {
-    if (isolationLayer) isolationLayer.setStyle({ color: '#e2c97e', weight: 4, opacity: 1 });
-  }, 450);
-  setTimeout(() => {
-    if (isolationLayer) isolationLayer.setStyle({ opacity: 0 });
-  }, 850);
-  setTimeout(() => {
-    if (!isolationLayer) return;
-    carte.flyToBounds(isolationLayer.getBounds(), {
-      padding: [40, 40], maxZoom: carte.getMinZoom() + 2, duration: 1.2,
-    });
-  }, 900);
-}
-
-function zoomerVille(villeId) {
-  const ville = VILLES.find(v => v.id === villeId);
-  if (!ville || !ville.coords) return;
-
-  overlayModeAvantIsolation = overlayMode;
-  fermerPanneau();
-  overlayMode = 'isolationVille';
-  isolationVilleId = villeId;
-
-  carteOverlayPrincipale.setOpacity(0.05);
-
-  document.querySelectorAll('.mob-filtre-chip, .mob-overlay-item, .mob-btn-flottant').forEach(el => {
-    el.disabled = true;
-    el.classList.add('carte-isolation--disabled');
-  });
-
-  majLegende();
-  renderZones();
-  Object.entries(markersMap).forEach(([, m]) => m.setOpacity(0));
-  Object.entries(markersVilles).forEach(([id, m]) => {
-    m.setOpacity(id === villeId ? 1 : 0);
-  });
-
-  const latlng = pixelToLatLng(ville.coords[0], ville.coords[1]);
-  setTimeout(() => {
-    carte.flyTo(latlng, Math.min(carte.getMaxZoom(), carte.getZoom() + 2), { duration: 1.0 });
-  }, 100);
-
-  setTimeout(() => ouvrirPanneauVille(villeId), 1200);
-}
-
-   ═══════════════════════════════════════════════════════════ */
-
-// Les deux fonctions fermer* restent actives car appelées en défensif
-// depuis renderZones, renderVilles et le handler click carte.
-
-function _restaurerModeNormal() {
-  carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
-  document.querySelectorAll('.mob-overlay-item').forEach(btn => {
-    btn.disabled = false;
-    btn.classList.remove('carte-isolation--disabled');
-  });
-  document.querySelectorAll('.mob-filtre-chip').forEach(c => c.classList.remove('carte-isolation--disabled'));
-  majLegende();
-  renderZones();
-  renderVilles();
-}
-
-function fermerIsolation() {
-  if (overlayMode !== 'isolation') return;
-  overlayMode = overlayModeAvantIsolation;
-  isolationJuridictionId = null;
-  if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
-  _restaurerModeNormal();
-}
-
-function fermerZoomVille(options = {}) {
-  if (overlayMode !== 'isolationVille') return;
-  overlayMode = overlayModeAvantIsolation;
-  isolationVilleId = null;
-  carteOverlayPrincipale.setOpacity(modeSombre ? 0.08 : 1);
-  document.querySelectorAll('.mob-filtre-chip, .mob-overlay-item, .mob-btn-flottant').forEach(el => {
-    el.disabled = false;
-    el.classList.remove('carte-isolation--disabled');
-  });
-  majLegende();
-  renderZones();
-  renderVilles();
-  if (options.ouvrirVille && villeActive) ouvrirPanneauVille(villeActive);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1658,9 +1451,7 @@ function toggleModeSombre() {
   modeSombre = !modeSombre;
   document.getElementById('mob-btn-sombre')?.classList.toggle('mob-barre-basse-btn--actif', modeSombre);
   document.getElementById('mob-mode-sombre')?.classList.toggle('mob-filtre-chip--actif', modeSombre);
-  if (overlayMode !== 'isolation' && overlayMode !== 'isolationVille') {
-    carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
-  }
+  carteOverlayPrincipale?.setOpacity(modeSombre ? 0.08 : 1);
 }
 
 function ouvrirSheetFiltres() {
@@ -1742,7 +1533,6 @@ function initSheetCalques() {
     btn.addEventListener('click', () => {
       const mode = btn.dataset.mode;
       if (mode === overlayMode) return;
-      if (overlayMode === 'isolation') fermerIsolation();
       overlayMode = mode;
       puissancesMasquees.clear();
       paliersMasquesDensite.clear();
@@ -2329,11 +2119,6 @@ function majLegende() {
   if (!legende) return;
   legende.innerHTML = '';
 
-  if (overlayMode === 'isolation' || overlayMode === 'isolationVille') {
-    legende.innerHTML = `<p class="mob-legende-info">Tap sur la carte pour quitter l'isolation.</p>`;
-    return;
-  }
-
   if (overlayMode === 'masque') {
     legende.innerHTML = `<p class="mob-legende-info">Teatre de la Guerre en Amerique — Jaillot, Mortier & Sanson, 1708. <a href="https://www.davidrumsey.com" target="_blank" rel="noopener">David Rumsey Map Collection</a></p>`;
     return;
@@ -2460,4 +2245,3 @@ function majLegende() {
 function fermerTooltipsOrphelins() {
   carte?.eachLayer(l => { if (l.getTooltip?.() && l.isTooltipOpen?.()) l.closeTooltip(); });
 }
-
