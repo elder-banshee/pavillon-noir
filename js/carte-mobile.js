@@ -428,7 +428,7 @@ function injecterStructureMobile() {
   sheetCalques.setAttribute('aria-hidden', 'true');
   sheetCalques.innerHTML = `
     <div class="mob-sheet-bottom">
-      <div class="mob-sheet-handle"></div>
+      <div class="mob-sheet-handle" id="mob-calques-handle"></div>
       <div class="mob-sheet-bottom-header">
         <span>Type de carte</span>
         <button class="mob-sheet-close-btn mob-close-btn" id="mob-calques-close">✕</button>
@@ -471,7 +471,7 @@ function injecterStructureMobile() {
   sheetAnnee.setAttribute('aria-hidden', 'true');
   sheetAnnee.innerHTML = `
     <div class="mob-sheet-bottom">
-      <div class="mob-sheet-handle"></div>
+      <div class="mob-sheet-handle" id="mob-annee-handle"></div>
       <div class="mob-sheet-bottom-header">
         <span>Année</span>
         <button class="mob-sheet-close-btn mob-close-btn" id="mob-annee-close">✕</button>
@@ -651,21 +651,22 @@ function initCarte() {
   function _caliberZoomMin() {
     // Zoom exact pour que la hauteur image == hauteur conteneur Leaflet.
     // zoomSnap:0 permet une valeur flottante précise — pas d'arrondi.
-    // On soustrait 0.001 pour laisser une infime marge : évite que
-    // Leaflet considère la vue comme "déjà au bord" et refuse le pan
-    // latéral sur les petites cartes.
-    return Math.log2(carte.getSize().y / CARTE_IMAGE.height) - 0.001;
+    // On soustrait 0.0001 pour laisser une marge infime : évite que
+    // Leaflet considère la vue comme "déjà au bord" et refuse le pan latéral.
+    return Math.log2(carte.getSize().y / CARTE_IMAGE.height) - 0.0001;
   }
 
   function _recalibrerVue() {
     carte.invalidateSize();
     const zMin = _caliberZoomMin();
     carte.setMinZoom(zMin);
-    const nassau = pixelToLatLng(4542, 1739);
-    if (carte.getZoom() < zMin) {
-      carte.setView(nassau, zMin, { animate: false });
-    }
     carte.setMaxBounds([[0, 0], [CARTE_IMAGE.height, CARTE_IMAGE.width]]);
+    // Laisser invalidateSize propager avant de lire getZoom()
+    requestAnimationFrame(() => {
+      if (carte.getZoom() < zMin) {
+        carte.setView(carte.getCenter(), zMin, { animate: false });
+      }
+    });
   }
 
   setTimeout(() => {
@@ -724,10 +725,35 @@ function initCarte() {
     };
   }
 
-  window.addEventListener('resize', _recalibrerVue);
+  let _fullscreenTransition = false;
+  window.addEventListener('resize', () => {
+    _hauteurPleinePx = null; // invalider le cache
+    if (_fullscreenTransition) return;
+    _recalibrerVue();
+  });
 
   document.addEventListener('fullscreenchange', () => {
-    setTimeout(_recalibrerVue, 150);
+    _fullscreenTransition = true;
+    // Capturer le ratio de zoom avant le changement de viewport
+    const zMinAvant  = carte.getMinZoom();
+    const zMax       = carte.getMaxZoom();
+    const zActuel    = carte.getZoom();
+    const ratioAvant = zMax > zMinAvant
+      ? (zActuel - zMinAvant) / (zMax - zMinAvant)
+      : 0;
+
+    setTimeout(() => {
+      _fullscreenTransition = false;
+      _hauteurPleinePx = null; // invalider le cache — viewport a changé
+      carte.invalidateSize();
+      // Laisser invalidateSize propager avant de recalibrer
+      requestAnimationFrame(() => {
+        _recalibrerVue();
+        const zMinApres = carte.getMinZoom();
+        const zCible    = zMinApres + ratioAvant * (zMax - zMinApres);
+        carte.setView(carte.getCenter(), zCible, { animate: false });
+      });
+    }, 250);
   });
 
   // Exposer _recalibrerVue pour les fonctions qui doivent forcer
@@ -1374,24 +1400,30 @@ function fermerToutesSheets() {
 
 const NIVEAUX_SHEET = ['fermee', 'peek', 'reduite', 'pleine'];
 
+let _hauteurPleinePx = null; // cache — recalculé au resize/fullscreenchange
+
+function _recalculerHauteurPleine() {
+  const vh = window.innerHeight;
+  const barreBottom = 52;
+  const cibleId = document.fullscreenElement ? 'mob-filtres-chips' : 'mob-recherche-field';
+  const cible = document.getElementById(cibleId)
+             ?? document.getElementById('mob-barre-recherche');
+  if (cible) {
+    const top = cible.getBoundingClientRect().top;
+    _hauteurPleinePx = Math.round(vh - barreBottom - top);
+  } else {
+    _hauteurPleinePx = Math.round(vh * 0.88);
+  }
+}
+
 function _hauteurPx(niveau) {
   if (niveau === 'fermee') return 0;
-  if (niveau === 'peek')   return 40; // poignée seule, sans contenu visible
+  if (niveau === 'peek')   return 40;
   const vh = window.innerHeight;
   if (niveau === 'reduite') return Math.round(vh * 0.32);
   if (niveau === 'pleine') {
-    const barreBottom = 52;
-    // Cible dynamique selon le mode :
-    // - normal     → bord supérieur du champ recherche (couvre les chips, pas le field)
-    // - plein écran → bord supérieur des chips (profite de l'espace supplémentaire)
-    const cibleId = document.fullscreenElement ? 'mob-filtres-chips' : 'mob-recherche-field';
-    const cible = document.getElementById(cibleId)
-               ?? document.getElementById('mob-barre-recherche'); // fallback
-    if (cible) {
-      const top = cible.getBoundingClientRect().top;
-      return Math.round(vh - barreBottom - top);
-    }
-    return Math.round(vh * 0.88);
+    if (_hauteurPleinePx === null) _recalculerHauteurPleine();
+    return _hauteurPleinePx;
   }
   return 0;
 }
@@ -1401,8 +1433,13 @@ function setSheetHauteur(niveau) {
   const sheet = document.getElementById('mob-sheet-ville');
   if (!sheet) return;
   const px = _hauteurPx(niveau);
+  // Couper la transition, forcer reflow, poser la nouvelle hauteur,
+  // puis réactiver — évite le saut si une animation était en cours.
+  sheet.style.transition = 'none';
+  void sheet.offsetHeight; // reflow synchrone
   sheet.style.height = px + 'px';
   sheet.dataset.hauteur = niveau;
+  requestAnimationFrame(() => { sheet.style.transition = ''; });
   _majPositionBoutonsFlottants(px, niveau);
 }
 
@@ -1425,6 +1462,10 @@ function _majPositionBoutonsFlottants(sheetPx, niveau) {
 function initSheetVille() {
   const sheet = document.getElementById('mob-sheet-ville');
   if (!sheet) return;
+
+  // Précalculer la hauteur pleine dès l'init pour éviter le clignotement
+  // à la première ouverture (getBoundingClientRect coûteux au premier appel)
+  requestAnimationFrame(() => _recalculerHauteurPleine());
 
   // Délégation — bouton ✕ injecté dynamiquement
   sheet.addEventListener('click', (e) => {
@@ -1473,7 +1514,7 @@ function initSheetVille() {
   handle.addEventListener('pointerup', () => {
     if (!dragging) return;
     dragging = false;
-    sheet.style.transition = 'height 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+    sheet.style.transition = 'height 0.3s ease-out';
 
     const VY_HAUT = 0.35;   // px/ms — swipe rapide vers le haut
     const VY_BAS  = 0.5;  // px/ms — swipe rapide vers le bas
@@ -1497,7 +1538,7 @@ function initSheetVille() {
   handle.addEventListener('pointercancel', () => {
     if (!dragging) return;
     dragging = false;
-    sheet.style.transition = 'height 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+    sheet.style.transition = 'height 0.3s ease-out';
     setSheetHauteur(sheetHauteur);  // revenir à la position avant drag
   });
 }
@@ -1507,6 +1548,7 @@ function mobOuvrirSheet(contenuHtml, niveau = 'reduite') {
   const contenu = document.getElementById('mob-sheet-ville-contenu');
   if (!sheet || !contenu) return;
   contenu.innerHTML = contenuHtml;
+  contenu.scrollTop = 0; // toujours revenir au début à chaque nouvelle ouverture
   sheetVilleOuverte = true;
   setSheetHauteur(niveau);
   sheet.classList.add('mob-sheet-ville--ouverte');
@@ -1587,9 +1629,62 @@ function fermerSheetFiltres() {
   cacherFondOverlay();
 }
 
+// Branche un drag live sur la poignée d'une sheet fixe (calques, année).
+// La sheet suit le doigt vers le bas ; relâcher au-delà du seuil la ferme.
+function _bindPoigneeSwipe(poigneeId, sheetId, fermerFn) {
+  const poignee = document.getElementById(poigneeId);
+  const sheet   = document.getElementById(sheetId);
+  if (!poignee || !sheet) return;
+
+  const inner = sheet.querySelector('.mob-sheet-bottom');
+  if (!inner) return;
+
+  let startY    = 0;
+  let dragging  = false;
+  const SEUIL   = 60; // px vers le bas pour déclencher la fermeture
+
+  poignee.addEventListener('pointerdown', (e) => {
+    startY   = e.clientY;
+    dragging = true;
+    poignee.setPointerCapture(e.pointerId);
+    inner.style.transition = 'none';
+  });
+
+  poignee.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const dy = Math.max(0, e.clientY - startY); // uniquement vers le bas
+    inner.style.transform = `translateY(${dy}px)`;
+  });
+
+  poignee.addEventListener('pointerup', (e) => {
+    if (!dragging) return;
+    dragging = false;
+    const dy = Math.max(0, e.clientY - startY);
+    inner.style.transition = '';
+    if (dy > SEUIL) {
+      // Animer la fermeture depuis la position actuelle
+      inner.style.transform = `translateY(100%)`;
+      setTimeout(() => {
+        inner.style.transform = '';
+        fermerFn();
+      }, 250);
+    } else {
+      // Revenir en position
+      inner.style.transform = '';
+    }
+  });
+
+  poignee.addEventListener('pointercancel', () => {
+    dragging = false;
+    inner.style.transition = '';
+    inner.style.transform  = '';
+  });
+}
+
 // ─── Sheet calques (overlay + légende) ───────────────────────
 function initSheetCalques() {
   document.getElementById('mob-calques-close')?.addEventListener('click', fermerSheetCalques);
+  _bindPoigneeSwipe('mob-calques-handle', 'mob-sheet-calques', fermerSheetCalques);
 
   document.querySelectorAll('.mob-overlay-item').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1637,6 +1732,7 @@ function fermerSheetCalques() {
 // ─── Sheet année ──────────────────────────────────────────────
 function initSheetAnnee() {
   document.getElementById('mob-annee-close')?.addEventListener('click', fermerSheetAnnee);
+  _bindPoigneeSwipe('mob-annee-handle', 'mob-sheet-annee', fermerSheetAnnee);
 
   const slider = document.getElementById('mob-annee-slider');
   const affichage = document.getElementById('mob-annee-affichage');
@@ -1921,9 +2017,8 @@ function zoomerVersVille(villeId) {
     return;
   }
 
-  carte.flyTo(markerLatLng, 0, { duration: 0.8 });
+  carte.setZoom(0, { animate: false });
   setTimeout(() => {
-    // Décalage post-flyTo pour centrer dans la zone visible
     const markerPtFinal = carte.latLngToContainerPoint(markerLatLng);
     const chips    = document.getElementById('mob-filtres-chips');
     const vh       = window.innerHeight;
@@ -1931,9 +2026,9 @@ function zoomerVersVille(villeId) {
     const zoneBas  = vh - 52 - _hauteurPx('reduite');
     const cy = zoneHaut + (zoneBas - zoneHaut) / 2;
     const cx = window.innerWidth / 2;
-    carte.panBy([markerPtFinal.x - cx, markerPtFinal.y - cy], { animate: true, duration: 0.3 });
-    ouvrirPanneauVille(villeId);
-  }, 900);
+    carte.panBy([markerPtFinal.x - cx, markerPtFinal.y - cy], { animate: true, duration: 1.2 });
+    setTimeout(() => ouvrirPanneauVille(villeId), 1300);
+  }, 100);
 }
 
 // Wrapper flyToBounds qui contourne le blocage Leaflet depuis le zoom minimum :
@@ -1949,7 +2044,10 @@ function _flyToBoundsSansBlocage(bounds, options) {
   const centre = bounds.getCenter();
 
   void carte.getSize();
-  carte.setView(centre, zoomCible, { animate: true, duration: options.duration ?? 0.8 });
+  carte.setZoom(zoomCible, { animate: false });
+  requestAnimationFrame(() => {
+    carte.panTo(centre, { animate: true, duration: 1.2 });
+  });
   carte.once('moveend', () => carte.setMinZoom(zMinSaved));
 }
 

@@ -202,7 +202,7 @@ body {
   border-top: 1px solid var(--border, rgba(200,151,58,0.2));
   border-radius: 16px 16px 0 0;
   box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
-  transition: height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: height 0.3s ease-out;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -420,10 +420,31 @@ body {
   overflow-y: auto;
 }
 
-.mob-sheet-handle {
+/* Poignée des sheets calques et année — zone de touch généreuse */
+#mob-calques-handle,
+#mob-annee-handle {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+#mob-calques-handle::after,
+#mob-annee-handle::after {
+  content: '';
   width: 36px;
   height: 4px;
   background: rgba(200,151,58,0.3);
+  border-radius: 2px;
+  display: block;
+}
+
+.mob-sheet-handle {
+  width: 36px;
+  height: 4px;
+  /*background: rgba(200,151,58,0.3);*/
   border-radius: 2px;
   margin: 10px auto 0;
 }
