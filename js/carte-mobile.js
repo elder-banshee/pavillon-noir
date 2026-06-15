@@ -589,6 +589,7 @@ function initCarte() {
     maxBoundsViscosity: 1,
     zoomSnap: 0,
     zoomDelta: 0.5,
+    bounceAtZoomLimits: false,
     attributionControl: false,
     doubleClickZoom: false,
     zoomControl: false,
@@ -639,10 +640,6 @@ function initCarte() {
   });
 
   carte.on('moveend', () => {
-    console.log('[MOVEEND]', {
-      center: `${carte.getCenter().lat.toFixed(2)},${carte.getCenter().lng.toFixed(2)}`,
-      zoom: carte.getZoom().toFixed(4),
-    });
     majWeightsZones();
     if (isolationLayer) {
       isolationLayer.setStyle({ weight: weightPourZoom(WEIGHTS.isolation, carte.getZoom()) });
@@ -664,8 +661,10 @@ function initCarte() {
     carte.invalidateSize();
     const zMin = _caliberZoomMin();
     carte.setMinZoom(zMin);
-    carte.setMaxBounds([[0, 0], [CARTE_IMAGE.height, CARTE_IMAGE.width]]);
-    // Laisser invalidateSize propager avant de lire getZoom()
+    // setMaxBounds omis ici — les bounds sont constantes (image fixe)
+    // et sont posées une seule fois à l'init. Les rappeler à chaque resize
+    // déclenche un panInsideBounds qui repositionne la carte, notamment
+    // en interférant avec les pinches Android.
     requestAnimationFrame(() => {
       if (carte.getZoom() < zMin) {
         carte.setView(carte.getCenter(), zMin, { animate: false });
@@ -706,6 +705,24 @@ function initCarte() {
     requestAnimationFrame(prechauffer);
   }, 500);
 
+  // Patch _move : limiter le centre pendant le pinch avec _limitCenter,
+  // sans figer le centre sur carte.getCenter() (tentative 4, infructueuse).
+  // Leaflet calcule le centre naturel du pinch, on le projette dans la
+  // zone valide avec son propre algorithme.
+  const _moveOrig = carte._move.bind(carte);
+  carte._move = function (center, zoom, data, suppressEvent) {
+    if (data && data.pinch && center && carte.options.maxBounds) {
+      const limitedZoom = carte._limitZoom(zoom);
+      center = carte._limitCenter(
+        L.latLng(center),
+        limitedZoom,
+        carte.options.maxBounds
+      );
+      zoom = limitedZoom;
+    }
+    return _moveOrig(center, zoom, data, suppressEvent);
+  };
+
   // Leaflet 1.9 appelle _move({pinch:true}) directement depuis TouchZoom,
   // avec zoom et centre déjà couplés — on ne peut pas les dissocier.
   // On patch _onTouchMove pour bloquer les frames sous le minZoom,
@@ -739,27 +756,32 @@ function initCarte() {
           }
         }
       }
-      console.log('[MOVE]', { animRequest: this._animRequest });
       return _onTouchMoveOrig(e);
     };
 
     const _onTouchEndOrig = carte.touchZoom._onTouchEnd.bind(carte.touchZoom);
-    carte.touchZoom._onTouchEnd = function () {
-      console.log('[TOUCH END]', {
-        zoom: this._zoom?.toFixed(4),
-        minZoom: carte.getMinZoom().toFixed(4),
-        center: this._center ? `${this._center.lat.toFixed(2)},${this._center.lng.toFixed(2)}` : 'none',
-        currentCenter: `${carte.getCenter().lat.toFixed(2)},${carte.getCenter().lng.toFixed(2)}`,
-        animRequest: this._animRequest,
-        moved: this._moved,
-      });
-      return _onTouchEndOrig();
+    carte.touchZoom._onTouchEnd = function (...args) {
+      // _animateZoom reçoit this._center brut, sans passer par _limitCenter
+      // (contrairement à setView). On applique _limitCenter ici pour que
+      // _panInsideMaxBounds n'ait rien à corriger après coup.
+      if (this._moved && this._zooming && this._center) {
+        const finalZoom = carte._limitZoom(this._zoom);
+        this._zoom = finalZoom;
+        if (carte.options.maxBounds) {
+          this._center = carte._limitCenter(
+            this._center,
+            finalZoom,
+            carte.options.maxBounds
+          );
+        }
+      }
+      return _onTouchEndOrig(...args);
     };
   }
 
   let _fullscreenTransition = false;
   window.addEventListener('resize', () => {
-    _hauteurPleinePx = null; // invalider le cache
+    _hauteurPleinePx = null;
     if (_fullscreenTransition) return;
     _recalibrerVue();
   });
