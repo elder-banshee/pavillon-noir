@@ -6,6 +6,7 @@
 // ─── État global ──────────────────────────────────────────────
 let carte = null;
 let carteOverlayPrincipale = null;
+let rendererZones = null;
 let anneeActive = CARTE_ANNEE_REFERENCE;
 let zoneActive = null;
 let layersZones = {};
@@ -15,6 +16,8 @@ let villeActive = null;
 let markersVilles = {};
 let overlayMode = 'geo';
 let recalibrerVue = () => {}; // initialisée dans initCarte
+let navigationRechercheEnCours = false;
+const normalisationCache = new Map();
 
 // ─── Mode MJ ─────────────────────────────────────────────────
 let modeMJ = false;
@@ -80,7 +83,12 @@ function pixelToLatLng(x, y) {
 }
 
 function normaliser(str) {
-  return str.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/-/g, ' ');
+  const cle = String(str ?? '');
+  const cached = normalisationCache.get(cle);
+  if (cached !== undefined) return cached;
+  const normalise = cle.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/-/g, ' ');
+  normalisationCache.set(cle, normalise);
+  return normalise;
 }
 
 function weightPourZoom(weightBase, zoom) {
@@ -172,6 +180,29 @@ function pinSVG() {
   </svg>`;
 }
 
+function navireSVG(taille = 36) {
+  if (taille <= 24) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${taille}" height="${taille}">
+      <circle cx="12" cy="12" r="10" fill="#0e0c09" stroke="#c8973a" stroke-width="1.7"/>
+      <circle cx="8.8" cy="10" r="1.5" fill="#f2e8d5"/>
+      <circle cx="15.2" cy="10" r="1.5" fill="#f2e8d5"/>
+      <path d="M9 15c1.8 1 4.2 1 6 0" fill="none" stroke="#f2e8d5" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M7 18l10-10M17 18L7 8" stroke="#c8973a" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="${taille}" height="${taille}">
+    <circle cx="18" cy="18" r="15" fill="#0e0c09" stroke="#c8973a" stroke-width="2"/>
+    <path d="M7 23c5 3 17 3 22 0l-3.5 5.5h-15z" fill="#c8973a"/>
+    <path d="M18 6.5v16" stroke="#f2e8d5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M18 8.5l8.5 10H18z" fill="#f2e8d5"/>
+    <path d="M18 11l-6.5 8H18z" fill="#e2b96a"/>
+  </svg>`;
+}
+
+function pinCarteSVG(pin) {
+  return pin?.type === 'navire' ? navireSVG(tailleIconeNavire()) : pinSVG();
+}
+
 function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false, estRang3 = false) {
   const estSite = (type === 'site_geo' || type === 'site_hist');
   const fond = estIsole ? 'rgba(0,0,0,0)'
@@ -248,6 +279,26 @@ function tailleIconeVille() {
   if (zoom >= 1) return 60;
   if (zoom >= -1) return 36;
   return 24;
+}
+
+function tailleIconeNavire() {
+  const zoom = carte.getZoom();
+  if (zoom >= 1) return 56;
+  if (zoom >= -1) return 40;
+  return 24;
+}
+
+function zIndexMarqueurVille(ville) {
+  const type = ville.type || 'ville';
+  const rang = ville.rang ?? '1';
+  if (rang === '3') return 100;
+  if (type === 'site_geo' || type === 'site_hist') return 200;
+  if (rang === '2') return 300;
+  return 400;
+}
+
+function zIndexMarqueurPin(pin) {
+  return pin?.type === 'navire' ? 600 : 500;
 }
 
 function labelVille(ville) {
@@ -339,6 +390,13 @@ function injecterStructureMobile() {
   const carteDom = document.getElementById('carte');
   if (carteDom) {
     carteDom.style.cssText = 'position:absolute; inset:0; width:100%; height:100%;';
+  }
+  const ecranChargement = document.getElementById('carte-chargement');
+  if (ecranChargement && ecranChargement.parentElement !== document.body) {
+    document.body.appendChild(ecranChargement);
+    ecranChargement.style.position = 'fixed';
+    ecranChargement.style.inset = '0';
+    ecranChargement.style.zIndex = '20000';
   }
 
   // Injecter la barre de recherche haute
@@ -534,11 +592,12 @@ function injecterStructureMobile() {
 // ═══════════════════════════════════════════════════════════
 
 function _initMobile() {
+  const chargementDebut = Date.now();
   try {
     injecterStructureMobile();
 
     function initTout() {
-      initCarte();
+      initCarte(() => masquerEcranChargementQuandPret(chargementDebut));
       initBarreRecherche();
       initFiltresChips();
       initBoutonsFlottants();
@@ -546,7 +605,6 @@ function _initMobile() {
       initSheetAnnee();
       initSheetVille();
       initSheetFiltres();
-      masquerEcranChargement();
     }
 
     const imgPreload = new Image();
@@ -569,11 +627,100 @@ if (document.readyState === 'loading') {
   _initMobile();
 }
 
+function masquerEcranChargementQuandPret(debutMs) {
+  const delaiMin = 900;
+  const attente = Math.max(0, delaiMin - (Date.now() - debutMs));
+  setTimeout(masquerEcranChargement, attente);
+}
+
+function prechaufferDonneesRecherche() {
+  JURIDICTIONS.forEach(j => {
+    normaliser(j.nom);
+    normaliser(j.label);
+    j.tags?.forEach(tag => normaliser(tag));
+  });
+  VILLES.forEach(v => {
+    normaliser(v.nom);
+    normaliser(v.label);
+    v.tags?.forEach(tag => normaliser(tag));
+  });
+}
+
+function prechaufferIconesCarte() {
+  const types = ['ville', 'port', 'fort', 'site_geo', 'site_hist'];
+  const tailles = [24, 36, 60];
+  types.forEach(type => {
+    tailles.forEach(taille => {
+      villeSVG(type, taille, false, false, false, false);
+      villeSVG(type, taille, true, false, false, false);
+      villeSVG(type, taille, false, false, true, true);
+    });
+  });
+  pinSVG();
+  navireSVG();
+}
+
+function prechaufferSheetsMobiles() {
+  _recalculerHauteurPleine();
+  majLegende();
+
+  const sheetVille = document.getElementById('mob-sheet-ville');
+  const contenuVille = document.getElementById('mob-sheet-ville-contenu');
+  if (sheetVille && contenuVille) {
+    const exempleJuridiction = JURIDICTIONS.find(j => !j.visible_mj) || JURIDICTIONS[0];
+    const htmlAvant = contenuVille.innerHTML;
+    const heightAvant = sheetVille.style.height;
+    const visibilityAvant = sheetVille.style.visibility;
+    const transitionAvant = sheetVille.style.transition;
+
+    sheetVille.style.visibility = 'hidden';
+    sheetVille.style.transition = 'none';
+    if (exempleJuridiction) contenuVille.innerHTML = construireContenuPanneauJuridiction(exempleJuridiction);
+    sheetVille.style.height = _hauteurPx('reduite') + 'px';
+    void sheetVille.offsetHeight;
+    sheetVille.style.height = _hauteurPx('pleine') + 'px';
+    void sheetVille.offsetHeight;
+    sheetVille.style.height = heightAvant;
+    sheetVille.style.visibility = visibilityAvant;
+    sheetVille.style.transition = transitionAvant;
+    contenuVille.innerHTML = htmlAvant;
+  }
+
+  ['mob-sheet-calques', 'mob-sheet-annee', 'mob-sheet-filtres'].forEach(sheetId => {
+    const sheet = document.getElementById(sheetId);
+    if (!sheet) return;
+    const classeOuverte = sheetId === 'mob-sheet-calques' ? 'mob-sheet-calques--ouverte'
+      : sheetId === 'mob-sheet-annee' ? 'mob-sheet-annee--ouverte'
+        : 'mob-sheet-filtres--ouverte';
+    const visibilityAvant = sheet.style.visibility;
+    const transitionAvant = sheet.style.transition;
+    sheet.style.visibility = 'hidden';
+    sheet.style.transition = 'none';
+    sheet.classList.add(classeOuverte);
+    void sheet.offsetHeight;
+    sheet.classList.remove(classeOuverte);
+    sheet.style.visibility = visibilityAvant;
+    sheet.style.transition = transitionAvant;
+  });
+}
+
+function prechaufferNavigationRecherche() {
+  Object.values(layersZones).forEach(groupe => _boundsFromGroupe(groupe));
+  const villeReference = VILLES.find(v => v.coords);
+  if (villeReference) {
+    const latlng = pixelToLatLng(villeReference.coords[0], villeReference.coords[1]);
+    carte.latLngToContainerPoint(latlng);
+  }
+  void carte.getSize();
+  void carte.getBounds();
+  void carte.getPixelBounds();
+}
+
 // ═══════════════════════════════════════════════════════════
 // CARTE LEAFLET — identique à carte.js sauf ajustements mobile
 // ═══════════════════════════════════════════════════════════
 
-function initCarte() {
+function initCarte(apresPrechauffage = () => {}) {
   const W = CARTE_IMAGE.width;
   const H = CARTE_IMAGE.height;
   const bounds = [[0, 0], [H, W]];
@@ -592,6 +739,7 @@ function initCarte() {
     tap: true,
     tapTolerance: 15,
   });
+  rendererZones = L.svg({ padding: 2.5 });
 
   carteOverlayPrincipale = L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
   const el = carteOverlayPrincipale.getElement();
@@ -625,6 +773,7 @@ function initCarte() {
   });
 
   carte.on('moveend', () => {
+    if (navigationRechercheEnCours) return;
     majWeightsZones();
     majTailleIconesVilles();
   });
@@ -655,32 +804,50 @@ function initCarte() {
 
   setTimeout(() => {
     carte.invalidateSize();
-    const nassau = pixelToLatLng(4542, 1739);
+    const positionInitiale = pixelToLatLng(CARTE_NAVIRE_POSITION[0], CARTE_NAVIRE_POSITION[1]);
     const zMin = _caliberZoomMin();
     carte.setMinZoom(zMin);
-    carte.setView(nassau, zMin, { animate: false });
     carte.setMaxBounds([[0, 0], [CARTE_IMAGE.height, CARTE_IMAGE.width]]);
+    const zoomInitial = Math.max(zMin, -2);
+    const centreInitial = _centrePourLatLngAuPoint(positionInitiale, zoomInitial, _pointFocusRecherche());
+    carte.setView(centreInitial, zoomInitial, { animate: false });
     majWeightsZones();
+
+    prechaufferDonneesRecherche();
+    prechaufferIconesCarte();
+    prechaufferSheetsMobiles();
 
     // Préchauffage : parcourir silencieusement plusieurs niveaux de zoom
     // pendant que l'écran de chargement est encore visible, pour que
-    // Leaflet ait déjà calculé les positions au moment du premier flyTo.
-    const zooms = [0, -2, -4, zMin];
+    // Leaflet ait déjà calculé les positions et tailles d'icônes au moment
+    // du premier zoom ou déplacement de recherche.
+    const zooms = [zMin, -4, -2, 0, 1, zoomInitial];
     let i = 0;
+    const terminerPrechauffage = () => {
+      carte.setView(centreInitial, zoomInitial, { animate: false });
+      majWeightsZones();
+      majTailleIconesVilles();
+      prechaufferNavigationRecherche();
+      // Forcer carte._loaded = true et fire moveend pour que flyTo/flyToBounds
+      // fonctionnent immédiatement sans attendre une première interaction utilisateur.
+      // setView({ animate: false }) ne déclenche pas toujours moveend dans Leaflet,
+      // donc _loaded peut rester false et flyTo retourner silencieusement.
+      carte._loaded = true;
+      carte.fire('moveend');
+      apresPrechauffage();
+    };
     const prechauffer = () => {
       if (i >= zooms.length) {
-        carte.setView(nassau, zMin, { animate: false });
-        // Forcer carte._loaded = true et fire moveend pour que flyTo/flyToBounds
-        // fonctionnent immédiatement sans attendre une première interaction utilisateur.
-        // setView({ animate: false }) ne déclenche pas moveend dans Leaflet,
-        // donc _loaded reste false et flyTo retourne silencieusement.
-        carte._loaded = true;
-        carte.fire('moveend');
-        const ecran = document.getElementById('carte-chargement');
-        if (ecran) { ecran.style.display = 'none'; ecran.remove(); }
+        carte.panBy([1, 0], { animate: true, duration: 0.05 });
+        setTimeout(terminerPrechauffage, 90);
         return;
       }
-      carte.setView(nassau, zooms[i++], { animate: false });
+      const zoomPrechauffe = zooms[i++];
+      const centrePrechauffe = _centrePourLatLngAuPoint(positionInitiale, zoomPrechauffe, _pointFocusRecherche());
+      carte.setView(centrePrechauffe, zoomPrechauffe, { animate: false });
+      majWeightsZones();
+      majTailleIconesVilles();
+      prechaufferNavigationRecherche();
       requestAnimationFrame(prechauffer);
     };
     requestAnimationFrame(prechauffer);
@@ -875,6 +1042,7 @@ function renderZones() {
       fillOpacity: fillOpacity,
       fillRule: 'nonzero',
       className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
+      renderer: rendererZones,
     };
 
     const polygones = contours.map(pts => {
@@ -1102,7 +1270,7 @@ function renderVilles() {
       iconAnchor: [tailleIconeVille() / 2, tailleIconeVille() / 2],
     });
 
-    const marker = L.marker(latlng, { icon });
+    const marker = L.marker(latlng, { icon, zIndexOffset: zIndexMarqueurVille(ville) });
 
     marker.bindTooltip(labelVille(ville), {
       permanent: false,
@@ -1134,12 +1302,14 @@ function renderVilles() {
       const [x, y] = pin.coords;
       const latlng = pixelToLatLng(x, y);
 
+      const taillePin = pin.type === 'navire' ? tailleIconeNavire() : 32;
       const marker = L.marker(latlng, {
+        zIndexOffset: zIndexMarqueurPin(pin),
         icon: L.divIcon({
-          html: pinSVG(),
+          html: pinCarteSVG(pin),
           className: 'carte-ville', // même classe que les villes → pas de transition parasite
-          iconSize: [32, 32],
-          iconAnchor: [16, 32],
+          iconSize: [taillePin, taillePin],
+          iconAnchor: pin.type === 'navire' ? [taillePin / 2, taillePin / 2] : [16, 32],
         }),
       });
 
@@ -1148,7 +1318,7 @@ function renderVilles() {
         direction: 'top',
         className: 'carte-tooltip',
         opacity: 1,
-        offset: [0, -28],
+        offset: pin.type === 'navire' ? [0, -taillePin / 2] : [0, -28],
         interactive: false,
       });
 
@@ -1172,7 +1342,19 @@ function majTailleIconesVilles() {
   const taille = tailleIconeVille();
   Object.entries(markersVilles).forEach(([id, marker]) => {
     const ville = VILLES.find(v => v.id === id);
-    if (!ville) return;
+    if (!ville) {
+      const pin = CARTE_PINS?.find(p => p.id === id);
+      if (!pin || pin.type !== 'navire') return;
+      const tailleNavire = tailleIconeNavire();
+      marker.setIcon(L.divIcon({
+        html: pinCarteSVG(pin),
+        className: 'carte-ville',
+        iconSize: [tailleNavire, tailleNavire],
+        iconAnchor: [tailleNavire / 2, tailleNavire / 2],
+      }));
+      marker.setZIndexOffset(zIndexMarqueurPin(pin));
+      return;
+    }
     const statutCapitale = Array.isArray(ville.capitale)
       ? rendreChamp(ville.capitale, anneeActive)
       : ville.capitale;
@@ -1185,6 +1367,7 @@ function majTailleIconesVilles() {
       iconSize: [taille, taille],
       iconAnchor: [taille / 2, taille / 2],
     }));
+    marker.setZIndexOffset(zIndexMarqueurVille(ville));
   });
 }
 
@@ -1214,7 +1397,7 @@ function ouvrirPopupScenario(pin) {
 
   const contenu = `
     <div class="mob-panneau-header">
-      <div class="mob-panneau-surtitle">Scénario</div>
+      <div class="mob-panneau-surtitle">${pin.type === 'navire' ? 'Navire' : 'Scénario'}</div>
       <div class="mob-panneau-titre">${pin.label}</div>
       <button class="mob-panneau-close" aria-label="Fermer">✕</button>
     </div>
@@ -1850,6 +2033,63 @@ function _assurerFiltreActif(villeId, villeObj) {
   renderVilles(); // synchrone — markersVilles à jour après cet appel
 }
 
+function _pointFocusRecherche() {
+  const chips = document.getElementById('mob-filtres-chips');
+  const zoneHaut = chips ? chips.getBoundingClientRect().bottom : 100;
+  const zoneBas = window.innerHeight - 52 - _hauteurPx('reduite');
+  return L.point(window.innerWidth / 2, zoneHaut + (zoneBas - zoneHaut) / 2);
+}
+
+function _centrePourLatLngAuPoint(latlng, zoom, pointEcran) {
+  const centreEcran = carte.getSize().divideBy(2);
+  const pointProjete = carte.project(latlng, zoom);
+  const centreProjete = pointProjete.subtract(pointEcran.subtract(centreEcran));
+  let centre = carte.unproject(centreProjete, zoom);
+  if (carte.options.maxBounds) {
+    centre = carte._limitCenter(centre, carte._limitZoom(zoom), carte.options.maxBounds);
+  }
+  return centre;
+}
+
+function _dureeNavigationRecherche(centreDepart, centreArrivee, zoomDepart, zoomArrivee) {
+  const distance = carte.project(centreDepart, zoomArrivee).distanceTo(carte.project(centreArrivee, zoomArrivee));
+  const deltaZoom = Math.abs(zoomArrivee - zoomDepart);
+  return Math.max(2000, Math.min(3000, 1700 + distance * 0.28 + deltaZoom * 160));
+}
+
+function _animerVueRecherche({ centre, zoom, duree, onFin }) {
+  const centreDepart = carte.getCenter();
+  const zoomDepart = carte.getZoom();
+  const zoomArrivee = carte._limitZoom(zoom);
+  const centreArrivee = carte.options.maxBounds
+    ? carte._limitCenter(centre, zoomArrivee, carte.options.maxBounds)
+    : centre;
+  const dureeMs = duree ?? _dureeNavigationRecherche(centreDepart, centreArrivee, zoomDepart, zoomArrivee);
+  const debut = performance.now();
+  const ease = t => 0.5 - Math.cos(Math.PI * t) / 2;
+  navigationRechercheEnCours = true;
+
+  function frame(maintenant) {
+    const t = Math.min(1, (maintenant - debut) / dureeMs);
+    const k = ease(t);
+    const lat = centreDepart.lat + (centreArrivee.lat - centreDepart.lat) * k;
+    const lng = centreDepart.lng + (centreArrivee.lng - centreDepart.lng) * k;
+    const z = zoomDepart + (zoomArrivee - zoomDepart) * k;
+    carte.setView(L.latLng(lat, lng), z, { animate: false });
+    if (t < 1) {
+      requestAnimationFrame(frame);
+      return;
+    }
+    navigationRechercheEnCours = false;
+    carte.setView(centreArrivee, zoomArrivee, { animate: false });
+    majWeightsZones();
+    majTailleIconesVilles();
+    onFin?.();
+  }
+
+  requestAnimationFrame(frame);
+}
+
 function zoomerVersVille(villeId) {
   const ville = VILLES.find(v => v.id === villeId)
              ?? CARTE_PINS?.find(p => p.id === villeId);
@@ -1867,38 +2107,13 @@ function zoomerVersVille(villeId) {
     return;
   }
 
-  carte.setZoom(0, { animate: false });
-  setTimeout(() => {
-    const markerPtFinal = carte.latLngToContainerPoint(markerLatLng);
-    const chips    = document.getElementById('mob-filtres-chips');
-    const vh       = window.innerHeight;
-    const zoneHaut = chips ? chips.getBoundingClientRect().bottom : 100;
-    const zoneBas  = vh - 52 - _hauteurPx('reduite');
-    const cy = zoneHaut + (zoneBas - zoneHaut) / 2;
-    const cx = window.innerWidth / 2;
-    carte.panBy([markerPtFinal.x - cx, markerPtFinal.y - cy], { animate: true, duration: 1.2 });
-    setTimeout(() => ouvrirPanneauVille(villeId), 1300);
-  }, 100);
-}
-
-// Wrapper flyToBounds qui contourne le blocage Leaflet depuis le zoom minimum :
-// flyToBounds échoue silencieusement quand getZoom() === getMinZoom() car Leaflet
-// refuse d'animer vers un zoom ≤ zoom courant au minimum. On force un micro-décalage
-// imperceptible (+0.01) avant de lancer l'animation, puis on restaure minZoom.
-function _flyToBoundsSansBlocage(bounds, options) {
-  const zMinSaved = carte.getMinZoom();
-  carte.setMinZoom(-10);
-
-  const maxZoom = options.maxZoom ?? 0;
-  const zoomCible = Math.min(maxZoom, carte.getBoundsZoom(bounds));
-  const centre = bounds.getCenter();
-
-  void carte.getSize();
-  carte.setZoom(zoomCible, { animate: false });
-  requestAnimationFrame(() => {
-    carte.panTo(centre, { animate: true, duration: 1.2 });
+  const zoomCible = 0;
+  const centreCible = _centrePourLatLngAuPoint(markerLatLng, zoomCible, _pointFocusRecherche());
+  _animerVueRecherche({
+    centre: centreCible,
+    zoom: zoomCible,
+    onFin: () => ouvrirPanneauVille(villeId),
   });
-  carte.once('moveend', () => carte.setMinZoom(zMinSaved));
 }
 
 // Extrait les bounds d'un LayerGroup de polygones.
@@ -1914,20 +2129,24 @@ function zoomerVersTerrritoire(territoireId) {
   const chips = document.getElementById('mob-filtres-chips');
   const paddingHaut = chips ? Math.round(chips.getBoundingClientRect().bottom) + 8 : 50;
   const paddingBas  = Math.round(_hauteurPx('reduite')) + 8;
-  const flyOpts = {
-    paddingTopLeft:     [20, paddingHaut],
-    paddingBottomRight: [20, paddingBas],
-    maxZoom: 0,
-    duration: 0.8,
-  };
+
+  function animerVersBounds(bounds) {
+    const padding = L.point(72, paddingHaut + paddingBas + 48);
+    const zoomCible = Math.min(0, carte.getBoundsZoom(bounds, false, padding));
+    const centreCible = _centrePourLatLngAuPoint(bounds.getCenter(), zoomCible, _pointFocusRecherche());
+    _animerVueRecherche({
+      centre: centreCible,
+      zoom: zoomCible,
+      onFin: () => ouvrirPanneau(territoireId),
+    });
+  }
 
   // 1. Bounds depuis le LayerGroup rendu (polygones du groupe)
   const groupe = layersZones[territoireId];
   if (groupe) {
     const bounds = _boundsFromGroupe(groupe);
     if (bounds?.isValid()) {
-      _flyToBoundsSansBlocage(bounds, flyOpts);
-      carte.once('moveend', () => ouvrirPanneau(territoireId));
+      animerVersBounds(bounds);
       return;
     }
   }
@@ -1942,8 +2161,7 @@ function zoomerVersTerrritoire(territoireId) {
     const latlngs = contours.flatMap(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
     const bounds = L.latLngBounds(latlngs);
     if (bounds.isValid()) {
-      _flyToBoundsSansBlocage(bounds, flyOpts);
-      carte.once('moveend', () => ouvrirPanneau(territoireId));
+      animerVersBounds(bounds);
       return;
     }
   }

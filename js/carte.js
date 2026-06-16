@@ -6,6 +6,8 @@
 // ─── État global ─────────────────────────────────────────────
 let carte = null;
 let carteOverlayPrincipale = null;
+let rendererZones = null;
+let rendererIsolation = null;
 let anneeActive = CARTE_ANNEE_REFERENCE;
 let zoneActive = null;
 let layersZones = {};
@@ -201,6 +203,29 @@ function pinSVG() {
   </svg>`;
 }
 
+function navireSVG(taille = 36) {
+  if (taille <= 24) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${taille}" height="${taille}">
+      <circle cx="12" cy="12" r="10" fill="#0e0c09" stroke="#c8973a" stroke-width="1.7"/>
+      <circle cx="8.8" cy="10" r="1.5" fill="#f2e8d5"/>
+      <circle cx="15.2" cy="10" r="1.5" fill="#f2e8d5"/>
+      <path d="M9 15c1.8 1 4.2 1 6 0" fill="none" stroke="#f2e8d5" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M7 18l10-10M17 18L7 8" stroke="#c8973a" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="${taille}" height="${taille}">
+    <circle cx="18" cy="18" r="15" fill="#0e0c09" stroke="#c8973a" stroke-width="2"/>
+    <path d="M7 23c5 3 17 3 22 0l-3.5 5.5h-15z" fill="#c8973a"/>
+    <path d="M18 6.5v16" stroke="#f2e8d5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M18 8.5l8.5 10H18z" fill="#f2e8d5"/>
+    <path d="M18 11l-6.5 8H18z" fill="#e2b96a"/>
+  </svg>`;
+}
+
+function pinCarteSVG(pin) {
+  return pin?.type === 'navire' ? navireSVG(tailleIconeNavire()) : pinSVG();
+}
+
 function villeSVG(type, taille = 24, estPirate = false, estIsole = false, estActive = false, estRang3 = false) {
   const estSite = (type === 'site_geo' || type === 'site_hist');
   const fond = estIsole ? 'rgba(0,0,0,0)'
@@ -275,6 +300,26 @@ function tailleIconeVille() {
   if (zoom >= 1) return 60;
   if (zoom >= -1) return 36;
   return 24;
+}
+
+function tailleIconeNavire() {
+  const zoom = carte.getZoom();
+  if (zoom >= 1) return 56;
+  if (zoom >= -1) return 40;
+  return 24;
+}
+
+function zIndexMarqueurVille(ville) {
+  const type = ville.type || 'ville';
+  const rang = ville.rang ?? '1';
+  if (rang === '3') return 100;
+  if (type === 'site_geo' || type === 'site_hist') return 200;
+  if (rang === '2') return 300;
+  return 400;
+}
+
+function zIndexMarqueurPin(pin) {
+  return pin?.type === 'navire' ? 600 : 500;
 }
 
 function labelVille(ville) {
@@ -508,6 +553,7 @@ function initCarte() {
     doubleClickZoom: false,
     zoomControl: false,
   });
+  rendererZones = L.svg({ padding: 2.5 });
 
   carteOverlayPrincipale = L.imageOverlay(CARTE_IMAGE.src, bounds).addTo(carte);
   const el = carteOverlayPrincipale.getElement();
@@ -517,6 +563,7 @@ function initCarte() {
   carte.createPane('isolationContour');
   carte.getPane('isolationContour').style.zIndex = 420;
   carte.getPane('isolationContour').style.pointerEvents = 'none';
+  rendererIsolation = L.svg({ padding: 2.5, pane: 'isolationContour' });
 
   // Pane pour le contour global (chantier en attente)
   carte.createPane('contourGlobal');
@@ -1134,6 +1181,7 @@ function renderZones() {
       fillOpacity: fillOpacity,
       fillRule: 'nonzero',
       className: 'carte-zone' + (isActive ? ' carte-zone--active' : ''),
+      renderer: rendererZones,
     };
 
     const polygones = contours.map(pts => {
@@ -1214,21 +1262,22 @@ function renderPins() {
     const [x, y] = pin.coords;
     const latlng = pixelToLatLng(x, y);
 
+    const taillePin = pin.type === 'navire' ? tailleIconeNavire() : 32;
     const icon = L.divIcon({
-      html: pinSVG(),
+      html: pinCarteSVG(pin),
       className: 'carte-pin',
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
+      iconSize: [taillePin, taillePin],
+      iconAnchor: pin.type === 'navire' ? [taillePin / 2, taillePin / 2] : [16, 32],
     });
 
-    const marker = L.marker(latlng, { icon });
+    const marker = L.marker(latlng, { icon, zIndexOffset: zIndexMarqueurPin(pin) });
 
     marker.bindTooltip(pin.label, {
       permanent: false,
       direction: 'top',
       className: 'carte-tooltip',
       opacity: 1,
-      offset: [0, -28],
+      offset: pin.type === 'navire' ? [0, -taillePin / 2] : [0, -28],
     });
 
     marker.on('click', (e) => {
@@ -1299,7 +1348,7 @@ function renderVilles() {
       iconAnchor: [tailleIconeVille() / 2, tailleIconeVille() / 2],
     });
 
-    const marker = L.marker(latlng, { icon });
+    const marker = L.marker(latlng, { icon, zIndexOffset: zIndexMarqueurVille(ville) });
 
     marker.bindTooltip(labelVille(ville), {
       permanent: false,
@@ -1418,6 +1467,20 @@ function majTailleIconesVilles() {
       iconSize: [taille, taille],
       iconAnchor: [taille / 2, taille / 2],
     }));
+    marker.setZIndexOffset(zIndexMarqueurVille(ville));
+  });
+
+  Object.entries(markersMap).forEach(([id, marker]) => {
+    const pin = CARTE_PINS.find(p => p.id === id);
+    if (!pin || pin.type !== 'navire') return;
+    const tailleNavire = tailleIconeNavire();
+    marker.setIcon(L.divIcon({
+      html: pinCarteSVG(pin),
+      className: 'carte-pin',
+      iconSize: [tailleNavire, tailleNavire],
+      iconAnchor: [tailleNavire / 2, tailleNavire / 2],
+    }));
+    marker.setZIndexOffset(zIndexMarqueurPin(pin));
   });
 }
 
@@ -1621,9 +1684,9 @@ function ouvrirPopup(pin) {
     <button class="carte-popup-close" onclick="fermerPopup()" aria-label="Fermer">✕</button>
     ${chronique ? `<div class="carte-popup-numero">${chronique.numero}</div>` : ''}
     <h3 class="carte-popup-titre">${pin.label}</h3>
-    <div class="carte-popup-date">${pin.date}</div>
-    <p class="carte-popup-extrait">${pin.extrait}</p>
-    <a class="carte-popup-lien" href="chroniques.html">Lire la chronique →</a>
+    ${pin.date ? `<div class="carte-popup-date">${pin.date}</div>` : ''}
+    ${pin.extrait ? `<p class="carte-popup-extrait">${pin.extrait}</p>` : ''}
+    ${pin.chronique_id ? '<a class="carte-popup-lien" href="chroniques.html">Lire la chronique →</a>' : ''}
   `;
   pinActive = pin.id;
   afficherPopup();
@@ -2170,6 +2233,7 @@ function isolerTerritoire(juridictionId) {
     fillOpacity: 0,
     interactive: false,
     pane: 'isolationContour',
+    renderer: rendererIsolation,
   });
   isolationLayer.addTo(carte);
 

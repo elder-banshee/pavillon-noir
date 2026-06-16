@@ -18,6 +18,12 @@ body {
   height: 100% !important;
 }
 
+#carte-chargement {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 20000 !important;
+}
+
 /* ─── Barre de recherche haute ─────────────────────────────── */
 #mob-barre-recherche {
   position: absolute;

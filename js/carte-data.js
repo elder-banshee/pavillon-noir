@@ -10,6 +10,11 @@
 // Détermine le maximum atteignable par le curseur temporel.
 const CARTE_ANNEE_REFERENCE = 1716;
 
+// ─── Position actuelle du navire des aventuriers ─────────────
+// À mettre à jour manuellement après chaque session.
+// Coordonnées pixel [x, y] dans le référentiel de CARTE_IMAGE.
+const CARTE_NAVIRE_POSITION = [7362, 4004]; // Nassau, New Providence
+
 // ─── Résolution de l'image ───────────────────────────────────
 const CARTE_IMAGE = {
     src: 'medias/cartes/jaillot-1708.jpg',
@@ -3871,6 +3876,14 @@ Le retour de Bennett coïncide avec la grande vague d'amnistie et de répression
 // chronique_id → correspond à l'id dans chroniques-data.js
 // ═══════════════════════════════════════════════════════════
 const CARTE_PINS = [
+    {
+        id: 'pin-navire-pj',
+        type: 'navire',
+        label: "Le Cúchulainn",
+        coords: CARTE_NAVIRE_POSITION,
+        date: `Dernière position connue — ${CARTE_ANNEE_REFERENCE}`,
+        extrait: "Dernier mouillage connu du navire des aventuriers.",
+    },
     {
         id: 'pin-ile-des-ombres',
         chronique_id: 'ile-des-ombres',
