@@ -78,6 +78,29 @@ const ZOOM_FACTEUR = 1.5;
 // UTILITAIRES PURS
 // ═══════════════════════════════════════════════════════════
 
+function normaliserContourZone(contour) {
+  if (Array.isArray(contour)) return { points: contour, fit: true };
+  if (contour && Array.isArray(contour.points)) {
+    return { points: contour.points, fit: contour.fit !== false };
+  }
+  return null;
+}
+
+function contoursZonePour(juridiction) {
+  const source = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[juridiction.id])
+    ? ZONES_DATA[juridiction.id]
+    : (juridiction.zone && juridiction.zone.length >= 3 ? [juridiction.zone] : null);
+
+  return source
+    ? source.map(normaliserContourZone).filter(c => c && c.points.length >= 3)
+    : null;
+}
+
+function contoursPourFit(contours) {
+  const fit = contours.filter(c => c.fit !== false);
+  return fit.length ? fit : contours;
+}
+
 function pixelToLatLng(x, y) {
   return L.latLng(CARTE_IMAGE.height - y, x);
 }
@@ -998,9 +1021,7 @@ function renderZones() {
     });
 
   juridictionsTri.forEach(j => {
-    const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
-      ? ZONES_DATA[j.id]
-      : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
+    const contours = contoursZonePour(j);
 
     if (!contours) return;
 
@@ -1045,9 +1066,11 @@ function renderZones() {
       renderer: rendererZones,
     };
 
-    const polygones = contours.map(pts => {
-      const latlngs = pts.map(([x, y]) => pixelToLatLng(x, y));
-      return L.polygon(latlngs, style);
+    const polygones = contours.map(contour => {
+      const latlngs = contour.points.map(([x, y]) => pixelToLatLng(x, y));
+      const poly = L.polygon(latlngs, style);
+      poly._fitBounds = contour.fit !== false;
+      return poly;
     });
 
     const groupe = L.layerGroup(polygones);
@@ -2120,6 +2143,7 @@ function zoomerVersVille(villeId) {
 function _boundsFromGroupe(groupe) {
   const latlngs = [];
   groupe.eachLayer?.(poly => {
+    if (poly._fitBounds === false) return;
     poly.getLatLngs?.()?.flat(Infinity).forEach(ll => latlngs.push(ll));
   });
   return latlngs.length ? L.latLngBounds(latlngs) : null;
@@ -2153,12 +2177,12 @@ function zoomerVersTerrritoire(territoireId) {
 
   // 2. Fallback : reconstruire depuis ZONES_DATA ou JURIDICTIONS
   const j = JURIDICTIONS.find(j => j.id === territoireId);
-  const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[territoireId])
-    ? ZONES_DATA[territoireId]
-    : (j?.zone?.length >= 3 ? [j.zone] : null);
+  const contours = j ? contoursZonePour(j) : null;
 
   if (contours) {
-    const latlngs = contours.flatMap(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
+    const latlngs = contoursPourFit(contours).flatMap(contour =>
+      contour.points.map(([x, y]) => pixelToLatLng(x, y))
+    );
     const bounds = L.latLngBounds(latlngs);
     if (bounds.isValid()) {
       animerVersBounds(bounds);

@@ -24,6 +24,8 @@ let loupeInstance = null;       // instance L.map secondaire de la loupe
 let loupeBitmap = null;         // ImageBitmap pré-décodé — évite le flash gris dans la loupe
 let mouseoutTimers = {};
 let ecartementsActifs = {}; // clé = "idA:idB" → durée ms
+const normalisationCache = new Map();
+const boundsFitTerritoires = new Map();
 
 // ─── Mode d'overlay ──────────────────────────────────────────
 // 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque' | 'isolation' | 'isolationVille'
@@ -78,6 +80,49 @@ const AUTOCHTONES_COULEURS = {
   domination: 'hsl(39, 61%, 55%)',
 };
 
+// ─── Contours de zones ────────────────────────────────────────
+function normaliserContourZone(contour) {
+  if (Array.isArray(contour)) return { points: contour, fit: true };
+  if (contour && Array.isArray(contour.points)) {
+    return { points: contour.points, fit: contour.fit !== false };
+  }
+  return null;
+}
+
+function contoursZonePour(juridiction) {
+  const source = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[juridiction.id])
+    ? ZONES_DATA[juridiction.id]
+    : (juridiction.zone && juridiction.zone.length >= 3 ? [juridiction.zone] : null);
+
+  return source
+    ? source.map(normaliserContourZone).filter(c => c && c.points.length >= 3)
+    : null;
+}
+
+function contoursPourFit(contours) {
+  const fit = contours.filter(c => c.fit !== false);
+  return fit.length ? fit : contours;
+}
+
+function boundsFitTerritoire(juridiction) {
+  if (!juridiction) return null;
+  if (boundsFitTerritoires.has(juridiction.id)) return boundsFitTerritoires.get(juridiction.id);
+
+  const contours = contoursZonePour(juridiction);
+  if (!contours) {
+    boundsFitTerritoires.set(juridiction.id, null);
+    return null;
+  }
+
+  const latlngs = contoursPourFit(contours).flatMap(contour =>
+    contour.points.map(([x, y]) => pixelToLatLng(x, y))
+  );
+  const bounds = L.latLngBounds(latlngs);
+  const resultat = bounds.isValid() ? bounds : null;
+  boundsFitTerritoires.set(juridiction.id, resultat);
+  return resultat;
+}
+
 // ─── Épaisseurs de contours ───────────────────────────────────
 const WEIGHTS = {
   zone: 0.5,
@@ -92,7 +137,12 @@ function pixelToLatLng(x, y) {
 }
 
 function normaliser(str) {
-  return str.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/-/g, ' ');
+  const cle = String(str ?? '');
+  const cached = normalisationCache.get(cle);
+  if (cached !== undefined) return cached;
+  const valeur = cle.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/-/g, ' ');
+  normalisationCache.set(cle, valeur);
+  return valeur;
 }
 
 function weightPourZoom(weightBase, zoom) {
@@ -497,6 +547,80 @@ function fermerTooltipsOrphelins() {
   carte.eachLayer(l => { if (l.getTooltip?.() && l.isTooltipOpen?.()) l.closeTooltip(); });
 }
 
+function executerQuandIdle(fn) {
+  if (typeof window.requestIdleCallback === 'function') {
+    window.requestIdleCallback(fn, { timeout: 1200 });
+  } else {
+    setTimeout(fn, 80);
+  }
+}
+
+function prechaufferDonneesRechercheDesktop() {
+  JURIDICTIONS.forEach(j => {
+    normaliser(j.nom);
+    (j.tags || []).forEach(normaliser);
+  });
+
+  if (typeof VILLES !== 'undefined') {
+    VILLES.forEach(ville => {
+      normaliser(ville.nom || '');
+      normaliser(ville.label || '');
+      (ville.tags || []).forEach(normaliser);
+    });
+  }
+}
+
+function prechaufferBoundsTerritoiresDesktop() {
+  JURIDICTIONS.forEach(j => {
+    const bounds = boundsFitTerritoire(j);
+    if (!bounds) return;
+    bounds.getCenter();
+    carte.getBoundsZoom(bounds, false, L.point(160, 160));
+  });
+}
+
+function prechaufferIconesCarteDesktop() {
+  [24, 36, 60].forEach(taille => {
+    villeSVG('ville', taille, false, false, false, false);
+    villeSVG('port', taille, true, false, false, false);
+    villeSVG('site_geo', taille, false, false, false, false);
+    villeSVG('site_hist', taille, false, false, false, false);
+  });
+  [24, 40, 56].forEach(taille => navireSVG(taille));
+  pinSVG();
+}
+
+function prechaufferNavigationDesktop() {
+  carte.getBounds();
+  carte.latLngToContainerPoint(carte.getCenter());
+  Object.values(markersVilles).slice(0, 24).forEach(marker => {
+    marker.getLatLng();
+    marker.getElement?.();
+  });
+  Object.values(markersMap).forEach(marker => {
+    marker.getLatLng();
+    marker.getElement?.();
+  });
+}
+
+function planifierPrechauffageDesktop() {
+  const taches = [
+    prechaufferDonneesRechercheDesktop,
+    prechaufferIconesCarteDesktop,
+    prechaufferBoundsTerritoiresDesktop,
+    prechaufferNavigationDesktop,
+  ];
+
+  const lancer = () => {
+    const tache = taches.shift();
+    if (!tache) return;
+    tache();
+    if (taches.length) executerQuandIdle(lancer);
+  };
+
+  executerQuandIdle(lancer);
+}
+
 function positionnerBoutonsZoom() {
   const wrap = document.getElementById('carte-wrap');
   const controls = document.querySelector('.carte-zoom-controls');
@@ -521,6 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initRecherche();
     initFiltresMarqueurs();
     masquerEcranChargement();
+    setTimeout(planifierPrechauffageDesktop, 180);
   }
 
   const imgPreload = new Image();
@@ -1127,9 +1252,7 @@ function renderZones() {
     });
 
   juridictionsTri.forEach(j => {
-    const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
-      ? ZONES_DATA[j.id]
-      : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
+    const contours = contoursZonePour(j);
 
     if (!contours) return;
 
@@ -1184,8 +1307,8 @@ function renderZones() {
       renderer: rendererZones,
     };
 
-    const polygones = contours.map(pts => {
-      const latlngs = pts.map(([x, y]) => pixelToLatLng(x, y));
+    const polygones = contours.map(contour => {
+      const latlngs = contour.points.map(([x, y]) => pixelToLatLng(x, y));
       return L.polygon(latlngs, style);
     });
 
@@ -1635,9 +1758,7 @@ function majLegende() {
   // Mode géopolitique
   const puissancesPresentes = new Map();
   JURIDICTIONS.forEach(j => {
-    const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[j.id])
-      ? ZONES_DATA[j.id]
-      : (j.zone && j.zone.length >= 3 ? [j.zone] : null);
+    const contours = contoursZonePour(j);
     if (!contours) return;
     const puissanceId = resoudre(j.puissance, anneeActive);
     if (puissanceId && PUISSANCES[puissanceId] && !puissancesPresentes.has(puissanceId)) {
@@ -2183,9 +2304,7 @@ function isolerTerritoire(juridictionId) {
   if (isolationLayer) { carte.removeLayer(isolationLayer); isolationLayer = null; }
 
   const j = JURIDICTIONS.find(j => j.id === juridictionId);
-  const contours = (typeof ZONES_DATA !== 'undefined' && ZONES_DATA[juridictionId])
-    ? ZONES_DATA[juridictionId]
-    : (j?.zone?.length >= 3 ? [j.zone] : null);
+  const contours = j ? contoursZonePour(j) : null;
 
   if (!contours) return;
 
@@ -2225,7 +2344,10 @@ function isolerTerritoire(juridictionId) {
   Object.values(markersVilles).forEach(m => m.setOpacity(0));
 
   // Contour doré dans le pane isolationContour
-  const latlngs = contours.map(pts => pts.map(([x, y]) => pixelToLatLng(x, y)));
+  const latlngs = contours.map(contour =>
+    contour.points.map(([x, y]) => pixelToLatLng(x, y))
+  );
+  const fitBounds = boundsFitTerritoire(j);
   isolationLayer = L.polygon(latlngs, {
     color: '#ffffff',
     weight: 3,
@@ -2258,7 +2380,7 @@ function isolerTerritoire(juridictionId) {
   // FlyTo
   setTimeout(() => {
     if (!isolationLayer) return;
-    carte.flyToBounds(isolationLayer.getBounds(), {
+    carte.flyToBounds(fitBounds || isolationLayer.getBounds(), {
       padding: [80, 80],
       maxZoom: carte.getMinZoom() + 2,
       duration: 1.2,
