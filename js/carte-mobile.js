@@ -1885,7 +1885,7 @@ function ouvrirRechercheComplete() {
           <input type="text" id="mob-recherche-fantome" tabindex="-1" aria-hidden="true" readonly>
           <div id="mob-recherche-input" contenteditable="plaintext-only"
             role="searchbox" aria-label="Rechercher un lieu"
-            aria-autocomplete="list" spellcheck="false"
+            aria-autocomplete="list" spellcheck="false" inputmode="search" enterkeyhint="search"
             data-placeholder="Rechercher un lieu…"></div>
         </div>
         <button id="mob-recherche-cancel">✕</button>
@@ -1907,18 +1907,47 @@ function ouvrirRechercheComplete() {
 
   cancelBtn?.addEventListener('click', () => fermerRechercheComplete());
 
-  // Tap sur la loupe : valide le premier résultat du volet
-  loupeBtn?.addEventListener('click', () => {
+  function validerSuggestionRecherche(li) {
+    if (!li) return;
+    const { id, type } = li.dataset;
+    fermerRechercheComplete();
+    setTimeout(() => {
+      recalibrerVue();
+      if (type === 'ville') zoomerVersVille(id);
+      else zoomerVersTerrritoire(id);
+    }, 500);
+  }
+
+  function suggestionPourCompletion(completion) {
+    if (!completion) return null;
+    const normCompletion = normaliser(completion);
+    return [...suggestionsEl.querySelectorAll('.mob-suggestion')]
+      .find(li => normaliser(li.dataset.nom || '') === normCompletion) || null;
+  }
+
+  function validerRechercheMobile(e) {
+    e?.preventDefault();
+    e?.stopPropagation();
     if (!(input?.textContent || '').trim()) return;
-    const premier = suggestionsEl?.querySelector('.mob-suggestion');
-    if (premier) {
-      const { id, type } = premier.dataset;
-      fermerRechercheComplete();
-      setTimeout(() => {
-        _recalibrerVue();
-        if (type === 'ville') zoomerVersVille(id);
-        else zoomerVersTerrritoire(id);
-      }, 500);
+
+    const completion = (fantome?.value || '').trim();
+    const cible = suggestionPourCompletion(completion)
+      || suggestionsEl?.querySelector('.mob-suggestion');
+    validerSuggestionRecherche(cible);
+  }
+
+  // Tap sur la loupe : valide directement la proposition fantome si elle existe.
+  loupeBtn?.addEventListener('click', validerRechercheMobile);
+
+  input?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      validerRechercheMobile(e);
+    }
+  });
+
+  input?.addEventListener('beforeinput', e => {
+    if (e.inputType === 'insertParagraph' || e.inputType === 'insertLineBreak') {
+      validerRechercheMobile(e);
     }
   });
 
@@ -1996,19 +2025,14 @@ function ouvrirRechercheComplete() {
       const candidat = resultats.find(r => normaliser(r.nom).startsWith(norm));
       if (candidat) {
         const saisie = input.textContent || '';
-        fantome.value = saisie + candidat.nom.slice(saisie.length);
+        const suffixe = candidat.nom.slice(saisie.length);
+        if (suffixe) fantome.value = saisie + suffixe;
       }
     }
 
     suggestionsEl.querySelectorAll('.mob-suggestion').forEach(li => {
       li.addEventListener('click', () => {
-        const { id, type } = li.dataset;
-        fermerRechercheComplete();
-        setTimeout(() => {
-          recalibrerVue();
-          if (type === 'ville') zoomerVersVille(id);
-          else zoomerVersTerrritoire(id);
-        }, 500);
+        validerSuggestionRecherche(li);
       });
     });
   });
