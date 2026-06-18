@@ -74,6 +74,64 @@
       white-space: nowrap;
     }
 
+    .editor-switch {
+      position: relative;
+      padding-right: 12px;
+      border-right: 1px solid var(--border);
+      margin-right: 12px;
+    }
+
+    .tb-brand-btn {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      color: var(--gold);
+      cursor: pointer;
+      font: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+      padding: 0;
+    }
+
+    .tb-brand-btn:hover { color: var(--gold-light); }
+
+    .editor-menu {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 0;
+      min-width: 170px;
+      background: rgba(14,12,9,0.98);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+      padding: 5px;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 1400;
+    }
+
+    .editor-menu.open { display: flex; }
+
+    .editor-menu button {
+      width: 100%;
+      padding: 8px 10px;
+      background: rgba(200,151,58,0.12);
+      border: 1px solid var(--border);
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-align: left;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .editor-menu button:hover {
+      color: var(--parchment);
+      background: rgba(200,151,58,0.24);
+      border-color: var(--border-hover);
+    }
+
     .tb-sep {
       width: 1px;
       height: 24px;
@@ -115,6 +173,38 @@
     .tool-btn[data-tool="erase"].active   { border-color: rgba(200,80,80,0.5);  color: #f08080; background: rgba(200,80,80,0.1); }
     .tool-btn[data-tool="insert"].active  { border-color: rgba(80,140,220,0.5); color: #80b8f0; background: rgba(80,140,220,0.1); }
     .tool-btn[data-tool="select"].active  { border-color: var(--border-hover);  color: var(--gold-light); }
+    .tool-btn[data-tool="current"].active { border-color: rgba(70,170,210,0.55); color: #8fd8f2; background: rgba(70,170,210,0.12); }
+    .tool-btn[data-tool="wind"].active    { border-color: rgba(226,185,106,0.55); color: #e2d38b; background: rgba(226,185,106,0.12); }
+    .selection-tool-wrap {
+      position: relative;
+    }
+    .selection-size-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      min-width: 210px;
+      background: rgba(14,12,9,0.98);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+      padding: 8px;
+      display: none;
+      z-index: 1400;
+    }
+    .selection-size-menu.open { display: block; }
+
+    #btn-undo {
+      height: 30px;
+      padding: 0 9px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'Cinzel', serif;
+      font-size: 0.64rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+    #btn-undo:hover:not(:disabled) { color: var(--gold-light); background: var(--gold-dim); }
+    #btn-undo:disabled { opacity: 0.35; cursor: default; }
 
     /* ─── Statut curseur ─────────────────────────────────────── */
     #tb-coords {
@@ -239,6 +329,163 @@
     }
     #btn-del-contour:hover { background: rgba(180,60,60,0.12); color: #f08080; }
     #btn-del-contour:disabled { opacity: 0.3; cursor: default; }
+
+    #section-sea { display: none; }
+    #sea-cell-id {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+    .sea-prop {
+      font-size: 0.78rem;
+      color: var(--text);
+      line-height: 1.45;
+      margin-bottom: 4px;
+    }
+    .sea-prop span { color: var(--text-dim); }
+    #btn-reset-sea-cell {
+      width: 100%;
+      margin-top: 10px;
+      padding: 6px;
+      background: transparent;
+      border: 1px solid rgba(180,60,60,0.35);
+      color: rgba(220,100,100,0.7);
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+    #btn-reset-sea-cell:hover:not(:disabled) { background: rgba(180,60,60,0.12); color: #f08080; }
+    #btn-reset-sea-cell:disabled { opacity: 0.3; cursor: default; }
+
+    #sea-tool-options {
+      display: none;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sea-field {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+    .sea-field input,
+    .sea-field select {
+      width: 86px;
+      background: #0a0806;
+      border: 1px solid var(--border);
+      color: var(--parchment);
+      padding: 5px 7px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+    }
+    .sea-size-buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+    }
+    .sea-size-buttons button {
+      height: 28px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      cursor: pointer;
+    }
+    .sea-size-buttons button.active,
+    .sea-size-buttons button:hover {
+      background: var(--gold-dim);
+      border-color: var(--border-hover);
+      color: var(--gold-light);
+    }
+    .compass-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 46px);
+      gap: 4px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .compass-grid button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'Cinzel', serif;
+      font-size: 0.66rem;
+      cursor: pointer;
+    }
+    .compass-grid button.active,
+    .compass-grid button:hover {
+      color: var(--gold-light);
+      background: var(--gold-dim);
+      border-color: var(--border-hover);
+    }
+    .compass-grid .compass-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+    #btn-apply-sea-selection {
+      width: 100%;
+      margin-top: 12px;
+      padding: 8px;
+      background: rgba(80,180,120,0.12);
+      border: 1px solid rgba(80,180,120,0.4);
+      color: #7de0a0;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+    #btn-apply-sea-selection:hover:not(:disabled) { background: rgba(80,180,120,0.22); }
+    #btn-apply-sea-selection:disabled { opacity: 0.35; cursor: default; }
+    .sea-pattern-controls {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .sea-segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .sea-segmented.two { grid-template-columns: repeat(2, 1fr); }
+    .sea-segmented button {
+      min-height: 28px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      cursor: pointer;
+    }
+    .sea-segmented button.active,
+    .sea-segmented button:hover {
+      background: var(--gold-dim);
+      border-color: var(--border-hover);
+      color: var(--gold-light);
+    }
+    #btn-apply-sea-pattern {
+      width: 100%;
+      margin-top: 8px;
+      padding: 8px;
+      background: rgba(70,170,210,0.12);
+      border: 1px solid rgba(70,170,210,0.4);
+      color: #8fd8f2;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+    #btn-apply-sea-pattern:hover:not(:disabled) { background: rgba(70,170,210,0.22); }
+    #btn-apply-sea-pattern:disabled { opacity: 0.35; cursor: default; }
 
     /* ─── Panneau export ─────────────────────────────────────── */
     #export-area {
@@ -365,6 +612,34 @@
     #map.tool-draw    { cursor: crosshair; }
     #map.tool-erase   { cursor: cell; }
     #map.tool-insert  { cursor: copy; }
+    #map.tool-current,
+    #map.tool-wind    { cursor: cell; }
+
+    .sea-grid-line {
+      pointer-events: none;
+    }
+
+    .sea-cell-label {
+      pointer-events: none;
+      font-family: 'Cinzel', serif;
+      line-height: 1;
+      text-align: center;
+      text-shadow: 0 1px 2px rgba(0,0,0,1), 0 0 5px rgba(0,0,0,0.95), 0 0 8px rgba(0,0,0,0.85);
+      white-space: nowrap;
+    }
+    .sea-cell-label.current { color: #57c7ff; }
+    .sea-cell-label.wind { color: #73e48b; }
+    .sea-cell-label .arrow {
+      display: block;
+      font-weight: 700;
+      line-height: 0.82;
+      transform-origin: 50% 50%;
+    }
+    .sea-cell-label .speed {
+      display: block;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
 
     /* ─── Badge nouveau contour ──────────────────────────────── */
     #draw-badge {
@@ -403,9 +678,15 @@
 
 <!-- ═══ BARRE D'OUTILS ═══════════════════════════════════════ -->
 <div id="toolbar">
-  <div class="tb-brand">☠ Zone Editor</div>
+  <div class="tb-brand editor-switch">
+    <button id="editor-switch-btn" class="tb-brand-btn" type="button">Zone Editor</button>
+    <div id="editor-menu" class="editor-menu">
+      <button type="button" data-editor="zone" class="active">Zone Editor</button>
+      <button type="button" data-editor="sea">Sea Editor</button>
+    </div>
+  </div>
 
-  <div class="tool-group">
+  <div class="tool-group" id="tool-group">
     <button class="tool-btn active" data-tool="select" title="Sélectionner une zone / déplacer un point">
       <span class="icon">◈</span> Sélection
     </button>
@@ -420,6 +701,8 @@
     </button>
   </div>
 
+  <div class="tb-sep"></div>
+  <button id="btn-undo" type="button" disabled>Annuler</button>
   <div class="tb-sep"></div>
 
   <div id="tb-coords">x — y —</div>
@@ -452,6 +735,15 @@
       <button id="btn-del-contour" disabled>✕ Supprimer ce contour</button>
     </div>
 
+    <!-- Section : case sélectionnée -->
+    <div class="panel-section" id="section-sea">
+      <div class="panel-title">Case sélectionnée</div>
+      <div id="sea-cell-id" class="empty-msg">Cliquez sur une case</div>
+      <div id="sea-current" class="sea-prop"><span>Courant :</span> non défini</div>
+      <div id="sea-wind" class="sea-prop"><span>Vent :</span> non défini</div>
+      <button id="btn-reset-sea-cell" disabled>Réinitialiser la case</button>
+    </div>
+
     <!-- Section : contrôles tracé (visible en mode draw) -->
     <div id="draw-controls" style="display:none">
       <div class="panel-title">Nouveau contour</div>
@@ -459,6 +751,52 @@
       <div id="draw-hint">Clic gauche pour poser des points.<br>Clic droit ou bouton ci-dessous pour fermer le contour.</div>
       <button id="btn-finish-draw">✦ Terminer le contour</button>
       <button id="btn-cancel-draw">✕ Annuler</button>
+    </div>
+
+    <!-- Section : réglages Sea Editor -->
+    <div id="sea-tool-options">
+      <div class="panel-title" id="sea-tool-title">Sélection</div>
+      <label class="sea-field" id="sea-speed-field">
+        <span>Vitesse (km/h)</span>
+        <input id="sea-speed" type="number" min="0" step="0.1" value="2">
+      </label>
+      <div class="panel-title" id="sea-direction-title">Direction</div>
+      <div class="compass-grid" id="sea-compass">
+        <button type="button" data-dir="N">N</button>
+        <button type="button" data-dir="NNE">NNE</button>
+        <button type="button" data-dir="NE">NE</button>
+        <button type="button" data-dir="ENE">ENE</button>
+        <button type="button" data-dir="E" class="active">E</button>
+        <button type="button" data-dir="ESE">ESE</button>
+        <button type="button" data-dir="SE">SE</button>
+        <button type="button" data-dir="SSE">SSE</button>
+        <button type="button" data-dir="S">S</button>
+        <button type="button" data-dir="SSW">SSW</button>
+        <button type="button" data-dir="SW">SW</button>
+        <button type="button" data-dir="WSW">WSW</button>
+        <button type="button" data-dir="W">W</button>
+        <button type="button" data-dir="WNW">WNW</button>
+        <button type="button" data-dir="NW">NW</button>
+        <button type="button" data-dir="NNW">NNW</button>
+      </div>
+      <button id="btn-apply-sea-selection" type="button" disabled>Appliquer à la sélection</button>
+      <div class="sea-pattern-controls">
+        <div class="panel-title">Motif de rotation</div>
+        <div class="sea-segmented" id="sea-pattern-type">
+          <button type="button" data-pattern="quarter" class="active">Quart</button>
+          <button type="button" data-pattern="half">Demi</button>
+          <button type="button" data-pattern="full">Cercle</button>
+        </div>
+        <div class="sea-segmented two" id="sea-pattern-turn">
+          <button type="button" data-turn="clockwise" class="active">Horaire</button>
+          <button type="button" data-turn="counterclockwise">Anti-horaire</button>
+        </div>
+        <label class="sea-field">
+          <span>Depart</span>
+          <select id="sea-pattern-start"></select>
+        </label>
+        <button id="btn-apply-sea-pattern" type="button" disabled>Appliquer le motif</button>
+      </div>
     </div>
 
     <!-- Section : export -->
@@ -494,6 +832,31 @@
 const IMG_W = CARTE_IMAGE.width;   // 8500
 const IMG_H = CARTE_IMAGE.height;  // 5320
 const IMG_SRC = '../' + CARTE_IMAGE.src; // chemin relatif depuis tools/
+const SEA_CELL_SIZE = 50;
+const SEA_DIRECTIONS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+const SEA_LOCATION_ANGLES = {
+  N: 0, NNE: 22.5, NE: 45, ENE: 67.5,
+  E: 90, ESE: 112.5, SE: 135, SSE: 157.5,
+  S: 180, SSW: 202.5, SW: 225, WSW: 247.5,
+  W: 270, WNW: 292.5, NW: 315, NNW: 337.5,
+};
+const SEA_DIRECTION_ANGLES = {
+  N: 180, NNE: 202.5, NE: 225, ENE: 247.5,
+  E: 270, ESE: 292.5, SE: 315, SSE: 337.5,
+  S: 0, SSW: 22.5, SW: 45, WSW: 67.5,
+  W: 90, WNW: 112.5, NW: 135, NNW: 157.5,
+};
+const DEFAULT_SEA_SPEED = 2;
+const ZONE_TOOLS = [
+  { id: 'select', label: 'Sélection', icon: '◈', title: 'Sélectionner une zone / déplacer un point' },
+  { id: 'draw', label: 'Nouveau contour', icon: '✦', title: 'Tracer un nouveau contour' },
+  { id: 'insert', label: 'Insérer point', icon: '⊕', title: 'Insérer un point sur un segment existant' },
+  { id: 'erase', label: 'Supprimer point', icon: '⊗', title: 'Supprimer un point en cliquant dessus' },
+];
+const SEA_TOOLS = [
+  { id: 'current', label: 'Courant', icon: '≈', title: 'Afficher et régler le courant' },
+  { id: 'wind', label: 'Vent', icon: '↗', title: 'Afficher et régler le vent' },
+];
 
 // ─── Couleurs des polygones par état ─────────────────────────
 const STYLE_NORMAL   = { color: 'rgba(200,151,58,0.7)',  weight: 1,   fillColor: 'rgba(200,151,58,0.08)', fillOpacity: 1 };
@@ -510,7 +873,9 @@ const HANDLE_SEGMENT = { radius: 4, color: 'rgba(80,140,220,0.8)', weight: 1.5, 
 // ÉTAT
 // ═══════════════════════════════════════════════════════════
 let map = null;
-let currentTool = 'select'; // 'select' | 'draw' | 'erase' | 'insert'
+let activeEditor = 'zone';
+let currentTool = 'select'; // zone: select/draw/erase/insert ; sea: current/wind
+let undoStack = [];
 
 // Données editables : copie profonde de ZONES_DATA
 let zonesEdit = {};
@@ -522,10 +887,16 @@ let handleLayers = []; // cercles de poignées du contour sélectionné
 let segmentMarkers = []; // milieux de segments (mode insert)
 let drawLayer    = null; // L.Polyline preview du tracé en cours
 let drawMarkers  = [];   // marqueurs des points posés
+let seaGridLayer = null;
+let seaCellLayer = null;
+let seaLabelLayer = null;
+let seaCellLayers = {};
 
 // Sélection
 let selectedZoneId    = null;
 let selectedContourIdx = 0;  // index dans zonesEdit[selectedZoneId]
+let selectedSeaCellKey = null;
+let selectedSeaCellKeys = new Set();
 
 // Glisser-déposer d'un point
 let draggingHandle    = null; // { zoneId, contourIdx, ptIdx, marker }
@@ -533,6 +904,18 @@ let draggingOrigin    = null;
 
 // Tracé en cours
 let drawPoints = []; // [[x,y], ...]
+let seaCells = {};
+let seaToolSettings = {
+  current: { direction: 'E', speed: DEFAULT_SEA_SPEED },
+  wind: { direction: 'E', speed: DEFAULT_SEA_SPEED },
+};
+let seaPatternSettings = {
+  type: 'quarter',
+  turn: 'clockwise',
+  start: 'N',
+};
+let seaSelectionSize = 1;
+let seaPaintGesture = null;
 
 // ═══════════════════════════════════════════════════════════
 // UTILITAIRES — coordonnées
@@ -562,6 +945,414 @@ function contourMeta(contour) {
 // Point milieu de deux points px
 function midPx(a, b) { return [(a[0]+b[0])/2, (a[1]+b[1])/2]; }
 
+function cloneJSON(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function pushUndo(label) {
+  undoStack.push({
+    label,
+    zonesEdit: cloneJSON(zonesEdit),
+    zonesMeta: cloneJSON(zonesMeta),
+    seaCells: cloneJSON(seaCells),
+    selectedZoneId,
+    selectedContourIdx,
+    selectedSeaCellKey,
+    selectedSeaCellKeys: [...selectedSeaCellKeys],
+    activeEditor,
+    currentTool,
+  });
+  if (undoStack.length > 30) undoStack.shift();
+  updateUndoButton();
+}
+
+function undoLastOperation() {
+  const snapshot = undoStack.pop();
+  if (!snapshot) return;
+  zonesEdit = snapshot.zonesEdit;
+  zonesMeta = snapshot.zonesMeta;
+  seaCells = snapshot.seaCells;
+  selectedZoneId = snapshot.selectedZoneId;
+  selectedContourIdx = snapshot.selectedContourIdx;
+  selectedSeaCellKey = snapshot.selectedSeaCellKey;
+  selectedSeaCellKeys = new Set(snapshot.selectedSeaCellKeys || []);
+  activeEditor = snapshot.activeEditor;
+  currentTool = snapshot.currentTool;
+  renderAllZones();
+  clearHandles();
+  clearSegmentMarkers();
+  if (selectedZoneId && activeEditor === 'zone') renderHandles();
+  renderSeaCells();
+  renderToolButtons();
+  updateEditorUI();
+  updatePanel();
+  updateSeaPanel();
+  updateExport();
+  updateUndoButton();
+}
+
+function updateUndoButton() {
+  const btn = document.getElementById('btn-undo');
+  if (!btn) return;
+  btn.disabled = undoStack.length === 0;
+}
+
+function renderToolButtons() {
+  const tools = activeEditor === 'sea' ? SEA_TOOLS : ZONE_TOOLS;
+  const group = document.getElementById('tool-group');
+  const selectionButton = activeEditor === 'sea' ? `
+    <div class="selection-tool-wrap">
+      <button class="tool-btn" type="button" id="btn-sea-selection-size" title="Taille de sélection">
+        <span class="icon">◈</span> Sélection ${seaSelectionSize}x${seaSelectionSize}
+      </button>
+      <div class="selection-size-menu" id="selection-size-menu">
+        <div class="sea-size-buttons">
+          ${[1,2,3,4,5].map(size => `<button type="button" data-size="${size}" class="${size === seaSelectionSize ? 'active' : ''}">${size}x${size}</button>`).join('')}
+        </div>
+      </div>
+    </div>
+  ` : '';
+  group.innerHTML = selectionButton + tools.map(tool => `
+    <button class="tool-btn${tool.id === currentTool ? ' active' : ''}" data-tool="${tool.id}" title="${tool.title}">
+      <span class="icon">${tool.icon}</span> ${tool.label}
+    </button>
+  `).join('');
+  group.querySelectorAll('.tool-btn').forEach(btn => {
+    if (!btn.dataset.tool) return;
+    btn.addEventListener('click', () => setTool(btn.dataset.tool));
+  });
+  const selectionBtn = document.getElementById('btn-sea-selection-size');
+  const sizeMenu = document.getElementById('selection-size-menu');
+  if (selectionBtn && sizeMenu) {
+    selectionBtn.addEventListener('click', () => sizeMenu.classList.toggle('open'));
+    sizeMenu.querySelectorAll('[data-size]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        seaSelectionSize = Number(btn.dataset.size) || 1;
+        sizeMenu.classList.remove('open');
+        renderToolButtons();
+      });
+    });
+  }
+}
+
+function setEditor(editor) {
+  if (editor === activeEditor) {
+    document.getElementById('editor-menu').classList.remove('open');
+    return;
+  }
+  if (currentTool === 'draw') cancelDraw(true);
+  clearHandles();
+  clearSegmentMarkers();
+  activeEditor = editor;
+  currentTool = editor === 'sea' ? 'current' : 'select';
+  document.getElementById('editor-menu').classList.remove('open');
+  renderAllZones();
+  renderToolButtons();
+  updateEditorUI();
+  updatePanel();
+  updateSeaPanel();
+  updateExport();
+}
+
+function updateEditorUI() {
+  document.getElementById('editor-switch-btn').textContent = activeEditor === 'sea' ? 'Sea Editor' : 'Zone Editor';
+  document.querySelectorAll('#editor-menu [data-editor]').forEach(btn => {
+    btn.style.display = btn.dataset.editor === activeEditor ? 'none' : 'block';
+  });
+  document.getElementById('section-zone').style.display = activeEditor === 'zone' ? 'block' : 'none';
+  document.getElementById('section-sea').style.display = activeEditor === 'sea' ? 'block' : 'none';
+  document.getElementById('sea-tool-options').style.display = activeEditor === 'sea' ? 'block' : 'none';
+  document.getElementById('draw-controls').style.display = currentTool === 'draw' && activeEditor === 'zone' ? 'block' : 'none';
+  document.getElementById('draw-badge').style.display = currentTool === 'draw' && activeEditor === 'zone' ? 'block' : 'none';
+  Object.values(zoneLayers).flat().forEach(layer => {
+    if (activeEditor === 'sea') {
+      layer.off('click');
+      layer.options.interactive = false;
+    }
+  });
+  if (activeEditor === 'sea') {
+    if (seaCellLayer && !map.hasLayer(seaCellLayer)) seaCellLayer.addTo(map);
+    if (seaLabelLayer && !map.hasLayer(seaLabelLayer)) seaLabelLayer.addTo(map);
+    renderSeaGrid();
+    renderSeaCells();
+    renderSeaToolOptions();
+  } else {
+    clearSeaGrid();
+    if (seaCellLayer && map.hasLayer(seaCellLayer)) map.removeLayer(seaCellLayer);
+    if (seaLabelLayer && map.hasLayer(seaLabelLayer)) map.removeLayer(seaLabelLayer);
+    selectedSeaCellKey = null;
+    selectedSeaCellKeys.clear();
+  }
+  const mapEl = document.getElementById('map');
+  mapEl.className = 'tool-' + currentTool;
+}
+
+function renderSeaToolOptions() {
+  const settings = seaToolSettings[currentTool] || seaToolSettings.current;
+  document.getElementById('sea-tool-title').textContent = currentTool === 'wind' ? 'Vent' : 'Courant';
+  document.getElementById('sea-speed-field').style.display = 'flex';
+  document.getElementById('sea-direction-title').style.display = 'block';
+  document.getElementById('sea-compass').style.display = 'grid';
+  document.getElementById('sea-speed').value = settings.speed;
+  document.querySelectorAll('#sea-compass [data-dir]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.dir === settings.direction);
+  });
+  const applyBtn = document.getElementById('btn-apply-sea-selection');
+  if (applyBtn) applyBtn.disabled = selectedSeaCellKeys.size === 0;
+  const patternBtn = document.getElementById('btn-apply-sea-pattern');
+  if (patternBtn) patternBtn.disabled = selectedSeaCellKeys.size === 0;
+  renderSeaCells();
+}
+
+function seaCellFromPx(pt) {
+  const col = Math.floor(Math.max(0, Math.min(IMG_W - 1, pt[0])) / SEA_CELL_SIZE);
+  const row = Math.floor(Math.max(0, Math.min(IMG_H - 1, pt[1])) / SEA_CELL_SIZE);
+  return { col, row, key: `${col},${row}` };
+}
+
+function isPxInsideImage(pt) {
+  return pt[0] >= 0 && pt[0] < IMG_W && pt[1] >= 0 && pt[1] < IMG_H;
+}
+
+function seaCellBounds(col, row) {
+  const x1 = col * SEA_CELL_SIZE;
+  const y1 = row * SEA_CELL_SIZE;
+  const x2 = Math.min(IMG_W, x1 + SEA_CELL_SIZE);
+  const y2 = Math.min(IMG_H, y1 + SEA_CELL_SIZE);
+  return L.latLngBounds(pxToLatLng(x1, y2), pxToLatLng(x2, y1));
+}
+
+function seaCellCenter(col, row) {
+  const x = Math.min(IMG_W, col * SEA_CELL_SIZE + SEA_CELL_SIZE / 2);
+  const y = Math.min(IMG_H, row * SEA_CELL_SIZE + SEA_CELL_SIZE / 2);
+  return pxToLatLng(x, y);
+}
+
+function seaCellKeysForBrush(centerKey) {
+  const [col, row] = centerKey.split(',').map(Number);
+  const keys = [];
+  for (let dx = 0; dx < seaSelectionSize; dx++) {
+    for (let dy = 0; dy < seaSelectionSize; dy++) {
+      const c = col + dx;
+      const r = row + dy;
+      if (c < 0 || r < 0 || c * SEA_CELL_SIZE >= IMG_W || r * SEA_CELL_SIZE >= IMG_H) continue;
+      keys.push(`${c},${r}`);
+    }
+  }
+  return keys;
+}
+
+function currentSeaPropertyKey() {
+  if (currentTool === 'current') return 'current';
+  if (currentTool === 'wind') return 'wind';
+  return null;
+}
+
+function seaCellScreenSize() {
+  if (!map) return SEA_CELL_SIZE;
+  const a = map.latLngToContainerPoint(pxToLatLng(0, 0));
+  const b = map.latLngToContainerPoint(pxToLatLng(SEA_CELL_SIZE, 0));
+  return Math.max(8, Math.abs(b.x - a.x));
+}
+
+function seaCellStyle(key) {
+  const selected = selectedSeaCellKeys.has(key) || key === selectedSeaCellKey;
+  return {
+    pane: 'seaCellPane',
+    color: selected ? 'rgba(242,232,213,0.95)' : 'rgba(70,170,210,0.65)',
+    weight: selected ? 2 : 1,
+    fillColor: selected ? 'rgba(242,232,213,0.10)' : 'transparent',
+    fillOpacity: selected ? 1 : 0,
+    interactive: false,
+  };
+}
+
+function renderSeaGrid() {
+  if (seaGridLayer) return;
+  seaGridLayer = L.layerGroup([], { pane: 'seaGridPane' }).addTo(map);
+  for (let x = 0; x <= IMG_W; x += SEA_CELL_SIZE) {
+    L.polyline([pxToLatLng(x, 0), pxToLatLng(x, IMG_H)], {
+      pane: 'seaGridPane', className: 'sea-grid-line',
+      color: 'rgba(70,170,210,0.24)', weight: 1, interactive: false,
+    }).addTo(seaGridLayer);
+  }
+  for (let y = 0; y <= IMG_H; y += SEA_CELL_SIZE) {
+    L.polyline([pxToLatLng(0, y), pxToLatLng(IMG_W, y)], {
+      pane: 'seaGridPane', className: 'sea-grid-line',
+      color: 'rgba(70,170,210,0.24)', weight: 1, interactive: false,
+    }).addTo(seaGridLayer);
+  }
+}
+
+function clearSeaGrid() {
+  if (!seaGridLayer) return;
+  map.removeLayer(seaGridLayer);
+  seaGridLayer = null;
+}
+
+function renderSeaCells() {
+  if (!seaCellLayer) return;
+  seaCellLayer.clearLayers();
+  if (seaLabelLayer) seaLabelLayer.clearLayers();
+  seaCellLayers = {};
+  const keys = new Set(Object.keys(seaCells));
+  selectedSeaCellKeys.forEach(key => keys.add(key));
+  if (selectedSeaCellKey) keys.add(selectedSeaCellKey);
+  keys.forEach(key => {
+    const [col, row] = key.split(',').map(Number);
+    const selected = selectedSeaCellKeys.has(key) || key === selectedSeaCellKey;
+    if (selected) {
+      const rect = L.rectangle(seaCellBounds(col, row), seaCellStyle(key));
+      rect.addTo(seaCellLayer);
+      seaCellLayers[key] = rect;
+    }
+    const propertyKey = currentSeaPropertyKey();
+    const value = propertyKey ? seaCells[key]?.[propertyKey] : null;
+    if (value && seaLabelLayer) {
+      const angle = SEA_DIRECTION_ANGLES[value.direction] ?? 0;
+      const screenSize = seaCellScreenSize();
+      const arrowSize = Math.max(18, Math.min(42, screenSize * 0.62));
+      const speedSize = Math.max(10, Math.min(20, screenSize * 0.28));
+      const iconSize = Math.max(36, Math.min(64, screenSize * 0.95));
+      const icon = L.divIcon({
+        className: `sea-cell-label ${propertyKey}`,
+        html: `<span class="arrow" style="font-size:${arrowSize}px; transform: rotate(${angle}deg)">↑</span><span class="speed" style="font-size:${speedSize}px">${value.speed}</span>`,
+        iconSize: [iconSize, iconSize],
+        iconAnchor: [iconSize / 2, iconSize / 2],
+      });
+      L.marker(seaCellCenter(col, row), { icon, interactive: false, pane: 'seaCellPane' }).addTo(seaLabelLayer);
+    }
+  });
+}
+
+function setSeaSelection(keys, additive = false) {
+  if (!additive) selectedSeaCellKeys.clear();
+  keys.forEach(key => selectedSeaCellKeys.add(key));
+  selectedSeaCellKey = keys[keys.length - 1] || selectedSeaCellKey;
+  renderSeaCells();
+  updateSeaPanel();
+  renderSeaToolOptions();
+}
+
+function toggleSeaSelection(keys, mode) {
+  if (mode === 'replace') selectedSeaCellKeys.clear();
+  keys.forEach(key => {
+    if (mode === 'remove') selectedSeaCellKeys.delete(key);
+    else selectedSeaCellKeys.add(key);
+  });
+  selectedSeaCellKey = keys[keys.length - 1] || selectedSeaCellKey;
+  renderSeaCells();
+  updateSeaPanel();
+  renderSeaToolOptions();
+}
+
+function applySeaToolToSelection() {
+  const settings = seaToolSettings[currentTool];
+  if (!settings || !selectedSeaCellKeys.size) return;
+  pushUndo(currentTool === 'wind' ? 'Appliquer vent' : 'Appliquer courant');
+  const targetKeys = [...selectedSeaCellKeys];
+  targetKeys.forEach(targetKey => {
+    seaCells[targetKey] ??= {};
+    seaCells[targetKey][currentTool] = {
+      direction: settings.direction,
+      speed: Number(settings.speed) || 0,
+    };
+  });
+  selectedSeaCellKey = targetKeys[targetKeys.length - 1] || selectedSeaCellKey;
+  renderSeaCells();
+  updateSeaPanel();
+  renderSeaToolOptions();
+  updateExport();
+}
+
+function normalizeAngle(deg) {
+  return ((deg % 360) + 360) % 360;
+}
+
+function angleToDirection(deg) {
+  const normalized = normalizeAngle(deg);
+  let best = SEA_DIRECTIONS[0];
+  let bestDelta = Infinity;
+  SEA_DIRECTIONS.forEach(dir => {
+    const delta = Math.abs(normalizeAngle(normalized - SEA_DIRECTION_ANGLES[dir] + 180) - 180);
+    if (delta < bestDelta) {
+      best = dir;
+      bestDelta = delta;
+    }
+  });
+  return best;
+}
+
+function directionToLocationAngle(dir) {
+  return SEA_LOCATION_ANGLES[dir] ?? 0;
+}
+
+function selectedSeaCellCenters() {
+  return [...selectedSeaCellKeys].map(key => {
+    const [col, row] = key.split(',').map(Number);
+    return {
+      key,
+      col,
+      row,
+      x: col + 0.5,
+      y: row + 0.5,
+    };
+  });
+}
+
+function patternSpanDegrees() {
+  if (seaPatternSettings.type === 'full') return 360;
+  if (seaPatternSettings.type === 'half') return 180;
+  return 90;
+}
+
+function applySeaPatternToSelection() {
+  const settings = seaToolSettings[currentTool];
+  if (!settings || !selectedSeaCellKeys.size) return;
+
+  const cells = selectedSeaCellCenters();
+  const centerX = cells.reduce((sum, cell) => sum + cell.x, 0) / cells.length;
+  const centerY = cells.reduce((sum, cell) => sum + cell.y, 0) / cells.length;
+  const startAngle = directionToLocationAngle(seaPatternSettings.start);
+  const span = patternSpanDegrees();
+  const turnSign = seaPatternSettings.turn === 'clockwise' ? -1 : 1;
+  const tangentOffset = seaPatternSettings.turn === 'clockwise' ? -90 : 90;
+
+  pushUndo(currentTool === 'wind' ? 'Motif vent' : 'Motif courant');
+
+  cells.forEach(cell => {
+    const radial = normalizeAngle(Math.atan2(cell.y - centerY, cell.x - centerX) * 180 / Math.PI + 90);
+    let arcAngle = radial;
+    if (seaPatternSettings.type !== 'full') {
+      const progress = seaPatternSettings.turn === 'clockwise'
+        ? normalizeAngle(startAngle - radial)
+        : normalizeAngle(radial - startAngle);
+      arcAngle = normalizeAngle(startAngle + turnSign * Math.max(0, Math.min(span, progress)));
+    }
+    const vectorAngle = normalizeAngle(arcAngle + tangentOffset);
+    seaCells[cell.key] ??= {};
+    seaCells[cell.key][currentTool] = {
+      direction: angleToDirection(vectorAngle),
+      speed: Number(settings.speed) || 0,
+    };
+  });
+
+  renderSeaCells();
+  updateSeaPanel();
+  renderSeaToolOptions();
+  updateExport();
+}
+
+function resetSelectedSeaCell() {
+  const keys = selectedSeaCellKeys.size ? [...selectedSeaCellKeys] : (selectedSeaCellKey ? [selectedSeaCellKey] : []);
+  if (!keys.some(key => seaCells[key])) return;
+  pushUndo('Reinitialiser case');
+  keys.forEach(key => delete seaCells[key]);
+  renderSeaCells();
+  updateSeaPanel();
+  updateExport();
+}
+
 // ═══════════════════════════════════════════════════════════
 // INIT CARTE
 // ═══════════════════════════════════════════════════════════
@@ -579,6 +1370,12 @@ function initMap() {
   // Image de fond
   const bounds = L.latLngBounds(pxToLatLng(0, IMG_H), pxToLatLng(IMG_W, 0));
   L.imageOverlay(IMG_SRC, bounds).addTo(map);
+  map.createPane('seaGridPane');
+  map.getPane('seaGridPane').style.zIndex = 430;
+  map.createPane('seaCellPane');
+  map.getPane('seaCellPane').style.zIndex = 440;
+  seaCellLayer = L.layerGroup().addTo(map);
+  seaLabelLayer = L.layerGroup().addTo(map);
 
   setTimeout(() => {
     map.fitBounds(bounds);
@@ -587,6 +1384,11 @@ function initMap() {
 
   // Mouvements souris → coordonnées dans la barre
   map.on('mousemove', onMapMouseMove);
+  map.on('mousedown', onMapMouseDown);
+  map.on('mouseup', onMapMouseUp);
+  map.on('zoomend', () => {
+    if (activeEditor === 'sea') renderSeaCells();
+  });
   map.on('click',     onMapClick);
   map.on('contextmenu', onMapRightClick);
 
@@ -603,6 +1405,9 @@ function initMap() {
   }
 
   renderAllZones();
+  renderToolButtons();
+  updateEditorUI();
+  updateUndoButton();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -633,11 +1438,12 @@ function renderZone(zoneId) {
     const isSelected = (zoneId === selectedZoneId && contourIdx === selectedContourIdx);
     const style = isSelected ? STYLE_SELECTED : STYLE_NORMAL;
 
-    const poly = L.polygon(latlngs, { ...style, interactive: true });
+    const poly = L.polygon(latlngs, { ...style, interactive: activeEditor === 'zone' });
     poly._zoneId = zoneId;
     poly._contourIdx = contourIdx;
 
     poly.on('mouseover', function() {
+      if (activeEditor !== 'zone') return;
       if (draggingHandle) return;
       if (!(this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)) {
         this.setStyle(STYLE_HOVER);
@@ -647,12 +1453,14 @@ function renderZone(zoneId) {
       }).openTooltip();
     });
     poly.on('mouseout', function() {
+      if (activeEditor !== 'zone') return;
       if (!(this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)) {
         this.setStyle(STYLE_NORMAL);
       }
       this.unbindTooltip();
     });
     poly.on('click', function(e) {
+      if (activeEditor !== 'zone') return;
       L.DomEvent.stopPropagation(e);
       if (currentTool === 'select' || currentTool === 'erase' || currentTool === 'insert') {
         selectZone(this._zoneId, this._contourIdx);
@@ -752,6 +1560,7 @@ function clearPtInfo() {
 
 // ─── Drag & Drop d'un point ───────────────────────────────────
 function startDrag(ptIdx, marker, e) {
+  pushUndo('Deplacer point');
   draggingHandle = { ptIdx, marker };
   draggingOrigin = e.latlng;
   map.dragging.disable();
@@ -825,6 +1634,7 @@ function renderSegmentMarkers() {
 }
 
 function insertPoint(afterIdx, pt) {
+  pushUndo('Inserer point');
   const contour = zonesEdit[selectedZoneId][selectedContourIdx];
   contour.splice(afterIdx + 1, 0, [Math.round(pt[0]), Math.round(pt[1])]);
   renderZone(selectedZoneId);
@@ -843,6 +1653,7 @@ function erasePoint(ptIdx) {
     alert('Un contour doit avoir au moins 3 points. Utilisez "Supprimer ce contour" pour le retirer entièrement.');
     return;
   }
+  pushUndo('Supprimer point');
   contour.splice(ptIdx, 1);
   renderZone(selectedZoneId);
   renderHandles();
@@ -860,6 +1671,7 @@ function deleteContour() {
     alert('Cette zone n\'a qu\'un seul contour. Pour supprimer la zone entière, éditez zones-data.js manuellement.');
     return;
   }
+  pushUndo('Supprimer contour');
   contours.splice(selectedContourIdx, 1);
   zonesMeta[selectedZoneId]?.splice(selectedContourIdx, 1);
   selectedContourIdx = Math.min(selectedContourIdx, contours.length - 1);
@@ -914,6 +1726,7 @@ function finishDraw() {
     cancelDraw();
     return;
   }
+  pushUndo('Ajouter contour');
   zonesEdit[selectedZoneId].push(drawPoints.map(p => [...p]));
   zonesMeta[selectedZoneId] ??= [];
   zonesMeta[selectedZoneId].push(null);
@@ -943,13 +1756,46 @@ function updateDrawCount() {
 // GESTION DES CLICS SUR LA CARTE
 // ═══════════════════════════════════════════════════════════
 function onMapMouseMove(e) {
-  const [x, y] = latLngToPx(e.latlng);
+  const rawPt = latLngToPx(e.latlng);
+  const [x, y] = rawPt;
   const cx = Math.max(0, Math.min(IMG_W, x));
   const cy = Math.max(0, Math.min(IMG_H, y));
   document.getElementById('tb-coords').innerHTML = `x <span>${cx}</span> &nbsp; y <span>${cy}</span>`;
+  if (seaPaintGesture && activeEditor === 'sea') {
+    if (!isPxInsideImage(rawPt)) return;
+    const cell = seaCellFromPx([cx, cy]);
+    if (!seaPaintGesture.visited.has(cell.key)) {
+      seaPaintGesture.visited.add(cell.key);
+      toggleSeaSelection(seaCellKeysForBrush(cell.key), seaPaintGesture.mode);
+    }
+  }
+}
+
+function onMapMouseDown(e) {
+  if (activeEditor !== 'sea') return;
+  const pt = latLngToPx(e.latlng);
+  if (!isPxInsideImage(pt)) return;
+  pushUndo('Modifier selection');
+  const cell = seaCellFromPx(pt);
+  const keys = seaCellKeysForBrush(cell.key);
+  const allSelected = keys.every(key => selectedSeaCellKeys.has(key));
+  const mode = allSelected ? 'remove' : 'add';
+  seaPaintGesture = { visited: new Set([cell.key]), mode };
+  toggleSeaSelection(keys, allSelected ? 'remove' : 'replace');
+  map.dragging.disable();
+}
+
+function onMapMouseUp() {
+  if (!seaPaintGesture) return;
+  seaPaintGesture = null;
+  map.dragging.enable();
 }
 
 function onMapClick(e) {
+  if (activeEditor === 'sea') {
+    if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
+    return;
+  }
   if (currentTool === 'draw') {
     addDrawPoint(latLngToPx(e.latlng));
     return;
@@ -960,6 +1806,7 @@ function onMapClick(e) {
 }
 
 function onMapRightClick(e) {
+  if (activeEditor === 'sea') return;
   if (currentTool === 'draw') {
     finishDraw();
   }
@@ -980,11 +1827,22 @@ function setTool(tool) {
 
   // UI
   document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`[data-tool="${tool}"]`).classList.add('active');
+  document.querySelector(`[data-tool="${tool}"]`)?.classList.add('active');
 
   // Curseur
   const mapEl = document.getElementById('map');
   mapEl.className = 'tool-' + tool;
+
+  if (activeEditor === 'sea') {
+    document.getElementById('draw-badge').style.display = 'none';
+    document.getElementById('draw-controls').style.display = 'none';
+    clearHandles();
+    clearSegmentMarkers();
+    renderSeaToolOptions();
+    renderSeaCells();
+    updateExport();
+    return;
+  }
 
   // Mode draw : démarrer la session de tracé
   if (tool === 'draw') {
@@ -1011,6 +1869,7 @@ function setTool(tool) {
 // MISE À JOUR DU PANNEAU
 // ═══════════════════════════════════════════════════════════
 function updatePanel() {
+  if (activeEditor !== 'zone') return;
   const idEl   = document.getElementById('info-zone-id');
   const ctEl   = document.getElementById('info-contour');
   const ptsEl  = document.getElementById('info-pts');
@@ -1050,6 +1909,43 @@ function updatePanel() {
   }
 }
 
+function formatSeaValue(value) {
+  if (!value) return 'non défini';
+  return `${value.direction} - ${value.speed} km/h`;
+}
+
+function formatSeaSelectionValue(prop) {
+  const keys = selectedSeaCellKeys.size ? [...selectedSeaCellKeys] : (selectedSeaCellKey ? [selectedSeaCellKey] : []);
+  const values = keys.map(key => seaCells[key]?.[prop]).filter(Boolean);
+  if (!values.length) return 'non défini';
+  const first = JSON.stringify(values[0]);
+  return values.every(value => JSON.stringify(value) === first) ? formatSeaValue(values[0]) : 'valeurs multiples';
+}
+
+function updateSeaPanel() {
+  const idEl = document.getElementById('sea-cell-id');
+  const currentEl = document.getElementById('sea-current');
+  const windEl = document.getElementById('sea-wind');
+  const resetBtn = document.getElementById('btn-reset-sea-cell');
+  if (!selectedSeaCellKey) {
+    idEl.textContent = 'Cliquez sur une case';
+    idEl.className = 'empty-msg';
+    currentEl.innerHTML = '<span>Courant :</span> non défini';
+    windEl.innerHTML = '<span>Vent :</span> non défini';
+    resetBtn.disabled = true;
+    return;
+  }
+  const [col, row] = selectedSeaCellKey.split(',').map(Number);
+  const cell = seaCells[selectedSeaCellKey] || {};
+  const selectedCells = selectedSeaCellKeys.size ? [...selectedSeaCellKeys].map(key => seaCells[key] || {}) : [cell];
+  const hasAnyData = selectedCells.some(item => item.current || item.wind);
+  idEl.textContent = selectedSeaCellKeys.size > 1 ? `${selectedSeaCellKeys.size} cases sélectionnées` : `Case ${col}, ${row}`;
+  idEl.className = '';
+  currentEl.innerHTML = `<span>Courant :</span> ${formatSeaSelectionValue('current')}`;
+  windEl.innerHTML = `<span>Vent :</span> ${formatSeaSelectionValue('wind')}`;
+  resetBtn.disabled = !hasAnyData;
+}
+
 // ═══════════════════════════════════════════════════════════
 // EXPORT JS
 // ═══════════════════════════════════════════════════════════
@@ -1057,14 +1953,45 @@ function updateExport() {
   const box  = document.getElementById('export-box');
   const hint = document.getElementById('export-hint');
 
+  if (activeEditor === 'sea') {
+    const keys = Object.keys(seaCells).sort((a, b) => {
+      const [ac, ar] = a.split(',').map(Number);
+      const [bc, br] = b.split(',').map(Number);
+      return ar - br || ac - bc;
+    });
+    if (!keys.length) {
+      box.textContent = '';
+      hint.style.display = 'block';
+      hint.textContent = 'Peignez des cases pour generer le bloc de donnees maritime.';
+      return;
+    }
+    hint.style.display = 'none';
+    box.textContent = formatSeaCellsJS(keys);
+    return;
+  }
+
   if (!selectedZoneId) {
     box.textContent = '';
     hint.style.display = 'block';
+    hint.innerHTML = 'SÃ©lectionnez une zone pour voir le bloc prÃªt Ã  coller dans <code>zones-data.js</code>.';
     return;
   }
 
   hint.style.display = 'none';
   box.textContent = formatZoneJS(selectedZoneId);
+}
+
+function formatSeaCellsJS(keys) {
+  let out = `const SEA_CELLS = {\n`;
+  keys.forEach(key => {
+    const cell = seaCells[key];
+    out += `  '${key}': {\n`;
+    if (cell.current) out += `    courant: ${JSON.stringify(cell.current)},\n`;
+    if (cell.wind) out += `    vent: ${JSON.stringify(cell.wind)},\n`;
+    out += `  },\n`;
+  });
+  out += `};`;
+  return out;
 }
 
 function formatZoneJS(zoneId) {
@@ -1123,6 +2050,15 @@ document.querySelectorAll('.tool-btn').forEach(btn => {
   btn.addEventListener('click', () => setTool(btn.dataset.tool));
 });
 
+document.getElementById('editor-switch-btn').addEventListener('click', () => {
+  document.getElementById('editor-menu').classList.toggle('open');
+});
+document.querySelectorAll('#editor-menu [data-editor]').forEach(btn => {
+  btn.addEventListener('click', () => setEditor(btn.dataset.editor));
+});
+document.getElementById('btn-undo').addEventListener('click', undoLastOperation);
+document.addEventListener('mouseup', onMapMouseUp);
+
 document.getElementById('btn-prev-contour').addEventListener('click', () => {
   goToContour(selectedContourIdx - 1);
 });
@@ -1132,6 +2068,43 @@ document.getElementById('btn-next-contour').addEventListener('click', () => {
 document.getElementById('btn-del-contour').addEventListener('click', deleteContour);
 document.getElementById('btn-finish-draw').addEventListener('click', finishDraw);
 document.getElementById('btn-cancel-draw').addEventListener('click', () => cancelDraw(false));
+document.getElementById('btn-reset-sea-cell').addEventListener('click', resetSelectedSeaCell);
+document.getElementById('btn-apply-sea-selection').addEventListener('click', applySeaToolToSelection);
+document.getElementById('btn-apply-sea-pattern').addEventListener('click', applySeaPatternToSelection);
+document.getElementById('sea-speed').addEventListener('input', (e) => {
+  if (!seaToolSettings[currentTool]) return;
+  seaToolSettings[currentTool].speed = Number(e.target.value) || 0;
+});
+document.querySelectorAll('#sea-compass [data-dir]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (!SEA_DIRECTIONS.includes(btn.dataset.dir) || !seaToolSettings[currentTool]) return;
+    seaToolSettings[currentTool].direction = btn.dataset.dir;
+    renderSeaToolOptions();
+  });
+});
+
+const patternStartSelect = document.getElementById('sea-pattern-start');
+patternStartSelect.innerHTML = SEA_DIRECTIONS.map(dir => `<option value="${dir}">${dir}</option>`).join('');
+patternStartSelect.value = seaPatternSettings.start;
+patternStartSelect.addEventListener('change', (e) => {
+  seaPatternSettings.start = e.target.value;
+});
+document.querySelectorAll('#sea-pattern-type [data-pattern]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    seaPatternSettings.type = btn.dataset.pattern;
+    document.querySelectorAll('#sea-pattern-type [data-pattern]').forEach(item => {
+      item.classList.toggle('active', item === btn);
+    });
+  });
+});
+document.querySelectorAll('#sea-pattern-turn [data-turn]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    seaPatternSettings.turn = btn.dataset.turn;
+    document.querySelectorAll('#sea-pattern-turn [data-turn]').forEach(item => {
+      item.classList.toggle('active', item === btn);
+    });
+  });
+});
 
 document.getElementById('btn-copy').addEventListener('click', function() {
   const text = document.getElementById('export-box').textContent;
