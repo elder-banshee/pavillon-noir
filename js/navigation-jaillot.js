@@ -865,6 +865,17 @@
     }).slice(0, 8);
   }
 
+  function completionFantomePort(resultats, q) {
+    const candidat = resultatCompletionFantomePort(resultats, q);
+    return candidat ? candidat.nom.slice(q.length) : '';
+  }
+
+  function resultatCompletionFantomePort(resultats, q) {
+    const qLow = normaliserTexte(q);
+    if (!qLow) return null;
+    return resultats.find(({ nom }) => normaliserTexte(nom).startsWith(qLow)) || null;
+  }
+
   function surlignerMatch(texte, qLow) {
     const str = String(texte || '');
     const texteLow = normaliserTexte(str);
@@ -896,7 +907,14 @@
     return total;
   }
 
-  function pointsCourbeQuadratique(points) {
+  function segmentsAffichageNavigables(points) {
+    for (let i = 1; i < points.length; i++) {
+      if (!segmentNavigable(points[i - 1], points[i], { margePx: 0 })) return false;
+    }
+    return true;
+  }
+
+  function pointsAffichageRoute(points) {
     if (points.length <= 2) return points;
     const out = [points[0]];
     const rayon = 0.32;
@@ -921,36 +939,25 @@
         x: cur.x + (next.x - cur.x) / d2 * recul,
         y: cur.y + (next.y - cur.y) / d2 * recul,
       };
-      out.push(a);
-      for (let t = 0.2; t < 1; t += 0.2) {
+      const courbe = [a];
+      for (let t = 0.1; t < 1; t += 0.1) {
         const u = 1 - t;
-        out.push({
+        courbe.push({
           x: u * u * a.x + 2 * u * t * cur.x + t * t * b.x,
           y: u * u * a.y + 2 * u * t * cur.y + t * t * b.y,
         });
       }
-      out.push(b);
+      courbe.push(b);
+
+      if (segmentsAffichageNavigables([out[out.length - 1]].concat(courbe, [next]))) {
+        out.push(...courbe);
+      } else {
+        out.push(cur);
+      }
     }
 
     out.push(points[points.length - 1]);
     return out;
-  }
-
-  function pointsAffichageRoute(points) {
-    const courbe = pointsCourbeQuadratique(points);
-    const affichage = [courbe[0]];
-
-    for (let i = 1; i < courbe.length; i++) {
-      const a = affichage[affichage.length - 1];
-      const b = courbe[i];
-      if (segmentNavigable(a, b, { margePx: 0 })) {
-        affichage.push(b);
-      } else {
-        affichage.push(points.find(p => p.x === b.x && p.y === b.y) || b);
-      }
-    }
-
-    return affichage;
   }
 
   function tracer(points) {
@@ -985,12 +992,17 @@
     if (!input || !fantome || !suggestions) return;
     let valeurCompletee = null;
     let suggestionActive = null;
+    let suggestionFantomeId = null;
+    const mesureCanvas = document.createElement('canvas');
+    const mesureCtx = mesureCanvas.getContext('2d');
 
     function viderSuggestions() {
       suggestions.innerHTML = '';
       fantome.textContent = '';
+      fantome.style.left = '';
       input.setAttribute('aria-expanded', 'false');
       suggestionActive = null;
+      suggestionFantomeId = null;
     }
 
     function choisirSuggestion(li) {
@@ -1002,16 +1014,46 @@
       input.focus();
     }
 
+    function suggestionFantome() {
+      return suggestionFantomeId
+        ? [...suggestions.querySelectorAll('.carte-recherche-suggestion')]
+          .find(li => li.dataset.id === suggestionFantomeId)
+        : null;
+    }
+
+    function largeurTexteSaisi() {
+      if (!mesureCtx) return 0;
+      const style = getComputedStyle(input);
+      mesureCtx.font = style.font;
+      const texte = input.value || '';
+      const espacement = parseFloat(style.letterSpacing);
+      const extra = Number.isFinite(espacement) ? Math.max(0, texte.length - 1) * espacement : 0;
+      return mesureCtx.measureText(texte).width + extra;
+    }
+
+    function afficherFantome(texte) {
+      fantome.textContent = texte || '';
+      if (!texte) {
+        fantome.style.left = '';
+        return;
+      }
+      const style = getComputedStyle(input);
+      const bordure = parseFloat(style.borderLeftWidth) || 0;
+      const padding = parseFloat(style.paddingLeft) || 0;
+      fantome.style.left = `${input.offsetLeft + bordure + padding + largeurTexteSaisi()}px`;
+    }
+
     function rendreSuggestions(q) {
       const qLow = normaliserTexte(q);
       const resultats = resultatsPorts(q);
+      suggestionFantomeId = null;
       if (!qLow) {
         viderSuggestions();
         return;
       }
       if (!resultats.length) {
         suggestions.innerHTML = `<li class="carte-recherche-vide">Aucun port</li>`;
-        fantome.textContent = '';
+        afficherFantome('');
         input.setAttribute('aria-expanded', 'true');
         return;
       }
@@ -1028,16 +1070,9 @@
         </li>`;
       }).join('');
 
-      const premier = suggestions.querySelector('.carte-recherche-suggestion');
-      if (premier) {
-        const nomPremier = premier.dataset.nom || '';
-        const tagPremier = premier.dataset.matchtag || '';
-        const nomLow = normaliserTexte(nomPremier);
-        const tagLow = normaliserTexte(tagPremier);
-        if (nomLow.startsWith(qLow)) fantome.textContent = q + nomPremier.slice(q.length);
-        else if (tagLow.startsWith(qLow)) fantome.textContent = q + tagPremier.slice(q.length);
-        else fantome.textContent = '';
-      }
+      const completion = resultatCompletionFantomePort(resultats, q);
+      suggestionFantomeId = completion?.port?.id || null;
+      afficherFantome(completion ? completionFantomePort([completion], q) : '');
 
       suggestions.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
         li.addEventListener('click', () => choisirSuggestion(li));
@@ -1055,7 +1090,7 @@
     input.addEventListener('keydown', e => {
       if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome.textContent) {
         e.preventDefault();
-        choisirSuggestion(suggestionActive || suggestions.querySelector('.carte-recherche-suggestion'));
+        choisirSuggestion(suggestionActive || suggestionFantome());
         return;
       }
 
@@ -1064,7 +1099,7 @@
 
       if (e.key === 'Enter') {
         e.preventDefault();
-        const cible = suggestionActive || suggestions.querySelector('.carte-recherche-suggestion--active') || items[0];
+        const cible = suggestionActive || suggestions.querySelector('.carte-recherche-suggestion--active') || suggestionFantome() || items[0];
         if (cible) {
           choisirSuggestion(cible);
           return;
@@ -1087,8 +1122,10 @@
         suggestionActive.classList.add('carte-recherche-suggestion--active');
         suggestionActive.scrollIntoView({ block: 'nearest' });
         const q = input.value.trim();
-        const nom = suggestionActive.dataset.nom || '';
-        fantome.textContent = normaliserTexte(nom).startsWith(normaliserTexte(q)) ? q + nom.slice(q.length) : '';
+        afficherFantome(completionFantomePort(
+          [{ nom: suggestionActive.dataset.nom || '' }],
+          q
+        ));
       }
 
       if (e.key === 'ArrowDown') { e.preventDefault(); naviguer(1); }

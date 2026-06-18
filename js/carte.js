@@ -2074,6 +2074,30 @@ function majWeightsZones() {
 }
 
 // ─── Zoom sur une ville (depuis la recherche) ─────────────────
+function setCalculateurRouteDisabled(disabled) {
+  const calculateur = document.getElementById('nav-jaillot');
+  if (!calculateur) return;
+
+  calculateur.querySelectorAll('.nav-jaillot-lettre, .nav-jaillot-resultat').forEach(el => {
+    el.classList.toggle('carte-isolation--disabled', disabled);
+  });
+  calculateur.querySelectorAll('input, button').forEach(el => {
+    el.disabled = disabled;
+    el.classList.toggle('carte-isolation--disabled', disabled && el.tagName === 'BUTTON');
+    if (disabled) el.blur();
+  });
+
+  if (!disabled) return;
+  calculateur.querySelectorAll('.carte-recherche-suggestions').forEach(el => { el.innerHTML = ''; });
+  calculateur.querySelectorAll('.carte-recherche-fantome').forEach(el => {
+    el.textContent = '';
+    el.style.left = '';
+  });
+  calculateur.querySelectorAll('[aria-expanded="true"]').forEach(el => {
+    el.setAttribute('aria-expanded', 'false');
+  });
+}
+
 function zoomerVille(villeId) {
   const ville = (typeof VILLES !== 'undefined') ? VILLES.find(v => v.id === villeId) : null;
   if (!ville || !ville.coords) return;
@@ -2122,6 +2146,7 @@ function zoomerVille(villeId) {
   document.getElementById('filtre-sites')?.classList.add('carte-isolation--disabled');
   const rechercheInputZoom = document.getElementById('carte-recherche-input');
   if (rechercheInputZoom) { rechercheInputZoom.disabled = true; rechercheInputZoom.blur(); }
+  setCalculateurRouteDisabled(true);
 
   // Mettre à jour la légende
   majLegende();
@@ -2282,6 +2307,7 @@ function _restaurerModeNormal() {
   document.getElementById('filtre-sites')?.classList.remove('carte-isolation--disabled');
   const rechercheInput = document.getElementById('carte-recherche-input');
   if (rechercheInput) rechercheInput.disabled = false;
+  setCalculateurRouteDisabled(false);
   document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`.carte-overlay-btn[data-mode="${overlayMode}"]`)?.classList.add('active');
   majLegende();
@@ -2334,6 +2360,7 @@ function isolerTerritoire(juridictionId) {
   document.getElementById('filtre-sites')?.classList.add('carte-isolation--disabled');
   const rechercheInputIso = document.getElementById('carte-recherche-input');
   if (rechercheInputIso) { rechercheInputIso.disabled = true; rechercheInputIso.blur(); }
+  setCalculateurRouteDisabled(true);
 
   // Mettre à jour la légende (affiche "Cliquer pour quitter")
   majLegende();
