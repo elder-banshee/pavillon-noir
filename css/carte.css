@@ -37,6 +37,115 @@ main {
   background: var(--ink);
 }
 
+/* ─── Prototype navigation Jaillot ──────────────────────────── */
+.nav-jaillot {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.75rem;
+  padding: 0.7rem 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-left: 0;
+  border-right: 0;
+  color: var(--mist);
+}
+
+.nav-jaillot-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.7rem;
+}
+
+.nav-jaillot-ligne {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.nav-jaillot-ligne + .nav-jaillot-ligne {
+  margin-top: 0.45rem;
+}
+
+.nav-jaillot-ligne--actions {
+  justify-content: flex-end;
+}
+
+.nav-jaillot-lettre {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(200, 151, 58, 0.45);
+  color: var(--gold-light);
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+.nav-jaillot input {
+  width: 100%;
+  min-width: 0;
+  height: 28px;
+  box-sizing: border-box;
+  border: 1px solid rgba(107, 124, 138, 0.32);
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--parchment);
+  padding: 0 0.45rem;
+  font-family: 'Alegreya', serif;
+  font-size: 0.78rem;
+}
+
+.nav-jaillot input:focus {
+  outline: none;
+  border-color: rgba(200, 151, 58, 0.75);
+}
+
+.nav-jaillot button {
+  height: 26px;
+  border: 1px solid rgba(200, 151, 58, 0.45);
+  background: rgba(200, 151, 58, 0.08);
+  color: var(--gold-light);
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.nav-jaillot button:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+#nav-jaillot-swap,
+#nav-jaillot-effacer {
+  width: 28px;
+  padding: 0;
+}
+
+#nav-jaillot-tracer {
+  padding: 0 0.65rem;
+}
+
+.nav-jaillot-avance {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.nav-jaillot-resultat {
+  min-height: 1rem;
+  margin-top: 0.45rem;
+  color: var(--mist-light);
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
 .carte-zoom-controls {
   position: absolute;
   z-index: 800;
@@ -1112,6 +1221,48 @@ path.leaflet-interactive:focus-visible {
   opacity: 0.7;
 }
 
+.nav-jaillot-champ {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.nav-jaillot .carte-recherche-input {
+  height: 28px;
+  padding: 0.35rem 0.45rem;
+  font-size: 0.82rem;
+  line-height: 1.1;
+}
+
+.nav-jaillot .carte-recherche-fantome {
+  right: 0.45rem;
+  padding: 0.35rem 0 0.35rem 0.45rem;
+  font-size: 0.82rem;
+  line-height: 1.1;
+}
+
+.nav-jaillot .carte-recherche-suggestions {
+  z-index: 50;
+  max-height: 220px;
+}
+
+.nav-jaillot .carte-recherche-suggestion {
+  padding: 0.45rem 0.55rem;
+}
+
+.nav-jaillot .carte-recherche-suggestion-nom {
+  font-size: 0.62rem;
+}
+
+.nav-jaillot .carte-recherche-suggestion-match {
+  font-size: 0.72rem;
+}
+
+.nav-jaillot .carte-recherche-vide {
+  padding: 0.55rem;
+  font-size: 0.78rem;
+}
+
 /* ─── Filtres marqueurs (panneau gauche) ────────────────────── */
 .carte-filtres-marqueurs {
   display: flex;
@@ -1223,6 +1374,10 @@ path.leaflet-interactive:focus-visible {
 }
 
 @media (max-width: 900px) {
+  .nav-jaillot input {
+    height: 30px;
+    font-size: 0.82rem;
+  }
 
   .carte-panneau,
   .carte-panneau--open,

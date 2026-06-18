@@ -514,6 +514,7 @@ let currentTool = 'select'; // 'select' | 'draw' | 'erase' | 'insert'
 
 // Données editables : copie profonde de ZONES_DATA
 let zonesEdit = {};
+let zonesMeta = {};
 
 // Layers Leaflet
 let zoneLayers   = {}; // zoneId → [L.Polygon, ...]  (un par contour)
@@ -542,6 +543,21 @@ function eventToPx(e)         { return latLngToPx(e.latlng); }
 
 // Convertit un contour [[x,y],...] en tableau de LatLng
 function contourToLatLngs(pts) { return pts.map(([x, y]) => pxToLatLng(x, y)); }
+
+function contourPoints(contour) {
+  if (Array.isArray(contour)) return contour;
+  if (contour && Array.isArray(contour.points)) return contour.points;
+  return null;
+}
+
+function contourMeta(contour) {
+  if (!contour || Array.isArray(contour) || !Array.isArray(contour.points)) return null;
+  const meta = {};
+  Object.keys(contour).forEach(key => {
+    if (key !== 'points') meta[key] = contour[key];
+  });
+  return Object.keys(meta).length ? meta : null;
+}
 
 // Point milieu de deux points px
 function midPx(a, b) { return [(a[0]+b[0])/2, (a[1]+b[1])/2]; }
@@ -576,7 +592,14 @@ function initMap() {
 
   // Copie profonde des données
   for (const id in ZONES_DATA) {
-    zonesEdit[id] = ZONES_DATA[id].map(contour => contour.map(pt => [...pt]));
+    zonesEdit[id] = [];
+    zonesMeta[id] = [];
+    ZONES_DATA[id].forEach(contour => {
+      const points = contourPoints(contour);
+      if (!points || points.length < 3) return;
+      zonesEdit[id].push(points.map(pt => [...pt]));
+      zonesMeta[id].push(contourMeta(contour));
+    });
   }
 
   renderAllZones();
@@ -838,6 +861,7 @@ function deleteContour() {
     return;
   }
   contours.splice(selectedContourIdx, 1);
+  zonesMeta[selectedZoneId]?.splice(selectedContourIdx, 1);
   selectedContourIdx = Math.min(selectedContourIdx, contours.length - 1);
   renderZone(selectedZoneId);
   clearHandles();
@@ -891,6 +915,8 @@ function finishDraw() {
     return;
   }
   zonesEdit[selectedZoneId].push(drawPoints.map(p => [...p]));
+  zonesMeta[selectedZoneId] ??= [];
+  zonesMeta[selectedZoneId].push(null);
   cancelDraw(true);
   selectedContourIdx = zonesEdit[selectedZoneId].length - 1;
   renderZone(selectedZoneId);
@@ -1046,13 +1072,27 @@ function formatZoneJS(zoneId) {
   let out = `  '${zoneId}': [  // ${contours.length} contour(s), ${contours.reduce((s,c)=>s+c.length,0)} pts\n`;
 
   contours.forEach((contour, ci) => {
-    out += `    [\n`;
+    const meta = zonesMeta[zoneId]?.[ci] || null;
+    if (meta) {
+      out += `    {\n`;
+      Object.entries(meta).forEach(([key, value]) => {
+        out += `      ${key}: ${JSON.stringify(value)},\n`;
+      });
+      out += `      points: [\n`;
+    } else {
+      out += `    [\n`;
+    }
     // Grouper par lignes de 6 points
     for (let i = 0; i < contour.length; i += 6) {
       const chunk = contour.slice(i, i + 6);
-      out += '      ' + chunk.map(([x,y]) => `[${x}, ${y}]`).join(', ') + ',\n';
+      out += (meta ? '        ' : '      ') + chunk.map(([x,y]) => `[${x}, ${y}]`).join(', ') + ',\n';
     }
-    out += `    ],\n`;
+    if (meta) {
+      out += `      ],\n`;
+      out += `    },\n`;
+    } else {
+      out += `    ],\n`;
+    }
   });
 
   out += `  ],`;

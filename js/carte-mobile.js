@@ -773,6 +773,7 @@ function initCarte(apresPrechauffage = () => {}) {
 
   renderZones();
   renderVilles();
+  window.NavigationJaillot?.init({ carte, pixelToLatLng });
 
   carte.on('click', (e) => {
     fermerToutesSheets();

@@ -698,6 +698,7 @@ function initCarte() {
   renderZones();
   renderPins();
   renderVilles();
+  window.NavigationJaillot?.init({ carte, pixelToLatLng });
 
   carte.on('click', () => {
     fermerPopup();
