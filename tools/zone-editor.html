@@ -683,6 +683,8 @@
     <div id="editor-menu" class="editor-menu">
       <button type="button" data-editor="zone" class="active">Zone Editor</button>
       <button type="button" data-editor="sea">Sea Editor</button>
+
+      <button type="button" data-editor="currents">Courants</button>
     </div>
   </div>
 
@@ -799,6 +801,19 @@
       </div>
     </div>
 
+    <!-- Section : courants (lecture seule) -->
+    <div id="section-currents" style="display:none">
+      <div class="panel-title">Courants maritimes</div>
+      <div id="currents-list" style="margin-top:6px; font-size:0.82rem; color:var(--text-dim)">
+        Chargement...
+      </div>
+      <div style="margin-top:10px; font-size:0.75rem; color:var(--mist); line-height:1.5">
+        Vue lecture seule.<br>
+        Éditer <code>sea-data.js</code> ou relancer <code>svg_to_currents.py</code>.
+      </div>
+    </div>
+    <div id="currents-info" style="display:none"></div>
+
     <!-- Section : export -->
     <div id="export-area">
       <div id="export-title">Export JS</div>
@@ -822,6 +837,8 @@
 -->
 <script src="../js/carte-data.js"></script>
 <script src="../js/zones-data.js"></script>
+<script src="../js/map-bounds.js"></script>
+<script src="../js/sea-data.js"></script>
 
 <script>
 'use strict';
@@ -891,6 +908,8 @@ let seaGridLayer = null;
 let seaCellLayer = null;
 let seaLabelLayer = null;
 let seaCellLayers = {};
+let currentLayer = null;      // L.LayerGroup pour les rubans de courant
+let currentArrowLayer = null; // L.LayerGroup pour les flèches directionnelles
 
 // Sélection
 let selectedZoneId    = null;
@@ -998,6 +1017,7 @@ function updateUndoButton() {
 }
 
 function renderToolButtons() {
+  if (activeEditor === 'currents') { document.getElementById('tool-group').innerHTML = ''; return; }
   const tools = activeEditor === 'sea' ? SEA_TOOLS : ZONE_TOOLS;
   const group = document.getElementById('tool-group');
   const selectionButton = activeEditor === 'sea' ? `
@@ -1045,6 +1065,7 @@ function setEditor(editor) {
   clearSegmentMarkers();
   activeEditor = editor;
   currentTool = editor === 'sea' ? 'current' : 'select';
+  if (editor === 'currents') currentTool = 'select';
   document.getElementById('editor-menu').classList.remove('open');
   renderAllZones();
   renderToolButtons();
@@ -1055,13 +1076,16 @@ function setEditor(editor) {
 }
 
 function updateEditorUI() {
-  document.getElementById('editor-switch-btn').textContent = activeEditor === 'sea' ? 'Sea Editor' : 'Zone Editor';
+  const editorLabels = { zone: 'Zone Editor', sea: 'Sea Editor', currents: 'Courants' };
+  document.getElementById('editor-switch-btn').textContent = editorLabels[activeEditor] || 'Zone Editor';
   document.querySelectorAll('#editor-menu [data-editor]').forEach(btn => {
     btn.style.display = btn.dataset.editor === activeEditor ? 'none' : 'block';
   });
   document.getElementById('section-zone').style.display = activeEditor === 'zone' ? 'block' : 'none';
   document.getElementById('section-sea').style.display = activeEditor === 'sea' ? 'block' : 'none';
+  document.getElementById('section-currents').style.display = activeEditor === 'currents' ? 'block' : 'none';
   document.getElementById('sea-tool-options').style.display = activeEditor === 'sea' ? 'block' : 'none';
+  document.getElementById('currents-info').style.display = activeEditor === 'currents' ? 'block' : 'none';
   document.getElementById('draw-controls').style.display = currentTool === 'draw' && activeEditor === 'zone' ? 'block' : 'none';
   document.getElementById('draw-badge').style.display = currentTool === 'draw' && activeEditor === 'zone' ? 'block' : 'none';
   Object.values(zoneLayers).flat().forEach(layer => {
@@ -1076,12 +1100,18 @@ function updateEditorUI() {
     renderSeaGrid();
     renderSeaCells();
     renderSeaToolOptions();
+    clearCurrentsLayer();
   } else {
     clearSeaGrid();
     if (seaCellLayer && map.hasLayer(seaCellLayer)) map.removeLayer(seaCellLayer);
     if (seaLabelLayer && map.hasLayer(seaLabelLayer)) map.removeLayer(seaLabelLayer);
     selectedSeaCellKey = null;
     selectedSeaCellKeys.clear();
+  }
+  if (activeEditor === 'currents') {
+    renderCurrentsLayer();
+  } else {
+    clearCurrentsLayer();
   }
   const mapEl = document.getElementById('map');
   mapEl.className = 'tool-' + currentTool;
@@ -1188,6 +1218,96 @@ function clearSeaGrid() {
   if (!seaGridLayer) return;
   map.removeLayer(seaGridLayer);
   seaGridLayer = null;
+}
+
+// ═══════════════════════════════════════════════════════════
+// COURANTS MARITIMES (mode lecture seule)
+// ═══════════════════════════════════════════════════════════
+
+function renderCurrentsLayer() {
+  clearCurrentsLayer();
+  const currents = (typeof SEA_CURRENTS !== 'undefined') ? SEA_CURRENTS : [];
+
+  currentLayer = L.layerGroup().addTo(map);
+  currentArrowLayer = L.layerGroup().addTo(map);
+
+  // Couleurs par force
+  const forceColors = { 1: 'rgba(80,160,220,0.25)', 2: 'rgba(50,130,210,0.35)', 3: 'rgba(20,100,200,0.45)' };
+  const forceStroke = { 1: 'rgba(80,160,220,0.6)', 2: 'rgba(50,130,210,0.75)', 3: 'rgba(20,100,200,0.9)' };
+
+  currents.forEach(c => {
+    // Ruban semi-transparent
+    if (c.zone && c.zone.length > 2) {
+      const latlngs = c.zone.map(([x, y]) => pxToLatLng(x, y));
+      L.polygon(latlngs, {
+        color: forceStroke[c.force] || forceStroke[2],
+        weight: 1,
+        fillColor: forceColors[c.force] || forceColors[2],
+        fillOpacity: 1,
+        interactive: false,
+      }).addTo(currentLayer);
+    }
+
+    // Flèches directionnelles sur la centerline (1 toutes les 8 points)
+    if (c.centerline && c.directions) {
+      const step = Math.max(1, Math.round(c.centerline.length / 20)); // ~20 flèches max
+      for (let i = 0; i < c.centerline.length; i += step) {
+        const [x, y] = c.centerline[i];
+        const dir = c.directions[i] || 'E';
+        const angle = dirToAngleDeg(dir);
+        const latlng = pxToLatLng(x, y);
+        // Flèche SVG rotative via DivIcon
+        const icon = L.divIcon({
+          className: '',
+          html: `<div style="
+            width:20px; height:20px;
+            display:flex; align-items:center; justify-content:center;
+            transform:rotate(${angle}deg);
+            font-size:16px; color:rgba(80,180,255,0.92);
+            text-shadow:0 0 4px rgba(0,0,0,0.9);
+            pointer-events:none;
+          ">➤</div>`,
+          iconSize: [20, 20],
+          iconAnchor: [10, 10],
+        });
+        L.marker(latlng, { icon, interactive: false, keyboard: false }).addTo(currentArrowLayer);
+      }
+    }
+  });
+
+  // Mettre à jour le panneau liste
+  const listEl = document.getElementById('currents-list');
+  if (listEl) {
+    if (!currents.length) {
+      listEl.textContent = 'Aucun courant dans sea-data.js.';
+    } else {
+      listEl.innerHTML = currents.map(c =>
+        `<div style="margin-bottom:6px; padding:5px 7px; background:rgba(20,100,200,0.12); border:1px solid rgba(20,100,200,0.3); border-radius:2px;">
+          <span style="color:var(--gold-light); font-family:Cinzel,serif; font-size:0.75rem;">${c.label || c.id}</span><br>
+          <span>Force ${c.force || '?'} · ${c.centerline ? c.centerline.length : 0} points</span>
+        </div>`
+      ).join('');
+    }
+  }
+}
+
+function clearCurrentsLayer() {
+  if (currentLayer) { map.removeLayer(currentLayer); currentLayer = null; }
+  if (currentArrowLayer) { map.removeLayer(currentArrowLayer); currentArrowLayer = null; }
+}
+
+// Convertit une direction cardinale en angle CSS de rotation de la flèche ➤
+// ➤ pointe naturellement vers la droite (Est). Rotation CSS sens horaire.
+// Axe Y Leaflet = Y image inversé → Nord affiché = y décroissant = haut écran.
+// On ajoute 180° car les directions sont encodées en provenance dans svg_to_currents.py.
+function dirToAngleDeg(dir) {
+  const angles = {
+    N: 90,   NNE: 112.5, NE: 135,  ENE: 157.5,
+    E: 180,  ESE: 202.5, SE: 225,  SSE: 247.5,
+    S: 270,  SSW: 292.5, SW: 315,  WSW: 337.5,
+    W: 0,    WNW: 22.5,  NW: 45,   NNW: 67.5,
+  };
+  return angles[dir] !== undefined ? angles[dir] : 0;
 }
 
 function renderSeaCells() {
