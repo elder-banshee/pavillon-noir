@@ -20,6 +20,8 @@
     diagonales: true,
     limiteIterations: 45000,
   };
+  const DIRECTIONS_COURANT = ['N','NNE','NE','ENE','E','ESE','SE','SSE',
+    'S','SSW','SW','WSW','W','WNW','NW','NNW'];
 
   let carte = null;
   let pixelToLatLngFn = null;
@@ -101,6 +103,104 @@
       if (croise) dedans = !dedans;
     }
     return dedans;
+  }
+
+  function pointDansAnneauSea(point, ring) {
+    let dedans = false;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const pi = { x: ring[i][0], y: ring[i][1] };
+      const pj = { x: ring[j][0], y: ring[j][1] };
+      const croise = ((pi.y > point.y) !== (pj.y > point.y))
+        && (point.x < (pj.x - pi.x) * (point.y - pi.y) / ((pj.y - pi.y) || 0.000001) + pi.x);
+      if (croise) dedans = !dedans;
+    }
+    return dedans;
+  }
+
+  function anneauxZoneSea(zone) {
+    if (Array.isArray(zone)) return [zone];
+    if (!zone || !Array.isArray(zone.exterior)) return [];
+    const trous = Array.isArray(zone.holes) ? zone.holes : (Array.isArray(zone.hole) ? [zone.hole] : []);
+    return [zone.exterior, ...trous].filter(ring => Array.isArray(ring) && ring.length >= 3);
+  }
+
+  function pointDansZoneSea(point, zone) {
+    const anneaux = anneauxZoneSea(zone);
+    if (!anneaux.length) return false;
+    if (!pointDansAnneauSea(point, anneaux[0])) return false;
+    return !anneaux.slice(1).some(trou => pointDansAnneauSea(point, trou));
+  }
+
+  function directionVersVecteur(direction, force = 1) {
+    const index = DIRECTIONS_COURANT.indexOf(direction);
+    if (index < 0) return null;
+    const angle = (index * 22.5 - 90) * Math.PI / 180;
+    return {
+      x: Math.cos(angle) * force,
+      y: Math.sin(angle) * force,
+    };
+  }
+
+  function vecteurVersDirection(vecteur) {
+    if (!vecteur || Math.hypot(vecteur.x, vecteur.y) < 0.000001) return null;
+    const angle = (Math.atan2(vecteur.y, vecteur.x) * 180 / Math.PI + 450) % 360;
+    return DIRECTIONS_COURANT[Math.round(angle / 22.5) % 16];
+  }
+
+  function directionCourantAuPoint(courant, point) {
+    const cl = courant.centerline || [];
+    if (!cl.length) return courant.directions?.[0] || null;
+    if (cl.length === 1) return courant.directions?.[0] || null;
+
+    let meilleurIdx = 0;
+    let meilleureDist = Infinity;
+    const segmentCount = courant.closed ? cl.length : cl.length - 1;
+    for (let i = 0; i < segmentCount; i++) {
+      const a = { x: cl[i][0], y: cl[i][1] };
+      const b = { x: cl[(i + 1) % cl.length][0], y: cl[(i + 1) % cl.length][1] };
+      const d = distPointSegment(point, a, b);
+      if (d < meilleureDist) {
+        meilleureDist = d;
+        meilleurIdx = i;
+      }
+    }
+    return courant.directions?.[meilleurIdx] || courant.directions?.[courant.directions.length - 1] || null;
+  }
+
+  function courantsAuPoint(point) {
+    const source = typeof SEA_CURRENTS !== 'undefined' ? SEA_CURRENTS : [];
+    return source.filter(courant => pointDansZoneSea(point, courant.zone));
+  }
+
+  function courantEnPoint(point) {
+    const presents = courantsAuPoint(point);
+    if (!presents.length) return null;
+
+    const priorite = Math.min(...presents.map(c => c.priorite ?? Infinity));
+    const retenus = presents.filter(c => (c.priorite ?? Infinity) === priorite);
+    let x = 0;
+    let y = 0;
+    let count = 0;
+
+    retenus.forEach(courant => {
+      const direction = directionCourantAuPoint(courant, point);
+      const vecteur = directionVersVecteur(direction, Number(courant.force) || 0);
+      if (!vecteur) return;
+      x += vecteur.x;
+      y += vecteur.y;
+      count++;
+    });
+
+    if (!count) return null;
+    const moyen = { x: x / count, y: y / count };
+    const force = Math.hypot(moyen.x, moyen.y);
+    return {
+      priorite,
+      force,
+      direction: vecteurVersDirection(moyen),
+      vecteur: moyen,
+      courants: retenus.map(c => c.id),
+    };
   }
 
   function bboxCroise(a, b, bbox, marge) {
@@ -1256,6 +1356,7 @@
     init,
     calculerRoute,
     segmentNavigable,
+    courantEnPoint,
     config: CONFIG,
   };
 })();

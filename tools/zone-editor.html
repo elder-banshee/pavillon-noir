@@ -1265,6 +1265,64 @@ function seaZoneLatLngs(zone) {
   return seaZoneRings(zone).map(ring => ring.map(([x, y]) => pxToLatLng(x, y)));
 }
 
+function seaPointInRing(pt, ring) {
+  const [x, y] = pt;
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i];
+    const [xj, yj] = ring[j];
+    const intersects = ((yi > y) !== (yj > y))
+      && (x < (xj - xi) * (y - yi) / ((yj - yi) || 1e-9) + xi);
+    if (intersects) inside = !inside;
+  }
+  return inside;
+}
+
+function seaPointInZone(pt, zone) {
+  const rings = seaZoneRings(zone);
+  if (!rings.length) return false;
+  if (!seaPointInRing(pt, rings[0])) return false;
+  return !rings.slice(1).some(hole => seaPointInRing(pt, hole));
+}
+
+function seaArrowSamples(current, spacingPx = 220) {
+  const cl = current.centerline || [];
+  if (cl.length < 2) return [];
+
+  const segments = [];
+  let total = 0;
+  const segmentCount = current.closed ? cl.length : cl.length - 1;
+  for (let i = 0; i < segmentCount; i++) {
+    const a = cl[i];
+    const b = cl[(i + 1) % cl.length];
+    const dx = b[0] - a[0];
+    const dy = b[1] - a[1];
+    const len = Math.sqrt(dx * dx + dy * dy);
+    if (len < 1) continue;
+    segments.push({ a, b, len, start: total, dirIdx: i });
+    total += len;
+  }
+  if (!segments.length) return [];
+
+  const samples = [];
+  const count = Math.max(1, Math.floor(total / spacingPx));
+  const gap = total / count;
+  for (let n = 0; n < count; n++) {
+    const target = (n + 0.5) * gap;
+    const seg = segments.find(s => target >= s.start && target <= s.start + s.len) || segments[segments.length - 1];
+    const t = Math.max(0, Math.min(1, (target - seg.start) / seg.len));
+    const x = seg.a[0] + (seg.b[0] - seg.a[0]) * t;
+    const y = seg.a[1] + (seg.b[1] - seg.a[1]) * t;
+    if (!seaPointInZone([x, y], current.zone)) continue;
+    samples.push({
+      x,
+      y,
+      direction: current.directions?.[seg.dirIdx] || 'E',
+    });
+  }
+  return samples;
+}
+
 function formatSeaZoneJS(zone, fmtPts) {
   if (Array.isArray(zone)) return `[
 ${fmtPts(zone)}
@@ -1318,31 +1376,18 @@ function renderCurrentsLayer() {
 
     }
 
-    // Flèches
+    // Fleches
     if (c.centerline && c.directions) {
-      // Espacement minimum ~150px entre fleches, indépendant du nombre de points
-      const MIN_ARROW_PX = 150;
-      const clLen = c.centerline.length;
-      // Estimer la longueur totale en px (distance entre points consécutifs)
-      let totalPx = 0;
-      for (let k = 1; k < clLen; k++) {
-        const dx = c.centerline[k][0] - c.centerline[k-1][0];
-        const dy = c.centerline[k][1] - c.centerline[k-1][1];
-        totalPx += Math.sqrt(dx*dx + dy*dy);
-      }
-      const nArrows = Math.max(1, Math.floor(totalPx / MIN_ARROW_PX));
-      const step = Math.max(1, Math.round(clLen / nArrows));
-      for (let i = 0; i < c.centerline.length; i += step) {
-        const [x, y] = c.centerline[i];
-        const angle  = dirToAngleDeg(c.directions[i] || 'E');
+      seaArrowSamples(c).forEach(sample => {
+        const angle  = dirToAngleDeg(sample.direction);
         const color  = isSelected ? 'rgba(255,210,60,0.95)' : 'rgba(80,180,255,0.92)';
         const icon   = L.divIcon({
           className: '',
           html: `<div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;transform:rotate(${angle}deg);font-size:16px;color:${color};text-shadow:0 0 4px rgba(0,0,0,0.9);pointer-events:none;">➤</div>`,
           iconSize: [20, 20], iconAnchor: [10, 10],
         });
-        L.marker(pxToLatLng(x, y), { icon, interactive: false, keyboard: false }).addTo(currentArrowLayer);
-      }
+        L.marker(pxToLatLng(sample.x, sample.y), { icon, interactive: false, keyboard: false }).addTo(currentArrowLayer);
+      });
     }
   });
 
