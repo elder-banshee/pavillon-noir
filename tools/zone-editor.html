@@ -1254,6 +1254,35 @@ function getWorkingCurrents() {
   return currentsWorkingCopy;
 }
 
+function seaZoneRings(zone) {
+  if (Array.isArray(zone)) return [zone];
+  if (!zone || !Array.isArray(zone.exterior)) return [];
+  const holes = Array.isArray(zone.holes) ? zone.holes : (Array.isArray(zone.hole) ? [zone.hole] : []);
+  return [zone.exterior, ...holes].filter(ring => Array.isArray(ring) && ring.length > 2);
+}
+
+function seaZoneLatLngs(zone) {
+  return seaZoneRings(zone).map(ring => ring.map(([x, y]) => pxToLatLng(x, y)));
+}
+
+function formatSeaZoneJS(zone, fmtPts) {
+  if (Array.isArray(zone)) return `[
+${fmtPts(zone)}
+    ]`;
+  if (!zone || !Array.isArray(zone.exterior)) return '[]';
+  const holes = Array.isArray(zone.holes) ? zone.holes : (Array.isArray(zone.hole) ? [zone.hole] : []);
+  const holesTxt = holes.map(hole => `      [
+${fmtPts(hole)}
+      ]`).join(',\n');
+  return `{
+      exterior: [
+${fmtPts(zone.exterior)}
+      ],
+      holes: [
+${holesTxt}
+      ],
+    }`;
+}
 function renderCurrentsLayer() {
   clearCurrentsLayer();
   const currents = getWorkingCurrents();
@@ -1270,11 +1299,10 @@ function renderCurrentsLayer() {
   currents.forEach(c => {
     const isSelected = c.id === selectedCurrentId;
 
-    // Ruban
-    if (c.zone && c.zone.length > 2) {
-      const latlngs = c.zone.map(([x, y]) => pxToLatLng(x, y));
-      // Tourbillons (id contient "tourbillon") : contour seul, pas de remplissage
-      // Couleurs par priorité : p1 bleu foncé, p2 bleu moyen, p3 bleu clair
+    // Ruban : simple polygon or closed ribbon with inner empty ring.
+    const latlngs = seaZoneLatLngs(c.zone);
+    if (latlngs.length && latlngs[0].length > 2) {
+      // Couleurs par prioritÃ© : p1 bleu foncÃ©, p2 bleu moyen, p3 bleu clair
       const prioFill   = { 1: 'rgba(15,70,160,0.55)',  2: 'rgba(40,120,210,0.38)', 3: 'rgba(80,170,240,0.25)' };
       const prioStroke = { 1: 'rgba(20,90,200,0.95)',  2: 'rgba(50,140,220,0.85)', 3: 'rgba(90,185,250,0.75)' };
       const poly = L.polygon(latlngs, {
@@ -1438,22 +1466,23 @@ function exportSeaData() {
     ).join('\n');
   }
 
-  const blocks = currents.map(c => `  {
+  const blocks = currents.map(c => {
+    const widthLine = c.width != null ? `    width: ${c.width},\n` : '';
+    const closedLine = c.closed != null ? `    closed: ${Boolean(c.closed)},\n` : '';
+    return `  {
     id: '${c.id}',
     label: '${c.label || c.id}',
     priorite: ${c.priorite},
     force: ${c.force},
-    centerline: [
+${widthLine}${closedLine}    centerline: [
 ${fmtPts(c.centerline)}
     ],
     directions: [
 ${fmtDirs(c.directions)}
     ],
-    zone: [
-${fmtPts(c.zone)}
-    ],
-  },`).join('\n\n');
-
+    zone: ${formatSeaZoneJS(c.zone, fmtPts)},
+  },`;
+  }).join('\n\n');
   const output = `// sea-data.js — exporte depuis le Zone Editor
 // ${currents.length} courant(s)
 // Coordonnees pixel Jaillot (8500x5320)
@@ -1467,7 +1496,7 @@ ${blocks}
 if (typeof window !== 'undefined') window.SEA_CURRENTS = SEA_CURRENTS;
 `;
 
-  const blob = new Blob([output], { type: 'text/javascript' });
+  const blob = new Blob([output], { type: 'text/javascript;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
