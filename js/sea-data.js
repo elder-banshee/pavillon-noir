@@ -1,11 +1,11 @@
-// sea-data.js — géométries exportables et métadonnées maritimes
-// Coordonnées pixel Jaillot (8500x5320)
+// sea-data.js - geometries exportables et metadonnees maritimes
+// Coordonnees pixel Jaillot (8500x5320)
 
 // Section exportable depuis gen_sea_data.py.
 const SEA_CURRENT_GEOMETRY = {
   'tourbillon_sargasses_r1': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [5094,0], [5116,53], [5140,104], [5165,155], [5191,204], [5218,252], [5247,298],
     [5276,344], [5307,388], [5338,430], [5370,472], [5404,512], [5438,550], [5473,588],
@@ -33,7 +33,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'guyanes_gulf_stream_r1': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [4885,84], [4862,115], [4837,146], [4810,176], [4783,207], [4754,238], [4724,270],
     [4693,303], [4661,337], [4628,372], [4596,408], [4563,446], [4529,486], [4496,528],
@@ -103,7 +103,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'nord_hispaniola_2_r2': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [3926,1925], [3948,1945], [3974,1966], [4005,1987], [4040,2009], [4079,2031],
     [4121,2054], [4166,2076], [4214,2099], [4264,2123], [4317,2146], [4371,2169],
@@ -157,7 +157,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'courant_nord_equatorial_2_r2': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [7490,2894], [7537,2913], [7584,2932], [7631,2951], [7678,2971], [7725,2991],
     [7772,3011], [7818,3032], [7865,3052], [7911,3073], [7957,3095], [8003,3116],
@@ -176,7 +176,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'courant_nord_equatorial_1_r2': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [5138,0], [5109,41], [5080,82], [5052,123], [5023,165], [4994,206], [4965,247],
     [4937,288], [4908,329], [4879,370], [4851,411], [4822,452], [4793,494], [4764,535],
@@ -220,7 +220,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_texan_r2': {
     closed: true,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [2633,1285], [2677,1334], [2718,1385], [2757,1436], [2793,1489], [2826,1541],
     [2856,1594], [2882,1647], [2904,1699], [2923,1750], [2938,1800], [2948,1848],
@@ -246,11 +246,10 @@ const SEA_CURRENT_GEOMETRY = {
     zone: {
       exterior: [
     [2961,2200], [3046,2042], [3057,1929], [3043,1810], [2997,1661], [2931,1523],
-    [2844,1385], [2738,1252], [2617,1127], [2489,1020], [2357,933], [2224,867],
-    [2106,828], [1991,812], [1893,820], [1801,852], [1722,913], [1667,996],
-    [1636,1111], [1638,1244], [1671,1384], [1736,1538], [1828,1694], [1944,1845],
-    [2064,1970], [2209,2091], [2358,2186], [2491,2248], [2631,2286], [2766,2290],
-    [2825,2279], [2880,2258]
+    [2844,1385], [2738,1252], [2617,1127], [2489,1020], [2357,933], [2224,867], [2106,828],
+    [1991,812], [1893,820], [1801,852], [1722,913], [1667,996], [1636,1111], [1638,1244],
+    [1671,1384], [1736,1538], [1828,1694], [1944,1845], [2064,1970], [2209,2091],
+    [2358,2186], [2491,2248], [2631,2286], [2766,2290], [2825,2279], [2880,2258]
       ],
       holes: [
       [
@@ -267,7 +266,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_panameen_r2': {
     closed: true,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [4192,3680], [4258,3698], [4322,3719], [4384,3743], [4442,3769], [4496,3797],
     [4545,3827], [4589,3858], [4626,3890], [4657,3923], [4681,3955], [4697,3987],
@@ -306,7 +305,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_cubain_r2': {
     closed: true,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [4253,2488], [4239,2458], [4216,2429], [4183,2401], [4143,2377], [4096,2355],
     [4042,2336], [3983,2321], [3920,2311], [3855,2304], [3788,2302], [3721,2304],
@@ -342,7 +341,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_haitien_r2': {
     closed: true,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [5219,2913], [5150,2914], [5084,2919], [5022,2928], [4967,2940], [4918,2955],
     [4878,2974], [4848,2995], [4828,3017], [4818,3041], [4819,3066], [4831,3092],
@@ -376,7 +375,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_sargasses_nord_r2': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [5423,0], [5449,50], [5476,98], [5504,145], [5534,190], [5565,233], [5597,275],
     [5630,316], [5664,354], [5700,392], [5736,427], [5773,461], [5812,493], [5851,523],
@@ -399,7 +398,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_sargasses_sud_r2': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [4816,113], [4836,161], [4857,208], [4879,254], [4902,300], [4926,345], [4951,389],
     [4976,432], [5003,474], [5030,516], [5059,557], [5088,597], [5118,636], [5148,674],
@@ -430,7 +429,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_de_campeche_r3': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [1545,1553], [1497,1557], [1449,1572], [1406,1601], [1372,1643], [1351,1692],
     [1340,1744], [1338,1795], [1340,1842], [1346,1883], [1355,1928], [1368,1974],
@@ -471,7 +470,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_floridien_r3': {
     closed: true,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [3285,1100], [3241,1061], [3194,1027], [3145,998], [3096,974], [3046,956],
     [2997,945], [2950,939], [2904,940], [2861,947], [2822,960], [2786,980], [2756,1005],
@@ -503,7 +502,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'jet_nord_4_r3': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [5724,3167], [5769,3167], [5815,3166], [5861,3166], [5907,3166], [5954,3166],
     [6001,3166], [6048,3166], [6096,3167], [6143,3167], [6192,3168], [6240,3170],
@@ -532,7 +531,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'jet_nord_3_r3': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [3044,2514], [3081,2552], [3118,2588], [3157,2623], [3196,2655], [3235,2686],
     [3275,2715], [3316,2743], [3357,2769], [3399,2794], [3441,2817], [3484,2839],
@@ -559,7 +558,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'jet_nord_2_r3': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [5621,2968], [5671,2968], [5721,2967], [5771,2967], [5821,2966], [5871,2966],
     [5922,2966], [5971,2966], [6020,2966], [6069,2966], [6118,2967], [6167,2968],
@@ -588,7 +587,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'jet_nord_1_r3': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [3645,2693], [3689,2711], [3733,2728], [3778,2744], [3824,2759], [3870,2772],
     [3917,2786], [3964,2798], [4012,2809], [4061,2820], [4110,2831], [4160,2840],
@@ -607,7 +606,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'jet_sud_2_r3': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [4609,3921], [4659,3929], [4709,3936], [4760,3943], [4811,3949], [4862,3954],
     [4913,3958], [4965,3961], [5016,3964], [5067,3966], [5117,3968], [5167,3969],
@@ -643,7 +642,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'jet_sud_1_r3': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [2792,2551], [2792,2602], [2794,2653], [2799,2703], [2807,2752], [2818,2800],
     [2831,2847], [2848,2894], [2867,2939], [2889,2984], [2914,3027], [2941,3069],
@@ -695,7 +694,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'nord_jamaique_r4': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [4123,2814], [4137,2814], [4159,2814], [4190,2813], [4227,2812], [4271,2810],
     [4321,2807], [4375,2804], [4433,2799], [4495,2792], [4559,2785], [4625,2776],
@@ -717,7 +716,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_de_campeche_r4': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [1578,1195], [1557,1205], [1523,1224], [1478,1248], [1426,1277], [1370,1308],
     [1312,1342], [1257,1374], [1206,1405], [1164,1433], [1132,1455], [1101,1486],
@@ -754,7 +753,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_floridien_r4': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [3095,1960], [3146,1971], [3196,1977], [3245,1979], [3295,1976], [3346,1967],
     [3395,1954], [3442,1935], [3486,1910], [3527,1881], [3564,1848], [3596,1810],
@@ -783,7 +782,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_texan_sud_r4': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [3123,1718], [3137,1771], [3147,1823], [3154,1874], [3157,1923], [3157,1970],
     [3152,2018], [3142,2070], [3128,2119], [3108,2165], [3083,2208], [3054,2247],
@@ -811,7 +810,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_texan_nord_r4': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [1614,1514], [1595,1467], [1578,1419], [1562,1368], [1549,1315], [1540,1263],
     [1535,1213], [1533,1164], [1535,1116], [1541,1066], [1553,1014], [1571,966],
@@ -837,7 +836,7 @@ const SEA_CURRENT_GEOMETRY = {
 
   'tourbillon_panameen_r4': {
     closed: false,
-    zoneSource: 'svg',
+    zoneSource: "svg",
     centerline: [
     [4851,3978], [4857,4035], [4853,4082], [4844,4119], [4828,4157], [4802,4197],
     [4764,4238], [4713,4276], [4673,4297], [4628,4315], [4578,4330], [4525,4341],
@@ -873,179 +872,200 @@ const SEA_CURRENT_GEOMETRY = {
   },
 };
 
-// Métadonnées éditées manuellement: ne pas remplacer lors d'un nouvel export SVG.
+// Metadonnees editees manuellement: ne pas remplacer lors d'un nouvel export SVG.
 const SEA_CURRENT_META = {
   'tourbillon_sargasses_r1': {
-    label: 'Tourbillon Sargasses',
+    label: "Tourbillon Sargasses",
     priorite: 1,
     force: 3,
   },
 
   'guyanes_gulf_stream_r1': {
-    label: 'Guyanes Gulf Stream',
+    label: "Guyanes Gulf Stream",
     priorite: 1,
     force: 3,
     speedSegments: [
-      { label: 'Gulf Stream', from: 0, to: 39, speedKmh: 9 },
-      { label: 'Courant de Floride', from: 40, to: 67, speedKmh: 6.5, attenuationMinCote: 0.6 },
-      { label: 'Courant des Caraïbes', from: 68, to: 161, speedKmh: 3 },
-      { label: 'Courant des Guyanes', from: 162, to: 184, speedKmh: 2.5 },
+      {
+        label: "Gulf Stream",
+        from: 0,
+        to: 39,
+        speedKmh: 9,
+      },
+      {
+        label: "Courant de Floride",
+        from: 40,
+        to: 67,
+        speedKmh: 6.5,
+        attenuationMinCote: 0.6,
+      },
+      {
+        label: "Courant des Caraïbes",
+        from: 68,
+        to: 161,
+        speedKmh: 3,
+      },
+      {
+        label: "Courant des Guyanes",
+        from: 162,
+        to: 184,
+        speedKmh: 2.5,
+      },
     ],
   },
 
   'nord_hispaniola_2_r2': {
-    label: 'Nord Hispaniola 2',
+    label: "Nord Hispaniola 2",
     priorite: 2,
     force: 2,
     speedKmh: 3,
   },
 
   'nord_hispaniola_1_r2': {
-    label: 'Nord Hispaniola 1',
+    label: "Nord Hispaniola 1",
     priorite: 2,
     force: 2,
   },
 
   'courant_nord_equatorial_2_r2': {
-    label: 'Courant Nord Equatorial 2',
+    label: "Courant Nord Equatorial 2",
     priorite: 3,
     force: 2,
   },
 
   'courant_nord_equatorial_1_r2': {
-    label: 'Courant Nord Equatorial 1',
+    label: "Courant Nord Equatorial 1",
     priorite: 2,
     force: 2,
   },
 
   'tourbillon_texan_r2': {
-    label: 'Tourbillon Texan',
+    label: "Tourbillon Texan",
     priorite: 2,
     force: 2,
   },
 
   'tourbillon_panameen_r2': {
-    label: 'Tourbillon Panameen',
+    label: "Tourbillon Panameen",
     priorite: 2,
     force: 2,
   },
 
   'tourbillon_cubain_r2': {
-    label: 'Tourbillon Cubain',
+    label: "Tourbillon Cubain",
     priorite: 2,
     force: 2,
   },
 
   'tourbillon_haitien_r2': {
-    label: 'Tourbillon Haitien',
+    label: "Tourbillon Haitien",
     priorite: 2,
     force: 2,
   },
 
   'tourbillon_sargasses_nord_r2': {
-    label: 'Tourbillon Sargasses Nord',
+    label: "Tourbillon Sargasses Nord",
     priorite: 3,
     force: 2,
   },
 
   'tourbillon_sargasses_sud_r2': {
-    label: 'Tourbillon Sargasses Sud',
+    label: "Tourbillon Sargasses Sud",
     priorite: 3,
     force: 2,
   },
 
   'tourbillon_de_campeche_r3': {
-    label: 'Tourbillon De Campeche',
+    label: "Tourbillon De Campeche",
     priorite: 3,
     force: 1,
     speedKmh: 2,
   },
 
   'tourbillon_floridien_r3': {
-    label: 'Tourbillon Floridien',
+    label: "Tourbillon Floridien",
     priorite: 3,
     force: 1,
     speedKmh: 2,
   },
 
   'jet_nord_4_r3': {
-    label: 'Jet Nord 4',
+    label: "Jet Nord 4",
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
   },
 
   'jet_nord_3_r3': {
-    label: 'Jet Nord 3',
+    label: "Jet Nord 3",
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
   },
 
   'jet_nord_2_r3': {
-    label: 'Jet Nord 2',
+    label: "Jet Nord 2",
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
   },
 
   'jet_nord_1_r3': {
-    label: 'Jet Nord 1',
+    label: "Jet Nord 1",
     priorite: 3,
     force: 1,
   },
 
   'jet_sud_2_r3': {
-    label: 'Jet Sud 2',
+    label: "Jet Sud 2",
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
   },
 
   'jet_sud_1_r3': {
-    label: 'Jet Sud 1',
+    label: "Jet Sud 1",
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
   },
 
   'nord_jamaique_r4': {
-    label: 'Nord Jamaique',
+    label: "Nord Jamaique",
     priorite: 4,
     force: 1,
     speedKmh: 3,
   },
 
   'tourbillon_de_campeche_r4': {
-    label: 'Tourbillon De Campeche',
+    label: "Tourbillon De Campeche",
     priorite: 4,
     force: 1,
     speedKmh: 2,
   },
 
   'tourbillon_floridien_r4': {
-    label: 'Tourbillon Floridien',
+    label: "Tourbillon Floridien",
     priorite: 4,
     force: 1,
     speedKmh: 2,
   },
 
   'tourbillon_texan_sud_r4': {
-    label: 'Tourbillon Texan Sud',
+    label: "Tourbillon Texan Sud",
     priorite: 4,
     force: 1,
     speedKmh: 2.5,
   },
 
   'tourbillon_texan_nord_r4': {
-    label: 'Tourbillon Texan Nord',
+    label: "Tourbillon Texan Nord",
     priorite: 4,
     force: 1,
     speedKmh: 2,
   },
 
   'tourbillon_panameen_r4': {
-    label: 'Tourbillon Panameen',
+    label: "Tourbillon Panameen",
     priorite: 4,
     force: 1,
     speedKmh: 2,
@@ -1105,26 +1125,42 @@ const SEA_SHOAL_GEOMETRY = {
   },
 };
 
-// Métadonnées éditées manuellement: ne pas remplacer lors d'un nouvel export SVG.
+// Metadonnees editees manuellement: ne pas remplacer lors d'un nouvel export SVG.
 const SEA_SHOAL_META = {
   'banc_de_jamaique': {
-    label: 'Banc De Jamaique',
+    label: "Banc de Pedro",
+    cat_taille: 3,
     maxCategorieTaille: 3,
+    risque: "C'est la zone la plus piégeuse. Seules les catégories 1 et 2 naviguent en sécurité. La catégorie 3 (Frégates légères/Bricks) subit de lourds risques de naufrage en s'aventurant sur le Banc de Pedro. Catégories 4 et 5 strictement interdites. Un échec ici détruit le navire sur le corail.\nPassage autorisé pour catégorie 3 si Navigation < 2 (navigateur inexpérimenté et désastre probable) ou > 4 (pilote chevronné capable de déjouer les pièges).",
+    contexte: "C'est une zone de hauts-fonds massifs composés de structures coralliennes vivantes, de lagons intérieurs et de cayes sableuses (comme les Morant Cays). Les profondeurs chutent et remontent de façon totalement imprévisible.",
+    note_mj: "Immense plateforme carbonatée et l'un des plus grands systèmes de récifs coralliens des Caraïbes (notamment le Pedro Bank juste au sud de la Jamaïque).",
   },
 
   'banc_de_cuba': {
-    label: 'Banc De Cuba',
+    label: "Banc de Pickerling / Cayman Ridge",
+    cat_taille: 3,
     maxCategorieTaille: 3,
+    risque: "Les Catégories 4 et 5 doivent contourner la zone sous peine de heurter des récifs de corail tranchants. Contrairement aux Bahamas, toucher le fond ici signifie voie d'eau majeure (roche/corail).",
+    contexte: "Relief rocheux sous-marin et récifs coralliens profonds, liés à la fosse des Caïmans — un navire trop grand ou mal piloté risque des dégâts structurels majeurs a la coque.",
+    note_mj: "Ce n'est pas un banc de sable meuble, mais une dorsale montagneuse sous-marine. Les hauts-fonds y sont très localisés (récifs coralliens entourant directement les îles). La navigation générale est possible pour les Catégories 1, 2 et 3.",
   },
 
   'banc_de_porto-rico': {
-    label: 'Banc De Porto Rico',
+    label: "Banc De Porto Rico",
+    cat_taille: 3,
     maxCategorieTaille: 3,
+    risque: "Zone très dangereuse à cause de la houle de l'Atlantique qui se brise sur le relief. Catégories 1, 2 et 3 naviguent, mais avec des malus de maniabilité par gros temps. Catégories 4 et 5 interdites à moins de 3 milles des côtes à cause des têtes de roche invisibles juste sous la surface.",
+    contexte: "Montagne sous-marine volcanique et tectonique, bordée au nord par des barrières de corail.",
+    note_mj: "Au nord de Porto Rico et à l'est d'Hispaniola (passage de la Mona), le fond remonte brutalement depuis la fosse océanique profonde (8 000 m+) pour former des plateaux rocheux côtiers et des récifs.",
   },
 
   'banc_des_bahamas': {
-    label: 'Banc Des Bahamas',
+    label: "Banc Des Bahamas",
+    cat_taille: 3,
     maxCategorieTaille: 3,
+    risque: "Echouage probable pour tout navire trop grand ou engage sans pilote; desarme temporairement un batiment pris sur le banc.",
+    contexte: "Vaste plateau peu profond des Bahamas, parsemé de bancs de sable, chenaux incertains et mouillages abrités pour les petits tirants d'eau. La profondeur moyenne sur le banc n'est que d'une à trois brasses.",
+    note_mj: "Catégorie 1 et 2 passent librement. La Catégorie 3 (Bricks, Goélettes) peut tenter de passer mais nécessite un jet de navigation (risque d'enlisement dans le sable). Catégories 4 et 5 interdites, sauf dans les chenaux de Nassau. Un échouement ici immobilise le navire mais détruit rarement la coque.",
   },
 };
 

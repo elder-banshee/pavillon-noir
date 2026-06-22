@@ -2131,7 +2131,7 @@ function ouvrirPanneauMaritime(type, id) {
     { label: 'Priorite', value: feature.priorite },
     { label: 'Force', value: feature.force },
     { label: 'Vitesse', value: feature.speedKmh ? `${feature.speedKmh} km/h` : null },
-    { label: 'Taille', value: feature.maxCategorieTaille ? `categorie ${feature.maxCategorieTaille}` : null },
+    { label: 'Taille max', value: (feature.cat_taille ?? feature.maxCategorieTaille) ? `categorie ${feature.cat_taille ?? feature.maxCategorieTaille}` : null },
     { label: 'Trace', value: feature.zoneSource === 'svg' ? 'import SVG' : null },
   ].filter(m => m.value != null && m.value !== '').map(m => `
     <div class="panneau-meta-item">
@@ -2155,6 +2155,7 @@ function ouvrirPanneauMaritime(type, id) {
     : '';
 
   const inner = document.getElementById('carte-panneau-inner');
+  const contexte = rendreContexte(feature.contexte, anneeActive);
   inner.innerHTML = `
     <div class="panneau-puissance panneau-puissance--maritime">
       <span class="panneau-maritime-pastille panneau-maritime-pastille--${type}"></span>
@@ -2166,7 +2167,21 @@ function ouvrirPanneauMaritime(type, id) {
       <div class="panneau-meta">${meta}</div>
     ` : ''}
     ${segments}
+    ${feature.risque ? `
+      <div class="panneau-section-titre">Risque</div>
+      <p class="panneau-note">${feature.risque}</p>
+    ` : ''}
+    ${contexte ? `
+      <div class="panneau-section-titre">Contexte</div>
+      <p class="panneau-contexte">${contexte}</p>
+    ` : ''}
     ${feature.note ? `<p class="panneau-note">${feature.note}</p>` : ''}
+    ${modeMJ && feature.note_mj ? `
+      <div class="panneau-note panneau-note--mj">
+        <span class="panneau-note-mj-label">Note confidentielle - MJ</span>
+        ${feature.note_mj}
+      </div>
+    ` : ''}
   `;
 
   inner.scrollTop = 0;

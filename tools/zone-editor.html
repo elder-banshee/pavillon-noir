@@ -1259,8 +1259,24 @@ function clearSeaGrid() {
 let currentsWorkingCopy = null;
 let shoalsWorkingCopy = null;
 let selectedCurrentId   = null;
+let selectedShoalId     = null;
 // Référence aux polygones Leaflet par id (pour highlight)
 let currentPolygons = {};
+
+function escapeAttr(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function escapeHtmlText(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
 
 function applyCurrentDefaults(current) {
   const defaults = DEFAULT_CURRENT_SPEED_SEGMENTS[current.id];
@@ -1511,16 +1527,18 @@ function renderCurrentsLayer() {
   const selStroke    = 'rgba(255,200,50,0.95)';
 
   getWorkingShoals().forEach(s => {
+    const isSelected = s.id === selectedShoalId;
     const latlngs = seaZoneLatLngs(s.zone);
     if (!latlngs.some(poly => poly[0]?.length > 2)) return;
-    L.polygon(latlngs, {
-      color: 'rgba(194,164,92,0.85)',
-      weight: 1,
+    const poly = L.polygon(latlngs, {
+      color: isSelected ? 'rgba(255,210,90,0.98)' : 'rgba(194,164,92,0.85)',
+      weight: isSelected ? 2 : 1,
       dashArray: '4 4',
-      fillColor: 'rgba(194,164,92,0.28)',
-      fillOpacity: 1,
-      interactive: false,
+      fillColor: isSelected ? 'rgba(255,210,90,0.35)' : 'rgba(194,164,92,0.28)',
+      fillOpacity: isSelected ? 0.7 : 1,
+      interactive: true,
     }).addTo(currentLayer);
+    poly.on('click', () => selectShoal(s.id));
   });
 
   currents.forEach(c => {
@@ -1589,16 +1607,24 @@ function renderCurrentsLayer() {
 
 function selectCurrent(id) {
   selectedCurrentId = (selectedCurrentId === id) ? null : id;
+  if (selectedCurrentId) selectedShoalId = null;
+  renderCurrentsLayer();
+}
+
+function selectShoal(id) {
+  selectedShoalId = (selectedShoalId === id) ? null : id;
+  if (selectedShoalId) selectedCurrentId = null;
   renderCurrentsLayer();
 }
 
 function renderCurrentsList() {
   const currents = getWorkingCurrents();
+  const shoals = getWorkingShoals();
   const listEl   = document.getElementById('currents-list');
   if (!listEl) return;
-  if (!currents.length) { listEl.textContent = 'Aucun courant.'; return; }
+  if (!currents.length && !shoals.length) { listEl.textContent = 'Aucun courant ni haut-fond.'; return; }
 
-  listEl.innerHTML = currents.map(c => {
+  const currentItems = currents.map(c => {
     const sel = c.id === selectedCurrentId;
     return `<div data-cid="${c.id}" style="
         margin-bottom:5px; padding:5px 7px; cursor:pointer;
@@ -1612,8 +1638,27 @@ function renderCurrentsList() {
     </div>`;
   }).join('');
 
+  const shoalItems = shoals.map(s => {
+    const sel = s.id === selectedShoalId;
+    return `<div data-shoal-id="${s.id}" style="
+        margin-bottom:5px; padding:5px 7px; cursor:pointer;
+        background:${sel ? 'rgba(255,200,50,0.18)' : 'rgba(194,164,92,0.12)'};
+        border:1px solid ${sel ? 'rgba(255,200,50,0.6)' : 'rgba(194,164,92,0.35)'};
+        border-radius:2px;">
+      <span style="color:${sel ? '#ffd23f' : 'var(--gold-light)'};font-family:Cinzel,serif;font-size:0.73rem;">${escapeHtmlText(s.label || s.id)}</span>
+      <div style="margin-top:3px; font-size:0.68rem; color:var(--text-dim);">
+        Haut-fond - cat. ${s.cat_taille ?? s.maxCategorieTaille ?? 3}
+      </div>
+    </div>`;
+  }).join('');
+
+  listEl.innerHTML = `${currentItems}${shoalItems ? '<div style="margin:9px 0 5px;color:var(--mist);font-size:0.7rem;">Hauts-fonds</div>' + shoalItems : ''}`;
+
   listEl.querySelectorAll('[data-cid]').forEach(el => {
     el.addEventListener('click', () => selectCurrent(el.dataset.cid));
+  });
+  listEl.querySelectorAll('[data-shoal-id]').forEach(el => {
+    el.addEventListener('click', () => selectShoal(el.dataset.shoalId));
   });
 }
 
@@ -1624,6 +1669,11 @@ function renderCurrentDetail() {
   const meta   = document.getElementById('current-meta-fields');
   const speeds = document.getElementById('current-speed-fields');
   if (!detail) return;
+
+  if (selectedShoalId) {
+    renderShoalDetail(detail, label, info, meta, speeds);
+    return;
+  }
 
   if (!selectedCurrentId) { detail.style.display = 'none'; return; }
 
@@ -1660,6 +1710,80 @@ function renderCurrentDetail() {
     input.addEventListener('change', () => updateCurrentSpeed(c, input));
     input.addEventListener('input', () => updateCurrentSpeed(c, input, { soft: true }));
   });
+}
+
+function renderShoalDetail(detail, label, info, meta, speeds) {
+  const s = getWorkingShoals().find(x => x.id === selectedShoalId);
+  if (!s) { detail.style.display = 'none'; return; }
+
+  detail.style.display = 'block';
+  label.textContent = s.label || s.id;
+  if (info) {
+    info.style.display = 'block';
+    info.textContent = `Haut-fond / recif - ${seaZoneRings(s.zone).reduce((sum, ring) => sum + ring.length, 0)} points`;
+  }
+  if (speeds) speeds.innerHTML = '';
+  if (!meta) return;
+
+  meta.innerHTML = renderShoalMetaFieldsHtml(s);
+  meta.querySelectorAll('[data-shoal-meta]').forEach(input => {
+    input.addEventListener('change', () => updateShoalMeta(s, input));
+    input.addEventListener('input', () => updateShoalMeta(s, input, { soft: true }));
+  });
+}
+
+function renderShoalMetaFieldsHtml(shoal) {
+  const cat = shoal.cat_taille ?? shoal.maxCategorieTaille ?? 3;
+  return `
+    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
+      <span style="flex:1;">Libelle</span>
+      <input type="text" value="${escapeAttr(shoal.label || shoal.id)}" data-shoal-meta="label"
+        style="width:170px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+    </label>
+    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
+      <span style="flex:1;">Cat. taille max</span>
+      <input type="number" min="0" step="1" value="${escapeAttr(cat)}" data-shoal-meta="cat_taille"
+        style="width:74px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+    </label>
+    <label style="display:flex; flex-direction:column; gap:4px; font-size:0.74rem; color:var(--text-dim);">
+      <span>Risque / effet de jeu</span>
+      <textarea data-shoal-meta="risque" rows="3"
+        style="background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:5px; border-radius:2px; font-size:0.74rem; resize:vertical;">${escapeHtmlText(shoal.risque || '')}</textarea>
+    </label>
+    <label style="display:flex; flex-direction:column; gap:4px; font-size:0.74rem; color:var(--text-dim);">
+      <span>Contexte</span>
+      <textarea data-shoal-meta="contexte" rows="5"
+        style="background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:5px; border-radius:2px; font-size:0.74rem; resize:vertical;">${escapeHtmlText(shoal.contexte || '')}</textarea>
+    </label>
+    <label style="display:flex; flex-direction:column; gap:4px; font-size:0.74rem; color:var(--text-dim);">
+      <span>Note MJ</span>
+      <textarea data-shoal-meta="note_mj" rows="4"
+        style="background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:5px; border-radius:2px; font-size:0.74rem; resize:vertical;">${escapeHtmlText(shoal.note_mj || '')}</textarea>
+    </label>`;
+}
+
+function updateShoalMeta(shoal, input, options = {}) {
+  const key = input.dataset.shoalMeta;
+  if (!key) return;
+  if (key === 'cat_taille') {
+    const value = Math.round(Number(input.value));
+    if (!Number.isFinite(value)) return;
+    shoal.cat_taille = value;
+    shoal.maxCategorieTaille = value;
+  } else {
+    const value = input.value.trim();
+    if (value) shoal[key] = value;
+    else delete shoal[key];
+  }
+
+  if (!options.soft || key === 'cat_taille') {
+    renderCurrentsLayer();
+  }
 }
 
 function updateCurrentSpeed(current, input, options = {}) {
