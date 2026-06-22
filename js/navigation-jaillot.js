@@ -17,20 +17,33 @@
     rayonCotePx: 90,
     rayonRouteRegionalePx: 700,
     tailleCelluleIndexPx: 256,
+    categorieMaxHautsFonds: 3,
     diagonales: true,
     limiteIterations: 45000,
+    pxReferenceDistance: 840,
+    millesImperiauxReference: 300,
+    metresParMilleImperial: 1609,
+    metresParMilleNautique: 1852,
+    rayonAttenuationCourantNm: 30,
+    vitesseMinSegmentNoeuds: 0.25,
+    vitesseHeuristiqueNoeuds: 9.5,
   };
   const DIRECTIONS_COURANT = ['N','NNE','NE','ENE','E','ESE','SE','SSE',
     'S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  const KMH_TO_KNOTS = 0.539956803;
 
   let carte = null;
   let pixelToLatLngFn = null;
   let routeLayer = null;
   let terresCache = null;
   let terresIndexCache = null;
+  let hautsFondsIndexCache = null;
   let grilleCache = null;
   const navigabiliteCache = new Map();
   const distanceCoteCache = new Map();
+  const courantPointCache = new Map();
+  const tempsSegmentCache = new Map();
+  let courantsIndexCache = null;
 
   function normaliserTexte(texte) {
     return String(texte || '')
@@ -42,12 +55,144 @@
     return `${Math.round(p.x)},${Math.round(p.y)}`;
   }
 
+  function segmentCle(a, b) {
+    return `${coordCle(a.x)},${coordCle(a.y)}>${coordCle(b.x)},${coordCle(b.y)}`;
+  }
+
   function coordCle(v) {
     return Math.round(v * 100) / 100;
   }
 
   function distance(a, b) {
     return Math.hypot(a.x - b.x, a.y - b.y);
+  }
+
+  function millesNautiquesParPx() {
+    return (CONFIG.millesImperiauxReference * CONFIG.metresParMilleImperial / CONFIG.metresParMilleNautique)
+      / CONFIG.pxReferenceDistance;
+  }
+
+  function distanceNm(a, b) {
+    return distance(a, b) * millesNautiquesParPx();
+  }
+
+  function rayonAttenuationCourantPx() {
+    return CONFIG.rayonAttenuationCourantNm / millesNautiquesParPx();
+  }
+
+  function vitesseNavireMoyenneNoeuds() {
+    const navire = navireActif();
+    const vitesse = Number(navire.vitesseMoyenneNoeuds);
+    if (Number.isFinite(vitesse) && vitesse > 0) return vitesse;
+    const distanceJour = Number(navire.distanceMoyenneNmJour);
+    if (Number.isFinite(distanceJour) && distanceJour > 0) return distanceJour / 24;
+    return 105 / 24;
+  }
+
+  function projectionCourantAuPointNoeuds(a, b, point) {
+    const composantes = composantesCourantSegmentNoeuds(a, b, point);
+    return composantes ? composantes.parallele : 0;
+  }
+
+  function vecteurCourantNoeuds(point) {
+    const courant = courantEnPoint(point);
+    if (!courant?.vecteur) return { x: 0, y: 0 };
+    return {
+      x: courant.vecteur.x * KMH_TO_KNOTS,
+      y: courant.vecteur.y * KMH_TO_KNOTS,
+    };
+  }
+
+  function composantesCourantSegmentNoeuds(a, b, point) {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const len = Math.hypot(dx, dy);
+    if (len < 0.000001) return null;
+    const ux = dx / len;
+    const uy = dy / len;
+    const courant = vecteurCourantNoeuds(point);
+    return {
+      parallele: courant.x * ux + courant.y * uy,
+      laterale: courant.x * -uy + courant.y * ux,
+    };
+  }
+
+  function projectionCourantNoeuds(a, b) {
+    return projectionCourantAuPointNoeuds(a, b, {
+      x: (a.x + b.x) / 2,
+      y: (a.y + b.y) / 2,
+    });
+  }
+
+  function compensationCourantSegment(a, b, point) {
+    const composantes = composantesCourantSegmentNoeuds(a, b, point);
+    if (!composantes) {
+      return {
+        possible: true,
+        vitesseSolNoeuds: 0,
+        courantParalleleNoeuds: 0,
+        courantLateralNoeuds: 0,
+        navireAvantNoeuds: 0,
+        navireCorrectionNoeuds: 0,
+      };
+    }
+
+    const vitesseNavire = vitesseNavireMoyenneNoeuds();
+    const lateralAbs = Math.abs(composantes.laterale);
+    if (lateralAbs > vitesseNavire) {
+      return {
+        possible: false,
+        vitesseSolNoeuds: -Infinity,
+        courantParalleleNoeuds: composantes.parallele,
+        courantLateralNoeuds: composantes.laterale,
+        navireAvantNoeuds: 0,
+        navireCorrectionNoeuds: -composantes.laterale,
+      };
+    }
+
+    const navireAvant = Math.sqrt(Math.max(0, vitesseNavire * vitesseNavire - lateralAbs * lateralAbs));
+    return {
+      possible: true,
+      vitesseSolNoeuds: navireAvant + composantes.parallele,
+      courantParalleleNoeuds: composantes.parallele,
+      courantLateralNoeuds: composantes.laterale,
+      navireAvantNoeuds: navireAvant,
+      navireCorrectionNoeuds: -composantes.laterale,
+    };
+  }
+
+  function vitesseEffectiveSegmentNoeuds(a, b, point) {
+    const compensation = compensationCourantSegment(a, b, point);
+    return compensation.possible ? compensation.vitesseSolNoeuds : -Infinity;
+  }
+
+  function tempsSegmentHeures(a, b) {
+    const cacheKey = segmentCle(a, b);
+    if (tempsSegmentCache.has(cacheKey)) return tempsSegmentCache.get(cacheKey);
+    const px = distance(a, b);
+    if (px <= 0) return 0;
+    const parts = Math.max(1, Math.ceil(px / CONFIG.grillePx));
+    const nmParPart = distanceNm(a, b) / parts;
+    let total = 0;
+    for (let i = 0; i < parts; i++) {
+      const t = (i + 0.5) / parts;
+      const point = {
+        x: a.x + (b.x - a.x) * t,
+        y: a.y + (b.y - a.y) * t,
+      };
+      const vitesse = vitesseEffectiveSegmentNoeuds(a, b, point);
+      if (vitesse <= CONFIG.vitesseMinSegmentNoeuds) {
+        tempsSegmentCache.set(cacheKey, Infinity);
+        return Infinity;
+      }
+      total += nmParPart / vitesse;
+    }
+    tempsSegmentCache.set(cacheKey, total);
+    return total;
+  }
+
+  function heuristiqueTemps(a, b) {
+    return distanceNm(a, b) / CONFIG.vitesseHeuristiqueNoeuds;
   }
 
   function distPointSegment(p, a, b) {
@@ -117,24 +262,72 @@
     return dedans;
   }
 
-  function anneauxZoneSea(zone) {
-    if (Array.isArray(zone)) return [zone];
-    if (!zone || !Array.isArray(zone.exterior)) return [];
+  function polygonesZoneSea(zone) {
+    if (Array.isArray(zone)) return [{ exterior: zone, holes: [] }];
+    if (zone && Array.isArray(zone.polygons)) {
+      return zone.polygons.map(polygoneZoneSea).filter(poly => poly.exterior.length >= 3);
+    }
+    const poly = polygoneZoneSea(zone);
+    return poly.exterior.length >= 3 ? [poly] : [];
+  }
+
+  function polygoneZoneSea(zone) {
+    if (Array.isArray(zone)) return { exterior: zone, holes: [] };
+    if (!zone || !Array.isArray(zone.exterior)) return { exterior: [], holes: [] };
     const trous = Array.isArray(zone.holes) ? zone.holes : (Array.isArray(zone.hole) ? [zone.hole] : []);
-    return [zone.exterior, ...trous].filter(ring => Array.isArray(ring) && ring.length >= 3);
+    return {
+      exterior: zone.exterior,
+      holes: trous.filter(ring => Array.isArray(ring) && ring.length >= 3),
+    };
+  }
+
+  function anneauxZoneSea(zone) {
+    return polygonesZoneSea(zone)
+      .flatMap(poly => [poly.exterior, ...poly.holes])
+      .filter(ring => Array.isArray(ring) && ring.length >= 3);
+  }
+
+  function bboxAnneauxSea(anneaux) {
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    anneaux.forEach(ring => {
+      ring.forEach(([x, y]) => {
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+      });
+    });
+    return { minX, minY, maxX, maxY };
+  }
+
+  function getCourantsIndex() {
+    if (courantsIndexCache) return courantsIndexCache;
+    const source = typeof SEA_CURRENTS !== 'undefined' ? SEA_CURRENTS : [];
+    courantsIndexCache = source.map(courant => {
+      const anneaux = anneauxZoneSea(courant.zone);
+      return {
+        courant,
+        bbox: bboxAnneauxSea(anneaux),
+      };
+    });
+    return courantsIndexCache;
   }
 
   function pointDansZoneSea(point, zone) {
-    const anneaux = anneauxZoneSea(zone);
-    if (!anneaux.length) return false;
-    if (!pointDansAnneauSea(point, anneaux[0])) return false;
-    return !anneaux.slice(1).some(trou => pointDansAnneauSea(point, trou));
+    return polygonesZoneSea(zone).some(poly => (
+      pointDansAnneauSea(point, poly.exterior)
+      && !poly.holes.some(trou => pointDansAnneauSea(point, trou))
+    ));
   }
 
   function directionVersVecteur(direction, force = 1) {
     const index = DIRECTIONS_COURANT.indexOf(direction);
     if (index < 0) return null;
-    const angle = (index * 22.5 - 90) * Math.PI / 180;
+    // Les directions de sea-data.js sont encodees en provenance : un courant N vient du nord et porte vers le sud.
+    const angle = (index * 22.5 + 90) * Math.PI / 180;
     return {
       x: Math.cos(angle) * force,
       y: Math.sin(angle) * force,
@@ -147,10 +340,9 @@
     return DIRECTIONS_COURANT[Math.round(angle / 22.5) % 16];
   }
 
-  function directionCourantAuPoint(courant, point) {
+  function segmentCourantAuPoint(courant, point) {
     const cl = courant.centerline || [];
-    if (!cl.length) return courant.directions?.[0] || null;
-    if (cl.length === 1) return courant.directions?.[0] || null;
+    if (cl.length < 2) return 0;
 
     let meilleurIdx = 0;
     let meilleureDist = Infinity;
@@ -164,43 +356,133 @@
         meilleurIdx = i;
       }
     }
-    return courant.directions?.[meilleurIdx] || courant.directions?.[courant.directions.length - 1] || null;
+    return meilleurIdx;
+  }
+
+  function directionCourantAuPoint(courant, point) {
+    const cl = courant.centerline || [];
+    if (!cl.length) return courant.directions?.[0] || null;
+    if (cl.length === 1) return courant.directions?.[0] || null;
+    const index = segmentCourantAuPoint(courant, point);
+    return courant.directions?.[index] || courant.directions?.[courant.directions.length - 1] || null;
+  }
+
+  function vitesseCourantAuPoint(courant, point) {
+    const segments = courant.speedSegments || courant.vitesseSegments;
+    if (!Array.isArray(segments) || !segments.length) {
+      return Number(courant.speedKmh ?? courant.vitesseKmh ?? courant.force) || 0;
+    }
+    const index = segmentCourantAuPoint(courant, point);
+    const segment = segments.find(seg => index >= seg.from && index <= seg.to)
+      || segments.find(seg => seg.from == null && seg.to == null)
+      || segments[segments.length - 1];
+    return Number(segment.speedKmh ?? segment.vitesseKmh ?? courant.force) || 0;
+  }
+
+  function segmentVitesseCourantAuPoint(courant, point) {
+    const segments = courant.speedSegments || courant.vitesseSegments;
+    if (!Array.isArray(segments) || !segments.length) return null;
+    const index = segmentCourantAuPoint(courant, point);
+    return segments.find(seg => index >= seg.from && index <= seg.to) || null;
+  }
+
+  function attenuationMinimaleCourant(courant, point) {
+    const segment = segmentVitesseCourantAuPoint(courant, point);
+    if (segment?.attenuationMinCote != null) return Number(segment.attenuationMinCote) || 0;
+    if (segment?.label === 'Courant de Floride') return 0.6;
+    return 0;
   }
 
   function courantsAuPoint(point) {
-    const source = typeof SEA_CURRENTS !== 'undefined' ? SEA_CURRENTS : [];
-    return source.filter(courant => pointDansZoneSea(point, courant.zone));
+    return getCourantsIndex()
+      .filter(({ bbox }) => point.x >= bbox.minX && point.x <= bbox.maxX
+        && point.y >= bbox.minY && point.y <= bbox.maxY)
+      .map(({ courant }) => courant)
+      .filter(courant => pointDansZoneSea(point, courant.zone));
   }
 
   function courantEnPoint(point) {
+    const cacheKey = pointCle(point);
+    if (courantPointCache.has(cacheKey)) return courantPointCache.get(cacheKey);
+    if (pointDansHautFond(point)) {
+      courantPointCache.set(cacheKey, null);
+      return null;
+    }
     const presents = courantsAuPoint(point);
-    if (!presents.length) return null;
+    if (!presents.length) {
+      courantPointCache.set(cacheKey, null);
+      return null;
+    }
 
     const priorite = Math.min(...presents.map(c => c.priorite ?? Infinity));
     const retenus = presents.filter(c => (c.priorite ?? Infinity) === priorite);
     let x = 0;
     let y = 0;
     let count = 0;
+    let attenuationMin = 0;
 
     retenus.forEach(courant => {
       const direction = directionCourantAuPoint(courant, point);
-      const vecteur = directionVersVecteur(direction, Number(courant.force) || 0);
+      const vitesseKmh = vitesseCourantAuPoint(courant, point);
+      const vecteur = directionVersVecteur(direction, vitesseKmh);
       if (!vecteur) return;
+      attenuationMin = Math.max(attenuationMin, attenuationMinimaleCourant(courant, point));
       x += vecteur.x;
       y += vecteur.y;
       count++;
     });
 
-    if (!count) return null;
-    const moyen = { x: x / count, y: y / count };
-    const force = Math.hypot(moyen.x, moyen.y);
-    return {
+    if (!count) {
+      courantPointCache.set(cacheKey, null);
+      return null;
+    }
+    const brut = { x: x / count, y: y / count };
+    const attenuation = Math.max(attenuationCourantCote(point), attenuationMin);
+    const moyen = {
+      x: brut.x * attenuation,
+      y: brut.y * attenuation,
+    };
+    const vitesseKmh = Math.hypot(moyen.x, moyen.y);
+    const resultat = {
       priorite,
-      force,
+      force: vitesseKmh,
+      speedKmh: vitesseKmh,
+      speedKnots: vitesseKmh * KMH_TO_KNOTS,
+      attenuationCote: attenuation,
+      distanceCoteNm: distanceCotePointNm(point),
       direction: vecteurVersDirection(moyen),
       vecteur: moyen,
-      courants: retenus.map(c => c.id),
+      courants: retenus.map(c => {
+        const segment = segmentVitesseCourantAuPoint(c, point);
+        const vitesseKmhOriginale = vitesseCourantAuPoint(c, point);
+        return {
+          id: c.id,
+          segment: segment?.label || null,
+          speedKmh: vitesseKmhOriginale * attenuation,
+          speedKmhOriginale: vitesseKmhOriginale,
+        };
+      }),
     };
+    courantPointCache.set(cacheKey, resultat);
+    return resultat;
+  }
+
+  function navireActif() {
+    if (typeof CARTE_NAVIRE !== 'undefined') return CARTE_NAVIRE;
+    return {
+      id: 'navire-generique',
+      nom: 'Navire',
+      distanceMoyenneNmJour: 105,
+      vitesseMoyenneNoeuds: 105 / 24,
+      vitessesNoeuds: {},
+    };
+  }
+
+  function categorieTailleNavire(navire = navireActif()) {
+    const valeur = navire.categorieTaille ?? navire.categorie_taille
+      ?? navire.categorie ?? navire.tailleCategorie ?? navire.taille_categorie;
+    const categorie = Number(valeur);
+    return Number.isFinite(categorie) ? categorie : CONFIG.categorieMaxHautsFonds;
   }
 
   function bboxCroise(a, b, bbox, marge) {
@@ -213,12 +495,17 @@
 
   function segmentNavigable(a, b, options = {}) {
     const marge = options.margePx ?? CONFIG.margeCotePx;
+    const categorieTaille = categorieTailleNavire();
     const cacheKey = [
       coordCle(a.x), coordCle(a.y), coordCle(b.x), coordCle(b.y), marge,
+      categorieTaille,
       options.ignorerDepartDansTerre ? 1 : 0,
       options.ignorerArriveeDansTerre ? 1 : 0,
     ].join('|');
     if (navigabiliteCache.has(cacheKey)) return navigabiliteCache.get(cacheKey);
+    if (segmentTraverseHautFond(a, b)) {
+      return memoriserNavigabilite(cacheKey, false);
+    }
     const terres = getTerresSegment(a, b, marge);
     for (const poly of terres) {
       if (!bboxCroise(a, b, poly.bbox, marge)) continue;
@@ -299,6 +586,97 @@
     return terresIndexCache;
   }
 
+  function normaliserZoneSea(zone) {
+    return anneauxZoneSea(zone).map(ring => ring.map(([x, y]) => ({ x, y })));
+  }
+
+  function getIndexHautsFonds() {
+    if (hautsFondsIndexCache) return hautsFondsIndexCache;
+    const taille = CONFIG.tailleCelluleIndexPx;
+    const source = typeof SEA_SHOALS !== 'undefined' ? SEA_SHOALS : [];
+    const hautsFonds = source.flatMap(hautFond => {
+      const anneaux = normaliserZoneSea(hautFond.zone || hautFond.points || hautFond);
+      if (!anneaux.length || anneaux[0].length < 3) return [];
+      const xs = anneaux.flatMap(ring => ring.map(p => p.x));
+      const ys = anneaux.flatMap(ring => ring.map(p => p.y));
+      return [{
+        ...hautFond,
+        anneaux,
+        bbox: {
+          minX: Math.min(...xs),
+          maxX: Math.max(...xs),
+          minY: Math.min(...ys),
+          maxY: Math.max(...ys),
+        },
+      }];
+    });
+    const cellules = new Map();
+    hautsFonds.forEach((hautFond, index) => {
+      const minCx = Math.floor(hautFond.bbox.minX / taille);
+      const maxCx = Math.floor(hautFond.bbox.maxX / taille);
+      const minCy = Math.floor(hautFond.bbox.minY / taille);
+      const maxCy = Math.floor(hautFond.bbox.maxY / taille);
+      for (let cy = minCy; cy <= maxCy; cy++) {
+        for (let cx = minCx; cx <= maxCx; cx++) {
+          const key = cleCelluleIndex(cx, cy);
+          if (!cellules.has(key)) cellules.set(key, []);
+          cellules.get(key).push(index);
+        }
+      }
+    });
+    hautsFondsIndexCache = { taille, cellules, hautsFonds };
+    return hautsFondsIndexCache;
+  }
+
+  function getHautsFondsSegment(a, b) {
+    const index = getIndexHautsFonds();
+    const minCx = Math.floor(Math.min(a.x, b.x) / index.taille);
+    const maxCx = Math.floor(Math.max(a.x, b.x) / index.taille);
+    const minCy = Math.floor(Math.min(a.y, b.y) / index.taille);
+    const maxCy = Math.floor(Math.max(a.y, b.y) / index.taille);
+    const vus = new Set();
+    const out = [];
+    for (let cy = minCy; cy <= maxCy; cy++) {
+      for (let cx = minCx; cx <= maxCx; cx++) {
+        const items = index.cellules.get(cleCelluleIndex(cx, cy));
+        if (!items) continue;
+        items.forEach(itemIndex => {
+          if (vus.has(itemIndex)) return;
+          vus.add(itemIndex);
+          out.push(index.hautsFonds[itemIndex]);
+        });
+      }
+    }
+    return out;
+  }
+
+  function pointDansHautFond(point) {
+    return getHautsFondsSegment(point, point).some(hautFond => pointDansHautFondItem(point, hautFond));
+  }
+
+  function pointDansHautFondItem(point, hautFond) {
+      if (!bboxCroise(point, point, hautFond.bbox, 0)) return false;
+      if (!pointDansPolygone(point, { points: hautFond.anneaux[0] })) return false;
+      return !hautFond.anneaux.slice(1).some(trou => pointDansPolygone(point, { points: trou }));
+  }
+
+  function navireInterditHautFond(hautFond) {
+    const maxCategorie = Number(hautFond.maxCategorieTaille ?? CONFIG.categorieMaxHautsFonds);
+    return categorieTailleNavire() > (Number.isFinite(maxCategorie) ? maxCategorie : CONFIG.categorieMaxHautsFonds);
+  }
+
+  function segmentTraverseHautFond(a, b) {
+    return getHautsFondsSegment(a, b).some(hautFond => {
+      if (!navireInterditHautFond(hautFond)) return false;
+      if (!bboxCroise(a, b, hautFond.bbox, 0)) return false;
+      if (pointDansHautFondItem(a, hautFond) || pointDansHautFondItem(b, hautFond)) return true;
+      return hautFond.anneaux.some(ring => ring.some((c, i) => {
+        const d = ring[(i + 1) % ring.length];
+        return segmentsIntersectent(a, b, c, d);
+      }));
+    });
+  }
+
   function getTerresSegment(a, b, marge) {
     const index = getIndexTerres();
     const minCx = Math.floor((Math.min(a.x, b.x) - marge) / index.taille);
@@ -340,6 +718,43 @@
     }
     distanceCoteCache.set(cacheKey, meilleure);
     return meilleure;
+  }
+
+  function distanceCotePoint(point) {
+    const cacheKey = ['P', coordCle(point.x), coordCle(point.y)].join('|');
+    if (distanceCoteCache.has(cacheKey)) return distanceCoteCache.get(cacheKey);
+    const rayon = rayonAttenuationCourantPx();
+    let meilleure = Infinity;
+    const terres = getTerresSegment(point, point, rayon);
+    for (const poly of terres) {
+      if (!bboxCroise(point, point, poly.bbox, rayon)) continue;
+      if (pointDansPolygone(point, poly)) {
+        distanceCoteCache.set(cacheKey, 0);
+        return 0;
+      }
+      for (let i = 0; i < poly.points.length; i++) {
+        const c = poly.points[i];
+        const d = poly.points[(i + 1) % poly.points.length];
+        meilleure = Math.min(meilleure, distPointSegment(point, c, d));
+        if (meilleure <= 0.000001) {
+          distanceCoteCache.set(cacheKey, 0);
+          return 0;
+        }
+      }
+    }
+    distanceCoteCache.set(cacheKey, meilleure);
+    return meilleure;
+  }
+
+  function distanceCotePointNm(point) {
+    return distanceCotePoint(point) * millesNautiquesParPx();
+  }
+
+  function attenuationCourantCote(point) {
+    const distanceNmCote = distanceCotePointNm(point);
+    if (!Number.isFinite(distanceNmCote)) return 1;
+    if (distanceNmCote <= 0) return 0;
+    return Math.min(1, distanceNmCote / CONFIG.rayonAttenuationCourantNm);
   }
 
   function getGrille() {
@@ -397,16 +812,17 @@
   }
 
   function coutSegmentGrille(a, b, foyers = []) {
-    const d = distance(a, b);
-    if (segmentNavigable(a, b, { margePx: CONFIG.margeCotePx })) return d;
+    const temps = tempsSegmentHeures(a, b);
+    if (!Number.isFinite(temps)) return Infinity;
+    if (segmentNavigable(a, b, { margePx: CONFIG.margeCotePx })) return temps;
     const marge = margeRoutePourSegment(a, b, foyers);
     if (marge >= CONFIG.margeApprocheIntermediairePx
       && segmentNavigable(a, b, { margePx: CONFIG.margeApprocheIntermediairePx })) {
-      return d;
+      return temps;
     }
     if (marge >= CONFIG.margeApprochePx
       && segmentNavigable(a, b, { margePx: CONFIG.margeApprochePx })) {
-      return d;
+      return temps;
     }
     return Infinity;
   }
@@ -493,6 +909,10 @@
       && segmentNavigable(a, b, { margePx: CONFIG.margeApprochePx }));
   }
 
+  function segmentRaccourciUtilisable(a, b, foyers = []) {
+    return segmentRaccourciNavigable(a, b, foyers) && Number.isFinite(tempsSegmentHeures(a, b));
+  }
+
   function segmentTerminalNavigable(a, b) {
     return segmentNavigable(a, b, { margePx: CONFIG.margeTerminalePx });
   }
@@ -507,7 +927,7 @@
         ancre = points[i - 1];
         continue;
       }
-      if (!segmentRaccourciNavigable(ancre, points[i], foyers)) {
+      if (!segmentRaccourciUtilisable(ancre, points[i], foyers)) {
         out.push(points[i - 1]);
         ancre = points[i - 1];
       }
@@ -526,17 +946,18 @@
 
   function coutSegmentApproche(a, b, foyer) {
     const margeMax = margeApprochePourSegment(a, b, foyer);
-    const d = distance(a, b);
+    const temps = tempsSegmentHeures(a, b);
+    if (!Number.isFinite(temps)) return Infinity;
     if (margeMax >= CONFIG.margeCotePx && segmentNavigable(a, b, { margePx: CONFIG.margeCotePx })) {
-      return d;
+      return temps;
     }
     if (margeMax >= CONFIG.margeApprocheIntermediairePx
       && segmentNavigable(a, b, { margePx: CONFIG.margeApprocheIntermediairePx })) {
-      return d;
+      return temps;
     }
     if (margeMax >= CONFIG.margeApprochePx
       && segmentNavigable(a, b, { margePx: CONFIG.margeApprochePx })) {
-      return d;
+      return temps;
     }
     return Infinity;
   }
@@ -577,7 +998,7 @@
     nodesByKey.set(startKey, start);
     nodesByKey.set(goalKey, goal);
     gScore.set(startKey, 0);
-    open.push({ key: startKey, score: distance(start, goal) });
+    open.push({ key: startKey, score: heuristiqueTemps(start, goal) });
 
     let iterations = 0;
     while (open.items.length && iterations++ < CONFIG.limiteIterations) {
@@ -602,7 +1023,7 @@
         if (tentative >= (gScore.get(nextKey) ?? Infinity)) return;
         cameFrom.set(nextKey, current.key);
         gScore.set(nextKey, tentative);
-        open.push({ key: nextKey, score: tentative + distance(next, goal) });
+        open.push({ key: nextKey, score: tentative + heuristiqueTemps(next, goal) });
       });
     }
 
@@ -642,7 +1063,7 @@
     nodesByKey.set(startKey, start);
     nodesByKey.set(goalKey, goal);
     gScore.set(startKey, 0);
-    open.push({ key: startKey, score: distance(start, goal) });
+    open.push({ key: startKey, score: heuristiqueTemps(start, goal) });
 
     let iterations = 0;
     while (open.items.length && iterations++ < CONFIG.limiteIterations) {
@@ -665,7 +1086,7 @@
         if (tentative >= (gScore.get(nextKey) ?? Infinity)) return;
         cameFrom.set(nextKey, current.key);
         gScore.set(nextKey, tentative);
-        open.push({ key: nextKey, score: tentative + distance(next, goal) });
+        open.push({ key: nextKey, score: tentative + heuristiqueTemps(next, goal) });
       });
     }
 
@@ -707,12 +1128,13 @@
   }
 
   function coutSegmentRegional(a, b) {
-    const d = distance(a, b);
+    const temps = tempsSegmentHeures(a, b);
+    if (!Number.isFinite(temps)) return Infinity;
     if (segmentNavigable(a, b, { margePx: CONFIG.margeApprocheIntermediairePx })) {
-      return d;
+      return temps;
     }
     if (segmentNavigable(a, b, { margePx: CONFIG.margeApprochePx })) {
-      return d;
+      return temps;
     }
     return Infinity;
   }
@@ -776,7 +1198,7 @@
   }
 
   function calculerRoute(depart, arrivee) {
-    if (segmentNavigable(depart, arrivee)) return [depart, arrivee];
+    if (Number.isFinite(coutSegmentGrille(depart, arrivee))) return [depart, arrivee];
 
     const routeRegionale = routeFineRegionale(depart, arrivee);
     if (routeRegionale) return routeRegionale;
@@ -785,8 +1207,14 @@
     const goals = candidatsNoeudPassage(arrivee, depart);
     const startFallback = plusProcheNoeudNavigable(depart, { rayonMaxPx: CONFIG.rayonAccrochePortPx });
     const goalFallback = plusProcheNoeudNavigable(arrivee, { rayonMaxPx: CONFIG.rayonAccrochePortPx });
-    if (!starts.length && startFallback) starts.push({ node: startFallback, approche: [depart, startFallback], cout: distance(depart, startFallback) });
-    if (!goals.length && goalFallback) goals.push({ node: goalFallback, approche: [arrivee, goalFallback], cout: distance(arrivee, goalFallback) });
+    if (!starts.length && startFallback) {
+      const cout = tempsSegmentHeures(depart, startFallback);
+      if (Number.isFinite(cout)) starts.push({ node: startFallback, approche: [depart, startFallback], cout });
+    }
+    if (!goals.length && goalFallback) {
+      const cout = tempsSegmentHeures(arrivee, goalFallback);
+      if (Number.isFinite(cout)) goals.push({ node: goalFallback, approche: [arrivee, goalFallback], cout });
+    }
     if (!starts.length || !goals.length) throw new Error('Aucun chenal navigable proche du depart ou de l arrivee.');
 
     const open = new MinHeap();
@@ -810,7 +1238,7 @@
       nodesByKey.set(key, node);
       approchesDepart.set(key, approche);
       gScore.set(key, cout);
-      const meilleureDistanceBut = goals.reduce((min, goal) => Math.min(min, distance(node, goal.node)), Infinity);
+      const meilleureDistanceBut = goals.reduce((min, goal) => Math.min(min, heuristiqueTemps(node, goal.node)), Infinity);
       open.push({ key, score: cout + meilleureDistanceBut });
     });
 
@@ -838,16 +1266,25 @@
         let fromNode = node;
         const parentKey = cameFrom.get(current.key);
         const parentNode = parentKey ? nodesByKey.get(parentKey) : null;
-        if (parentNode && segmentRaccourciNavigable(parentNode, next, foyersRoute)) {
+        if (parentNode && segmentRaccourciUtilisable(parentNode, next, foyersRoute)) {
           fromKey = parentKey;
           fromNode = parentNode;
         }
-        const coutDepuisFrom = fromNode === node ? cout : distance(fromNode, next);
+        let coutDepuisFrom = cout;
+        if (fromNode !== node) {
+          const coutRaccourci = tempsSegmentHeures(fromNode, next);
+          if (Number.isFinite(coutRaccourci)) {
+            coutDepuisFrom = coutRaccourci;
+          } else {
+            fromKey = current.key;
+            fromNode = node;
+          }
+        }
         const tentative = (gScore.get(fromKey) ?? Infinity) + coutDepuisFrom;
         if (tentative >= (gScore.get(nextKey) ?? Infinity)) return;
         cameFrom.set(nextKey, fromKey);
         gScore.set(nextKey, tentative);
-        const meilleureDistanceBut = goals.reduce((min, goal) => Math.min(min, distance(next, goal.node)), Infinity);
+        const meilleureDistanceBut = goals.reduce((min, goal) => Math.min(min, heuristiqueTemps(next, goal.node)), Infinity);
         open.push({ key: nextKey, score: tentative + meilleureDistanceBut });
       });
     }
@@ -870,11 +1307,13 @@
     preselection.sort((a, b) => a.score - b.score).slice(0, 10).forEach(({ node }) => {
       const approche = routeLocaleFine(point, node, point);
       if (!approche) return;
+      const cout = dureeRouteHeures(approche);
+      if (!Number.isFinite(cout)) return;
       candidats.push({
         node,
         approche,
-        cout: longueurRoute(approche),
-        score: longueurRoute(approche) + distance(node, autrePoint),
+        cout,
+        score: cout + heuristiqueTemps(node, autrePoint),
       });
     });
     candidats.sort((a, b) => a.score - b.score);
@@ -899,7 +1338,7 @@
     }
     if (!candidats.length) return null;
     return candidats.reduce((meilleur, courant) =>
-      longueurRoute(courant) < longueurRoute(meilleur) ? courant : meilleur
+      dureeRouteHeures(courant) < dureeRouteHeures(meilleur) ? courant : meilleur
     );
   }
 
@@ -1005,6 +1444,39 @@
     let total = 0;
     for (let i = 1; i < points.length; i++) total += distance(points[i - 1], points[i]);
     return total;
+  }
+
+  function distanceRouteNm(points) {
+    let total = 0;
+    for (let i = 1; i < points.length; i++) total += distanceNm(points[i - 1], points[i]);
+    return total;
+  }
+
+  function dureeRouteHeures(points) {
+    let total = 0;
+    for (let i = 1; i < points.length; i++) {
+      const heures = tempsSegmentHeures(points[i - 1], points[i]);
+      if (!Number.isFinite(heures)) return Infinity;
+      total += heures;
+    }
+    return total;
+  }
+
+  function formatDureeHeures(heures) {
+    if (!Number.isFinite(heures)) return 'durée indéterminée';
+    let jours = Math.floor(heures / 24);
+    let reste = Math.round(heures - jours * 24);
+    if (reste === 24) {
+      jours += 1;
+      reste = 0;
+    }
+    if (jours > 0) return `${jours} j ${reste} h`;
+    return `${reste} h`;
+  }
+
+  function formatDistanceMilles(distance) {
+    const milles = Math.round(distance);
+    return `${milles} ${milles > 1 ? 'milles' : 'mille'}`;
   }
 
   function segmentsAffichageNavigables(points) {
@@ -1333,7 +1805,9 @@
         try {
           const route = calculerRoute(pointRoutePort(a), pointRoutePort(b));
           tracer(route);
-          resultat.textContent = `${Math.round(longueurRoute(route))} px · ${route.length} points`;
+          const duree = dureeRouteHeures(route);
+          const distance = distanceRouteNm(route);
+          resultat.textContent = `${formatDureeHeures(duree)} · ${formatDistanceMilles(distance)}`;
         } catch (err) {
           resultat.textContent = err.message || 'Route impossible.';
         }
@@ -1357,6 +1831,18 @@
     calculerRoute,
     segmentNavigable,
     courantEnPoint,
+    navireActif,
+    distanceNm,
+    distanceRouteNm,
+    dureeRouteHeures,
+    formatDureeHeures,
+    formatDistanceMilles,
+    projectionCourantNoeuds,
+    compensationCourantSegment,
+    tempsSegmentHeures,
+    millesNautiquesParPx,
+    distanceCotePointNm,
+    attenuationCourantCote,
     config: CONFIG,
   };
 })();

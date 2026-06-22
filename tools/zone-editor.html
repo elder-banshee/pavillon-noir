@@ -808,7 +808,9 @@
       <!-- Panneau courant sélectionné -->
       <div id="current-detail" style="display:none; margin-top:10px; padding:8px; background:rgba(20,100,200,0.15); border:1px solid rgba(20,100,200,0.4); border-radius:2px;">
         <div id="current-detail-label" style="color:var(--gold-light); font-family:Cinzel,serif; font-size:0.8rem; margin-bottom:6px;"></div>
-        <div id="current-detail-info" style="font-size:0.75rem; color:var(--text-dim); margin-bottom:8px;"></div>
+        <div id="current-detail-info" style="display:none; font-size:0.75rem; color:var(--text-dim); margin-bottom:8px;"></div>
+        <div id="current-meta-fields" style="display:flex; flex-direction:column; gap:6px; margin-bottom:8px;"></div>
+        <div id="current-speed-fields" style="display:flex; flex-direction:column; gap:6px; margin-bottom:8px;"></div>
         <div style="display:flex; gap:6px; flex-wrap:wrap;">
           <button id="btn-current-reverse" type="button" class="tool-btn" style="font-size:0.75rem; padding:4px 8px; flex:1;">
             ⇄ Inverser
@@ -926,6 +928,15 @@ let seaLabelLayer = null;
 let seaCellLayers = {};
 let currentLayer = null;      // L.LayerGroup pour les rubans de courant
 let currentArrowLayer = null; // L.LayerGroup pour les flèches directionnelles
+
+const DEFAULT_CURRENT_SPEED_SEGMENTS = {
+  guyanes_gulf_stream_r1: [
+    { label: 'Gulf Stream', from: 0, to: 39, speedKmh: 9 },
+    { label: 'Courant de Floride', from: 40, to: 67, speedKmh: 6.5, attenuationMinCote: 0.6 },
+    { label: 'Courant des Caraïbes', from: 68, to: 161, speedKmh: 3 },
+    { label: 'Courant des Guyanes', from: 162, to: 184, speedKmh: 2.5 },
+  ],
+};
 
 // Sélection
 let selectedZoneId    = null;
@@ -1246,23 +1257,56 @@ let selectedCurrentId   = null;
 // Référence aux polygones Leaflet par id (pour highlight)
 let currentPolygons = {};
 
+function applyCurrentDefaults(current) {
+  const defaults = DEFAULT_CURRENT_SPEED_SEGMENTS[current.id];
+  if (defaults && !Array.isArray(current.speedSegments) && !Array.isArray(current.vitesseSegments)) {
+    current.speedSegments = JSON.parse(JSON.stringify(defaults));
+  }
+  return current;
+}
+
 function getWorkingCurrents() {
   if (!currentsWorkingCopy) {
     const src = (typeof SEA_CURRENTS !== 'undefined') ? SEA_CURRENTS : [];
-    currentsWorkingCopy = src.map(c => JSON.parse(JSON.stringify(c)));
+    currentsWorkingCopy = src.map(c => applyCurrentDefaults(JSON.parse(JSON.stringify(c))));
   }
   return currentsWorkingCopy;
 }
 
+function getWorkingShoals() {
+  const src = (typeof SEA_SHOALS !== 'undefined') ? SEA_SHOALS : [];
+  return src.map(s => JSON.parse(JSON.stringify(s)));
+}
+
+function seaZonePolygons(zone) {
+  if (Array.isArray(zone)) {
+    if (zone.length && typeof zone[0]?.[0] === 'number') {
+      return [{ exterior: zone, holes: [] }];
+    }
+    return zone
+      .map(item => currentZoneAsEditableObject(item))
+      .filter(poly => poly.exterior.length > 2);
+  }
+  if (zone && Array.isArray(zone.polygons)) {
+    return zone.polygons
+      .map(item => currentZoneAsEditableObject(item))
+      .filter(poly => poly.exterior.length > 2);
+  }
+  const poly = currentZoneAsEditableObject(zone);
+  return poly.exterior.length > 2 ? [poly] : [];
+}
+
 function seaZoneRings(zone) {
-  if (Array.isArray(zone)) return [zone];
-  if (!zone || !Array.isArray(zone.exterior)) return [];
-  const holes = Array.isArray(zone.holes) ? zone.holes : (Array.isArray(zone.hole) ? [zone.hole] : []);
-  return [zone.exterior, ...holes].filter(ring => Array.isArray(ring) && ring.length > 2);
+  return seaZonePolygons(zone)
+    .flatMap(poly => [poly.exterior, ...poly.holes])
+    .filter(ring => Array.isArray(ring) && ring.length > 2);
 }
 
 function seaZoneLatLngs(zone) {
-  return seaZoneRings(zone).map(ring => ring.map(([x, y]) => pxToLatLng(x, y)));
+  return seaZonePolygons(zone).map(poly => {
+    const rings = [poly.exterior, ...poly.holes].filter(ring => ring.length > 2);
+    return rings.map(ring => ring.map(([x, y]) => pxToLatLng(x, y)));
+  });
 }
 
 function seaPointInRing(pt, ring) {
@@ -1279,10 +1323,24 @@ function seaPointInRing(pt, ring) {
 }
 
 function seaPointInZone(pt, zone) {
-  const rings = seaZoneRings(zone);
-  if (!rings.length) return false;
-  if (!seaPointInRing(pt, rings[0])) return false;
-  return !rings.slice(1).some(hole => seaPointInRing(pt, hole));
+  return seaZonePolygons(zone).some(poly => (
+    seaPointInRing(pt, poly.exterior)
+    && !poly.holes.some(hole => seaPointInRing(pt, hole))
+  ));
+}
+
+function seaSpeedAtSegment(current, segmentIndex) {
+  const segments = current.speedSegments || current.vitesseSegments;
+  if (!Array.isArray(segments) || !segments.length) return Number(current.speedKmh || current.vitesseKmh || current.force) || 0;
+  const segment = segments.find(item => segmentIndex >= item.from && segmentIndex <= item.to) || segments[segments.length - 1];
+  return Number(segment.speedKmh || segment.vitesseKmh || current.force) || 0;
+}
+
+function seaArrowSpacingForSpeed(speedKmh) {
+  if (speedKmh >= 8) return 145;
+  if (speedKmh >= 6) return 165;
+  if (speedKmh >= 3) return 210;
+  return 245;
 }
 
 function seaArrowSamples(current, spacingPx = 220) {
@@ -1305,25 +1363,115 @@ function seaArrowSamples(current, spacingPx = 220) {
   if (!segments.length) return [];
 
   const samples = [];
-  const count = Math.max(1, Math.floor(total / spacingPx));
-  const gap = total / count;
-  for (let n = 0; n < count; n++) {
-    const target = (n + 0.5) * gap;
+  let target = Math.min(spacingPx / 2, total / 2);
+  while (target < total) {
     const seg = segments.find(s => target >= s.start && target <= s.start + s.len) || segments[segments.length - 1];
+    const nextTarget = target + seaArrowSpacingForSpeed(seaSpeedAtSegment(current, seg.dirIdx));
     const t = Math.max(0, Math.min(1, (target - seg.start) / seg.len));
     const x = seg.a[0] + (seg.b[0] - seg.a[0]) * t;
     const y = seg.a[1] + (seg.b[1] - seg.a[1]) * t;
-    if (!seaPointInZone([x, y], current.zone)) continue;
-    samples.push({
-      x,
-      y,
-      direction: current.directions?.[seg.dirIdx] || 'E',
-    });
+    if (seaPointInZone([x, y], current.zone)) {
+      samples.push({
+        x,
+        y,
+        direction: current.directions?.[seg.dirIdx] || 'E',
+      });
+    }
+    target = nextTarget;
   }
   return samples;
 }
 
+function currentPointCount(current) {
+  return Array.isArray(current.centerline) ? current.centerline.length : 0;
+}
+
+function currentTitleWithPoints(current) {
+  const count = currentPointCount(current);
+  return `${current.label || current.id} (${count} ${count > 1 ? 'points' : 'point'})`;
+}
+
+function currentPriority(current) {
+  const priority = Number(current.priorite ?? current.priority);
+  return Number.isFinite(priority) ? Math.round(priority) : 2;
+}
+
+function currentPriorityRenderRank(current) {
+  const priority = currentPriority(current);
+  if (priority <= 1) return 1;
+  if (priority === 2) return 2;
+  return 3;
+}
+
+function currentUsesSvgZone(current) {
+  return current?.zoneSource === 'svg';
+}
+
+function currentBaseSpeed(current) {
+  return Number(current.speedKmh ?? current.vitesseKmh ?? current.force) || 0;
+}
+
+function normalizeSpeedInput(value) {
+  const normalized = Number(String(value).replace(',', '.'));
+  return Number.isFinite(normalized) && normalized >= 0 ? normalized : null;
+}
+
+function normalizePriorityInput(value) {
+  const priority = Math.round(Number(value));
+  return Number.isFinite(priority) ? priority : null;
+}
+
+function cloneRing(ring) {
+  return (ring || []).map(([x, y]) => [x, y]);
+}
+
+function currentZoneAsEditableObject(zone) {
+  if (zone && Array.isArray(zone.polygons)) {
+    return currentZoneAsEditableObject(zone.polygons[0]);
+  }
+  if (Array.isArray(zone)) {
+    return { exterior: cloneRing(zone), holes: [] };
+  }
+  if (!zone || !Array.isArray(zone.exterior)) {
+    return { exterior: [], holes: [] };
+  }
+  const holes = Array.isArray(zone.holes) ? zone.holes : (Array.isArray(zone.hole) ? [zone.hole] : []);
+  return {
+    exterior: cloneRing(zone.exterior),
+    holes: holes.map(cloneRing),
+  };
+}
+
+function renderCurrentMetaFieldsHtml(current) {
+  const priority = currentPriority(current);
+  return `
+    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
+      <span style="flex:1;">Priorite</span>
+      <input type="number" step="1" value="${priority}" data-current-meta="priorite"
+        style="width:92px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+    </label>`;
+}
+
+function renderSpeedInputHtml({ id, label, value }) {
+  return `<label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
+    <span style="flex:1;">${label}</span>
+    <input type="number" min="0" step="0.1" value="${value}" data-speed-id="${id}"
+      style="width:74px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+      color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+    <span>km/h</span>
+  </label>`;
+}
+
 function formatSeaZoneJS(zone, fmtPts) {
+  if (zone && Array.isArray(zone.polygons)) {
+    const polygonsTxt = zone.polygons.map(poly => `      ${formatSeaZoneJS(poly, fmtPts).replace(/\n/g, '\n      ')}`).join(',\n');
+    return `{
+      polygons: [
+${polygonsTxt}
+      ],
+    }`;
+  }
   if (Array.isArray(zone)) return `[
 ${fmtPts(zone)}
     ]`;
@@ -1354,26 +1502,61 @@ function renderCurrentsLayer() {
   const selFill      = 'rgba(255,200,50,0.35)';
   const selStroke    = 'rgba(255,200,50,0.95)';
 
+  getWorkingShoals().forEach(s => {
+    const latlngs = seaZoneLatLngs(s.zone);
+    if (!latlngs.some(poly => poly[0]?.length > 2)) return;
+    L.polygon(latlngs, {
+      color: 'rgba(194,164,92,0.85)',
+      weight: 1,
+      dashArray: '4 4',
+      fillColor: 'rgba(194,164,92,0.28)',
+      fillOpacity: 1,
+      interactive: false,
+    }).addTo(currentLayer);
+  });
+
   currents.forEach(c => {
     const isSelected = c.id === selectedCurrentId;
 
     // Ruban : simple polygon or closed ribbon with inner empty ring.
     const latlngs = seaZoneLatLngs(c.zone);
-    if (latlngs.length && latlngs[0].length > 2) {
+    if (latlngs.some(poly => poly[0]?.length > 2)) {
       // Couleurs par prioritÃ© : p1 bleu foncÃ©, p2 bleu moyen, p3 bleu clair
       const prioFill   = { 1: 'rgba(15,70,160,0.55)',  2: 'rgba(40,120,210,0.38)', 3: 'rgba(80,170,240,0.25)' };
       const prioStroke = { 1: 'rgba(20,90,200,0.95)',  2: 'rgba(50,140,220,0.85)', 3: 'rgba(90,185,250,0.75)' };
+      const priority = currentPriorityRenderRank(c);
       const poly = L.polygon(latlngs, {
-        color:       isSelected ? selStroke : (prioStroke[c.priorite] || prioStroke[2]),
+        color:       isSelected ? selStroke : (prioStroke[priority] || prioStroke[2]),
         weight:      isSelected ? 2 : 1,
-        fillColor:   isSelected ? selFill   : (prioFill[c.priorite]   || prioFill[2]),
+        fillColor:   isSelected ? selFill   : (prioFill[priority]   || prioFill[2]),
         fillOpacity: isSelected ? 0.55 : 1,
-        interactive: true,
+        interactive: false,
       }).addTo(currentLayer);
 
-      poly.on('click', () => selectCurrent(c.id));
       currentPolygons[c.id] = poly;
 
+    }
+
+    if (Array.isArray(c.centerline) && c.centerline.length >= 2) {
+      const centerlineLatLngs = c.centerline.map(([x, y]) => pxToLatLng(x, y));
+      const priority = currentPriorityRenderRank(c);
+      const lineColor = isSelected
+        ? selStroke
+        : ({ 1: 'rgba(180,220,255,0.95)', 2: 'rgba(145,205,250,0.88)', 3: 'rgba(110,190,245,0.78)' }[priority] || 'rgba(145,205,250,0.88)');
+      const hitLine = L.polyline(centerlineLatLngs, {
+        color: '#ffffff',
+        weight: 18,
+        opacity: 0,
+        interactive: true,
+      }).addTo(currentLayer);
+      hitLine.on('click', () => selectCurrent(c.id));
+      const line = L.polyline(centerlineLatLngs, {
+        color: lineColor,
+        weight: isSelected ? 4 : 3,
+        opacity: isSelected ? 1 : 0.88,
+        dashArray: currentUsesSvgZone(c) ? '7 5' : null,
+        interactive: false,
+      }).addTo(currentLayer);
     }
 
     // Fleches
@@ -1414,8 +1597,10 @@ function renderCurrentsList() {
         background:${sel ? 'rgba(255,200,50,0.18)' : 'rgba(20,100,200,0.12)'};
         border:1px solid ${sel ? 'rgba(255,200,50,0.6)' : 'rgba(20,100,200,0.3)'};
         border-radius:2px;">
-      <span style="color:${sel ? '#ffd23f' : 'var(--gold-light)'};font-family:Cinzel,serif;font-size:0.73rem;">${c.label || c.id}</span><br>
-      <span style="font-size:0.7rem;color:var(--text-dim);">p${c.priorite} · f${c.force} · ${c.centerline ? c.centerline.length : 0} pts</span>
+      <span style="color:${sel ? '#ffd23f' : 'var(--gold-light)'};font-family:Cinzel,serif;font-size:0.73rem;">${currentTitleWithPoints(c)}</span>
+      <div style="margin-top:3px; font-size:0.68rem; color:var(--text-dim);">
+        P${currentPriority(c)}
+      </div>
     </div>`;
   }).join('');
 
@@ -1428,6 +1613,8 @@ function renderCurrentDetail() {
   const detail = document.getElementById('current-detail');
   const label  = document.getElementById('current-detail-label');
   const info   = document.getElementById('current-detail-info');
+  const meta   = document.getElementById('current-meta-fields');
+  const speeds = document.getElementById('current-speed-fields');
   if (!detail) return;
 
   if (!selectedCurrentId) { detail.style.display = 'none'; return; }
@@ -1436,8 +1623,73 @@ function renderCurrentDetail() {
   if (!c) { detail.style.display = 'none'; return; }
 
   detail.style.display = 'block';
-  label.textContent    = c.label || c.id;
-  info.textContent     = `Priorité ${c.priorite}  ·  Force ${c.force}  ·  ${c.centerline ? c.centerline.length : 0} points`;
+  label.textContent    = currentTitleWithPoints(c);
+  info.textContent     = '';
+  if (meta) {
+    meta.innerHTML = renderCurrentMetaFieldsHtml(c);
+    meta.querySelectorAll('[data-current-meta]').forEach(input => {
+      input.addEventListener('change', () => updateCurrentMeta(c, input));
+      input.addEventListener('input', () => updateCurrentMeta(c, input, { soft: true }));
+    });
+  }
+  if (!speeds) return;
+  const segments = c.speedSegments || c.vitesseSegments;
+  if (Array.isArray(segments) && segments.length) {
+    speeds.innerHTML = segments.map((seg, idx) => renderSpeedInputHtml({
+      id: `segment:${idx}`,
+      label: seg.label || `Tronçon ${idx + 1}`,
+      value: Number(seg.speedKmh ?? seg.vitesseKmh ?? c.force) || 0,
+    })).join('');
+  } else {
+    speeds.innerHTML = renderSpeedInputHtml({
+      id: 'base',
+      label: 'Vitesse',
+      value: currentBaseSpeed(c),
+    });
+  }
+
+  speeds.querySelectorAll('[data-speed-id]').forEach(input => {
+    input.addEventListener('change', () => updateCurrentSpeed(c, input));
+    input.addEventListener('input', () => updateCurrentSpeed(c, input, { soft: true }));
+  });
+}
+
+function updateCurrentSpeed(current, input, options = {}) {
+  const speed = normalizeSpeedInput(input.value);
+  if (speed === null) return;
+
+  const id = input.dataset.speedId || 'base';
+  if (id.startsWith('segment:')) {
+    const idx = Number(id.split(':')[1]);
+    const segments = current.speedSegments || current.vitesseSegments;
+    if (Array.isArray(segments) && segments[idx]) {
+      segments[idx].speedKmh = speed;
+      delete segments[idx].vitesseKmh;
+    }
+  } else {
+    current.speedKmh = speed;
+    delete current.vitesseKmh;
+  }
+
+  if (!options.soft) {
+    renderCurrentsLayer();
+  }
+}
+
+function updateCurrentMeta(current, input, options = {}) {
+  const key = input.dataset.currentMeta;
+  if (key === 'priorite') {
+    const priority = normalizePriorityInput(input.value);
+    if (priority === null) return;
+    current.priorite = priority;
+    delete current.priority;
+  } else {
+    return;
+  }
+
+  if (!options.soft || key === 'priorite') {
+    renderCurrentsLayer();
+  }
 }
 
 // Recalcule les 16 directions cardinales depuis une centerline JS
@@ -1511,15 +1763,35 @@ function exportSeaData() {
     ).join('\n');
   }
 
+  function fmtSpeedSegments(segments) {
+    if (!Array.isArray(segments) || !segments.length) return '';
+    const lines = segments.map(seg => {
+      const attenuation = seg.attenuationMinCote != null ? `, attenuationMinCote: ${seg.attenuationMinCote}` : '';
+      return `      { label: '${seg.label}', from: ${seg.from}, to: ${seg.to}, speedKmh: ${seg.speedKmh}${attenuation} }`;
+    });
+    return `    speedSegments: [\n${lines.join(',\n')},\n    ],\n`;
+  }
+
+  function fmtShoalBlock(s) {
+    return `  {
+    id: '${s.id}',
+    label: '${s.label || s.id}',
+    maxCategorieTaille: ${s.maxCategorieTaille ?? 3},
+    zone: ${formatSeaZoneJS(s.zone, fmtPts)},
+  },`;
+  }
+
   const blocks = currents.map(c => {
-    const widthLine = c.width != null ? `    width: ${c.width},\n` : '';
     const closedLine = c.closed != null ? `    closed: ${Boolean(c.closed)},\n` : '';
+    const zoneSourceLine = c.zoneSource ? `    zoneSource: '${c.zoneSource}',\n` : '';
+    const speedLine = c.speedKmh != null ? `    speedKmh: ${c.speedKmh},\n` : '';
+    const speedSegmentsLine = fmtSpeedSegments(c.speedSegments);
     return `  {
     id: '${c.id}',
     label: '${c.label || c.id}',
-    priorite: ${c.priorite},
+    priorite: ${currentPriority(c)},
     force: ${c.force},
-${widthLine}${closedLine}    centerline: [
+${closedLine}${zoneSourceLine}${speedLine}${speedSegmentsLine}    centerline: [
 ${fmtPts(c.centerline)}
     ],
     directions: [
@@ -1528,6 +1800,7 @@ ${fmtDirs(c.directions)}
     zone: ${formatSeaZoneJS(c.zone, fmtPts)},
   },`;
   }).join('\n\n');
+  const shoalBlocks = getWorkingShoals().map(fmtShoalBlock).join('\n\n');
   const output = `// sea-data.js — exporte depuis le Zone Editor
 // ${currents.length} courant(s)
 // Coordonnees pixel Jaillot (8500x5320)
@@ -1538,7 +1811,16 @@ ${blocks}
 
 ];
 
-if (typeof window !== 'undefined') window.SEA_CURRENTS = SEA_CURRENTS;
+const SEA_SHOALS = [
+
+${shoalBlocks}
+
+];
+
+if (typeof window !== 'undefined') {
+  window.SEA_CURRENTS = SEA_CURRENTS;
+  window.SEA_SHOALS = SEA_SHOALS;
+}
 `;
 
   const blob = new Blob([output], { type: 'text/javascript;charset=utf-8' });

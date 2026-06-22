@@ -15,6 +15,21 @@ const CARTE_ANNEE_REFERENCE = 1716;
 // Coordonnées pixel [x, y] dans le référentiel de CARTE_IMAGE.
 const CARTE_NAVIRE_POSITION = [7362, 4004]; // Nassau, New Providence
 
+// Valeurs de test pour le calculateur de navigation Jaillot.
+const CARTE_NAVIRE = {
+    id: 'cotre-pj',
+    nom: 'Cotre des PJ',
+    type: 'cotre',
+    distanceMoyenneNmJour: 105,
+    vitesseMoyenneNoeuds: 105 / 24,
+    vitessesNoeuds: {
+        pres: 4,
+        largue: 10.5,
+        grandLargue: 9.5,
+        ventArriere: 5,
+    },
+};
+
 // ─── Résolution de l'image ───────────────────────────────────
 const CARTE_IMAGE = {
     src: 'medias/cartes/jaillot-1708.jpg',
