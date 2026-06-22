@@ -676,6 +676,8 @@ path.leaflet-interactive:focus-visible {
 }
 
 .carte-overlay-btn {
+  --overlay-active: var(--gold);
+  --overlay-active-hover: var(--gold-light);
   width: 28px;
   height: 28px;
   border: 1px solid var(--border);
@@ -691,14 +693,22 @@ path.leaflet-interactive:focus-visible {
   flex-shrink: 0;
 }
 
-.carte-overlay-btn:hover:not(.disabled) {
-  color: var(--parchment);
+.carte-overlay-btn:hover:not(.disabled):not(.active) {
+  border-color: var(--overlay-active);
+  color: var(--overlay-active);
   filter: brightness(1.2);
 }
 
 .carte-overlay-btn.active {
   color: var(--ink);
   border-color: transparent;
+  background: var(--overlay-active);
+}
+
+.carte-overlay-btn.active:hover:not(.disabled) {
+  border-color: var(--overlay-active-hover);
+  background: var(--overlay-active);
+  color: var(--overlay-active-hover);
 }
 
 .carte-overlay-btn.disabled {
@@ -707,59 +717,65 @@ path.leaflet-interactive:focus-visible {
 }
 
 /* Couleurs de fond distinctives par mode */
-.carte-overlay-btn--geo.active {
-  background: var(--sea-light);
+.carte-overlay-btn--geo {
+  --overlay-active: var(--sea-light);
+  --overlay-active-hover: #6f8fa0;
 }
 
-.carte-overlay-btn--densite.active {
-  background: #4a8c5c;
+.carte-overlay-btn--densite {
+  --overlay-active: #4a8c5c;
+  --overlay-active-hover: #64aa77;
 }
 
-.carte-overlay-btn--esclavage.active {
-  background: var(--rust);
+.carte-overlay-btn--esclavage {
+  --overlay-active: var(--rust);
+  --overlay-active-hover: #b65b42;
 }
 
-.carte-overlay-btn--autochtones.active {
-  background: #a05c38;
+.carte-overlay-btn--autochtones {
+  --overlay-active: #a05c38;
+  --overlay-active-hover: #c0734a;
 }
 
-.carte-overlay-btn--maritime.active {
-  background: #2a5a72;
+.carte-overlay-btn--maritime {
+  --overlay-active: #26b8b6;
+  --overlay-active-hover: #7de8df;
 }
 
-.carte-overlay-btn--masque.active {
-  background: var(--parchment2);
+.carte-overlay-btn--masque {
+  --overlay-active: var(--parchment2);
+  --overlay-active-hover: var(--parchment);
 }
 
 /* Hover coloré même sans .active */
-.carte-overlay-btn--geo:hover:not(.disabled) {
-  border-color: var(--sea-light);
-  color: var(--sea-light);
+.carte-overlay-btn--geo:hover:not(.disabled):not(.active) {
+  border-color: var(--overlay-active);
+  color: var(--overlay-active);
 }
 
-.carte-overlay-btn--densite:hover:not(.disabled) {
-  border-color: #4a8c5c;
-  color: #4a8c5c;
+.carte-overlay-btn--densite:hover:not(.disabled):not(.active) {
+  border-color: var(--overlay-active);
+  color: var(--overlay-active);
 }
 
-.carte-overlay-btn--esclavage:hover:not(.disabled) {
-  border-color: var(--rust);
-  color: var(--rust);
+.carte-overlay-btn--esclavage:hover:not(.disabled):not(.active) {
+  border-color: var(--overlay-active);
+  color: var(--overlay-active);
 }
 
-.carte-overlay-btn--autochtones:hover:not(.disabled) {
-  border-color: #a05c38;
-  color: #a05c38;
+.carte-overlay-btn--autochtones:hover:not(.disabled):not(.active) {
+  border-color: var(--overlay-active);
+  color: var(--overlay-active);
 }
 
-.carte-overlay-btn--maritime:hover:not(.disabled) {
-  border-color: #5fa8c8;
-  color: #5fa8c8;
+.carte-overlay-btn--maritime:hover:not(.disabled):not(.active) {
+  border-color: var(--overlay-active);
+  color: var(--overlay-active);
 }
 
-.carte-overlay-btn--masque:hover:not(.disabled) {
-  border-color: var(--parchment2);
-  color: var(--parchment2);
+.carte-overlay-btn--masque:hover:not(.disabled):not(.active) {
+  border-color: var(--overlay-active);
+  color: var(--overlay-active);
 }
 
 /* ─── Intitulé du mode actif ─────────────────────────────────── */
@@ -931,8 +947,8 @@ path.leaflet-interactive:focus-visible {
 }
 
 .carte-maritime-toggle {
-  border: 1px solid rgba(200, 151, 58, 0.32);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  background: transparent;
   color: var(--mist-light);
   cursor: pointer;
   font-family: 'Cinzel', serif;
@@ -945,9 +961,14 @@ path.leaflet-interactive:focus-visible {
 
 .carte-maritime-toggle:hover,
 .carte-maritime-toggle.active {
-  border-color: rgba(95, 168, 200, 0.75);
+  border-color: rgba(95, 168, 200, 0.72);
   color: var(--parchment);
-  background: rgba(42, 90, 114, 0.28);
+  background: rgba(95, 168, 200, 0.12);
+}
+
+.carte-maritime-toggle.active {
+  color: #8ed7ee;
+  background: rgba(95, 168, 200, 0.18);
 }
 
 .carte-maritime-note {

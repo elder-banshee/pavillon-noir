@@ -18,8 +18,9 @@ const CARTE_NAVIRE_POSITION = [7362, 4004]; // Nassau, New Providence
 // Valeurs de test pour le calculateur de navigation Jaillot.
 const CARTE_NAVIRE = {
     id: 'cotre-pj',
-    nom: 'Cotre des PJ',
+    nom: 'Cúchulainn',
     type: 'cotre',
+    categorieTaille: 2,
     distanceMoyenneNmJour: 105,
     vitesseMoyenneNoeuds: 105 / 24,
     vitessesNoeuds: {

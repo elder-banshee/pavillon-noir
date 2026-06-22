@@ -1560,6 +1560,20 @@ function renderPins() {
 }
 
 // ─── Marqueurs de villes ──────────────────────────────────────
+function coordsRadeVille(ville) {
+  if (!Array.isArray(ville?.rade) || ville.rade.length < 2) return null;
+  const [x, y] = ville.rade;
+  return Number.isFinite(x) && Number.isFinite(y) ? [x, y] : null;
+}
+
+function coordsMarqueurVille(ville) {
+  if (overlayMode !== 'maritime') return ville?.coords || null;
+
+  const rade = coordsRadeVille(ville);
+  if (ville?.type === 'port') return rade || ville.coords || null;
+  return rade;
+}
+
 function renderVilles() {
   fermerLoupe();
   // Nettoyer les marqueurs existants
@@ -1581,7 +1595,8 @@ function renderVilles() {
   if (typeof VILLES === 'undefined') return;
 
   VILLES.forEach(ville => {
-    if (!ville.coords) return;
+    const coordsMarqueur = coordsMarqueurVille(ville);
+    if (!coordsMarqueur) return;
     if (ville.visible_de && anneeActive < ville.visible_de) return;
 
     const rang = ville.rang ?? '1';
@@ -1596,7 +1611,7 @@ function renderVilles() {
     else if (rang === '2') { if (!afficherSecondaires) return; }
     else if (rang !== '3') { if (!afficherPrincipaux) return; }
 
-    const [x, y] = ville.coords;
+    const [x, y] = coordsMarqueur;
     const latlng = pixelToLatLng(x, y);
     const statutCapitale = Array.isArray(ville.capitale)
       ? rendreChamp(ville.capitale, anneeActive)
@@ -2126,20 +2141,24 @@ function ouvrirPanneauMaritime(type, id) {
   if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); villeActive = null; }
   fermerPopup();
 
-  const meta = [
-    { label: 'Categorie', value: labelMaritime(feature, type) },
+  const conditionNavigation = feature.condition_navigation;
+  const metaItems = [
     { label: 'Priorite', value: feature.priorite },
     { label: 'Force', value: feature.force },
     { label: 'Vitesse', value: feature.speedKmh ? `${feature.speedKmh} km/h` : null },
-    { label: 'Taille max', value: (feature.cat_taille ?? feature.maxCategorieTaille) ? `categorie ${feature.cat_taille ?? feature.maxCategorieTaille}` : null },
+    { label: 'Passage libre', value: type === 'shoal' && feature.cat_taille ? `categories 1-${feature.cat_taille}` : null },
+    { label: 'Passage conditionnel', value: type === 'shoal' && conditionNavigation ? `categorie ${conditionNavigation.categorie} si ${conditionNavigation.competence || 'Navigation'} > ${conditionNavigation.seuil_strict}` : null },
+    { label: 'Interdit', value: type === 'shoal' && Array.isArray(feature.categories_interdites) ? `categories ${feature.categories_interdites.join(', ')}` : null },
     { label: 'Trace', value: feature.zoneSource === 'svg' ? 'import SVG' : null },
-  ].filter(m => m.value != null && m.value !== '').map(m => `
+  ].filter(m => m.value != null && m.value !== '');
+
+  const meta = modeMJ && metaItems.length ? metaItems.map(m => `
     <div class="panneau-meta-item">
       <span class="panneau-meta-label">${m.label}</span>
       <span class="panneau-meta-value">${escapeHtml(String(m.value))}</span>
-    </div>`).join('');
+    </div>`).join('') : '';
 
-  const segments = Array.isArray(feature.speedSegments) && feature.speedSegments.length
+  const segments = modeMJ && Array.isArray(feature.speedSegments) && feature.speedSegments.length
     ? `<div class="panneau-section-titre">Segments</div>
       <div class="panneau-meta">
         ${feature.speedSegments.map(s => `
@@ -2167,12 +2186,12 @@ function ouvrirPanneauMaritime(type, id) {
       <div class="panneau-meta">${meta}</div>
     ` : ''}
     ${segments}
-    ${feature.risque ? `
+    ${modeMJ && feature.risque ? `
       <div class="panneau-section-titre">Risque</div>
       <p class="panneau-note">${feature.risque}</p>
     ` : ''}
     ${contexte ? `
-      <div class="panneau-section-titre">Contexte</div>
+      <div class="panneau-section-titre">Description</div>
       <p class="panneau-contexte">${contexte}</p>
     ` : ''}
     ${feature.note ? `<p class="panneau-note">${feature.note}</p>` : ''}

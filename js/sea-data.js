@@ -1129,9 +1129,11 @@ const SEA_SHOAL_GEOMETRY = {
 const SEA_SHOAL_META = {
   'banc_de_jamaique': {
     label: "Banc de Pedro",
-    cat_taille: 3,
+    cat_taille: 2,
     maxCategorieTaille: 3,
-    risque: "C'est la zone la plus piégeuse. Seules les catégories 1 et 2 naviguent en sécurité. La catégorie 3 (Frégates légères/Bricks) subit de lourds risques de naufrage en s'aventurant sur le Banc de Pedro. Catégories 4 et 5 strictement interdites. Un échec ici détruit le navire sur le corail.\nPassage autorisé pour catégorie 3 si Navigation < 2 (navigateur inexpérimenté et désastre probable) ou > 4 (pilote chevronné capable de déjouer les pièges).",
+    condition_navigation: { categorie: 3, competence: 'Navigation', seuil_strict: 3 },
+    categories_interdites: [4, 5],
+    risque: "C'est la zone la plus piégeuse. Seules les catégories 1 et 2 naviguent en sécurité. La catégorie 3 (Frégates légères/Bricks) subit de lourds risques de naufrage en s'aventurant sur le Banc de Pedro. Catégories 4 et 5 strictement interdites. Un échec ici détruit le navire sur le corail.\nPassage autorisé pour catégorie 3 si Navigation > 3.",
     contexte: "C'est une zone de hauts-fonds massifs composés de structures coralliennes vivantes, de lagons intérieurs et de cayes sableuses (comme les Morant Cays). Les profondeurs chutent et remontent de façon totalement imprévisible.",
     note_mj: "Immense plateforme carbonatée et l'un des plus grands systèmes de récifs coralliens des Caraïbes (notamment le Pedro Bank juste au sud de la Jamaïque).",
   },
@@ -1140,6 +1142,7 @@ const SEA_SHOAL_META = {
     label: "Banc de Pickerling / Cayman Ridge",
     cat_taille: 3,
     maxCategorieTaille: 3,
+    categories_interdites: [4, 5],
     risque: "Les Catégories 4 et 5 doivent contourner la zone sous peine de heurter des récifs de corail tranchants. Contrairement aux Bahamas, toucher le fond ici signifie voie d'eau majeure (roche/corail).",
     contexte: "Relief rocheux sous-marin et récifs coralliens profonds, liés à la fosse des Caïmans — un navire trop grand ou mal piloté risque des dégâts structurels majeurs a la coque.",
     note_mj: "Ce n'est pas un banc de sable meuble, mais une dorsale montagneuse sous-marine. Les hauts-fonds y sont très localisés (récifs coralliens entourant directement les îles). La navigation générale est possible pour les Catégories 1, 2 et 3.",
@@ -1147,8 +1150,10 @@ const SEA_SHOAL_META = {
 
   'banc_de_porto-rico': {
     label: "Banc De Porto Rico",
-    cat_taille: 3,
+    cat_taille: 2,
     maxCategorieTaille: 3,
+    condition_navigation: { categorie: 3, competence: 'Navigation', seuil_strict: 2 },
+    categories_interdites: [4, 5],
     risque: "Zone très dangereuse à cause de la houle de l'Atlantique qui se brise sur le relief. Catégories 1, 2 et 3 naviguent, mais avec des malus de maniabilité par gros temps. Catégories 4 et 5 interdites à moins de 3 milles des côtes à cause des têtes de roche invisibles juste sous la surface.",
     contexte: "Montagne sous-marine volcanique et tectonique, bordée au nord par des barrières de corail.",
     note_mj: "Au nord de Porto Rico et à l'est d'Hispaniola (passage de la Mona), le fond remonte brutalement depuis la fosse océanique profonde (8 000 m+) pour former des plateaux rocheux côtiers et des récifs.",
@@ -1156,8 +1161,10 @@ const SEA_SHOAL_META = {
 
   'banc_des_bahamas': {
     label: "Banc Des Bahamas",
-    cat_taille: 3,
+    cat_taille: 2,
     maxCategorieTaille: 3,
+    condition_navigation: { categorie: 3, competence: 'Navigation', seuil_strict: 1 },
+    categories_interdites: [4, 5],
     risque: "Echouage probable pour tout navire trop grand ou engage sans pilote; desarme temporairement un batiment pris sur le banc.",
     contexte: "Vaste plateau peu profond des Bahamas, parsemé de bancs de sable, chenaux incertains et mouillages abrités pour les petits tirants d'eau. La profondeur moyenne sur le banc n'est que d'une à trois brasses.",
     note_mj: "Catégorie 1 et 2 passent librement. La Catégorie 3 (Bricks, Goélettes) peut tenter de passer mais nécessite un jet de navigation (risque d'enlisement dans le sable). Catégories 4 et 5 interdites, sauf dans les chenaux de Nassau. Un échouement ici immobilise le navire mais détruit rarement la coque.",
