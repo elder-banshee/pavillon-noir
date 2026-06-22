@@ -822,6 +822,10 @@
       </div>
       <!-- Export -->
       <div style="margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">
+        <button id="btn-import-sea-geometry" type="button" class="tool-btn" style="width:100%; font-size:0.78rem; padding:5px; margin-bottom:6px;">
+          Charger un export geometrique
+        </button>
+        <input id="input-import-sea-geometry" type="file" accept=".js,.txt,application/javascript,text/javascript,text/plain" style="display:none">
         <button id="btn-export-sea" type="button" class="tool-btn" style="width:100%; font-size:0.78rem; padding:5px;">
           ⬇ Exporter tout (sea-data.js)
         </button>
@@ -1253,6 +1257,7 @@ function clearSeaGrid() {
 
 // Copie de travail en mémoire (modifiable sans toucher SEA_CURRENTS original)
 let currentsWorkingCopy = null;
+let shoalsWorkingCopy = null;
 let selectedCurrentId   = null;
 // Référence aux polygones Leaflet par id (pour highlight)
 let currentPolygons = {};
@@ -1274,8 +1279,11 @@ function getWorkingCurrents() {
 }
 
 function getWorkingShoals() {
-  const src = (typeof SEA_SHOALS !== 'undefined') ? SEA_SHOALS : [];
-  return src.map(s => JSON.parse(JSON.stringify(s)));
+  if (!shoalsWorkingCopy) {
+    const src = (typeof SEA_SHOALS !== 'undefined') ? SEA_SHOALS : [];
+    shoalsWorkingCopy = src.map(s => JSON.parse(JSON.stringify(s)));
+  }
+  return shoalsWorkingCopy;
 }
 
 function seaZonePolygons(zone) {
@@ -1711,6 +1719,8 @@ function bindCurrentsButtons() {
   const btnRev  = document.getElementById('btn-current-reverse');
   const btnDel  = document.getElementById('btn-current-delete');
   const btnExp  = document.getElementById('btn-export-sea');
+  const btnImp  = document.getElementById('btn-import-sea-geometry');
+  const inputImp = document.getElementById('input-import-sea-geometry');
 
   if (btnRev) {
     btnRev.onclick = () => {
@@ -1735,8 +1745,95 @@ function bindCurrentsButtons() {
   }
 
   if (btnExp) {
-    btnExp.onclick = exportSeaData;
+    btnExp.textContent = 'Exporter sea-data.js corrige';
+    btnExp.onclick = exportSeaDataV2;
   }
+
+  if (btnImp && inputImp) {
+    btnImp.onclick = () => inputImp.click();
+    inputImp.onchange = () => {
+      const file = inputImp.files && inputImp.files[0];
+      inputImp.value = '';
+      if (file) importSeaGeometryFile(file);
+    };
+  }
+}
+
+function importSeaGeometryFile(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const imported = readSeaGeometryExport(String(reader.result || ''));
+      const currentCount = mergeSeaGeometryIntoWorkingCopy(imported.currentGeometry, 'current');
+      const shoalCount = mergeSeaGeometryIntoWorkingCopy(imported.shoalGeometry, 'shoal');
+      renderCurrentsLayer();
+      if (selectedCurrentId) renderCurrentDetail(selectedCurrentId);
+      alert(`Import geometrique termine : ${currentCount} courant(s), ${shoalCount} haut-fond(s).`);
+    } catch (err) {
+      console.error(err);
+      alert('Import impossible : ' + (err && err.message ? err.message : err));
+    }
+  };
+  reader.readAsText(file);
+}
+
+function readSeaGeometryExport(source) {
+  const scope = {};
+  Function('window', `${source}
+    window.__seaGeometryImport = {
+      currentGeometry: typeof SEA_CURRENT_GEOMETRY !== 'undefined' ? SEA_CURRENT_GEOMETRY : null,
+      shoalGeometry: typeof SEA_SHOAL_GEOMETRY !== 'undefined' ? SEA_SHOAL_GEOMETRY : null,
+      currents: typeof SEA_CURRENTS !== 'undefined' ? SEA_CURRENTS : null,
+      shoals: typeof SEA_SHOALS !== 'undefined' ? SEA_SHOALS : null,
+    };
+  `)(scope);
+
+  const data = scope.__seaGeometryImport || {};
+  const currentGeometry = data.currentGeometry || geometryMapFromArray(data.currents);
+  const shoalGeometry = data.shoalGeometry || geometryMapFromArray(data.shoals, true);
+  if (!currentGeometry && !shoalGeometry) {
+    throw new Error('aucune section SEA_CURRENT_GEOMETRY / SEA_SHOAL_GEOMETRY reconnue');
+  }
+  return { currentGeometry, shoalGeometry };
+}
+
+function geometryMapFromArray(items, shoal = false) {
+  if (!Array.isArray(items)) return null;
+  const out = {};
+  items.forEach(item => {
+    if (!item || !item.id) return;
+    out[item.id] = shoal
+      ? { zone: item.zone }
+      : {
+          closed: item.closed,
+          zoneSource: item.zoneSource,
+          centerline: item.centerline,
+          directions: item.directions,
+          zone: item.zone,
+        };
+  });
+  return out;
+}
+
+function mergeSeaGeometryIntoWorkingCopy(geometry, type) {
+  if (!geometry || typeof geometry !== 'object') return 0;
+  const list = type === 'shoal' ? getWorkingShoals() : getWorkingCurrents();
+  let count = 0;
+  Object.entries(geometry).forEach(([id, geom]) => {
+    if (!geom || typeof geom !== 'object') return;
+    let item = list.find(entry => entry.id === id);
+    if (!item) {
+      item = { id, label: id.replace(/[_-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) };
+      if (type === 'shoal') item.maxCategorieTaille = 3;
+      else { item.priorite = 2; item.force = 1; }
+      list.push(item);
+    }
+    ['closed', 'zoneSource', 'centerline', 'directions', 'zone'].forEach(key => {
+      if (geom[key] !== undefined) item[key] = JSON.parse(JSON.stringify(geom[key]));
+    });
+    count++;
+  });
+  return count;
 }
 
 function exportSeaData() {
@@ -1819,6 +1916,151 @@ ${shoalBlocks}
 
 if (typeof window !== 'undefined') {
   window.SEA_CURRENTS = SEA_CURRENTS;
+  window.SEA_SHOALS = SEA_SHOALS;
+}
+`;
+
+  const blob = new Blob([output], { type: 'text/javascript;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'sea-data.js';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportSeaDataV2() {
+  const currents = getWorkingCurrents();
+  const shoals = getWorkingShoals();
+
+  function fmtPts(pts) {
+    const items = (pts || []).map(([x,y]) => `[${x},${y}]`);
+    const lines = []; let cur = [], curLen = 4;
+    for (const item of items) {
+      if (cur.length && curLen + item.length + 2 > 90) {
+        lines.push('    ' + cur.join(', ') + ',');
+        cur = [item]; curLen = 4 + item.length;
+      } else { cur.push(item); curLen += item.length + 2; }
+    }
+    if (cur.length) lines.push('    ' + cur.join(', '));
+    return lines.join('\n');
+  }
+
+  function fmtDirs(dirs) {
+    const chunks = [];
+    for (let i = 0; i < (dirs || []).length; i += 16) chunks.push(dirs.slice(i, i+16));
+    return chunks.map((ch, i) =>
+      "    " + ch.map(d => `'${d}'`).join(', ') + (i < chunks.length-1 ? ',' : '')
+    ).join('\n');
+  }
+
+  function quoteJS(value) {
+    return JSON.stringify(String(value));
+  }
+
+  function fmtValue(value, indent = 4) {
+    const pad = ' '.repeat(indent);
+    const childPad = ' '.repeat(indent + 2);
+    if (typeof value === 'string') return quoteJS(value);
+    if (value == null || typeof value === 'number' || typeof value === 'boolean') return String(value);
+    if (Array.isArray(value)) {
+      if (!value.length) return '[]';
+      if (value.every(item => item && typeof item === 'object' && !Array.isArray(item))) {
+        return `[\n${value.map(item => `${childPad}${fmtValue(item, indent + 2)}`).join(',\n')},\n${pad}]`;
+      }
+      return JSON.stringify(value);
+    }
+    if (typeof value === 'object') {
+      const entries = Object.entries(value).filter(([, v]) => v !== undefined);
+      if (!entries.length) return '{}';
+      return `{\n${entries.map(([key, v]) => `${childPad}${key}: ${fmtValue(v, indent + 2)}`).join(',\n')},\n${pad}}`;
+    }
+    return 'null';
+  }
+
+  function fmtMetaBlock(id, item, geometryKeys, forced = {}) {
+    const entries = [];
+    Object.entries({ ...item, ...forced }).forEach(([key, value]) => {
+      if (key === 'id' || geometryKeys.has(key) || value === undefined) return;
+      entries.push(`    ${key}: ${fmtValue(value, 4)},`);
+    });
+    return `  '${id}': {\n${entries.join('\n')}\n  },`;
+  }
+
+  function fmtCurrentGeometryBlock(c) {
+    const closedLine = c.closed != null ? `    closed: ${Boolean(c.closed)},\n` : '';
+    const zoneSourceLine = c.zoneSource ? `    zoneSource: ${quoteJS(c.zoneSource)},\n` : '';
+    return `  '${c.id}': {
+${closedLine}${zoneSourceLine}    centerline: [
+${fmtPts(c.centerline)}
+    ],
+    directions: [
+${fmtDirs(c.directions)}
+    ],
+    zone: ${formatSeaZoneJS(c.zone, fmtPts)},
+  },`;
+  }
+
+  function fmtShoalGeometryBlock(s) {
+    return `  '${s.id}': {
+    zone: ${formatSeaZoneJS(s.zone, fmtPts)},
+  },`;
+  }
+
+  const currentGeometryKeys = new Set(['closed', 'zoneSource', 'centerline', 'directions', 'zone']);
+  const shoalGeometryKeys = new Set(['zone']);
+  const currentGeometryBlocks = currents.map(fmtCurrentGeometryBlock).join('\n\n');
+  const currentMetaBlocks = currents.map(c => fmtMetaBlock(c.id, c, currentGeometryKeys, {
+    label: c.label || c.id,
+    priorite: currentPriority(c),
+  })).join('\n\n');
+  const shoalGeometryBlocks = shoals.map(fmtShoalGeometryBlock).join('\n\n');
+  const shoalMetaBlocks = shoals.map(s => fmtMetaBlock(s.id, s, shoalGeometryKeys, {
+    label: s.label || s.id,
+    maxCategorieTaille: s.maxCategorieTaille ?? 3,
+  })).join('\n\n');
+
+  const output = `// sea-data.js - geometries exportables et metadonnees maritimes
+// Coordonnees pixel Jaillot (8500x5320)
+
+// Section exportable depuis gen_sea_data.py.
+const SEA_CURRENT_GEOMETRY = {
+${currentGeometryBlocks}
+};
+
+// Metadonnees editees manuellement: ne pas remplacer lors d'un nouvel export SVG.
+const SEA_CURRENT_META = {
+${currentMetaBlocks}
+};
+
+const SEA_CURRENTS = Object.entries(SEA_CURRENT_GEOMETRY).map(([id, geometry]) => ({
+  id,
+  ...(SEA_CURRENT_META[id] || {}),
+  ...geometry,
+}));
+
+// Section exportable depuis gen_sea_data.py.
+const SEA_SHOAL_GEOMETRY = {
+${shoalGeometryBlocks}
+};
+
+// Metadonnees editees manuellement: ne pas remplacer lors d'un nouvel export SVG.
+const SEA_SHOAL_META = {
+${shoalMetaBlocks}
+};
+
+const SEA_SHOALS = Object.entries(SEA_SHOAL_GEOMETRY).map(([id, geometry]) => ({
+  id,
+  ...(SEA_SHOAL_META[id] || {}),
+  ...geometry,
+}));
+
+if (typeof window !== 'undefined') {
+  window.SEA_CURRENT_GEOMETRY = SEA_CURRENT_GEOMETRY;
+  window.SEA_CURRENT_META = SEA_CURRENT_META;
+  window.SEA_CURRENTS = SEA_CURRENTS;
+  window.SEA_SHOAL_GEOMETRY = SEA_SHOAL_GEOMETRY;
+  window.SEA_SHOAL_META = SEA_SHOAL_META;
   window.SEA_SHOALS = SEA_SHOALS;
 }
 `;

@@ -11,6 +11,8 @@ let rendererIsolation = null;
 let anneeActive = CARTE_ANNEE_REFERENCE;
 let zoneActive = null;
 let layersZones = {};
+let maritimeActive = null;
+let layersMaritimes = {};
 let markersMap = {};
 let pinActive = null;
 let panneauGaucheOuvert = true;
@@ -30,6 +32,7 @@ const boundsFitTerritoires = new Map();
 // ─── Mode d'overlay ──────────────────────────────────────────
 // 'geo' | 'densite' | 'esclavage' | 'autochtones' | 'masque' | 'isolation' | 'isolationVille'
 let overlayMode = 'geo';
+let maritimeView = 'fonds'; // 'fonds' | 'vents'
 let overlayModeAvantIsolation = 'geo'; // mode à restaurer à la fermeture
 let isolationJuridictionId = null;     // juridiction actuellement isolée
 let isolationLayer = null;             // couche Leaflet du contour doré
@@ -52,6 +55,7 @@ const OVERLAY_LABELS = {
   densite: 'Densité de population',
   esclavage: 'Esclavage & Encomienda',
   autochtones: 'Foyers de populations autochtones',
+  maritime: 'Courants & hauts-fonds',
   masque: 'Carte Jaillot (1708)',
 };
 
@@ -221,6 +225,74 @@ function couleurAutochtone(zoneId, annee) {
   const statut = resoudreStatutAutochtone(demo, annee);
   if (!statut) return null;
   return AUTOCHTONES_COULEURS[statut] || null;
+}
+
+function maritimeKey(type, id) {
+  return `${type}:${id}`;
+}
+
+function estListePointsMaritime(valeur) {
+  return Array.isArray(valeur) && Array.isArray(valeur[0]) && typeof valeur[0][0] === 'number';
+}
+
+function normaliserAnneauxMaritimes(polygone) {
+  if (estListePointsMaritime(polygone)) return [polygone];
+  if (Array.isArray(polygone)) return polygone.filter(estListePointsMaritime);
+  return [];
+}
+
+function normaliserPolygonesMaritimes(zone) {
+  if (!zone) return [];
+  if (estListePointsMaritime(zone)) return [[zone]];
+  if (Array.isArray(zone)) return zone.map(normaliserAnneauxMaritimes).filter(anneaux => anneaux.length);
+  if (Array.isArray(zone.polygons)) return zone.polygons.map(normaliserAnneauxMaritimes).filter(anneaux => anneaux.length);
+  if (estListePointsMaritime(zone.exterior)) {
+    return [[zone.exterior, ...(Array.isArray(zone.holes) ? zone.holes.filter(estListePointsMaritime) : [])]];
+  }
+  return [];
+}
+
+function sourceMaritimeCourants() {
+  return (typeof SEA_CURRENTS !== 'undefined') ? SEA_CURRENTS : [];
+}
+
+function sourceMaritimeHautsFonds() {
+  return (typeof SEA_SHOALS !== 'undefined') ? SEA_SHOALS : [];
+}
+
+function styleMaritime(feature, type, active = false) {
+  if (type === 'shoal') {
+    return {
+      color: active ? '#f2e8d5' : '#e2b96a',
+      weight: weightPourZoom(active ? 1.8 : 0.7, carte.getZoom()),
+      opacity: active ? 0.95 : 0.72,
+      fillColor: '#c8973a',
+      fillOpacity: active ? 0.34 : 0.18,
+      fillRule: 'evenodd',
+      className: 'carte-zone carte-zone--maritime carte-zone--shoal' + (active ? ' carte-zone--active' : ''),
+      renderer: rendererZones,
+    };
+  }
+
+  const force = Number(feature.force ?? feature.priorite ?? 1);
+  const fillOpacity = Math.max(0.1, Math.min(0.3, 0.1 + force * 0.045));
+  return {
+    color: active ? '#b7e6ff' : '#5fa8c8',
+    weight: weightPourZoom(active ? 1.7 : 0.6, carte.getZoom()),
+    opacity: active ? 0.95 : 0.68,
+    fillColor: '#2a5a72',
+    fillOpacity: active ? Math.min(0.42, fillOpacity + 0.12) : fillOpacity,
+    fillRule: 'evenodd',
+    className: 'carte-zone carte-zone--maritime carte-zone--current' + (active ? ' carte-zone--active' : ''),
+    renderer: rendererZones,
+  };
+}
+
+function labelMaritime(feature, type) {
+  if (type === 'shoal') return 'Banc / recif / haut-fond';
+  const force = feature.force ? `force ${feature.force}` : null;
+  const vitesse = feature.speedKmh ? `${feature.speedKmh} km/h` : null;
+  return ['Courant marin', force, vitesse].filter(Boolean).join(' - ');
 }
 
 // ─── Calcul / année ──────────────────────────────────────────
@@ -484,6 +556,8 @@ function confirmerModeMJ() {
       color:var(--gold-light); background:rgba(14,12,9,0.75);
       padding:0.2rem 0.5rem; border:1px solid rgba(139,58,42,0.3);
     `;
+    const btnMaritime = document.getElementById('overlay-btn-maritime');
+    if (btnMaritime) btnMaritime.style.display = '';
     wrap.appendChild(badge);
   }
 
@@ -839,12 +913,14 @@ function initOverlayBtns() {
     btn.addEventListener('click', () => {
       const mode = btn.dataset.mode;
       if (mode === overlayMode) return;
+      const modePrecedent = overlayMode;
       // Quitter l'isolation si active
       if (overlayMode === 'isolation') fermerIsolation();
       overlayMode = mode;
       puissancesMasquees.clear();
       paliersMasquesDensite.clear();
       paliersMasquesEsclavage.clear();
+      if (modePrecedent === 'maritime') maritimeActive = null;
 
       document.querySelectorAll('.carte-overlay-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -857,13 +933,14 @@ function initOverlayBtns() {
         noteEsclavage.style.display = mode === 'esclavage' ? 'inline' : 'none';
       }
 
-      if (overlayMode === 'masque') {
+      if (overlayMode === 'masque' || overlayMode === 'maritime') {
         fermerPopup();
         fermerPanneau();
       }
 
       majLegende();
       renderZones();
+      renderMaritime();
       renderPins();
       renderVilles();
       renderContourGlobal();
@@ -1222,14 +1299,23 @@ function escapeHtml(str) {
 }
 
 // ─── Rendu des zones ─────────────────────────────────────────
+function nettoyerCouchesMaritimes() {
+  Object.values(layersMaritimes).forEach(g => {
+    g.eachLayer(poly => carte.removeLayer(poly));
+    carte.removeLayer(g);
+  });
+  layersMaritimes = {};
+}
+
 function renderZones() {
+  if (overlayMode !== 'maritime') nettoyerCouchesMaritimes();
   Object.values(layersZones).forEach(g => {
     g.eachLayer(poly => carte.removeLayer(poly));
     carte.removeLayer(g);
   });
   layersZones = {};
 
-  if (overlayMode === 'masque') return;
+  if (overlayMode === 'masque' || overlayMode === 'maritime') return;
 
   function surfaceApprox(contours) {
     if (!contours || !contours.length) return 0;
@@ -1373,6 +1459,59 @@ function renderZones() {
 }
 
 // ─── Pins de scénarios ───────────────────────────────────────
+function renderMaritime() {
+  nettoyerCouchesMaritimes();
+  if (overlayMode !== 'maritime' || !modeMJ || maritimeView !== 'fonds') return;
+
+  const features = [
+    ...sourceMaritimeCourants().map(item => ({ item, type: 'current' })),
+    ...sourceMaritimeHautsFonds().map(item => ({ item, type: 'shoal' })),
+  ];
+
+  features.forEach(({ item, type }) => {
+    const key = maritimeKey(type, item.id);
+    const polygonesSource = normaliserPolygonesMaritimes(item.zone);
+    const polygones = polygonesSource
+      .filter(anneaux => anneaux[0]?.length >= 3)
+      .map(anneaux => L.polygon(
+        anneaux.map(points => points.map(([x, y]) => pixelToLatLng(x, y))),
+        styleMaritime(item, type, maritimeActive === key)
+      ));
+
+    if (!polygones.length) return;
+
+    polygones.forEach(poly => {
+      poly.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        if (maritimeActive === key) {
+          fermerPanneauMaritime();
+        } else {
+          ouvrirPanneauMaritime(type, item.id);
+        }
+      });
+
+      poly.on('mouseover', () => {
+        fermerTooltipsOrphelins();
+        if (maritimeActive !== key) poly.setStyle(styleMaritime(item, type, true));
+      });
+      poly.on('mouseout', () => {
+        if (maritimeActive !== key) poly.setStyle(styleMaritime(item, type, false));
+      });
+
+      poly.bindTooltip(item.label || item.id, {
+        permanent: false,
+        direction: 'top',
+        className: 'carte-tooltip',
+        opacity: 1,
+      });
+    });
+
+    const groupe = L.layerGroup(polygones);
+    groupe.addTo(carte);
+    layersMaritimes[key] = groupe;
+  });
+}
+
 function renderPins() {
   Object.values(markersMap).forEach(m => carte.removeLayer(m));
   markersMap = {};
@@ -1745,6 +1884,50 @@ function majLegende() {
     return;
   }
 
+  if (overlayMode === 'maritime') {
+    const wrap = document.createElement('div');
+    wrap.className = 'carte-maritime-legende';
+
+    [
+      { id: 'fonds', label: 'Courants et hauts-fonds' },
+      { id: 'vents', label: 'Vents dominants' },
+    ].forEach(item => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'carte-maritime-toggle' + (maritimeView === item.id ? ' active' : '');
+      btn.textContent = item.label;
+      btn.addEventListener('click', () => {
+        maritimeView = item.id;
+        maritimeActive = null;
+        fermerPanneau();
+        majLegende();
+        renderMaritime();
+      });
+      wrap.appendChild(btn);
+    });
+
+    const courant = document.createElement('span');
+    courant.className = 'carte-puissance-check carte-puissance-check--static';
+    courant.innerHTML = '<span class="carte-puissance-pastille carte-puissance-pastille--courant"></span>Courants';
+    const hautFond = document.createElement('span');
+    hautFond.className = 'carte-puissance-check carte-puissance-check--static';
+    hautFond.innerHTML = '<span class="carte-puissance-pastille carte-puissance-pastille--shoal"></span>Bancs / recifs / hauts-fonds';
+    const note = document.createElement('span');
+    note.className = 'carte-maritime-note';
+    note.textContent = maritimeView === 'vents'
+      ? 'Affichage pret pour les vents dominants lorsque les donnees seront ajoutees.'
+      : `${sourceMaritimeCourants().length} courants, ${sourceMaritimeHautsFonds().length} zones sous-marines.`;
+
+    liste.appendChild(wrap);
+    if (maritimeView === 'fonds') {
+      liste.appendChild(courant);
+      liste.appendChild(hautFond);
+    }
+    liste.appendChild(note);
+    legende.setAttribute('aria-hidden', 'false');
+    return;
+  }
+
   if (overlayMode === 'masque') {
     liste.innerHTML = `<span style="font-family:'IM Fell English',serif;font-style:italic;font-size:0.85rem;color:var(--mist);">Teâtre de la Guerre en Amerique — Jaillot, Mortier &amp; Sanson, 1708.</span>`;
     return;
@@ -1929,6 +2112,69 @@ function ouvrirPanneau(juridictionId) {
   panneau.removeAttribute('inert');
 }
 
+function ouvrirPanneauMaritime(type, id) {
+  const source = type === 'shoal' ? sourceMaritimeHautsFonds() : sourceMaritimeCourants();
+  const feature = source.find(item => item.id === id);
+  if (!feature) return;
+
+  const precedent = maritimeActive;
+  maritimeActive = maritimeKey(type, id);
+  if (precedent && layersMaritimes[precedent]) majMaritime(precedent);
+  majMaritime(maritimeActive);
+
+  if (zoneActive) { const p = zoneActive; zoneActive = null; majZone(p); }
+  if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); villeActive = null; }
+  fermerPopup();
+
+  const meta = [
+    { label: 'Categorie', value: labelMaritime(feature, type) },
+    { label: 'Priorite', value: feature.priorite },
+    { label: 'Force', value: feature.force },
+    { label: 'Vitesse', value: feature.speedKmh ? `${feature.speedKmh} km/h` : null },
+    { label: 'Taille', value: feature.maxCategorieTaille ? `categorie ${feature.maxCategorieTaille}` : null },
+    { label: 'Trace', value: feature.zoneSource === 'svg' ? 'import SVG' : null },
+  ].filter(m => m.value != null && m.value !== '').map(m => `
+    <div class="panneau-meta-item">
+      <span class="panneau-meta-label">${m.label}</span>
+      <span class="panneau-meta-value">${escapeHtml(String(m.value))}</span>
+    </div>`).join('');
+
+  const segments = Array.isArray(feature.speedSegments) && feature.speedSegments.length
+    ? `<div class="panneau-section-titre">Segments</div>
+      <div class="panneau-meta">
+        ${feature.speedSegments.map(s => `
+          <div class="panneau-meta-item">
+            <span class="panneau-meta-label">${escapeHtml(s.label || 'Segment')}</span>
+            <span class="panneau-meta-value">${[
+              s.speedKmh ? `${s.speedKmh} km/h` : null,
+              s.from != null && s.to != null ? `points ${s.from}-${s.to}` : null,
+              s.attenuationMinCote ? `attenuation cote ${s.attenuationMinCote}` : null,
+            ].filter(Boolean).map(escapeHtml).join(' - ')}</span>
+          </div>`).join('')}
+      </div>`
+    : '';
+
+  const inner = document.getElementById('carte-panneau-inner');
+  inner.innerHTML = `
+    <div class="panneau-puissance panneau-puissance--maritime">
+      <span class="panneau-maritime-pastille panneau-maritime-pastille--${type}"></span>
+      <span class="panneau-puissance-label">${type === 'shoal' ? 'Banc / recif / haut-fond' : 'Courant marin'}</span>
+    </div>
+    <h2 class="panneau-nom">${escapeHtml(feature.label || feature.id)}</h2>
+    ${meta ? `
+      <div class="panneau-section-titre">Donnees</div>
+      <div class="panneau-meta">${meta}</div>
+    ` : ''}
+    ${segments}
+    ${feature.note ? `<p class="panneau-note">${feature.note}</p>` : ''}
+  `;
+
+  inner.scrollTop = 0;
+  const panneau = document.getElementById('carte-panneau');
+  panneau.classList.add('carte-panneau--open');
+  panneau.removeAttribute('inert');
+}
+
 function resetEtatsVisuels() {
   // Remet toutes les icônes villes en repos (sauf ville isolée en cours)
   Object.keys(markersVilles).forEach(id => {
@@ -1950,8 +2196,16 @@ function fermerPanneau() {
   panneau.classList.remove('carte-panneau--open');
   panneau.setAttribute('inert', '');
   if (zoneActive) { const precedent = zoneActive; zoneActive = null; majZone(precedent); }
+  if (maritimeActive) { const precedent = maritimeActive; maritimeActive = null; majMaritime(precedent); }
   villeActive = null;
   resetEtatsVisuels();
+}
+
+function fermerPanneauMaritime() {
+  const panneau = document.getElementById('carte-panneau');
+  panneau.classList.remove('carte-panneau--open');
+  panneau.setAttribute('inert', '');
+  if (maritimeActive) { const precedent = maritimeActive; maritimeActive = null; majMaritime(precedent); }
 }
 
 // ─── Panneau ville ────────────────────────────────────────────
@@ -2062,12 +2316,24 @@ function majZone(juridictionId) {
   });
 }
 
+function majMaritime(key) {
+  const groupe = layersMaritimes[key];
+  if (!groupe) return;
+  const [type, id] = key.split(':');
+  const source = type === 'shoal' ? sourceMaritimeHautsFonds() : sourceMaritimeCourants();
+  const feature = source.find(item => item.id === id);
+  if (!feature) return;
+  const active = maritimeActive === key;
+  groupe.eachLayer(poly => poly.setStyle(styleMaritime(feature, type, active)));
+}
+
 function majWeightsZones() {
   const zoom = carte.getZoom();
   Object.entries(layersZones).forEach(([id, groupe]) => {
     const wBase = zoneActive === id ? WEIGHTS.zoneActive : WEIGHTS.zone;
     groupe.eachLayer(poly => poly.setStyle({ weight: weightPourZoom(wBase, zoom) }));
   });
+  Object.keys(layersMaritimes).forEach(majMaritime);
   if (isolationLayer) {
     isolationLayer.setStyle({ weight: weightPourZoom(WEIGHTS.isolation, zoom) });
   }

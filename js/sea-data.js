@@ -1,14 +1,9 @@
-// sea-data.js — exporte depuis le Zone Editor
-// 26 courant(s)
-// Coordonnees pixel Jaillot (8500x5320)
+// sea-data.js — géométries exportables et métadonnées maritimes
+// Coordonnées pixel Jaillot (8500x5320)
 
-const SEA_CURRENTS = [
-
-  {
-    id: 'tourbillon_sargasses_r1',
-    label: 'Tourbillon Sargasses',
-    priorite: 1,
-    force: 3,
+// Section exportable depuis gen_sea_data.py.
+const SEA_CURRENT_GEOMETRY = {
+  'tourbillon_sargasses_r1': {
     closed: false,
     zoneSource: 'svg',
     centerline: [
@@ -36,19 +31,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'guyanes_gulf_stream_r1',
-    label: 'Guyanes Gulf Stream',
-    priorite: 1,
-    force: 3,
+  'guyanes_gulf_stream_r1': {
     closed: false,
     zoneSource: 'svg',
-    speedSegments: [
-      { label: 'Gulf Stream', from: 0, to: 39, speedKmh: 9 },
-      { label: 'Courant de Floride', from: 40, to: 67, speedKmh: 6.5, attenuationMinCote: 0.6 },
-      { label: 'Courant des Caraïbes', from: 68, to: 161, speedKmh: 3 },
-      { label: 'Courant des Guyanes', from: 162, to: 184, speedKmh: 2.5 },
-    ],
     centerline: [
     [4885,84], [4862,115], [4837,146], [4810,176], [4783,207], [4754,238], [4724,270],
     [4693,303], [4661,337], [4628,372], [4596,408], [4563,446], [4529,486], [4496,528],
@@ -116,14 +101,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'nord_hispaniola_2_r2',
-    label: 'Nord Hispaniola 2',
-    priorite: 2,
-    force: 2,
+  'nord_hispaniola_2_r2': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 3,
     centerline: [
     [3926,1925], [3948,1945], [3974,1966], [4005,1987], [4040,2009], [4079,2031],
     [4121,2054], [4166,2076], [4214,2099], [4264,2123], [4317,2146], [4371,2169],
@@ -143,11 +123,7 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'nord_hispaniola_1_r2',
-    label: 'Nord Hispaniola 1',
-    priorite: 2,
-    force: 2,
+  'nord_hispaniola_1_r2': {
     closed: false,
     centerline: [
     [5313,2532], [5350,2513], [5390,2498], [5434,2485], [5486,2474], [5549,2462],
@@ -179,11 +155,7 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'courant_nord_equatorial_2_r2',
-    label: 'Courant Nord Equatorial 2',
-    priorite: 3,
-    force: 2,
+  'courant_nord_equatorial_2_r2': {
     closed: false,
     zoneSource: 'svg',
     centerline: [
@@ -202,11 +174,7 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'courant_nord_equatorial_1_r2',
-    label: 'Courant Nord Equatorial 1',
-    priorite: 2,
-    force: 2,
+  'courant_nord_equatorial_1_r2': {
     closed: false,
     zoneSource: 'svg',
     centerline: [
@@ -250,11 +218,7 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'tourbillon_texan_r2',
-    label: 'Tourbillon Texan',
-    priorite: 2,
-    force: 2,
+  'tourbillon_texan_r2': {
     closed: true,
     zoneSource: 'svg',
     centerline: [
@@ -279,26 +243,29 @@ const SEA_CURRENTS = [
     'NNW', 'N', 'N', 'N', 'N', 'NNE', 'NNE', 'NNE', 'NE', 'NE', 'ENE', 'ENE', 'ENE', 'E', 'E', 'E',
     'E', 'ESE', 'ESE', 'ESE', 'ESE', 'ESE', 'ESE', 'SE', 'SE', 'SE', 'SE', 'SE'
     ],
-    zone: [
-    [2961,2200], [3046,2042], [3057,1929], [3043,1809], [2997,1661], [2931,1522],
-    [2843,1385], [2737,1251], [2616,1127], [2488,1020], [2356,932], [2223,866], [2105,828],
-    [1989,812], [1892,820], [1799,853], [1720,914], [1666,997], [1636,1113], [1639,1246],
-    [1672,1386], [1737,1540], [1829,1696], [1946,1847], [2067,1972], [2178,2068],
-    [2310,2159], [2427,2221], [2556,2269], [2672,2291], [2769,2290], [2865,2265],
-    [2949,2212], [2855,1977], [2845,2020], [2826,2052], [2799,2075], [2762,2088],
-    [2666,2089], [2563,2062], [2448,2008], [2317,1922], [2188,1812], [2083,1699],
-    [1992,1580], [1920,1460], [1868,1341], [1841,1244], [1833,1148], [1853,1070],
-    [1890,1031], [1947,1014], [2005,1014], [2083,1029], [2224,1088], [2389,1195],
-    [2532,1323], [2673,1489], [2778,1661], [2816,1746], [2844,1838], [2857,1920],
-    [2856,1973]
-    ],
+    zone: {
+      exterior: [
+    [2961,2200], [3046,2042], [3057,1929], [3043,1810], [2997,1661], [2931,1523],
+    [2844,1385], [2738,1252], [2617,1127], [2489,1020], [2357,933], [2224,867],
+    [2106,828], [1991,812], [1893,820], [1801,852], [1722,913], [1667,996],
+    [1636,1111], [1638,1244], [1671,1384], [1736,1538], [1828,1694], [1944,1845],
+    [2064,1970], [2209,2091], [2358,2186], [2491,2248], [2631,2286], [2766,2290],
+    [2825,2279], [2880,2258]
+      ],
+      holes: [
+      [
+    [2785,2081], [2723,2093], [2650,2086], [2567,2063], [2467,2018], [2368,1959],
+    [2270,1885], [2099,1718], [2018,1616], [1950,1513], [1896,1410], [1863,1326],
+    [1838,1225], [1833,1149], [1844,1089], [1874,1043], [1924,1018], [2004,1014],
+    [2102,1035], [2190,1071], [2289,1125], [2404,1207], [2500,1292], [2591,1388],
+    [2672,1489], [2750,1609], [2802,1712], [2839,1816], [2857,1920], [2852,1996],
+    [2828,2050]
+      ]
+      ],
+    },
   },
 
-  {
-    id: 'tourbillon_panameen_r2',
-    label: 'Tourbillon Panameen',
-    priorite: 2,
-    force: 2,
+  'tourbillon_panameen_r2': {
     closed: true,
     zoneSource: 'svg',
     centerline: [
@@ -320,32 +287,24 @@ const SEA_CURRENTS = [
     ],
     zone: {
       exterior: [
-    [4474,4298], [4596,4273], [4703,4223], [4768,4159], [4793,4112], [4804,4070],
-    [4799,3979], [4761,3894], [4684,3807], [4574,3727], [4416,3648], [4256,3594],
-    [4086,3558], [3923,3543], [3774,3551], [3653,3579], [3601,3602], [3545,3637],
-    [3488,3702], [3467,3747], [3458,3806], [3464,3864], [3480,3908], [3513,3965],
-    [3563,4023], [3688,4119], [3826,4190], [3984,4247], [4150,4285], [4308,4303],
-    [4365,4304], [4493,4164], [4373,4304]
+    [4505,4294], [4627,4262], [4717,4213], [4775,4148], [4797,4102], [4806,4060],
+    [4805,4006], [4795,3964], [4753,3884], [4672,3797], [4562,3720], [4421,3650],
+    [4260,3595], [4090,3558], [3926,3543], [3777,3551], [3656,3578], [3603,3600],
+    [3548,3635], [3489,3699], [3468,3745], [3458,3804], [3464,3862], [3490,3929],
+    [3523,3978], [3577,4036], [3703,4128], [3882,4213], [4108,4277], [4308,4303]
       ],
       holes: [
       [
-    [4607,4040], [4598,4051], [4593,4055]
-      ],
-      [
-    [4446,4100], [4324,4103], [4205,4091], [4065,4062], [3950,4024], [3838,3974],
-    [3737,3910], [3677,3850], [3659,3806], [3699,3776], [3759,3757], [3844,3745],
-    [3926,3744], [4103,3763], [4300,3817], [4392,3856], [4482,3905], [4552,3958],
-    [4597,4009], [4606,4032], [4578,4065], [4511,4089]
+    [4483,4095], [4365,4104], [4242,4096], [4102,4071], [3965,4030], [3853,3982],
+    [3751,3921], [3683,3859], [3666,3835], [3661,3803], [3704,3774], [3768,3755],
+    [3914,3743], [4092,3761], [4291,3814], [4383,3852], [4475,3901], [4544,3951],
+    [4594,4005], [4607,4040], [4598,4052], [4553,4077]
       ]
       ],
     },
   },
 
-  {
-    id: 'tourbillon_cubain_r2',
-    label: 'Tourbillon Cubain',
-    priorite: 2,
-    force: 2,
+  'tourbillon_cubain_r2': {
     closed: true,
     zoneSource: 'svg',
     centerline: [
@@ -363,23 +322,25 @@ const SEA_CURRENTS = [
     'WSW', 'SW', 'SW', 'SSW', 'SSW', 'S', 'SSE', 'SSE', 'SE', 'SE', 'ESE', 'ESE', 'ESE', 'ESE', 'E', 'E',
     'E', 'E', 'E', 'ENE', 'ENE', 'ENE', 'ENE', 'NE', 'NE', 'NNE', 'NNE', 'N'
     ],
-    zone: [
-    [3966,2637], [3803,2659], [3717,2656], [3613,2642], [3538,2622], [3463,2590],
-    [3408,2548], [3394,2515], [3406,2491], [3436,2464], [3518,2422], [3630,2392],
-    [3757,2379], [3888,2384], [4008,2406], [4122,2452], [4173,2496], [4277,2383],
-    [4203,2323], [4096,2273], [3963,2240], [3815,2226], [3664,2233], [3525,2259],
-    [3401,2307], [3335,2349], [3327,2362], [3301,2469], [3292,2604], [3479,2724],
-    [3604,2785], [3696,2819], [4191,2646], [4269,2625], [4287,2628], [4302,2618],
-    [4323,2577], [4334,2525], [4328,2470], [4303,2416], [4291,2399], [4178,2505],
-    [4176,2532], [4134,2570], [4060,2608]
-    ],
+    zone: {
+      exterior: [
+    [4165,2302], [4022,2252], [3837,2227], [3664,2233], [3489,2270], [3402,2307],
+    [3335,2349], [3317,2394], [3301,2469], [3292,2603], [3478,2724], [3585,2776],
+    [3695,2819], [4191,2646], [4269,2625], [4286,2627], [4302,2618], [4329,2559],
+    [4334,2509], [4322,2452], [4303,2416], [4265,2370]
+      ],
+      holes: [
+      [
+    [3947,2642], [3783,2659], [3696,2654], [3594,2638], [3505,2610], [3440,2576],
+    [3408,2549], [3394,2515], [3406,2491], [3436,2464], [3518,2422], [3629,2392],
+    [3757,2379], [3888,2384], [4008,2406], [4096,2438], [4143,2466], [4171,2493],
+    [4181,2523], [4134,2570], [4043,2614]
+      ]
+      ],
+    },
   },
 
-  {
-    id: 'tourbillon_haitien_r2',
-    label: 'Tourbillon Haitien',
-    priorite: 2,
-    force: 2,
+  'tourbillon_haitien_r2': {
     closed: true,
     zoneSource: 'svg',
     centerline: [
@@ -396,22 +357,24 @@ const SEA_CURRENTS = [
     'ESE', 'ESE', 'E', 'E', 'E', 'E', 'E', 'E', 'ENE', 'ENE', 'ENE', 'NE', 'NE', 'NNE', 'N', 'NNW',
     'NW', 'NW', 'WNW', 'WNW', 'WNW', 'WNW', 'W', 'W', 'W'
     ],
-    zone: [
-    [5528,3157], [5349,3172], [5155,3156], [4988,3112], [4916,3076], [4891,3051],
-    [4941,3023], [5037,2997], [5153,2985], [5282,2986], [5389,2997], [5507,3022],
-    [5598,3055], [5665,3098], [5758,2991], [5660,2927], [5535,2883], [5373,2852],
-    [5187,2843], [5175,2867], [5158,2878], [4876,2958], [4824,2993], [4749,3061],
-    [4758,3106], [4797,3161], [4857,3206], [4953,3250], [5027,3264], [5336,3271],
-    [5655,3268], [5694,3254], [5745,3225], [5794,3172], [5811,3123], [5806,3061],
-    [5771,3004], [5645,3121], [5654,3110], [5605,3138]
-    ],
+    zone: {
+      exterior: [
+    [5640,2918], [5555,2888], [5438,2862], [5310,2846], [5188,2842], [5175,2867],
+    [5158,2878], [4878,2958], [4808,3006], [4750,3060], [4747,3070], [4765,3121],
+    [4822,3183], [4891,3224], [4988,3261], [5290,3270], [5669,3265], [5724,3239],
+    [5777,3195], [5807,3144], [5813,3100], [5801,3049], [5758,2991], [5715,2957]
+      ],
+      holes: [
+      [
+    [5516,3159], [5334,3172], [5140,3153], [4992,3114], [4934,3087], [4890,3052],
+    [4938,3024], [5034,2997], [5151,2985], [5280,2986], [5388,2997], [5506,3022],
+    [5598,3055], [5665,3098], [5664,3108], [5629,3128]
+      ]
+      ],
+    },
   },
 
-  {
-    id: 'tourbillon_sargasses_nord_r2',
-    label: 'Tourbillon Sargasses Nord',
-    priorite: 3,
-    force: 2,
+  'tourbillon_sargasses_nord_r2': {
     closed: false,
     zoneSource: 'svg',
     centerline: [
@@ -434,11 +397,7 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'tourbillon_sargasses_sud_r2',
-    label: 'Tourbillon Sargasses Sud',
-    priorite: 3,
-    force: 2,
+  'tourbillon_sargasses_sud_r2': {
     closed: false,
     zoneSource: 'svg',
     centerline: [
@@ -469,14 +428,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'tourbillon_de_campeche_r3',
-    label: 'Tourbillon De Campeche',
-    priorite: 3,
-    force: 1,
+  'tourbillon_de_campeche_r3': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2,
     centerline: [
     [1545,1553], [1497,1557], [1449,1572], [1406,1601], [1372,1643], [1351,1692],
     [1340,1744], [1338,1795], [1340,1842], [1346,1883], [1355,1928], [1368,1974],
@@ -495,28 +449,29 @@ const SEA_CURRENTS = [
     'NE', 'NNE', 'NNE', 'N', 'N', 'N', 'N', 'NNW', 'NNW', 'NNW', 'NNW', 'NNW', 'NNW', 'NW', 'NW', 'NW',
     'NW', 'NW', 'NW', 'NW', 'WNW', 'WNW', 'WNW', 'WNW', 'WNW', 'W', 'W'
     ],
-    zone: [
-    [1794,2377], [1697,2301], [1621,2222], [1545,2119], [1488,2010], [1451,1900],
-    [1438,1794], [1444,1731], [1456,1699], [1472,1676], [1495,1661], [1549,1653],
-    [1592,1657], [1710,1700], [1842,1790], [1948,1900], [2041,2040], [2100,2187],
-    [2119,2310], [2113,2374], [2097,2414], [2297,2151], [2109,2010], [1947,1848],
-    [1810,1667], [1709,1482], [1630,1461], [1551,1453], [1468,1461], [1412,1480],
-    [1361,1508], [1319,1547], [1285,1593], [1260,1647], [1245,1709], [1238,1776],
-    [1252,1927], [1301,2080], [1386,2241], [1498,2384], [1630,2506], [1770,2593],
-    [1918,2644], [2038,2653], [2099,2643], [2155,2623], [2204,2592], [2245,2551],
-    [2276,2504], [2299,2448], [2318,2318], [2301,2166], [2084,2431], [2059,2446],
-    [2005,2454], [1943,2445], [1878,2422]
-    ],
+    zone: {
+      exterior: [
+    [2034,1940], [1934,1832], [1845,1718], [1770,1601], [1710,1483], [1631,1461],
+    [1553,1453], [1490,1457], [1431,1472], [1378,1497], [1333,1532], [1296,1576],
+    [1268,1627], [1249,1686], [1238,1774], [1252,1925], [1308,2097], [1407,2272],
+    [1538,2426], [1678,2540], [1821,2615], [1895,2639], [1974,2653], [2055,2652],
+    [2115,2639], [2169,2615], [2216,2581], [2254,2539], [2284,2489], [2304,2432],
+    [2316,2367], [2316,2262], [2297,2151], [2155,2049]
+      ],
+      holes: [
+      [
+    [1780,2368], [1683,2289], [1609,2208], [1536,2103], [1481,1994], [1448,1885],
+    [1438,1774], [1455,1700], [1493,1662], [1569,1654], [1642,1671], [1726,1708],
+    [1808,1763], [1888,1833], [1960,1916], [2020,2004], [2075,2113], [2108,2222],
+    [2119,2310], [2108,2391], [2084,2431], [2041,2452], [1966,2450], [1881,2424]
+      ]
+      ],
+    },
   },
 
-  {
-    id: 'tourbillon_floridien_r3',
-    label: 'Tourbillon Floridien',
-    priorite: 3,
-    force: 1,
+  'tourbillon_floridien_r3': {
     closed: true,
     zoneSource: 'svg',
-    speedKmh: 2,
     centerline: [
     [3285,1100], [3241,1061], [3194,1027], [3145,998], [3096,974], [3046,956],
     [2997,945], [2950,939], [2904,940], [2861,947], [2822,960], [2786,980], [2756,1005],
@@ -546,14 +501,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'jet_nord_4_r3',
-    label: 'Jet Nord 4',
-    priorite: 3,
-    force: 1,
+  'jet_nord_4_r3': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2.5,
     centerline: [
     [5724,3167], [5769,3167], [5815,3166], [5861,3166], [5907,3166], [5954,3166],
     [6001,3166], [6048,3166], [6096,3167], [6143,3167], [6192,3168], [6240,3170],
@@ -580,14 +530,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'jet_nord_3_r3',
-    label: 'Jet Nord 3',
-    priorite: 3,
-    force: 1,
+  'jet_nord_3_r3': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2.5,
     centerline: [
     [3044,2514], [3081,2552], [3118,2588], [3157,2623], [3196,2655], [3235,2686],
     [3275,2715], [3316,2743], [3357,2769], [3399,2794], [3441,2817], [3484,2839],
@@ -612,14 +557,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'jet_nord_2_r3',
-    label: 'Jet Nord 2',
-    priorite: 3,
-    force: 1,
+  'jet_nord_2_r3': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2.5,
     centerline: [
     [5621,2968], [5671,2968], [5721,2967], [5771,2967], [5821,2966], [5871,2966],
     [5922,2966], [5971,2966], [6020,2966], [6069,2966], [6118,2967], [6167,2968],
@@ -646,11 +586,7 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'jet_nord_1_r3',
-    label: 'Jet Nord 1',
-    priorite: 3,
-    force: 1,
+  'jet_nord_1_r3': {
     closed: false,
     zoneSource: 'svg',
     centerline: [
@@ -669,14 +605,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'jet_sud_2_r3',
-    label: 'Jet Sud 2',
-    priorite: 3,
-    force: 1,
+  'jet_sud_2_r3': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2.5,
     centerline: [
     [4609,3921], [4659,3929], [4709,3936], [4760,3943], [4811,3949], [4862,3954],
     [4913,3958], [4965,3961], [5016,3964], [5067,3966], [5117,3968], [5167,3969],
@@ -710,14 +641,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'jet_sud_1_r3',
-    label: 'Jet Sud 1',
-    priorite: 3,
-    force: 1,
+  'jet_sud_1_r3': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2.5,
     centerline: [
     [2792,2551], [2792,2602], [2794,2653], [2799,2703], [2807,2752], [2818,2800],
     [2831,2847], [2848,2894], [2867,2939], [2889,2984], [2914,3027], [2941,3069],
@@ -767,14 +693,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'nord_jamaique_r4',
-    label: 'Nord Jamaique',
-    priorite: 4,
-    force: 1,
+  'nord_jamaique_r4': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 3,
     centerline: [
     [4123,2814], [4137,2814], [4159,2814], [4190,2813], [4227,2812], [4271,2810],
     [4321,2807], [4375,2804], [4433,2799], [4495,2792], [4559,2785], [4625,2776],
@@ -794,14 +715,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'tourbillon_de_campeche_r4',
-    label: 'Tourbillon De Campeche',
-    priorite: 4,
-    force: 1,
+  'tourbillon_de_campeche_r4': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2,
     centerline: [
     [1578,1195], [1557,1205], [1523,1224], [1478,1248], [1426,1277], [1370,1308],
     [1312,1342], [1257,1374], [1206,1405], [1164,1433], [1132,1455], [1101,1486],
@@ -836,14 +752,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'tourbillon_floridien_r4',
-    label: 'Tourbillon Floridien',
-    priorite: 4,
-    force: 1,
+  'tourbillon_floridien_r4': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2,
     centerline: [
     [3095,1960], [3146,1971], [3196,1977], [3245,1979], [3295,1976], [3346,1967],
     [3395,1954], [3442,1935], [3486,1910], [3527,1881], [3564,1848], [3596,1810],
@@ -870,14 +781,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'tourbillon_texan_sud_r4',
-    label: 'Tourbillon Texan Sud',
-    priorite: 4,
-    force: 1,
+  'tourbillon_texan_sud_r4': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2.5,
     centerline: [
     [3123,1718], [3137,1771], [3147,1823], [3154,1874], [3157,1923], [3157,1970],
     [3152,2018], [3142,2070], [3128,2119], [3108,2165], [3083,2208], [3054,2247],
@@ -903,14 +809,9 @@ const SEA_CURRENTS = [
     },
   },
 
-  {
-    id: 'tourbillon_texan_nord_r4',
-    label: 'Tourbillon Texan Nord',
-    priorite: 4,
-    force: 1,
+  'tourbillon_texan_nord_r4': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2,
     centerline: [
     [1614,1514], [1595,1467], [1578,1419], [1562,1368], [1549,1315], [1540,1263],
     [1535,1213], [1533,1164], [1535,1116], [1541,1066], [1553,1014], [1571,966],
@@ -934,14 +835,9 @@ const SEA_CURRENTS = [
     ],
   },
 
-  {
-    id: 'tourbillon_panameen_r4',
-    label: 'Tourbillon Panameen',
-    priorite: 4,
-    force: 1,
+  'tourbillon_panameen_r4': {
     closed: false,
     zoneSource: 'svg',
-    speedKmh: 2,
     centerline: [
     [4851,3978], [4857,4035], [4853,4082], [4844,4119], [4828,4157], [4802,4197],
     [4764,4238], [4713,4276], [4673,4297], [4628,4315], [4578,4330], [4525,4341],
@@ -975,15 +871,196 @@ const SEA_CURRENTS = [
       ],
     },
   },
+};
 
-];
+// Métadonnées éditées manuellement: ne pas remplacer lors d'un nouvel export SVG.
+const SEA_CURRENT_META = {
+  'tourbillon_sargasses_r1': {
+    label: 'Tourbillon Sargasses',
+    priorite: 1,
+    force: 3,
+  },
 
-const SEA_SHOALS = [
+  'guyanes_gulf_stream_r1': {
+    label: 'Guyanes Gulf Stream',
+    priorite: 1,
+    force: 3,
+    speedSegments: [
+      { label: 'Gulf Stream', from: 0, to: 39, speedKmh: 9 },
+      { label: 'Courant de Floride', from: 40, to: 67, speedKmh: 6.5, attenuationMinCote: 0.6 },
+      { label: 'Courant des Caraïbes', from: 68, to: 161, speedKmh: 3 },
+      { label: 'Courant des Guyanes', from: 162, to: 184, speedKmh: 2.5 },
+    ],
+  },
 
-  {
-    id: 'banc_de_jamaique',
-    label: 'Banc De Jamaique',
-    maxCategorieTaille: 3,
+  'nord_hispaniola_2_r2': {
+    label: 'Nord Hispaniola 2',
+    priorite: 2,
+    force: 2,
+    speedKmh: 3,
+  },
+
+  'nord_hispaniola_1_r2': {
+    label: 'Nord Hispaniola 1',
+    priorite: 2,
+    force: 2,
+  },
+
+  'courant_nord_equatorial_2_r2': {
+    label: 'Courant Nord Equatorial 2',
+    priorite: 3,
+    force: 2,
+  },
+
+  'courant_nord_equatorial_1_r2': {
+    label: 'Courant Nord Equatorial 1',
+    priorite: 2,
+    force: 2,
+  },
+
+  'tourbillon_texan_r2': {
+    label: 'Tourbillon Texan',
+    priorite: 2,
+    force: 2,
+  },
+
+  'tourbillon_panameen_r2': {
+    label: 'Tourbillon Panameen',
+    priorite: 2,
+    force: 2,
+  },
+
+  'tourbillon_cubain_r2': {
+    label: 'Tourbillon Cubain',
+    priorite: 2,
+    force: 2,
+  },
+
+  'tourbillon_haitien_r2': {
+    label: 'Tourbillon Haitien',
+    priorite: 2,
+    force: 2,
+  },
+
+  'tourbillon_sargasses_nord_r2': {
+    label: 'Tourbillon Sargasses Nord',
+    priorite: 3,
+    force: 2,
+  },
+
+  'tourbillon_sargasses_sud_r2': {
+    label: 'Tourbillon Sargasses Sud',
+    priorite: 3,
+    force: 2,
+  },
+
+  'tourbillon_de_campeche_r3': {
+    label: 'Tourbillon De Campeche',
+    priorite: 3,
+    force: 1,
+    speedKmh: 2,
+  },
+
+  'tourbillon_floridien_r3': {
+    label: 'Tourbillon Floridien',
+    priorite: 3,
+    force: 1,
+    speedKmh: 2,
+  },
+
+  'jet_nord_4_r3': {
+    label: 'Jet Nord 4',
+    priorite: 3,
+    force: 1,
+    speedKmh: 2.5,
+  },
+
+  'jet_nord_3_r3': {
+    label: 'Jet Nord 3',
+    priorite: 3,
+    force: 1,
+    speedKmh: 2.5,
+  },
+
+  'jet_nord_2_r3': {
+    label: 'Jet Nord 2',
+    priorite: 3,
+    force: 1,
+    speedKmh: 2.5,
+  },
+
+  'jet_nord_1_r3': {
+    label: 'Jet Nord 1',
+    priorite: 3,
+    force: 1,
+  },
+
+  'jet_sud_2_r3': {
+    label: 'Jet Sud 2',
+    priorite: 3,
+    force: 1,
+    speedKmh: 2.5,
+  },
+
+  'jet_sud_1_r3': {
+    label: 'Jet Sud 1',
+    priorite: 3,
+    force: 1,
+    speedKmh: 2.5,
+  },
+
+  'nord_jamaique_r4': {
+    label: 'Nord Jamaique',
+    priorite: 4,
+    force: 1,
+    speedKmh: 3,
+  },
+
+  'tourbillon_de_campeche_r4': {
+    label: 'Tourbillon De Campeche',
+    priorite: 4,
+    force: 1,
+    speedKmh: 2,
+  },
+
+  'tourbillon_floridien_r4': {
+    label: 'Tourbillon Floridien',
+    priorite: 4,
+    force: 1,
+    speedKmh: 2,
+  },
+
+  'tourbillon_texan_sud_r4': {
+    label: 'Tourbillon Texan Sud',
+    priorite: 4,
+    force: 1,
+    speedKmh: 2.5,
+  },
+
+  'tourbillon_texan_nord_r4': {
+    label: 'Tourbillon Texan Nord',
+    priorite: 4,
+    force: 1,
+    speedKmh: 2,
+  },
+
+  'tourbillon_panameen_r4': {
+    label: 'Tourbillon Panameen',
+    priorite: 4,
+    force: 1,
+    speedKmh: 2,
+  },
+};
+
+const SEA_CURRENTS = Object.entries(SEA_CURRENT_GEOMETRY).map(([id, geometry]) => ({
+  id,
+  ...(SEA_CURRENT_META[id] || {}),
+  ...geometry,
+}));
+
+// Section exportable depuis gen_sea_data.py.
+const SEA_SHOAL_GEOMETRY = {
+  'banc_de_jamaique': {
     zone: [
     [5183,2794], [5166,2787], [4995,2824], [4885,2828], [4815,2811], [4676,2746],
     [4539,2730], [4507,2737], [4424,2795], [4367,2843], [4339,2884], [4351,2920],
@@ -992,10 +1069,7 @@ const SEA_SHOALS = [
     ],
   },
 
-  {
-    id: 'banc_de_cuba',
-    label: 'Banc De Cuba',
-    maxCategorieTaille: 3,
+  'banc_de_cuba': {
     zone: [
     [4269,2625], [3745,2798], [3681,2827], [3670,2835], [3670,2852], [3691,2861],
     [3732,2859], [3826,2833], [3967,2776], [4227,2740], [4288,2700], [4309,2658],
@@ -1003,10 +1077,7 @@ const SEA_SHOALS = [
     ],
   },
 
-  {
-    id: 'banc_de_porto-rico',
-    label: 'Banc De Porto Rico',
-    maxCategorieTaille: 3,
+  'banc_de_porto-rico': {
     zone: [
     [6656,2662], [6581,2641], [6495,2630], [6382,2629], [6296,2639], [6222,2657],
     [6167,2684], [6149,2704], [6135,2754], [6140,2767], [6198,2770], [6263,2785],
@@ -1015,10 +1086,7 @@ const SEA_SHOALS = [
     ],
   },
 
-  {
-    id: 'banc_des_bahamas',
-    label: 'Banc Des Bahamas',
-    maxCategorieTaille: 3,
+  'banc_des_bahamas': {
     zone: [
     [4380,1180], [4243,1161], [4224,1173], [4180,1247], [4184,1283], [4202,1329],
     [4205,1411], [4248,1477], [4343,1553], [4478,1589], [4517,1589], [4531,1601],
@@ -1035,10 +1103,42 @@ const SEA_SHOALS = [
     [4525,1319], [4426,1211]
     ],
   },
+};
 
-];
+// Métadonnées éditées manuellement: ne pas remplacer lors d'un nouvel export SVG.
+const SEA_SHOAL_META = {
+  'banc_de_jamaique': {
+    label: 'Banc De Jamaique',
+    maxCategorieTaille: 3,
+  },
+
+  'banc_de_cuba': {
+    label: 'Banc De Cuba',
+    maxCategorieTaille: 3,
+  },
+
+  'banc_de_porto-rico': {
+    label: 'Banc De Porto Rico',
+    maxCategorieTaille: 3,
+  },
+
+  'banc_des_bahamas': {
+    label: 'Banc Des Bahamas',
+    maxCategorieTaille: 3,
+  },
+};
+
+const SEA_SHOALS = Object.entries(SEA_SHOAL_GEOMETRY).map(([id, geometry]) => ({
+  id,
+  ...(SEA_SHOAL_META[id] || {}),
+  ...geometry,
+}));
 
 if (typeof window !== 'undefined') {
+  window.SEA_CURRENT_GEOMETRY = SEA_CURRENT_GEOMETRY;
+  window.SEA_CURRENT_META = SEA_CURRENT_META;
   window.SEA_CURRENTS = SEA_CURRENTS;
+  window.SEA_SHOAL_GEOMETRY = SEA_SHOAL_GEOMETRY;
+  window.SEA_SHOAL_META = SEA_SHOAL_META;
   window.SEA_SHOALS = SEA_SHOALS;
 }
