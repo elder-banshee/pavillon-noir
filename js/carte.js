@@ -542,6 +542,7 @@ function ouvrirPopupConfirmationMJ() {
 
 function confirmerModeMJ() {
   modeMJ = true;
+  window.modeMJ = true; // exposé pour navigation-jaillot.js et autres modules
   fermerPopup();
 
   const wrap = document.getElementById('carte-wrap');
@@ -603,6 +604,9 @@ function confirmerModeMJ() {
       renderVilles();
     });
   }
+
+  // Initialiser le calculateur de route maintenant que le mode MJ est actif
+  window.NavigationJaillot?.init({ carte, pixelToLatLng });
 }
 function annulerModeMJ() {
   fermerPopup();

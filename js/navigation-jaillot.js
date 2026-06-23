@@ -1984,6 +1984,9 @@
   }
 
   function initUI() {
+    // Réservé au mode MJ — invisible pour les joueurs
+    if (!window.modeMJ) return;
+
     const slot = document.getElementById('nav-jaillot-slot');
     const wrap = document.getElementById('carte-wrap');
     const cible = slot || wrap;
