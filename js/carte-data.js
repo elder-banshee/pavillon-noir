@@ -32,6 +32,20 @@ const CARTE_NAVIRE = {
 };
 
 // ─── Résolution de l'image ───────────────────────────────────
+// Vent dominant utilise par le calculateur de navigation.
+// Direction = provenance du vent: NNE signifie qu'il vient du NNE et souffle vers le SSW.
+const CARTE_VENT_DOMINANT = {
+    id: 'alizes-atlantiques',
+    label: 'Alizes atlantiques',
+    direction: 'NNE',
+    speedKnots: 15,
+    deventement: {
+        porteeNm: 24,
+        demiAngleDeg: 32,
+        facteurMin: 0.35,
+    },
+};
+
 const CARTE_IMAGE = {
     src: 'medias/cartes/jaillot-1708.jpg',
     width: 8500,
@@ -126,8 +140,10 @@ const PUISSANCES = {
 //   en ignorant les clés > CARTE_ANNEE_REFERENCE.
 //
 // Champs stables (non temporels) :
-//   id, nom, puissance_stable*, zone
+//   id, nom, puissance_stable*, zone, deventement
 //   * puissance_stable si elle ne change jamais sur 1712–1725
+//   deventement: true si le relief de la juridiction cree une ombre au vent.
+//   Peut aussi etre un objet { porteeNm, demiAngleDeg, facteurMin }.
 //
 // Champs temporels (objet { annee: valeur }) :
 //   puissance, gouverneur, contexte
