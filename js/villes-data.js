@@ -4167,6 +4167,7 @@ Sources : Codex Eleuthera (document de campagne) ; Calendar of State Papers Colo
         rade : [3716,2059],
         territoire: 'cuba',
         coords: [3695, 2084],
+        tags: ['Havana', 'La Habana'],
 
         contexte: `Pivot logistique de l'empire espagnol dans les Caraïbes occidentales. La Havane est le point de rassemblement des flottes du Trésor avant leur traversée vers Cadix — tous les galions chargés d'argent péruvien ou mexicain y font escale, s'y ravitaillent, y attendent la saison favorable. Ce statut en fait la ville la plus active et la mieux défendue du monde caraïbe hispanique.
 
@@ -5169,7 +5170,6 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
     {
         id: 'saint-georges-grenade',
         nom: "Saint-George's",
-        label: "Saint-George's (Grenade)",
         capitale: true,
         type: 'port',
         rade : [],
