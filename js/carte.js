@@ -1213,11 +1213,15 @@ function afficherSuggestions(q, container, fantome) {
   const resultats = [];
 
   JURIDICTIONS.forEach(j => {
-    if (!j.tags || !j.tags.length) return;
     if (j.visible_mj && !modeMJ) return;
-    let matchTag = null;
-    for (const tag of j.tags) {
-      if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
+    // Tester le nom directement d'abord
+    const nomMatch = normaliser(j.nom).includes(qLow);
+    let matchTag = nomMatch ? j.nom : null;
+    // Puis les tags (alias, noms alternatifs)
+    if (!matchTag && j.tags) {
+      for (const tag of j.tags) {
+        if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
+      }
     }
     if (matchTag) resultats.push({ type: 'juridiction', item: j, nom: j.nom, matchTag });
   });
@@ -1259,13 +1263,30 @@ function afficherSuggestions(q, container, fantome) {
     return normaliser(a.nom).localeCompare(normaliser(b.nom), 'fr');
   });
 
-  container.innerHTML = resultats.slice(0, 12).map(({ type, item, nom, matchTag }) => {
+  // Détecte les noms affichés en collision dans la tranche, tous types confondus.
+  // Une ville qui partage son nom avec une juridiction (ou une autre ville) reçoit la parenthèse territoire.
+  const tranche = resultats.slice(0, 12);
+  const tousNoms = tranche.map(r => normaliser(r.item.nom));
+  const nomsAmbigus = new Set(
+    tousNoms.filter((n, i) => tousNoms.indexOf(n) !== i || tousNoms.lastIndexOf(n) !== i)
+  );
+
+  container.innerHTML = tranche.map(({ type, item, nom, matchTag }) => {
     const nomMatch = matchTag === nom;
     const matchHtml = nomMatch ? '' :
       `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
+
+    // Parenthèse territoire pour les villes dont le nom affiché est ambigu
+    let parenthese = '';
+    if (type === 'ville' && nomsAmbigus.has(normaliser(item.nom))) {
+      const jur = JURIDICTIONS.find(j => j.id === item.territoire);
+      const jurNom = jur ? (jur.label || jur.nom) : null;
+      if (jurNom) parenthese = ` <span class="carte-recherche-suggestion-territoire">(${jurNom})</span>`;
+    }
+
     return `<li class="carte-recherche-suggestion" role="option"
       data-id="${item.id}" data-type="${type}" data-nom="${escapeHtml(nom)}" data-matchtag="${escapeHtml(matchTag)}">
-      <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}</span>
+      <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}${parenthese}</span>
       ${matchHtml}
     </li>`;
   }).join('');

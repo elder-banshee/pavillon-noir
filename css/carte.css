@@ -1300,6 +1300,15 @@ path.leaflet-interactive:focus-visible {
   font-style: italic;
 }
 
+.carte-recherche-suggestion-territoire {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.68rem;
+  color: var(--mist);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
 .carte-recherche-highlight {
   background: transparent;
   color: var(--gold-light);

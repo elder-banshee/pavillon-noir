@@ -15,13 +15,13 @@ const VILLES = [
 
     {
         id: 'charles-town',
-        nom: 'Charles Town (Charleston)',
-        label: 'Charles Town',
+        nom: 'Charles Town',
         capitale: true,
         type: 'port',
         rade : [4426,491],
         territoire: 'caroline-du-sud',
         coords: [4390, 470],
+        tags: ['Charleston'],
 
         contexte: [
             // ── Situation permanente ───────────────────────────────
@@ -74,13 +74,13 @@ Pas de fort notable à Charles Town en 1712–1718 — la ville est défendue pa
 
     {
         id: 'san-agustin',
-        nom: 'San Agustín (Saint Augustine)',
-        label: 'San Agustín',
+        nom: 'San Agustín',
         capitale: true,
         type: 'port',
         rade : [4004, 1081],
         territoire: 'floride',
         coords: [3967, 1087],
+        tags: ['Saint-Augustin', 'San Agustín', 'Saint Augustine'],
 
         contexte: [
             { de: 1712, texte: `Unique ville permanente de Floride. San Agustín est d'abord un presidio — une garnison avec une ville autour — dont la valeur est stratégique plutôt qu'économique. Le Castillo de San Marcos, fort en coquina (pierre corallienne locale résistant aux boulets), domine la baie depuis 1695. La ville accueille les esclaves fugitifs des plantations caroliniennes à qui Madrid accorde la liberté contre le baptême et le service militaire — pratique qui attise les tensions avec Charles Town. La garnison ne dépasse pas 300 hommes, chroniquement sous-payés et mal équipés ; les missions franciscaines de l'arrière-pays ont été détruites par les raids anglais de 1704.` },
@@ -179,6 +179,7 @@ Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été
         rade : [1322, 1332],
         territoire: 'louisiane',
         coords: [1297, 1314],
+        tags: ['New Orleans'],
         visible_de: 1718,
 
         contexte: [
@@ -281,8 +282,7 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
 
     {
         id: 'xalapa',
-        nom: 'Jalapa (Xalapa)',
-        label: 'Jalapa',
+        nom: 'Jalapa',
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-espagne',
@@ -306,13 +306,12 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
 
     {
         id: 'antequera',
-        nom: 'Antequera (Oaxaca)',
-        label: 'Antequera',
-        capitale: true,
+        nom: 'Antequera',
         type: 'ville',
         rang: '1',
         territoire: 'nouvelle-espagne',
         coords: [1233, 2795],
+        tags: ['Guaxaca', 'Oaxaca'],
 
         contexte: [
             {
@@ -371,6 +370,7 @@ Le Galion de Manille est hors de portée des pirates des Caraïbes — mais son 
         rang: '3',
         territoire: 'nouvelle-espagne',
         coords: [1166, 2436],
+        tags: ['Villa Rica'],
 
         contexte: [
             {
@@ -393,7 +393,6 @@ Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à La Antigua s
         id: 'villahermosa',
         nom: 'Villahermosa (Villa del Espíritu Santo)',
         label: 'Espíritu Santo',
-        capitale: true,
         type: 'port',
         rade : [1678, 2846],
         rang: '2',
@@ -422,7 +421,7 @@ Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à La Antigua s
     {
         id: 'guaxaca',
         nom: 'Tehuacán (Santa María de la Concepción Tehuacán)',
-        label: 'Tehuacan',
+        label: 'Tehuacán',
         type: 'ville',
         territoire: 'nouvelle-espagne',
         coords: [1155, 2738],
@@ -489,8 +488,6 @@ En 1683, les flibustiers Lorencillo (Laurent de Graff) et Grammont s'emparent de
     {
         id: 'villadolid-nouvelle-espagne',
         nom: 'Valladolid',
-        label: 'Valladolid',
-        capitale: true,
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-espagne',
@@ -517,7 +514,7 @@ La ville prendra le nom de Morelia en 1828, en hommage à José María Morelos, 
 
     {
         id: 'patzcuaro',
-        nom: 'Pátzcuaro',
+        nom: 'Pátzcuaro (Mechoacan)',
         label: 'Mechoacan',
         type: 'ville',
         rang: '2',
@@ -553,7 +550,7 @@ La spécialisation artisanale des villages du lac Pátzcuaro est encore vivante 
 
     {
         id: 'xiopa',
-        nom: 'Manzanillo',
+        nom: 'Manzanillo (Xiopa)',
         type: 'port',
         rade : [248, 2546],
         rang: '2',
@@ -615,7 +612,6 @@ En 1712, Zacatula est retombée dans une modestie provinciale — le grand port 
     {
         id: 'puerto-escondido',
         nom: 'Puerto Escondido',
-        label: 'Pt. Escondido',
         type: 'port',
         rade : [1221, 3089],
         rang: '2',
@@ -785,8 +781,7 @@ Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses érup
 
     {
         id: 'valladolid-yucatan',
-        nom: 'Valladolid (Yucatán)',
-        label: 'Valladolid',
+        nom: 'Valladolid',
         type: 'ville',
         rang: '2',
         territoire: 'yucatan',
@@ -813,7 +808,6 @@ Le Popocatépetl est actif en 1712 — il fume quasi en permanence, et ses érup
     {
         id: 'salamanca',
         nom: 'Salamanca de Bacalar',
-        label: 'Bacalar',
         type: 'fort',
         rade: [2293, 3002],
         rang: '2',
@@ -947,7 +941,6 @@ L'enceinte fortifiée de Campeche, commencée en 1686 précisément après les r
     {
         id: 'st-iago-de-guatemala',
         nom: 'Santiago de Guatemala',
-        label: 'St Iago de Guatemala',
         capitale: true,
         type: 'ville',
         rang: '1',
@@ -981,7 +974,6 @@ Siège de la Real Audiencia de Guatemala, de l'archevêché et du capitaine gén
     {
         id: 'vulcan',
         nom: 'Volcán de Agua',
-        label: 'Volcán de Agua',
         type: 'site_geo',
         rang: '2',
         territoire: 'guatemala',
@@ -1011,7 +1003,6 @@ En 1712, le Volcán de Agua est inactif depuis la catastrophe de 1541 — mais s
     {
         id: 'st-salvador',
         nom: 'San Salvador',
-        capitale: true,
         type: 'ville',
         rang: '1',
         territoire: 'guatemala',
@@ -1116,6 +1107,7 @@ En 1712, le Volcán de Agua est inactif depuis la catastrophe de 1541 — mais s
         rang: '3',
         territoire: 'guatemala',
         coords: [2338, 3808],
+        tags: ['Xeres'],
         // ⚠️ Apparaît sur la Jaillot comme "Xeres" dans le sud du Honduras.
         // Choluteca est la ville la mieux documentée de cette région pour la période —
         // "Jerez" ou "Xerez" est le nom alternatif porté par plusieurs bourgs d'Amérique centrale.
@@ -1137,9 +1129,8 @@ En 1712, le Volcán de Agua est inactif depuis la catastrophe de 1541 — mais s
 
     {
         id: 'chiapa-ciudad-real',
-        nom: 'Ciudad Real (Chiapa)',
-        label: 'Ciudad Real',
-        capitale: true,
+        nom: 'Chiapa (Ciudad Real)',
+        label: 'Chiapa',
         type: 'ville',
         rang: '2',
         territoire: 'guatemala',
@@ -1170,7 +1161,6 @@ En 1712, le Volcán de Agua est inactif depuis la catastrophe de 1541 — mais s
         id: 'coban-vera-pax',
         nom: 'Cobán (Vera Pax)',
         label: 'Cobán',
-        capitale: true,
         type: 'ville',
         rang: '2',
         territoire: 'guatemala',
@@ -1210,6 +1200,7 @@ En 1712, l'idéal fondateur est lointain : les Dominicains gèrent leurs mission
         rang: '2',
         territoire: 'honduras',
         coords: [2251, 3219],
+        tags: ['Amaligua'],
 
         contexte: [
             {
@@ -1234,13 +1225,14 @@ En sens inverse, l'indigo, le cacao et la cochenille de la capitainerie descende
 
     {
         id: 'porta-domos',
-        nom: 'Puerto Cortés (Puerto Caballos)',
+        nom: 'Puerto Caballos',
         label: 'Porta Domos',
         type: 'port',
         rade : [2327, 3243],
         rang: '2',
         territoire: 'honduras',
         coords: [2316, 3270],
+        tags: ['Porta Domos', 'Puerto Cortés'],
         // ⚠️ "Porta Domos" sur la Jaillot — identification confirmée avec Puerto Cortés
         // (Puerto Caballos colonial) : principal port Caraïbe du Honduras, débouché
         // maritime de San Pedro Sula. La phonétique reste inexpliquée.
@@ -1290,8 +1282,7 @@ En sens inverse, l'indigo, le cacao et la cochenille de la capitainerie descende
 
     {
         id: 'valladolid-o-comayagua',
-        nom: 'Comayagua (Valladolid)',
-        label: 'Comayagua',
+        nom: 'Comayagua',
         capitale: true,
         type: 'ville',
         rang: '1',
@@ -1351,7 +1342,6 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
     {
         id: 'comajagua-st-iago-de-olancho',
         nom: 'San Jorge de Olancho',
-        label: 'St Iago de Olancho',
         type: 'ville',
         rang: '2',
         territoire: 'honduras',
@@ -1379,7 +1369,6 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
     {
         id: 'nueva-segovia',
         nom: 'Nueva Segovia',
-        capitale: false,
         type: 'ville',
         rang: '2',
         territoire: 'honduras',
@@ -1433,8 +1422,7 @@ Comayagua est éloignée de la mer — une journée de route vers Trujillo au no
 
     {
         id: 'lac-izabal',
-        nom: 'Lac Izabal (El Golfete)',
-        label: 'Lac Izabal',
+        nom: 'Lac Izabal',
         type: 'site_geo',
         rang: '2',
         territoire: 'guatemala',
@@ -1680,7 +1668,7 @@ En 1712, Gracias est une ville de second rang — chef-lieu d'une province monta
         rang: '3',
         territoire: 'nicaragua',
         coords: [3123, 3916],
-        // ⚠️ Distinct de la Trinidad du Salvador (supprimée). Bourg minier
+        // ⚠️ Distinct de la Trinidad du Salvador. Bourg minier
         // du Nicaragua septentrional, dans le département d'Estelí actuel.
 
         contexte: [
@@ -1779,8 +1767,7 @@ Correction connexe : l'entrée granada-nicaragua plaçait incorrectement le fort
 
     {
         id: 'gratates-iuo-dedios-nicaragua',
-        nom: 'Gracias a Dios (Nicaragua)',
-        label: 'Gra. a Dios',
+        nom: 'Gracias a Dios',
         type: 'ville',
         rang: '3',
         territoire: 'nicaragua',
@@ -1889,7 +1876,6 @@ Morgan l'a remontée en 1665 pour saccager Granada. La Royal Navy y enverra des 
     {
         id: 'chateau-de-austria',
         nom: 'Castillo de Austria',
-        label: 'Château de Austria',
         type: 'fort',
         rang: '2',
         territoire: 'costa-rica',
@@ -2004,11 +1990,10 @@ La vallée de Matina représente la richesse principale de la province : son cac
 
     {
         id: 'fort-san-lorenzo',
-        label: 'Fort San Lorenzo',
         nom: 'Castillo de San Lorenzo el Real de Chagres',
+        label: 'Fort San Lorenzo',
         type: 'fort',
         rang: '2',
-        capitale: false,
         territoire: 'panama',
         coords: [3900, 4259],
 
@@ -2131,7 +2116,6 @@ Panama City est la tête des deux routes qui font de l'isthme sa valeur : vers l
         id: 'santa-fe-veragua',
         nom: 'Santa Fe de Veraguas',
         label: 'Santa Fé',
-        capitale: true,
         type: 'ville',
         rang: '2',
         territoire: 'panama',
@@ -2189,7 +2173,6 @@ Santa Fe est une ville de l'intérieur, enclavée entre deux versants — Caraï
     {
         id: 'venta-de-cruzes',
         nom: 'Venta de Cruces',
-        label: 'Venta de Cruzes',
         type: 'ville',
         rang: '3',
         territoire: 'panama',
@@ -2216,7 +2199,6 @@ C'est par Venta de Cruces que transitait l'argent péruvien lors du sac de Morga
     {
         id: 'capira',
         nom: 'Capira',
-        label: 'P. de Capira',
         type: 'ville',
         rang: '3',
         territoire: 'panama',
@@ -2295,8 +2277,7 @@ En 1597, Madrid a déplacé le port vers Portobelo, mieux défendable. En 1712, 
 
     {
         id: 'concepcion-bocas',
-        nom: 'Concepción (Bocas del Toro)',
-        label: 'Conception',
+        nom: 'Concepción',
         type: 'port',
         rade : [],
         rang: '3',
@@ -2358,7 +2339,6 @@ En 1712, il ne reste rien de Santa María sinon la mémoire et quelques ruines e
     {
         id: 'saint-sebastien-darien',
         nom: 'San Sebastián de Buena Vista',
-        label: 'St Sebastian de Bona Vista',
         type: 'fort',
         rang: '2',
         territoire: 'darien',
@@ -2381,8 +2361,7 @@ En 1712, il ne reste rien de Santa María sinon la mémoire et quelques ruines e
 
     {
         id: 'new-edinburg',
-        nom: 'New Edinburgh (Nouvelle Calédonie)',
-        label: 'N. Edinburg',
+        nom: 'New Edinburg',
         type: 'site_hist',
         rang: '3',
         territoire: 'darien',
@@ -2414,8 +2393,7 @@ L'échec financier de la Compagnie d'Écosse a précipité l'<strong>Acte d'Unio
 
     {
         id: 'caret-bay',
-        nom: 'Caret Bay (golfe d\'Urabá)',
-        label: 'Caret Bay',
+        nom: 'Caret Bay',
         type: 'site_geo',
         rang: '2',
         territoire: 'darien',
@@ -2449,7 +2427,6 @@ C'est sur ces rives que Balboa a fondé Santa María la Antigua del Darién en 1
     {
         id: 'telu',
         nom: 'Tolú',
-        label: 'Telu',
         type: 'port',
         rade : [],
         rang: '2',
@@ -2473,13 +2450,12 @@ C'est sur ces rives que Balboa a fondé Santa María la Antigua del Darién en 1
 
     {
         id: 'bocachica',
-        label: 'Fort San Luis (Bocachica)',
         nom: 'Castillo de San Luis de Bocachica',
+        label: 'Fort San Luis (Bocachica)',
         type: 'fort',
         rang: '2',
         territoire: 'nouvelle-grenade',
         coords: [4790, 4116],
-        tags: [`bocachica`, `San Luis`, `boca-chica`],
 
         contexte: [
             {
@@ -2504,12 +2480,11 @@ C'est sur ces rives que Balboa a fondé Santa María la Antigua del Darién en 1
         id: 'cartagena',
         nom: 'Carthagène de Indias',
         label: 'Carthagène',
-        capitale: true,
         type: 'port',
         rade : [],
         territoire: 'nouvelle-grenade',
         coords: [4840, 4097],
-        tags: ['Carthagène', 'Cartagena', 'Carthagène de Indias'],
+        tags: ['Cartagena'],
 
         contexte: [
             {
@@ -2539,7 +2514,6 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
         id: 'antiochia',
         nom: 'Santa Fe de Antioquia',
         label: 'Antiochia',
-        capitale: true,
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-grenade',
@@ -2599,7 +2573,6 @@ Le <strong>Château de Bocachica</strong>, renforcé après 1697, contrôle dés
     {
         id: 'baranca-de-malambo',
         nom: 'Barrancas de Malambo',
-        label: 'Baranca de Malambo',
         type: 'port',
         rade : [],
         rang: '2',
@@ -2707,7 +2680,6 @@ Tous les convois d'or descendant d'Antioquia vers Carthagène passent par Mompox
     {
         id: 'mariquita',
         nom: 'Mariquita',
-        label: 'Mariguetta',
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-grenade',
@@ -2739,8 +2711,6 @@ Mariquita est entourée de forêts tropicales d'altitude où pousse le quinquina
     {
         id: 'santa-marthe',
         nom: 'Santa Marta',
-        label: 'Santa Marthe',
-        capitale: true,
         type: 'port',
         rade : [],
         rang: '2',
@@ -2793,7 +2763,7 @@ La Sierra abrite les Kogi, les Arhuaco et les Wiwa — nations indiennes qui ont
 
     {
         id: 'ciuidad-de-los-reyes',
-        nom: 'Valledupar (Ciudad de los Reyes)',
+        nom: 'Ciudad de los Reyes de Valledupar',
         label: 'Ciudad de los Reyes',
         type: 'ville',
         rang: '2',
@@ -2870,7 +2840,6 @@ La Sierra abrite les Kogi, les Arhuaco et les Wiwa — nations indiennes qui ont
     {
         id: 'bogota',
         nom: 'Santafé de Bogotá',
-        label: 'Santa Fé de Bogota',
         capitale: true,
         type: 'ville',
         rang: '1',
@@ -2902,7 +2871,7 @@ En 1717–1723, Santafé devient brièvement la capitale d'une vice-royauté pro
     {
         id: 'riohacha',
         nom: 'Riohacha (Río de la Hacha)',
-        label: 'R de la Hacha',
+        label: 'Río de la Hacha',
         type: 'port',
         rade : [],
         rang: '2',
@@ -2979,7 +2948,6 @@ La Ranchería (colonne 5) désigne la zone de pêche aux perles au large — pas
     {
         id: 'san-cristobal-tachira',
         nom: 'San Cristóbal',
-        label: 'St Christophe',
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-grenade',
@@ -3136,7 +3104,7 @@ La ville vit du cacao de la région — l'un des meilleurs des Caraïbes — exp
     {
         id: 'relais-magdalena',
         nom: 'Relais du Magdalena',
-        label: 'Apuerto / El Desembarcadero / Plasencia / Trinidad',
+        tags: ['Apuerto', 'El Desembarcadero', 'Plasencia', 'Trinidad'],
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-grenade',
@@ -3220,12 +3188,13 @@ Morgan a pillé Maracaibo à deux reprises — en 1666 et en 1669. Lors de la se
     {
         id: 'caraccos',
         nom: 'Caracas (Santiago de León de Caracas)',
-        label: 'Caraccos / St Iago de Leon',
+        label: 'Caraccos',
         capitale: true,
         type: 'ville',
         rang: '2',
         territoire: 'venezuela',
         coords: [6460, 4156],
+        tags: ['Caraccos'],
         // ⚠️ La Jaillot distingue "Caraccos" (zone côtière / La Guaira)
         // et "St Iago de Leon" (la ville proprement dite, au sud dans la vallée,
         // sur le lac de Tocarigua). La Guaira est déjà documentée dans villes-data.js
@@ -3255,9 +3224,9 @@ La Guaira (port de Caracas) est documentée séparément dans villes-data.js (en
     {
         id: 'caraballeda',
         nom: 'Nuestra Señora de Caraballeda',
-        label: 'N.S. de Carvalleda',
+        label: 'N.S. de Caraballeda',
         type: 'port',
-        rade : [],
+        rade : [6505, 4032],
         rang: '3',
         territoire: 'venezuela',
         coords: [6495, 4103],
@@ -3282,7 +3251,7 @@ La Guaira (port de Caracas) est documentée séparément dans villes-data.js (en
         nom: 'Ocumare de la Costa',
         label: 'Otchierado',
         type: 'port',
-        rade : [],
+        rade : [6643, 4057],
         rang: '3',
         territoire: 'venezuela',
         coords: [6636, 4088],
@@ -3308,7 +3277,7 @@ La Guaira (port de Caracas) est documentée séparément dans villes-data.js (en
         nom: 'Barcelona',
         label: 'Comanagotta',
         type: 'port',
-        rade : [],
+        rade : [6719, 4066],
         rang: '2',
         territoire: 'venezuela',
         coords: [6711, 4098],
@@ -3334,7 +3303,6 @@ La Guaira (port de Caracas) est documentée séparément dans villes-data.js (en
     {
         id: 'trujillo-andes',
         nom: 'Trujillo (Nuestra Señora de la Paz)',
-        label: 'Trugillo ò N.S. della Faz',
         type: 'ville',
         rang: '2',
         territoire: 'venezuela',
@@ -3362,29 +3330,30 @@ La Guaira (port de Caracas) est documentée séparément dans villes-data.js (en
 
     {
         id: 'truxillo-maracaibo',
-        nom: 'Truxillo (lac Maracaibo)',
-        label: 'Truxillo',
+        nom: 'San Antonio de Gibraltar',
+        label: 'Gibraltar',
         type: 'port',
-        rade : [],
+        rade : [6042, 4269],
         rang: '2',
         territoire: 'venezuela',
         coords: [6056, 4291],
-        // ⚠️ Extrémité sud du lac Maracaibo, ENE de Mérida sur la Jaillot.
-        // Probablement Gibraltar de Venezuela, principal port lacustre du sud
-        // du lac Maracaibo, connu sous ce nom cartographique alternatif.
+        // Gibraltar de Venezuela — port lacustre de la rive méridionale du lac
+        // Maracaibo. Désigné "Truxillo" sur la Jaillot : confusion due
+        // à l'expédition de Grammont (1678).
 
         contexte: [
             {
                 de: 1712,
-                texte: `Port lacustre sur la rive méridionale du lac Maracaibo, à l'embouchure des rivières descendant des Andes de Mérida et de Trujillo. Ce poste collecte le cacao, le blé et les produits andins avant de les acheminer par barque vers Maracaibo et la mer Caraïbe. C'est par ce port que transitent les richesses agricoles des provinces de Mérida et de Trujillo — une route fluviale lacustre qui supplée l'absence de route terrestre praticable entre les Andes et la côte.
+                texte: `Port lacustre fondé en février 1592 sur la rive méridionale du lac Maracaibo, à l'embouchure des rivières descendant des Andes de Mérida et de Trujillo. Ce poste collecte le cacao, le blé et les produits andins avant de les acheminer par barque vers Maracaibo et la mer Caraïbe. C'est par ce port que transitent les richesses agricoles des provinces de Mérida et de Trujillo — une route fluviale lacustre qui supplée l'absence de route terrestre praticable entre les Andes et la côte.
 <br><br>
-Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son second raid en 1669 — cherchant des fugitifs et des richesses cachées dans l'arrière-pays.`,
+Gibraltar fut prise et pillée en 1668 par le pirate français François l'Olonnais, puis un an plus tard par Sir Henry Morgan. En 1678, Michel de Grammont s'empara de la petite ville et la pilla, pénétrant jusqu'à Trujillo à l'intérieur des terres. Les dégâts furent si importants qu'en 1680, la ville avait presque entièrement disparu.`,
             },
         ],
 
         population: `~1 500 habitants`,
 
-        note_mj: `⚠️ Identification avec Gibraltar de Venezuela (principal port lacustre du sud du Maracaibo) : probable — "Truxillo" sur la Jaillot à cet emplacement crée une confusion avec la ville andine. Gibraltar est le nom habituellement documenté pour ce port.
+        note_mj: `✅ Identification "Truxillo" (Jaillot) = Gibraltar de Venezuela : établi — confusion cartographique due au raid de Grammont (1678), qui débarqua à Gibraltar avant de marcher sur Trujillo andin.
+✅ Grammont à Gibraltar et raid sur Trujillo, 1678 : établi (Wikipedia EN, Gibraltar, Venezuela).
 ✅ Morgan au lac Maracaibo en 1669, exploration des rives méridionales : établi (Exquemelin).
 ⚠️ Population en 1712 : estimation.`,
     },
@@ -3418,7 +3387,6 @@ Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son 
     {
         id: 'valencia-venezuela',
         nom: 'Nueva Valencia del Rey',
-        label: 'Tieujo Nueva Valentia',
         type: 'ville',
         rang: '2',
         territoire: 'venezuela',
@@ -3454,11 +3422,11 @@ Morgan a remonté le lac Maracaibo jusqu'à ces rives méridionales lors de son 
         contexte: [
             {
                 de: 1712,
-                texte: `Lac endoréique (sans exutoire vers la mer) dans la vallée de Carabobo, à l'ouest de Caracas. Le lac de Tacarigua — nom indigène carib, "Valencia" dans les sources espagnoles — est le plus grand lac d'eau douce du Venezuela. Ses eaux poissonneuses nourrissent les communautés riveraines ; ses rives basses et fertiles portent des cultures irriguées. Le lac n'a aucun débouché maritime — les navires ne peuvent y accéder — mais il structure la géographie humaine de toute la région centrale du Venezuela.`,
+                texte: `Situé dans la vallée de Carabobo, à l'ouest de Caracas, le lac de Tacarigua — nom indigène carib, "Valencia" dans les sources espagnoles — est le plus grand lac d'eau douce du Venezuela. Ses eaux poissonneuses nourrissent les communautés riveraines ; ses rives basses et fertiles portent des cultures irriguées. Le lac n'a aucun débouché maritime — les navires ne peuvent y accéder — mais il structure la géographie humaine de toute la région centrale du Venezuela.`,
             },
         ],
 
-        note_mj: `✅ Lac de Tacarigua = lac de Valencia, lac endoréique : établi.
+        note_mj: `✅ Lac de Tacarigua = lac de Valencia, lac endoréique (sans exutoire vers la mer) : établi.
 ✅ Plus grand lac d'eau douce du Venezuela : établi.`,
     },
 
@@ -3487,7 +3455,7 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
     {
         id: 'nueva-xertz',
         nom: 'Nirgua (Nueva Jerez)',
-        label: 'Nueva Xertz',
+        label: 'Nueva Jerez',
         type: 'ville',
         rang: '2',
         territoire: 'venezuela',
@@ -3545,7 +3513,6 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
     {
         id: 'tucuyo',
         nom: 'El Tocuyo',
-        label: 'Tucuyo',
         type: 'ville',
         rang: '2',
         territoire: 'venezuela',
@@ -3570,7 +3537,6 @@ Pas de fort notable en état de fonctionnement à cette date — la défense cô
     {
         id: 'monts-san-pedro',
         nom: 'Monts de San Pedro',
-        label: 'Monts de St Pedro',
         type: 'site_geo',
         rang: '2',
         territoire: 'venezuela',
@@ -3682,8 +3648,7 @@ Trinidad dépend nominalement de la province de Cumaná jusqu'en 1731.`,
 
     {
         id: 'santiago-de-araya',
-        nom: 'Araya (Santiago de Araya)',
-        label: 'St Iago',
+        nom: 'Santiago de Araya',
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-andalousie',
@@ -3710,10 +3675,9 @@ En 1712, le château est encore debout et partiellement en service, bien que la 
 
     {
         id: 'macuro',
-        nom: 'Macuro (San José de Macuro)',
-        label: 'St Joseph',
+        nom: 'San José de Macuro',
         type: 'port',
-        rade : [],
+        rade : [7299, 3999],
         rang: '2',
         territoire: 'nouvelle-andalousie',
         coords: [7262, 4019],
@@ -3782,7 +3746,7 @@ En 1712, le château est encore debout et partiellement en service, bien que la 
         nom: 'Santo Tomé de Guayana',
         label: 'St Thomas',
         type: 'port',
-        rade : [],
+        rade : [7156, 4747],
         rang: '2',
         territoire: 'nouvelle-andalousie',
         coords: [7173, 4736],
@@ -3831,8 +3795,8 @@ La ville a été attaquée et brûlée par Raleigh en 1617 lors de son second vo
     {
         id: 'morequito-portus',
         nom: 'Porto Morequito',
-        label: 'Morequito Portus',
-        type: 'ville',
+        type: 'port',
+        rade: [7111, 4871],
         rang: '3',
         territoire: 'nouvelle-andalousie',
         coords: [7086, 4870],
@@ -3878,7 +3842,7 @@ Le nom survit sur les cartes du XVIIIe siècle par tradition cartographique hér
         nom: 'Verina (Cariaco)',
         label: 'Verina',
         type: 'port',
-        rade : [],
+        rade : [6889, 4070],
         rang: '2',
         territoire: 'nouvelle-andalousie',
         coords: [6884, 4103],
@@ -3910,7 +3874,7 @@ Le nom survit sur les cartes du XVIIIe siècle par tradition cartographique hér
     {
         id: 'puerto-espana',
         nom: 'Puerto España',
-        tags: [`Puerto-Espana`, `Port of Spain`, "Port-d'Espagne"],
+        tags: [`Port of Spain`, "Port-d'Espagne"],
         type: 'port',
         territoire: 'trinidad',
         coords: [7387, 3989],
@@ -3962,9 +3926,8 @@ Note toponymique : "Paragotos" sur la carte Jaillot désigne probablement le mê
     {
         id: 'nieuw-middelburg',
         nom: 'Nieuw Middelburg',
-        label: 'N. Middelburg',
         type: 'port',
-        rade : [],
+        rade : [7831, 4452],
         rang: '2',
         territoire: 'suriname',
         coords: [7817, 4513],
@@ -4000,7 +3963,6 @@ La région porte sur la Jaillot la mention "<em>Suriname, aux Anglois et Holland
     {
         id: 'fort-kyk-over-al',
         nom: 'Fort Kyk-Over-Al',
-        label: 'Fort Kyck Overal',
         type: 'fort',
         rang: '2',
         territoire: 'suriname',
@@ -4030,8 +3992,8 @@ En 1712, le fort est en service mais son rôle décline : les plantations côti�
 
     {
         id: 'villages-delta-suriname',
-        nom: 'Villages du delta surinamais',
-        label: 'Marawalli · Mapueta · Macharibi · Vaperon',
+        nom: 'Villages du delta du Suriname',
+        tags: ['Marawalli', 'Mapueta', 'Macharibi', 'Vaperon'],
         type: 'ville',
         rang: '2',
         territoire: 'suriname',
@@ -4063,7 +4025,6 @@ Ces mêmes villages sont aussi des refuges potentiels pour les esclaves marrons 
     {
         id: 'matunere-montagnes',
         nom: 'Matunere Montagnes (Tumuc-Humac)',
-        label: 'Matunere Montagnes',
         type: 'site_geo',
         rang: '2',
         territoire: 'suriname',
@@ -4251,7 +4212,6 @@ Deux fortifications commandent l'entrée du port : le <strong>Castillo de los Tr
     {
         id: 'santa-cruz-cuba',
         nom: 'Santa Cruz del Norte',
-        label: 'Santa Cruz',
         type: 'ville',
         rang: '3',
         territoire: 'cuba',
@@ -4276,7 +4236,6 @@ Deux fortifications commandent l'entrée du port : le <strong>Castillo de los Tr
     {
         id: 'sancti-spiritus',
         nom: 'Sancti Spíritus',
-        label: 'Sta Spirito',
         type: 'ville',
         rang: '2',
         territoire: 'cuba',
@@ -4300,7 +4259,6 @@ Deux fortifications commandent l'entrée du port : le <strong>Castillo de los Tr
     {
         id: 'mancanilla-cuba',
         nom: 'Manzanillo',
-        label: 'Mancanilla',
         type: 'port',
         rade : [],
         rang: '2',
@@ -4420,7 +4378,7 @@ En 1712, Léogâne est l'une des villes les plus actives de Saint-Domingue : ses
         nom: 'Port-de-Paix',
         label: 'Port-de-Paix',
         type: 'port',
-        rade : [],
+        rade : [5433, 2553],
         rang: '2',
         territoire: 'saint-domingue',
         coords: [5433, 2563],
@@ -4448,9 +4406,8 @@ En 1712, Port-de-Paix est dépassé par Le Cap-Français comme premier port de l
     {
         id: 'port-saint-marc',
         nom: 'Port-Saint-Marc',
-        label: "Port d'Guanives ou Port St Marco",
         type: 'port',
-        rade : [],
+        rade : [5321, 2627],
         rang: '3',
         territoire: 'saint-domingue',
         coords: [5348, 2634],
@@ -4566,7 +4523,7 @@ En 1712, "Xaragua" n'est plus qu'un souvenir cartographique : la région est peu
         label: 'Cap-Français',
         capitale: true,
         type: 'port',
-        rade : [],
+        rade : [5508, 2548],
         territoire: 'saint-domingue',
         coords: [5497, 2541],
 
@@ -4657,9 +4614,8 @@ En 1712, "Xaragua" n'est plus qu'un souvenir cartographique : la région est peu
     {
         id: 'monte-cristi',
         nom: 'Monte Cristi',
-        label: 'Monte Christo',
         type: 'port',
-        rade : [],
+        rade : [5645, 2530],
         rang: '2',
         territoire: 'santo-domingo',
         coords: [5685, 2532],
@@ -4714,7 +4670,6 @@ En 1712, il ne reste que quelques pans de murs envahis par la végétation sur u
     {
         id: 'maguana',
         nom: 'San Juan de la Maguana',
-        label: 'Maguana',
         type: 'ville',
         rang: '3',
         territoire: 'santo-domingo',
@@ -4738,7 +4693,7 @@ En 1712, il ne reste que quelques pans de murs envahis par la végétation sur u
     {
         id: 'conception-vega',
         nom: 'La Concepción de la Vega',
-        label: 'Conception',
+        label: 'Concepción',
         type: 'ville',
         rang: '2',
         territoire: 'santo-domingo',
@@ -4788,12 +4743,13 @@ En 1712, il ne reste que quelques pans de murs envahis par la végétation sur u
 
     {
         id: 'huguey',
-        nom: 'Higüey (El Seibo, Sabana de Higüey)',
+        nom: 'Higüey',
         label: 'Huguey',
         type: 'ville',
         rang: '2',
         territoire: 'santo-domingo',
         coords: [6054, 2779],
+        tags: ['Syrbo', 'Hibona', 'Sabialeonde', 'El Seibo', 'Sabana de Higüey'],
         // ⚠️ La Jaillot place 4 noms pour 3 symboles dans le sud-est d'Hispaniola.
         // Identification :
         // · Syrbo → El Seibo, bourg de l'est de l'île
@@ -4821,7 +4777,6 @@ En 1712, il ne reste que quelques pans de murs envahis par la végétation sur u
     {
         id: 'ocoa',
         nom: 'San José de Ocoa',
-        label: 'Ocoa',
         type: 'ville',
         rang: '3',
         territoire: 'santo-domingo',
@@ -4875,7 +4830,6 @@ La ville vit du situado — la subvention annuelle de Mexico finançant garnison
     {
         id: 'san-german',
         nom: 'San Germán',
-        label: 'St German',
         type: 'ville',
         rang: '2',
         territoire: 'porto-rico',
@@ -5069,7 +5023,6 @@ Pas de fort propre — des batteries côtières légères.`,
     {
         id: 'montagne-pelee',
         nom: 'Montagne Pelée',
-        label: 'La Pelée',
         type: 'site_geo',
         rang: '2',
         territoire: 'martinique',
@@ -5119,8 +5072,7 @@ Centre gouvernemental et militaire, Basse-Terre est moins active commercialement
 
     {
         id: 'soufriere-guadeloupe',
-        nom: 'La Soufrière (Guadeloupe)',
-        label: 'La Soufrière (Guadeloupe)',
+        nom: 'La Soufrière',
         type: 'site_geo',
         rang: '2',
         territoire: 'guadeloupe',
@@ -5191,8 +5143,7 @@ Le <strong>Fort Charles</strong> (position de Needham's Point) commande l'entré
 
     {
         id: 'soufriere-saint-vincent',
-        nom: 'La Soufrière (Saint-Vincent)',
-        label: 'La Soufrière (Saint-Vincent)',
+        nom: 'La Soufrière',
         type: 'site_geo',
         rang: '2',
         territoire: 'saint-vincent',

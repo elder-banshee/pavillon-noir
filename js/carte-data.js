@@ -156,7 +156,7 @@ const JURIDICTIONS = [
     {
         id: 'caroline-du-sud',
         nom: 'Caroline du Sud',
-        tags: ['Caroline du Sud', 'South Carolina', 'Charles Town', 'Charleston', 'Carolines'],
+        tags: ['South Carolina'],
 
         puissance: {
             1712: 'britannique',
@@ -283,7 +283,7 @@ En novembre, la population se soulève contre les Lords Proprietors. James Moore
     {
         id: 'floride',
         nom: 'Floride',
-        tags: ['Floride', 'Florida', 'Saint-Augustin', 'San Agustín', 'Saint Augustine'],
+        tags: ['Florida'],
 
         puissance: {
             1712: 'espagnole',
@@ -389,7 +389,7 @@ Benavides est maintenant bien établi et l'homme fort de la Floride. Sa politiqu
     {
         id: 'louisiane',
         nom: 'Louisiane',
-        tags: ['Louisiane', 'Louisiana', 'Mobile', 'Nouvelle-Orléans', 'New Orleans', 'Mississippi', 'Golfe du Mexique'],
+        tags: ['Louisiana', 'Mississippi'],
 
         puissance: {
             1712: 'francaise',
@@ -492,7 +492,7 @@ La Louisiane française presse les colonies espagnoles à l'ouest et britannique
     {
         id: 'nouveau-mexique',
         nom: 'Nouveau-Mexique',
-        tags: ['Nouveau-Mexique', 'New Mexico', 'Santa Fe', 'Río Grande', 'Rio Grande'],
+        tags: ['New Mexico'],
 
         puissance: {
             1712: 'espagnole',
@@ -569,7 +569,7 @@ En 1719, Valverde mène une expédition vers le nord-est — jusqu'au Colorado a
         id: 'nueva-galicia',
         label: 'Nueva Galicia',
         nom: 'Nueva Galicia (Guadalaxara)',
-        tags: ['Nueva Galicia', 'Guadalajara', 'Guadalaxara', 'Jalisco', 'Zacatecas', 'Sinaloa', 'Nouvelle-Galice'],
+        tags: ['Guadalajara', 'Guadalaxara', 'Nouvelle-Galice'],
 
         puissance: {
             1712: 'espagnole',
@@ -610,7 +610,6 @@ Loin des côtes et des routes maritimes, la Nueva Galicia est absente des chroni
         id: 'panuco',
         label: 'Pánuco',
         nom: 'Pánuco y Tampico',
-        tags: ['Pánuco', 'Tampico', 'Santiago de los Valles', 'Huasteca'],
 
         puissance: {
             1712: 'espagnole',
@@ -664,7 +663,7 @@ En 1718, Castañeda reçoit du vice-roi la licence de mener une expédition vers
     {
         id: 'nouvelle-espagne',
         nom: 'Nouvelle-Espagne',
-        tags: ['Nouvelle-Espagne', 'Mexico', 'Ciudad de México', 'Mechoacan', 'Tlascala', 'Acapulco', 'Guaxaca', 'Soco Nusco', 'Tabasco'],
+        tags: ['Tabasco'],
 
         puissance: {
             1712: 'espagnole',
@@ -858,7 +857,6 @@ L'Espagne proteste régulièrement contre la présence anglaise dans ces eaux, m
     {
         id: 'guatemala',
         nom: 'Guatemala',
-        tags: ['Guatemala', 'Santiago de los Caballeros de Guatemala', 'Chiapa'],
 
         puissance: {
             1712: 'espagnole',
@@ -953,9 +951,8 @@ Les Indiens Misquitos, alliés aux Anglais de Jamaïque, razzient les missions e
     // ── ÎLES DE LA BAIE (ROATAN) ─────────────────────────────
     {
         id: 'iles-de-la-baie',
-        label: 'Îles de la Baie',
-        nom: 'Îles de la Baie (Roatan, Utila, Guanaja)',
-        tags: ['Îles de la Baie', 'Roatan', 'Utila', 'Guanaja', 'Bay Islands'],
+        nom: 'Îles de la Baie',
+        tags: ['Roatan', 'Utila', 'Guanaja', 'Bay Islands'],
 
         puissance: {
             1712: 'conteste',
@@ -994,9 +991,8 @@ Les Serrana et Serranilla — deux bancs coralliens quasi inhabités au centre d
 
     {
         id: 'cote-miskito',
-        label: 'Côte Miskito',
-        nom: 'Côte Miskito (Mosquito Coast)',
-        tags: ['Côte Miskito', 'Mosquito Coast', 'Miskitos', 'Cap Camaron', 'Manglares', 'Pearl Lagoon', 'Cap Gracias a Dios'],
+        nom: 'Côte Miskito',
+        tags: ['Mosquito Coast', 'Cap Camaron', 'Manglares', 'Pearl Lagoon'],
 
         puissance: {
             1712: 'amerindienne',
@@ -1060,7 +1056,7 @@ Des marchands jamaïcains font escale à Pearl Lagoon et Bluefields pour troquer
     {
         id: 'nicaragua',
         nom: 'Nicaragua',
-        tags: ['Nicaragua', 'León', 'Granada', 'Río San Juan'],
+        tags: ['Río San Juan'],
 
         puissance: {
             1712: 'espagnole',
@@ -1156,7 +1152,6 @@ Providence est à mi-chemin entre la Jamaïque et la côte Miskito, à portée d
     {
         id: 'costa-rica',
         nom: 'Costa Rica',
-        tags: ['Costa Rica', 'Cartago'],
 
         puissance: {
             1712: 'espagnole',
@@ -1734,7 +1729,7 @@ Il prend le gouvernorat dans un contexte de tensions avec les missions capucines
     {
         id: 'trinidad',
         nom: 'Trinidad',
-        tags: ['Trinidad', 'San José de Oruña', 'Puerto España', 'Port of Spain', "Port-d'Espagne"],
+        tags: ['Trinidad', 'San José de Oruña'],
 
         puissance: {
             1712: 'espagnole',
