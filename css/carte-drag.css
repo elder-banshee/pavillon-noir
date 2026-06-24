@@ -1,0 +1,16 @@
+/*
+ * carte-drag.css — styles pour le drag-and-drop de la modale d'itinéraire
+ * Chargé après carte.css pour surcharger proprement les règles du placeholder.
+ */
+
+/* Animation de repositionnement : la hauteur du placeholder transite,
+   ce qui pousse/tire les voisins en douceur plutôt que de les téléporter. */
+.nav-modale-etape--placeholder {
+  overflow: hidden;
+  transition: height 0.15s ease !important;
+}
+
+/* Corps de la modale — clip pour confiner le fantôme visuellement */
+.nav-modale-corps {
+  position: relative;
+}

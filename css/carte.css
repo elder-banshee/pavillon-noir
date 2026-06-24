@@ -1511,3 +1511,292 @@ path.leaflet-interactive:focus-visible {
     flex: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MODALE OPTIONS AVANCÉES — calculateur d'itinéraire
+   ═══════════════════════════════════════════════════════════ */
+
+.nav-modale-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(14, 12, 9, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.nav-modale-overlay.nav-modale-overlay--visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.nav-modale {
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  width: min(560px, 92vw);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+  transform: translateY(8px);
+  transition: transform 0.25s ease;
+}
+
+.nav-modale-overlay--visible .nav-modale {
+  transform: translateY(0);
+}
+
+/* En-tête */
+.nav-modale-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.nav-modale-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.nav-modale-fermer {
+  background: none;
+  border: none;
+  color: var(--mist);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+.nav-modale-fermer:hover { color: var(--gold); }
+
+/* Corps scrollable */
+.nav-modale-corps {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* Liste d'étapes */
+.nav-modale-etapes {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Étape individuelle */
+.nav-modale-etape {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: background 0.15s, border-color 0.15s;
+  cursor: default;
+  user-select: none;
+}
+
+.nav-modale-etape--drag-over {
+  border-color: var(--gold);
+  background: rgba(200, 151, 58, 0.07);
+}
+
+.nav-modale-etape--dragging {
+  opacity: 0.4;
+}
+
+/* Poignée drag */
+.nav-modale-etape-poignee {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0.2rem 0.3rem;
+  cursor: grab;
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: opacity 0.15s;
+}
+.nav-modale-etape-poignee:active { cursor: grabbing; }
+.nav-modale-etape:hover .nav-modale-etape-poignee { opacity: 0.8; }
+
+.nav-modale-etape-poignee span {
+  display: block;
+  width: 14px;
+  height: 2px;
+  background: var(--mist);
+  border-radius: 1px;
+}
+
+/* Lettre de l'étape */
+.nav-modale-etape-lettre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  width: 1.1rem;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Champ de recherche dans l'étape */
+.nav-modale-etape-champ {
+  flex: 1;
+  position: relative;
+}
+
+.nav-modale-etape-champ .carte-recherche-input {
+  width: 100%;
+  font-size: 0.82rem;
+  padding: 0.3rem 0.5rem;
+  height: auto;
+}
+
+.nav-modale-etape-champ .carte-recherche-suggestions {
+  top: calc(100% + 2px);
+  max-height: 160px;
+  z-index: 10010;
+}
+
+/* Bouton suppression */
+.nav-modale-etape-suppr {
+  background: none;
+  border: none;
+  color: var(--mist);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.3rem;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 0.15s, color 0.15s;
+  line-height: 1;
+}
+.nav-modale-etape-suppr:hover { opacity: 1; color: #c0504d; }
+.nav-modale-etape--min .nav-modale-etape-suppr { visibility: hidden; }
+
+/* Bouton ajouter étape */
+.nav-modale-ajouter {
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: 3px;
+  color: var(--mist);
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  padding: 0.4rem 0.75rem;
+  width: 100%;
+  transition: border-color 0.2s, color 0.2s;
+}
+.nav-modale-ajouter:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+.nav-modale-ajouter:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Pied de modale */
+.nav-modale-footer {
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.nav-modale-resultat {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.85rem;
+  color: var(--mist);
+  min-height: 1.2em;
+  text-align: center;
+}
+
+.nav-modale-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.nav-modale-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 1.1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.nav-modale-btn--annuler {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--mist);
+}
+.nav-modale-btn--annuler:hover {
+  border-color: var(--mist);
+  color: var(--parchment);
+}
+
+.nav-modale-btn--tracer {
+  background: var(--gold);
+  border: 1px solid var(--gold);
+  color: var(--ink);
+  font-weight: 600;
+}
+.nav-modale-btn--tracer:hover {
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+}
+
+/* Formulaire principal grisé quand modale ouverte */
+.nav-jaillot--masque {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Résumé multi-étapes sous le formulaire principal */
+.nav-jaillot-resume-etapes {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--mist);
+  padding: 0.2rem 0 0 0.25rem;
+}
+
+/* Placeholder : espace réservé pendant le drag custom */
+.nav-modale-etape--placeholder {
+  border: 1px dashed var(--border);
+  background: rgba(200, 151, 58, 0.04);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+/* Fantôme : clone qui suit le curseur */
+.nav-modale-etape--fantome {
+  border: 1px solid var(--gold) !important;
+  background: color-mix(in srgb, var(--ink) 92%, var(--gold)) !important;
+  border-radius: 3px;
+  cursor: grabbing !important;
+}

@@ -8,6 +8,7 @@
   <meta name="description" content="Carte géopolitique des Caraïbes — Campagne Pavillon Noir">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/carte.css">
+  <link rel="stylesheet" href="css/carte-drag.css">
   <link rel="stylesheet" href="css/carte-mobile.css" media="(max-width: 768px)">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="icon"
@@ -286,6 +287,29 @@
     <div class="carte-popup" id="carte-popup"></div>
   </div>
 
+  <!-- Modale Options avancées — calculateur d'itinéraire -->
+  <div class="nav-modale-overlay" id="nav-modale-overlay" aria-hidden="true" role="dialog"
+    aria-modal="true" aria-labelledby="nav-modale-titre">
+    <div class="nav-modale" id="nav-modale">
+      <div class="nav-modale-header">
+        <h2 class="nav-modale-titre" id="nav-modale-titre">Planifier un itinéraire</h2>
+        <button class="nav-modale-fermer" id="nav-modale-fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="nav-modale-corps" id="nav-modale-corps">
+        <!-- Étapes injectées par navigation-jaillot.js -->
+        <ol class="nav-modale-etapes" id="nav-modale-etapes"></ol>
+        <button class="nav-modale-ajouter" id="nav-modale-ajouter" type="button">+ Ajouter une étape</button>
+      </div>
+      <div class="nav-modale-footer">
+        <div class="nav-modale-resultat" id="nav-modale-resultat"></div>
+        <div class="nav-modale-actions">
+          <button class="nav-modale-btn nav-modale-btn--annuler" id="nav-modale-annuler" type="button">Annuler</button>
+          <button class="nav-modale-btn nav-modale-btn--tracer" id="nav-modale-tracer" type="button">Tracer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="js/chroniques-data.js"></script>
   <script src="js/pnj-data.js"></script>
@@ -294,7 +318,6 @@
   <script src="js/sea-data.js"></script>
   <script src="js/carte-data.js"></script>
   <script src="js/villes-data.js"></script>
-  <script src="js/villes-data-ajouts-session.js"></script>
   <script src="js/navigation-jaillot.js"></script>
   <script src="js/audio.js"></script>
   <script>audioInit(null);</script>

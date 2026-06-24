@@ -2078,7 +2078,524 @@
     });
 
     panneau.querySelector('#nav-jaillot-avance').addEventListener('click', () => {
-      resultat.textContent = 'Options avancées à venir.';
+      ouvrirModale();
+    });
+  }
+
+  // ── Modale Options avancées ──────────────────────────────────────────────
+
+  // Lettres assignées aux étapes dans l'ordre
+  const LETTRES = 'ABCDEFGHIJ';
+  const MAX_ETAPES = 10;
+
+  // Cache persistant : survit aux fermetures accidentelles
+  let cacheEtapes = null; // null = pas encore initialisé
+
+  // État courant de la modale (null = fermée)
+  let etatModale = null;
+
+  // Drag-and-drop custom (pointer events — pas de draggable natif)
+  const drag = {
+    actif: false,
+    srcIdx: -1,
+    fantome: null,
+    placeholder: null,
+    offsetY: 0,
+    hauteurItem: 0,
+    clientY: 0,
+    rafId: null,
+    rectsAvantDeplacement: null, // snapshot FLIP des positions avant chaque déplacement
+  };
+
+  function poigneeDragStart(e, liSrc, index) {
+    // Autoriser souris gauche (button=0) et touch (button=-1 ou 0 selon le navigateur)
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    // Ne pas interférer si le clic vient d'un input ou d'un bouton dans la ligne
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+
+    e.preventDefault(); // empêche le scroll pendant le drag
+    e.stopPropagation();
+
+    const liste = document.getElementById('nav-modale-etapes');
+    if (!liste) return;
+
+    // Lire l'état DOM avant de commencer
+    lireEtatDepuisDOM();
+
+    // Mémoriser la position du li source AVANT de modifier le DOM
+    const srcRect = liSrc.getBoundingClientRect();
+
+    drag.actif = true;
+    drag.srcIdx = index;
+    drag.hauteurItem = srcRect.height;
+
+    // Placeholder : démarre à hauteur cible (position initiale, pas d'animation au départ)
+    drag.placeholder = document.createElement('li');
+    drag.placeholder.className = 'nav-modale-etape nav-modale-etape--placeholder';
+    drag.placeholder.style.height = drag.hauteurItem + 'px';
+    liSrc.replaceWith(drag.placeholder);
+
+    // Fantôme : clone visuel qui suit le curseur (position fixe depuis srcRect mémorisé)
+    drag.fantome = liSrc.cloneNode(true);
+    drag.fantome.className = 'nav-modale-etape nav-modale-etape--fantome';
+    drag.fantome.style.cssText = `
+      position: fixed;
+      left: ${srcRect.left}px;
+      top: ${srcRect.top}px;
+      width: ${srcRect.width}px;
+      z-index: 10020;
+      pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      opacity: 0.92;
+    `;
+    // Offset curseur→coin supérieur du li, pour un suivi naturel
+    drag.offsetY = e.clientY - srcRect.top;
+    document.body.appendChild(drag.fantome);
+
+    // Démarrer la boucle d'auto-scroll
+    drag.rafId = requestAnimationFrame(autoScrollLoop);
+
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+    document.addEventListener('pointercancel', onPointerUp);
+  }
+
+  // Déplace le placeholder dans le DOM et anime les voisins par translateY.
+  // Le placeholder garde une hauteur fixe — c'est le translateY des items qui crée l'illusion.
+  function deplacerPlaceholder(clientY) {
+    const liste = document.getElementById('nav-modale-etapes');
+    if (!liste) return;
+
+    const items = [...liste.querySelectorAll('.nav-modale-etape:not(.nav-modale-etape--placeholder)')];
+    if (!items.length) return;
+
+    // Trouver la position d'insertion selon le curseur
+    let cibleAvant = null;
+    for (const li of items) {
+      const rect = li.getBoundingClientRect();
+      if (clientY < rect.top + rect.height / 2) {
+        cibleAvant = li;
+        break;
+      }
+    }
+
+    // Déplacer le placeholder dans le DOM seulement si la position a changé
+    const ancienSuivant = drag.placeholder.nextSibling;
+    const positionChange = cibleAvant
+      ? ancienSuivant !== cibleAvant
+      : ancienSuivant !== null;
+
+    if (positionChange) {
+      if (cibleAvant) {
+        liste.insertBefore(drag.placeholder, cibleAvant);
+      } else {
+        liste.appendChild(drag.placeholder);
+      }
+    }
+
+    // Calculer l'index du placeholder dans la liste complète
+    const tousLesLi = [...liste.querySelectorAll('.nav-modale-etape')];
+    const idxPlaceholder = tousLesLi.indexOf(drag.placeholder);
+
+    // Appliquer un translateY à chaque item selon sa position relative au placeholder
+    // Les items avant le placeholder : pas de décalage
+    // Les items après le placeholder : décalés vers le bas de hauteurItem (placeholder pousse)
+    // → mais comme le placeholder est DÉJÀ dans le DOM à la bonne place,
+    //   le flux naturel fait déjà le travail. On anime juste la transition
+    //   en partant de la position inverse, puis en laissant le CSS revenir à 0.
+    //
+    // Technique : on lit la position réelle de chaque item AVANT le déplacement (déjà fait),
+    // puis APRÈS le déplacement on calcule le delta et on applique le translateY inverse,
+    // puis on l'anime vers 0 via CSS transition.
+    //
+    // Implémentation : FLIP (First, Last, Invert, Play)
+    if (positionChange) {
+      // "Play" : appliquer le delta inverse calculé juste avant le déplacement,
+      // puis animer vers 0 au frame suivant
+      const rectsAvant = drag.rectsAvantDeplacement;
+      if (rectsAvant) {
+        items.forEach(li => {
+          const avant = rectsAvant.get(li);
+          if (!avant) return;
+          const apres = li.getBoundingClientRect();
+          const dy = avant.top - apres.top;
+          if (Math.abs(dy) < 1) return;
+          // Appliquer le décalage inverse instantanément (sans transition)
+          li.style.transition = 'none';
+          li.style.transform = `translateY(${dy}px)`;
+          // Forcer reflow
+          li.getBoundingClientRect();
+          // Animer vers la position finale (transform: 0)
+          li.style.transition = 'transform 0.18s ease';
+          li.style.transform = '';
+        });
+      }
+    }
+  }
+
+  // Mémorise les positions des items AVANT un déplacement du placeholder (pour FLIP)
+  function snapshotPositions() {
+    const liste = document.getElementById('nav-modale-etapes');
+    if (!liste) return;
+    const items = [...liste.querySelectorAll('.nav-modale-etape:not(.nav-modale-etape--placeholder)')];
+    drag.rectsAvantDeplacement = new Map(items.map(li => [li, li.getBoundingClientRect()]));
+  }
+
+  // Boucle RAF pour l'auto-scroll : fait défiler le corps quand le curseur
+  // est dans la zone de déclenchement (ZONE_SCROLL px depuis le bord).
+  const ZONE_SCROLL = 44; // px
+  const VITESSE_SCROLL_MAX = 12; // px par frame
+
+  function autoScrollLoop() {
+    if (!drag.actif) return;
+    const corps = document.getElementById('nav-modale-corps');
+    if (corps) {
+      const rect = corps.getBoundingClientRect();
+      const distHaut = drag.clientY - rect.top;
+      const distBas = rect.bottom - drag.clientY;
+      if (distHaut < ZONE_SCROLL && distHaut >= 0) {
+        const vitesse = VITESSE_SCROLL_MAX * (1 - distHaut / ZONE_SCROLL);
+        corps.scrollTop -= vitesse;
+      } else if (distBas < ZONE_SCROLL && distBas >= 0) {
+        const vitesse = VITESSE_SCROLL_MAX * (1 - distBas / ZONE_SCROLL);
+        corps.scrollTop += vitesse;
+      }
+    }
+    drag.rafId = requestAnimationFrame(autoScrollLoop);
+  }
+
+  function onPointerMove(e) {
+    if (!drag.actif) return;
+
+    const corps = document.getElementById('nav-modale-corps');
+    const modale = document.getElementById('nav-modale');
+    const header = modale?.querySelector('.nav-modale-header');
+    const footer = modale?.querySelector('.nav-modale-footer');
+
+    // Confiner le fantôme entre header et footer :
+    // clamper le bord HAUT du fantôme entre yMin et yMax - hauteurItem
+    let clientY = e.clientY;
+    if (header && footer) {
+      const yMin = header.getBoundingClientRect().bottom;
+      const yMax = footer.getBoundingClientRect().top;
+      // bord haut du fantôme = clientY - offsetY ; on le clamp entre yMin et yMax - hauteurItem
+      const bordHaut = Math.max(yMin, Math.min(yMax - drag.hauteurItem, clientY - drag.offsetY));
+      clientY = bordHaut + drag.offsetY;
+    }
+
+    drag.clientY = clientY; // mémorisé pour autoScrollLoop
+
+    // Fantôme : confiné verticalement dans la modale
+    drag.fantome.style.top = (clientY - drag.offsetY) + 'px';
+
+    // Snapshot des positions AVANT le déplacement (pour FLIP)
+    snapshotPositions();
+    deplacerPlaceholder(clientY);
+  }
+
+  function onPointerUp() {
+    if (!drag.actif) return;
+    drag.actif = false;
+
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerup', onPointerUp);
+    document.removeEventListener('pointercancel', onPointerUp);
+
+    // Nettoyer le fantôme et l'auto-scroll
+    drag.fantome?.remove();
+    drag.fantome = null;
+    if (drag.rafId) { cancelAnimationFrame(drag.rafId); drag.rafId = null; }
+
+    // Nettoyer les transforms résiduels et lire la position finale du placeholder
+    const liste = document.getElementById('nav-modale-etapes');
+    let dstIdx = 0;
+    if (liste) {
+      [...liste.querySelectorAll('.nav-modale-etape')].forEach(li => {
+        li.style.transform = '';
+        li.style.transition = '';
+      });
+      const tousLesLi = [...liste.querySelectorAll('.nav-modale-etape')];
+      dstIdx = tousLesLi.indexOf(drag.placeholder);
+      if (dstIdx < 0) dstIdx = tousLesLi.length - 1;
+    }
+
+    // Appliquer le déplacement dans etatModale puis re-rendre
+    const [element] = etatModale.splice(drag.srcIdx, 1);
+    etatModale.splice(dstIdx, 0, element);
+
+    drag.srcIdx = -1;
+    rendreEtapes();
+  }
+
+  function lettreEtape(index) {
+    return LETTRES[index] || String(index + 1);
+  }
+
+  function etapeVide() {
+    return { portId: '', valeur: '' };
+  }
+
+  function lireFormulairePrincipal() {
+    const inputA = document.getElementById('nav-jaillot-a');
+    const inputB = document.getElementById('nav-jaillot-b');
+    return [
+      { portId: inputA?.dataset.portId || '', valeur: inputA?.value || '' },
+      { portId: inputB?.dataset.portId || '', valeur: inputB?.value || '' },
+    ];
+  }
+
+  function ecrireFormulairePrincipal(etapes) {
+    const inputA = document.getElementById('nav-jaillot-a');
+    const inputB = document.getElementById('nav-jaillot-b');
+    if (!inputA || !inputB) return;
+
+    const a = etapes[0] || etapeVide();
+    const b = etapes[etapes.length - 1] || etapeVide();
+
+    inputA.value = a.valeur;
+    inputA.dataset.portId = a.portId;
+    inputB.value = b.valeur;
+    inputB.dataset.portId = b.portId;
+
+    const intermediaires = etapes.length - 2;
+    let resume = document.getElementById('nav-jaillot-resume-etapes');
+    if (intermediaires > 0) {
+      if (!resume) {
+        resume = document.createElement('div');
+        resume.id = 'nav-jaillot-resume-etapes';
+        resume.className = 'nav-jaillot-resume-etapes';
+        const panneau = document.getElementById('nav-jaillot');
+        const resultatEl = panneau?.querySelector('#nav-jaillot-resultat');
+        if (resultatEl) panneau.insertBefore(resume, resultatEl);
+      }
+      resume.textContent = `+ ${intermediaires} étape${intermediaires > 1 ? 's' : ''} intermédiaire${intermediaires > 1 ? 's' : ''}`;
+    } else if (resume) {
+      resume.remove();
+    }
+  }
+
+  function creerLigneEtape(etape, index, total) {
+    const li = document.createElement('li');
+    li.className = 'nav-modale-etape';
+    if (total <= 2) li.classList.add('nav-modale-etape--min');
+    li.dataset.index = index;
+
+    const inputId = `nav-modale-etape-${index}`;
+    const fantomeId = `nav-modale-etape-fantome-${index}`;
+    const suggestId = `nav-modale-etape-suggest-${index}`;
+
+    li.innerHTML = `
+      <div class="nav-modale-etape-poignee" aria-label="Déplacer">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="nav-modale-etape-lettre">${lettreEtape(index)}</span>
+      <div class="nav-modale-etape-champ carte-recherche-wrap">
+        <input id="${inputId}" class="carte-recherche-input"
+          autocomplete="off" placeholder="Port…"
+          role="combobox" aria-autocomplete="list" aria-expanded="false"
+          value="${escapeHtml(etape.valeur)}"
+          data-port-id="${escapeHtml(etape.portId)}">
+        <span class="carte-recherche-fantome" id="${fantomeId}" aria-hidden="true"></span>
+        <ul class="nav-jaillot-suggestions carte-recherche-suggestions" id="${suggestId}" role="listbox"></ul>
+      </div>
+      <button class="nav-modale-etape-suppr" type="button" aria-label="Supprimer cette étape">×</button>
+    `;
+
+    const input = li.querySelector('input');
+    const fantome = li.querySelector(`#${fantomeId}`);
+    const suggestions = li.querySelector(`#${suggestId}`);
+    initChampPort(input, fantome, suggestions);
+
+    input.addEventListener('change', () => {
+      if (etatModale[index]) etatModale[index] = {
+        portId: input.dataset.portId || '',
+        valeur: input.value,
+      };
+    });
+    input.addEventListener('input', () => {
+      if (etatModale[index]) etatModale[index] = { portId: '', valeur: input.value };
+    });
+
+    li.querySelector('.nav-modale-etape-suppr').addEventListener('click', () => {
+      etatModale.splice(index, 1);
+      rendreEtapes();
+    });
+
+    // Drag custom — uniquement sur la poignée
+    const poignee = li.querySelector('.nav-modale-etape-poignee');
+    poignee.addEventListener('pointerdown', e => poigneeDragStart(e, li, index));
+
+    return li;
+  }
+
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function rendreEtapes() {
+    const liste = document.getElementById('nav-modale-etapes');
+    const btnAjouter = document.getElementById('nav-modale-ajouter');
+    if (!liste) return;
+
+    liste.innerHTML = '';
+    etatModale.forEach((etape, i) => {
+      liste.appendChild(creerLigneEtape(etape, i, etatModale.length));
+    });
+
+    // Désactiver "ajouter" si max atteint
+    if (btnAjouter) btnAjouter.disabled = etatModale.length >= MAX_ETAPES;
+
+    // Focus sur le dernier champ si nouvelle étape ajoutée
+    const dernierInput = liste.querySelector('li:last-child input');
+    if (dernierInput && document.activeElement !== dernierInput) {
+      // Focus seulement si le champ est vide (ajout d'étape)
+      if (!dernierInput.value) setTimeout(() => dernierInput.focus(), 50);
+    }
+  }
+
+  function lireEtatDepuisDOM() {
+    const inputs = document.querySelectorAll('#nav-modale-etapes input');
+    inputs.forEach((input, i) => {
+      if (etatModale[i]) {
+        etatModale[i] = {
+          portId: input.dataset.portId || '',
+          valeur: input.value,
+        };
+      }
+    });
+  }
+
+  function ouvrirModale() {
+    const overlay = document.getElementById('nav-modale-overlay');
+    const panneau = document.getElementById('nav-jaillot');
+    if (!overlay) return;
+
+    // Initialiser l'état depuis le cache ou depuis le formulaire principal
+    if (cacheEtapes && cacheEtapes.length >= 2) {
+      etatModale = cacheEtapes.map(e => ({ ...e }));
+    } else {
+      const depuisFormulaire = lireFormulairePrincipal();
+      etatModale = depuisFormulaire.length >= 2
+        ? depuisFormulaire
+        : [etapeVide(), etapeVide()];
+    }
+
+    rendreEtapes();
+
+    // Griser le formulaire principal
+    if (panneau) panneau.classList.add('nav-jaillot--masque');
+
+    // Afficher la modale
+    overlay.removeAttribute('aria-hidden');
+    overlay.classList.add('nav-modale-overlay--visible');
+
+    // Focus sur le premier champ vide
+    const premierVide = overlay.querySelector('input:placeholder-shown');
+    setTimeout(() => (premierVide || overlay.querySelector('input'))?.focus(), 80);
+  }
+
+  function fermerModale(valider = false) {
+    const overlay = document.getElementById('nav-modale-overlay');
+    const panneau = document.getElementById('nav-jaillot');
+    if (!overlay) return;
+
+    if (valider) {
+      // Lire l'état final depuis le DOM avant de fermer
+      lireEtatDepuisDOM();
+      cacheEtapes = etatModale.map(e => ({ ...e }));
+      ecrireFormulairePrincipal(etatModale);
+
+      // Déclencher le tracé multi-étapes si ≥ 2 étapes valides
+      const ports = etatModale
+        .map(e => trouverPort(e.portId || e.valeur))
+        .filter(Boolean);
+      if (ports.length >= 2) {
+        tracerMultiEtapes(ports);
+      }
+    } else {
+      // Fermeture sans validation : sauvegarder en cache silencieusement
+      lireEtatDepuisDOM();
+      cacheEtapes = etatModale.map(e => ({ ...e }));
+    }
+
+    etatModale = null;
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('nav-modale-overlay--visible');
+    if (panneau) panneau.classList.remove('nav-jaillot--masque');
+  }
+
+  function tracerMultiEtapes(ports) {
+    const resultat = document.getElementById('nav-modale-resultat');
+    const resultatPrincipal = document.getElementById('nav-jaillot-resultat');
+    if (resultat) resultat.textContent = 'Calcul en cours…';
+
+    setTimeout(() => {
+      try {
+        // Calculer chaque segment et concaténer
+        let routeComplete = [];
+        let distanceTotaleNm = 0;
+        let dureeTotaleH = 0;
+
+        for (let i = 0; i < ports.length - 1; i++) {
+          const segment = calculerRoute(
+            pointRoutePort(ports[i]),
+            pointRoutePort(ports[i + 1])
+          );
+          if (i === 0) {
+            routeComplete = segment;
+          } else {
+            // Éviter de doubler le point de jonction
+            routeComplete = routeComplete.concat(segment.slice(1));
+          }
+          distanceTotaleNm += distanceRouteNm(segment);
+          dureeTotaleH += dureeRouteHeures(segment);
+        }
+
+        tracer(routeComplete);
+
+        const resume = `${formatDureeHeures(dureeTotaleH)} · ${formatDistanceMilles(distanceTotaleNm)}`;
+        if (resultat) resultat.textContent = resume;
+        if (resultatPrincipal) resultatPrincipal.textContent = resume;
+
+      } catch (err) {
+        const msg = err.message || 'Route impossible.';
+        if (resultat) resultat.textContent = msg;
+        if (resultatPrincipal) resultatPrincipal.textContent = msg;
+      }
+    }, 20);
+  }
+
+  let modaleInitialisee = false;
+
+  function initModale() {
+    // Garde : initModale peut être appelé plusieurs fois si init() est rappelé
+    if (modaleInitialisee) return;
+    modaleInitialisee = true;
+
+    const overlay = document.getElementById('nav-modale-overlay');
+    if (!overlay) return;
+
+    document.getElementById('nav-modale-fermer')?.addEventListener('click', () => fermerModale(false));
+    document.getElementById('nav-modale-annuler')?.addEventListener('click', () => fermerModale(false));
+    document.getElementById('nav-modale-tracer')?.addEventListener('click', () => fermerModale(true));
+
+    document.getElementById('nav-modale-ajouter')?.addEventListener('click', () => {
+      if (etatModale && etatModale.length < MAX_ETAPES) {
+        etatModale.push(etapeVide());
+        rendreEtapes();
+      }
+    });
+
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) fermerModale(false);
+    });
+
+    overlay.addEventListener('keydown', e => {
+      if (e.key === 'Escape') fermerModale(false);
     });
   }
 
@@ -2087,6 +2604,7 @@
     pixelToLatLngFn = options.pixelToLatLng;
     getTerres();
     initUI();
+    initModale();
   }
 
   window.NavigationJaillot = {
