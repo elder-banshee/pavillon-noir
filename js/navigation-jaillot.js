@@ -1682,16 +1682,7 @@
     return window.RC.rechercheVilles(q, { filtre: 'navig' });
   }
 
-  function completionFantomePort(resultats, q) {
-    const candidat = resultatCompletionFantomePort(resultats, q);
-    return candidat ? candidat.nom.slice(q.length) : '';
-  }
-
-  function resultatCompletionFantomePort(resultats, q) {
-    const qLow = normaliserTexte(q);
-    if (!qLow) return null;
-    return resultats.find(({ nom }) => normaliserTexte(nom).startsWith(qLow)) || null;
-  }
+  function completionFantomePort(resultats, q) { return window.RC.texteFantome(resultats, q); }
 
   function coordsValides(coords) {
     return Array.isArray(coords)
@@ -1828,8 +1819,37 @@
     const mesureCanvas = document.createElement('canvas');
     const mesureCtx = mesureCanvas.getContext('2d');
 
+    // Parent d'origine du volet suggestions (pour le remettre à sa place à la fermeture)
+    const suggestionsParent = suggestions.parentNode;
+
+    function positionnerSuggestions() {
+      // Hors modale : position absolute standard dans le champ, rien à faire.
+      if (!suggestions.closest('#nav-modale')) return;
+      const volet = document.getElementById('nav-jaillot-volet');
+      if (!volet) return;
+      const rect = input.getBoundingClientRect();
+      volet.style.top   = rect.bottom + 'px';
+      volet.style.left  = rect.left + 'px';
+      volet.style.width = rect.width + 'px';
+      volet.style.display = 'block';
+      // Téléporter le <ul> dans le volet s'il n'y est pas déjà
+      if (suggestions.parentNode !== volet) volet.appendChild(suggestions);
+    }
+
     function viderSuggestions() {
       suggestions.innerHTML = '';
+      // Remettre le <ul> à sa place d'origine et cacher le volet
+      const volet = document.getElementById('nav-jaillot-volet');
+      if (volet && suggestions.parentNode === volet) {
+        suggestionsParent.appendChild(suggestions);
+        volet.style.display = 'none';
+      }
+      suggestions.style.position = '';
+      suggestions.style.top = '';
+      suggestions.style.left = '';
+      suggestions.style.width = '';
+      suggestions.style.right = '';
+      suggestions.style.zIndex = '';
       fantome.textContent = '';
       fantome.style.left = '';
       input.setAttribute('aria-expanded', 'false');
@@ -1885,6 +1905,7 @@
       }
       if (!resultats.length) {
         suggestions.innerHTML = `<li class="carte-recherche-vide">Aucun port</li>`;
+        positionnerSuggestions();
         afficherFantome('');
         input.setAttribute('aria-expanded', 'true');
         return;
@@ -1902,9 +1923,12 @@
         </li>`;
       }).join('');
 
-      const completion = resultatCompletionFantomePort(resultats, q);
-      suggestionFantomeId = completion?.item?.id || null;
-      afficherFantome(completion ? completionFantomePort([completion], q) : '');
+      positionnerSuggestions();
+      const texte = window.RC.texteFantome(resultats, q);
+      // suggestionFantomeId : id du résultat dont le nom correspond au texte fantôme
+      const candidatFantome = texte ? resultats.find(r => r.nom === texte || texte.startsWith(r.nom)) : null;
+      suggestionFantomeId = candidatFantome?.item?.id || null;
+      afficherFantome(texte);
 
       suggestions.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
         li.addEventListener('click', () => choisirSuggestion(li));
@@ -2054,6 +2078,14 @@
   function initUI() {
     // Réservé au mode MJ — invisible pour les joueurs
     if (!window.modeMJ) return;
+
+    // Conteneur global pour les volets téléportés hors de la modale
+    if (!document.getElementById('nav-jaillot-volet')) {
+      const volet = document.createElement('div');
+      volet.id = 'nav-jaillot-volet';
+      volet.style.cssText = 'position:fixed;z-index:10020;display:none;';
+      document.body.appendChild(volet);
+    }
 
     const slot = document.getElementById('nav-jaillot-slot');
     const wrap = document.getElementById('carte-wrap');

@@ -12,7 +12,8 @@
    * Normalise une chaîne pour la comparaison :
    * - minuscules
    * - suppression des diacritiques
-   * - tirets remplacés par des espaces  ← clé : "Saint-G" == "Saint G"
+   * - tirets et espaces supprimés ← "Basse-Terre" == "Basseterre" == "Basse Terre"
+   *                                   "Saint-G" == "Saint G", "Vera Cruz" == "Veracruz"
    */
   function normaliser(str) {
     const cle = String(str ?? '');
@@ -22,7 +23,7 @@
       .toLowerCase()
       .normalize('NFD')
       .replace(/\p{Diacritic}/gu, '')
-      .replace(/-/g, ' ');
+      .replace(/[-\s]+/g, '');
     _cache.set(cle, valeur);
     return valeur;
   }
@@ -123,8 +124,8 @@
         // Filtre temporel
         if (ville.visible_de && annee < ville.visible_de) return;
 
-        // Matching
-        const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
+        // Matching — nom et label toujours testés, tags sont des alias supplémentaires
+        const tags = [ville.nom, ville.label, ...(ville.tags || [])].filter(Boolean);
         let matchTag = null;
         for (const tag of tags) {
           if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
@@ -187,7 +188,44 @@
     });
   }
 
+  // ── texteFantome ──────────────────────────────────────────────────────────
+
+  /**
+   * Calcule le texte à afficher dans le champ fantôme après une saisie.
+   *
+   * @param {Array}  resultats  Résultats retournés par rechercheVilles()
+   * @param {string} q          Texte saisi par l'utilisateur (non normalisé)
+   * @returns {string} Texte fantôme, ou '' si aucun résultat
+   *
+   * Comportement :
+   * - Priorité au premier résultat dont nom ou matchTag commence par q (normalisé) :
+   *   → complétion suffixe naturelle "Nass" + "au" = "Nassau"
+   * - Sinon (ex : "basse-t" → "Basseterre", aucun startsWith) :
+   *   → nom complet du premier résultat affiché dans le volet
+   */
+  function texteFantome(resultats, q) {
+    if (!resultats.length) return '';
+    const qLow = normaliser(q);
+    // Chercher un candidat dont nom ou matchTag commence par q normalisé
+    const candidat = resultats.find(({ nom, matchTag }) =>
+      normaliser(nom).startsWith(qLow) || normaliser(matchTag).startsWith(qLow)
+    );
+    if (candidat) {
+      const cible = normaliser(candidat.nom).startsWith(qLow) ? candidat.nom : candidat.matchTag;
+      // Complétion suffixe uniquement si q est un préfixe littéral de cible
+      // ET que q ne contient ni tiret ni espace (formes identiques, suffixe fiable).
+      // Sinon (ex: "basse-t"→"Basse-Terre", "vera cruz"→"Veracruz") : nom complet.
+      const qSansDecoration = q.replace(/[-\s]/g, '');
+      const suffixePossible = cible.toLowerCase().startsWith(q.toLowerCase())
+        && qSansDecoration === q;
+      if (suffixePossible) return q + cible.slice(q.length);
+      return '';
+    }
+    // Pas de startsWith littéral : pas de fantôme, le volet suffit
+    return '';
+  }
+
   // ── Export ────────────────────────────────────────────────────────────────
-  window.RC = { normaliser, escapeHtml, surlignerMatch, rechercheVilles };
+  window.RC = { normaliser, escapeHtml, surlignerMatch, rechercheVilles, texteFantome };
 
 })();

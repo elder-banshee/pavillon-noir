@@ -1102,26 +1102,10 @@ function initRecherche() {
     const q = input.value;
     const qTrim = q.trim();
     clear.style.display = qTrim ? '' : 'none';
-    if (fantome) fantome.textContent = '';
-    if (!qTrim) { suggestions.innerHTML = ''; return; }
+    if (!qTrim) { suggestions.innerHTML = ''; if (fantome) fantome.textContent = ''; return; }
 
-    afficherSuggestions(q, suggestions, fantome);
-
-    if (fantome) {
-      const premierItem = suggestions.querySelector('.carte-recherche-suggestion');
-      if (premierItem) {
-        const qLow2 = normaliser(q);
-        const nomPremier = premierItem.dataset.nom || '';
-        const tagPremier = premierItem.dataset.matchtag || '';
-        const nomLow = normaliser(nomPremier);
-        const tagLow = normaliser(tagPremier);
-        if (nomLow.startsWith(qLow2)) {
-          fantome.textContent = q + nomPremier.slice(q.length);
-        } else if (tagLow.startsWith(qLow2)) {
-          fantome.textContent = q + tagPremier.slice(q.length);
-        }
-      }
-    }
+    const resultats = afficherSuggestions(q, suggestions, fantome);
+    if (fantome) fantome.textContent = window.RC.texteFantome(resultats, q);
   });
 
   clear.addEventListener('click', () => {
@@ -1231,13 +1215,13 @@ function escapeHtml(str)              { return window.RC.escapeHtml(str); }
 
 function afficherSuggestions(q, container, fantome) {
   const qLow = window.RC.normaliser(q);
-  if (!qLow) { container.innerHTML = ''; return; }
+  if (!qLow) { container.innerHTML = ''; return []; }
 
   const resultats = window.RC.rechercheVilles(q, { filtre: 'tout', mj: modeMJ });
 
   if (!resultats.length) {
     container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
-    return;
+    return [];
   }
 
   container.innerHTML = resultats.map(({ type, item, nom, matchTag, parenthese }) => {
@@ -1268,6 +1252,7 @@ function afficherSuggestions(q, container, fantome) {
       }
     });
   });
+  return resultats;
 }
 
 // ─── Rendu des zones ─────────────────────────────────────────

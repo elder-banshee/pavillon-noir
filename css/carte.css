@@ -1672,8 +1672,15 @@ path.leaflet-interactive:focus-visible {
 
 .nav-modale-etape-champ .carte-recherche-suggestions {
   top: calc(100% + 2px);
-  max-height: 160px;
+  max-height: 260px;
   z-index: 10010;
+}
+
+/* Volet téléporté dans body — hors modale, pas de clipping */
+#nav-jaillot-volet .carte-recherche-suggestions {
+  position: static;
+  max-height: 260px;
+  border-top: 1px solid var(--border);
 }
 
 /* Bouton suppression */
@@ -1849,6 +1856,7 @@ path.leaflet-interactive:focus-visible {
   font-size: 0.85rem;
   padding: 2px 4px;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 .nav-modale-nav-test-ctrl input[type=number]::-webkit-inner-spin-button { display: none; }
 
@@ -1940,6 +1948,7 @@ path.leaflet-interactive:focus-visible {
   font-size: 0.82rem;
   padding: 2px 3px;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 .nav-jaillot-test-mj-ctrl input[type=number]::-webkit-inner-spin-button { display: none; }
 
