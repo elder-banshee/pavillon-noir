@@ -719,22 +719,22 @@ path.leaflet-interactive:focus-visible {
 /* Couleurs de fond distinctives par mode */
 .carte-overlay-btn--geo {
   --overlay-active: var(--sea-light);
-  --overlay-active-hover: #6f8fa0;
+  --overlay-active-hover: #accee0;
 }
 
 .carte-overlay-btn--densite {
   --overlay-active: #4a8c5c;
-  --overlay-active-hover: #64aa77;
+  --overlay-active-hover: #a4e9b6;
 }
 
 .carte-overlay-btn--esclavage {
   --overlay-active: var(--rust);
-  --overlay-active-hover: #b65b42;
+  --overlay-active-hover: #ee866a;
 }
 
 .carte-overlay-btn--autochtones {
   --overlay-active: #a05c38;
-  --overlay-active-hover: #c0734a;
+  --overlay-active-hover: #f0a67f;
 }
 
 .carte-overlay-btn--maritime {
@@ -744,7 +744,7 @@ path.leaflet-interactive:focus-visible {
 
 .carte-overlay-btn--masque {
   --overlay-active: var(--parchment2);
-  --overlay-active-hover: var(--parchment);
+  --overlay-active-hover: #fffbf4;
 }
 
 /* Hover coloré même sans .active */
