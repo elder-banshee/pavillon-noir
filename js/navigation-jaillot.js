@@ -1658,7 +1658,8 @@
     const mj = typeof modeMJ !== 'undefined' ? modeMJ : false;
     return VILLES
       .filter(v => {
-        if (v.type !== 'port' || !coordsValides(v.coords)) return false;
+        if (!coordsValides(v.coords)) return false;
+        if (v.type !== 'port' && !coordsValides(v.rade)) return false; // port OU rade explicite
         if (v.visible_mj && !mj) return false;
         if (String(v.rang ?? '1') === '3' && !mj) return false;
         if (v.visible_de && annee < v.visible_de) return false;

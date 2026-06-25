@@ -1554,7 +1554,7 @@ function renderCurrentsLayer() {
     // Ruban : simple polygon or closed ribbon with inner empty ring.
     const latlngs = seaZoneLatLngs(c.zone);
     if (latlngs.some(poly => poly[0]?.length > 2)) {
-      // Couleurs par prioritÃ© : p1 bleu foncÃ©, p2 bleu moyen, p3 bleu clair
+      // Couleurs par priorité : p1 bleu foncé, p2 bleu moyen, p3 bleu clair
       const prioFill   = { 1: 'rgba(15,70,160,0.55)',  2: 'rgba(40,120,210,0.38)', 3: 'rgba(80,170,240,0.25)' };
       const prioStroke = { 1: 'rgba(20,90,200,0.95)',  2: 'rgba(50,140,220,0.85)', 3: 'rgba(90,185,250,0.75)' };
       const priority = currentPriorityRenderRank(c);
@@ -3034,7 +3034,7 @@ function updateExport() {
   if (!selectedZoneId) {
     box.textContent = '';
     hint.style.display = 'block';
-    hint.innerHTML = 'SÃ©lectionnez une zone pour voir le bloc prÃªt Ã  coller dans <code>zones-data.js</code>.';
+    hint.innerHTML = 'Sélectionnez une zone pour voir le bloc prêt à coller dans <code>zones-data.js</code>.';
     return;
   }
 

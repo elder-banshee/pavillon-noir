@@ -1802,9 +1802,9 @@ path.leaflet-interactive:focus-visible {
 }
 
 
-/* â”€â”€â”€ ContrÃ´le Niveau Nav (test MJ) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â”€â”€â”€ Contrôle Niveau Nav (test MJ) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .nav-modale-nav-test {
-  display: none; /* masquÃ© par dÃ©faut ; JS le rÃ©vÃ¨le en mode MJ */
+  display: none; /* masqué par défaut ; JS le révèle en mode MJ */
   align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
@@ -1852,7 +1852,7 @@ path.leaflet-interactive:focus-visible {
 }
 .nav-modale-nav-test-ctrl input[type=number]::-webkit-inner-spin-button { display: none; }
 
-/* �"?�"?�"? Contrôle Niveau Nav dans le panneau gauche (test MJ) �"?�"? */
+/* �"?�"?�"? Contrôle Niveau Nav dans le panneau gauche (test MJ) �"?�"? */
 .nav-jaillot-nav-test {
   display: none;
   align-items: center;
@@ -1870,7 +1870,7 @@ path.leaflet-interactive:focus-visible {
 .nav-jaillot-nav-test.visible { display: flex; }
 .nav-jaillot-nav-test-label { flex: 1; font-size: 0.74rem; }
 
-/* �"?�"?�"? Encadré Test MJ (panneau gauche + modale) �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"? */
+/* �"?�"?�"? Encadré Test MJ (panneau gauche + modale) �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"? */
 .nav-jaillot-test-mj,
 .nav-modale-test-mj {
   display: none;
