@@ -15,20 +15,12 @@ const CARTE_ANNEE_REFERENCE = 1716;
 // Coordonnées pixel [x, y] dans le référentiel de CARTE_IMAGE.
 const CARTE_NAVIRE_POSITION = [7362, 4004]; // Nassau, New Providence
 
-// Valeurs de test pour le calculateur de navigation Jaillot.
+// Navire actif des PJ — seuls l'id et le nom sont définis ici.
+// Les stats complètes sont lues dans ships-data.js via l'id.
+// Pour changer de navire : modifier navireId pour matcher un id dans ships-data.js.
 const CARTE_NAVIRE = {
-    id: 'cotre-pj',
+    navireId: 'navire-pj',
     nom: 'Cúchulainn',
-    type: 'cotre',
-    categorieTaille: 2,
-    distanceMoyenneNmJour: 105,
-    vitesseMoyenneNoeuds: 105 / 24,
-    vitessesNoeuds: {
-        pres: 4,
-        largue: 10.5,
-        grandLargue: 9.5,
-        ventArriere: 5,
-    },
 };
 
 // ─── Résolution de l'image ───────────────────────────────────

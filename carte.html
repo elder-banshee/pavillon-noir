@@ -301,6 +301,25 @@
         <button class="nav-modale-ajouter" id="nav-modale-ajouter" type="button">+ Ajouter une étape</button>
       </div>
       <div class="nav-modale-footer">
+        <div class="nav-modale-test-mj" id="nav-modale-test-mj" aria-hidden="true">
+          <div class="nav-modale-test-mj-titre">Test MJ</div>
+          <div class="nav-modale-test-mj-ligne">
+            <span class="nav-modale-test-mj-label">Niveau Nav</span>
+            <div class="nav-jaillot-test-mj-ctrl">
+              <button type="button" id="nav-modale-nav-moins" aria-label="Diminuer">−</button>
+              <input type="number" id="nav-modale-nav-val" min="0" max="5" value="0">
+              <button type="button" id="nav-modale-nav-plus" aria-label="Augmenter">+</button>
+            </div>
+          </div>
+          <div class="nav-modale-test-mj-ligne">
+            <span class="nav-modale-test-mj-label">Cat. navire</span>
+            <div class="nav-jaillot-test-mj-ctrl">
+              <button type="button" id="nav-modale-cat-moins" aria-label="Diminuer">−</button>
+              <input type="number" id="nav-modale-cat-val" min="0" max="5" value="0">
+              <button type="button" id="nav-modale-cat-plus" aria-label="Augmenter">+</button>
+            </div>
+          </div>
+        </div>
         <div class="nav-modale-resultat" id="nav-modale-resultat"></div>
         <div class="nav-modale-actions">
           <button class="nav-modale-btn nav-modale-btn--annuler" id="nav-modale-annuler" type="button">Annuler</button>
@@ -318,6 +337,7 @@
   <script src="js/sea-data.js"></script>
   <script src="js/carte-data.js"></script>
   <script src="js/villes-data.js"></script>
+  <script src="js/ships-data.js"></script>
   <script src="js/navigation-jaillot.js"></script>
   <script src="js/audio.js"></script>
   <script>audioInit(null);</script>

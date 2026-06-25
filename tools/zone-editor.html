@@ -1468,10 +1468,17 @@ function currentZoneAsEditableObject(zone) {
 
 function renderCurrentMetaFieldsHtml(current) {
   const priority = currentPriority(current);
+  const visNav = current.visibiliteNav ?? 0;
   return `
     <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
       <span style="flex:1;">Priorite</span>
       <input type="number" step="1" value="${priority}" data-current-meta="priorite"
+        style="width:92px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+    </label>
+    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
+      <span style="flex:1;">Visibilite Nav</span>
+      <input type="number" min="0" max="5" step="1" value="${visNav}" data-current-meta="visibiliteNav"
         style="width:92px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
         color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
     </label>`;
@@ -1733,7 +1740,6 @@ function renderShoalDetail(detail, label, info, meta, speeds) {
 }
 
 function renderShoalMetaFieldsHtml(shoal) {
-  const cat = shoal.cat_taille ?? shoal.maxCategorieTaille ?? 3;
   return `
     <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
       <span style="flex:1;">Libelle</span>
@@ -1742,8 +1748,26 @@ function renderShoalMetaFieldsHtml(shoal) {
         color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
     </label>
     <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
-      <span style="flex:1;">Cat. taille max</span>
-      <input type="number" min="0" step="1" value="${escapeAttr(cat)}" data-shoal-meta="cat_taille"
+      <span style="flex:1;">Visibilite Nav</span>
+      <input type="number" min="0" max="5" step="1" value="${escapeAttr(shoal.visibiliteNav ?? 1)}" data-shoal-meta="visibiliteNav"
+        style="width:74px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+    </label>
+    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
+      <span style="flex:1;">Cat. max libre</span>
+      <input type="number" min="0" max="5" step="1" value="${escapeAttr(shoal.catMax ?? 3)}" data-shoal-meta="catMax"
+        style="width:74px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+    </label>
+    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
+      <span style="flex:1;">Cat. max avec Nav</span>
+      <input type="number" min="0" max="5" step="1" value="${escapeAttr(shoal.catMaxNav ?? '')}" placeholder="â€”" data-shoal-meta="catMaxNav"
+        style="width:74px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+    </label>
+    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
+      <span style="flex:1;">Nav min (passageNav)</span>
+      <input type="number" min="0" max="5" step="1" value="${escapeAttr(shoal.passageNav ?? '')}" placeholder="â€”" data-shoal-meta="passageNav"
         style="width:74px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
         color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
     </label>
@@ -1770,11 +1794,16 @@ function renderShoalMetaFieldsHtml(shoal) {
 function updateShoalMeta(shoal, input, options = {}) {
   const key = input.dataset.shoalMeta;
   if (!key) return;
-  if (key === 'cat_taille') {
-    const value = Math.round(Number(input.value));
+  if (key === 'catMax' || key === 'catMaxNav' || key === 'passageNav') {
+    const raw = input.value.trim();
+    if (raw === '' || raw === 'â€”') { delete shoal[key]; return; }
+    const value = Math.max(0, Math.min(5, Math.round(Number(raw))));
     if (!Number.isFinite(value)) return;
-    shoal.cat_taille = value;
-    shoal.maxCategorieTaille = value;
+    shoal[key] = value;
+  } else if (key === 'visibiliteNav') {
+    const value = Math.max(0, Math.min(5, Math.round(Number(input.value))));
+    if (!Number.isFinite(value)) return;
+    shoal.visibiliteNav = value;
   } else {
     const value = input.value.trim();
     if (value) shoal[key] = value;
@@ -1815,6 +1844,10 @@ function updateCurrentMeta(current, input, options = {}) {
     if (priority === null) return;
     current.priorite = priority;
     delete current.priority;
+  } else if (key === 'visibiliteNav') {
+    const niveau = Math.max(0, Math.min(5, Math.round(Number(input.value))));
+    if (!Number.isFinite(niveau)) return;
+    current.visibiliteNav = niveau;
   } else {
     return;
   }

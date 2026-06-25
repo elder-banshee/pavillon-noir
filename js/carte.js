@@ -40,6 +40,13 @@ let isolationVilleId = null;           // ville actuellement zoomée
 
 // ─── Mode MJ ─────────────────────────────────────────────────
 let modeMJ = false;
+
+// ─── Niveau de Navigation ─────────────────────────────────────
+// 0 = aucune compétence ; 1–5 = niveaux progressifs du livre de règles.
+// Modifié par setNiveauNavigation() — le système de mot de passe le lira plus tard.
+let niveauNavigation = 0;
+let testNiveauNavActif = false; // true quand le MJ simule un niveau Nav reduit
+let categorieTailleTest = 0;   // 0 = non actif ; 1-5 = categorie forcee en mode test MJ
 const SEQUENCE_MJ = ['eleuthera', 'marguerita', 'jamaique'];
 let sequenceEnCours = [];
 let attenteClic_IleDuMais = false;
@@ -253,11 +260,15 @@ function normaliserPolygonesMaritimes(zone) {
 }
 
 function sourceMaritimeCourants() {
-  return (typeof SEA_CURRENTS !== 'undefined') ? SEA_CURRENTS : [];
+  if (typeof SEA_CURRENTS === 'undefined') return [];
+  if (modeMJ && !testNiveauNavActif) return SEA_CURRENTS;
+  return SEA_CURRENTS.filter(c => (c.visibiliteNav ?? 0) <= niveauNavigation);
 }
 
 function sourceMaritimeHautsFonds() {
-  return (typeof SEA_SHOALS !== 'undefined') ? SEA_SHOALS : [];
+  if (typeof SEA_SHOALS === 'undefined') return [];
+  if (modeMJ && !testNiveauNavActif) return SEA_SHOALS;
+  return SEA_SHOALS.filter(s => (s.visibiliteNav ?? 2) <= niveauNavigation);
 }
 
 function styleMaritime(feature, type, active = false) {
@@ -699,6 +710,19 @@ function planifierPrechauffageDesktop() {
   executerQuandIdle(lancer);
 }
 
+function setNiveauNavigation(niveau) {
+  niveauNavigation = Math.max(0, Math.min(5, niveau));
+  testNiveauNavActif = modeMJ && (niveauNavigation < 5 || categorieTailleTest > 0);
+  if (typeof window.invaliderCacheHautsFonds === 'function') window.invaliderCacheHautsFonds();
+  if (overlayMode === 'maritime') renderMaritime();
+}
+
+function setCategorieTailleTest(cat) {
+  categorieTailleTest = Math.max(0, Math.min(5, Math.round(cat)));
+  testNiveauNavActif = modeMJ && (niveauNavigation < 5 || categorieTailleTest > 0);
+  if (typeof window.invaliderCacheHautsFonds === 'function') window.invaliderCacheHautsFonds();
+}
+
 function positionnerBoutonsZoom() {
   const wrap = document.getElementById('carte-wrap');
   const controls = document.querySelector('.carte-zoom-controls');
@@ -724,6 +748,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initFiltresMarqueurs();
     masquerEcranChargement();
     setTimeout(planifierPrechauffageDesktop, 180);
+    window.setNiveauNavigation = setNiveauNavigation;
+    window.setCategorieTailleTest = setCategorieTailleTest;
   }
 
   const imgPreload = new Image();
@@ -2166,14 +2192,13 @@ function ouvrirPanneauMaritime(type, id) {
   if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); villeActive = null; }
   fermerPopup();
 
-  const conditionNavigation = feature.condition_navigation;
   const metaItems = [
     { label: 'Priorite', value: feature.priorite },
     { label: 'Force', value: feature.force },
     { label: 'Vitesse', value: feature.speedKmh ? `${feature.speedKmh} km/h` : null },
-    { label: 'Passage libre', value: type === 'shoal' && feature.cat_taille ? `categories 1-${feature.cat_taille}` : null },
-    { label: 'Passage conditionnel', value: type === 'shoal' && conditionNavigation ? `categorie ${conditionNavigation.categorie} si ${conditionNavigation.competence || 'Navigation'} > ${conditionNavigation.seuil_strict}` : null },
-    { label: 'Interdit', value: type === 'shoal' && Array.isArray(feature.categories_interdites) ? `categories ${feature.categories_interdites.join(', ')}` : null },
+    { label: 'Passage libre', value: type === 'shoal' && feature.catMax ? `categories 1-${feature.catMax}` : null },
+    { label: 'Passage Nav', value: type === 'shoal' && feature.catMaxNav ? `categorie ${feature.catMaxNav} si Nav >= ${feature.passageNav ?? '?'}` : null },
+    { label: 'Toujours interdit', value: type === 'shoal' && feature.catMax ? `categories ${feature.catMax + 1}+` : null },
     { label: 'Trace', value: feature.zoneSource === 'svg' ? 'import SVG' : null },
   ].filter(m => m.value != null && m.value !== '');
 

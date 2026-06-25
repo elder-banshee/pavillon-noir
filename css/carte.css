@@ -1800,3 +1800,149 @@ path.leaflet-interactive:focus-visible {
   border-radius: 3px;
   cursor: grabbing !important;
 }
+
+
+/* â”€â”€â”€ ContrÃ´le Niveau Nav (test MJ) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.nav-modale-nav-test {
+  display: none; /* masquÃ© par dÃ©faut ; JS le rÃ©vÃ¨le en mode MJ */
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.4rem 0.5rem;
+  background: rgba(200,151,58,0.08);
+  border: 1px solid rgba(200,151,58,0.25);
+  border-radius: 3px;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.82rem;
+  color: var(--gold-light);
+}
+.nav-modale-nav-test.visible { display: flex; }
+
+.nav-modale-nav-test-label { flex: 1; }
+
+.nav-modale-nav-test-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-modale-nav-test-ctrl button {
+  width: 24px; height: 24px;
+  background: rgba(200,151,58,0.15);
+  border: 1px solid rgba(200,151,58,0.35);
+  color: var(--gold-light);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.15s;
+}
+.nav-modale-nav-test-ctrl button:hover { background: rgba(200,151,58,0.3); }
+.nav-modale-nav-test-ctrl input[type=number] {
+  width: 40px;
+  text-align: center;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(200,151,58,0.35);
+  color: var(--parchment);
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  padding: 2px 4px;
+  -moz-appearance: textfield;
+}
+.nav-modale-nav-test-ctrl input[type=number]::-webkit-inner-spin-button { display: none; }
+
+/* �"?�"?�"? Contrôle Niveau Nav dans le panneau gauche (test MJ) �"?�"? */
+.nav-jaillot-nav-test {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  padding: 0.35rem 0.5rem;
+  background: rgba(200,151,58,0.08);
+  border: 1px solid rgba(200,151,58,0.22);
+  border-radius: 3px;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.78rem;
+  color: var(--gold-light);
+}
+.nav-jaillot-nav-test.visible { display: flex; }
+.nav-jaillot-nav-test-label { flex: 1; font-size: 0.74rem; }
+
+/* �"?�"?�"? Encadré Test MJ (panneau gauche + modale) �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"? */
+.nav-jaillot-test-mj,
+.nav-modale-test-mj {
+  display: none;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.45rem 0.6rem;
+  background: rgba(200,151,58,0.08);
+  border: 1px solid rgba(200,151,58,0.28);
+  border-radius: 3px;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.8rem;
+  color: var(--gold-light);
+}
+.nav-jaillot-test-mj.visible,
+.nav-modale-test-mj.visible { display: flex; }
+
+.nav-jaillot-test-mj-titre,
+.nav-modale-test-mj-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.1rem;
+}
+
+.nav-jaillot-test-mj-ligne,
+.nav-modale-test-mj-ligne {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.nav-jaillot-test-mj-label,
+.nav-modale-test-mj-label {
+  flex: 1;
+  font-size: 0.76rem;
+}
+
+.nav-jaillot-test-mj-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.nav-jaillot-test-mj-ctrl button {
+  width: 22px; height: 22px;
+  background: rgba(200,151,58,0.15);
+  border: 1px solid rgba(200,151,58,0.35);
+  color: var(--gold-light);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.15s;
+}
+.nav-jaillot-test-mj-ctrl button:hover { background: rgba(200,151,58,0.3); }
+.nav-jaillot-test-mj-ctrl input[type=number] {
+  width: 36px;
+  text-align: center;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(200,151,58,0.35);
+  color: var(--parchment);
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  padding: 2px 3px;
+  -moz-appearance: textfield;
+}
+.nav-jaillot-test-mj-ctrl input[type=number]::-webkit-inner-spin-button { display: none; }
+
+/* Panneau gauche : marge au-dessus */
+#nav-jaillot-test-mj { margin-top: 0.4rem; }
+/* Modale : pas de marge (dans le footer) */

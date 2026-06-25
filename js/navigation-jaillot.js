@@ -103,11 +103,9 @@
 
   function vitesseNavireMoyenneNoeuds() {
     const navire = navireActif();
-    const vitesse = Number(navire.vitesseMoyenneNoeuds);
+    const vitesse = Number(navire.navigation?.vitesse_naive);
     if (Number.isFinite(vitesse) && vitesse > 0) return vitesse;
-    const distanceJour = Number(navire.distanceMoyenneNmJour);
-    if (Number.isFinite(distanceJour) && distanceJour > 0) return distanceJour / 24;
-    return 105 / 24;
+    throw new Error('Navire \u00ab\u00a0' + (navire.nom || navire.id || '?') + '\u00a0\u00bb : vitesse_naive manquante ou invalide.');
   }
 
   function coutTransitionTerminaleHeures(a, b) {
@@ -119,6 +117,16 @@
   function segmentToucheTerminal(a, b) {
     return !Number.isFinite(a?.gx) || !Number.isFinite(a?.gy)
       || !Number.isFinite(b?.gx) || !Number.isFinite(b?.gy);
+  }
+
+  // Retourne true si un modificateur de routage de niveau donné est actif.
+  // En mode MJ sans test : toujours true. En mode joueur/test : niveauNavigation >= niveau requis.
+  function modificateurActif(niveauRequis) {
+    const mjSansTest = typeof modeMJ !== 'undefined' && modeMJ
+                    && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
+    if (mjSansTest) return true;
+    const nav = typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0;
+    return nav >= niveauRequis;
   }
 
   function ventDominant() {
@@ -143,25 +151,28 @@
     if (angle < 45) return 'boutAuVent';
     if (angle < 90) return 'pres';
     if (angle < 135) return 'largue';
-    if (angle < 179.5) return 'grandLargue';
-    return 'ventArriere';
+    if (angle < 179.5) return 'grand_largue';
+    return 'vent_arriere';
   }
 
   function vitesseNavireAllureNoeuds(allure) {
     if (allure === 'boutAuVent') return 0;
-    const vitesses = navireActif().vitessesNoeuds || {};
-    const vitesse = Number(vitesses[allure]);
+    const navire = navireActif();
+    const nav = navire.navigation || {};
+    const vitesse = Number(nav[allure]);
     if (Number.isFinite(vitesse) && vitesse > 0) return vitesse;
-    if (allure === 'ventArriere') {
-      const grandLargue = Number(vitesses.grandLargue);
+    // vent_arriere peut utiliser grand_largue comme repli documente
+    if (allure === 'vent_arriere') {
+      const grandLargue = Number(nav.grand_largue);
       if (Number.isFinite(grandLargue) && grandLargue > 0) return grandLargue;
     }
-    return vitesseNavireMoyenneNoeuds();
+    throw new Error('Navire \u00ab\u00a0' + (navire.nom || navire.id || '?') + '\u00a0\u00bb : vitesse d\u2019allure \u00ab\u00a0' + allure + '\u00a0\u00bb manquante.');
   }
 
   function allureSegment(a, b, point) {
     const vent = ventEnPoint(point);
-    const souffle = vent?.vecteur || directionVersVecteur(ventDominant().direction, 1);
+    if (!vent) return { allure: null, angleVentDeg: null }; // Nav < 2 : pas de vent, pas d'allure
+    const souffle = vent.vecteur;
     if (!souffle) return { allure: 'largue', angleVentDeg: 90 };
     const route = { x: b.x - a.x, y: b.y - a.y };
     const provenanceVent = { x: -souffle.x, y: -souffle.y };
@@ -174,6 +185,7 @@
 
   function vitesseVoileSegmentNoeuds(a, b, point) {
     const { allure } = allureSegment(a, b, point);
+    if (allure === null) return vitesseNavireMoyenneNoeuds(); // Nav < 2 : vitesse naive directe
     return vitesseNavireAllureNoeuds(allure);
   }
 
@@ -403,9 +415,21 @@
     return { minX, minY, maxX, maxY };
   }
 
+  // Courants visibles par le calculateur selon niveauNavigation.
+  // En mode MJ sans test actif : tous les courants (connaissance totale).
+  // En mode joueur ou test MJ : seulement ceux dont visibiliteNav <= niveauNavigation.
+  function sourceCourantsCalculateur() {
+    if (typeof SEA_CURRENTS === 'undefined') return [];
+    const mjSansTest = typeof modeMJ !== 'undefined' && modeMJ
+                    && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
+    if (mjSansTest) return SEA_CURRENTS;
+    const nav = typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0;
+    return SEA_CURRENTS.filter(c => (c.visibiliteNav ?? 0) <= nav);
+  }
+
   function getCourantsIndex() {
     if (courantsIndexCache) return courantsIndexCache;
-    const source = typeof SEA_CURRENTS !== 'undefined' ? SEA_CURRENTS : [];
+    const source = sourceCourantsCalculateur();
     courantsIndexCache = source.map(courant => {
       const anneaux = anneauxZoneSea(courant.zone);
       return {
@@ -497,6 +521,7 @@
   }
 
   function facteurDeventementPoint(point, souffle) {
+    if (!modificateurActif(3)) return 1; // Nav < 3 : deventement ignore
     const deventements = getDeventementsIndex();
     if (!deventements.length || !souffle || Math.hypot(souffle.x, souffle.y) < 0.000001) return 1;
     let facteur = 1;
@@ -534,6 +559,7 @@
   }
 
   function ventEnPoint(point) {
+    if (!modificateurActif(2)) return null; // Nav < 2 : vent ignore, vitesse nue
     const cacheKey = pointCle(point);
     if (ventPointCache.has(cacheKey)) return ventPointCache.get(cacheKey);
     const vent = ventDominant();
@@ -623,6 +649,7 @@
   }
 
   function courantEnPoint(point) {
+    if (!modificateurActif(1)) return null; // Nav < 1 : aucun courant connu
     const cacheKey = pointCle(point);
     if (courantPointCache.has(cacheKey)) return courantPointCache.get(cacheKey);
     if (pointDansHautFond(point)) {
@@ -689,21 +716,24 @@
   }
 
   function navireActif() {
-    if (typeof CARTE_NAVIRE !== 'undefined') return CARTE_NAVIRE;
-    return {
-      id: 'navire-generique',
-      nom: 'Navire',
-      distanceMoyenneNmJour: 105,
-      vitesseMoyenneNoeuds: 105 / 24,
-      vitessesNoeuds: {},
-    };
+    if (typeof CARTE_NAVIRE === 'undefined')
+      throw new Error('CARTE_NAVIRE absent �?" verifier carte-data.js.');
+    const id = CARTE_NAVIRE.navireId;
+    if (!id)
+      throw new Error('CARTE_NAVIRE.navireId manquant �?" definir l\u2019id du navire dans carte-data.js.');
+    if (typeof SHIPS_DATA === 'undefined' || !Array.isArray(SHIPS_DATA))
+      throw new Error('SHIPS_DATA absent �?" verifier ships-data.js.');
+    const ship = SHIPS_DATA.find(s => s.id === id);
+    if (!ship)
+      throw new Error('Navire \u00ab ' + id + ' \u00bb introuvable dans SHIPS_DATA �?" verifier ships-data.js.');
+    return ship;
   }
-
   function categorieTailleNavire(navire = navireActif()) {
-    const valeur = navire.categorieTaille ?? navire.categorie_taille
-      ?? navire.categorie ?? navire.tailleCategorie ?? navire.taille_categorie;
-    const categorie = Number(valeur);
-    return Number.isFinite(categorie) ? categorie : CONFIG.categorieMaxHautsFonds;
+    // Court-circuit test MJ : categorieTailleTest > 0 force la categorie simulee
+    if (typeof categorieTailleTest !== 'undefined' && categorieTailleTest > 0) return categorieTailleTest;
+    const categorie = Number(navire.categorieTaille);
+    if (Number.isFinite(categorie) && categorie > 0) return categorie;
+    throw new Error('Navire ' + (navire.nom || navire.id || '?') + ' : categorieTaille manquante ou invalide.');
   }
 
   function bboxCroise(a, b, bbox, marge) {
@@ -717,9 +747,10 @@
   function segmentNavigable(a, b, options = {}) {
     const marge = options.margePx ?? CONFIG.margeCotePx;
     const categorieTaille = categorieTailleNavire();
+    const navNiveau = typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0;
     const cacheKey = [
       coordCle(a.x), coordCle(a.y), coordCle(b.x), coordCle(b.y), marge,
-      categorieTaille,
+      categorieTaille, navNiveau,
       options.ignorerDepartDansTerre ? 1 : 0,
       options.ignorerArriveeDansTerre ? 1 : 0,
     ].join('|');
@@ -811,10 +842,22 @@
     return anneauxZoneSea(zone).map(ring => ring.map(([x, y]) => ({ x, y })));
   }
 
+  // Hauts-fonds visibles par le calculateur selon niveauNavigation.
+  // En mode MJ sans test actif : tous les hauts-fonds (connaissance totale).
+  // En mode joueur ou test MJ : seulement ceux dont visibiliteNav <= niveauNavigation.
+  function sourceHautsFondsCalculateur() {
+    if (typeof SEA_SHOALS === 'undefined') return [];
+    const mjSansTest = typeof modeMJ !== 'undefined' && modeMJ
+                    && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
+    if (mjSansTest) return SEA_SHOALS;
+    const nav = typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0;
+    return SEA_SHOALS.filter(s => (s.visibiliteNav ?? 0) <= nav);
+  }
+
   function getIndexHautsFonds() {
     if (hautsFondsIndexCache) return hautsFondsIndexCache;
     const taille = CONFIG.tailleCelluleIndexPx;
-    const source = typeof SEA_SHOALS !== 'undefined' ? SEA_SHOALS : [];
+    const source = sourceHautsFondsCalculateur();
     const hautsFonds = source.flatMap(hautFond => {
       const anneaux = normaliserZoneSea(hautFond.zone || hautFond.points || hautFond);
       if (!anneaux.length || anneaux[0].length < 3) return [];
@@ -882,8 +925,13 @@
   }
 
   function navireInterditHautFond(hautFond) {
-    const maxCategorie = Number(hautFond.maxCategorieTaille ?? CONFIG.categorieMaxHautsFonds);
-    return categorieTailleNavire() > (Number.isFinite(maxCategorie) ? maxCategorie : CONFIG.categorieMaxHautsFonds);
+    const cat        = categorieTailleNavire();
+    const catMax     = hautFond.catMax    ?? CONFIG.categorieMaxHautsFonds;
+    const catMaxNav  = hautFond.catMaxNav ?? catMax;
+    const passageNav = hautFond.passageNav ?? 99;
+    if (cat <= catMax)                                        return false; // libre
+    if (cat <= catMaxNav && niveauNavigation >= passageNav)   return false; // exception Nav
+    return true;                                                            // interdit
   }
 
   function segmentTraverseHautFond(a, b) {
@@ -1983,6 +2031,74 @@
     });
   }
 
+  function syncEncadreMJ(navVal, catVal) {
+    // Synchronise tous les controles Test MJ (panneau + modale) sur les valeurs courantes
+    [document.getElementById('nav-jaillot-nav-val'), document.getElementById('nav-modale-nav-val')]
+      .forEach(el => { if (el && navVal !== null) el.value = navVal; });
+    [document.getElementById('nav-jaillot-cat-val'), document.getElementById('nav-modale-cat-val')]
+      .forEach(el => { if (el && catVal !== null) el.value = catVal; });
+  }
+
+  function bindEncadreMJ(bloc, idNavMoins, idNavPlus, idNavVal, idCatMoins, idCatPlus, idCatVal) {
+    if (!bloc || bloc.dataset.mjBound) return;
+    bloc.dataset.mjBound = '1';
+
+    function appliquerNav(val) {
+      const n = Math.max(0, Math.min(5, Math.round(val)));
+      syncEncadreMJ(n, null);
+      if (typeof window.setNiveauNavigation === 'function') window.setNiveauNavigation(n);
+    }
+    function appliquerCat(val) {
+      const n = Math.max(0, Math.min(5, Math.round(val)));
+      syncEncadreMJ(null, n);
+      if (typeof window.setCategorieTailleTest === 'function') window.setCategorieTailleTest(n);
+    }
+
+    const navMoins = document.getElementById(idNavMoins);
+    const navPlus  = document.getElementById(idNavPlus);
+    const navInput = document.getElementById(idNavVal);
+    const catMoins = document.getElementById(idCatMoins);
+    const catPlus  = document.getElementById(idCatPlus);
+    const catInput = document.getElementById(idCatVal);
+
+    navMoins?.addEventListener('click',  () => appliquerNav(Number(navInput.value) - 1));
+    navPlus?.addEventListener ('click',  () => appliquerNav(Number(navInput.value) + 1));
+    navInput?.addEventListener('change', () => appliquerNav(Number(navInput.value)));
+    navInput?.addEventListener('input',  () => { const v = Number(navInput.value); if (Number.isFinite(v)) appliquerNav(v); });
+
+    catMoins?.addEventListener('click',  () => appliquerCat(Number(catInput.value) - 1));
+    catPlus?.addEventListener ('click',  () => appliquerCat(Number(catInput.value) + 1));
+    catInput?.addEventListener('change', () => appliquerCat(Number(catInput.value)));
+    catInput?.addEventListener('input',  () => { const v = Number(catInput.value); if (Number.isFinite(v)) appliquerCat(v); });
+  }
+
+  function initEncadreMJPanneau(panneau) {
+    const bloc = panneau.querySelector('#nav-jaillot-test-mj');
+    if (!bloc) return;
+    if (!window.modeMJ) { bloc.classList.remove('visible'); return; }
+    bloc.classList.add('visible');
+    // Synchroniser les valeurs courantes à l'affichage
+    syncEncadreMJ(
+      typeof niveauNavigation !== 'undefined'     ? niveauNavigation     : 0,
+      typeof categorieTailleTest !== 'undefined'  ? categorieTailleTest  : 0
+    );
+    bindEncadreMJ(bloc,
+      'nav-jaillot-nav-moins', 'nav-jaillot-nav-plus', 'nav-jaillot-nav-val',
+      'nav-jaillot-cat-moins', 'nav-jaillot-cat-plus', 'nav-jaillot-cat-val'
+    );
+  }
+
+  function invaliderCacheHautsFonds() {
+    hautsFondsIndexCache = null;
+    courantsIndexCache = null; // les courants filtres par niveauNavigation changent le cout des segments
+    grilleCache = null;        // la grille filtre les nodes selon les hauts-fonds
+    navigabiliteCache.clear(); // les segments bloques/libres dependent du niveau Nav et de la categorie
+    ventPointCache.clear();    // le vent est conditionne par modificateurActif(2)
+    courantPointCache.clear(); // les courants sont conditionnes par modificateurActif(1)
+    tempsSegmentCache.clear(); // les temps de segment integrent vent et courant
+  }
+  window.invaliderCacheHautsFonds = invaliderCacheHautsFonds;
+
   function initUI() {
     // Réservé au mode MJ — invisible pour les joueurs
     if (!window.modeMJ) return;
@@ -2022,10 +2138,31 @@
       </div>
       <div class="nav-jaillot-resultat" id="nav-jaillot-resultat"></div>
       <button id="nav-jaillot-avance" class="nav-jaillot-avance" type="button">Options avancées</button>
+      <div class="nav-jaillot-test-mj" id="nav-jaillot-test-mj" aria-hidden="true">
+        <div class="nav-jaillot-test-mj-titre">Test MJ</div>
+        <div class="nav-jaillot-test-mj-ligne">
+          <span class="nav-jaillot-test-mj-label">Niveau Nav</span>
+          <div class="nav-jaillot-test-mj-ctrl">
+            <button type="button" id="nav-jaillot-nav-moins" aria-label="Diminuer">&#x2212;</button>
+            <input type="number" id="nav-jaillot-nav-val" min="0" max="5" value="0">
+            <button type="button" id="nav-jaillot-nav-plus" aria-label="Augmenter">+</button>
+          </div>
+        </div>
+        <div class="nav-jaillot-test-mj-ligne">
+          <span class="nav-jaillot-test-mj-label">Cat. navire</span>
+          <div class="nav-jaillot-test-mj-ctrl">
+            <button type="button" id="nav-jaillot-cat-moins" aria-label="Diminuer">&#x2212;</button>
+            <input type="number" id="nav-jaillot-cat-val" min="0" max="5" value="0">
+            <button type="button" id="nav-jaillot-cat-plus" aria-label="Augmenter">+</button>
+          </div>
+        </div>
+      </div>
     `;
     L.DomEvent.disableClickPropagation(panneau);
     L.DomEvent.disableScrollPropagation(panneau);
     cible.appendChild(panneau);
+
+    initEncadreMJPanneau(panneau);
 
     const inputA = panneau.querySelector('#nav-jaillot-a');
     const inputB = panneau.querySelector('#nav-jaillot-b');
@@ -2399,6 +2536,25 @@
         <ul class="nav-jaillot-suggestions carte-recherche-suggestions" id="${suggestId}" role="listbox"></ul>
       </div>
       <button class="nav-modale-etape-suppr" type="button" aria-label="Supprimer cette étape">×</button>
+      <div class="nav-jaillot-test-mj" id="nav-jaillot-test-mj" aria-hidden="true">
+        <div class="nav-jaillot-test-mj-titre">Test MJ</div>
+        <div class="nav-jaillot-test-mj-ligne">
+          <span class="nav-jaillot-test-mj-label">Niveau Nav</span>
+          <div class="nav-jaillot-test-mj-ctrl">
+            <button type="button" id="nav-jaillot-nav-moins" aria-label="Diminuer">&#x2212;</button>
+            <input type="number" id="nav-jaillot-nav-val" min="0" max="5" value="0">
+            <button type="button" id="nav-jaillot-nav-plus" aria-label="Augmenter">+</button>
+          </div>
+        </div>
+        <div class="nav-jaillot-test-mj-ligne">
+          <span class="nav-jaillot-test-mj-label">Cat. navire</span>
+          <div class="nav-jaillot-test-mj-ctrl">
+            <button type="button" id="nav-jaillot-cat-moins" aria-label="Diminuer">&#x2212;</button>
+            <input type="number" id="nav-jaillot-cat-val" min="0" max="5" value="0">
+            <button type="button" id="nav-jaillot-cat-plus" aria-label="Augmenter">+</button>
+          </div>
+        </div>
+      </div>
     `;
 
     const input = li.querySelector('input');
@@ -2469,19 +2625,39 @@
     });
   }
 
-  function ouvrirModale() {
+  function initControleNiveauNav() {
+    const bloc = document.getElementById('nav-modale-test-mj');
+    if (!bloc) return;
+    if (!window.modeMJ) { bloc.classList.remove('visible'); return; }
+    bloc.classList.add('visible');
+    syncEncadreMJ(
+      typeof niveauNavigation !== 'undefined'    ? niveauNavigation    : 0,
+      typeof categorieTailleTest !== 'undefined' ? categorieTailleTest : 0
+    );
+    bindEncadreMJ(bloc,
+      'nav-modale-nav-moins', 'nav-modale-nav-plus', 'nav-modale-nav-val',
+      'nav-modale-cat-moins', 'nav-modale-cat-plus', 'nav-modale-cat-val'
+    );
+  }
+
+    function ouvrirModale() {
     const overlay = document.getElementById('nav-modale-overlay');
     const panneau = document.getElementById('nav-jaillot');
     if (!overlay) return;
 
-    // Initialiser l'état depuis le cache ou depuis le formulaire principal
+    initControleNiveauNav();
+
+    // Toujours lire A et B depuis le formulaire principal (valeurs courantes).
+    // Le cache conserve uniquement les étapes intermédiaires entre deux ouvertures.
+    const depuisFormulaire = lireFormulairePrincipal();
+    const etapeA = depuisFormulaire[0] || etapeVide();
+    const etapeB = depuisFormulaire[1] || etapeVide();
     if (cacheEtapes && cacheEtapes.length >= 2) {
-      etatModale = cacheEtapes.map(e => ({ ...e }));
+      // Reconstruire : A courant + intermédiaires du cache + B courant
+      const intermediaires = cacheEtapes.slice(1, -1);
+      etatModale = [etapeA, ...intermediaires, etapeB];
     } else {
-      const depuisFormulaire = lireFormulairePrincipal();
-      etatModale = depuisFormulaire.length >= 2
-        ? depuisFormulaire
-        : [etapeVide(), etapeVide()];
+      etatModale = [etapeA, etapeB];
     }
 
     rendreEtapes();

@@ -878,12 +878,14 @@ const SEA_CURRENT_META = {
     label: "Tourbillon Sargasses",
     priorite: 1,
     force: 3,
+    visibiliteNav: 3,
   },
 
   'guyanes_gulf_stream_r1': {
     label: "Guyanes Gulf Stream",
     priorite: 1,
     force: 3,
+    visibiliteNav: 2,
     speedSegments: [
       {
         label: "Gulf Stream",
@@ -918,60 +920,70 @@ const SEA_CURRENT_META = {
     priorite: 2,
     force: 2,
     speedKmh: 3,
+    visibiliteNav: 2,
   },
 
   'nord_hispaniola_1_r2': {
     label: "Nord Hispaniola 1",
     priorite: 2,
     force: 2,
+    visibiliteNav: 3,
   },
 
   'courant_nord_equatorial_2_r2': {
     label: "Courant Nord Equatorial 2",
     priorite: 3,
     force: 2,
+    visibiliteNav: 3,
   },
 
   'courant_nord_equatorial_1_r2': {
     label: "Courant Nord Equatorial 1",
     priorite: 2,
     force: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_texan_r2': {
     label: "Tourbillon Texan",
     priorite: 2,
     force: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_panameen_r2': {
     label: "Tourbillon Panameen",
     priorite: 2,
     force: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_cubain_r2': {
     label: "Tourbillon Cubain",
     priorite: 2,
     force: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_haitien_r2': {
     label: "Tourbillon Haitien",
     priorite: 2,
     force: 2,
+    visibiliteNav: 2,
   },
 
   'tourbillon_sargasses_nord_r2': {
     label: "Tourbillon Sargasses Nord",
     priorite: 3,
     force: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_sargasses_sud_r2': {
     label: "Tourbillon Sargasses Sud",
     priorite: 3,
     force: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_de_campeche_r3': {
@@ -979,6 +991,7 @@ const SEA_CURRENT_META = {
     priorite: 3,
     force: 1,
     speedKmh: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_floridien_r3': {
@@ -986,6 +999,7 @@ const SEA_CURRENT_META = {
     priorite: 3,
     force: 1,
     speedKmh: 2,
+    visibiliteNav: 3,
   },
 
   'jet_nord_4_r3': {
@@ -993,6 +1007,7 @@ const SEA_CURRENT_META = {
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
+    visibiliteNav: 3,
   },
 
   'jet_nord_3_r3': {
@@ -1000,6 +1015,7 @@ const SEA_CURRENT_META = {
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
+    visibiliteNav: 3,
   },
 
   'jet_nord_2_r3': {
@@ -1007,12 +1023,14 @@ const SEA_CURRENT_META = {
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
+    visibiliteNav: 3,
   },
 
   'jet_nord_1_r3': {
     label: "Jet Nord 1",
     priorite: 3,
     force: 1,
+    visibiliteNav: 3,
   },
 
   'jet_sud_2_r3': {
@@ -1020,6 +1038,7 @@ const SEA_CURRENT_META = {
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
+    visibiliteNav: 3,
   },
 
   'jet_sud_1_r3': {
@@ -1027,6 +1046,7 @@ const SEA_CURRENT_META = {
     priorite: 3,
     force: 1,
     speedKmh: 2.5,
+    visibiliteNav: 3,
   },
 
   'nord_jamaique_r4': {
@@ -1034,6 +1054,7 @@ const SEA_CURRENT_META = {
     priorite: 4,
     force: 1,
     speedKmh: 3,
+    visibiliteNav: 3,
   },
 
   'tourbillon_de_campeche_r4': {
@@ -1041,6 +1062,7 @@ const SEA_CURRENT_META = {
     priorite: 4,
     force: 1,
     speedKmh: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_floridien_r4': {
@@ -1048,6 +1070,7 @@ const SEA_CURRENT_META = {
     priorite: 4,
     force: 1,
     speedKmh: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_texan_sud_r4': {
@@ -1055,6 +1078,7 @@ const SEA_CURRENT_META = {
     priorite: 4,
     force: 1,
     speedKmh: 2.5,
+    visibiliteNav: 3,
   },
 
   'tourbillon_texan_nord_r4': {
@@ -1062,6 +1086,7 @@ const SEA_CURRENT_META = {
     priorite: 4,
     force: 1,
     speedKmh: 2,
+    visibiliteNav: 3,
   },
 
   'tourbillon_panameen_r4': {
@@ -1069,6 +1094,7 @@ const SEA_CURRENT_META = {
     priorite: 4,
     force: 1,
     speedKmh: 2,
+    visibiliteNav: 3,
   },
 };
 
@@ -1129,45 +1155,46 @@ const SEA_SHOAL_GEOMETRY = {
 const SEA_SHOAL_META = {
   'banc_de_jamaique': {
     label: "Banc de Pedro",
-    cat_taille: 2,
-    maxCategorieTaille: 3,
-    condition_navigation: { categorie: 3, competence: 'Navigation', seuil_strict: 3 },
-    categories_interdites: [4, 5],
+    visibiliteNav: 2,
+    catMax: 2,
+    catMaxNav: 3,
+    passageNav: 4,
     risque: "C'est la zone la plus piégeuse. Seules les catégories 1 et 2 naviguent en sécurité. La catégorie 3 (Frégates légères/Bricks) subit de lourds risques de naufrage en s'aventurant sur le Banc de Pedro. Catégories 4 et 5 strictement interdites. Un échec ici détruit le navire sur le corail.\nPassage autorisé pour catégorie 3 si Navigation > 3.",
     contexte: "C'est une zone de hauts-fonds massifs composés de structures coralliennes vivantes, de lagons intérieurs et de cayes sableuses (comme les Morant Cays). Les profondeurs chutent et remontent de façon totalement imprévisible.",
     note_mj: "Immense plateforme carbonatée et l'un des plus grands systèmes de récifs coralliens des Caraïbes (notamment le Pedro Bank juste au sud de la Jamaïque).",
+    maxCategorieTaille: 3,
   },
 
   'banc_de_cuba': {
     label: "Banc de Pickerling / Cayman Ridge",
-    cat_taille: 3,
-    maxCategorieTaille: 3,
-    categories_interdites: [4, 5],
+    visibiliteNav: 3,
+    catMax: 3,
     risque: "Les Catégories 4 et 5 doivent contourner la zone sous peine de heurter des récifs de corail tranchants. Contrairement aux Bahamas, toucher le fond ici signifie voie d'eau majeure (roche/corail).",
     contexte: "Relief rocheux sous-marin et récifs coralliens profonds, liés à la fosse des Caïmans — un navire trop grand ou mal piloté risque des dégâts structurels majeurs a la coque.",
     note_mj: "Ce n'est pas un banc de sable meuble, mais une dorsale montagneuse sous-marine. Les hauts-fonds y sont très localisés (récifs coralliens entourant directement les îles). La navigation générale est possible pour les Catégories 1, 2 et 3.",
+    maxCategorieTaille: 3,
   },
 
   'banc_de_porto-rico': {
     label: "Banc De Porto Rico",
-    cat_taille: 2,
-    maxCategorieTaille: 3,
-    condition_navigation: { categorie: 3, competence: 'Navigation', seuil_strict: 2 },
-    categories_interdites: [4, 5],
+    visibiliteNav: 2,
+    catMax: 3,
     risque: "Zone très dangereuse à cause de la houle de l'Atlantique qui se brise sur le relief. Catégories 1, 2 et 3 naviguent, mais avec des malus de maniabilité par gros temps. Catégories 4 et 5 interdites à moins de 3 milles des côtes à cause des têtes de roche invisibles juste sous la surface.",
     contexte: "Montagne sous-marine volcanique et tectonique, bordée au nord par des barrières de corail.",
     note_mj: "Au nord de Porto Rico et à l'est d'Hispaniola (passage de la Mona), le fond remonte brutalement depuis la fosse océanique profonde (8 000 m+) pour former des plateaux rocheux côtiers et des récifs.",
+    maxCategorieTaille: 3,
   },
 
   'banc_des_bahamas': {
     label: "Banc Des Bahamas",
-    cat_taille: 2,
-    maxCategorieTaille: 3,
-    condition_navigation: { categorie: 3, competence: 'Navigation', seuil_strict: 1 },
-    categories_interdites: [4, 5],
+    visibiliteNav: 1,
+    catMax: 2,
+    catMaxNav: 3,
+    passageNav: 3,
     risque: "Echouage probable pour tout navire trop grand ou engage sans pilote; desarme temporairement un batiment pris sur le banc.",
     contexte: "Vaste plateau peu profond des Bahamas, parsemé de bancs de sable, chenaux incertains et mouillages abrités pour les petits tirants d'eau. La profondeur moyenne sur le banc n'est que d'une à trois brasses.",
     note_mj: "Catégorie 1 et 2 passent librement. La Catégorie 3 (Bricks, Goélettes) peut tenter de passer mais nécessite un jet de navigation (risque d'enlisement dans le sable). Catégories 4 et 5 interdites, sauf dans les chenaux de Nassau. Un échouement ici immobilise le navire mais détruit rarement la coque.",
+    maxCategorieTaille: 3,
   },
 };
 
