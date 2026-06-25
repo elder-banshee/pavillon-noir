@@ -51,6 +51,10 @@
   const tempsSegmentCache = new Map();
   let courantsIndexCache = null;
   let deventementsIndexCache = null;
+  let etatNavire = {
+    id: null,
+    equipage: null,
+  };
 
   function normaliserTexte(str) { return window.RC.normaliser(str); }
 
@@ -730,6 +734,390 @@
     const categorie = Number(navire.categorieTaille);
     if (Number.isFinite(categorie) && categorie > 0) return categorie;
     throw new Error('Navire ' + (navire.nom || navire.id || '?') + ' : categorieTaille manquante ou invalide.');
+  }
+
+  function niveauCatalogueNavire() {
+    const mjSansTest = typeof modeMJ !== 'undefined' && modeMJ
+      && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
+    if (mjSansTest) return 5;
+    const nav = typeof niveauNavigation !== 'undefined' ? Number(niveauNavigation) : 0;
+    return Math.max(0, Math.min(5, Number.isFinite(nav) ? nav : 0));
+  }
+
+  function etatNavireActif(navire = navireActif()) {
+    if (etatNavire.id !== navire.id) {
+      etatNavire = etatNavireParDefaut(navire);
+    }
+    return etatNavire;
+  }
+
+  function etatNavireParDefaut(navire) {
+    const utile = Number(navire.tonnage?.utile);
+    return {
+      id: navire.id,
+      equipage: Number(navire.equipage?.standard) || Number(navire.equipage?.min) || 0,
+      tonnageOccupe: Number.isFinite(utile) ? Math.round(utile * 50) / 100 : 0,
+    };
+  }
+
+  function categorieOverrideActive(navire = navireActif()) {
+    const test = typeof categorieTailleTest !== 'undefined' ? Number(categorieTailleTest) : 0;
+    const standard = Number(navire.categorieTaille);
+    return Number.isFinite(test) && test > 0 && Number.isFinite(standard) && test !== standard;
+  }
+
+  function libelleNavireBouton(navire = navireActif()) {
+    return `${navire.nom || navire.id || 'Navire'}${categorieOverrideActive(navire) ? '*' : ''}`;
+  }
+
+  function majBoutonsNavire() {
+    let navire = null;
+    try {
+      navire = navireActif();
+    } catch (err) {
+      return;
+    }
+    const override = categorieOverrideActive(navire);
+    document.querySelectorAll('[data-navire-bouton]').forEach(btn => {
+      btn.textContent = libelleNavireBouton(navire);
+      btn.classList.toggle('navire-override', override);
+      btn.title = override ? 'Catégorie simulée par Test MJ' : 'Choisir le navire';
+    });
+    document
+      .querySelectorAll('#nav-jaillot-cat-val, #nav-modale-cat-val')
+      .forEach(input => {
+        input.classList.toggle('navire-override', override);
+        input.title = override ? 'Catégorie simulée différente du navire actif' : '';
+      });
+  }
+
+  function definirNavireActif(id) {
+    const navire = typeof window.getShipById === 'function'
+      ? window.getShipById(id)
+      : (Array.isArray(window.SHIPS_DATA) ? window.SHIPS_DATA.find(s => s.id === id) : null);
+    if (!navire) return null;
+    if (typeof CARTE_NAVIRE !== 'undefined') {
+      CARTE_NAVIRE.navireId = navire.id;
+      CARTE_NAVIRE.nom = navire.nom;
+    }
+    etatNavire = etatNavireParDefaut(navire);
+    invaliderCacheHautsFonds();
+    majBoutonsNavire();
+    return navire;
+  }
+
+  function reinitialiserNavireActif() {
+    const navire = navireActif();
+    etatNavire = etatNavireParDefaut(navire);
+    const categorie = Number(navire.categorieTaille);
+    if (Number.isFinite(categorie) && categorie > 0) {
+      syncEncadreMJ(null, categorie);
+      if (typeof window.setCategorieTailleTest === 'function') window.setCategorieTailleTest(categorie);
+    }
+    invaliderCacheHautsFonds();
+    majBoutonsNavire();
+    rendreSelectNavire();
+    rendreFicheNavire();
+  }
+
+  function formatNombreNavire(v, suffixe = '') {
+    if (v === null || typeof v === 'undefined' || v === '') return '—';
+    const n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return `${n}${suffixe}`;
+  }
+
+  function naviresAccessiblesCatalogue() {
+    const courant = navireActif();
+    const niveau = niveauCatalogueNavire();
+    const accessibles = typeof window.getShipsForNavLevel === 'function'
+      ? window.getShipsForNavLevel(niveau)
+      : [];
+    const navires = [courant, ...accessibles].filter(Boolean);
+    const vus = new Set();
+    return navires.filter(navire => {
+      if (!navire.id || vus.has(navire.id)) return false;
+      vus.add(navire.id);
+      return true;
+    });
+  }
+
+  function rendreSelectNavire() {
+    const select = document.getElementById('navire-modele-select');
+    if (!select) return;
+    const courant = navireActif();
+    const niveau = niveauCatalogueNavire();
+    select.innerHTML = naviresAccessiblesCatalogue().map(navire => {
+      const suffixe = navire.id === courant.id ? ' — actif' : '';
+      return `<option value="${escapeHtml(navire.id)}">${escapeHtml(navire.nom || navire.id)}${suffixe}</option>`;
+    }).join('');
+    select.value = courant.id;
+    select.disabled = niveau <= 0 && courant.id === 'navire-pj';
+  }
+
+  function rendreFicheNavire() {
+    const fiche = document.getElementById('navire-modale-fiche');
+    const message = document.getElementById('navire-modale-message');
+    if (!fiche) return;
+
+    const navire = navireActif();
+    const etat = etatNavireActif(navire);
+    const equipage = Number(etat.equipage);
+    const min = Number(navire.equipage?.min);
+    const max = Number(navire.equipage?.max);
+    const tonnageUtile = Number(navire.tonnage?.utile);
+    const tonnageOccupe = Number(etat.tonnageOccupe);
+    const encombrement = tonnageUtile > 0 && Number.isFinite(tonnageOccupe)
+      ? Math.max(0, Math.round((tonnageOccupe / tonnageUtile) * 100))
+      : 0;
+    const equipageAlerte = Number.isFinite(equipage)
+      && ((Number.isFinite(min) && equipage < min) || (Number.isFinite(max) && equipage > max));
+    const encombrementBonus = Number.isFinite(encombrement) && encombrement < 25;
+    const encombrementMalus = Number.isFinite(encombrement) && encombrement > 75;
+    const encombrementClasse = encombrementMalus ? 'navire-alerte' : (encombrementBonus ? 'navire-bonus' : '');
+    const encombrementEffet = encombrementBonus ? '+1 nœud' : (encombrementMalus ? '-1 nœud' : '');
+    const override = categorieOverrideActive(navire);
+    const restrictions = Array.isArray(navire.regionRestriction) && navire.regionRestriction.length
+      ? navire.regionRestriction.join(', ')
+      : 'Aucune';
+
+    if (message) {
+      if (equipageAlerte && equipage < min) message.textContent = `Équipage inférieur au minimum de ${min}.`;
+      else if (equipageAlerte && equipage > max) message.textContent = `Équipage supérieur au maximum de ${max}.`;
+      else message.textContent = '';
+    }
+
+    fiche.innerHTML = `
+      <section class="navire-modale-section">
+        <h3>Équipage</h3>
+        <div class="navire-modale-grille navire-modale-grille--compacte">
+          ${donneeNavire('Nécessaire pour manœuvrer', formatNombreNavire(min))}
+          ${donneeNavire('Maximal', formatNombreNavire(max), equipageAlerte)}
+          ${champCompactNavire('À bord', 'navire-equipage-input', {
+            value: Number.isFinite(equipage) ? equipage : '',
+            step: '1',
+            classes: equipageAlerte ? 'navire-alerte' : '',
+          })}
+        </div>
+      </section>
+      <section class="navire-modale-section">
+        <h3>Tonnage</h3>
+        <div class="navire-modale-grille navire-modale-grille--compacte">
+          ${donneeNavire('Total', formatNombreNavire(navire.tonnage?.total), false, navire.tonnage?.fourchette)}
+          ${donneeNavire('Utile', formatNombreNavire(tonnageUtile), false, navire.tonnage?.fourchette)}
+          ${champCompactNavire('Occupé', 'navire-tonnage-occupe-input', {
+            value: Number.isFinite(tonnageOccupe) ? tonnageOccupe : '',
+            min: '0',
+            max: Number.isFinite(tonnageUtile) ? String(tonnageUtile) : '',
+            step: '0.5',
+            classes: encombrementClasse,
+          })}
+        </div>
+        <label class="navire-modale-champ navire-encombrement">
+          <span>Encombrement <strong id="navire-encombrement-effet" class="${encombrementClasse}">${encombrementEffet}</strong></span>
+          <input id="navire-encombrement-slider" type="range" min="0" max="100" step="1" value="${Math.min(100, encombrement)}">
+        </label>
+      </section>
+      <section class="navire-modale-section">
+        <h3>Caractéristiques</h3>
+        <div class="navire-modale-grille">
+          ${donneeNavire('Tirant d’eau', formatNombreNavire(navire.tirantEau, ' m'))}
+          ${donneeNavire('Voilure', navire.voilure || '—')}
+          ${donneeNavire('Restriction', restrictions)}
+          ${donneeNavire('Malus hauturier', navire.malusHauturier ? 'Oui' : 'Non')}
+        </div>
+      </section>
+      <section class="navire-modale-section">
+        <h3>Vitesses</h3>
+        <div class="navire-modale-grille">
+          ${donneeNavire('Naïve', formatNombreNavire(navire.navigation?.vitesse_naive, ' nd'))}
+          ${donneeNavire('Près', formatNombreNavire(navire.navigation?.pres, ' nd'))}
+          ${donneeNavire('Largue', formatNombreNavire(navire.navigation?.largue, ' nd'))}
+          ${donneeNavire('Grand largue', formatNombreNavire(navire.navigation?.grand_largue, ' nd'))}
+          ${donneeNavire('Vent arrière', formatNombreNavire(navire.navigation?.vent_arriere, ' nd'))}
+          ${donneeNavire('Avirons', formatNombreNavire(navire.navigation?.avirons, ' nd'))}
+        </div>
+      </section>
+      ${override ? `
+        <section class="navire-modale-section">
+          <h3>Simulation MJ</h3>
+          <div class="navire-modale-donnee-valeur navire-override">Catégorie de taille forcée par l’encadré TEST MJ.</div>
+        </section>
+      ` : ''}
+      ${navire.notes ? `
+        <section class="navire-modale-section">
+          <h3>Notes</h3>
+          <p class="navire-modale-note">${escapeHtml(navire.notes)}</p>
+        </section>
+      ` : ''}
+    `;
+
+    document.getElementById('navire-equipage-input')?.addEventListener('input', e => {
+      const valeur = Number(e.target.value);
+      etatNavire.equipage = Number.isFinite(valeur) ? Math.round(valeur) : null;
+      majAlerteEquipageNavire(navire, e.target);
+    });
+    initControleTonnageNavire(navire);
+  }
+
+  function majAlerteEquipageNavire(navire, input) {
+    const message = document.getElementById('navire-modale-message');
+    const equipage = Number(input?.value);
+    const min = Number(navire.equipage?.min);
+    const max = Number(navire.equipage?.max);
+    const tropBas = Number.isFinite(equipage) && Number.isFinite(min) && equipage < min;
+    const tropHaut = Number.isFinite(equipage) && Number.isFinite(max) && equipage > max;
+    input?.classList.toggle('navire-alerte', tropBas || tropHaut);
+    if (!message) return;
+    if (tropBas) message.textContent = `Équipage inférieur au minimum de ${min}.`;
+    else if (tropHaut) message.textContent = `Équipage supérieur au maximum de ${max}.`;
+    else message.textContent = '';
+  }
+
+  function initControleTonnageNavire(navire) {
+    const input = document.getElementById('navire-tonnage-occupe-input');
+    const slider = document.getElementById('navire-encombrement-slider');
+    const effet = document.getElementById('navire-encombrement-effet');
+    const utile = Number(navire.tonnage?.utile);
+    if (!input || !slider || !effet || !Number.isFinite(utile) || utile <= 0) {
+      if (input) input.disabled = true;
+      if (slider) slider.disabled = true;
+      return;
+    }
+
+    function appliquerDepuisTonnage(tonnage, source) {
+      const occupe = Math.max(0, Math.min(utile, Math.round(Number(tonnage) * 10) / 10));
+      const pct = utile > 0 ? Math.round((occupe / utile) * 100) : 0;
+      etatNavire.tonnageOccupe = occupe;
+      if (source !== 'input' || Number(tonnage) !== occupe) input.value = String(occupe);
+      if (source !== 'slider') slider.value = String(Math.max(0, Math.min(100, pct)));
+      effet.textContent = libelleEffetEncombrement(pct);
+      majStyleEncombrement(input, effet, pct);
+    }
+
+    input.addEventListener('input', e => {
+      const tonnage = Number(e.target.value);
+      if (!Number.isFinite(tonnage)) return;
+      appliquerDepuisTonnage(tonnage, 'input');
+    });
+
+    slider.addEventListener('input', e => {
+      const pct = Math.max(0, Number(e.target.value));
+      if (!Number.isFinite(pct)) return;
+      appliquerDepuisTonnage((utile * pct) / 100, 'slider');
+    });
+
+    appliquerDepuisTonnage(Number(etatNavire.tonnageOccupe), null);
+  }
+
+  function majStyleEncombrement(input, valeur, pct) {
+    const bonus = Number.isFinite(pct) && pct < 25;
+    const malus = Number.isFinite(pct) && pct > 75;
+    [input, valeur].forEach(el => {
+      el?.classList.toggle('navire-bonus', bonus);
+      el?.classList.toggle('navire-alerte', malus);
+    });
+  }
+
+  function libelleEffetEncombrement(pct) {
+    if (Number.isFinite(pct) && pct < 25) return '+1 nœud';
+    if (Number.isFinite(pct) && pct > 75) return '-1 nœud';
+    return '';
+  }
+
+  function donneeNavire(label, valeur, alerte = false, fourchette = false) {
+    const classes = [
+      'navire-modale-donnee-valeur',
+      alerte ? 'navire-alerte' : '',
+      fourchette ? 'navire-fourchette' : '',
+    ].filter(Boolean).join(' ');
+    const suffixe = fourchette ? ' *' : '';
+    return `
+      <div class="navire-modale-donnee">
+        <span class="navire-modale-donnee-label">${escapeHtml(label)}</span>
+        <span class="${classes}">${escapeHtml(valeur)}${suffixe}</span>
+      </div>
+    `;
+  }
+
+  function champCompactNavire(label, id, options = {}) {
+    const attrs = [
+      `id="${escapeHtml(id)}"`,
+      'type="number"',
+      options.min !== undefined ? `min="${escapeHtml(options.min)}"` : '',
+      options.max !== undefined ? `max="${escapeHtml(options.max)}"` : '',
+      options.step !== undefined ? `step="${escapeHtml(options.step)}"` : '',
+      `value="${escapeHtml(options.value ?? '')}"`,
+      `class="navire-modale-input-compact ${escapeHtml(options.classes || '')}"`,
+    ].filter(Boolean).join(' ');
+    return `
+      <label class="navire-modale-donnee navire-modale-donnee--champ">
+        <span class="navire-modale-donnee-label">${escapeHtml(label)}</span>
+        <input ${attrs}>
+      </label>
+    `;
+  }
+
+  function ouvrirModaleNavire() {
+    const overlay = document.getElementById('navire-modale-overlay');
+    if (!overlay) return;
+    rendreSelectNavire();
+    rendreFicheNavire();
+    overlay.removeAttribute('aria-hidden');
+    overlay.classList.add('navire-modale-overlay--visible');
+    setTimeout(() => document.getElementById('navire-modele-select')?.focus(), 60);
+  }
+
+  function fermerModaleNavire() {
+    const overlay = document.getElementById('navire-modale-overlay');
+    if (!overlay) return;
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('navire-modale-overlay--visible');
+    majBoutonsNavire();
+  }
+
+  function fermerSurClicExterieurStrict(overlay, fermer) {
+    if (!overlay || overlay.dataset.strictOutsideBound) return;
+    overlay.dataset.strictOutsideBound = '1';
+    let pointerExterieur = false;
+
+    overlay.addEventListener('pointerdown', e => {
+      pointerExterieur = e.target === overlay;
+    });
+
+    overlay.addEventListener('pointerup', e => {
+      const relacheExterieur = e.target === overlay;
+      if (pointerExterieur && relacheExterieur) fermer();
+      pointerExterieur = false;
+    });
+
+    overlay.addEventListener('pointercancel', () => {
+      pointerExterieur = false;
+    });
+  }
+
+  let modaleNavireInitialisee = false;
+
+  function initModaleNavire() {
+    if (modaleNavireInitialisee) return;
+    modaleNavireInitialisee = true;
+
+    const overlay = document.getElementById('navire-modale-overlay');
+    if (!overlay) return;
+
+    document.getElementById('navire-modale-fermer')?.addEventListener('click', fermerModaleNavire);
+    document.getElementById('navire-modale-ok')?.addEventListener('click', fermerModaleNavire);
+    document.getElementById('navire-modale-reset')?.addEventListener('click', reinitialiserNavireActif);
+    document.getElementById('navire-modele-select')?.addEventListener('change', e => {
+      definirNavireActif(e.target.value);
+      rendreSelectNavire();
+      rendreFicheNavire();
+    });
+    fermerSurClicExterieurStrict(overlay, fermerModaleNavire);
+
+    overlay.addEventListener('keydown', e => {
+      if (e.key === 'Escape') fermerModaleNavire();
+    });
   }
 
   function bboxCroise(a, b, bbox, marge) {
@@ -2030,11 +2418,20 @@
       const n = Math.max(0, Math.min(5, Math.round(val)));
       syncEncadreMJ(n, null);
       if (typeof window.setNiveauNavigation === 'function') window.setNiveauNavigation(n);
+      majBoutonsNavire();
+      if (document.getElementById('navire-modale-overlay')?.classList.contains('navire-modale-overlay--visible')) {
+        rendreSelectNavire();
+        rendreFicheNavire();
+      }
     }
     function appliquerCat(val) {
       const n = Math.max(1, Math.min(5, Math.round(val)));
       syncEncadreMJ(null, n);
       if (typeof window.setCategorieTailleTest === 'function') window.setCategorieTailleTest(n);
+      majBoutonsNavire();
+      if (document.getElementById('navire-modale-overlay')?.classList.contains('navire-modale-overlay--visible')) {
+        rendreFicheNavire();
+      }
     }
 
     const navMoins = document.getElementById(idNavMoins);
@@ -2128,6 +2525,7 @@
         </div>
       </div>
       <div class="nav-jaillot-resultat" id="nav-jaillot-resultat"></div>
+      <button id="nav-jaillot-navire" class="nav-jaillot-navire" type="button" data-navire-bouton>Navire</button>
       <button id="nav-jaillot-avance" class="nav-jaillot-avance" type="button">Options avancées</button>
       <div class="nav-jaillot-test-mj" id="nav-jaillot-test-mj" aria-hidden="true">
         <div class="nav-jaillot-test-mj-titre">Test MJ</div>
@@ -2154,6 +2552,7 @@
     cible.appendChild(panneau);
 
     initEncadreMJPanneau(panneau);
+    majBoutonsNavire();
 
     const inputA = panneau.querySelector('#nav-jaillot-a');
     const inputB = panneau.querySelector('#nav-jaillot-b');
@@ -2207,6 +2606,10 @@
 
     panneau.querySelector('#nav-jaillot-avance').addEventListener('click', () => {
       ouvrirModale();
+    });
+
+    panneau.querySelector('#nav-jaillot-navire')?.addEventListener('click', () => {
+      ouvrirModaleNavire();
     });
   }
 
@@ -2753,6 +3156,7 @@
     document.getElementById('nav-modale-fermer')?.addEventListener('click', () => fermerModale(false));
     document.getElementById('nav-modale-annuler')?.addEventListener('click', () => fermerModale(false));
     document.getElementById('nav-modale-tracer')?.addEventListener('click', () => fermerModale(true));
+    document.getElementById('nav-modale-navire')?.addEventListener('click', () => ouvrirModaleNavire());
 
     document.getElementById('nav-modale-ajouter')?.addEventListener('click', () => {
       if (etatModale && etatModale.length < MAX_ETAPES) {
@@ -2761,9 +3165,7 @@
       }
     });
 
-    overlay.addEventListener('click', e => {
-      if (e.target === overlay) fermerModale(false);
-    });
+    fermerSurClicExterieurStrict(overlay, () => fermerModale(false));
 
     overlay.addEventListener('keydown', e => {
       if (e.key === 'Escape') fermerModale(false);
@@ -2776,6 +3178,7 @@
     getTerres();
     initUI();
     initModale();
+    initModaleNavire();
   }
 
   window.NavigationJaillot = {

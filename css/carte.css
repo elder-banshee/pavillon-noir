@@ -133,9 +133,20 @@ main {
   padding: 0 0.65rem;
 }
 
+.nav-jaillot-navire,
 .nav-jaillot-avance {
   width: 100%;
   margin-top: 0.5rem;
+}
+
+.nav-jaillot-navire {
+  font-style: normal;
+}
+
+.nav-jaillot-navire.navire-override {
+  border-color: rgba(184, 116, 214, 0.55);
+  color: #d8a5ef;
+  font-style: italic;
 }
 
 .nav-jaillot-resultat {
@@ -1955,3 +1966,275 @@ path.leaflet-interactive:focus-visible {
 /* Panneau gauche : marge au-dessus */
 #nav-jaillot-test-mj { margin-top: 0.4rem; }
 /* Modale : pas de marge (dans le footer) */
+
+.nav-jaillot-test-mj-ctrl input.navire-override,
+.nav-modale-navire.navire-override {
+  border-color: rgba(184, 116, 214, 0.65);
+  color: #d8a5ef;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODALE NAVIRE — calculateur d'itinéraire
+   ═══════════════════════════════════════════════════════════ */
+
+.navire-modale-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10030;
+  background: rgba(14, 12, 9, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.navire-modale-overlay.navire-modale-overlay--visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.navire-modale {
+  width: min(480px, 92vw);
+  max-height: 84vh;
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 8px 34px rgba(0, 0, 0, 0.72);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(8px);
+  transition: transform 0.2s ease;
+}
+
+.navire-modale-overlay--visible .navire-modale {
+  transform: translateY(0);
+}
+
+.navire-modale-header,
+.navire-modale-footer {
+  flex-shrink: 0;
+  padding: 0.9rem 1.1rem;
+}
+
+.navire-modale-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.navire-modale-titre {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.92rem;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+.navire-modale-fermer {
+  background: none;
+  border: none;
+  color: var(--mist);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.25rem;
+}
+
+.navire-modale-fermer:hover { color: var(--gold); }
+
+.navire-modale-corps {
+  overflow-y: auto;
+  padding: 1rem 1.1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.navire-modale-champ {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.9rem;
+  font-family: 'Crimson Text', serif;
+  color: var(--mist-light);
+  font-size: 0.82rem;
+}
+
+.navire-modale-champ select,
+.navire-modale-champ input:not([type=range]) {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--parchment);
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+  padding: 0.38rem 0.5rem;
+}
+
+.navire-modale-fiche {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.navire-modale-section {
+  border: 1px solid rgba(200, 151, 58, 0.18);
+  border-radius: 3px;
+  padding: 0.65rem 0.7rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.navire-modale-section h3 {
+  margin: 0 0 0.45rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.navire-modale-grille {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 0.7rem;
+}
+
+.navire-modale-grille--compacte {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+}
+
+.navire-modale-donnee {
+  min-width: 0;
+}
+
+.navire-modale-donnee-label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--mist);
+}
+
+.navire-modale-grille--compacte .navire-modale-donnee-label,
+.navire-modale-grille--compacte .navire-modale-donnee-valeur {
+  text-align: center;
+}
+
+.navire-modale-donnee-valeur {
+  display: block;
+  margin-top: 0.05rem;
+  color: var(--parchment);
+  font-size: 0.86rem;
+  line-height: 1.2;
+}
+
+.navire-modale-donnee--champ {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.18rem;
+}
+
+.navire-modale-input-compact {
+  width: min(4.6rem, 100%);
+  text-align: center;
+}
+
+.navire-modale-donnee-valeur.navire-override {
+  color: #d8a5ef;
+  font-style: italic;
+}
+
+.navire-modale-donnee-valeur.navire-fourchette {
+  color: #e2bd76;
+  font-style: italic;
+}
+
+.navire-modale-donnee-valeur.navire-bonus,
+.navire-modale-champ input.navire-bonus,
+.navire-encombrement strong.navire-bonus {
+  color: #8fd0a6;
+  border-color: rgba(143, 208, 166, 0.7);
+}
+
+.navire-modale-donnee-valeur.navire-alerte,
+.navire-modale-champ input.navire-alerte,
+.navire-encombrement strong.navire-alerte {
+  color: #f08a78;
+  border-color: rgba(240, 138, 120, 0.75);
+}
+
+.navire-encombrement {
+  margin-top: 0.65rem;
+  margin-bottom: 0;
+}
+
+.navire-encombrement span {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.navire-encombrement strong {
+  color: var(--parchment);
+  font-weight: 600;
+}
+
+.navire-encombrement input[type=range] {
+  width: 100%;
+  accent-color: var(--gold);
+}
+
+.navire-modale-note {
+  margin: 0;
+  color: var(--mist-light);
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.navire-modale-footer {
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.navire-modale-actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+.navire-modale-message {
+  flex: 1;
+  min-height: 1.1em;
+  color: #f08a78;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.nav-modale-navire {
+  width: 100%;
+  background: rgba(200, 151, 58, 0.08);
+  border: 1px solid rgba(200, 151, 58, 0.25);
+  border-radius: 3px;
+  color: var(--gold-light);
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 0.6rem;
+}
+
+@media (max-width: 560px) {
+  .navire-modale-grille {
+    grid-template-columns: 1fr;
+  }
+}

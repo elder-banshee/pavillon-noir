@@ -296,6 +296,7 @@
         <button class="nav-modale-fermer" id="nav-modale-fermer" aria-label="Fermer">✕</button>
       </div>
       <div class="nav-modale-corps" id="nav-modale-corps">
+        <button class="nav-modale-navire" id="nav-modale-navire" type="button" data-navire-bouton>Navire</button>
         <!-- Étapes injectées par navigation-jaillot.js -->
         <ol class="nav-modale-etapes" id="nav-modale-etapes"></ol>
         <button class="nav-modale-ajouter" id="nav-modale-ajouter" type="button">+ Ajouter une étape</button>
@@ -324,6 +325,31 @@
         <div class="nav-modale-actions">
           <button class="nav-modale-btn nav-modale-btn--annuler" id="nav-modale-annuler" type="button">Annuler</button>
           <button class="nav-modale-btn nav-modale-btn--tracer" id="nav-modale-tracer" type="button">Tracer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modale Navire — calculateur d'itinéraire -->
+  <div class="navire-modale-overlay" id="navire-modale-overlay" aria-hidden="true" role="dialog" aria-modal="true"
+    aria-labelledby="navire-modale-titre">
+    <div class="navire-modale" id="navire-modale">
+      <div class="navire-modale-header">
+        <h2 class="navire-modale-titre" id="navire-modale-titre">Navire</h2>
+        <button class="navire-modale-fermer" id="navire-modale-fermer" aria-label="Fermer">×</button>
+      </div>
+      <div class="navire-modale-corps">
+        <label class="navire-modale-champ">
+          <span>Modèle</span>
+          <select id="navire-modele-select"></select>
+        </label>
+        <div class="navire-modale-fiche" id="navire-modale-fiche"></div>
+      </div>
+      <div class="navire-modale-footer">
+        <div class="navire-modale-message" id="navire-modale-message"></div>
+        <div class="navire-modale-actions">
+          <button class="nav-modale-btn nav-modale-btn--annuler" id="navire-modale-reset" type="button">Réinitialiser</button>
+          <button class="nav-modale-btn nav-modale-btn--tracer" id="navire-modale-ok" type="button">Valider</button>
         </div>
       </div>
     </div>
