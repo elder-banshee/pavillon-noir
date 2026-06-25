@@ -1303,7 +1303,7 @@ path.leaflet-interactive:focus-visible {
 .carte-recherche-suggestion-territoire {
   font-family: 'Crimson Text', serif;
   font-size: 0.68rem;
-  color: var(--mist);
+  color: var(--mist-light);
   font-style: italic;
   font-weight: 400;
   letter-spacing: 0.02em;

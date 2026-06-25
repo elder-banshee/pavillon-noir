@@ -52,11 +52,7 @@
   let courantsIndexCache = null;
   let deventementsIndexCache = null;
 
-  function normaliserTexte(texte) {
-    return String(texte || '')
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase();
-  }
+  function normaliserTexte(str) { return window.RC.normaliser(str); }
 
   function pointCle(p) {
     return `${Math.round(p.x)},${Math.round(p.y)}`;
@@ -1679,38 +1675,11 @@
       || ports.find(v => (v.tags || []).some(tag => normaliserTexte(tag).includes(q)));
   }
 
+  function surlignerMatch(texte, qLow) { return window.RC.surlignerMatch(texte, qLow); }
+  function escapeHtml(str)              { return window.RC.escapeHtml(str); }
+
   function resultatsPorts(q) {
-    const qLow = normaliserTexte(q);
-    if (!qLow) return [];
-    return portsDisponibles().map(port => {
-      const tags = port.tags || [port.nom, port.label].filter(Boolean);
-      let matchTag = null;
-      for (const tag of tags) {
-        if (normaliserTexte(tag).includes(qLow)) {
-          matchTag = tag;
-          break;
-        }
-      }
-      if (!normaliserTexte(port.nom).includes(qLow)
-        && !normaliserTexte(port.label).includes(qLow)
-        && !matchTag) return null;
-      return { port, nom: port.nom, matchTag: matchTag || port.nom };
-    }).filter(Boolean).sort((a, b) => {
-      const rang = r => {
-        const nomLow = normaliserTexte(r.nom);
-        const labelLow = normaliserTexte(r.port.label || '');
-        const tagLow = normaliserTexte(r.matchTag);
-        if (nomLow.startsWith(qLow)) return 0;
-        if (labelLow.startsWith(qLow)) return 1;
-        if (nomLow.includes(qLow)) return 2;
-        if (labelLow.includes(qLow)) return 3;
-        if (tagLow.startsWith(qLow)) return 4;
-        return 5;
-      };
-      const ra = rang(a), rb = rang(b);
-      if (ra !== rb) return ra - rb;
-      return normaliserTexte(a.nom).localeCompare(normaliserTexte(b.nom), 'fr');
-    }).slice(0, 8);
+    return window.RC.rechercheVilles(q, { filtre: 'navig' });
   }
 
   function completionFantomePort(resultats, q) {
@@ -1722,24 +1691,6 @@
     const qLow = normaliserTexte(q);
     if (!qLow) return null;
     return resultats.find(({ nom }) => normaliserTexte(nom).startsWith(qLow)) || null;
-  }
-
-  function surlignerMatch(texte, qLow) {
-    const str = String(texte || '');
-    const texteLow = normaliserTexte(str);
-    const idx = texteLow.indexOf(qLow);
-    if (idx === -1) return escapeHtml(str);
-    return escapeHtml(str.slice(0, idx))
-      + `<mark class="carte-recherche-highlight">${escapeHtml(str.slice(idx, idx + qLow.length))}</mark>`
-      + escapeHtml(str.slice(idx + qLow.length));
-  }
-
-  function escapeHtml(str) {
-    return String(str || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
   }
 
   function coordsValides(coords) {
@@ -1940,19 +1891,19 @@
       }
 
       input.setAttribute('aria-expanded', 'true');
-      suggestions.innerHTML = resultats.map(({ port, nom, matchTag }) => {
+      suggestions.innerHTML = resultats.map(({ item, nom, matchTag, parenthese }) => {
         const nomMatch = normaliserTexte(matchTag) === normaliserTexte(nom);
         const matchHtml = nomMatch ? '' :
           `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
         return `<li class="carte-recherche-suggestion nav-jaillot-suggestion" role="option"
-          data-id="${escapeHtml(port.id)}" data-nom="${escapeHtml(nom)}" data-matchtag="${escapeHtml(matchTag)}">
-          <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}</span>
+          data-id="${escapeHtml(item.id)}" data-nom="${escapeHtml(nom)}" data-matchtag="${escapeHtml(matchTag)}">
+          <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}${parenthese}</span>
           ${matchHtml}
         </li>`;
       }).join('');
 
       const completion = resultatCompletionFantomePort(resultats, q);
-      suggestionFantomeId = completion?.port?.id || null;
+      suggestionFantomeId = completion?.item?.id || null;
       afficherFantome(completion ? completionFantomePort([completion], q) : '');
 
       suggestions.querySelectorAll('.carte-recherche-suggestion').forEach(li => {

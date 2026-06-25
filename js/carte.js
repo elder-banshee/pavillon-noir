@@ -26,7 +26,6 @@ let loupeInstance = null;       // instance L.map secondaire de la loupe
 let loupeBitmap = null;         // ImageBitmap pré-décodé — évite le flash gris dans la loupe
 let mouseoutTimers = {};
 let ecartementsActifs = {}; // clé = "idA:idB" → durée ms
-const normalisationCache = new Map();
 const boundsFitTerritoires = new Map();
 
 // ─── Mode d'overlay ──────────────────────────────────────────
@@ -147,14 +146,7 @@ function pixelToLatLng(x, y) {
   return L.latLng(CARTE_IMAGE.height - y, x);
 }
 
-function normaliser(str) {
-  const cle = String(str ?? '');
-  const cached = normalisationCache.get(cle);
-  if (cached !== undefined) return cached;
-  const valeur = cle.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/-/g, ' ');
-  normalisationCache.set(cle, valeur);
-  return valeur;
-}
+function normaliser(str) { return window.RC.normaliser(str); }
 
 function weightPourZoom(weightBase, zoom) {
   const zoomMin = carte.getMinZoom();
@@ -1234,82 +1226,24 @@ function initRecherche() {
   });
 }
 
+function surlignerMatch(texte, qLow) { return window.RC.surlignerMatch(texte, qLow); }
+function escapeHtml(str)              { return window.RC.escapeHtml(str); }
+
 function afficherSuggestions(q, container, fantome) {
-  const qLow = normaliser(q);
-  const resultats = [];
+  const qLow = window.RC.normaliser(q);
+  if (!qLow) { container.innerHTML = ''; return; }
 
-  JURIDICTIONS.forEach(j => {
-    if (j.visible_mj && !modeMJ) return;
-    // Tester le nom directement d'abord
-    const nomMatch = normaliser(j.nom).includes(qLow);
-    let matchTag = nomMatch ? j.nom : null;
-    // Puis les tags (alias, noms alternatifs)
-    if (!matchTag && j.tags) {
-      for (const tag of j.tags) {
-        if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
-      }
-    }
-    if (matchTag) resultats.push({ type: 'juridiction', item: j, nom: j.nom, matchTag });
-  });
-
-  if (typeof VILLES !== 'undefined') {
-    VILLES.forEach(ville => {
-      if (!ville.coords) return;
-      const rang = ville.rang ?? '1';
-      if (rang === '3' && !modeMJ) return;
-      const tags = ville.tags || [ville.nom, ville.label].filter(Boolean);
-      let matchTag = null;
-      for (const tag of tags) {
-        if (normaliser(tag).includes(qLow)) { matchTag = tag; break; }
-      }
-      if (matchTag) resultats.push({ type: 'ville', item: ville, nom: ville.nom, matchTag });
-    });
-  }
+  const resultats = window.RC.rechercheVilles(q, { filtre: 'tout', mj: modeMJ });
 
   if (!resultats.length) {
     container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
     return;
   }
 
-  resultats.sort((a, b) => {
-    const rang = r => {
-      const nomLow = normaliser(r.nom);
-      const tagLow = normaliser(r.matchTag);
-      const estVille = r.type === 'ville';
-      const nomDebut = nomLow.startsWith(qLow);
-      const nomContient = nomLow.includes(qLow);
-      const tagDebut = tagLow.startsWith(qLow);
-      if (nomDebut) return estVille ? 0 : 1;
-      if (nomContient) return estVille ? 2 : 3;
-      if (tagDebut) return estVille ? 4 : 5;
-      return estVille ? 6 : 7;
-    };
-    const ra = rang(a), rb = rang(b);
-    if (ra !== rb) return ra - rb;
-    return normaliser(a.nom).localeCompare(normaliser(b.nom), 'fr');
-  });
-
-  // Détecte les noms affichés en collision dans la tranche, tous types confondus.
-  // Une ville qui partage son nom avec une juridiction (ou une autre ville) reçoit la parenthèse territoire.
-  const tranche = resultats.slice(0, 12);
-  const tousNoms = tranche.map(r => normaliser(r.item.nom));
-  const nomsAmbigus = new Set(
-    tousNoms.filter((n, i) => tousNoms.indexOf(n) !== i || tousNoms.lastIndexOf(n) !== i)
-  );
-
-  container.innerHTML = tranche.map(({ type, item, nom, matchTag }) => {
+  container.innerHTML = resultats.map(({ type, item, nom, matchTag, parenthese }) => {
     const nomMatch = matchTag === nom;
     const matchHtml = nomMatch ? '' :
       `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
-
-    // Parenthèse territoire pour les villes dont le nom affiché est ambigu
-    let parenthese = '';
-    if (type === 'ville' && nomsAmbigus.has(normaliser(item.nom))) {
-      const jur = JURIDICTIONS.find(j => j.id === item.territoire);
-      const jurNom = jur ? (jur.label || jur.nom) : null;
-      if (jurNom) parenthese = ` <span class="carte-recherche-suggestion-territoire">(${jurNom})</span>`;
-    }
-
     return `<li class="carte-recherche-suggestion" role="option"
       data-id="${item.id}" data-type="${type}" data-nom="${escapeHtml(nom)}" data-matchtag="${escapeHtml(matchTag)}">
       <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}${parenthese}</span>
@@ -1334,19 +1268,6 @@ function afficherSuggestions(q, container, fantome) {
       }
     });
   });
-}
-
-function surlignerMatch(texte, qLow) {
-  const texteLow = normaliser(texte);
-  const idx = texteLow.indexOf(qLow);
-  if (idx === -1) return escapeHtml(texte);
-  return escapeHtml(texte.slice(0, idx))
-    + `<mark class="carte-recherche-highlight">${escapeHtml(texte.slice(idx, idx + qLow.length))}</mark>`
-    + escapeHtml(texte.slice(idx + qLow.length));
-}
-
-function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // ─── Rendu des zones ─────────────────────────────────────────
