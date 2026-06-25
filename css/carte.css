@@ -1225,10 +1225,14 @@ path.leaflet-interactive:focus-visible {
 
 .carte-recherche-fantome {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 2rem;
-  padding: 0.5rem 0 0.5rem 0.65rem;
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  height: auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0;
   font-family: 'Crimson Text', serif;
   font-size: 0.95rem;
   color: var(--mist);
@@ -1351,16 +1355,6 @@ path.leaflet-interactive:focus-visible {
 }
 
 .nav-jaillot .carte-recherche-fantome {
-  top: 1px;
-  left: 1px;
-  right: 1px;
-  bottom: 1px;
-  height: auto;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  padding: 0;
-  font-family: 'Crimson Text', serif;
   font-size: 0.82rem;
   line-height: 1.1;
   transform: translateY(1.5px);
@@ -2238,3 +2232,179 @@ path.leaflet-interactive:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ══════════════════════════════════════════════════════════════
+   BANDEAU PILOTE AUTOMATIQUE — panneau gauche
+   ══════════════════════════════════════════════════════════════ */
+
+#nav-outils-pilote {
+  display: none; /* révélé par JS */
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+#nav-outils-pilote.visible { display: flex; }
+
+.nav-outils-pilote-titre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-outils-icones {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 0.25rem 0;
+}
+
+.nav-outil-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(200, 151, 58, 0.07);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--mist);
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+  position: relative;
+}
+
+.nav-outil-btn:hover {
+  color: var(--gold);
+  border-color: rgba(200, 151, 58, 0.4);
+  background: rgba(200, 151, 58, 0.12);
+}
+
+.nav-outil-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+/* Tooltip avec délai */
+.nav-outil-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 7px);
+  transform: translateX(-50%);
+  background: #1a140a;
+  border: 1px solid var(--border);
+  color: var(--parchment);
+  font-family: 'Crimson Text', serif;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 100;
+}
+
+.nav-outil-btn.tooltip-visible::after { opacity: 1; }
+
+/* Volet résultat navigation */
+.nav-outils-resultat {
+  display: none;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.55rem 0.7rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.nav-outils-resultat.visible { display: flex; }
+
+.nav-outils-resultat-valeur {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--parchment);
+  letter-spacing: 0.02em;
+}
+
+.nav-outils-resultat-detail {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.78rem;
+  color: var(--mist);
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BOUTON "TRACER ROUTE" — panneau ville (droite)
+   ══════════════════════════════════════════════════════════════ */
+
+.panneau-nom-ligne {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0; /* la h2 gère sa propre marge */
+}
+
+.panneau-nom-ligne h2.panneau-nom {
+  flex: 1;
+  margin: 0;
+}
+
+.panneau-tracer-route {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(200, 151, 58, 0.07);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--mist);
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+  position: relative;
+}
+
+.panneau-tracer-route:hover {
+  color: var(--gold);
+  border-color: rgba(200, 151, 58, 0.4);
+  background: rgba(200, 151, 58, 0.12);
+}
+
+.panneau-tracer-route svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.panneau-tracer-route::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: #1a140a;
+  border: 1px solid var(--border);
+  color: var(--parchment);
+  font-family: 'Crimson Text', serif;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 100;
+}
+
+.panneau-tracer-route.tooltip-visible::after { opacity: 1; }

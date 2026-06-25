@@ -45,7 +45,7 @@ const SHIPS_DATA = [
 
   {
     id: 'navire-pj',
-    nom: 'Cúchulainn',
+    nom: (typeof CARTE_NAVIRE !== 'undefined' ? CARTE_NAVIRE.nom : 'Cúchulainn'),
     categorieTaille: 2,
     tirantEau: 2.5,
     voilure: 'aurique',

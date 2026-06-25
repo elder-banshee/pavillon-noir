@@ -2063,6 +2063,8 @@
     const brut = String(valeur || '').trim();
     const q = normaliserTexte(brut);
     if (!q) return null;
+    // Cas spécial : navire-PJ
+    if (brut === '_navire_pj') return entreeNavirePJ();
     const ports = portsDisponibles();
     return ports.find(v => normaliserTexte(v.nom) === q || normaliserTexte(v.label) === q || v.id === brut)
       || ports.find(v => (v.tags || []).some(tag => normaliserTexte(tag) === q))
@@ -2073,11 +2075,46 @@
   function surlignerMatch(texte, qLow) { return window.RC.surlignerMatch(texte, qLow); }
   function escapeHtml(str) { return window.RC.escapeHtml(str); }
 
-  function resultatsPorts(q) {
-    return window.RC.rechercheVilles(q, { filtre: 'navig' });
+  // ── Entrée synthétique navire-PJ ──────────────────────────────────────────
+  // Retourne un objet compatible avec VILLES, ou null si position absente/invalide/hors bornes.
+  function entreeNavirePJ() {
+    const pos = (typeof CARTE_NAVIRE_POSITION !== 'undefined'
+      && Array.isArray(CARTE_NAVIRE_POSITION)
+      && CARTE_NAVIRE_POSITION.length >= 2
+      && Number.isFinite(CARTE_NAVIRE_POSITION[0])
+      && Number.isFinite(CARTE_NAVIRE_POSITION[1]))
+      ? CARTE_NAVIRE_POSITION : null;
+    if (!pos) return null;
+    if (typeof pointInMapBounds === 'function' && !pointInMapBounds(pos[0], pos[1])) return null;
+    const nom = (typeof CARTE_NAVIRE !== 'undefined' && CARTE_NAVIRE.nom) || 'Navire';
+    return {
+      id:     '_navire_pj',
+      nom,
+      label:  nom,
+      type:   'navire',
+      coords: pos,
+      tags:   ['navire', 'position navire', nom.toLowerCase()],
+    };
   }
 
-  function completionFantomePort(resultats, q) { return window.RC.texteFantome(resultats, q); }
+  function resultatsPorts(q) {
+    const resultatsVilles = window.RC.rechercheVilles(q, { filtre: 'navig' });
+    const navire = entreeNavirePJ();
+    if (navire) {
+      const qLow = window.RC.normaliser(q);
+      const matchNavire = [navire.nom, ...navire.tags].some(t =>
+        window.RC.normaliser(t).includes(qLow)
+      );
+      if (matchNavire) {
+        return [
+          { type: 'ville', item: navire, id: navire.id, nom: navire.nom,
+            matchTag: navire.nom, territoire: null, parenthese: '' },
+          ...resultatsVilles,
+        ];
+      }
+    }
+    return resultatsVilles;
+  }
 
   function coordsValides(coords) {
     return Array.isArray(coords)
@@ -2208,11 +2245,6 @@
 
   function initChampPort(input, fantome, suggestions) {
     if (!input || !fantome || !suggestions) return;
-    let valeurCompletee = null;
-    let suggestionActive = null;
-    let suggestionFantomeId = null;
-    const mesureCanvas = document.createElement('canvas');
-    const mesureCtx = mesureCanvas.getContext('2d');
 
     // Parent d'origine du volet suggestions (pour le remettre à sa place à la fermeture)
     const suggestionsParent = suggestions.parentNode;
@@ -2223,182 +2255,59 @@
       const volet = document.getElementById('nav-jaillot-volet');
       if (!volet) return;
       const rect = input.getBoundingClientRect();
-      volet.style.top = rect.bottom + 'px';
-      volet.style.left = rect.left + 'px';
-      volet.style.width = rect.width + 'px';
+      volet.style.top    = rect.bottom + 'px';
+      volet.style.left   = rect.left   + 'px';
+      volet.style.width  = rect.width  + 'px';
       volet.style.display = 'block';
-      // Téléporter le <ul> dans le volet s'il n'y est pas déjà
       if (suggestions.parentNode !== volet) volet.appendChild(suggestions);
     }
 
-    function viderSuggestions() {
-      suggestions.innerHTML = '';
-      // Remettre le <ul> à sa place d'origine et cacher le volet
-      const volet = document.getElementById('nav-jaillot-volet');
-      if (volet && suggestions.parentNode === volet) {
-        suggestionsParent.appendChild(suggestions);
-        volet.style.display = 'none';
-      }
-      suggestions.style.position = '';
-      suggestions.style.top = '';
-      suggestions.style.left = '';
-      suggestions.style.width = '';
-      suggestions.style.right = '';
-      suggestions.style.zIndex = '';
-      fantome.textContent = '';
-      fantome.style.left = '';
-      input.setAttribute('aria-expanded', 'false');
-      suggestionActive = null;
-      suggestionFantomeId = null;
+    function rendreItem({ item, nom, matchTag, parenthese }, qLow) {
+      const nomMatch  = normaliserTexte(matchTag) === normaliserTexte(nom);
+      const matchHtml = nomMatch ? '' :
+        `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
+      return `<li class="carte-recherche-suggestion nav-jaillot-suggestion" role="option"
+        data-id="${escapeHtml(item.id)}" data-nom="${escapeHtml(nom)}" data-matchtag="${escapeHtml(matchTag)}">
+        <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}${parenthese}</span>
+        ${matchHtml}
+      </li>`;
     }
 
-    function choisirSuggestion(li) {
-      if (!li) return;
-      input.value = li.dataset.nom || '';
-      input.dataset.portId = li.dataset.id || '';
-      valeurCompletee = null;
-      viderSuggestions();
-      input.focus();
-    }
-
-    function suggestionFantome() {
-      return suggestionFantomeId
-        ? [...suggestions.querySelectorAll('.carte-recherche-suggestion')]
-          .find(li => li.dataset.id === suggestionFantomeId)
-        : null;
-    }
-
-    function largeurTexteSaisi() {
-      if (!mesureCtx) return 0;
-      const style = getComputedStyle(input);
-      mesureCtx.font = style.font;
-      const texte = input.value || '';
-      const espacement = parseFloat(style.letterSpacing);
-      const extra = Number.isFinite(espacement) ? Math.max(0, texte.length - 1) * espacement : 0;
-      return mesureCtx.measureText(texte).width + extra;
-    }
-
-    function afficherFantome(texte) {
-      fantome.textContent = texte || '';
-      if (!texte) {
-        fantome.style.left = '';
-        return;
-      }
-      const style = getComputedStyle(input);
-      const bordure = parseFloat(style.borderLeftWidth) || 0;
-      const padding = parseFloat(style.paddingLeft) || 0;
-      fantome.style.left = `${input.offsetLeft + bordure + padding + largeurTexteSaisi()}px`;
-    }
-
-    function rendreSuggestions(q) {
-      const qLow = normaliserTexte(q);
-      const resultats = resultatsPorts(q);
-      suggestionFantomeId = null;
-      if (!qLow) {
-        viderSuggestions();
-        return;
-      }
-      if (!resultats.length) {
-        suggestions.innerHTML = `<li class="carte-recherche-vide">Aucun port</li>`;
-        positionnerSuggestions();
-        afficherFantome('');
-        input.setAttribute('aria-expanded', 'true');
-        return;
-      }
-
-      input.setAttribute('aria-expanded', 'true');
-      suggestions.innerHTML = resultats.map(({ item, nom, matchTag, parenthese }) => {
-        const nomMatch = normaliserTexte(matchTag) === normaliserTexte(nom);
-        const matchHtml = nomMatch ? '' :
-          `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
-        return `<li class="carte-recherche-suggestion nav-jaillot-suggestion" role="option"
-          data-id="${escapeHtml(item.id)}" data-nom="${escapeHtml(nom)}" data-matchtag="${escapeHtml(matchTag)}">
-          <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}${parenthese}</span>
-          ${matchHtml}
-        </li>`;
-      }).join('');
-
-      positionnerSuggestions();
-      const texte = window.RC.texteFantome(resultats, q);
-      // suggestionFantomeId : id du résultat dont le nom correspond au texte fantôme
-      const candidatFantome = texte ? resultats.find(r => r.nom === texte || texte.startsWith(r.nom)) : null;
-      suggestionFantomeId = candidatFantome?.item?.id || null;
-      afficherFantome(texte);
-
-      suggestions.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
-        li.addEventListener('click', () => choisirSuggestion(li));
-      });
-    }
-
-    input.addEventListener('input', () => {
-      input.dataset.portId = '';
-      valeurCompletee = null;
-      rendreSuggestions(input.value);
-    });
-
-    suggestions.addEventListener('mousedown', e => e.preventDefault());
-
-    input.addEventListener('keydown', e => {
-      if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome.textContent) {
-        e.preventDefault();
-        choisirSuggestion(suggestionActive || suggestionFantome());
-        return;
-      }
-
-      const items = [...suggestions.querySelectorAll('.carte-recherche-suggestion')];
-      let idx = suggestionActive ? items.indexOf(suggestionActive) : -1;
-
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const cible = suggestionActive || suggestions.querySelector('.carte-recherche-suggestion--active') || suggestionFantome() || items[0];
-        if (cible) {
-          choisirSuggestion(cible);
-          return;
+    const champ = window.RC.initChampRecherche(input, fantome, suggestions, {
+      obtenirResultats: q => resultatsPorts(q),
+      rendreItem,
+      onChoisir: (li, valeur, gh) => {
+        input.value         = valeur;
+        input.dataset.portId = li.dataset.id || '';
+        // remettre le <ul> à sa place et cacher le volet
+        const volet = document.getElementById('nav-jaillot-volet');
+        if (volet && suggestions.parentNode === volet) {
+          suggestionsParent.appendChild(suggestions);
+          volet.style.display = 'none';
         }
-        const port = trouverPort(valeurCompletee || input.value);
-        if (port) {
-          input.value = port.nom;
-          input.dataset.portId = port.id;
-        }
-        viderSuggestions();
-        return;
-      }
-
-      if (!items.length) return;
-
-      function naviguer(delta) {
-        if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
-        idx = (idx + delta + items.length) % items.length;
-        suggestionActive = items[idx];
-        suggestionActive.classList.add('carte-recherche-suggestion--active');
-        suggestionActive.scrollIntoView({ block: 'nearest' });
-        const q = input.value.trim();
-        afficherFantome(completionFantomePort(
-          [{ nom: suggestionActive.dataset.nom || '' }],
-          q
-        ));
-      }
-
-      if (e.key === 'ArrowDown') { e.preventDefault(); naviguer(1); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); naviguer(-1); }
-      else if (e.key === 'Escape') {
-        input.value = '';
+        input.focus();
+      },
+      onEchap: () => {
+        input.value          = '';
         input.dataset.portId = '';
-        valeurCompletee = null;
-        viderSuggestions();
-      }
-    });
-
-    input.addEventListener('blur', () => {
-      setTimeout(() => {
+      },
+      onPositionner: positionnerSuggestions,
+      onBlur: () => {
         const port = trouverPort(input.dataset.portId || input.value);
         if (port && normaliserTexte(input.value) === normaliserTexte(port.nom)) {
           input.dataset.portId = port.id;
         } else if (!port) {
           input.dataset.portId = '';
         }
-        viderSuggestions();
-      }, 120);
+        champ.vider();
+        // remettre le <ul> à sa place si nécessaire
+        const volet = document.getElementById('nav-jaillot-volet');
+        if (volet && suggestions.parentNode === volet) {
+          suggestionsParent.appendChild(suggestions);
+          volet.style.display = 'none';
+        }
+      },
+      msgAucunResultat: 'Aucun port',
     });
   }
 
@@ -2479,6 +2388,114 @@
   }
   window.invaliderCacheHautsFonds = invaliderCacheHautsFonds;
 
+  // ── SVG partagés ─────────────────────────────────────────────────────────
+
+  // Barre à roues — symbole "Tracer route" (panneau ville + bouton pilote navire)
+  const SVG_BARRE_ROUES = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+    ${[0,45,90,135,180,225,270,315].map(a => {
+      const r = a * Math.PI / 180;
+      const x1 = (12 + Math.cos(r)*3.2).toFixed(2), y1 = (12 + Math.sin(r)*3.2).toFixed(2);
+      const x2 = (12 + Math.cos(r)*9).toFixed(2),   y2 = (12 + Math.sin(r)*9).toFixed(2);
+      const hx = (12 + Math.cos(r)*10.8).toFixed(2), hy = (12 + Math.sin(r)*10.8).toFixed(2);
+      return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="${hx}" cy="${hy}" r="1.5"/>`;
+    }).join('')}
+  </svg>`;
+
+  // Compas de navigation — icône "Calculateur d'itinéraire"
+  const SVG_COMPAS = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <polygon points="12,4 13.2,11 12,12.8 10.8,11" fill="currentColor"/>
+    <polygon points="12,20 10.8,13 12,11.2 13.2,13" fill="currentColor" opacity="0.4"/>
+    <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
+  </svg>`;
+
+  // Silhouette navire — icône "Navire"
+  const SVG_NAVIRE = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <line x1="12" y1="3" x2="12" y2="14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <polygon points="12,7 18,13 6,13" fill="currentColor" opacity="0.55"/>
+    <path d="M4 14 Q12 20 20 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="3" y1="17" x2="21" y2="17" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+  </svg>`;
+
+  // ── Tooltip avec délai ────────────────────────────────────────────────────
+  function initTooltip(btn, delaiMs = 600) {
+    let timer = null;
+    btn.addEventListener('mouseenter', () => {
+      timer = setTimeout(() => btn.classList.add('tooltip-visible'), delaiMs);
+    });
+    btn.addEventListener('mouseleave', () => {
+      clearTimeout(timer);
+      btn.classList.remove('tooltip-visible');
+    });
+  }
+
+  // ── Afficher résultat dans le volet bandeau ───────────────────────────────
+  function afficherResultatOutils(dureeH, distanceNm, segments) {
+    const volet  = document.getElementById('nav-outils-resultat');
+    const valeur = document.getElementById('nav-outils-resultat-valeur');
+    const detail = document.getElementById('nav-outils-resultat-detail');
+    if (!volet || !valeur || !detail) return;
+    valeur.textContent = `${formatDureeHeures(dureeH)} · ${formatDistanceMilles(distanceNm)}`;
+    detail.textContent = segments > 1 ? `${segments} segments` : '';
+    volet.classList.add('visible');
+  }
+
+  function masquerResultatOutils() {
+    document.getElementById('nav-outils-resultat')?.classList.remove('visible');
+  }
+
+  // ── Départ navire-PJ ─────────────────────────────────────────────────────
+  function etapeDepartNavire() {
+    const navire = entreeNavirePJ();
+    if (navire) return { portId: navire.id, valeur: navire.nom };
+    // Fallback : position invalide ou hors bornes → champ vide
+    return { portId: '', valeur: '' };
+  }
+
+  /**
+   * Ouvre la modale Options avancées avec un port de destination prérempli.
+   * A = position navire-PJ (ou Nassau), B = port destination.
+   * Appelée depuis le bouton "Tracer route" du panneau ville.
+   */
+  function ouvrirModaleAvecDestination(portId, nomPort) {
+    const depart = etapeDepartNavire();
+    const arrivee = { portId: portId || '', valeur: nomPort || '' };
+    cacheEtapes = [depart, arrivee];
+    snapshotPanneau = null;
+    ouvrirModale();
+  }
+
+  // ── initOutilsPilote ─────────────────────────────────────────────────────
+  function initOutilsPilote() {
+    if (!window.modeMJ) return;
+    const conteneur = document.getElementById('nav-outils-pilote');
+    if (!conteneur) return;
+    conteneur.classList.add('visible');
+
+    const btnCalc   = document.getElementById('nav-outil-calculateur');
+    const btnNavire = document.getElementById('nav-outil-navire');
+    if (!btnCalc || !btnNavire) return;
+
+    btnCalc.innerHTML   = SVG_COMPAS;
+    btnNavire.innerHTML = SVG_NAVIRE;
+
+    initTooltip(btnCalc);
+    initTooltip(btnNavire);
+
+    btnCalc.addEventListener('click', () => {
+      if (!cacheEtapes) {
+        const depart = etapeDepartNavire();
+        cacheEtapes = [depart, { portId: '', valeur: '' }];
+        snapshotPanneau = null;
+      }
+      ouvrirModale();
+    });
+
+    btnNavire.addEventListener('click', () => ouvrirModaleNavire());
+  }
+
   function initUI() {
     // Réservé au mode MJ — invisible pour les joueurs
     if (!window.modeMJ) return;
@@ -2510,11 +2527,6 @@
           <ul class="nav-jaillot-suggestions carte-recherche-suggestions" id="nav-jaillot-a-suggestions" role="listbox"></ul>
         </div>
       </div>
-      <div class="nav-jaillot-ligne nav-jaillot-ligne--actions">
-        <button id="nav-jaillot-swap" type="button" title="Intervertir">↔</button>
-        <button id="nav-jaillot-tracer" type="button">Tracer</button>
-        <button id="nav-jaillot-effacer" type="button" title="Effacer">×</button>
-      </div>
       <div class="nav-jaillot-ligne">
         <span class="nav-jaillot-lettre">B</span>
         <div class="nav-jaillot-champ carte-recherche-wrap">
@@ -2524,9 +2536,12 @@
           <ul class="nav-jaillot-suggestions carte-recherche-suggestions" id="nav-jaillot-b-suggestions" role="listbox"></ul>
         </div>
       </div>
+      <div class="nav-jaillot-ligne nav-jaillot-ligne--actions">
+        <button id="nav-jaillot-swap" type="button" title="Intervertir">↔</button>
+        <button id="nav-jaillot-tracer" type="button">Tracer</button>
+        <button id="nav-jaillot-effacer" type="button" title="Effacer">×</button>
+      </div>
       <div class="nav-jaillot-resultat" id="nav-jaillot-resultat"></div>
-      <button id="nav-jaillot-navire" class="nav-jaillot-navire" type="button" data-navire-bouton>Navire</button>
-      <button id="nav-jaillot-avance" class="nav-jaillot-avance" type="button">Options avancées</button>
       <div class="nav-jaillot-test-mj" id="nav-jaillot-test-mj" aria-hidden="true">
         <div class="nav-jaillot-test-mj-titre">Test MJ</div>
         <div class="nav-jaillot-test-mj-ligne">
@@ -2602,14 +2617,6 @@
           resultat.textContent = err.message || 'Route impossible.';
         }
       }, 20);
-    });
-
-    panneau.querySelector('#nav-jaillot-avance').addEventListener('click', () => {
-      ouvrirModale();
-    });
-
-    panneau.querySelector('#nav-jaillot-navire')?.addEventListener('click', () => {
-      ouvrirModaleNavire();
     });
   }
 
@@ -2843,15 +2850,15 @@
 
     // Nettoyer les transforms résiduels et lire la position finale du placeholder
     const liste = document.getElementById('nav-modale-etapes');
-    let dstIdx = 0;
+    let dstIdx = drag.srcIdx; // fallback : pas de déplacement
     if (liste) {
       [...liste.querySelectorAll('.nav-modale-etape')].forEach(li => {
         li.style.transform = '';
         li.style.transition = '';
       });
       const tousLesLi = [...liste.querySelectorAll('.nav-modale-etape')];
-      dstIdx = tousLesLi.indexOf(drag.placeholder);
-      if (dstIdx < 0) dstIdx = tousLesLi.length - 1;
+      const idxDOM = tousLesLi.indexOf(drag.placeholder);
+      if (idxDOM >= 0) dstIdx = idxDOM;
     }
 
     // Appliquer le déplacement dans etatModale puis re-rendre
@@ -2900,8 +2907,8 @@
         resume.id = 'nav-jaillot-resume-etapes';
         resume.className = 'nav-jaillot-resume-etapes';
         const panneau = document.getElementById('nav-jaillot');
-        const resultatEl = panneau?.querySelector('#nav-jaillot-resultat');
-        if (resultatEl) panneau.insertBefore(resume, resultatEl);
+        const ligneB = panneau?.querySelector('.nav-jaillot-ligne:has(#nav-jaillot-b)');
+        if (ligneB) panneau.insertBefore(resume, ligneB);
       }
       resume.textContent = `+ ${intermediaires} étape${intermediaires > 1 ? 's' : ''} intermédiaire${intermediaires > 1 ? 's' : ''}`;
     } else if (resume) {
@@ -2934,25 +2941,6 @@
         <ul class="nav-jaillot-suggestions carte-recherche-suggestions" id="${suggestId}" role="listbox"></ul>
       </div>
       <button class="nav-modale-etape-suppr" type="button" aria-label="Supprimer cette étape">×</button>
-      <div class="nav-jaillot-test-mj" id="nav-jaillot-test-mj" aria-hidden="true">
-        <div class="nav-jaillot-test-mj-titre">Test MJ</div>
-        <div class="nav-jaillot-test-mj-ligne">
-          <span class="nav-jaillot-test-mj-label">Niveau Nav</span>
-          <div class="nav-jaillot-test-mj-ctrl">
-            <button type="button" id="nav-jaillot-nav-moins" aria-label="Diminuer">&#x2212;</button>
-            <input type="number" id="nav-jaillot-nav-val" min="0" max="5" value="0">
-            <button type="button" id="nav-jaillot-nav-plus" aria-label="Augmenter">+</button>
-          </div>
-        </div>
-        <div class="nav-jaillot-test-mj-ligne">
-          <span class="nav-jaillot-test-mj-label">Cat. navire</span>
-          <div class="nav-jaillot-test-mj-ctrl">
-            <button type="button" id="nav-jaillot-cat-moins" aria-label="Diminuer">&#x2212;</button>
-            <input type="number" id="nav-jaillot-cat-val" min="1" max="5" value="1">
-            <button type="button" id="nav-jaillot-cat-plus" aria-label="Augmenter">+</button>
-          </div>
-        </div>
-      </div>
     `;
 
     const input = li.querySelector('input');
@@ -3012,7 +3000,7 @@
   }
 
   function lireEtatDepuisDOM() {
-    const inputs = document.querySelectorAll('#nav-modale-etapes input');
+    const inputs = document.querySelectorAll('#nav-modale-etapes .nav-modale-etape-champ input');
     inputs.forEach((input, i) => {
       if (etatModale[i]) {
         etatModale[i] = {
@@ -3045,17 +3033,26 @@
 
     initControleNiveauNav();
 
-    // Toujours lire A et B depuis le formulaire principal (valeurs courantes).
-    // Le cache conserve uniquement les étapes intermédiaires entre deux ouvertures.
     const depuisFormulaire = lireFormulairePrincipal();
-    const etapeA = depuisFormulaire[0] || etapeVide();
-    const etapeB = depuisFormulaire[1] || etapeVide();
+    const panneauA = depuisFormulaire[0] || etapeVide();
+    const panneauB = depuisFormulaire[1] || etapeVide();
+
     if (cacheEtapes && cacheEtapes.length >= 2) {
-      // Reconstruire : A courant + intermédiaires du cache + B courant
+      // "Le dernier qui parle a raison" :
+      // Si le panneau a été modifié depuis la dernière fermeture, il prime sur ce champ.
+      // Sinon, le cache (état de la modale à la dernière fermeture) prime.
+      const panneauModifieA = snapshotPanneau &&
+        (panneauA.portId !== snapshotPanneau.portIdA || panneauA.valeur !== snapshotPanneau.valeurA);
+      const panneauModifieB = snapshotPanneau &&
+        (panneauB.portId !== snapshotPanneau.portIdB || panneauB.valeur !== snapshotPanneau.valeurB);
+
+      const etapeA = panneauModifieA ? panneauA : cacheEtapes[0];
+      const etapeB = panneauModifieB ? panneauB : cacheEtapes[cacheEtapes.length - 1];
       const intermediaires = cacheEtapes.slice(1, -1);
       etatModale = [etapeA, ...intermediaires, etapeB];
     } else {
-      etatModale = [etapeA, etapeB];
+      // Pas de cache : on repart du panneau principal
+      etatModale = [panneauA, panneauB];
     }
 
     rendreEtapes();
@@ -3072,28 +3069,40 @@
     setTimeout(() => (premierVide || overlay.querySelector('input'))?.focus(), 80);
   }
 
-  function fermerModale(valider = false) {
+  function fermerModale(valider = false, annuler = false) {
     const overlay = document.getElementById('nav-modale-overlay');
     const panneau = document.getElementById('nav-jaillot');
     if (!overlay) return;
 
     if (valider) {
-      // Lire l'état final depuis le DOM avant de fermer
+      // Tracer : lire l'état final, mettre à jour panneau + cache, purger le snapshot
       lireEtatDepuisDOM();
       cacheEtapes = etatModale.map(e => ({ ...e }));
+      snapshotPanneau = null;
       ecrireFormulairePrincipal(etatModale);
 
-      // Déclencher le tracé multi-étapes si ≥ 2 étapes valides
       const ports = etatModale
         .map(e => trouverPort(e.portId || e.valeur))
         .filter(Boolean);
       if (ports.length >= 2) {
         tracerMultiEtapes(ports);
       }
+    } else if (annuler) {
+      // Annuler : purger le cache — la prochaine ouverture repartira du panneau principal
+      cacheEtapes = null;
+      snapshotPanneau = null;
     } else {
-      // Fermeture sans validation : sauvegarder en cache silencieusement
+      // Fermeture neutre (croix, clic hors modale, Échap) :
+      // sauvegarder l'état de la modale dans le cache, et mémoriser l'état actuel du panneau
       lireEtatDepuisDOM();
       cacheEtapes = etatModale.map(e => ({ ...e }));
+      const depuisFormulaire = lireFormulairePrincipal();
+      const pA = depuisFormulaire[0] || etapeVide();
+      const pB = depuisFormulaire[1] || etapeVide();
+      snapshotPanneau = {
+        portIdA: pA.portId, valeurA: pA.valeur,
+        portIdB: pB.portId, valeurB: pB.valeur,
+      };
     }
 
     etatModale = null;
@@ -3134,6 +3143,8 @@
         const resume = `${formatDureeHeures(dureeTotaleH)} · ${formatDistanceMilles(distanceTotaleNm)}`;
         if (resultat) resultat.textContent = resume;
         if (resultatPrincipal) resultatPrincipal.textContent = resume;
+        // Volet résultat du bandeau outils MJ
+        afficherResultatOutils(dureeTotaleH, distanceTotaleNm, ports.length - 1);
 
       } catch (err) {
         const msg = err.message || 'Route impossible.';
@@ -3153,9 +3164,9 @@
     const overlay = document.getElementById('nav-modale-overlay');
     if (!overlay) return;
 
-    document.getElementById('nav-modale-fermer')?.addEventListener('click', () => fermerModale(false));
-    document.getElementById('nav-modale-annuler')?.addEventListener('click', () => fermerModale(false));
-    document.getElementById('nav-modale-tracer')?.addEventListener('click', () => fermerModale(true));
+    document.getElementById('nav-modale-fermer')?.addEventListener('click', () => fermerModale(false, false));
+    document.getElementById('nav-modale-annuler')?.addEventListener('click', () => fermerModale(false, true));
+    document.getElementById('nav-modale-tracer')?.addEventListener('click', () => fermerModale(true, false));
     document.getElementById('nav-modale-navire')?.addEventListener('click', () => ouvrirModaleNavire());
 
     document.getElementById('nav-modale-ajouter')?.addEventListener('click', () => {
@@ -3177,6 +3188,7 @@
     pixelToLatLngFn = options.pixelToLatLng;
     getTerres();
     initUI();
+    initOutilsPilote();
     initModale();
     initModaleNavire();
   }
@@ -3201,6 +3213,9 @@
     millesNautiquesParPx,
     distanceCotePointNm,
     attenuationCourantCote,
+    afficherResultatOutils,
+    masquerResultatOutils,
+    ouvrirModaleAvecDestination,
     config: CONFIG,
   };
 })();

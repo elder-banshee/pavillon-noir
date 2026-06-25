@@ -1087,173 +1087,81 @@ function initFiltresMarqueurs() {
 
 // ─── Recherche prédictive ─────────────────────────────────────
 function initRecherche() {
-  const input = document.getElementById('carte-recherche-input');
+  const input       = document.getElementById('carte-recherche-input');
   const suggestions = document.getElementById('carte-recherche-suggestions');
-  const clear = document.getElementById('carte-recherche-clear');
-  const fantome = document.getElementById('carte-recherche-fantome');
+  const clear       = document.getElementById('carte-recherche-clear');
+  const fantome     = document.getElementById('carte-recherche-fantome');
   if (!input || !suggestions || !clear) return;
 
-  let valeurCompletee = null;
-  let suggestionActive = null;
+  function rendreItem({ type, item, nom, matchTag, parenthese }, qLow) {
+    const nomMatch  = matchTag === nom;
+    const matchHtml = nomMatch ? '' :
+      `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
+    return `<li class="carte-recherche-suggestion" role="option"
+      data-id="${item.id}" data-type="${escapeHtml(type)}" data-nom="${escapeHtml(nom)}" data-matchtag="${escapeHtml(matchTag)}">
+      <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}${parenthese}</span>
+      ${matchHtml}
+    </li>`;
+  }
 
-  input.addEventListener('input', () => {
-    valeurCompletee = null;
-    suggestionActive = null;
-    const q = input.value;
-    const qTrim = q.trim();
-    clear.style.display = qTrim ? '' : 'none';
-    if (!qTrim) { suggestions.innerHTML = ''; if (fantome) fantome.textContent = ''; return; }
+  function appliquerChoix(id, type, nom) {
+    if (nom) input.value = nom;
+    if (type === 'ville') zoomerVille(id);
+    else isolerTerritoire(id);
+  }
 
-    const resultats = afficherSuggestions(q, suggestions, fantome);
-    if (fantome) fantome.textContent = window.RC.texteFantome(resultats, q);
-  });
-
-  clear.addEventListener('click', () => {
-    input.value = '';
-    clear.style.display = 'none';
-    suggestions.innerHTML = '';
-    if (fantome) fantome.textContent = '';
-    fermerIsolation();
-    input.focus();
-  });
-
-  suggestions.addEventListener('mousedown', e => e.preventDefault());
-
-  input.addEventListener('keydown', (e) => {
-    if ((e.key === 'Tab' || e.key === 'ArrowRight') && fantome && fantome.textContent) {
-      e.preventDefault();
-      input.value = fantome.textContent;
-      valeurCompletee = fantome.textContent;
-      fantome.textContent = '';
-      suggestions.innerHTML = '';
-      input.focus();
-      return;
-    }
-
-    const items = suggestions.querySelectorAll('.carte-recherche-suggestion');
-    let idx = suggestionActive ? [...items].indexOf(suggestionActive) : -1;
-
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      const cible = suggestionActive || suggestions.querySelector('.carte-recherche-suggestion--active');
-      if (cible) {
-        suggestionActive = null;
-        const id = cible.dataset.id;
-        const type = cible.dataset.type;
-        const nom = cible.dataset.nom || '';
-        suggestions.innerHTML = '';
-        if (fantome) fantome.textContent = '';
-        if (nom) input.value = nom;
-        if (type === 'ville') zoomerVille(id);
-        else isolerTerritoire(id);
-        return;
-      }
-      if (items.length === 1) { items[0].click(); return; }
-      const q = input.value.trim();
-      if (!q) return;
-      const qLow = normaliser(q);
+  const champ = window.RC.initChampRecherche(input, fantome, suggestions, {
+    obtenirResultats: q => window.RC.rechercheVilles(q, { filtre: 'tout', mj: modeMJ }),
+    rendreItem,
+    onChoisir: (li, valeur, gh) => {
+      const id   = li.dataset.id;
+      const type = li.dataset.type;
+      const nom  = li.dataset.nom || '';
+      gh.vider();
+      appliquerChoix(id, type, nom);
+    },
+    onEntreeSansMatch: (q, gh) => {
+      const qLow = window.RC.normaliser(q);
+      if (!qLow) return;
       if (typeof VILLES !== 'undefined') {
-        const v = VILLES.find(v => v.coords && normaliser(v.nom) === qLow);
+        const v = VILLES.find(v => v.coords && window.RC.normaliser(v.nom) === qLow);
         if (v) { zoomerVille(v.id); return; }
+        const vTag = VILLES.find(v => v.coords &&
+          (v.tags || [v.nom, v.label].filter(Boolean)).some(t => window.RC.normaliser(t) === qLow));
+        if (vTag) { zoomerVille(vTag.id); return; }
       }
       const j = JURIDICTIONS.find(j => {
         if (j.visible_mj && !modeMJ) return false;
-        return normaliser(j.nom) === qLow;
+        return window.RC.normaliser(j.nom) === qLow;
       });
       if (j) { isolerTerritoire(j.id); return; }
-      if (typeof VILLES !== 'undefined') {
-        const vTag = VILLES.find(v => v.coords &&
-          (v.tags || [v.nom, v.label].filter(Boolean)).some(t => normaliser(t) === qLow)
-        );
-        if (vTag) { zoomerVille(vTag.id); return; }
-      }
       const jTag = JURIDICTIONS.find(j => {
         if (j.visible_mj && !modeMJ) return false;
-        return j.tags?.some(t => normaliser(t) === qLow);
+        return j.tags?.some(t => window.RC.normaliser(t) === qLow);
       });
-      if (jTag) { isolerTerritoire(jTag.id); return; }
-      if (valeurCompletee) {
-        const jC = JURIDICTIONS.find(j => j.nom === valeurCompletee.trim());
-        if (jC) { isolerTerritoire(jC.id); valeurCompletee = null; return; }
-        if (typeof VILLES !== 'undefined') {
-          const vC = VILLES.find(v => v.nom === valeurCompletee.trim() && v.coords);
-          if (vC) { zoomerVille(vC.id); valeurCompletee = null; return; }
-        }
-      }
-      return;
-    }
+      if (jTag) { isolerTerritoire(jTag.id); }
+    },
+    onEchap: () => fermerIsolation(),
+    onTab: 'completer',
+    msgAucunResultat: 'Aucun résultat',
+  });
 
-    if (!items.length) return;
-
-    function naviguerSuggestion(delta) {
-      if (suggestionActive) suggestionActive.classList.remove('carte-recherche-suggestion--active');
-      idx = (idx + delta + items.length) % items.length;
-      items[idx].classList.add('carte-recherche-suggestion--active');
-      items[idx].scrollIntoView({ block: 'nearest' });
-      suggestionActive = items[idx];
-      if (fantome) {
-        const q = input.value.trim();
-        const nomSel = items[idx].dataset.nom || '';
-        fantome.textContent = normaliser(nomSel).startsWith(normaliser(q)) ? q + nomSel.slice(q.length) : '';
-      }
-    }
-
-    if (e.key === 'ArrowDown') { e.preventDefault(); naviguerSuggestion(1); }
-    else if (e.key === 'ArrowUp') { e.preventDefault(); naviguerSuggestion(-1); }
-    else if (e.key === 'Escape') {
-      fermerIsolation();
-      input.value = '';
-      clear.style.display = 'none';
-      suggestions.innerHTML = '';
-      if (fantome) fantome.textContent = '';
-    }
+  // Bouton Clear — spécifique à la recherche principale
+  clear.style.display = 'none';
+  input.addEventListener('input', () => {
+    clear.style.display = input.value.trim() ? '' : 'none';
+  });
+  clear.addEventListener('click', () => {
+    input.value = '';
+    clear.style.display = 'none';
+    champ.vider();
+    fermerIsolation();
+    input.focus();
   });
 }
 
 function surlignerMatch(texte, qLow) { return window.RC.surlignerMatch(texte, qLow); }
 function escapeHtml(str)              { return window.RC.escapeHtml(str); }
-
-function afficherSuggestions(q, container, fantome) {
-  const qLow = window.RC.normaliser(q);
-  if (!qLow) { container.innerHTML = ''; return []; }
-
-  const resultats = window.RC.rechercheVilles(q, { filtre: 'tout', mj: modeMJ });
-
-  if (!resultats.length) {
-    container.innerHTML = `<li class="carte-recherche-vide">Aucun résultat</li>`;
-    return [];
-  }
-
-  container.innerHTML = resultats.map(({ type, item, nom, matchTag, parenthese }) => {
-    const nomMatch = matchTag === nom;
-    const matchHtml = nomMatch ? '' :
-      `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
-    return `<li class="carte-recherche-suggestion" role="option"
-      data-id="${item.id}" data-type="${type}" data-nom="${escapeHtml(nom)}" data-matchtag="${escapeHtml(matchTag)}">
-      <span class="carte-recherche-suggestion-nom">${surlignerMatch(nom, qLow)}${parenthese}</span>
-      ${matchHtml}
-    </li>`;
-  }).join('');
-
-  container.querySelectorAll('.carte-recherche-suggestion').forEach(li => {
-    li.addEventListener('click', () => {
-      const id = li.dataset.id;
-      const type = li.dataset.type;
-      container.innerHTML = '';
-      if (fantome) fantome.textContent = '';
-      if (type === 'ville') {
-        const ville = VILLES.find(v => v.id === id);
-        if (ville) document.getElementById('carte-recherche-input').value = ville.nom;
-        zoomerVille(id);
-      } else {
-        const j = JURIDICTIONS.find(j => j.id === id);
-        if (j) document.getElementById('carte-recherche-input').value = j.nom;
-        isolerTerritoire(id);
-      }
-    });
-  });
-  return resultats;
-}
 
 // ─── Rendu des zones ─────────────────────────────────────────
 function nettoyerCouchesMaritimes() {
@@ -2229,6 +2137,33 @@ function ouvrirPanneauVille(villeId) {
       ? (ville.type && ville.type !== 'ville' ? labelType + ' · Capitale' : 'Capitale')
       : labelType;
 
+  const estNavigable = modeMJ && (
+    ville.type === 'port' ||
+    (Array.isArray(ville.rade) && ville.rade.length >= 2
+      && Number.isFinite(ville.rade[0]) && Number.isFinite(ville.rade[1]))
+  );
+
+  const SVG_BARRE_ROUES = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+    <line x1="12" y1="9.5" x2="12" y2="3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="12" y1="14.5" x2="12" y2="21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="9.5" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="14.5" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="10.4" y1="10.4" x2="5.9" y2="5.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="13.6" y1="13.6" x2="18.1" y2="18.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="13.6" y1="10.4" x2="18.1" y2="5.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="10.4" y1="13.6" x2="5.9" y2="18.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="12" cy="3" r="1.4" fill="currentColor"/>
+    <circle cx="12" cy="21" r="1.4" fill="currentColor"/>
+    <circle cx="3" cy="12" r="1.4" fill="currentColor"/>
+    <circle cx="21" cy="12" r="1.4" fill="currentColor"/>
+    <circle cx="5.86" cy="5.86" r="1.4" fill="currentColor"/>
+    <circle cx="18.14" cy="18.14" r="1.4" fill="currentColor"/>
+    <circle cx="18.14" cy="5.86" r="1.4" fill="currentColor"/>
+    <circle cx="5.86" cy="18.14" r="1.4" fill="currentColor"/>
+  </svg>`;
+
   const inner = document.getElementById('carte-panneau-inner');
   inner.innerHTML = `
     <div class="panneau-puissance" style="gap:0.5rem;align-items:center;">
@@ -2237,7 +2172,11 @@ function ouvrirPanneauVille(villeId) {
         ${labelEntete}
       </span>
     </div>
-    <h2 class="panneau-nom">${ville.nom}</h2>
+    <div class="panneau-nom-ligne">
+      <h2 class="panneau-nom">${ville.nom}</h2>
+      ${estNavigable ? `<button class="panneau-tracer-route" id="panneau-tracer-route"
+        data-tooltip="Tracer route" aria-label="Tracer une route vers ${ville.nom}">${SVG_BARRE_ROUES}</button>` : ''}
+    </div>
     ${ville.contexte ? (() => {
       const contexteHtml = rendreContexte(ville.contexte, anneeActive);
       return contexteHtml ? `
@@ -2267,6 +2206,26 @@ function ouvrirPanneauVille(villeId) {
       </div>
     ` : ''}
   `;
+
+  // Bouton "Tracer route" — listener + tooltip
+  if (estNavigable) {
+    const btn = inner.querySelector('#panneau-tracer-route');
+    if (btn) {
+      let tooltipTimer = null;
+      btn.addEventListener('mouseenter', () => {
+        tooltipTimer = setTimeout(() => btn.classList.add('tooltip-visible'), 600);
+      });
+      btn.addEventListener('mouseleave', () => {
+        clearTimeout(tooltipTimer);
+        btn.classList.remove('tooltip-visible');
+      });
+      btn.addEventListener('click', () => {
+        if (window.NavigationJaillot?.ouvrirModaleAvecDestination) {
+          window.NavigationJaillot.ouvrirModaleAvecDestination(ville.id, ville.nom);
+        }
+      });
+    }
+  }
 
   inner.scrollTop = 0;
   const panneau = document.getElementById('carte-panneau');
