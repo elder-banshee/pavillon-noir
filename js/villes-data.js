@@ -145,7 +145,7 @@ Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été
             { de: 1712, a: 1718, texte: true },
             { de: 1718, texte: false },
         ],
-        type: 'port',
+        type: 'fort',
         rade : [1515, 975],
         territoire: 'louisiane',
         coords: [1495, 935],
@@ -584,7 +584,7 @@ La spécialisation artisanale des villages du lac Pátzcuaro est encore vivante 
         rade : [543, 2729],
         rang: '2',
         territoire: 'nouvelle-espagne',
-        coords: [725, 2844],
+        coords: [568, 2716],
         // ⚠️ À l'embouchure du río Balsas (plus grand fleuve côtier du Pacifique
         // mexicain), marquant la frontière entre l'Audience de Mexico et Tlascala
         // sur la Jaillot. Correspond à la zone de l'actuelle Lázaro Cárdenas

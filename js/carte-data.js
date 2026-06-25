@@ -3951,3 +3951,25 @@ function resoudre(champ, annee) {
     if (cles.length === 0) return null;
     return champ[cles[0]];
 }
+
+// ── Limites géographiques de la carte ────────────────────────────────────────
+// Polygone délimitant la zone navigable (exclut titres, frises, marges).
+// Coordonnées en pixels Jaillot (8500 × 5320).
+const MAP_BOUNDS_POLYGON = [
+  [193, 367], [4274, 373], [8355, 397],
+  [8349, 5030], [4262, 5027], [4251, 5024],
+  [172, 5013],
+];
+
+function pointInMapBounds(x, y) {
+  const poly = MAP_BOUNDS_POLYGON;
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const xi = poly[i][0], yi = poly[i][1];
+    const xj = poly[j][0], yj = poly[j][1];
+    const intersect = ((yi > y) !== (yj > y))
+      && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}

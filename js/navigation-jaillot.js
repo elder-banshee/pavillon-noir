@@ -33,8 +33,8 @@
     poidsHeuristiqueTemps: 3.0,
     louvoyageDeltas: true,
   };
-  const DIRECTIONS_COURANT = ['N','NNE','NE','ENE','E','ESE','SE','SSE',
-    'S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  const DIRECTIONS_COURANT = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
+    'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
   const KMH_TO_KNOTS = 0.539956803;
 
   let carte = null;
@@ -119,7 +119,7 @@
   // En mode MJ sans test : toujours true. En mode joueur/test : niveauNavigation >= niveau requis.
   function modificateurActif(niveauRequis) {
     const mjSansTest = typeof modeMJ !== 'undefined' && modeMJ
-                    && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
+      && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
     if (mjSansTest) return true;
     const nav = typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0;
     return nav >= niveauRequis;
@@ -417,7 +417,7 @@
   function sourceCourantsCalculateur() {
     if (typeof SEA_CURRENTS === 'undefined') return [];
     const mjSansTest = typeof modeMJ !== 'undefined' && modeMJ
-                    && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
+      && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
     if (mjSansTest) return SEA_CURRENTS;
     const nav = typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0;
     return SEA_CURRENTS.filter(c => (c.visibiliteNav ?? 0) <= nav);
@@ -777,6 +777,7 @@
   }
 
   function pointNavigable(p, options = {}) {
+    if (typeof pointInMapBounds === 'function' && !pointInMapBounds(p.x, p.y)) return false;
     return segmentNavigable(p, p, { margePx: options.margePx ?? CONFIG.margeCotePx });
   }
 
@@ -844,7 +845,7 @@
   function sourceHautsFondsCalculateur() {
     if (typeof SEA_SHOALS === 'undefined') return [];
     const mjSansTest = typeof modeMJ !== 'undefined' && modeMJ
-                    && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
+      && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
     if (mjSansTest) return SEA_SHOALS;
     const nav = typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0;
     return SEA_SHOALS.filter(s => (s.visibiliteNav ?? 0) <= nav);
@@ -915,18 +916,18 @@
   }
 
   function pointDansHautFondItem(point, hautFond) {
-      if (!bboxCroise(point, point, hautFond.bbox, 0)) return false;
-      if (!pointDansPolygone(point, { points: hautFond.anneaux[0] })) return false;
-      return !hautFond.anneaux.slice(1).some(trou => pointDansPolygone(point, { points: trou }));
+    if (!bboxCroise(point, point, hautFond.bbox, 0)) return false;
+    if (!pointDansPolygone(point, { points: hautFond.anneaux[0] })) return false;
+    return !hautFond.anneaux.slice(1).some(trou => pointDansPolygone(point, { points: trou }));
   }
 
   function navireInterditHautFond(hautFond) {
-    const cat        = categorieTailleNavire();
-    const catMax     = hautFond.catMax    ?? CONFIG.categorieMaxHautsFonds;
-    const catMaxNav  = hautFond.catMaxNav ?? catMax;
+    const cat = categorieTailleNavire();
+    const catMax = hautFond.catMax ?? CONFIG.categorieMaxHautsFonds;
+    const catMaxNav = hautFond.catMaxNav ?? catMax;
     const passageNav = hautFond.passageNav ?? 99;
-    if (cat <= catMax)                                        return false; // libre
-    if (cat <= catMaxNav && niveauNavigation >= passageNav)   return false; // exception Nav
+    if (cat <= catMax) return false; // libre
+    if (cat <= catMaxNav && niveauNavigation >= passageNav) return false; // exception Nav
     return true;                                                            // interdit
   }
 
@@ -1140,7 +1141,7 @@
       }
     }
     descendre(i) {
-      for (;;) {
+      for (; ;) {
         const l = i * 2 + 1;
         const r = l + 1;
         let m = i;
@@ -1472,6 +1473,12 @@
   }
 
   function calculerRoute(depart, arrivee) {
+    if (typeof pointInMapBounds === 'function') {
+      if (!pointInMapBounds(depart.x, depart.y))
+        throw new Error('Le port de départ est hors des limites de la carte.');
+      if (!pointInMapBounds(arrivee.x, arrivee.y))
+        throw new Error('Le port d\'arrivée est hors des limites de la carte.');
+    }
     if (Number.isFinite(coutSegmentGrille(depart, arrivee))) return [depart, arrivee];
 
     const routeRegionale = routeFineRegionale(depart, arrivee);
@@ -1676,7 +1683,7 @@
   }
 
   function surlignerMatch(texte, qLow) { return window.RC.surlignerMatch(texte, qLow); }
-  function escapeHtml(str)              { return window.RC.escapeHtml(str); }
+  function escapeHtml(str) { return window.RC.escapeHtml(str); }
 
   function resultatsPorts(q) {
     return window.RC.rechercheVilles(q, { filtre: 'navig' });
@@ -1828,8 +1835,8 @@
       const volet = document.getElementById('nav-jaillot-volet');
       if (!volet) return;
       const rect = input.getBoundingClientRect();
-      volet.style.top   = rect.bottom + 'px';
-      volet.style.left  = rect.left + 'px';
+      volet.style.top = rect.bottom + 'px';
+      volet.style.left = rect.left + 'px';
       volet.style.width = rect.width + 'px';
       volet.style.display = 'block';
       // Téléporter le <ul> dans le volet s'il n'y est pas déjà
@@ -2025,27 +2032,27 @@
       if (typeof window.setNiveauNavigation === 'function') window.setNiveauNavigation(n);
     }
     function appliquerCat(val) {
-      const n = Math.max(0, Math.min(5, Math.round(val)));
+      const n = Math.max(1, Math.min(5, Math.round(val)));
       syncEncadreMJ(null, n);
       if (typeof window.setCategorieTailleTest === 'function') window.setCategorieTailleTest(n);
     }
 
     const navMoins = document.getElementById(idNavMoins);
-    const navPlus  = document.getElementById(idNavPlus);
+    const navPlus = document.getElementById(idNavPlus);
     const navInput = document.getElementById(idNavVal);
     const catMoins = document.getElementById(idCatMoins);
-    const catPlus  = document.getElementById(idCatPlus);
+    const catPlus = document.getElementById(idCatPlus);
     const catInput = document.getElementById(idCatVal);
 
-    navMoins?.addEventListener('click',  () => appliquerNav(Number(navInput.value) - 1));
-    navPlus?.addEventListener ('click',  () => appliquerNav(Number(navInput.value) + 1));
+    navMoins?.addEventListener('click', () => appliquerNav(Number(navInput.value) - 1));
+    navPlus?.addEventListener('click', () => appliquerNav(Number(navInput.value) + 1));
     navInput?.addEventListener('change', () => appliquerNav(Number(navInput.value)));
-    navInput?.addEventListener('input',  () => { const v = Number(navInput.value); if (Number.isFinite(v)) appliquerNav(v); });
+    navInput?.addEventListener('input', () => { const v = Number(navInput.value); if (Number.isFinite(v)) appliquerNav(v); });
 
-    catMoins?.addEventListener('click',  () => appliquerCat(Number(catInput.value) - 1));
-    catPlus?.addEventListener ('click',  () => appliquerCat(Number(catInput.value) + 1));
+    catMoins?.addEventListener('click', () => appliquerCat(Number(catInput.value) - 1));
+    catPlus?.addEventListener('click', () => appliquerCat(Number(catInput.value) + 1));
     catInput?.addEventListener('change', () => appliquerCat(Number(catInput.value)));
-    catInput?.addEventListener('input',  () => { const v = Number(catInput.value); if (Number.isFinite(v)) appliquerCat(v); });
+    catInput?.addEventListener('input', () => { const v = Number(catInput.value); if (Number.isFinite(v)) appliquerCat(v); });
   }
 
   function initEncadreMJPanneau(panneau) {
@@ -2055,8 +2062,8 @@
     bloc.classList.add('visible');
     // Synchroniser les valeurs courantes à l'affichage
     syncEncadreMJ(
-      typeof niveauNavigation !== 'undefined'     ? niveauNavigation     : 0,
-      typeof categorieTailleTest !== 'undefined'  ? categorieTailleTest  : 0
+      typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0,
+      typeof categorieTailleTest !== 'undefined' && categorieTailleTest > 0 ? categorieTailleTest : 1
     );
     bindEncadreMJ(bloc,
       'nav-jaillot-nav-moins', 'nav-jaillot-nav-plus', 'nav-jaillot-nav-val',
@@ -2136,7 +2143,7 @@
           <span class="nav-jaillot-test-mj-label">Cat. navire</span>
           <div class="nav-jaillot-test-mj-ctrl">
             <button type="button" id="nav-jaillot-cat-moins" aria-label="Diminuer">&#x2212;</button>
-            <input type="number" id="nav-jaillot-cat-val" min="0" max="5" value="0">
+            <input type="number" id="nav-jaillot-cat-val" min="1" max="5" value="1">
             <button type="button" id="nav-jaillot-cat-plus" aria-label="Augmenter">+</button>
           </div>
         </div>
@@ -2210,7 +2217,11 @@
   const MAX_ETAPES = 10;
 
   // Cache persistant : survit aux fermetures accidentelles
-  let cacheEtapes = null; // null = pas encore initialisé
+  let cacheEtapes = null; // null = pas encore initialisé (ou purgé par Annuler)
+
+  // Snapshot du formulaire principal au moment de la dernière fermeture de la modale.
+  // Permet de détecter si le panneau a été modifié entre deux ouvertures.
+  let snapshotPanneau = null; // { portIdA, valeurA, portIdB, valeurB }
 
   // État courant de la modale (null = fermée)
   let etatModale = null;
@@ -2534,7 +2545,7 @@
           <span class="nav-jaillot-test-mj-label">Cat. navire</span>
           <div class="nav-jaillot-test-mj-ctrl">
             <button type="button" id="nav-jaillot-cat-moins" aria-label="Diminuer">&#x2212;</button>
-            <input type="number" id="nav-jaillot-cat-val" min="0" max="5" value="0">
+            <input type="number" id="nav-jaillot-cat-val" min="1" max="5" value="1">
             <button type="button" id="nav-jaillot-cat-plus" aria-label="Augmenter">+</button>
           </div>
         </div>
@@ -2615,8 +2626,8 @@
     if (!window.modeMJ) { bloc.classList.remove('visible'); return; }
     bloc.classList.add('visible');
     syncEncadreMJ(
-      typeof niveauNavigation !== 'undefined'    ? niveauNavigation    : 0,
-      typeof categorieTailleTest !== 'undefined' ? categorieTailleTest : 0
+      typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0,
+      typeof categorieTailleTest !== 'undefined' && categorieTailleTest > 0 ? categorieTailleTest : 1
     );
     bindEncadreMJ(bloc,
       'nav-modale-nav-moins', 'nav-modale-nav-plus', 'nav-modale-nav-val',
@@ -2624,7 +2635,7 @@
     );
   }
 
-    function ouvrirModale() {
+  function ouvrirModale() {
     const overlay = document.getElementById('nav-modale-overlay');
     const panneau = document.getElementById('nav-jaillot');
     if (!overlay) return;
