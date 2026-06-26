@@ -247,6 +247,9 @@ function estListePointsMaritime(valeur) {
 function normaliserAnneauxMaritimes(polygone) {
   if (estListePointsMaritime(polygone)) return [polygone];
   if (Array.isArray(polygone)) return polygone.filter(estListePointsMaritime);
+  if (polygone && estListePointsMaritime(polygone.exterior)) {
+    return [polygone.exterior, ...(Array.isArray(polygone.holes) ? polygone.holes.filter(estListePointsMaritime) : [])];
+  }
   return [];
 }
 

@@ -1004,10 +1004,14 @@ function pushUndo(label) {
     zonesEdit: cloneJSON(zonesEdit),
     zonesMeta: cloneJSON(zonesMeta),
     seaCells: cloneJSON(seaCells),
+    currentsWorkingCopy: currentsWorkingCopy ? cloneJSON(currentsWorkingCopy) : null,
+    shoalsWorkingCopy: shoalsWorkingCopy ? cloneJSON(shoalsWorkingCopy) : null,
     selectedZoneId,
     selectedContourIdx,
     selectedSeaCellKey,
     selectedSeaCellKeys: [...selectedSeaCellKeys],
+    selectedCurrentId,
+    selectedShoalId,
     activeEditor,
     currentTool,
   });
@@ -1021,10 +1025,14 @@ function undoLastOperation() {
   zonesEdit = snapshot.zonesEdit;
   zonesMeta = snapshot.zonesMeta;
   seaCells = snapshot.seaCells;
+  currentsWorkingCopy = snapshot.currentsWorkingCopy;
+  shoalsWorkingCopy = snapshot.shoalsWorkingCopy;
   selectedZoneId = snapshot.selectedZoneId;
   selectedContourIdx = snapshot.selectedContourIdx;
   selectedSeaCellKey = snapshot.selectedSeaCellKey;
   selectedSeaCellKeys = new Set(snapshot.selectedSeaCellKeys || []);
+  selectedCurrentId = snapshot.selectedCurrentId || null;
+  selectedShoalId = snapshot.selectedShoalId || null;
   activeEditor = snapshot.activeEditor;
   currentTool = snapshot.currentTool;
   renderAllZones();
@@ -1032,6 +1040,7 @@ function undoLastOperation() {
   clearSegmentMarkers();
   if (selectedZoneId && activeEditor === 'zone') renderHandles();
   renderSeaCells();
+  if (currentLayer) renderCurrentsLayer();
   renderToolButtons();
   updateEditorUI();
   updatePanel();
@@ -1883,6 +1892,7 @@ function bindCurrentsButtons() {
       if (!selectedCurrentId) return;
       const c = getWorkingCurrents().find(x => x.id === selectedCurrentId);
       if (!c) return;
+      pushUndo('Inverser courant');
       c.centerline = [...c.centerline].reverse();
       // Recalculer les directions depuis la centerline inversée
       c.directions = recomputeDirections(c.centerline);
@@ -1892,10 +1902,19 @@ function bindCurrentsButtons() {
 
   if (btnDel) {
     btnDel.onclick = () => {
-      if (!selectedCurrentId) return;
-      if (!confirm('Supprimer "' + selectedCurrentId + '" de la session ?')) return;
-      currentsWorkingCopy = getWorkingCurrents().filter(x => x.id !== selectedCurrentId);
-      selectedCurrentId = null;
+      if (selectedCurrentId) {
+        if (!confirm('Supprimer "' + selectedCurrentId + '" de la session ?')) return;
+        pushUndo('Supprimer courant');
+        currentsWorkingCopy = getWorkingCurrents().filter(x => x.id !== selectedCurrentId);
+        selectedCurrentId = null;
+      } else if (selectedShoalId) {
+        if (!confirm('Supprimer "' + selectedShoalId + '" de la session ?')) return;
+        pushUndo('Supprimer haut-fond');
+        shoalsWorkingCopy = getWorkingShoals().filter(x => x.id !== selectedShoalId);
+        selectedShoalId = null;
+      } else {
+        return;
+      }
       renderCurrentsLayer();
     };
   }
@@ -1978,13 +1997,17 @@ function mergeSeaGeometryIntoWorkingCopy(geometry, type) {
   Object.entries(geometry).forEach(([id, geom]) => {
     if (!geom || typeof geom !== 'object') return;
     let item = list.find(entry => entry.id === id);
+    const exists = Boolean(item);
     if (!item) {
       item = { id, label: id.replace(/[_-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) };
       if (type === 'shoal') item.maxCategorieTaille = 3;
       else { item.priorite = 2; item.force = 1; }
       list.push(item);
     }
-    ['closed', 'zoneSource', 'centerline', 'directions', 'zone'].forEach(key => {
+    const keys = type === 'shoal'
+      ? ['zone']
+      : (exists ? ['closed', 'zoneSource', 'zone'] : ['closed', 'zoneSource', 'centerline', 'directions', 'zone']);
+    keys.forEach(key => {
       if (geom[key] !== undefined) item[key] = JSON.parse(JSON.stringify(geom[key]));
     });
     count++;
