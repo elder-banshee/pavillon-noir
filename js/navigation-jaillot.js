@@ -755,6 +755,12 @@
     return Math.max(0, Math.min(5, Number.isFinite(nav) ? nav : 0));
   }
 
+  function accesPiloteAutomatique() {
+    if (typeof modeMJ !== 'undefined' && modeMJ) return true;
+    const nav = typeof niveauNavigation !== 'undefined' ? Number(niveauNavigation) : 0;
+    return Number.isFinite(nav) && nav > 0;
+  }
+
   function etatNavireActif(navire = navireActif()) {
     if (etatNavire.id !== navire.id) {
       etatNavire = etatNavireParDefaut(navire);
@@ -1216,7 +1222,7 @@
           etatNavire.tonnageOccupe = Math.round(tonnage * 10) / 10;
           if (Number(e.target.value) !== etatNavire.tonnageOccupe) input.value = String(etatNavire.tonnageOccupe);
           majStyleEncombrement(input, encombrementNavirePct(navire));
-          majAffichageVitessesModifiees(navire);
+          majAffichageVitessesModifiees(navire, etatNavire);
           invaliderCacheHautsFonds();
         }
       });
@@ -1230,7 +1236,7 @@
       if (source !== 'input' || Number(tonnage) !== occupe) input.value = String(occupe);
       if (source !== 'slider') slider.value = String(Math.max(0, Math.min(100, pct)));
       majStyleEncombrement(input, pct);
-      majAffichageVitessesModifiees(navire);
+      majAffichageVitessesModifiees(navire, etatNavire);
       if (source !== 'init') invaliderCacheHautsFonds();
     }
 
@@ -1260,12 +1266,38 @@
       ancien.checked = etatNavire.carenage === 'ancien';
       recent.closest('.navire-carenage-option')?.classList.toggle('navire-bonus', recent.checked);
       ancien.closest('.navire-carenage-option')?.classList.toggle('navire-alerte', ancien.checked);
-      majAffichageVitessesModifiees(navire);
+      majAffichageVitessesModifiees(navire, etatNavire);
       invaliderCacheHautsFonds();
     }
 
-    recent.addEventListener('change', () => appliquer(recent.checked ? 'recent' : 'normal'));
-    ancien.addEventListener('change', () => appliquer(ancien.checked ? 'ancien' : 'normal'));
+    const appliquerRecent = () => appliquer(recent.checked ? 'recent' : 'normal');
+    const appliquerAncien = () => appliquer(ancien.checked ? 'ancien' : 'normal');
+    const appliquerRecentApresToggle = () => setTimeout(appliquerRecent, 0);
+    const appliquerAncienApresToggle = () => setTimeout(appliquerAncien, 0);
+    recent.addEventListener('click', appliquerRecentApresToggle);
+    ancien.addEventListener('click', appliquerAncienApresToggle);
+    recent.addEventListener('input', appliquerRecent);
+    ancien.addEventListener('input', appliquerAncien);
+    recent.addEventListener('change', appliquerRecent);
+    ancien.addEventListener('change', appliquerAncien);
+  }
+
+  function appliquerCarenageDepuisControle(target) {
+    if (!target || (target.id !== 'navire-carenage-recent' && target.id !== 'navire-carenage-ancien')) return;
+    const navire = navireActif();
+    const etat = etatNavireActif(navire);
+    const recent = document.getElementById('navire-carenage-recent');
+    const ancien = document.getElementById('navire-carenage-ancien');
+    if (!recent || !ancien) return;
+    etat.carenage = target.checked
+      ? (target.id === 'navire-carenage-recent' ? 'recent' : 'ancien')
+      : 'normal';
+    recent.checked = etat.carenage === 'recent';
+    ancien.checked = etat.carenage === 'ancien';
+    recent.closest('.navire-carenage-option')?.classList.toggle('navire-bonus', recent.checked);
+    ancien.closest('.navire-carenage-option')?.classList.toggle('navire-alerte', ancien.checked);
+    majAffichageVitessesModifiees(navire, etat);
+    invaliderCacheHautsFonds();
   }
 
   function majStyleEncombrement(input, pct) {
@@ -1275,20 +1307,18 @@
     input?.classList.toggle('navire-alerte', malus);
   }
 
-  function vitesseModifieeAffichee(base, journalier = false) {
+  function vitesseModifieeAffichee(base, journalier = false, modificateur = modificateurVitesseActuelNoeuds()) {
     const vitesseBase = Number(base);
     if (!Number.isFinite(vitesseBase) || vitesseBase <= 0) {
       return { texte: '—', classe: '' };
     }
-    const vitesse = Math.max(CONFIG.vitesseMinSegmentNoeuds, vitesseBase + modificateurVitesseActuelNoeuds());
+    const vitesse = Math.max(CONFIG.vitesseMinSegmentNoeuds, vitesseBase + modificateur);
     const classe = vitesse > vitesseBase ? 'navire-bonus' : (vitesse < vitesseBase ? 'navire-alerte' : '');
     if (journalier) return { texte: String(Math.round(vitesse * 24)), classe };
     return { texte: `${Math.round(vitesse * 10) / 10} nd`, classe };
   }
 
-  function modificateurVitesseActuelNoeuds() {
-    const navire = navireActif();
-    const etat = etatNavireActif(navire);
+  function modificateurVitesseActuelNoeuds(navire = navireActif(), etat = etatNavireActif(navire)) {
     let mod = 0;
     if (modificateurActif(2)) {
       const pct = encombrementNavirePct(navire, etat);
@@ -1302,11 +1332,12 @@
     return mod;
   }
 
-  function majAffichageVitessesModifiees(navire = navireActif()) {
+  function majAffichageVitessesModifiees(navire = navireActif(), etat = etatNavireActif(navire)) {
+    const modificateur = modificateurVitesseActuelNoeuds(navire, etat);
     document.querySelectorAll('[data-navire-vitesse-base]').forEach(el => {
       const base = Number(el.dataset.navireVitesseBase);
       const journalier = el.dataset.navireVitesseJour === '1';
-      const rendu = vitesseModifieeAffichee(base, journalier);
+      const rendu = vitesseModifieeAffichee(base, journalier, modificateur);
       el.textContent = rendu.texte;
       el.classList.toggle('navire-bonus', rendu.classe === 'navire-bonus');
       el.classList.toggle('navire-alerte', rendu.classe === 'navire-alerte');
@@ -1457,6 +1488,14 @@
       rendreSelectNavire();
       rendreFicheNavire();
       fermerSelectNavire();
+    });
+    overlay.addEventListener('input', e => appliquerCarenageDepuisControle(e.target));
+    overlay.addEventListener('change', e => appliquerCarenageDepuisControle(e.target));
+    overlay.addEventListener('click', e => {
+      const target = e.target;
+      if (target?.id === 'navire-carenage-recent' || target?.id === 'navire-carenage-ancien') {
+        setTimeout(() => appliquerCarenageDepuisControle(target), 0);
+      }
     });
     fermerSurClicExterieurStrict(overlay, fermerModaleNavire);
 
@@ -2814,7 +2853,7 @@
 
   // ── initOutilsPilote ─────────────────────────────────────────────────────
   function initOutilsPilote() {
-    if (!window.modeMJ) return;
+    if (!accesPiloteAutomatique()) return;
     const conteneur = document.getElementById('nav-outils-pilote');
     if (!conteneur) return;
     conteneur.classList.add('visible');
@@ -2829,6 +2868,9 @@
     initTooltip(btnCalc);
     initTooltip(btnNavire);
 
+    if (conteneur.dataset.piloteBound === '1') return;
+    conteneur.dataset.piloteBound = '1';
+
     btnCalc.addEventListener('click', () => {
       if (!cacheEtapes) {
         const depart = etapeDepartNavire();
@@ -2842,8 +2884,7 @@
   }
 
   function initUI() {
-    // Réservé au mode MJ — invisible pour les joueurs
-    if (!window.modeMJ) return;
+    if (!accesPiloteAutomatique()) return;
 
     // Conteneur global pour les volets téléportés hors de la modale
     if (!document.getElementById('nav-jaillot-volet')) {
@@ -3536,6 +3577,11 @@
     initOutilsPilote();
     initModale();
     initModaleNavire();
+    window.addEventListener('navigation-level-change', () => {
+      initUI();
+      initOutilsPilote();
+      majBoutonsNavire();
+    });
   }
 
   window.NavigationJaillot = {

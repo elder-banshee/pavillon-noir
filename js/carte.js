@@ -46,6 +46,16 @@ let modeMJ = false;
 let niveauNavigation = 0;
 let testNiveauNavActif = false; // true quand le MJ simule un niveau Nav reduit
 let categorieTailleTest = 0;   // 0 = non actif ; 1-5 = categorie forcee en mode test MJ
+window.niveauNavigation = niveauNavigation;
+window.testNiveauNavActif = testNiveauNavActif;
+window.categorieTailleTest = categorieTailleTest;
+const MOTS_DE_PASSE_NAVIGATION = {
+  bssl: 1,
+  sblr: 2,
+  sxtt: 3,
+  cmps: 4,
+  prtl: 5,
+};
 const SEQUENCE_MJ = ['eleuthera', 'marguerita', 'jamaique'];
 let sequenceEnCours = [];
 let attenteClic_IleDuMais = false;
@@ -546,6 +556,8 @@ function ouvrirPopupConfirmationMJ() {
 function confirmerModeMJ() {
   modeMJ = true;
   window.modeMJ = true; // exposé pour navigation-jaillot.js et autres modules
+  setNiveauNavigation(5);
+  setCategorieTailleTest(categorieTailleNavirePJDefaut());
   fermerPopup();
 
   const wrap = document.getElementById('carte-wrap');
@@ -610,6 +622,12 @@ function confirmerModeMJ() {
 
   // Initialiser le calculateur de route maintenant que le mode MJ est actif
   window.NavigationJaillot?.init({ carte, pixelToLatLng });
+}
+
+function categorieTailleNavirePJDefaut() {
+  const navirePJ = typeof window.getShipById === 'function' ? window.getShipById('navire-pj') : null;
+  const categorie = Number(navirePJ?.categorieTaille);
+  return Number.isFinite(categorie) && categorie > 0 ? categorie : 1;
 }
 function annulerModeMJ() {
   fermerPopup();
@@ -704,15 +722,28 @@ function planifierPrechauffageDesktop() {
 
 function setNiveauNavigation(niveau) {
   niveauNavigation = Math.max(0, Math.min(5, niveau));
+  window.niveauNavigation = niveauNavigation;
   testNiveauNavActif = modeMJ && (niveauNavigation < 5 || categorieTailleTest > 0);
+  window.testNiveauNavActif = testNiveauNavActif;
   if (typeof window.invaliderCacheHautsFonds === 'function') window.invaliderCacheHautsFonds();
   if (overlayMode === 'maritime') renderMaritime();
+  window.dispatchEvent(new CustomEvent('navigation-level-change', { detail: { niveauNavigation } }));
 }
 
 function setCategorieTailleTest(cat) {
   categorieTailleTest = Math.max(0, Math.min(5, Math.round(cat)));
+  window.categorieTailleTest = categorieTailleTest;
   testNiveauNavActif = modeMJ && (niveauNavigation < 5 || categorieTailleTest > 0);
+  window.testNiveauNavActif = testNiveauNavActif;
   if (typeof window.invaliderCacheHautsFonds === 'function') window.invaliderCacheHautsFonds();
+}
+
+function appliquerMotDePasseNavigation(q) {
+  const cle = String(q || '').trim().toLowerCase();
+  const niveau = MOTS_DE_PASSE_NAVIGATION[cle];
+  if (!niveau) return false;
+  setNiveauNavigation(niveau);
+  return true;
 }
 
 function positionnerBoutonsZoom() {
@@ -1123,6 +1154,13 @@ function initRecherche() {
     onEntreeSansMatch: (q, gh) => {
       const qLow = window.RC.normaliser(q);
       if (!qLow) return;
+      if (appliquerMotDePasseNavigation(qLow)) {
+        input.value = '';
+        clear.style.display = 'none';
+        gh.vider();
+        input.blur();
+        return;
+      }
       if (typeof VILLES !== 'undefined') {
         const v = VILLES.find(v => v.coords && window.RC.normaliser(v.nom) === qLow);
         if (v) { zoomerVille(v.id); return; }
@@ -1149,6 +1187,13 @@ function initRecherche() {
   // Bouton Clear — spécifique à la recherche principale
   clear.style.display = 'none';
   input.addEventListener('input', () => {
+    if (appliquerMotDePasseNavigation(input.value)) {
+      input.value = '';
+      clear.style.display = 'none';
+      champ.vider();
+      input.blur();
+      return;
+    }
     clear.style.display = input.value.trim() ? '' : 'none';
   });
   clear.addEventListener('click', () => {
