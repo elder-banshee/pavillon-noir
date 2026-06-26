@@ -4,6 +4,8 @@
  * Structure de chaque entrée :
  *   id                {string}   identifiant unique (snake_case)
  *   nom               {string}   nom affiché
+ *   designation       {string?}  nom d'usage avec article, pour les navires nommés
+ *   type              {string?}  id d'un archetype du catalogue, pour les navires nommés
  *   categorieTaille   {number}   1 Chaloupe · 2 Sloop · 3 Goélette · 4 Frégate · 5 Vaisseau de ligne
  *   tirantEau         {number}   tirant d'eau en mètres (valeur corrigée)
  *   voilure           {string}   'aurique' · 'latine' · 'tierce' · 'carree' · 'livarde' · 'mixte'
@@ -29,6 +31,7 @@
  *   regionRestriction {string[]} restrictions techniques — [] · ['cotiere'] · ['fluviale'] · ['riviere']
  *                                Les indications géographiques et rareté → champ notes
  *   malusHauturier    {boolean}  true si malus de manœuvrabilité en navigation hauturière
+ *   etatNavigation    {object?}  état initial optionnel : encombrementPct, carenage
  *   notes             {string}   contexte géographique/historique (Nav 5) ou note technique
  *
  * Modificateurs de vitesse (nav-jaillot.js) :
@@ -39,6 +42,34 @@
 
 'use strict';
 
+const SHIP_CATEGORIES = {
+  1: 'Catégorie 1 — Taille Chaloupe',
+  2: 'Catégorie 2 — Taille Sloop',
+  3: 'Catégorie 3 — Taille Goélette',
+  4: 'Catégorie 4 — Taille Frégate',
+  5: 'Catégorie 5 — Taille Vaisseau de ligne',
+};
+
+const SHIP_FIELD_VISIBILITY = {
+  model: 0,
+  vitesse_naive_jour: 0,
+  regionRestriction: 0,
+  tonnage_total: 1,
+  tonnage_occupe_total: 1,
+  equipage_max: 1,
+  tonnage_utile: 2,
+  tonnage_occupe_utile: 2,
+  encombrement: 2,
+  equipage_min: 2,
+  voilure: 2,
+  vitesses_completes: 2,
+  malus_navigation: 3,
+  tirantEau: 3,
+  carenage: 3,
+  carene: 3,
+  notes: 5,
+};
+
 const SHIPS_DATA = [
 
   // ── Navire des PJ ───────────────────────────────────────────────
@@ -46,6 +77,8 @@ const SHIPS_DATA = [
   {
     id: 'navire-pj',
     nom: (typeof CARTE_NAVIRE !== 'undefined' ? CARTE_NAVIRE.nom : 'Cúchulainn'),
+    designation: (typeof CARTE_NAVIRE !== 'undefined' ? CARTE_NAVIRE.designation : 'Le Cúchulainn'),
+    type: 'cotre_a_tape_cul',
     categorieTaille: 2,
     tirantEau: 2.5,
     voilure: 'aurique',
@@ -968,6 +1001,20 @@ function getShipById(id) {
   return SHIPS_DATA.find(s => s.id === id) ?? null;
 }
 
+function getShipCategoryLabel(categorieTaille) {
+  return SHIP_CATEGORIES[categorieTaille] || `Catégorie ${categorieTaille || '?'}`;
+}
+
+function canAccessShipField(field, navLevel) {
+  const required = SHIP_FIELD_VISIBILITY[field];
+  if (typeof required !== 'number') return false;
+  return Number(navLevel) >= required;
+}
+
 window.SHIPS_DATA = SHIPS_DATA;
+window.SHIP_CATEGORIES = SHIP_CATEGORIES;
+window.SHIP_FIELD_VISIBILITY = SHIP_FIELD_VISIBILITY;
 window.getShipsForNavLevel = getShipsForNavLevel;
 window.getShipById = getShipById;
+window.getShipCategoryLabel = getShipCategoryLabel;
+window.canAccessShipField = canAccessShipField;

@@ -104,7 +104,7 @@
   function vitesseNavireMoyenneNoeuds() {
     const navire = navireActif();
     const vitesse = Number(navire.navigation?.vitesse_naive);
-    if (Number.isFinite(vitesse) && vitesse > 0) return vitesse;
+    if (Number.isFinite(vitesse) && vitesse > 0) return vitesseModifieeNoeuds(vitesse);
     throw new Error('Navire \u00ab\u00a0' + (navire.nom || navire.id || '?') + '\u00a0\u00bb : vitesse_naive manquante ou invalide.');
   }
 
@@ -160,11 +160,11 @@
     const navire = navireActif();
     const nav = navire.navigation || {};
     const vitesse = Number(nav[allure]);
-    if (Number.isFinite(vitesse) && vitesse > 0) return vitesse;
+    if (Number.isFinite(vitesse) && vitesse > 0) return vitesseModifieeNoeuds(vitesse);
     // vent_arriere peut utiliser grand_largue comme repli documente
     if (allure === 'vent_arriere') {
       const grandLargue = Number(nav.grand_largue);
-      if (Number.isFinite(grandLargue) && grandLargue > 0) return grandLargue;
+      if (Number.isFinite(grandLargue) && grandLargue > 0) return vitesseModifieeNoeuds(grandLargue);
     }
     throw new Error('Navire \u00ab\u00a0' + (navire.nom || navire.id || '?') + '\u00a0\u00bb : vitesse d\u2019allure \u00ab\u00a0' + allure + '\u00a0\u00bb manquante.');
   }
@@ -187,6 +187,17 @@
     const { allure } = allureSegment(a, b, point);
     if (allure === null) return vitesseNavireMoyenneNoeuds(); // Nav < 2 : vitesse naive directe
     return vitesseNavireAllureNoeuds(allure);
+  }
+
+  function vitesseModifieeNoeuds(vitesse) {
+    const base = Number(vitesse);
+    if (!Number.isFinite(base) || base <= 0) return base;
+    const mod = modificateurVitesseNavireNoeuds();
+    return Math.max(CONFIG.vitesseMinSegmentNoeuds, base + mod);
+  }
+
+  function modificateurVitesseNavireNoeuds() {
+    return modificateurVitesseActuelNoeuds();
   }
 
   function projectionCourantAuPointNoeuds(a, b, point) {
@@ -752,12 +763,51 @@
   }
 
   function etatNavireParDefaut(navire) {
-    const utile = Number(navire.tonnage?.utile);
+    const niveau = niveauCatalogueNavire();
+    const tonnage = accesChampNavire('tonnage_occupe_utile', niveau) && Number.isFinite(Number(navire.tonnage?.utile))
+      ? Number(navire.tonnage?.utile)
+      : Number(navire.tonnage?.total);
+    const defaults = defaultsNavigationNavire(navire);
+    const encombrementPct = Number(defaults.encombrementPct);
+    const tonnageOccupe = Number.isFinite(encombrementPct) && Number.isFinite(tonnage)
+      ? Math.round((tonnage * Math.max(0, Math.min(100, encombrementPct)) / 100) * 10) / 10
+      : (Number.isFinite(tonnage) ? Math.round(tonnage * 50) / 100 : 0);
     return {
       id: navire.id,
-      equipage: Number(navire.equipage?.standard) || Number(navire.equipage?.min) || 0,
-      tonnageOccupe: Number.isFinite(utile) ? Math.round(utile * 50) / 100 : 0,
+      equipage: Number(defaults.equipageActuel) || Number(navire.equipage?.standard) || Number(navire.equipage?.min) || 0,
+      tonnageOccupe,
+      carenage: normaliserCarenage(defaults.carenage),
     };
+  }
+
+  function defaultsNavigationNavire(navire) {
+    const carteNavire = typeof CARTE_NAVIRE !== 'undefined' ? CARTE_NAVIRE : null;
+    if (navire.id === 'navire-pj' && carteNavire?.navigation) return carteNavire.navigation;
+    return navire.etatNavigation || {};
+  }
+
+  function normaliserCarenage(valeur) {
+    return valeur === 'recent' || valeur === 'ancien' ? valeur : 'normal';
+  }
+
+  function limiteTonnageOccupeNavire(navire, niveau = niveauCatalogueNavire()) {
+    const utile = Number(navire.tonnage?.utile);
+    const total = Number(navire.tonnage?.total);
+    return accesChampNavire('tonnage_occupe_utile', niveau) && Number.isFinite(utile) ? utile : total;
+  }
+
+  function encombrementNavirePct(navire = navireActif(), etat = etatNavireActif(navire), niveau = niveauCatalogueNavire()) {
+    const limite = limiteTonnageOccupeNavire(navire, niveau);
+    const occupe = Number(etat.tonnageOccupe);
+    if (!Number.isFinite(limite) || limite <= 0 || !Number.isFinite(occupe)) return null;
+    return Math.max(0, Math.round((occupe / limite) * 100));
+  }
+
+  function carenageApplicableNavire(navire = navireActif()) {
+    const categorie = typeof categorieTailleNavire === 'function'
+      ? Number(categorieTailleNavire())
+      : Number(navire.categorieTaille);
+    return Number.isFinite(categorie) && categorie >= 2;
   }
 
   function categorieOverrideActive(navire = navireActif()) {
@@ -767,7 +817,7 @@
   }
 
   function libelleNavireBouton(navire = navireActif()) {
-    return `${navire.nom || navire.id || 'Navire'}${categorieOverrideActive(navire) ? '*' : ''}`;
+    return `${designationNavire(navire)}${categorieOverrideActive(navire) ? '*' : ''}`;
   }
 
   function majBoutonsNavire() {
@@ -799,8 +849,10 @@
     if (typeof CARTE_NAVIRE !== 'undefined') {
       CARTE_NAVIRE.navireId = navire.id;
       CARTE_NAVIRE.nom = navire.nom;
+      CARTE_NAVIRE.designation = navire.designation || navire.nom;
     }
     etatNavire = etatNavireParDefaut(navire);
+    realignerCategorieTestMJ(navire);
     invaliderCacheHautsFonds();
     majBoutonsNavire();
     return navire;
@@ -809,15 +861,19 @@
   function reinitialiserNavireActif() {
     const navire = navireActif();
     etatNavire = etatNavireParDefaut(navire);
+    realignerCategorieTestMJ(navire);
+    invaliderCacheHautsFonds();
+    majBoutonsNavire();
+    rendreSelectNavire();
+    rendreFicheNavire();
+  }
+
+  function realignerCategorieTestMJ(navire) {
     const categorie = Number(navire.categorieTaille);
     if (Number.isFinite(categorie) && categorie > 0) {
       syncEncadreMJ(null, categorie);
       if (typeof window.setCategorieTailleTest === 'function') window.setCategorieTailleTest(categorie);
     }
-    invaliderCacheHautsFonds();
-    majBoutonsNavire();
-    rendreSelectNavire();
-    rendreFicheNavire();
   }
 
   function formatNombreNavire(v, suffixe = '') {
@@ -827,13 +883,53 @@
     return `${n}${suffixe}`;
   }
 
+  function accesChampNavire(champ, niveau = niveauCatalogueNavire()) {
+    if (typeof window.canAccessShipField === 'function') return window.canAccessShipField(champ, niveau);
+    return niveau >= (champ === 'notes' ? 5 : 0);
+  }
+
+  function libelleCategorieNavire(categorie) {
+    if (typeof window.getShipCategoryLabel === 'function') return window.getShipCategoryLabel(categorie);
+    return `Catégorie ${categorie || '?'}`;
+  }
+
+  function designationNavire(navire) {
+    return navire.designation || navire.nom || navire.id || 'Navire';
+  }
+
+  function modeleNavire(navire) {
+    if (!navire.type) return navire;
+    const modele = typeof window.getShipById === 'function' ? window.getShipById(navire.type) : null;
+    return modele || null;
+  }
+
+  function libelleModeleNavire(navire) {
+    const modele = modeleNavire(navire);
+    return modele?.nom || navire.type || navire.nom || navire.id || '';
+  }
+
+  function majTitreModaleNavire(navire = navireActif()) {
+    const titre = document.getElementById('navire-modale-titre');
+    if (!titre) return;
+    const type = libelleModeleNavire(navire);
+    if (navire.type || navire.designation) {
+      titre.innerHTML = `
+        <span class="navire-modale-titre-nom">${escapeHtml(designationNavire(navire))}</span>
+        ${type ? `<span class="navire-modale-titre-type"> - ${escapeHtml(type)}</span>` : ''}
+      `;
+      return;
+    }
+    titre.innerHTML = `<span class="navire-modale-titre-type">${escapeHtml(type)}</span>`;
+  }
+
   function naviresAccessiblesCatalogue() {
     const courant = navireActif();
+    const pj = typeof window.getShipById === 'function' ? window.getShipById('navire-pj') : null;
     const niveau = niveauCatalogueNavire();
     const accessibles = typeof window.getShipsForNavLevel === 'function'
       ? window.getShipsForNavLevel(niveau)
       : [];
-    const navires = [courant, ...accessibles].filter(Boolean);
+    const navires = [pj, courant, ...accessibles].filter(Boolean);
     const vus = new Set();
     return navires.filter(navire => {
       if (!navire.id || vus.has(navire.id)) return false;
@@ -844,13 +940,40 @@
 
   function rendreSelectNavire() {
     const select = document.getElementById('navire-modele-select');
+    const champ = document.getElementById('navire-modele-champ');
+    const trigger = document.getElementById('navire-modele-trigger');
     if (!select) return;
     const courant = navireActif();
     const niveau = niveauCatalogueNavire();
-    select.innerHTML = naviresAccessiblesCatalogue().map(navire => {
-      const suffixe = navire.id === courant.id ? ' — actif' : '';
-      return `<option value="${escapeHtml(navire.id)}">${escapeHtml(navire.nom || navire.id)}${suffixe}</option>`;
-    }).join('');
+    const accessible = niveau >= 1;
+    if (champ) {
+      champ.hidden = true;
+      champ.classList.remove('navire-modele-champ--ouvert');
+    }
+    if (trigger) {
+      trigger.classList.toggle('navire-modale-titre-btn--selectable', accessible);
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.setAttribute('aria-disabled', accessible ? 'false' : 'true');
+      trigger.title = accessible ? 'Changer de navire' : '';
+    }
+    const pj = typeof window.getShipById === 'function' ? window.getShipById('navire-pj') : null;
+    const parCategorie = new Map();
+    naviresAccessiblesCatalogue()
+      .slice()
+      .filter(navire => navire.id !== 'navire-pj')
+      .sort((a, b) => (Number(a.categorieTaille) || 0) - (Number(b.categorieTaille) || 0)
+        || String(a.nom || a.id).localeCompare(String(b.nom || b.id), 'fr'))
+      .forEach(navire => {
+        const cat = Number(navire.categorieTaille) || 0;
+        if (!parCategorie.has(cat)) parCategorie.set(cat, []);
+        parCategorie.get(cat).push(navire);
+      });
+    const optionPJ = pj ? `<option value="${escapeHtml(pj.id)}">${escapeHtml(designationNavire(pj))}</option>` : '';
+    select.innerHTML = optionPJ + [...parCategorie.entries()].map(([cat, navires]) => `
+      <optgroup label="${escapeHtml(libelleCategorieNavire(cat))}">
+        ${navires.map(navire => `<option value="${escapeHtml(navire.id)}">${escapeHtml(navire.nom || navire.id)}</option>`).join('')}
+      </optgroup>
+    `).join('');
     select.value = courant.id;
     select.disabled = niveau <= 0 && courant.id === 'navire-pj';
   }
@@ -861,25 +984,27 @@
     if (!fiche) return;
 
     const navire = navireActif();
+    const niveau = niveauCatalogueNavire();
     const etat = etatNavireActif(navire);
     const equipage = Number(etat.equipage);
     const min = Number(navire.equipage?.min);
     const max = Number(navire.equipage?.max);
     const tonnageUtile = Number(navire.tonnage?.utile);
+    const tonnageTotal = Number(navire.tonnage?.total);
+    const tonnageLimite = limiteTonnageOccupeNavire(navire, niveau);
     const tonnageOccupe = Number(etat.tonnageOccupe);
-    const encombrement = tonnageUtile > 0 && Number.isFinite(tonnageOccupe)
-      ? Math.max(0, Math.round((tonnageOccupe / tonnageUtile) * 100))
-      : 0;
+    const encombrement = encombrementNavirePct(navire, etat, niveau) ?? 0;
     const equipageAlerte = Number.isFinite(equipage)
       && ((Number.isFinite(min) && equipage < min) || (Number.isFinite(max) && equipage > max));
     const encombrementBonus = Number.isFinite(encombrement) && encombrement < 25;
     const encombrementMalus = Number.isFinite(encombrement) && encombrement > 75;
     const encombrementClasse = encombrementMalus ? 'navire-alerte' : (encombrementBonus ? 'navire-bonus' : '');
-    const encombrementEffet = encombrementBonus ? '+1 nœud' : (encombrementMalus ? '-1 nœud' : '');
     const override = categorieOverrideActive(navire);
     const restrictions = Array.isArray(navire.regionRestriction) && navire.regionRestriction.length
       ? navire.regionRestriction.join(', ')
       : 'Aucune';
+
+    majTitreModaleNavire(navire);
 
     if (message) {
       if (equipageAlerte && equipage < min) message.textContent = `Équipage inférieur au minimum de ${min}.`;
@@ -887,69 +1012,27 @@
       else message.textContent = '';
     }
 
+    const colonneGauche = [
+      sectionEquipageNavire(navire, { niveau, equipage, min, max, equipageAlerte }),
+      sectionCarenageNavire(navire, etat, niveau),
+      sectionCaracteristiquesNavire(navire, { niveau, restrictions }),
+    ].filter(Boolean).join('');
+    const colonneDroite = [
+      sectionTonnageNavire(navire, { niveau, tonnageTotal, tonnageUtile, tonnageLimite, tonnageOccupe, encombrement, encombrementClasse }),
+      sectionVitessesNavire(navire, niveau),
+    ].filter(Boolean).join('');
+    const basFiche = [
+      override ? sectionSimulationNavire() : '',
+      accesChampNavire('notes', niveau) && navire.notes ? sectionNotesNavire(navire) : '',
+    ].filter(Boolean).join('');
+
     fiche.innerHTML = `
-      <section class="navire-modale-section">
-        <h3>Équipage</h3>
-        <div class="navire-modale-grille navire-modale-grille--compacte">
-          ${donneeNavire('Nécessaire pour manœuvrer', formatNombreNavire(min))}
-          ${donneeNavire('Maximal', formatNombreNavire(max), equipageAlerte)}
-          ${champCompactNavire('À bord', 'navire-equipage-input', {
-            value: Number.isFinite(equipage) ? equipage : '',
-            step: '1',
-            classes: equipageAlerte ? 'navire-alerte' : '',
-          })}
-        </div>
-      </section>
-      <section class="navire-modale-section">
-        <h3>Tonnage</h3>
-        <div class="navire-modale-grille navire-modale-grille--compacte">
-          ${donneeNavire('Total', formatNombreNavire(navire.tonnage?.total), false, navire.tonnage?.fourchette)}
-          ${donneeNavire('Utile', formatNombreNavire(tonnageUtile), false, navire.tonnage?.fourchette)}
-          ${champCompactNavire('Occupé', 'navire-tonnage-occupe-input', {
-            value: Number.isFinite(tonnageOccupe) ? tonnageOccupe : '',
-            min: '0',
-            max: Number.isFinite(tonnageUtile) ? String(tonnageUtile) : '',
-            step: '0.5',
-            classes: encombrementClasse,
-          })}
-        </div>
-        <label class="navire-modale-champ navire-encombrement">
-          <span>Encombrement <strong id="navire-encombrement-effet" class="${encombrementClasse}">${encombrementEffet}</strong></span>
-          <input id="navire-encombrement-slider" type="range" min="0" max="100" step="1" value="${Math.min(100, encombrement)}">
-        </label>
-      </section>
-      <section class="navire-modale-section">
-        <h3>Caractéristiques</h3>
-        <div class="navire-modale-grille">
-          ${donneeNavire('Tirant d’eau', formatNombreNavire(navire.tirantEau, ' m'))}
-          ${donneeNavire('Voilure', navire.voilure || '—')}
-          ${donneeNavire('Restriction', restrictions)}
-          ${donneeNavire('Malus hauturier', navire.malusHauturier ? 'Oui' : 'Non')}
-        </div>
-      </section>
-      <section class="navire-modale-section">
-        <h3>Vitesses</h3>
-        <div class="navire-modale-grille">
-          ${donneeNavire('Naïve', formatNombreNavire(navire.navigation?.vitesse_naive, ' nd'))}
-          ${donneeNavire('Près', formatNombreNavire(navire.navigation?.pres, ' nd'))}
-          ${donneeNavire('Largue', formatNombreNavire(navire.navigation?.largue, ' nd'))}
-          ${donneeNavire('Grand largue', formatNombreNavire(navire.navigation?.grand_largue, ' nd'))}
-          ${donneeNavire('Vent arrière', formatNombreNavire(navire.navigation?.vent_arriere, ' nd'))}
-          ${donneeNavire('Avirons', formatNombreNavire(navire.navigation?.avirons, ' nd'))}
-        </div>
-      </section>
-      ${override ? `
-        <section class="navire-modale-section">
-          <h3>Simulation MJ</h3>
-          <div class="navire-modale-donnee-valeur navire-override">Catégorie de taille forcée par l’encadré TEST MJ.</div>
-        </section>
-      ` : ''}
-      ${navire.notes ? `
-        <section class="navire-modale-section">
-          <h3>Notes</h3>
-          <p class="navire-modale-note">${escapeHtml(navire.notes)}</p>
-        </section>
-      ` : ''}
+      ${sectionTitreNavire(navire)}
+      <div class="navire-modale-fiche-colonnes">
+        ${colonneGauche ? `<div class="navire-modale-fiche-colonne">${colonneGauche}</div>` : ''}
+        ${colonneDroite ? `<div class="navire-modale-fiche-colonne">${colonneDroite}</div>` : ''}
+        ${basFiche}
+      </div>
     `;
 
     document.getElementById('navire-equipage-input')?.addEventListener('input', e => {
@@ -958,6 +1041,146 @@
       majAlerteEquipageNavire(navire, e.target);
     });
     initControleTonnageNavire(navire);
+    initControleCarenageNavire();
+    majAffichageVitessesModifiees(navire);
+  }
+
+  function sectionTitreNavire(navire) {
+    return `
+      <section class="navire-modale-identite" aria-hidden="true"></section>
+    `;
+  }
+
+  function sectionEquipageNavire(navire, ctx) {
+    if (!accesChampNavire('equipage_max', ctx.niveau)) return '';
+    const colonnes = [];
+    if (accesChampNavire('equipage_min', ctx.niveau)) {
+      colonnes.push(donneeNavire('Nécessaire pour manœuvrer', formatNombreNavire(ctx.min)));
+    }
+    colonnes.push(donneeNavire('Maximal', formatNombreNavire(ctx.max), ctx.equipageAlerte));
+    colonnes.push(champCompactNavire('Effectif', 'navire-equipage-input', {
+      value: Number.isFinite(ctx.equipage) ? ctx.equipage : '',
+      step: '1',
+      classes: ctx.equipageAlerte ? 'navire-alerte' : '',
+    }));
+    return `
+      <section class="navire-modale-section navire-modale-section--equipage">
+        <h3>Équipage</h3>
+        <div class="navire-modale-grille navire-modale-grille--compacte">
+          ${colonnes.join('')}
+        </div>
+      </section>
+    `;
+  }
+
+  function sectionTonnageNavire(navire, ctx) {
+    if (!accesChampNavire('tonnage_total', ctx.niveau)) return '';
+    const colonnes = [
+      donneeNavire('Total', formatNombreNavire(ctx.tonnageTotal), false, navire.tonnage?.fourchette),
+    ];
+    if (accesChampNavire('tonnage_utile', ctx.niveau)) {
+      colonnes.push(donneeNavire('Utile', formatNombreNavire(ctx.tonnageUtile), false, navire.tonnage?.fourchette));
+    }
+    colonnes.push(champCompactNavire('Occupé', 'navire-tonnage-occupe-input', {
+      value: Number.isFinite(ctx.tonnageOccupe) ? ctx.tonnageOccupe : '',
+      min: '0',
+      max: Number.isFinite(ctx.tonnageLimite) ? String(ctx.tonnageLimite) : '',
+      step: '0.5',
+      classes: ctx.encombrementClasse,
+    }));
+    return `
+      <section class="navire-modale-section navire-modale-section--tonnage">
+        ${titreSectionNavire('Tonnage')}
+        <div class="navire-modale-grille navire-modale-grille--compacte">
+          ${colonnes.join('')}
+        </div>
+        ${accesChampNavire('encombrement', ctx.niveau) ? `
+          <label class="navire-modale-champ navire-encombrement">
+            <span>Encombrement</span>
+            <input id="navire-encombrement-slider" type="range" min="0" max="100" step="1" value="${Math.min(100, ctx.encombrement)}">
+          </label>
+        ` : ''}
+      </section>
+    `;
+  }
+
+  function sectionCaracteristiquesNavire(navire, ctx) {
+    const lignes = [];
+    if (accesChampNavire('tirantEau', ctx.niveau)) lignes.push(donneeNavire('Tirant d’eau', formatNombreNavire(navire.tirantEau, ' m')));
+    if (accesChampNavire('voilure', ctx.niveau)) lignes.push(donneeNavire('Voilure', navire.voilure || '—'));
+    if (accesChampNavire('regionRestriction', ctx.niveau)) lignes.push(donneeNavire('Restrictions', ctx.restrictions));
+    if (accesChampNavire('malus_navigation', ctx.niveau)) {
+      lignes.push(donneeNavire('Malus hauturier', navire.malusHauturier ? 'Oui' : 'Non'));
+    }
+    if (!lignes.length) return '';
+    return `
+      <section class="navire-modale-section navire-modale-section--caracteristiques">
+        <h3>Caractéristiques</h3>
+        <div class="navire-modale-grille">
+          ${lignes.join('')}
+        </div>
+      </section>
+    `;
+  }
+
+  function sectionCarenageNavire(navire, etat, niveau) {
+    if (!accesChampNavire('carenage', niveau) || !carenageApplicableNavire(navire)) return '';
+    const recent = etat.carenage === 'recent';
+    const ancien = etat.carenage === 'ancien';
+    return `
+      <section class="navire-modale-section navire-modale-section--carenage">
+        ${titreSectionNavire('Carénage')}
+        <div class="navire-carenage-choix navire-modale-grille navire-modale-grille--compacte">
+          <label class="navire-modale-donnee navire-modale-donnee--champ navire-carenage-option ${recent ? 'navire-bonus' : ''}">
+            <span class="navire-modale-donnee-label">Moins de deux mois</span>
+            <input id="navire-carenage-recent" type="checkbox" ${recent ? 'checked' : ''}>
+          </label>
+          <label class="navire-modale-donnee navire-modale-donnee--champ navire-carenage-option ${ancien ? 'navire-alerte' : ''}">
+            <span class="navire-modale-donnee-label">Plus de douze mois</span>
+            <input id="navire-carenage-ancien" type="checkbox" ${ancien ? 'checked' : ''}>
+          </label>
+        </div>
+      </section>
+    `;
+  }
+
+  function sectionVitessesNavire(navire, niveau) {
+    const lignes = [donneeVitesseNavire('Moyenne milles/jour', navire.navigation?.vitesse_naive, true)];
+    if (accesChampNavire('vitesses_completes', niveau)) {
+      lignes.push(
+        donneeVitesseNavire('Avirons', navire.navigation?.avirons),
+        donneeVitesseNavire('Près', navire.navigation?.pres),
+        donneeVitesseNavire('Largue', navire.navigation?.largue),
+        donneeVitesseNavire('Grand largue', navire.navigation?.grand_largue),
+        donneeVitesseNavire('Vent arrière', navire.navigation?.vent_arriere),
+      );
+    }
+    return `
+      <section class="navire-modale-section navire-modale-section--allures">
+        <h3>Allures</h3>
+        <div class="navire-modale-grille">
+          ${lignes.join('')}
+        </div>
+      </section>
+    `;
+  }
+
+  function sectionSimulationNavire() {
+    return `
+      <section class="navire-modale-section navire-modale-section--large">
+        <h3>Simulation MJ</h3>
+        <div class="navire-modale-donnee-valeur navire-override">Catégorie de taille forcée par l’encadré TEST MJ.</div>
+      </section>
+    `;
+  }
+
+  function sectionNotesNavire(navire) {
+    return `
+      <section class="navire-modale-section navire-modale-section--large">
+        <h3>Notes</h3>
+        <p class="navire-modale-note">${escapeHtml(navire.notes)}</p>
+      </section>
+    `;
   }
 
   function majAlerteEquipageNavire(navire, input) {
@@ -977,22 +1200,38 @@
   function initControleTonnageNavire(navire) {
     const input = document.getElementById('navire-tonnage-occupe-input');
     const slider = document.getElementById('navire-encombrement-slider');
-    const effet = document.getElementById('navire-encombrement-effet');
-    const utile = Number(navire.tonnage?.utile);
-    if (!input || !slider || !effet || !Number.isFinite(utile) || utile <= 0) {
+    const niveau = niveauCatalogueNavire();
+    const limite = accesChampNavire('tonnage_occupe_utile', niveau) && Number.isFinite(Number(navire.tonnage?.utile))
+      ? Number(navire.tonnage?.utile)
+      : Number(navire.tonnage?.total);
+    if (!input || !Number.isFinite(limite) || limite <= 0) {
       if (input) input.disabled = true;
       if (slider) slider.disabled = true;
       return;
     }
+    if (!slider) {
+      input.addEventListener('input', e => {
+        const tonnage = Math.max(0, Math.min(limite, Number(e.target.value)));
+        if (Number.isFinite(tonnage)) {
+          etatNavire.tonnageOccupe = Math.round(tonnage * 10) / 10;
+          if (Number(e.target.value) !== etatNavire.tonnageOccupe) input.value = String(etatNavire.tonnageOccupe);
+          majStyleEncombrement(input, encombrementNavirePct(navire));
+          majAffichageVitessesModifiees(navire);
+          invaliderCacheHautsFonds();
+        }
+      });
+      return;
+    }
 
     function appliquerDepuisTonnage(tonnage, source) {
-      const occupe = Math.max(0, Math.min(utile, Math.round(Number(tonnage) * 10) / 10));
-      const pct = utile > 0 ? Math.round((occupe / utile) * 100) : 0;
+      const occupe = Math.max(0, Math.min(limite, Math.round(Number(tonnage) * 10) / 10));
+      const pct = limite > 0 ? Math.round((occupe / limite) * 100) : 0;
       etatNavire.tonnageOccupe = occupe;
       if (source !== 'input' || Number(tonnage) !== occupe) input.value = String(occupe);
       if (source !== 'slider') slider.value = String(Math.max(0, Math.min(100, pct)));
-      effet.textContent = libelleEffetEncombrement(pct);
-      majStyleEncombrement(input, effet, pct);
+      majStyleEncombrement(input, pct);
+      majAffichageVitessesModifiees(navire);
+      if (source !== 'init') invaliderCacheHautsFonds();
     }
 
     input.addEventListener('input', e => {
@@ -1004,25 +1243,87 @@
     slider.addEventListener('input', e => {
       const pct = Math.max(0, Number(e.target.value));
       if (!Number.isFinite(pct)) return;
-      appliquerDepuisTonnage((utile * pct) / 100, 'slider');
+      appliquerDepuisTonnage((limite * pct) / 100, 'slider');
     });
 
-    appliquerDepuisTonnage(Number(etatNavire.tonnageOccupe), null);
+    appliquerDepuisTonnage(Number(etatNavire.tonnageOccupe), 'init');
   }
 
-  function majStyleEncombrement(input, valeur, pct) {
+  function initControleCarenageNavire() {
+    const recent = document.getElementById('navire-carenage-recent');
+    const ancien = document.getElementById('navire-carenage-ancien');
+    if (!recent || !ancien) return;
+
+    function appliquer(valeur) {
+      etatNavire.carenage = normaliserCarenage(valeur);
+      recent.checked = etatNavire.carenage === 'recent';
+      ancien.checked = etatNavire.carenage === 'ancien';
+      recent.closest('.navire-carenage-option')?.classList.toggle('navire-bonus', recent.checked);
+      ancien.closest('.navire-carenage-option')?.classList.toggle('navire-alerte', ancien.checked);
+      majAffichageVitessesModifiees(navire);
+      invaliderCacheHautsFonds();
+    }
+
+    recent.addEventListener('change', () => appliquer(recent.checked ? 'recent' : 'normal'));
+    ancien.addEventListener('change', () => appliquer(ancien.checked ? 'ancien' : 'normal'));
+  }
+
+  function majStyleEncombrement(input, pct) {
     const bonus = Number.isFinite(pct) && pct < 25;
     const malus = Number.isFinite(pct) && pct > 75;
-    [input, valeur].forEach(el => {
-      el?.classList.toggle('navire-bonus', bonus);
-      el?.classList.toggle('navire-alerte', malus);
+    input?.classList.toggle('navire-bonus', bonus);
+    input?.classList.toggle('navire-alerte', malus);
+  }
+
+  function vitesseModifieeAffichee(base, journalier = false) {
+    const vitesseBase = Number(base);
+    if (!Number.isFinite(vitesseBase) || vitesseBase <= 0) {
+      return { texte: '—', classe: '' };
+    }
+    const vitesse = Math.max(CONFIG.vitesseMinSegmentNoeuds, vitesseBase + modificateurVitesseActuelNoeuds());
+    const classe = vitesse > vitesseBase ? 'navire-bonus' : (vitesse < vitesseBase ? 'navire-alerte' : '');
+    if (journalier) return { texte: String(Math.round(vitesse * 24)), classe };
+    return { texte: `${Math.round(vitesse * 10) / 10} nd`, classe };
+  }
+
+  function modificateurVitesseActuelNoeuds() {
+    const navire = navireActif();
+    const etat = etatNavireActif(navire);
+    let mod = 0;
+    if (modificateurActif(2)) {
+      const pct = encombrementNavirePct(navire, etat);
+      if (Number.isFinite(pct) && pct < 25) mod += 1;
+      else if (Number.isFinite(pct) && pct > 75) mod -= 1;
+    }
+    if (modificateurActif(3) && carenageApplicableNavire(navire)) {
+      if (etat.carenage === 'recent') mod += 1;
+      else if (etat.carenage === 'ancien') mod -= 1;
+    }
+    return mod;
+  }
+
+  function majAffichageVitessesModifiees(navire = navireActif()) {
+    document.querySelectorAll('[data-navire-vitesse-base]').forEach(el => {
+      const base = Number(el.dataset.navireVitesseBase);
+      const journalier = el.dataset.navireVitesseJour === '1';
+      const rendu = vitesseModifieeAffichee(base, journalier);
+      el.textContent = rendu.texte;
+      el.classList.toggle('navire-bonus', rendu.classe === 'navire-bonus');
+      el.classList.toggle('navire-alerte', rendu.classe === 'navire-alerte');
     });
   }
 
-  function libelleEffetEncombrement(pct) {
-    if (Number.isFinite(pct) && pct < 25) return '+1 nœud';
-    if (Number.isFinite(pct) && pct > 75) return '-1 nœud';
-    return '';
+  function titreSectionNavire(titre, effet = '', classe = '', id = '') {
+    const attrs = [
+      id ? `id="${escapeHtml(id)}"` : '',
+      `class="navire-modale-section-effet ${escapeHtml(classe || '')}"`,
+    ].filter(Boolean).join(' ');
+    return `
+      <h3 class="navire-modale-section-titre">
+        <span>${escapeHtml(titre)}</span>
+        <strong ${attrs}>${escapeHtml(effet)}</strong>
+      </h3>
+    `;
   }
 
   function donneeNavire(label, valeur, alerte = false, fourchette = false) {
@@ -1036,6 +1337,23 @@
       <div class="navire-modale-donnee">
         <span class="navire-modale-donnee-label">${escapeHtml(label)}</span>
         <span class="${classes}">${escapeHtml(valeur)}${suffixe}</span>
+      </div>
+    `;
+  }
+
+  function donneeVitesseNavire(label, valeur, journalier = false) {
+    const base = Number(valeur);
+    if (!Number.isFinite(base) || base <= 0) return donneeNavire(label, '—');
+    const rendu = vitesseModifieeAffichee(base, journalier);
+    const classes = [
+      'navire-modale-donnee-valeur',
+      'navire-vitesse-modifiable',
+      rendu.classe,
+    ].filter(Boolean).join(' ');
+    return `
+      <div class="navire-modale-donnee">
+        <span class="navire-modale-donnee-label">${escapeHtml(label)}</span>
+        <span class="${classes}" data-navire-vitesse-base="${escapeHtml(base)}" data-navire-vitesse-jour="${journalier ? '1' : '0'}">${escapeHtml(rendu.texte)}</span>
       </div>
     `;
   }
@@ -1065,15 +1383,40 @@
     rendreFicheNavire();
     overlay.removeAttribute('aria-hidden');
     overlay.classList.add('navire-modale-overlay--visible');
-    setTimeout(() => document.getElementById('navire-modele-select')?.focus(), 60);
+    setTimeout(() => document.getElementById('navire-modele-trigger')?.focus(), 60);
   }
 
   function fermerModaleNavire() {
     const overlay = document.getElementById('navire-modale-overlay');
     if (!overlay) return;
+    fermerSelectNavire();
     overlay.setAttribute('aria-hidden', 'true');
     overlay.classList.remove('navire-modale-overlay--visible');
     majBoutonsNavire();
+  }
+
+  function ouvrirSelectNavire() {
+    const champ = document.getElementById('navire-modele-champ');
+    const select = document.getElementById('navire-modele-select');
+    const trigger = document.getElementById('navire-modele-trigger');
+    const modale = document.getElementById('navire-modale');
+    if (!champ || !select || select.disabled || trigger?.getAttribute('aria-disabled') === 'true') return;
+    const ouvrir = champ.hidden;
+    champ.hidden = !ouvrir;
+    champ.classList.toggle('navire-modele-champ--ouvert', ouvrir);
+    trigger?.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
+    modale?.classList.toggle('navire-modale--select-ouvert', ouvrir);
+    if (ouvrir) setTimeout(() => select.focus(), 20);
+  }
+
+  function fermerSelectNavire() {
+    const champ = document.getElementById('navire-modele-champ');
+    const trigger = document.getElementById('navire-modele-trigger');
+    if (!champ) return;
+    champ.hidden = true;
+    champ.classList.remove('navire-modele-champ--ouvert');
+    trigger?.setAttribute('aria-expanded', 'false');
+    document.getElementById('navire-modale')?.classList.remove('navire-modale--select-ouvert');
   }
 
   function fermerSurClicExterieurStrict(overlay, fermer) {
@@ -1108,10 +1451,12 @@
     document.getElementById('navire-modale-fermer')?.addEventListener('click', fermerModaleNavire);
     document.getElementById('navire-modale-ok')?.addEventListener('click', fermerModaleNavire);
     document.getElementById('navire-modale-reset')?.addEventListener('click', reinitialiserNavireActif);
+    document.getElementById('navire-modele-trigger')?.addEventListener('click', ouvrirSelectNavire);
     document.getElementById('navire-modele-select')?.addEventListener('change', e => {
       definirNavireActif(e.target.value);
       rendreSelectNavire();
       rendreFicheNavire();
+      fermerSelectNavire();
     });
     fermerSurClicExterieurStrict(overlay, fermerModaleNavire);
 

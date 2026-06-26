@@ -346,12 +346,15 @@
     aria-labelledby="navire-modale-titre">
     <div class="navire-modale" id="navire-modale">
       <div class="navire-modale-header">
-        <h2 class="navire-modale-titre" id="navire-modale-titre">Navire</h2>
+        <button class="navire-modale-titre-btn" id="navire-modele-trigger" type="button" aria-expanded="false">
+          <span class="navire-modale-titre" id="navire-modale-titre">Navire</span>
+          <span class="navire-modale-chevron" aria-hidden="true">⌄</span>
+        </button>
         <button class="navire-modale-fermer" id="navire-modale-fermer" aria-label="Fermer">×</button>
       </div>
       <div class="navire-modale-corps">
-        <label class="navire-modale-champ">
-          <span>Modèle</span>
+        <label class="navire-modale-champ" id="navire-modele-champ">
+          <span>Navire</span>
           <select id="navire-modele-select"></select>
         </label>
         <div class="navire-modale-fiche" id="navire-modale-fiche"></div>

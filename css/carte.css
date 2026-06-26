@@ -1991,8 +1991,9 @@ path.leaflet-interactive:focus-visible {
 }
 
 .navire-modale {
-  width: min(480px, 92vw);
-  max-height: 84vh;
+  position: relative;
+  width: min(860px, 94vw);
+  height: min(720px, 88vh);
   background: var(--ink);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -2018,14 +2019,63 @@ path.leaflet-interactive:focus-visible {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border);
+  gap: 0.8rem;
+}
+
+.navire-modale-titre-btn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: default;
 }
 
 .navire-modale-titre {
+  min-width: 0;
   margin: 0;
-  font-family: 'Cinzel', serif;
   font-size: 0.92rem;
-  color: var(--gold);
   letter-spacing: 0.04em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navire-modale-titre-nom {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+}
+
+.navire-modale-titre-type {
+  font-family: 'Crimson Text', serif;
+  font-weight: 400;
+  color: var(--mist-light);
+}
+
+.navire-modale-chevron {
+  display: none;
+  flex: 0 0 auto;
+  color: var(--mist);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.navire-modale-titre-btn--selectable {
+  cursor: pointer;
+}
+
+.navire-modale-titre-btn--selectable:hover .navire-modale-chevron,
+.navire-modale-titre-btn[aria-expanded="true"] .navire-modale-chevron {
+  color: var(--gold);
+}
+
+.navire-modale-titre-btn--selectable .navire-modale-chevron {
+  display: inline-flex;
 }
 
 .navire-modale-fermer {
@@ -2041,8 +2091,9 @@ path.leaflet-interactive:focus-visible {
 .navire-modale-fermer:hover { color: var(--gold); }
 
 .navire-modale-corps {
+  flex: 1;
   overflow-y: auto;
-  padding: 1rem 1.1rem;
+  padding: 1rem 1.15rem;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
 }
@@ -2055,6 +2106,28 @@ path.leaflet-interactive:focus-visible {
   font-family: 'Crimson Text', serif;
   color: var(--mist-light);
   font-size: 0.82rem;
+}
+
+.navire-modale-champ[hidden] {
+  display: none;
+}
+
+.navire-modele-champ--ouvert {
+  position: absolute;
+  top: 3.55rem;
+  left: 1.15rem;
+  right: 1.15rem;
+  z-index: 4;
+  margin: 0;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgba(200, 151, 58, 0.18);
+  border-radius: 3px;
+  background: rgba(14, 12, 9, 0.98);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.42);
+}
+
+.navire-modele-champ--ouvert > span {
+  display: none;
 }
 
 .navire-modale-champ select,
@@ -2075,6 +2148,32 @@ path.leaflet-interactive:focus-visible {
   gap: 0.65rem;
 }
 
+.navire-modale-fiche-colonnes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: flex-start;
+}
+
+.navire-modale-fiche-colonne {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 0;
+  gap: 0.65rem;
+}
+
+.navire-modale-section--large {
+  flex: 1 0 100%;
+}
+
+.navire-modale-identite {
+  border: 1px solid rgba(200, 151, 58, 0.32);
+  border-radius: 3px;
+  min-height: 150px;
+  background: rgba(200, 151, 58, 0.055);
+}
+
 .navire-modale-section {
   border: 1px solid rgba(200, 151, 58, 0.18);
   border-radius: 3px;
@@ -2091,6 +2190,23 @@ path.leaflet-interactive:focus-visible {
   color: var(--gold);
 }
 
+.navire-modale-section-titre {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.navire-modale-section-effet {
+  color: var(--mist-light);
+  font-family: 'Crimson Text', serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+}
+
 .navire-modale-grille {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2099,7 +2215,7 @@ path.leaflet-interactive:focus-visible {
 
 .navire-modale-grille--compacte {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: end;
+  align-items: stretch;
 }
 
 .navire-modale-donnee {
@@ -2108,11 +2224,25 @@ path.leaflet-interactive:focus-visible {
 
 .navire-modale-donnee-label {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--mist);
 }
 
-.navire-modale-grille--compacte .navire-modale-donnee-label,
+.navire-modale-grille--compacte .navire-modale-donnee {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.navire-modale-grille--compacte .navire-modale-donnee-label {
+  min-height: 2.15em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.05;
+  text-align: center;
+}
+
 .navire-modale-grille--compacte .navire-modale-donnee-valeur {
   text-align: center;
 }
@@ -2149,14 +2279,14 @@ path.leaflet-interactive:focus-visible {
 
 .navire-modale-donnee-valeur.navire-bonus,
 .navire-modale-champ input.navire-bonus,
-.navire-encombrement strong.navire-bonus {
+.navire-modale-section-effet.navire-bonus {
   color: #8fd0a6;
   border-color: rgba(143, 208, 166, 0.7);
 }
 
 .navire-modale-donnee-valeur.navire-alerte,
 .navire-modale-champ input.navire-alerte,
-.navire-encombrement strong.navire-alerte {
+.navire-modale-section-effet.navire-alerte {
   color: #f08a78;
   border-color: rgba(240, 138, 120, 0.75);
 }
@@ -2166,20 +2296,38 @@ path.leaflet-interactive:focus-visible {
   margin-bottom: 0;
 }
 
-.navire-encombrement span {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
-.navire-encombrement strong {
-  color: var(--parchment);
-  font-weight: 600;
-}
-
 .navire-encombrement input[type=range] {
   width: 100%;
   accent-color: var(--gold);
+}
+
+.navire-carenage-choix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.navire-carenage-option {
+  justify-content: end;
+  padding: 0.15rem 0.3rem;
+  border: 0;
+  border-radius: 0;
+  color: var(--parchment);
+  font-family: 'Crimson Text', serif;
+  font-size: 0.84rem;
+}
+
+.navire-carenage-option input {
+  accent-color: var(--gold);
+  margin: 0;
+}
+
+.navire-carenage-option.navire-bonus {
+  color: #8fd0a6;
+}
+
+.navire-carenage-option.navire-alerte {
+  color: #f08a78;
 }
 
 .navire-modale-note {
@@ -2228,8 +2376,30 @@ path.leaflet-interactive:focus-visible {
 }
 
 @media (max-width: 560px) {
+  .navire-modale {
+    width: min(94vw, 860px);
+  }
+
+  .navire-modale-titre {
+    white-space: normal;
+  }
+
+  .navire-modale-fiche-colonnes {
+    flex-direction: column;
+  }
+
+  .navire-modale-fiche-colonne,
+  .navire-modale-section--large {
+    width: 100%;
+    flex-basis: auto;
+  }
+
   .navire-modale-grille {
     grid-template-columns: 1fr;
+  }
+
+  .navire-modale-grille--compacte {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

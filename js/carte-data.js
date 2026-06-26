@@ -21,6 +21,13 @@ const CARTE_NAVIRE_POSITION = [7362, 4004]; // Nassau, New Providence
 const CARTE_NAVIRE = {
     navireId: 'navire-pj',
     nom: 'Cúchulainn',
+    designation: 'Le Cúchulainn',
+    navigation: {
+        // Valeurs initiales de campagne, éditables dans la modale Navire pour simuler une projection.
+        encombrementPct: 72,
+        equipageActuel: 30,
+        carenage: 'ancien', // 'recent' (< 2 mois), 'normal', 'ancien' (> 12 mois)
+    },
 };
 
 // ─── Résolution de l'image ───────────────────────────────────
