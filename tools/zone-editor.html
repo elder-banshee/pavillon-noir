@@ -1454,6 +1454,7 @@ function pushUndo(label) {
     zonesMeta: cloneJSON(zonesMeta),
     seaCells: cloneJSON(seaCells),
     currentsWorkingCopy: currentsWorkingCopy ? cloneJSON(currentsWorkingCopy) : null,
+    currentAxesWorkingCopy: currentAxesWorkingCopy ? cloneJSON(currentAxesWorkingCopy) : null,
     shoalsWorkingCopy: shoalsWorkingCopy ? cloneJSON(shoalsWorkingCopy) : null,
     selectedZoneId,
     selectedContourIdx,
@@ -1475,6 +1476,7 @@ function undoLastOperation() {
   zonesMeta = snapshot.zonesMeta;
   seaCells = snapshot.seaCells;
   currentsWorkingCopy = snapshot.currentsWorkingCopy;
+  currentAxesWorkingCopy = snapshot.currentAxesWorkingCopy;
   shoalsWorkingCopy = snapshot.shoalsWorkingCopy;
   selectedZoneId = snapshot.selectedZoneId;
   selectedContourIdx = snapshot.selectedContourIdx;
@@ -1743,6 +1745,7 @@ function clearSeaGrid() {
 
 // Copie de travail en mémoire (modifiable sans toucher SEA_CURRENTS original)
 let currentsWorkingCopy = null;
+let currentAxesWorkingCopy = null;
 let shoalsWorkingCopy = null;
 let selectedCurrentId   = null;
 let selectedShoalId     = null;
@@ -1764,20 +1767,23 @@ function escapeHtmlText(value) {
     .replace(/>/g, '&gt;');
 }
 
-function applyCurrentDefaults(current) {
-  const defaults = DEFAULT_CURRENT_SPEED_SEGMENTS[current.id];
-  if (defaults && !Array.isArray(current.speedSegments) && !Array.isArray(current.vitesseSegments)) {
-    current.speedSegments = JSON.parse(JSON.stringify(defaults));
-  }
-  return current;
-}
+const SEA_KMH_TO_KNOTS_EDITOR = 1 / 1.852;
+const SEA_KNOTS_TO_KMH_EDITOR = 1.852;
 
 function getWorkingCurrents() {
   if (!currentsWorkingCopy) {
-    const src = (typeof SEA_CURRENTS !== 'undefined') ? SEA_CURRENTS : [];
-    currentsWorkingCopy = src.map(c => applyCurrentDefaults(JSON.parse(JSON.stringify(c))));
+    const src = (typeof SEA_NAV_ZONES !== 'undefined') ? SEA_NAV_ZONES : [];
+    currentsWorkingCopy = src.map(c => JSON.parse(JSON.stringify(c)));
   }
   return currentsWorkingCopy;
+}
+
+function getWorkingCurrentAxes() {
+  if (!currentAxesWorkingCopy) {
+    const src = (typeof SEA_CURRENTS !== 'undefined') ? SEA_CURRENTS : [];
+    currentAxesWorkingCopy = src.map(c => JSON.parse(JSON.stringify(c)));
+  }
+  return currentAxesWorkingCopy;
 }
 
 function getWorkingShoals() {
@@ -1839,18 +1845,86 @@ function seaPointInZone(pt, zone) {
   ));
 }
 
-function seaSpeedAtSegment(current, segmentIndex) {
-  const segments = current.speedSegments || current.vitesseSegments;
-  if (!Array.isArray(segments) || !segments.length) return Number(current.speedKmh || current.vitesseKmh || current.force) || 0;
-  const segment = segments.find(item => segmentIndex >= item.from && segmentIndex <= item.to) || segments[segments.length - 1];
-  return Number(segment.speedKmh || segment.vitesseKmh || current.force) || 0;
+function seaRingBBox(ring) {
+  const xs = ring.map(([x]) => x);
+  const ys = ring.map(([, y]) => y);
+  return { minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys) };
 }
 
-function seaArrowSpacingForSpeed(speedKmh) {
-  if (speedKmh >= 8) return 145;
-  if (speedKmh >= 6) return 165;
-  if (speedKmh >= 3) return 210;
+function seaBBoxesOverlap(a, b) {
+  return a.minX <= b.maxX && a.maxX >= b.minX && a.minY <= b.maxY && a.maxY >= b.minY;
+}
+
+function seaOrientation(a, b, c) {
+  const v = (b[1] - a[1]) * (c[0] - b[0]) - (b[0] - a[0]) * (c[1] - b[1]);
+  if (Math.abs(v) < 1e-9) return 0;
+  return v > 0 ? 1 : 2;
+}
+
+function seaOnSegment(a, b, c) {
+  return b[0] <= Math.max(a[0], c[0]) && b[0] >= Math.min(a[0], c[0])
+    && b[1] <= Math.max(a[1], c[1]) && b[1] >= Math.min(a[1], c[1]);
+}
+
+function seaSegmentsIntersect(a, b, c, d) {
+  const o1 = seaOrientation(a, b, c);
+  const o2 = seaOrientation(a, b, d);
+  const o3 = seaOrientation(c, d, a);
+  const o4 = seaOrientation(c, d, b);
+  if (o1 !== o2 && o3 !== o4) return true;
+  if (o1 === 0 && seaOnSegment(a, c, b)) return true;
+  if (o2 === 0 && seaOnSegment(a, d, b)) return true;
+  if (o3 === 0 && seaOnSegment(c, a, d)) return true;
+  if (o4 === 0 && seaOnSegment(c, b, d)) return true;
+  return false;
+}
+
+function seaRingsOverlap(a, b) {
+  if (!seaBBoxesOverlap(seaRingBBox(a), seaRingBBox(b))) return false;
+  for (let i = 0; i < a.length; i++) {
+    const a1 = a[i];
+    const a2 = a[(i + 1) % a.length];
+    for (let j = 0; j < b.length; j++) {
+      const b1 = b[j];
+      const b2 = b[(j + 1) % b.length];
+      if (seaSegmentsIntersect(a1, a2, b1, b2)) return true;
+    }
+  }
+  return seaPointInRing(a[0], b) || seaPointInRing(b[0], a);
+}
+
+function seaZonesOverlap(zoneA, zoneB) {
+  const polysA = seaZonePolygons(zoneA);
+  const polysB = seaZonePolygons(zoneB);
+  return polysA.some(a => polysB.some(b => seaRingsOverlap(a.exterior, b.exterior)));
+}
+
+function overlappingSeaZoneIds(zones) {
+  const overlaps = new Set();
+  for (let i = 0; i < zones.length; i++) {
+    for (let j = i + 1; j < zones.length; j++) {
+      if (seaZonesOverlap(zones[i].zone, zones[j].zone)) {
+        overlaps.add(zones[i].id);
+        overlaps.add(zones[j].id);
+      }
+    }
+  }
+  return overlaps;
+}
+
+function seaSpeedAtSegment(current, segmentIndex) {
+  return currentBaseSpeedKnots(current);
+}
+
+function seaArrowSpacingForSpeed(speedKnots) {
+  if (speedKnots >= 4.5) return 145;
+  if (speedKnots >= 3.2) return 165;
+  if (speedKnots >= 1.6) return 210;
   return 245;
+}
+
+function seaNavZoneAtPoint(point) {
+  return getWorkingCurrents().find(zone => seaPointInZone(point, zone.zone)) || null;
 }
 
 function seaArrowSamples(current, spacingPx = 220) {
@@ -1876,11 +1950,13 @@ function seaArrowSamples(current, spacingPx = 220) {
   let target = Math.min(spacingPx / 2, total / 2);
   while (target < total) {
     const seg = segments.find(s => target >= s.start && target <= s.start + s.len) || segments[segments.length - 1];
-    const nextTarget = target + seaArrowSpacingForSpeed(seaSpeedAtSegment(current, seg.dirIdx));
     const t = Math.max(0, Math.min(1, (target - seg.start) / seg.len));
     const x = seg.a[0] + (seg.b[0] - seg.a[0]) * t;
     const y = seg.a[1] + (seg.b[1] - seg.a[1]) * t;
-    if (seaPointInZone([x, y], current.zone)) {
+    const zone = seaNavZoneAtPoint([x, y]);
+    const speed = zone ? currentBaseSpeedKnots(zone) : 0;
+    const nextTarget = target + seaArrowSpacingForSpeed(speed);
+    if (zone) {
       samples.push({
         x,
         y,
@@ -1898,27 +1974,31 @@ function currentPointCount(current) {
 
 function currentTitleWithPoints(current) {
   const count = currentPointCount(current);
-  return `${current.label || current.id} (${count} ${count > 1 ? 'points' : 'point'})`;
-}
-
-function currentPriority(current) {
-  const priority = Number(current.priorite ?? current.priority);
-  return Number.isFinite(priority) ? Math.round(priority) : 2;
-}
-
-function currentPriorityRenderRank(current) {
-  const priority = currentPriority(current);
-  if (priority <= 1) return 1;
-  if (priority === 2) return 2;
-  return 3;
+  const nom = current.nom || current.label || current.id;
+  return count ? `${nom} (${count} ${count > 1 ? 'points' : 'point'})` : nom;
 }
 
 function currentUsesSvgZone(current) {
   return current?.zoneSource === 'svg';
 }
 
-function currentBaseSpeed(current) {
-  return Number(current.speedKmh ?? current.vitesseKmh ?? current.force) || 0;
+function currentBaseSpeedKnots(current) {
+  const knots = Number(current.speedKnots ?? current.speedKnot);
+  if (Number.isFinite(knots) && knots >= 0) return knots;
+  const kmh = Number(current.speedKmh ?? current.vitesseKmh);
+  if (Number.isFinite(kmh) && kmh >= 0) return kmh * SEA_KMH_TO_KNOTS_EDITOR;
+  return 0;
+}
+
+function currentBaseSpeedKmh(current) {
+  return Math.round(currentBaseSpeedKnots(current) * SEA_KNOTS_TO_KMH_EDITOR * 10) / 10;
+}
+
+function currentSpeedRenderRank(current) {
+  const speed = currentBaseSpeedKnots(current);
+  if (speed >= 4.5) return 1;
+  if (speed >= 2.2) return 2;
+  return 3;
 }
 
 function normalizeNavLevel(value) {
@@ -1975,14 +2055,22 @@ function currentZoneAsEditableObject(zone) {
 }
 
 function renderCurrentMetaFieldsHtml(current) {
-  const priority = currentPriority(current);
   const visNav = current.visibiliteNav ?? 0;
+  const type = current.type || 'haute-mer';
   return `
     <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
-      <span style="flex:1;">Priorite</span>
-      <input type="number" step="1" value="${priority}" data-current-meta="priorite"
-        style="width:92px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+      <span style="flex:1;">Nom</span>
+      <input type="text" value="${escapeAttr(current.nom || current.id)}" data-current-meta="nom"
+        style="width:170px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
         color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+    </label>
+    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
+      <span style="flex:1;">Type</span>
+      <select data-current-meta="type"
+        style="width:120px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
+        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
+        ${['fluvial', 'cotier', 'haute-mer'].map(value => `<option value="${value}"${value === type ? ' selected' : ''}>${value}</option>`).join('')}
+      </select>
     </label>
     <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
       <span style="flex:1;">Visibilite Nav</span>
@@ -2032,6 +2120,7 @@ function renderCurrentsLayer() {
   clearCurrentsLayer();
   const currents = semaphoreVisibleCurrents();
   const shoals = semaphoreVisibleShoals();
+  const overlappingZones = overlappingSeaZoneIds(currents);
   const interactiveSeaEntities = !ctx.isSea;
   currentPolygons = {};
 
@@ -2062,18 +2151,18 @@ function renderCurrentsLayer() {
 
   currents.forEach(c => {
     const isSelected = c.id === selectedCurrentId;
+    const hasOverlap = overlappingZones.has(c.id);
 
     // Ruban : simple polygon or closed ribbon with inner empty ring.
     const latlngs = seaZoneLatLngs(c.zone);
     if (latlngs.some(poly => poly[0]?.length > 2)) {
-      // Couleurs par priorité : p1 bleu foncé, p2 bleu moyen, p3 bleu clair
       const prioFill   = { 1: 'rgba(15,70,160,0.55)',  2: 'rgba(40,120,210,0.38)', 3: 'rgba(80,170,240,0.25)' };
       const prioStroke = { 1: 'rgba(20,90,200,0.95)',  2: 'rgba(50,140,220,0.85)', 3: 'rgba(90,185,250,0.75)' };
-      const priority = currentPriorityRenderRank(c);
+      const priority = currentSpeedRenderRank(c);
       const poly = L.polygon(latlngs, {
-        color:       isSelected ? selStroke : (prioStroke[priority] || prioStroke[2]),
-        weight:      isSelected ? 2 : 1,
-        fillColor:   isSelected ? selFill   : (prioFill[priority]   || prioFill[2]),
+        color:       hasOverlap ? 'rgba(255,80,60,0.95)' : (isSelected ? selStroke : (prioStroke[priority] || prioStroke[2])),
+        weight:      hasOverlap ? 2 : (isSelected ? 2 : 1),
+        fillColor:   hasOverlap ? 'rgba(210,40,25,0.42)' : (isSelected ? selFill   : (prioFill[priority]   || prioFill[2])),
         fillOpacity: isSelected ? 0.55 : 1,
         interactive: interactiveSeaEntities,
       }).addTo(currentLayer);
@@ -2085,9 +2174,13 @@ function renderCurrentsLayer() {
 
     }
 
+  });
+
+  getWorkingCurrentAxes().forEach(c => {
+    const isSelected = c.id === selectedCurrentId;
     if (Array.isArray(c.centerline) && c.centerline.length >= 2) {
       const centerlineLatLngs = c.centerline.map(([x, y]) => pxToLatLng(x, y));
-      const priority = currentPriorityRenderRank(c);
+      const priority = 2;
       const lineColor = isSelected
         ? selStroke
         : ({ 1: 'rgba(180,220,255,0.95)', 2: 'rgba(145,205,250,0.88)', 3: 'rgba(110,190,245,0.78)' }[priority] || 'rgba(145,205,250,0.88)');
@@ -2098,7 +2191,7 @@ function renderCurrentsLayer() {
         interactive: interactiveSeaEntities,
       }).addTo(currentLayer);
       if (interactiveSeaEntities) {
-        hitLine.on('click', (e) => { L.DomEvent.stopPropagation(e); selectCurrent(c.id); });
+        hitLine.on('click', (e) => { L.DomEvent.stopPropagation(e); });
       }
       const line = L.polyline(centerlineLatLngs, {
         color: lineColor,
@@ -2123,25 +2216,6 @@ function renderCurrentsLayer() {
       });
     }
 
-    // Bornes de tronçons speedSegments
-    const segs = c.speedSegments || c.vitesseSegments;
-    if (Array.isArray(segs) && segs.length > 1 && Array.isArray(c.centerline)) {
-      const cl = c.centerline;
-      segs.slice(0, -1).forEach((seg, idx) => {
-        const ptIdx = seg.to;
-        if (ptIdx < 0 || ptIdx >= cl.length) return;
-        const [px, py] = cl[ptIdx];
-        const nextSeg = segs[idx + 1];
-        const speedA = Number(seg.speedKmh ?? seg.vitesseKmh ?? c.force) || 0;
-        const speedB = Number(nextSeg.speedKmh ?? nextSeg.vitesseKmh ?? c.force) || 0;
-        const icon = L.divIcon({
-          className: '',
-          html: `<div title="${seg.label || ('Tronçon ' + (idx+1))} — ${speedA} km/h → ${speedB} km/h" style="width:14px;height:14px;border-radius:50%;background:rgba(255,130,40,0.92);border:2px solid rgba(255,255,255,0.85);box-shadow:0 0 5px rgba(0,0,0,0.8);pointer-events:none;"></div>`,
-          iconSize: [14, 14], iconAnchor: [7, 7],
-        });
-        L.marker(pxToLatLng(px, py), { icon, interactive: false, keyboard: false }).addTo(currentArrowLayer);
-      });
-    }
   });
 
   if (!ctx.isSea) {
@@ -2314,17 +2388,19 @@ function renderCurrentsList() {
   const listEl   = document.getElementById('currents-list');
   if (!listEl) return;
   if (!currents.length && !shoals.length) { listEl.textContent = 'Aucun courant ni haut-fond.'; return; }
+  const overlappingZones = overlappingSeaZoneIds(currents);
 
   const currentItems = currents.map(c => {
     const sel = c.id === selectedCurrentId;
+    const overlap = overlappingZones.has(c.id);
     return `<div data-cid="${c.id}" style="
         margin-bottom:5px; padding:5px 7px; cursor:pointer;
-        background:${sel ? 'rgba(255,200,50,0.18)' : 'rgba(20,100,200,0.12)'};
-        border:1px solid ${sel ? 'rgba(255,200,50,0.6)' : 'rgba(20,100,200,0.3)'};
+        background:${overlap ? 'rgba(210,40,25,0.22)' : (sel ? 'rgba(255,200,50,0.18)' : 'rgba(20,100,200,0.12)')};
+        border:1px solid ${overlap ? 'rgba(255,90,70,0.75)' : (sel ? 'rgba(255,200,50,0.6)' : 'rgba(20,100,200,0.3)')};
         border-radius:2px;">
-      <span style="color:${sel ? '#ffd23f' : 'var(--gold-light)'};font-family:Cinzel,serif;font-size:0.73rem;">${currentTitleWithPoints(c)}</span>
+      <span style="color:${sel ? '#ffd23f' : 'var(--gold-light)'};font-family:Cinzel,serif;font-size:0.73rem;">${escapeHtmlText(c.nom || c.id)}</span>
       <div style="margin-top:3px; font-size:0.68rem; color:var(--text-dim);">
-        P${currentPriority(c)}
+        ${overlap ? 'Recouvrement - ' : ''}${escapeHtmlText(c.type || 'haute-mer')} - ${currentBaseSpeedKmh(c)} km/h - Nav ${c.visibiliteNav ?? 0}
       </div>
     </div>`;
   }).join('');
@@ -2382,20 +2458,11 @@ function renderCurrentDetail() {
     });
   }
   if (!speeds) return;
-  const segments = c.speedSegments || c.vitesseSegments;
-  if (Array.isArray(segments) && segments.length) {
-    speeds.innerHTML = segments.map((seg, idx) => renderSpeedInputHtml({
-      id: `segment:${idx}`,
-      label: seg.label || `Tronçon ${idx + 1}`,
-      value: Number(seg.speedKmh ?? seg.vitesseKmh ?? c.force) || 0,
-    })).join('');
-  } else {
-    speeds.innerHTML = renderSpeedInputHtml({
-      id: 'base',
-      label: 'Vitesse',
-      value: currentBaseSpeed(c),
-    });
-  }
+  speeds.innerHTML = renderSpeedInputHtml({
+    id: 'base',
+    label: 'Vitesse',
+    value: currentBaseSpeedKmh(c),
+  });
 
   speeds.querySelectorAll('[data-speed-id]').forEach(input => {
     input.addEventListener('change', () => updateCurrentSpeed(c, input));
@@ -2445,13 +2512,13 @@ function renderShoalMetaFieldsHtml(shoal) {
     </label>
     <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
       <span style="flex:1;">Cat. max avec Nav</span>
-      <input type="number" min="0" max="5" step="1" value="${escapeAttr(shoal.catMaxNav ?? '')}" placeholder="â€”" data-shoal-meta="catMaxNav"
+      <input type="number" min="0" max="5" step="1" value="${escapeAttr(shoal.catMaxNav ?? '')}" placeholder="—" data-shoal-meta="catMaxNav"
         style="width:74px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
         color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
     </label>
     <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
       <span style="flex:1;">Nav min (passageNav)</span>
-      <input type="number" min="0" max="5" step="1" value="${escapeAttr(shoal.passageNav ?? '')}" placeholder="â€”" data-shoal-meta="passageNav"
+      <input type="number" min="0" max="5" step="1" value="${escapeAttr(shoal.passageNav ?? '')}" placeholder="—" data-shoal-meta="passageNav"
         style="width:74px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
         color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
     </label>
@@ -2480,7 +2547,7 @@ function updateShoalMeta(shoal, input, options = {}) {
   if (!key) return;
   if (key === 'catMax' || key === 'catMaxNav' || key === 'passageNav') {
     const raw = input.value.trim();
-    if (raw === '' || raw === 'â€”') { delete shoal[key]; return; }
+    if (raw === '' || raw === '—') { delete shoal[key]; return; }
     const value = Math.max(0, Math.min(5, Math.round(Number(raw))));
     if (!Number.isFinite(value)) return;
     shoal[key] = value;
@@ -2500,21 +2567,15 @@ function updateShoalMeta(shoal, input, options = {}) {
 }
 
 function updateCurrentSpeed(current, input, options = {}) {
-  const speed = normalizeSpeedInput(input.value);
-  if (speed === null) return;
-
-  const id = input.dataset.speedId || 'base';
-  if (id.startsWith('segment:')) {
-    const idx = Number(id.split(':')[1]);
-    const segments = current.speedSegments || current.vitesseSegments;
-    if (Array.isArray(segments) && segments[idx]) {
-      segments[idx].speedKmh = speed;
-      delete segments[idx].vitesseKmh;
-    }
-  } else {
-    current.speedKmh = speed;
-    delete current.vitesseKmh;
-  }
+  const speedKmh = normalizeSpeedInput(input.value);
+  if (speedKmh === null) return;
+  current.speedKnots = Math.round(speedKmh * SEA_KMH_TO_KNOTS_EDITOR * 1000) / 1000;
+  delete current.speedKnot;
+  delete current.speedKmh;
+  delete current.vitesseKmh;
+  delete current.force;
+  delete current.speedSegments;
+  delete current.vitesseSegments;
 
   if (!options.soft) {
     refresh(R.CURRENTS);
@@ -2523,11 +2584,13 @@ function updateCurrentSpeed(current, input, options = {}) {
 
 function updateCurrentMeta(current, input, options = {}) {
   const key = input.dataset.currentMeta;
-  if (key === 'priorite') {
-    const priority = normalizePriorityInput(input.value);
-    if (priority === null) return;
-    current.priorite = priority;
-    delete current.priority;
+  if (key === 'nom') {
+    const nom = input.value.trim();
+    if (nom) current.nom = nom;
+    else delete current.nom;
+    delete current.label;
+  } else if (key === 'type') {
+    current.type = input.value || 'haute-mer';
   } else if (key === 'visibiliteNav') {
     const niveau = Math.max(0, Math.min(5, Math.round(Number(input.value))));
     if (!Number.isFinite(niveau)) return;
@@ -2536,7 +2599,7 @@ function updateCurrentMeta(current, input, options = {}) {
     return;
   }
 
-  if (!options.soft || key === 'priorite') {
+  if (!options.soft || key === 'type') {
     refresh(R.CURRENTS);
   }
 }
@@ -2671,14 +2734,14 @@ function mergeSeaGeometryIntoWorkingCopy(geometry, type) {
     let item = list.find(entry => entry.id === id);
     const exists = Boolean(item);
     if (!item) {
-      item = { id, label: id.replace(/[_-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) };
+      item = { id, nom: id.replace(/[_-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) };
       if (type === 'shoal') item.maxCategorieTaille = 3;
-      else { item.priorite = 2; item.force = 1; }
+      else { item.type = 'haute-mer'; item.speedKnots = 0; }
       list.push(item);
     }
     const keys = type === 'shoal'
       ? ['zone']
-      : (exists ? ['closed', 'zoneSource', 'zone'] : ['closed', 'zoneSource', 'centerline', 'directions', 'zone']);
+      : ['zoneSource', 'zone'];
     keys.forEach(key => {
       if (geom[key] !== undefined) item[key] = JSON.parse(JSON.stringify(geom[key]));
     });
@@ -2781,7 +2844,8 @@ if (typeof window !== 'undefined') {
 }
 
 function exportSeaDataV2() {
-  const currents = getWorkingCurrents();
+  const navZones = getWorkingCurrents();
+  const currents = getWorkingCurrentAxes();
   const shoals = getWorkingShoals();
 
   function fmtPts(pts) {
@@ -2838,6 +2902,13 @@ function exportSeaDataV2() {
     return `  '${id}': {\n${entries.join('\n')}\n  },`;
   }
 
+  function fmtNavZoneGeometryBlock(c) {
+    const zoneSourceLine = c.zoneSource ? `    zoneSource: ${quoteJS(c.zoneSource)},\n` : '';
+    return `  '${c.id}': {
+${zoneSourceLine}    zone: ${formatSeaZoneJS(c.zone, fmtPts)},
+  },`;
+  }
+
   function fmtCurrentGeometryBlock(c) {
     const closedLine = c.closed != null ? `    closed: ${Boolean(c.closed)},\n` : '';
     const zoneSourceLine = c.zoneSource ? `    zoneSource: ${quoteJS(c.zoneSource)},\n` : '';
@@ -2848,7 +2919,6 @@ ${fmtPts(c.centerline)}
     directions: [
 ${fmtDirs(c.directions)}
     ],
-    zone: ${formatSeaZoneJS(c.zone, fmtPts)},
   },`;
   }
 
@@ -2858,12 +2928,18 @@ ${fmtDirs(c.directions)}
   },`;
   }
 
-  const currentGeometryKeys = new Set(['closed', 'zoneSource', 'centerline', 'directions', 'zone']);
+  const navZoneGeometryKeys = new Set(['zone', 'zoneSource']);
+  const currentGeometryKeys = new Set(['closed', 'zoneSource', 'centerline', 'directions']);
   const shoalGeometryKeys = new Set(['zone']);
+  const navZoneGeometryBlocks = navZones.map(fmtNavZoneGeometryBlock).join('\n\n');
+  const navZoneMetaBlocks = navZones.map(c => fmtMetaBlock(c.id, c, navZoneGeometryKeys, {
+    nom: c.nom || c.id,
+    type: c.type || 'haute-mer',
+    speedKnots: currentBaseSpeedKnots(c),
+  })).join('\n\n');
   const currentGeometryBlocks = currents.map(fmtCurrentGeometryBlock).join('\n\n');
   const currentMetaBlocks = currents.map(c => fmtMetaBlock(c.id, c, currentGeometryKeys, {
-    label: c.label || c.id,
-    priorite: currentPriority(c),
+    nom: c.nom || c.id,
   })).join('\n\n');
   const shoalGeometryBlocks = shoals.map(fmtShoalGeometryBlock).join('\n\n');
   const shoalMetaBlocks = shoals.map(s => fmtMetaBlock(s.id, s, shoalGeometryKeys, {
@@ -2873,6 +2949,24 @@ ${fmtDirs(c.directions)}
 
   const output = `// sea-data.js - geometries exportables et metadonnees maritimes
 // Coordonnees pixel Jaillot (8500x5320)
+
+// Section exportable depuis gen_sea_data.py.
+const SEA_NAV_ZONES_EXPLICITES = true;
+
+const SEA_NAV_ZONE_GEOMETRY = {
+${navZoneGeometryBlocks}
+};
+
+// Metadonnees editees manuellement: ne pas remplacer lors d'un nouvel export SVG.
+const SEA_NAV_ZONE_META = {
+${navZoneMetaBlocks}
+};
+
+const SEA_NAV_ZONES = Object.entries(SEA_NAV_ZONE_GEOMETRY).map(([id, geometry]) => ({
+  id,
+  ...(SEA_NAV_ZONE_META[id] || {}),
+  ...geometry,
+}));
 
 // Section exportable depuis gen_sea_data.py.
 const SEA_CURRENT_GEOMETRY = {
@@ -2907,6 +3001,10 @@ const SEA_SHOALS = Object.entries(SEA_SHOAL_GEOMETRY).map(([id, geometry]) => ({
 }));
 
 if (typeof window !== 'undefined') {
+  window.SEA_NAV_ZONES_EXPLICITES = SEA_NAV_ZONES_EXPLICITES;
+  window.SEA_NAV_ZONE_GEOMETRY = SEA_NAV_ZONE_GEOMETRY;
+  window.SEA_NAV_ZONE_META = SEA_NAV_ZONE_META;
+  window.SEA_NAV_ZONES = SEA_NAV_ZONES;
   window.SEA_CURRENT_GEOMETRY = SEA_CURRENT_GEOMETRY;
   window.SEA_CURRENT_META = SEA_CURRENT_META;
   window.SEA_CURRENTS = SEA_CURRENTS;
@@ -4184,11 +4282,11 @@ function seaCellCenterPxFromKey(key) {
 }
 
 function summarizeSemaphoreCurrent(current) {
-  const speed = currentBaseSpeed(current);
+  const speed = currentBaseSpeedKmh(current);
   const speedText = speed ? `${speed} km/h` : 'vitesse variable';
   const navText = `Nav ${current.visibiliteNav ?? 0}`;
-  const priorityText = `prio ${currentPriority(current)}`;
-  return `${escapeHtmlText(current.label || current.id)} (${speedText}, ${priorityText}, ${navText})`;
+  const typeText = current.type || 'haute-mer';
+  return `${escapeHtmlText(current.nom || current.id)} (${speedText}, ${typeText}, ${navText})`;
 }
 
 function summarizeSemaphoreShoal(shoal) {
@@ -4213,14 +4311,14 @@ function summarizeJaillotCurrent(current) {
   if (!current) return 'aucun courant retenu';
   const parts = [
     current.direction || 'direction n/a',
-    formatMaybeNumber(current.speedKmh, 2, ' km/h'),
     formatMaybeNumber(current.speedKnots, 2, ' nd'),
-    `attenuation cote ${formatMaybeNumber(current.attenuationCote, 2)}`,
+    current.zoneNom ? `zone ${escapeHtmlText(current.zoneNom)}` : null,
+    current.typeZone ? `type ${escapeHtmlText(current.typeZone)}` : null,
   ];
   if (Array.isArray(current.courants) && current.courants.length) {
-    parts.push(current.courants.map(c => `${escapeHtmlText(c.id || '?')}${c.segment ? ` / ${escapeHtmlText(c.segment)}` : ''}`).join(', '));
+    parts.push(current.courants.map(c => escapeHtmlText(c.nom || c.id || '?')).join(', '));
   }
-  return parts.join(' - ');
+  return parts.filter(Boolean).join(' - ');
 }
 
 function summarizeJaillotWind(wind) {

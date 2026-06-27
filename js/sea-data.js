@@ -3533,11 +3533,63 @@ const SEA_CURRENT_META = {
   },
 };
 
-const SEA_CURRENTS = Object.entries(SEA_CURRENT_GEOMETRY).map(([id, geometry]) => ({
+const SEA_KMH_TO_KNOTS = 1 / 1.852;
+
+function seaLegacySpeedKnots(meta = {}) {
+  const direct = Number(meta.speedKnots ?? meta.speedKnot);
+  if (Number.isFinite(direct) && direct >= 0) return direct;
+  const kmh = Number(meta.speedKmh ?? meta.vitesseKmh);
+  if (Number.isFinite(kmh) && kmh >= 0) return kmh * SEA_KMH_TO_KNOTS;
+  const segments = meta.speedSegments || meta.vitesseSegments;
+  if (Array.isArray(segments) && segments.length) {
+    const values = segments
+      .map(seg => Number(seg.speedKmh ?? seg.vitesseKmh))
+      .filter(value => Number.isFinite(value) && value >= 0);
+    if (values.length) {
+      return (values.reduce((sum, value) => sum + value, 0) / values.length) * SEA_KMH_TO_KNOTS;
+    }
+  }
+  return 0;
+}
+
+const SEA_NAV_ZONES_EXPLICITES = false;
+
+const SEA_NAV_ZONE_GEOMETRY = Object.fromEntries(Object.entries(SEA_CURRENT_GEOMETRY).map(([id, geometry]) => ([
   id,
-  ...(SEA_CURRENT_META[id] || {}),
+  {
+    zoneSource: geometry.zoneSource,
+    zone: geometry.zone,
+  },
+])));
+
+const SEA_NAV_ZONE_META = Object.fromEntries(Object.entries(SEA_CURRENT_META).map(([id, meta]) => ([
+  id,
+  {
+    nom: meta.nom || meta.label || id,
+    type: meta.type || 'haute-mer',
+    speedKnots: seaLegacySpeedKnots(meta),
+    visibiliteNav: meta.visibiliteNav ?? 0,
+  },
+])));
+
+const SEA_NAV_ZONES = Object.entries(SEA_NAV_ZONE_GEOMETRY).map(([id, geometry]) => ({
+  id,
+  ...(SEA_NAV_ZONE_META[id] || {}),
   ...geometry,
 }));
+
+const SEA_CURRENTS = Object.entries(SEA_CURRENT_GEOMETRY).map(([id, geometry]) => {
+  const meta = SEA_CURRENT_META[id] || {};
+  return {
+    id,
+    nom: meta.nom || meta.label || id,
+    visibiliteNav: meta.visibiliteNav ?? 0,
+    closed: geometry.closed,
+    zoneSource: geometry.zoneSource,
+    centerline: geometry.centerline,
+    directions: geometry.directions,
+  };
+});
 
 // Section exportable depuis gen_sea_data.py.
 const SEA_SHOAL_GEOMETRY = {
@@ -3835,6 +3887,10 @@ const SEA_SHOALS = Object.entries(SEA_SHOAL_GEOMETRY).map(([id, geometry]) => ({
 if (typeof window !== 'undefined') {
   window.SEA_CURRENT_GEOMETRY = SEA_CURRENT_GEOMETRY;
   window.SEA_CURRENT_META = SEA_CURRENT_META;
+  window.SEA_NAV_ZONES_EXPLICITES = SEA_NAV_ZONES_EXPLICITES;
+  window.SEA_NAV_ZONE_GEOMETRY = SEA_NAV_ZONE_GEOMETRY;
+  window.SEA_NAV_ZONE_META = SEA_NAV_ZONE_META;
+  window.SEA_NAV_ZONES = SEA_NAV_ZONES;
   window.SEA_CURRENTS = SEA_CURRENTS;
   window.SEA_SHOAL_GEOMETRY = SEA_SHOAL_GEOMETRY;
   window.SEA_SHOAL_META = SEA_SHOAL_META;

@@ -265,6 +265,12 @@ function normaliserPolygonesMaritimes(zone) {
 }
 
 function sourceMaritimeCourants() {
+  if (typeof SEA_NAV_ZONES === 'undefined') return [];
+  if (modeMJ && !testNiveauNavActif) return SEA_NAV_ZONES;
+  return SEA_NAV_ZONES.filter(c => (c.visibiliteNav ?? 0) <= niveauNavigation);
+}
+
+function sourceMaritimeAxesCourants() {
   if (typeof SEA_CURRENTS === 'undefined') return [];
   if (modeMJ && !testNiveauNavActif) return SEA_CURRENTS;
   return SEA_CURRENTS.filter(c => (c.visibiliteNav ?? 0) <= niveauNavigation);
@@ -290,8 +296,8 @@ function styleMaritime(feature, type, active = false) {
     };
   }
 
-  const force = Number(feature.force ?? feature.priorite ?? 1);
-  const fillOpacity = Math.max(0.1, Math.min(0.3, 0.1 + force * 0.045));
+  const speed = Number(feature.speedKnots ?? feature.speedKnot ?? 0);
+  const fillOpacity = Math.max(0.1, Math.min(0.34, 0.12 + speed * 0.045));
   return {
     color: active ? '#b7e6ff' : '#5fa8c8',
     weight: weightPourZoom(active ? 1.7 : 0.6, carte.getZoom()),
@@ -306,9 +312,9 @@ function styleMaritime(feature, type, active = false) {
 
 function labelMaritime(feature, type) {
   if (type === 'shoal') return 'Banc / recif / haut-fond';
-  const force = feature.force ? `force ${feature.force}` : null;
-  const vitesse = feature.speedKmh ? `${feature.speedKmh} km/h` : null;
-  return ['Courant marin', force, vitesse].filter(Boolean).join(' - ');
+  const typeZone = feature.type ? `zone ${feature.type}` : null;
+  const vitesse = feature.speedKnots ? `${Math.round(feature.speedKnots * 10) / 10} nd` : null;
+  return ['Zone maritime', typeZone, vitesse].filter(Boolean).join(' - ');
 }
 
 // ─── Calcul / année ──────────────────────────────────────────
@@ -1396,15 +1402,15 @@ function _maritimePtInZone(pt, zone) {
 }
 
 function _maritimeSpeedAtSeg(current, segIdx) {
-  const segs = current.speedSegments || current.vitesseSegments;
-  if (!Array.isArray(segs) || !segs.length)
-    return Number(current.speedKmh || current.vitesseKmh || current.force) || 0;
-  const seg = segs.find(s => segIdx >= s.from && segIdx <= s.to) || segs[segs.length - 1];
-  return Number(seg.speedKmh || seg.vitesseKmh || current.force) || 0;
+  return 0;
 }
 
 function _maritimeArrowSpacing(spd) {
-  if (spd >= 8) return 230; if (spd >= 6) return 280; if (spd >= 3) return 350; return 430;
+  if (spd >= 4.5) return 230; if (spd >= 3.2) return 280; if (spd >= 1.6) return 350; return 430;
+}
+
+function _maritimeZoneAtPoint(pt) {
+  return sourceMaritimeCourants().find(zone => _maritimePtInZone(pt, zone.zone)) || null;
 }
 
 // Même table que zone-editor : directions encodées en provenance + inversion axe Y Leaflet
@@ -1438,12 +1444,13 @@ function _maritimeArrowSamples(current) {
   let target = Math.min(350 / 2, total / 2);
   while (target < total) {
     const seg = segments.find(s => target >= s.start && target <= s.start + s.len) || segments[segments.length - 1];
-    const spd = _maritimeSpeedAtSeg(current, seg.dirIdx);
-    const nextTarget = target + _maritimeArrowSpacing(spd);
     const t = Math.max(0, Math.min(1, (target - seg.start) / seg.len));
     const x = seg.a[0] + (seg.b[0] - seg.a[0]) * t;
     const y = seg.a[1] + (seg.b[1] - seg.a[1]) * t;
-    if (pointInMapBounds(x, y) && _maritimePtInZone([x, y], current.zone)) {
+    const zone = _maritimeZoneAtPoint([x, y]);
+    const spd = Number(zone?.speedKnots ?? zone?.speedKnot ?? 0);
+    const nextTarget = target + _maritimeArrowSpacing(spd);
+    if (pointInMapBounds(x, y) && zone) {
       samples.push({ x, y, direction: current.directions?.[seg.dirIdx] || 'E' });
     }
     target = nextTarget;
@@ -1527,31 +1534,37 @@ function renderMaritime() {
       poly.on('mouseout', () => {
         if (maritimeActive !== key) poly.setStyle(styleMaritime(item, type, false));
       });
-      poly.bindTooltip(item.label || item.id, {
+      poly.bindTooltip(item.nom || item.label || item.id, {
         permanent: false, direction: 'top', className: 'carte-tooltip', opacity: 1,
       });
     });
 
     const layers = [...polygones];
 
-    // Flèches de direction pour les courants uniquement (centerline non affichée dans l'overlay)
-    if (type === 'current' && Array.isArray(item.centerline) && item.centerline.length >= 2) {
-      const arrowColor = isActive ? 'rgba(104, 180, 243, 0.95)' : 'rgba(67, 152, 216, 0.92)';
-      _maritimeArrowSamples(item).forEach(({ x, y, direction }) => {
-        const angle = _maritimeDirToAngle(direction);
-        const icon = L.divIcon({
-          className: '',
-          html: `<div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;transform:rotate(${angle}deg);font-size:16px;color:${arrowColor};text-shadow:0 0 4px rgba(0,0,0,0.9);pointer-events:none;">➤</div>`,
-          iconSize: [20, 20], iconAnchor: [10, 10],
-        });
-        layers.push(L.marker(pixelToLatLng(x, y), { icon, interactive: false, keyboard: false }));
-      });
-    }
-
     const groupe = L.layerGroup(layers);
     groupe.addTo(carte);
     layersMaritimes[key] = groupe;
   });
+
+  const arrowLayers = [];
+  sourceMaritimeAxesCourants().forEach(item => {
+    if (!Array.isArray(item.centerline) || item.centerline.length < 2) return;
+    _maritimeArrowSamples(item).forEach(({ x, y, direction }) => {
+      const angle = _maritimeDirToAngle(direction);
+      const icon = L.divIcon({
+        className: '',
+        html: `<div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;transform:rotate(${angle}deg);font-size:16px;color:rgba(67,152,216,0.92);text-shadow:0 0 4px rgba(0,0,0,0.9);pointer-events:none;">➤</div>`,
+        iconSize: [20, 20], iconAnchor: [10, 10],
+      });
+      arrowLayers.push(L.marker(pixelToLatLng(x, y), { icon, interactive: false, keyboard: false }));
+    });
+  });
+  if (arrowLayers.length) {
+    const key = maritimeKey('current-axis', 'all');
+    const groupe = L.layerGroup(arrowLayers);
+    groupe.addTo(carte);
+    layersMaritimes[key] = groupe;
+  }
 }
 
 function renderPins() {
@@ -1986,7 +1999,7 @@ function majLegende() {
   }
 
   if (overlayMode === 'masque') {
-    liste.innerHTML = `<span style="font-family:'IM Fell English',serif;font-style:italic;font-size:0.85rem;color:var(--mist);">Teâtre de la Guerre en Amerique — Jaillot, Mortier &amp; Sanson, 1708.</span>`;
+    liste.innerHTML = `<span style="font-family:'IM Fell English',serif;font-style:italic;font-size:0.85rem;color:var(--mist);">Théâtre de la Guerre en Amérique — Jaillot, Mortier &amp; Sanson, 1708.</span>`;
     return;
   }
 
@@ -2184,9 +2197,8 @@ function ouvrirPanneauMaritime(type, id) {
   fermerPopup();
 
   const metaItems = [
-    { label: 'Priorite', value: feature.priorite },
-    { label: 'Force', value: feature.force },
-    { label: 'Vitesse', value: feature.speedKmh ? `${feature.speedKmh} km/h` : null },
+    { label: 'Type', value: type === 'current' ? (feature.type || 'haute-mer') : null },
+    { label: 'Vitesse', value: type === 'current' && feature.speedKnots ? `${Math.round(feature.speedKnots * 10) / 10} nd` : null },
     { label: 'Passage libre', value: type === 'shoal' && feature.catMax ? `categories 1-${feature.catMax}` : null },
     { label: 'Passage Nav', value: type === 'shoal' && feature.catMaxNav ? `categorie ${feature.catMaxNav} si Nav >= ${feature.passageNav ?? '?'}` : null },
     { label: 'Toujours interdit', value: type === 'shoal' && feature.catMax ? `categories ${feature.catMax + 1}+` : null },
@@ -2199,20 +2211,7 @@ function ouvrirPanneauMaritime(type, id) {
       <span class="panneau-meta-value">${escapeHtml(String(m.value))}</span>
     </div>`).join('') : '';
 
-  const segments = modeMJ && Array.isArray(feature.speedSegments) && feature.speedSegments.length
-    ? `<div class="panneau-section-titre">Segments</div>
-      <div class="panneau-meta">
-        ${feature.speedSegments.map(s => `
-          <div class="panneau-meta-item">
-            <span class="panneau-meta-label">${escapeHtml(s.label || 'Segment')}</span>
-            <span class="panneau-meta-value">${[
-              s.speedKmh ? `${s.speedKmh} km/h` : null,
-              s.from != null && s.to != null ? `points ${s.from}-${s.to}` : null,
-              s.attenuationMinCote ? `attenuation cote ${s.attenuationMinCote}` : null,
-            ].filter(Boolean).map(escapeHtml).join(' - ')}</span>
-          </div>`).join('')}
-      </div>`
-    : '';
+  const segments = '';
 
   const inner = document.getElementById('carte-panneau-inner');
   const contexte = rendreContexte(feature.contexte, anneeActive);
@@ -2221,7 +2220,7 @@ function ouvrirPanneauMaritime(type, id) {
       <span class="panneau-maritime-pastille panneau-maritime-pastille--${type}"></span>
       <span class="panneau-puissance-label">${type === 'shoal' ? 'Banc / recif / haut-fond' : 'Courant marin'}</span>
     </div>
-    <h2 class="panneau-nom">${escapeHtml(feature.label || feature.id)}</h2>
+    <h2 class="panneau-nom">${escapeHtml(feature.nom || feature.label || feature.id)}</h2>
     ${meta ? `
       <div class="panneau-section-titre">Donnees</div>
       <div class="panneau-meta">${meta}</div>

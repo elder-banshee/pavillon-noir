@@ -36,6 +36,7 @@
   const DIRECTIONS_COURANT = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
     'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
   const KMH_TO_KNOTS = 0.539956803;
+  const KNOTS_TO_KMH = 1.852;
 
   let carte = null;
   let pixelToLatLngFn = null;
@@ -49,6 +50,7 @@
   const courantPointCache = new Map();
   const ventPointCache = new Map();
   const tempsSegmentCache = new Map();
+  let zonesNavigationIndexCache = null;
   let courantsIndexCache = null;
   let deventementsIndexCache = null;
   let etatNavire = {
@@ -209,8 +211,8 @@
     const courant = courantEnPoint(point);
     if (!courant?.vecteur) return { x: 0, y: 0 };
     return {
-      x: courant.vecteur.x * KMH_TO_KNOTS,
-      y: courant.vecteur.y * KMH_TO_KNOTS,
+      x: courant.vecteur.x,
+      y: courant.vecteur.y,
     };
   }
 
@@ -438,14 +440,43 @@
     return SEA_CURRENTS.filter(c => (c.visibiliteNav ?? 0) <= nav);
   }
 
+  function zonesNavigationExplicites() {
+    return typeof SEA_NAV_ZONES_EXPLICITES !== 'undefined' && !!SEA_NAV_ZONES_EXPLICITES;
+  }
+
+  function sourceZonesNavigationCalculateur() {
+    if (typeof SEA_NAV_ZONES !== 'undefined' && Array.isArray(SEA_NAV_ZONES)) return SEA_NAV_ZONES;
+    return [];
+  }
+
+  function getZonesNavigationIndex() {
+    if (zonesNavigationIndexCache) return zonesNavigationIndexCache;
+    const source = sourceZonesNavigationCalculateur();
+    zonesNavigationIndexCache = source.map(zone => {
+      const anneaux = anneauxZoneSea(zone.zone);
+      return {
+        zone,
+        bbox: bboxAnneauxSea(anneaux),
+      };
+    });
+    return zonesNavigationIndexCache;
+  }
+
   function getCourantsIndex() {
     if (courantsIndexCache) return courantsIndexCache;
     const source = sourceCourantsCalculateur();
     courantsIndexCache = source.map(courant => {
-      const anneaux = anneauxZoneSea(courant.zone);
+      const points = courant.centerline || [];
+      const xs = points.map(([x]) => x);
+      const ys = points.map(([, y]) => y);
       return {
         courant,
-        bbox: bboxAnneauxSea(anneaux),
+        bbox: points.length ? {
+          minX: Math.min(...xs),
+          maxX: Math.max(...xs),
+          minY: Math.min(...ys),
+          maxY: Math.max(...ys),
+        } : { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity },
       };
     });
     return courantsIndexCache;
@@ -456,6 +487,39 @@
       pointDansAnneauSea(point, poly.exterior)
       && !poly.holes.some(trou => pointDansAnneauSea(point, trou))
     ));
+  }
+
+  function zonesNavigationAuPoint(point) {
+    return getZonesNavigationIndex()
+      .filter(({ bbox }) => point.x >= bbox.minX && point.x <= bbox.maxX
+        && point.y >= bbox.minY && point.y <= bbox.maxY)
+      .map(({ zone }) => zone)
+      .filter(zone => pointDansZoneSea(point, zone.zone));
+  }
+
+  function zoneNavigationEnPoint(point) {
+    const zones = zonesNavigationAuPoint(point);
+    return zones[0] || null;
+  }
+
+  function pointDansZoneNavigation(point) {
+    if (!zonesNavigationExplicites()) return true;
+    return !!zoneNavigationEnPoint(point);
+  }
+
+  function segmentDansZonesNavigation(a, b) {
+    if (!zonesNavigationExplicites()) return true;
+    const px = distance(a, b);
+    const parts = Math.max(1, Math.ceil(px / Math.max(8, CONFIG.grilleApprochePx * 2)));
+    for (let i = 0; i <= parts; i++) {
+      const t = parts ? i / parts : 0;
+      const point = {
+        x: a.x + (b.x - a.x) * t,
+        y: a.y + (b.y - a.y) * t,
+      };
+      if (!pointDansZoneNavigation(point)) return false;
+    }
+    return true;
   }
 
   function directionVersVecteur(direction, force = 1) {
@@ -599,22 +663,29 @@
   }
 
   function segmentCourantAuPoint(courant, point) {
+    return segmentCourantProche(courant, point).index;
+  }
+
+  function segmentCourantProche(courant, point) {
     const cl = courant.centerline || [];
-    if (cl.length < 2) return 0;
+    if (cl.length < 2) return { index: 0, point: null, distance: Infinity };
 
     let meilleurIdx = 0;
+    let meilleurPoint = null;
     let meilleureDist = Infinity;
     const segmentCount = courant.closed ? cl.length : cl.length - 1;
     for (let i = 0; i < segmentCount; i++) {
       const a = { x: cl[i][0], y: cl[i][1] };
       const b = { x: cl[(i + 1) % cl.length][0], y: cl[(i + 1) % cl.length][1] };
-      const d = distPointSegment(point, a, b);
+      const proche = pointPlusProcheSegment(point, a, b);
+      const d = distance(point, proche);
       if (d < meilleureDist) {
         meilleureDist = d;
         meilleurIdx = i;
+        meilleurPoint = proche;
       }
     }
-    return meilleurIdx;
+    return { index: meilleurIdx, point: meilleurPoint, distance: meilleureDist };
   }
 
   function directionCourantAuPoint(courant, point) {
@@ -625,38 +696,31 @@
     return courant.directions?.[index] || courant.directions?.[courant.directions.length - 1] || null;
   }
 
-  function vitesseCourantAuPoint(courant, point) {
-    const segments = courant.speedSegments || courant.vitesseSegments;
-    if (!Array.isArray(segments) || !segments.length) {
-      return Number(courant.speedKmh ?? courant.vitesseKmh ?? courant.force) || 0;
-    }
-    const index = segmentCourantAuPoint(courant, point);
-    const segment = segments.find(seg => index >= seg.from && index <= seg.to)
-      || segments.find(seg => seg.from == null && seg.to == null)
-      || segments[segments.length - 1];
-    return Number(segment.speedKmh ?? segment.vitesseKmh ?? courant.force) || 0;
-  }
-
-  function segmentVitesseCourantAuPoint(courant, point) {
-    const segments = courant.speedSegments || courant.vitesseSegments;
-    if (!Array.isArray(segments) || !segments.length) return null;
-    const index = segmentCourantAuPoint(courant, point);
-    return segments.find(seg => index >= seg.from && index <= seg.to) || null;
-  }
-
-  function attenuationMinimaleCourant(courant, point) {
-    const segment = segmentVitesseCourantAuPoint(courant, point);
-    if (segment?.attenuationMinCote != null) return Number(segment.attenuationMinCote) || 0;
-    if (segment?.label === 'Courant de Floride') return 0.6;
+  function vitesseZoneNavigationNoeuds(zone) {
+    if (!zone) return 0;
+    const knots = Number(zone.speedKnots ?? zone.speedKnot);
+    if (Number.isFinite(knots) && knots >= 0) return knots;
+    const kmh = Number(zone.speedKmh ?? zone.vitesseKmh);
+    if (Number.isFinite(kmh) && kmh >= 0) return kmh * KMH_TO_KNOTS;
     return 0;
   }
 
-  function courantsAuPoint(point) {
+  function courantTraverseZone(courant, zone, point) {
+    if (!zone) return false;
+    const proche = segmentCourantProche(courant, point);
+    return !!proche.point && pointDansZoneSea(proche.point, zone.zone);
+  }
+
+  function courantsZoneAuPoint(point, zone) {
+    if (!zone) return [];
     return getCourantsIndex()
-      .filter(({ bbox }) => point.x >= bbox.minX && point.x <= bbox.maxX
-        && point.y >= bbox.minY && point.y <= bbox.maxY)
       .map(({ courant }) => courant)
-      .filter(courant => pointDansZoneSea(point, courant.zone));
+      .filter(courant => courantTraverseZone(courant, zone, point));
+  }
+
+  function courantsAuPoint(point) {
+    const zone = zoneNavigationEnPoint(point);
+    return courantsZoneAuPoint(point, zone);
   }
 
   function courantEnPoint(point) {
@@ -667,25 +731,31 @@
       courantPointCache.set(cacheKey, null);
       return null;
     }
-    const presents = courantsAuPoint(point);
+    const zone = zoneNavigationEnPoint(point);
+    if (!zone) {
+      courantPointCache.set(cacheKey, null);
+      return null;
+    }
+    const presents = courantsZoneAuPoint(point, zone);
     if (!presents.length) {
       courantPointCache.set(cacheKey, null);
       return null;
     }
 
-    const priorite = Math.min(...presents.map(c => c.priorite ?? Infinity));
-    const retenus = presents.filter(c => (c.priorite ?? Infinity) === priorite);
+    const retenus = presents;
     let x = 0;
     let y = 0;
     let count = 0;
-    let attenuationMin = 0;
+    const vitesseNoeuds = vitesseZoneNavigationNoeuds(zone);
+    if (vitesseNoeuds <= 0) {
+      courantPointCache.set(cacheKey, null);
+      return null;
+    }
 
     retenus.forEach(courant => {
       const direction = directionCourantAuPoint(courant, point);
-      const vitesseKmh = vitesseCourantAuPoint(courant, point);
-      const vecteur = directionVersVecteur(direction, vitesseKmh);
+      const vecteur = directionVersVecteur(direction, vitesseNoeuds);
       if (!vecteur) return;
-      attenuationMin = Math.max(attenuationMin, attenuationMinimaleCourant(courant, point));
       x += vecteur.x;
       y += vecteur.y;
       count++;
@@ -695,32 +765,22 @@
       courantPointCache.set(cacheKey, null);
       return null;
     }
-    const brut = { x: x / count, y: y / count };
-    const attenuation = Math.max(attenuationCourantCote(point), attenuationMin);
-    const moyen = {
-      x: brut.x * attenuation,
-      y: brut.y * attenuation,
-    };
-    const vitesseKmh = Math.hypot(moyen.x, moyen.y);
+    const moyen = { x: x / count, y: y / count };
+    const vitesseNoeudsResultat = Math.hypot(moyen.x, moyen.y);
     const resultat = {
-      priorite,
-      force: vitesseKmh,
-      speedKmh: vitesseKmh,
-      speedKnots: vitesseKmh * KMH_TO_KNOTS,
-      attenuationCote: attenuation,
+      zoneId: zone.id || null,
+      zoneNom: zone.nom || zone.id || null,
+      typeZone: zone.type || 'haute-mer',
+      speedKnots: vitesseNoeudsResultat,
+      speedKmh: vitesseNoeudsResultat * KNOTS_TO_KMH,
       distanceCoteNm: distanceCotePointNm(point),
       direction: vecteurVersDirection(moyen),
       vecteur: moyen,
-      courants: retenus.map(c => {
-        const segment = segmentVitesseCourantAuPoint(c, point);
-        const vitesseKmhOriginale = vitesseCourantAuPoint(c, point);
-        return {
-          id: c.id,
-          segment: segment?.label || null,
-          speedKmh: vitesseKmhOriginale * attenuation,
-          speedKmhOriginale: vitesseKmhOriginale,
-        };
-      }),
+      courants: retenus.map(c => ({
+        id: c.id,
+        nom: c.nom || c.id,
+        speedKnots: vitesseNoeuds,
+      })),
     };
     courantPointCache.set(cacheKey, resultat);
     return resultat;
@@ -728,15 +788,15 @@
 
   function navireActif() {
     if (typeof CARTE_NAVIRE === 'undefined')
-      throw new Error('CARTE_NAVIRE absent �?" verifier carte-data.js.');
+      throw new Error('CARTE_NAVIRE absent — vérifier carte-data.js.');
     const id = CARTE_NAVIRE.navireId;
     if (!id)
-      throw new Error('CARTE_NAVIRE.navireId manquant �?" definir l\u2019id du navire dans carte-data.js.');
+      throw new Error('CARTE_NAVIRE.navireId manquant — définir l\u2019id du navire dans carte-data.js.');
     if (typeof SHIPS_DATA === 'undefined' || !Array.isArray(SHIPS_DATA))
-      throw new Error('SHIPS_DATA absent �?" verifier ships-data.js.');
+      throw new Error('SHIPS_DATA absent — vérifier ships-data.js.');
     const ship = SHIPS_DATA.find(s => s.id === id);
     if (!ship)
-      throw new Error('Navire \u00ab ' + id + ' \u00bb introuvable dans SHIPS_DATA �?" verifier ships-data.js.');
+      throw new Error('Navire \u00ab ' + id + ' \u00bb introuvable dans SHIPS_DATA — vérifier ships-data.js.');
     return ship;
   }
   function categorieTailleNavire(navire = navireActif()) {
@@ -1523,6 +1583,9 @@
       options.ignorerArriveeDansTerre ? 1 : 0,
     ].join('|');
     if (navigabiliteCache.has(cacheKey)) return navigabiliteCache.get(cacheKey);
+    if (!segmentDansZonesNavigation(a, b)) {
+      return memoriserNavigabilite(cacheKey, false);
+    }
     if (segmentTraverseHautFond(a, b)) {
       return memoriserNavigabilite(cacheKey, false);
     }
@@ -2763,6 +2826,7 @@
 
   function invaliderCacheHautsFonds() {
     hautsFondsIndexCache = null;
+    zonesNavigationIndexCache = null;
     courantsIndexCache = null; // les courants filtres par niveauNavigation changent le cout des segments
     grilleCache = null;        // la grille filtre les nodes selon les hauts-fonds
     navigabiliteCache.clear(); // les segments bloques/libres dependent du niveau Nav et de la categorie
@@ -3621,11 +3685,11 @@
         modificateurVitesseNoeuds: modificateurVitesseActuelNoeuds(navire, etat),
         malusHauturier: !!navire.malusHauturier,
       },
+      zoneNavigation: zoneNavigationEnPoint(p),
       courant: courantEnPoint(p),
       vent: ventEnPoint(p),
       hautsFonds,
       distanceCoteNm: distanceCotePointNm(p),
-      attenuationCourantCote: attenuationCourantCote(p),
       navigablePoint: segmentNavigable(p, p),
     };
   }
@@ -3635,6 +3699,7 @@
     calculerRoute,
     inspecterPointNavigation,
     segmentNavigable,
+    zoneNavigationEnPoint,
     courantEnPoint,
     ventEnPoint,
     allureSegment,
