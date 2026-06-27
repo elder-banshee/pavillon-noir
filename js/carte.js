@@ -1372,6 +1372,123 @@ function renderZones() {
 }
 
 // ─── Pins de scénarios ───────────────────────────────────────
+
+// ─── Utilitaires centerline maritime ─────────────────────────
+// Copie fidèle de la logique de zone-editor.html
+
+function _maritimePtInRing(pt, ring) {
+  const [x, y] = pt;
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i], [xj, yj] = ring[j];
+    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / ((yj - yi) || 1e-9) + xi))
+      inside = !inside;
+  }
+  return inside;
+}
+
+function _maritimePtInZone(pt, zone) {
+  if (!zone) return false;
+  return normaliserPolygonesMaritimes(zone).some(anneaux =>
+    anneaux.length && _maritimePtInRing(pt, anneaux[0]) &&
+    !anneaux.slice(1).some(hole => _maritimePtInRing(pt, hole))
+  );
+}
+
+function _maritimeSpeedAtSeg(current, segIdx) {
+  const segs = current.speedSegments || current.vitesseSegments;
+  if (!Array.isArray(segs) || !segs.length)
+    return Number(current.speedKmh || current.vitesseKmh || current.force) || 0;
+  const seg = segs.find(s => segIdx >= s.from && segIdx <= s.to) || segs[segs.length - 1];
+  return Number(seg.speedKmh || seg.vitesseKmh || current.force) || 0;
+}
+
+function _maritimeArrowSpacing(spd) {
+  if (spd >= 8) return 230; if (spd >= 6) return 280; if (spd >= 3) return 350; return 430;
+}
+
+// Même table que zone-editor : directions encodées en provenance + inversion axe Y Leaflet
+function _maritimeDirToAngle(dir) {
+  const a = {
+    N: 90,   NNE: 112.5, NE: 135,  ENE: 157.5,
+    E: 180,  ESE: 202.5, SE: 225,  SSE: 247.5,
+    S: 270,  SSW: 292.5, SW: 315,  WSW: 337.5,
+    W: 0,    WNW: 22.5,  NW: 45,   NNW: 67.5,
+  };
+  return a[dir] !== undefined ? a[dir] : 0;
+}
+
+// Copie exacte de seaArrowSamples, avec double filtre : zone ET MAP_BOUNDS_POLYGON
+function _maritimeArrowSamples(current) {
+  const cl = current.centerline || [];
+  if (cl.length < 2) return [];
+  const segmentCount = current.closed ? cl.length : cl.length - 1;
+  const segments = [];
+  let total = 0;
+  for (let i = 0; i < segmentCount; i++) {
+    const a = cl[i], b = cl[(i + 1) % cl.length];
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const len = Math.sqrt(dx * dx + dy * dy);
+    if (len < 1) continue;
+    segments.push({ a, b, len, start: total, dirIdx: i });
+    total += len;
+  }
+  if (!segments.length) return [];
+  const samples = [];
+  let target = Math.min(350 / 2, total / 2);
+  while (target < total) {
+    const seg = segments.find(s => target >= s.start && target <= s.start + s.len) || segments[segments.length - 1];
+    const spd = _maritimeSpeedAtSeg(current, seg.dirIdx);
+    const nextTarget = target + _maritimeArrowSpacing(spd);
+    const t = Math.max(0, Math.min(1, (target - seg.start) / seg.len));
+    const x = seg.a[0] + (seg.b[0] - seg.a[0]) * t;
+    const y = seg.a[1] + (seg.b[1] - seg.a[1]) * t;
+    if (pointInMapBounds(x, y) && _maritimePtInZone([x, y], current.zone)) {
+      samples.push({ x, y, direction: current.directions?.[seg.dirIdx] || 'E' });
+    }
+    target = nextTarget;
+  }
+  return samples;
+}
+
+// Découpe la centerline en runs de points dans MAP_BOUNDS_POLYGON (bisection sur les bords)
+function _maritimeClipCenterline(cl, closed) {
+  if (!cl || cl.length < 2) return [];
+  const segmentCount = closed ? cl.length : cl.length - 1;
+  const runs = [];
+  let cur = [];
+  for (let i = 0; i < segmentCount; i++) {
+    const a = cl[i], b = cl[(i + 1) % cl.length];
+    const aIn = pointInMapBounds(a[0], a[1]);
+    const bIn = pointInMapBounds(b[0], b[1]);
+    if (aIn) {
+      if (!cur.length) cur.push(a);
+      if (bIn) {
+        cur.push(b);
+      } else {
+        // Sortie — interpoler le point de bord par bisection
+        let lo = 0, hi = 1;
+        for (let k = 0; k < 10; k++) {
+          const m = (lo + hi) / 2;
+          pointInMapBounds(a[0] + (b[0] - a[0]) * m, a[1] + (b[1] - a[1]) * m) ? lo = m : hi = m;
+        }
+        cur.push([a[0] + (b[0] - a[0]) * lo, a[1] + (b[1] - a[1]) * lo]);
+        runs.push(cur); cur = [];
+      }
+    } else if (bIn) {
+      // Entrée — interpoler le point de bord par bisection
+      let lo = 0, hi = 1;
+      for (let k = 0; k < 10; k++) {
+        const m = (lo + hi) / 2;
+        pointInMapBounds(a[0] + (b[0] - a[0]) * m, a[1] + (b[1] - a[1]) * m) ? hi = m : lo = m;
+      }
+      cur = [[a[0] + (b[0] - a[0]) * hi, a[1] + (b[1] - a[1]) * hi], b];
+    }
+  }
+  if (cur.length >= 2) runs.push(cur);
+  return runs;
+}
+
 function renderMaritime() {
   nettoyerCouchesMaritimes();
   if (overlayMode !== 'maritime' || !modeMJ || maritimeView !== 'fonds') return;
@@ -1383,12 +1500,13 @@ function renderMaritime() {
 
   features.forEach(({ item, type }) => {
     const key = maritimeKey(type, item.id);
+    const isActive = maritimeActive === key;
     const polygonesSource = normaliserPolygonesMaritimes(item.zone);
     const polygones = polygonesSource
       .filter(anneaux => anneaux[0]?.length >= 3)
       .map(anneaux => L.polygon(
         anneaux.map(points => points.map(([x, y]) => pixelToLatLng(x, y))),
-        styleMaritime(item, type, maritimeActive === key)
+        styleMaritime(item, type, isActive)
       ));
 
     if (!polygones.length) return;
@@ -1402,7 +1520,6 @@ function renderMaritime() {
           ouvrirPanneauMaritime(type, item.id);
         }
       });
-
       poly.on('mouseover', () => {
         fermerTooltipsOrphelins();
         if (maritimeActive !== key) poly.setStyle(styleMaritime(item, type, true));
@@ -1410,16 +1527,28 @@ function renderMaritime() {
       poly.on('mouseout', () => {
         if (maritimeActive !== key) poly.setStyle(styleMaritime(item, type, false));
       });
-
       poly.bindTooltip(item.label || item.id, {
-        permanent: false,
-        direction: 'top',
-        className: 'carte-tooltip',
-        opacity: 1,
+        permanent: false, direction: 'top', className: 'carte-tooltip', opacity: 1,
       });
     });
 
-    const groupe = L.layerGroup(polygones);
+    const layers = [...polygones];
+
+    // Flèches de direction pour les courants uniquement (centerline non affichée dans l'overlay)
+    if (type === 'current' && Array.isArray(item.centerline) && item.centerline.length >= 2) {
+      const arrowColor = isActive ? 'rgba(104, 180, 243, 0.95)' : 'rgba(67, 152, 216, 0.92)';
+      _maritimeArrowSamples(item).forEach(({ x, y, direction }) => {
+        const angle = _maritimeDirToAngle(direction);
+        const icon = L.divIcon({
+          className: '',
+          html: `<div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;transform:rotate(${angle}deg);font-size:16px;color:${arrowColor};text-shadow:0 0 4px rgba(0,0,0,0.9);pointer-events:none;">➤</div>`,
+          iconSize: [20, 20], iconAnchor: [10, 10],
+        });
+        layers.push(L.marker(pixelToLatLng(x, y), { icon, interactive: false, keyboard: false }));
+      });
+    }
+
+    const groupe = L.layerGroup(layers);
     groupe.addTo(carte);
     layersMaritimes[key] = groupe;
   });
@@ -2321,7 +2450,32 @@ function majMaritime(key) {
   const feature = source.find(item => item.id === id);
   if (!feature) return;
   const active = maritimeActive === key;
-  groupe.eachLayer(poly => poly.setStyle(styleMaritime(feature, type, active)));
+  // setStyle uniquement sur les polygones — les markers (flèches divIcon) n'ont pas de setStyle
+  groupe.eachLayer(layer => {
+    if (layer instanceof L.Polygon) {
+      layer.setStyle(styleMaritime(feature, type, active));
+    }
+  });
+  // Reconstruire les flèches avec la bonne couleur (doré si actif, bleu sinon)
+  if (type === 'current') {
+    // Retirer les anciens markers du groupe
+    const toRemove = [];
+    groupe.eachLayer(layer => { if (layer instanceof L.Marker) toRemove.push(layer); });
+    toRemove.forEach(m => groupe.removeLayer(m));
+    // Recréer avec la couleur correcte
+    if (Array.isArray(feature.centerline) && feature.centerline.length >= 2) {
+      const arrowColor = active ? 'rgba(104, 180, 243, 0.95)' : 'rgba(67, 152, 216, 0.92)';
+      _maritimeArrowSamples(feature).forEach(({ x, y, direction }) => {
+        const angle = _maritimeDirToAngle(direction);
+        const icon = L.divIcon({
+          className: '',
+          html: `<div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;transform:rotate(${angle}deg);font-size:16px;color:${arrowColor};text-shadow:0 0 4px rgba(0,0,0,0.9);pointer-events:none;">➤</div>`,
+          iconSize: [20, 20], iconAnchor: [10, 10],
+        });
+        groupe.addLayer(L.marker(pixelToLatLng(x, y), { icon, interactive: false, keyboard: false }));
+      });
+    }
+  }
 }
 
 function majWeightsZones() {

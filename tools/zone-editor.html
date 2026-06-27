@@ -1706,9 +1706,9 @@ function seaCellStyle(key) {
   const selected = selectedSeaCellKeys.has(key) || key === selectedSeaCellKey;
   return {
     pane: 'seaCellPane',
-    color: selected ? 'rgba(242,232,213,0.95)' : 'rgba(70,170,210,0.65)',
-    weight: selected ? 2 : 1,
-    fillColor: selected ? 'rgba(242,232,213,0.10)' : 'transparent',
+    color: selected ? 'rgba(80,200,120,0.95)' : 'rgba(70,170,210,0.65)',
+    weight: selected ? 2.5 : 1,
+    fillColor: selected ? 'rgba(60,180,100,0.30)' : 'transparent',
     fillOpacity: selected ? 1 : 0,
     interactive: false,
   };
@@ -2120,6 +2120,26 @@ function renderCurrentsLayer() {
           iconSize: [20, 20], iconAnchor: [10, 10],
         });
         L.marker(pxToLatLng(sample.x, sample.y), { icon, interactive: false, keyboard: false }).addTo(currentArrowLayer);
+      });
+    }
+
+    // Bornes de tronçons speedSegments
+    const segs = c.speedSegments || c.vitesseSegments;
+    if (Array.isArray(segs) && segs.length > 1 && Array.isArray(c.centerline)) {
+      const cl = c.centerline;
+      segs.slice(0, -1).forEach((seg, idx) => {
+        const ptIdx = seg.to;
+        if (ptIdx < 0 || ptIdx >= cl.length) return;
+        const [px, py] = cl[ptIdx];
+        const nextSeg = segs[idx + 1];
+        const speedA = Number(seg.speedKmh ?? seg.vitesseKmh ?? c.force) || 0;
+        const speedB = Number(nextSeg.speedKmh ?? nextSeg.vitesseKmh ?? c.force) || 0;
+        const icon = L.divIcon({
+          className: '',
+          html: `<div title="${seg.label || ('Tronçon ' + (idx+1))} — ${speedA} km/h → ${speedB} km/h" style="width:14px;height:14px;border-radius:50%;background:rgba(255,130,40,0.92);border:2px solid rgba(255,255,255,0.85);box-shadow:0 0 5px rgba(0,0,0,0.8);pointer-events:none;"></div>`,
+          iconSize: [14, 14], iconAnchor: [7, 7],
+        });
+        L.marker(pxToLatLng(px, py), { icon, interactive: false, keyboard: false }).addTo(currentArrowLayer);
       });
     }
   });
