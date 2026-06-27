@@ -1191,6 +1191,136 @@ let activeTab    = 'terres'; // 'terres' | 'mers'  (ignoré en mode sea)
 let currentTool = 'select'; // zone: select/draw/erase/insert ; sea: current/wind
 let undoStack = [];
 
+const ctx = {
+  modeKey: 'geo-terres',
+  isGeoTerres: true,
+  isGeoMers: false,
+  isInfosTerres: false,
+  isInfosMers: false,
+  isSea: false,
+  isTerres() { return this.isGeoTerres || this.isInfosTerres; },
+  isMers() { return this.isGeoMers || this.isInfosMers; },
+};
+
+function refreshCtx() {
+  ctx.isGeoTerres = activeEditor === 'zone' && activeTab === 'terres';
+  ctx.isGeoMers = activeEditor === 'zone' && activeTab === 'mers';
+  ctx.isInfosTerres = activeEditor === 'currents' && activeTab === 'terres';
+  ctx.isInfosMers = activeEditor === 'currents' && activeTab === 'mers';
+  ctx.isSea = activeEditor === 'sea';
+  ctx.modeKey = ctx.isSea
+    ? 'semaphore'
+    : ctx.isGeoTerres
+      ? 'geo-terres'
+      : ctx.isGeoMers
+        ? 'geo-mers'
+        : ctx.isInfosTerres
+          ? 'infos-terres'
+          : 'infos-mers';
+}
+
+const R = {
+  ZONES: 1,
+  SELECTED_ZONE: 2,
+  CURRENTS: 4,
+  HANDLES: 8,
+  SEGMENTS: 16,
+  PANEL: 32,
+  SEA_PANEL: 64,
+  EXPORT: 128,
+  EDITOR: 256,
+  TOOLS: 512,
+  UNDO: 1024,
+  SEA_CELLS: 2048,
+  SEA_TOOLS: 4096,
+};
+
+function refreshPanel() {
+  if (ctx.isGeoTerres) updatePanel();
+  else if (ctx.isGeoMers) updateGeoMersPanel();
+  else if (ctx.isInfosTerres) updateInfosTerresDetail();
+  else if (ctx.isSea) updateSeaPanel();
+}
+
+function refreshHandles() {
+  if (ctx.isGeoMers) renderGeoMersHandles();
+  else if (ctx.isGeoTerres) renderHandles();
+}
+
+function refresh(flags = 0, options = {}) {
+  if (flags & R.ZONES) renderAllZones();
+  if (flags & R.SELECTED_ZONE) {
+    const zoneId = options.zoneId ?? selectedZoneId;
+    if (zoneId) renderZone(zoneId);
+  }
+  if (flags & R.CURRENTS) renderCurrentsLayer();
+  if (flags & R.SEA_CELLS) renderSeaCells();
+  if (flags & R.SEA_TOOLS) renderSeaToolOptions();
+  if (flags & R.HANDLES) refreshHandles();
+  if (flags & R.SEGMENTS) renderSegmentMarkers();
+  if (flags & R.TOOLS) renderToolButtons();
+  if (flags & R.EDITOR) updateEditorUI();
+  if (flags & R.PANEL) refreshPanel();
+  if (flags & R.SEA_PANEL) updateSeaPanel();
+  if (flags & R.EXPORT) updateExport();
+  if (flags & R.UNDO) updateUndoButton();
+}
+
+function refreshAfterZoneEdit() {
+  refresh(R.SELECTED_ZONE | R.HANDLES | R.PANEL | R.EXPORT);
+}
+
+function refreshAfterSeaGeometryEdit() {
+  refresh(R.CURRENTS | R.HANDLES | R.PANEL);
+}
+
+function refreshAfterModeChange() {
+  refresh(R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.EXPORT);
+}
+
+function refreshAfterSeaCellSelection() {
+  refresh(R.SEA_CELLS | R.SEA_PANEL | R.SEA_TOOLS);
+}
+
+function refreshAfterSeaCellEdit() {
+  refresh(R.SEA_CELLS | R.SEA_PANEL | R.SEA_TOOLS | R.EXPORT);
+}
+
+function setSeaEntitySelection(type, id) {
+  selectedCurrentId = type === 'current' ? id : null;
+  selectedShoalId = type === 'shoal' ? id : null;
+}
+
+function clearSeaEntitySelection() {
+  selectedCurrentId = null;
+  selectedShoalId = null;
+}
+
+function selectEntity(type, id, extra = {}) {
+  if (type === 'zone') {
+    const prevZone = selectedZoneId;
+    selectedZoneId = id;
+    selectedContourIdx = extra.contourIdx ?? 0;
+    if (prevZone && prevZone !== id) renderZone(prevZone);
+    if (id) renderZone(id);
+    refresh(R.HANDLES | R.PANEL | R.EXPORT);
+    if (currentTool === 'insert') renderSegmentMarkers();
+    return;
+  }
+
+  if (type === 'current' || type === 'shoal') {
+    const currentId = type === 'current' ? selectedCurrentId : selectedShoalId;
+    setSeaEntitySelection(type, currentId === id ? null : id);
+    refreshAfterSeaGeometryEdit();
+    return;
+  }
+
+  if (type === 'infosTerres') {
+    selectedInfosTerresId = id;
+    refresh(R.ZONES | R.PANEL);
+  }
+}
+
 // ─── Copies de travail partagées ─────────────────────────────
 // Une seule instance par fichier cible, partagée entre tous les modes.
 // Initialisées au boot depuis les globales JS ; jamais rechargées au
@@ -1330,18 +1460,10 @@ function undoLastOperation() {
   selectedShoalId = snapshot.selectedShoalId || null;
   activeEditor = snapshot.activeEditor;
   currentTool = snapshot.currentTool;
-  renderAllZones();
+  refreshCtx();
   clearHandles();
   clearSegmentMarkers();
-  if (selectedZoneId && activeEditor === 'zone') renderHandles();
-  renderSeaCells();
-  if (currentLayer) renderCurrentsLayer();
-  renderToolButtons();
-  updateEditorUI();
-  updatePanel();
-  updateSeaPanel();
-  updateExport();
-  updateUndoButton();
+  refresh(R.ZONES | R.HANDLES | R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.EXPORT | R.UNDO);
 }
 
 function updateUndoButton() {
@@ -1351,10 +1473,10 @@ function updateUndoButton() {
 }
 
 function renderToolButtons() {
-  if (activeEditor === 'currents') { document.getElementById('tool-group').innerHTML = ''; return; }
-  const tools = activeEditor === 'sea' ? SEA_TOOLS : ZONE_TOOLS;
+  if (ctx.isInfosTerres || ctx.isInfosMers) { document.getElementById('tool-group').innerHTML = ''; return; }
+  const tools = ctx.isSea ? SEA_TOOLS : ZONE_TOOLS;
   const group = document.getElementById('tool-group');
-  const selectionButton = activeEditor === 'sea' ? `
+  const selectionButton = ctx.isSea ? `
     <div class="selection-tool-wrap">
       <button class="tool-btn" type="button" id="btn-sea-selection-size" title="Taille de sélection">
         <span class="icon">◈</span> Sélection ${seaSelectionSize}x${seaSelectionSize}
@@ -1398,26 +1520,20 @@ function setEditor(editor) {
   clearHandles();
   clearSegmentMarkers();
   activeEditor = editor;
+  refreshCtx();
   currentTool = editor === 'sea' ? 'current' : 'select';
   document.getElementById('editor-menu').classList.remove('open');
-  renderToolButtons();
-  updateEditorUI();
-  updatePanel();
-  updateSeaPanel();
-  updateInfosTerresPanel();
-  updateExport();
+  refreshAfterModeChange();
 }
 
 function setTab(tab) {
   if (tab === activeTab) return;
   activeTab = tab;
+  refreshCtx();
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === tab);
   });
-  updateEditorUI();
-  updatePanel();
-  updateInfosTerresPanel();
-  updateExport();
+  refresh(R.EDITOR | R.PANEL | R.EXPORT);
 }
 
 function updateEditorUI() {
@@ -1435,37 +1551,31 @@ function updateEditorUI() {
 
   // Onglets Terres / Mers : visibles uniquement en Géo et Infos
   const tabGroup = document.getElementById('tab-group');
-  tabGroup.style.display = (activeEditor === 'zone' || activeEditor === 'currents') ? 'flex' : 'none';
+  tabGroup.style.display = ctx.isSea ? 'none' : 'flex';
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === activeTab);
   });
 
   // Panneaux latéraux
-  const isGeoTerres   = activeEditor === 'zone'     && activeTab === 'terres';
-  const isGeoMers     = activeEditor === 'zone'     && activeTab === 'mers';
-  const isInfosTerres = activeEditor === 'currents' && activeTab === 'terres';
-  const isInfosMers   = activeEditor === 'currents' && activeTab === 'mers';
-  const isSea         = activeEditor === 'sea';
-
-  document.getElementById('section-geo-terres').style.display  = isGeoTerres  ? 'block' : 'none';
-  document.getElementById('section-geo-mers').style.display    = isGeoMers    ? 'block' : 'none';
-  document.getElementById('section-sea').style.display         = isSea        ? 'block' : 'none';
-  document.getElementById('section-infos-terres').style.display= isInfosTerres? 'block' : 'none';
-  document.getElementById('section-infos-mers').style.display  = isInfosMers  ? 'block' : 'none';
+  document.getElementById('section-geo-terres').style.display  = ctx.isGeoTerres  ? 'block' : 'none';
+  document.getElementById('section-geo-mers').style.display    = ctx.isGeoMers    ? 'block' : 'none';
+  document.getElementById('section-sea').style.display         = ctx.isSea        ? 'block' : 'none';
+  document.getElementById('section-infos-terres').style.display= ctx.isInfosTerres? 'block' : 'none';
+  document.getElementById('section-infos-mers').style.display  = ctx.isInfosMers  ? 'block' : 'none';
 
   // Export contextuel (zone copier-coller) : seulement en Géo-Terres et Sémaphore
-  document.getElementById('export-area').style.display = (isGeoTerres || isSea) ? 'block' : 'none';
+  document.getElementById('export-area').style.display = (ctx.isGeoTerres || ctx.isSea) ? 'block' : 'none';
 
   // Bouton export fichier : dans tous les modes sauf Sémaphore
   const exportFileArea = document.getElementById('export-file-area');
-  exportFileArea.style.display = isSea ? 'none' : 'block';
+  exportFileArea.style.display = ctx.isSea ? 'none' : 'block';
   updateExportFileHint();
 
   // Outils Sea
-  document.getElementById('sea-tool-options').style.display = isSea ? 'block' : 'none';
+  document.getElementById('sea-tool-options').style.display = ctx.isSea ? 'block' : 'none';
 
   // Contrôles tracé
-  const inDraw = currentTool === 'draw' && isGeoTerres;
+  const inDraw = currentTool === 'draw' && ctx.isGeoTerres;
   document.getElementById('draw-controls').style.display = inDraw ? 'block' : 'none';
   document.getElementById('draw-badge').style.display    = inDraw ? 'block' : 'none';
 
@@ -1473,7 +1583,7 @@ function updateEditorUI() {
   renderAllZones();
 
   // Couche Sea Editor (grille + cellules)
-  if (isSea) {
+  if (ctx.isSea) {
     if (seaCellLayer && !map.hasLayer(seaCellLayer)) seaCellLayer.addTo(map);
     if (seaLabelLayer && !map.hasLayer(seaLabelLayer)) seaLabelLayer.addTo(map);
     renderSeaGrid();
@@ -1489,9 +1599,9 @@ function updateEditorUI() {
   }
 
   // Couche Courants — visible en Infos-Mers ET Géo-Mers
-  if (isInfosMers || isGeoMers) {
-    renderCurrentsLayer();
-    if (isGeoMers) renderGeoMersHandles();
+  if (ctx.isInfosMers || ctx.isGeoMers) {
+    refresh(R.CURRENTS);
+    if (ctx.isGeoMers) renderGeoMersHandles();
   } else {
     clearGeoMersHandles();
     clearCurrentsLayer();
@@ -1504,13 +1614,9 @@ function updateEditorUI() {
 function updateExportFileHint() {
   const hint = document.getElementById('export-file-hint');
   if (!hint) return;
-  const isGeoTerres   = activeEditor === 'zone'     && activeTab === 'terres';
-  const isGeoMers     = activeEditor === 'zone'     && activeTab === 'mers';
-  const isInfosTerres = activeEditor === 'currents' && activeTab === 'terres';
-  const isInfosMers   = activeEditor === 'currents' && activeTab === 'mers';
-  if (isGeoTerres || isInfosTerres) {
+  if (ctx.isGeoTerres || ctx.isInfosTerres) {
     hint.innerHTML = 'Génère <code>zones-data.js</code> complet (géométrie + métadonnées). Remplacer dans le dépôt.';
-  } else if (isGeoMers || isInfosMers) {
+  } else if (ctx.isGeoMers || ctx.isInfosMers) {
     hint.innerHTML = 'Génère <code>sea-data.js</code> complet (format structuré actuel). Remplacer dans le dépôt.';
   }
 }
@@ -1529,7 +1635,6 @@ function renderSeaToolOptions() {
   if (applyBtn) applyBtn.disabled = selectedSeaCellKeys.size === 0;
   const patternBtn = document.getElementById('btn-apply-sea-pattern');
   if (patternBtn) patternBtn.disabled = selectedSeaCellKeys.size === 0;
-  renderSeaCells();
 }
 
 function seaCellFromPx(pt) {
@@ -1981,19 +2086,11 @@ function renderCurrentsLayer() {
 }
 
 function selectCurrent(id) {
-  selectedCurrentId = (selectedCurrentId === id) ? null : id;
-  if (selectedCurrentId) selectedShoalId = null;
-  renderCurrentsLayer();
-  if (activeEditor === 'zone' && activeTab === 'mers') renderGeoMersHandles();
-  updateGeoMersPanel();
+  selectEntity('current', id);
 }
 
 function selectShoal(id) {
-  selectedShoalId = (selectedShoalId === id) ? null : id;
-  if (selectedShoalId) selectedCurrentId = null;
-  renderCurrentsLayer();
-  if (activeEditor === 'zone' && activeTab === 'mers') renderGeoMersHandles();
-  updateGeoMersPanel();
+  selectEntity('shoal', id);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2024,7 +2121,7 @@ function getSelectedSeaEntity() {
 
 function renderGeoMersHandles() {
   clearGeoMersHandles();
-  if (!(activeEditor === 'zone' && activeTab === 'mers')) return;
+  if (!ctx.isGeoMers) return;
   const sel = getSelectedSeaEntity();
   if (!sel) return;
 
@@ -2337,7 +2434,7 @@ function updateShoalMeta(shoal, input, options = {}) {
   }
 
   if (!options.soft || key === 'cat_taille') {
-    renderCurrentsLayer();
+    refresh(R.CURRENTS);
   }
 }
 
@@ -2359,7 +2456,7 @@ function updateCurrentSpeed(current, input, options = {}) {
   }
 
   if (!options.soft) {
-    renderCurrentsLayer();
+    refresh(R.CURRENTS);
   }
 }
 
@@ -2379,7 +2476,7 @@ function updateCurrentMeta(current, input, options = {}) {
   }
 
   if (!options.soft || key === 'priorite') {
-    renderCurrentsLayer();
+    refresh(R.CURRENTS);
   }
 }
 
@@ -2413,7 +2510,7 @@ function bindCurrentsButtons() {
       c.centerline = [...c.centerline].reverse();
       // Recalculer les directions depuis la centerline inversée
       c.directions = recomputeDirections(c.centerline);
-      renderCurrentsLayer();
+      refresh(R.CURRENTS);
     };
   }
 
@@ -2423,16 +2520,16 @@ function bindCurrentsButtons() {
         if (!confirm('Supprimer "' + selectedCurrentId + '" de la session ?')) return;
         pushUndo('Supprimer courant');
         currentsWorkingCopy = getWorkingCurrents().filter(x => x.id !== selectedCurrentId);
-        selectedCurrentId = null;
+        clearSeaEntitySelection();
       } else if (selectedShoalId) {
         if (!confirm('Supprimer "' + selectedShoalId + '" de la session ?')) return;
         pushUndo('Supprimer haut-fond');
         shoalsWorkingCopy = getWorkingShoals().filter(x => x.id !== selectedShoalId);
-        selectedShoalId = null;
+        clearSeaEntitySelection();
       } else {
         return;
       }
-      renderCurrentsLayer();
+      refresh(R.CURRENTS);
     };
   }
 
@@ -2455,7 +2552,7 @@ function importSeaGeometryFile(file) {
       const imported = readSeaGeometryExport(String(reader.result || ''));
       const currentCount = mergeSeaGeometryIntoWorkingCopy(imported.currentGeometry, 'current');
       const shoalCount = mergeSeaGeometryIntoWorkingCopy(imported.shoalGeometry, 'shoal');
-      renderCurrentsLayer();
+      refresh(R.CURRENTS);
       if (selectedCurrentId) renderCurrentDetail(selectedCurrentId);
       alert(`Import geometrique termine : ${currentCount} courant(s), ${shoalCount} haut-fond(s).`);
     } catch (err) {
@@ -2826,9 +2923,7 @@ function setSeaSelection(keys, additive = false) {
   if (!additive) selectedSeaCellKeys.clear();
   keys.forEach(key => selectedSeaCellKeys.add(key));
   selectedSeaCellKey = keys[keys.length - 1] || selectedSeaCellKey;
-  renderSeaCells();
-  updateSeaPanel();
-  renderSeaToolOptions();
+  refreshAfterSeaCellSelection();
 }
 
 function toggleSeaSelection(keys, mode) {
@@ -2838,9 +2933,7 @@ function toggleSeaSelection(keys, mode) {
     else selectedSeaCellKeys.add(key);
   });
   selectedSeaCellKey = keys[keys.length - 1] || selectedSeaCellKey;
-  renderSeaCells();
-  updateSeaPanel();
-  renderSeaToolOptions();
+  refreshAfterSeaCellSelection();
 }
 
 function applySeaToolToSelection() {
@@ -2856,10 +2949,7 @@ function applySeaToolToSelection() {
     };
   });
   selectedSeaCellKey = targetKeys[targetKeys.length - 1] || selectedSeaCellKey;
-  renderSeaCells();
-  updateSeaPanel();
-  renderSeaToolOptions();
-  updateExport();
+  refreshAfterSeaCellEdit();
 }
 
 function normalizeAngle(deg) {
@@ -2934,10 +3024,7 @@ function applySeaPatternToSelection() {
     };
   });
 
-  renderSeaCells();
-  updateSeaPanel();
-  renderSeaToolOptions();
-  updateExport();
+  refreshAfterSeaCellEdit();
 }
 
 function resetSelectedSeaCell() {
@@ -2945,9 +3032,7 @@ function resetSelectedSeaCell() {
   if (!keys.some(key => seaCells[key])) return;
   pushUndo('Reinitialiser case');
   keys.forEach(key => delete seaCells[key]);
-  renderSeaCells();
-  updateSeaPanel();
-  updateExport();
+  refresh(R.SEA_CELLS | R.SEA_PANEL | R.EXPORT);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2986,10 +3071,11 @@ function initMap() {
   map.on('mouseup',   onMapMouseUp);
   map.on('mouseup',   onDragEnd);      // relâchement drag poignées
   map.on('zoomend', () => {
-    if (activeEditor === 'sea') renderSeaCells();
+    if (ctx.isSea) renderSeaCells();
   });
   map.on('click',     onMapClick);
   map.on('contextmenu', onMapRightClick);
+  refreshCtx();
 
   // ─── Initialisation des copies de travail partagées ─────────
   // zones-data.js
@@ -3022,10 +3108,7 @@ function initMap() {
   // Clé : zone id  Valeur : couleur hex de la puissance coloniale
   buildZoneCouleurMap();
 
-  renderAllZones();
-  renderToolButtons();
-  updateEditorUI();
-  updateUndoButton();
+  refresh(R.ZONES | R.TOOLS | R.EDITOR | R.UNDO);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3068,10 +3151,7 @@ function buildZoneCouleurMap() {
 function zoneStyle(zoneId, isSelected) {
   if (isSelected) return STYLE_SELECTED;
 
-  const infosTerres = activeEditor === 'currents' && activeTab === 'terres';
-  const geoTerres   = activeEditor === 'zone'     && activeTab === 'terres';
-
-  if (infosTerres) {
+  if (ctx.isInfosTerres) {
     // Avertissement uniquement si les champs sont null (pas encore saisis),
     // pas si l'utilisateur a explicitement renseigné 0 (territoire désert légitime).
     const demo = zonesWorkingCopy.DEMO?.[zoneId];
@@ -3086,7 +3166,7 @@ function zoneStyle(zoneId, isSelected) {
     return STYLE_NORMAL;
   }
 
-  if (geoTerres) {
+  if (ctx.isGeoTerres) {
     // Couleur géopolitique en Géo-Terres aussi (aide à l'identification)
     const c = zoneCouleurMap.get(zoneId);
     if (c) return { color: `rgba(${c.rgb},0.6)`, weight: 1, fillColor: `rgba(${c.rgb},0.12)`, fillOpacity: 1 };
@@ -3125,18 +3205,16 @@ function renderZone(zoneId) {
   zoneLayers[zoneId] = [];
 
   const contours = zonesEdit[zoneId];
-  const zonesInteractive = (activeEditor === 'zone'     && activeTab === 'terres')
-                        || (activeEditor === 'currents' && activeTab === 'terres');
+  const zonesInteractive = ctx.isGeoTerres || ctx.isInfosTerres;
 
   // En Infos-Terres, détecter si la zone est vide pour le halo
-  const infosTerres = activeEditor === 'currents' && activeTab === 'terres';
   const demo = zonesWorkingCopy.DEMO?.[zoneId];
-  const estVide = infosTerres && (!demo || demo.colons === null);
+  const estVide = ctx.isInfosTerres && (!demo || demo.colons === null);
 
   contours.forEach((contour, contourIdx) => {
     const latlngs = contourToLatLngs(contour);
     const isSelected = (zoneId === selectedZoneId && contourIdx === selectedContourIdx)
-                    || (zoneId === selectedInfosTerresId && activeEditor === 'currents');
+                    || (zoneId === selectedInfosTerresId && ctx.isInfosTerres);
 
     const style = zoneStyle(zoneId, isSelected);
 
@@ -3172,7 +3250,7 @@ function renderZone(zoneId) {
       if (!zonesInteractive) return;
       if (draggingHandle) return;
       const isSel = (this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)
-                 || (this._zoneId === selectedInfosTerresId && activeEditor === 'currents');
+                 || (this._zoneId === selectedInfosTerresId && ctx.isInfosTerres);
       if (!isSel) this.setStyle(zoneStyleHover(this._zoneId));
       this.bindTooltip(this._zoneId + (zonesEdit[this._zoneId].length > 1
         ? ` (contour ${this._contourIdx + 1}/${zonesEdit[this._zoneId].length})` : ''), {
@@ -3182,16 +3260,16 @@ function renderZone(zoneId) {
     poly.on('mouseout', function() {
       if (!zonesInteractive) return;
       const isSel = (this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)
-                 || (this._zoneId === selectedInfosTerresId && activeEditor === 'currents');
+                 || (this._zoneId === selectedInfosTerresId && ctx.isInfosTerres);
       if (!isSel) this.setStyle(zoneStyle(this._zoneId, false));
       this.unbindTooltip();
     });
     poly.on('click', function(e) {
       if (!zonesInteractive) return;
       L.DomEvent.stopPropagation(e);
-      if (activeEditor === 'currents' && activeTab === 'terres') {
+      if (ctx.isInfosTerres) {
         selectInfosTerres(this._zoneId);
-      } else if (activeEditor === 'zone' && activeTab === 'terres') {
+      } else if (ctx.isGeoTerres) {
         if (currentTool === 'select' || currentTool === 'erase' || currentTool === 'insert') {
           selectZone(this._zoneId, this._contourIdx);
         } else if (currentTool === 'split') {
@@ -3209,18 +3287,7 @@ function renderZone(zoneId) {
 // SÉLECTION D'UNE ZONE / CONTOUR
 // ═══════════════════════════════════════════════════════════
 function selectZone(zoneId, contourIdx) {
-  const prevZone = selectedZoneId;
-  selectedZoneId    = zoneId;
-  selectedContourIdx = contourIdx ?? 0;
-
-  // Réappliquer le style normal sur l'ancienne sélection
-  if (prevZone && prevZone !== zoneId) renderZone(prevZone);
-  renderZone(zoneId);
-
-  updatePanel();
-  renderHandles();
-  if (currentTool === 'insert') renderSegmentMarkers();
-  updateExport();
+  selectEntity('zone', zoneId, { contourIdx });
 }
 
 function clearSelection() {
@@ -3230,8 +3297,23 @@ function clearSelection() {
   clearHandles();
   clearSegmentMarkers();
   if (prev) renderZone(prev);
-  updatePanel();
-  updateExport();
+  refresh(R.PANEL | R.EXPORT);
+}
+
+function clearGeoMersSelection() {
+  clearSeaEntitySelection();
+  clearGeoMersHandles();
+  refresh(R.CURRENTS | R.PANEL);
+}
+
+function clearInfosTerresSelection() {
+  selectedInfosTerresId = null;
+  refresh(R.ZONES | R.PANEL);
+}
+
+function clearInfosMersSelection() {
+  clearSeaEntitySelection();
+  refresh(R.CURRENTS);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3345,9 +3427,7 @@ function onDragEnd(e) {
     ptsArray[ptIdx] = [nx, ny];
     geoMersDragging = null;
     // Recréer la couche complète au relâchement (arrows, centerline, etc.)
-    renderCurrentsLayer();
-    renderGeoMersHandles();
-    updateGeoMersPanel();
+    refreshAfterSeaGeometryEdit();
   }
 }
 
@@ -3378,19 +3458,13 @@ function eraseGeoMersPoint(ptsArray, ptIdx, entityId) {
   }
   pushUndo('Supprimer point (mer)');
   ptsArray.splice(ptIdx, 1);
-  renderCurrentsLayer();
-  renderGeoMersHandles();
-  updateCurrentPolygonLatLngs(entityId);
-  updateGeoMersPanel();
+  refreshAfterSeaGeometryEdit();
 }
 
 function insertGeoMersPoint(ptsArray, afterIdx, mid, entityId) {
   pushUndo('Insérer point (mer)');
   ptsArray.splice(afterIdx + 1, 0, [Math.round(mid[0]), Math.round(mid[1])]);
-  renderCurrentsLayer();
-  renderGeoMersHandles();
-  updateCurrentPolygonLatLngs(entityId);
-  updateGeoMersPanel();
+  refreshAfterSeaGeometryEdit();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3431,11 +3505,7 @@ function insertPoint(afterIdx, pt) {
   pushUndo('Inserer point');
   const contour = zonesEdit[selectedZoneId][selectedContourIdx];
   contour.splice(afterIdx + 1, 0, [Math.round(pt[0]), Math.round(pt[1])]);
-  renderZone(selectedZoneId);
-  renderHandles();
-  renderSegmentMarkers();
-  updatePanel();
-  updateExport();
+  refresh(R.SELECTED_ZONE | R.HANDLES | R.SEGMENTS | R.PANEL | R.EXPORT);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3449,10 +3519,7 @@ function erasePoint(ptIdx) {
   }
   pushUndo('Supprimer point');
   contour.splice(ptIdx, 1);
-  renderZone(selectedZoneId);
-  renderHandles();
-  updatePanel();
-  updateExport();
+  refreshAfterZoneEdit();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3469,11 +3536,8 @@ function deleteContour() {
   contours.splice(selectedContourIdx, 1);
   zonesMeta[selectedZoneId]?.splice(selectedContourIdx, 1);
   selectedContourIdx = Math.min(selectedContourIdx, contours.length - 1);
-  renderZone(selectedZoneId);
   clearHandles();
-  renderHandles();
-  updatePanel();
-  updateExport();
+  refreshAfterZoneEdit();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3528,10 +3592,7 @@ function finishDraw() {
   zonesMeta[selectedZoneId].push(null);
   cancelDraw(true);
   selectedContourIdx = zonesEdit[selectedZoneId].length - 1;
-  renderZone(selectedZoneId);
-  renderHandles();
-  updatePanel();
-  updateExport();
+  refreshAfterZoneEdit();
 }
 
 function cancelDraw(silent) {
@@ -3557,7 +3618,7 @@ function onMapMouseMove(e) {
   const cx = Math.max(0, Math.min(IMG_W, x));
   const cy = Math.max(0, Math.min(IMG_H, y));
   document.getElementById('tb-coords').innerHTML = `x <span>${cx}</span> &nbsp; y <span>${cy}</span>`;
-  if (seaPaintGesture && activeEditor === 'sea') {
+  if (seaPaintGesture && ctx.isSea) {
     if (!isPxInsideImage(rawPt)) return;
     const cell = seaCellFromPx([cx, cy]);
     if (!seaPaintGesture.visited.has(cell.key)) {
@@ -3568,7 +3629,7 @@ function onMapMouseMove(e) {
 }
 
 function onMapMouseDown(e) {
-  if (activeEditor !== 'sea') return;
+  if (!ctx.isSea) return;
   const pt = latLngToPx(e.latlng);
   if (!isPxInsideImage(pt)) return;
   pushUndo('Modifier selection');
@@ -3588,7 +3649,7 @@ function onMapMouseUp() {
 }
 
 function onMapClick(e) {
-  if (activeEditor === 'sea') {
+  if (ctx.isSea) {
     if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
     return;
   }
@@ -3598,28 +3659,20 @@ function onMapClick(e) {
   }
   // Clic dans le vide — désélectionner selon le mode actif
   if (currentTool === 'select') {
-    if (activeEditor === 'zone' && activeTab === 'terres') {
+    if (ctx.isGeoTerres) {
       clearSelection();
-    } else if (activeEditor === 'zone' && activeTab === 'mers') {
-      selectedCurrentId = null;
-      selectedShoalId   = null;
-      clearGeoMersHandles();
-      renderCurrentsLayer();
-      updateGeoMersPanel();
-    } else if (activeEditor === 'currents' && activeTab === 'terres') {
-      selectedInfosTerresId = null;
-      renderAllZones();
-      updateInfosTerresDetail();
-    } else if (activeEditor === 'currents' && activeTab === 'mers') {
-      selectedCurrentId = null;
-      selectedShoalId   = null;
-      renderCurrentsLayer();
+    } else if (ctx.isGeoMers) {
+      clearGeoMersSelection();
+    } else if (ctx.isInfosTerres) {
+      clearInfosTerresSelection();
+    } else if (ctx.isInfosMers) {
+      clearInfosMersSelection();
     }
   }
 }
 
 function onMapRightClick(e) {
-  if (activeEditor === 'sea') return;
+  if (ctx.isSea) return;
   if (currentTool === 'draw') {
     finishDraw();
   }
@@ -3650,14 +3703,12 @@ function setTool(tool) {
   const mapEl = document.getElementById('map');
   mapEl.className = 'tool-' + tool;
 
-  if (activeEditor === 'sea') {
+  if (ctx.isSea) {
     document.getElementById('draw-badge').style.display = 'none';
     document.getElementById('draw-controls').style.display = 'none';
     clearHandles();
     clearSegmentMarkers();
-    renderSeaToolOptions();
-    renderSeaCells();
-    updateExport();
+    refresh(R.SEA_TOOLS | R.SEA_CELLS | R.EXPORT);
     return;
   }
 
@@ -3690,7 +3741,7 @@ function setTool(tool) {
   }
 
   // Géo-Mers : re-rendre les poignées quand l'outil change (insert/erase/select)
-  if (activeEditor === 'zone' && activeTab === 'mers' && (selectedCurrentId || selectedShoalId)) {
+  if (ctx.isGeoMers && (selectedCurrentId || selectedShoalId)) {
     renderGeoMersHandles();
   }
 }
@@ -3699,7 +3750,7 @@ function setTool(tool) {
 // MISE À JOUR DU PANNEAU
 // ═══════════════════════════════════════════════════════════
 function updatePanel() {
-  if (!(activeEditor === 'zone' && activeTab === 'terres')) return;
+  if (!ctx.isGeoTerres) return;
   const idEl    = document.getElementById('info-zone-id');
   const statsEl = document.getElementById('info-stats');
   const navEl   = document.getElementById('contour-nav');
@@ -3763,9 +3814,7 @@ function renderInfosTerresList() {
 }
 
 function selectInfosTerres(id) {
-  selectedInfosTerresId = id;
-  renderAllZones(); // met à jour la couleur de sélection sur la carte
-  updateInfosTerresDetail();
+  selectEntity('infosTerres', id);
 }
 
 function updateInfosTerresDetail() {
@@ -3863,7 +3912,7 @@ function updateInfosTerresComputed() {
 }
 
 function updateInfosTerresPanel() {
-  if (!(activeEditor === 'currents' && activeTab === 'terres')) return;
+  if (!ctx.isInfosTerres) return;
   updateInfosTerresDetail();
 }
 
@@ -3911,7 +3960,7 @@ function updateExport() {
   const box  = document.getElementById('export-box');
   const hint = document.getElementById('export-hint');
 
-  if (activeEditor === 'sea') {
+  if (ctx.isSea) {
     const keys = Object.keys(seaCells).sort((a, b) => {
       const [ac, ar] = a.split(',').map(Number);
       const [bc, br] = b.split(',').map(Number);
@@ -4040,26 +4089,18 @@ function goToContour(idx) {
   if (idx < 0 || idx >= contours.length) return;
 
   selectedContourIdx = idx;
-  renderZone(selectedZoneId);
   clearHandles();
-  renderHandles();
+  refresh(R.SELECTED_ZONE | R.HANDLES | R.PANEL | R.EXPORT);
   if (currentTool === 'insert') renderSegmentMarkers();
-  updatePanel();
-  updateExport();
 }
 
 // ═══════════════════════════════════════════════════════════
 // EXPORT FICHIER — zones-data.js ou sea-data.js complet
 // ═══════════════════════════════════════════════════════════
 function exportCurrentFile() {
-  const isGeoTerres   = activeEditor === 'zone'     && activeTab === 'terres';
-  const isGeoMers     = activeEditor === 'zone'     && activeTab === 'mers';
-  const isInfosTerres = activeEditor === 'currents' && activeTab === 'terres';
-  const isInfosMers   = activeEditor === 'currents' && activeTab === 'mers';
-
-  if (isGeoTerres || isInfosTerres) {
+  if (ctx.isGeoTerres || ctx.isInfosTerres) {
     exportZonesData();
-  } else if (isGeoMers || isInfosMers) {
+  } else if (ctx.isGeoMers || ctx.isInfosMers) {
     exportSeaData();
   }
 }
@@ -4250,11 +4291,9 @@ function applySplit(loopA, loopB) {
   zonesMeta[selectedZoneId] ??= [];
   zonesMeta[selectedZoneId].splice(selectedContourIdx, 1, null, null);
   clearSplitHandles();
-  renderZone(selectedZoneId);
   selectedContourIdx = Math.min(selectedContourIdx, zonesEdit[selectedZoneId].length - 1);
+  refresh(R.SELECTED_ZONE | R.PANEL | R.EXPORT);
   renderSplitHandles();
-  updatePanel();
-  updateExport();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -4407,10 +4446,7 @@ function attachDrawTo(zoneId) {
   selectedZoneId = zoneId;
   selectedContourIdx = zonesEdit[zoneId].length - 1;
   setTool('select');
-  renderZone(zoneId);
-  renderHandles();
-  updatePanel();
-  updateExport();
+  refresh(R.SELECTED_ZONE | R.HANDLES | R.PANEL | R.EXPORT, { zoneId });
 }
 
 function createAndAttach(id, nom) {
@@ -4431,10 +4467,7 @@ function createAndAttach(id, nom) {
   selectedZoneId = id;
   selectedContourIdx = 0;
   setTool('select');
-  renderZone(id);
-  renderHandles();
-  updatePanel();
-  updateExport();
+  refresh(R.SELECTED_ZONE | R.HANDLES | R.PANEL | R.EXPORT, { zoneId: id });
 }
 
 // ═══════════════════════════════════════════════════════════
