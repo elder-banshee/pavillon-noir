@@ -48,99 +48,156 @@
       flex-direction: column;
     }
 
-    /* ─── Barre du haut ──────────────────────────────────────── */
+    /* ─── Barre du haut — deux niveaux ──────────────────────── */
     #toolbar {
-      height: var(--toolbar-h);
       background: rgba(14,12,9,0.97);
       border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 0;
       flex-shrink: 0;
       z-index: 1000;
-      padding: 0 12px;
     }
 
+    /* Niveau 1 : titre + navigation mode + badge */
+    #toolbar-nav {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 0;
+      border-bottom: 1px solid rgba(200,151,58,0.12);
+    }
+
+    /* Niveau 2 : outils contextuels + undo + coords */
+    #toolbar-tools {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 0;
+    }
+    #toolbar-tools:empty { display: none; }
+
+    /* Titre "Zone Editor" */
     .tb-brand {
       font-family: 'Cinzel', serif;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       font-weight: 700;
       color: var(--gold);
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      padding-right: 16px;
-      border-right: 1px solid var(--border);
-      margin-right: 12px;
       white-space: nowrap;
+      margin-right: 10px;
     }
 
+    /* Sélecteur de mode (dropdown) */
     .editor-switch {
       position: relative;
-      padding-right: 12px;
-      border-right: 1px solid var(--border);
-      margin-right: 12px;
+      display: flex;
+      align-items: center;
     }
 
-    .tb-brand-btn {
+    .tb-mode-btn {
       appearance: none;
-      background: transparent;
-      border: 0;
-      color: var(--gold);
+      background: rgba(200,151,58,0.1);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--gold-light);
       cursor: pointer;
-      font: inherit;
-      letter-spacing: inherit;
-      text-transform: inherit;
-      padding: 0;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px 4px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
     }
-
-    .tb-brand-btn:hover { color: var(--gold-light); }
+    .tb-mode-btn::after {
+      content: '▾';
+      font-size: 0.6rem;
+      opacity: 0.6;
+    }
+    .tb-mode-btn:hover { background: rgba(200,151,58,0.18); border-color: var(--border-hover); }
+    .tb-mode-btn.mode-geo       { color: #7de0a0; border-color: rgba(80,180,120,0.45);  background: rgba(80,180,120,0.1); }
+    .tb-mode-btn.mode-infos     { color: #d99dea; border-color: rgba(180,100,220,0.5);  background: rgba(160,80,210,0.12); }
+    .tb-mode-btn.mode-semaphore { color: #8fd8f2; border-color: rgba(70,170,210,0.45);  background: rgba(70,170,210,0.1); }
+    .tb-mode-btn.mode-geo:hover       { background: rgba(80,180,120,0.18); }
+    .tb-mode-btn.mode-infos:hover     { background: rgba(160,80,210,0.22); }
+    .tb-mode-btn.mode-semaphore:hover { background: rgba(70,170,210,0.18); }
 
     .editor-menu {
       position: absolute;
-      top: calc(100% + 12px);
+      top: calc(100% + 6px);
       left: 0;
-      min-width: 170px;
+      min-width: 140px;
       background: rgba(14,12,9,0.98);
       border: 1px solid var(--border);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.45);
-      padding: 5px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+      padding: 4px;
       display: none;
       flex-direction: column;
-      gap: 4px;
-      z-index: 1400;
+      gap: 3px;
+      z-index: 1500;
     }
-
     .editor-menu.open { display: flex; }
-
     .editor-menu button {
       width: 100%;
-      padding: 8px 10px;
-      background: rgba(200,151,58,0.12);
-      border: 1px solid var(--border);
-      color: var(--gold-light);
+      padding: 7px 12px;
+      background: transparent;
+      border: 1px solid transparent;
       font-family: 'Cinzel', serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
       text-align: left;
       text-transform: uppercase;
       cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.12s, border-color 0.12s;
     }
+    /* Couleur par mode dans le dropdown */
+    .editor-menu button[data-editor="zone"]     { color: #7de0a0; }
+    .editor-menu button[data-editor="currents"] { color: #d99dea; }
+    .editor-menu button[data-editor="sea"]      { color: #8fd8f2; }
+    .editor-menu button[data-editor="zone"]:hover     { background: rgba(80,180,120,0.14);  border-color: rgba(80,180,120,0.4); }
+    .editor-menu button[data-editor="currents"]:hover { background: rgba(160,80,210,0.14);  border-color: rgba(180,100,220,0.4); }
+    .editor-menu button[data-editor="sea"]:hover      { background: rgba(70,170,210,0.14);  border-color: rgba(70,170,210,0.4); }
 
-    .editor-menu button:hover {
-      color: var(--parchment);
-      background: rgba(200,151,58,0.24);
-      border-color: var(--border-hover);
+    /* Onglets Terres / Mers */
+    #tab-group {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      margin-left: 14px;
     }
+    .tab-btn {
+      height: 26px;
+      padding: 0 12px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+      font-family: 'Cinzel', serif;
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .tab-btn:hover  { background: var(--gold-dim); color: var(--parchment); border-color: var(--border); }
+    .tab-btn.active { background: var(--gold-dim); color: var(--gold-light); border-color: var(--border-hover); }
 
+    /* Séparateur vertical */
     .tb-sep {
       width: 1px;
-      height: 24px;
+      height: 20px;
       background: var(--border);
-      margin: 0 8px;
+      margin: 0 10px;
       flex-shrink: 0;
     }
 
-    /* ─── Groupe d'outils ────────────────────────────────────── */
+    /* ─── Groupe d'outils (niveau 2) ────────────────────────── */
     .tool-group {
       display: flex;
       align-items: center;
@@ -148,39 +205,144 @@
     }
 
     .tool-btn {
-      height: 34px;
-      padding: 0 10px;
+      height: 28px;
+      padding: 0 11px;
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-dim);
       font-family: 'Cinzel', serif;
       font-size: 0.68rem;
-      letter-spacing: 0.08em;
+      font-weight: 600;
+      letter-spacing: 0.07em;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       white-space: nowrap;
       transition: background 0.15s, color 0.15s, border-color 0.15s;
       border-radius: 2px;
     }
-    .tool-btn .icon { font-size: 1rem; line-height: 1; }
-    .tool-btn:hover { background: var(--gold-dim); color: var(--parchment); border-color: var(--border); }
+    .tool-btn .icon { font-size: 0.88rem; line-height: 1; }
+    .tool-btn:hover  { background: var(--gold-dim); color: var(--parchment); border-color: var(--border); }
     .tool-btn.active { background: var(--gold-dim); color: var(--gold-light); border-color: var(--border-hover); }
 
-    /* couleur de l'outil actif selon mode */
-    .tool-btn[data-tool="draw"].active    { border-color: rgba(80,180,120,0.5); color: #7de0a0; background: rgba(80,180,120,0.1); }
-    .tool-btn[data-tool="erase"].active   { border-color: rgba(200,80,80,0.5);  color: #f08080; background: rgba(200,80,80,0.1); }
-    .tool-btn[data-tool="insert"].active  { border-color: rgba(80,140,220,0.5); color: #80b8f0; background: rgba(80,140,220,0.1); }
-    .tool-btn[data-tool="select"].active  { border-color: var(--border-hover);  color: var(--gold-light); }
-    .tool-btn[data-tool="current"].active { border-color: rgba(70,170,210,0.55); color: #8fd8f2; background: rgba(70,170,210,0.12); }
-    .tool-btn[data-tool="wind"].active    { border-color: rgba(226,185,106,0.55); color: #e2d38b; background: rgba(226,185,106,0.12); }
-    .selection-tool-wrap {
+    .tool-btn[data-tool="draw"].active   { border-color: rgba(80,180,120,0.5);  color: #7de0a0; background: rgba(80,180,120,0.1); }
+    .tool-btn[data-tool="erase"].active  { border-color: rgba(200,80,80,0.5);   color: #f08080; background: rgba(200,80,80,0.1); }
+    .tool-btn[data-tool="insert"].active { border-color: rgba(80,140,220,0.5);  color: #80b8f0; background: rgba(80,140,220,0.1); }
+    .tool-btn[data-tool="select"].active { border-color: var(--border-hover);   color: var(--gold-light); }
+    .tool-btn[data-tool="current"].active{ border-color: rgba(70,170,210,0.55); color: #8fd8f2; background: rgba(70,170,210,0.12); }
+    .tool-btn[data-tool="wind"].active   { border-color: rgba(226,185,106,0.55);color: #e2d38b; background: rgba(226,185,106,0.12); }
+    .tool-btn[data-tool="split"].active  { border-color: rgba(220,140,255,0.55);color: #e0a0ff; background: rgba(200,100,255,0.1); }
+
+    /* ─── Popup modale (rattachement + scinder) ─────────────── */
+    .ze-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ze-modal {
+      background: rgba(14,12,9,0.98);
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+      padding: 24px 28px;
+      min-width: 340px;
+      max-width: 440px;
+      width: 90vw;
       position: relative;
+    }
+    .ze-modal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .ze-modal-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .ze-modal-input {
+      width: 100%;
+      background: #0a0806;
+      border: 1px solid var(--border);
+      color: var(--parchment);
+      padding: 8px 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      margin-bottom: 6px;
+      box-sizing: border-box;
+    }
+    .ze-modal-input:focus { outline: none; border-color: var(--border-hover); }
+    /* liste de suggestions RC */
+    .ze-suggestions {
+      list-style: none;
+      margin: 0; padding: 0;
+      background: rgba(10,8,6,0.98);
+      border: 1px solid var(--border);
+      border-top: none;
+      max-height: 180px;
+      overflow-y: auto;
+      position: absolute;
+      left: 28px; right: 28px;
+      z-index: 2100;
+    }
+    .ze-suggestions:empty { display: none; }
+    .ze-suggestions li {
+      padding: 7px 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      cursor: pointer;
+    }
+    .ze-suggestions li:hover,
+    .ze-suggestions li.carte-recherche-suggestion--active { background: rgba(200,151,58,0.14); color: var(--gold-light); }
+    .ze-suggestions .carte-recherche-vide { color: var(--text-dim); font-style: italic; cursor: default; }
+    .ze-modal-actions {
+      display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;
+    }
+    .ze-btn {
+      flex: 1;
+      padding: 8px 12px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .ze-btn:hover { background: var(--gold-dim); color: var(--parchment); border-color: var(--border-hover); }
+    .ze-btn.primary { background: rgba(200,151,58,0.15); border-color: var(--border-hover); color: var(--gold-light); }
+    .ze-btn.primary:hover { background: rgba(200,151,58,0.28); }
+    .ze-btn.danger { border-color: rgba(180,60,60,0.4); color: rgba(220,100,100,0.8); }
+    .ze-btn.danger:hover { background: rgba(180,60,60,0.12); color: #f08080; border-color: rgba(200,80,80,0.6); }
+    .ze-modal-hint {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+    /* Poignées split — premier point sélectionné */
+    .split-handle-first { /* via JS setStyle */ }
+
+    .ze-modal-sep {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 14px 0;
     }
     .selection-size-menu {
       position: absolute;
-      top: calc(100% + 8px);
+      top: calc(100% + 6px);
       left: 0;
       min-width: 210px;
       background: rgba(14,12,9,0.98);
@@ -188,32 +350,36 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.45);
       padding: 8px;
       display: none;
-      z-index: 1400;
+      z-index: 1500;
     }
     .selection-size-menu.open { display: block; }
 
+    /* Bouton Annuler */
     #btn-undo {
-      height: 30px;
-      padding: 0 9px;
+      height: 26px;
+      padding: 0 10px;
       background: transparent;
       border: 1px solid var(--border);
       color: var(--text-dim);
       font-family: 'Cinzel', serif;
-      font-size: 0.64rem;
+      font-size: 0.65rem;
+      font-weight: 600;
       letter-spacing: 0.08em;
       cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.15s, color 0.15s;
     }
-    #btn-undo:hover:not(:disabled) { color: var(--gold-light); background: var(--gold-dim); }
-    #btn-undo:disabled { opacity: 0.35; cursor: default; }
+    #btn-undo:hover:not(:disabled) { color: var(--gold-light); background: var(--gold-dim); border-color: var(--border-hover); }
+    #btn-undo:disabled { opacity: 0.45; cursor: default; color: var(--text-dim); }
 
-    /* ─── Statut curseur ─────────────────────────────────────── */
+    /* Coordonnées curseur */
     #tb-coords {
       margin-left: auto;
       font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       color: var(--text-dim);
       letter-spacing: 0.06em;
-      min-width: 160px;
+      min-width: 140px;
       text-align: right;
     }
     #tb-coords span { color: var(--gold); }
@@ -266,24 +432,50 @@
     /* ─── Info zone sélectionnée ─────────────────────────────── */
     #info-zone-id {
       font-family: 'Cinzel', serif;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
+      font-weight: 700;
       color: var(--gold-light);
-      margin-bottom: 4px;
+      text-align: center;
+      padding: 7px 10px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      background: rgba(200,151,58,0.06);
+      letter-spacing: 0.06em;
       word-break: break-all;
     }
-    #info-contour {
-      font-size: 0.78rem;
+    #info-zone-id.empty-msg {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 0.75rem;
+      font-weight: 400;
       color: var(--text-dim);
+      font-style: italic;
+      background: transparent;
+      border-color: transparent;
+      letter-spacing: 0;
+    }
+
+    /* Stats pts · contours · superficie */
+    #info-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
       margin-bottom: 8px;
+      padding: 0 2px;
     }
-    #info-pts {
-      font-size: 0.78rem;
-      color: var(--text-dim);
-    }
+    #info-stats span { flex: 1; text-align: center; }
+    .stat-sep { flex: 0 !important; color: var(--border-hover); padding: 0 2px; }
     #info-pt-selected {
-      font-size: 0.78rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
       color: var(--parchment);
-      margin-top: 4px;
+      min-height: 1.3em;
+      margin-top: 6px;
+      margin-bottom: 2px;
+      visibility: visible;
     }
 
     /* ─── Sélecteur de contour ───────────────────────────────── */
@@ -489,11 +681,8 @@
 
     /* ─── Panneau export ─────────────────────────────────────── */
     #export-area {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
       padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
     }
 
     #export-title {
@@ -514,19 +703,31 @@
     }
 
     #export-box {
-      flex: 1;
+      max-height: 220px;
       background: #0a0806;
       border: 1px solid var(--border);
-      padding: 10px;
+      padding: 8px 0;
       font-family: 'Courier New', monospace;
-      font-size: 0.65rem;
+      font-size: 0.63rem;
       color: #a0c080;
       overflow-y: auto;
       white-space: pre;
       line-height: 1.5;
-      resize: none;
       cursor: text;
-      user-select: all;
+      user-select: text;
+    }
+    /* Bloc de coordonnées d'un contour (span cliquable) */
+    .contour-block {
+      display: block;
+      padding: 2px 10px;
+      cursor: text;
+      transition: background 0.1s;
+    }
+    .contour-block:hover { background: rgba(200,151,58,0.06); }
+    .contour-block.active {
+      background: rgba(200,151,58,0.13);
+      border-left: 2px solid var(--gold);
+      padding-left: 8px;
     }
 
     #btn-copy {
@@ -659,6 +860,29 @@
       display: none;
     }
 
+    /* ─── Onglets Terres / Mers ─────────────────────────────── */
+    #tab-group { display: flex; align-items: center; gap: 2px; }
+
+    /* ─── Liste juridictions (Infos-Terres) ─────────────────── */
+    .info-zone-btn {
+      display: block;
+      width: 100%;
+      padding: 5px 8px;
+      margin-bottom: 2px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+    .info-zone-btn:hover { background: var(--gold-dim); color: var(--parchment); border-color: var(--border); }
+    .info-zone-btn.active { background: var(--gold-dim); color: var(--gold-light); border-color: var(--border-hover); }
+
     /* ─── Scrollbar ──────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -678,36 +902,35 @@
 
 <!-- ═══ BARRE D'OUTILS ═══════════════════════════════════════ -->
 <div id="toolbar">
-  <div class="tb-brand editor-switch">
-    <button id="editor-switch-btn" class="tb-brand-btn" type="button">Zone Editor</button>
-    <div id="editor-menu" class="editor-menu">
-      <button type="button" data-editor="zone" class="active">Zone Editor</button>
-      <button type="button" data-editor="sea">Sea Editor</button>
 
-      <button type="button" data-editor="currents">Courants</button>
+  <!-- Niveau 1 : titre · mode · badge · onglets -->
+  <div id="toolbar-nav">
+    <span class="tb-brand">Zone Editor</span>
+
+    <div class="editor-switch">
+      <button id="editor-switch-btn" class="tb-mode-btn" type="button">Géo</button>
+      <div id="editor-menu" class="editor-menu">
+        <button type="button" data-editor="zone">Géo</button>
+        <button type="button" data-editor="currents">Infos</button>
+        <button type="button" data-editor="sea">Sémaphore</button>
+      </div>
+    </div>
+
+    <div id="tab-group" style="display:none">
+      <div class="tb-sep"></div>
+      <button class="tab-btn active" data-tab="terres" type="button">Terres</button>
+      <button class="tab-btn" data-tab="mers" type="button">Mers</button>
     </div>
   </div>
 
-  <div class="tool-group" id="tool-group">
-    <button class="tool-btn active" data-tool="select" title="Sélectionner une zone / déplacer un point">
-      <span class="icon">◈</span> Sélection
-    </button>
-    <button class="tool-btn" data-tool="draw" title="Tracer un nouveau contour">
-      <span class="icon">✦</span> Nouveau contour
-    </button>
-    <button class="tool-btn" data-tool="insert" title="Insérer un point sur un segment existant">
-      <span class="icon">⊕</span> Insérer point
-    </button>
-    <button class="tool-btn" data-tool="erase" title="Supprimer un point en cliquant dessus">
-      <span class="icon">⊗</span> Supprimer point
-    </button>
+  <!-- Niveau 2 : outils · undo · coords -->
+  <div id="toolbar-tools">
+    <div class="tool-group" id="tool-group"></div>
+    <div class="tb-sep"></div>
+    <button id="btn-undo" type="button" disabled>↩ Annuler</button>
+    <div id="tb-coords">x — y —</div>
   </div>
 
-  <div class="tb-sep"></div>
-  <button id="btn-undo" type="button" disabled>Annuler</button>
-  <div class="tb-sep"></div>
-
-  <div id="tb-coords">x — y —</div>
 </div>
 
 <!-- ═══ CORPS ════════════════════════════════════════════════ -->
@@ -722,19 +945,49 @@
   <!-- Panneau -->
   <div id="panel">
 
-    <!-- Section : zone sélectionnée -->
-    <div class="panel-section" id="section-zone">
+    <!-- Section : Géo — Terres (zone sélectionnée) -->
+    <div class="panel-section" id="section-geo-terres">
       <div class="panel-title">Zone sélectionnée</div>
+
+      <!-- Nom de la zone (encadré, centré) -->
       <div id="info-zone-id" class="empty-msg">Cliquez sur une zone</div>
-      <div id="info-contour"></div>
-      <div id="info-pts"></div>
+
+      <!-- Stats : pts · contours · superficie -->
+      <div id="info-stats" style="display:none">
+        <span id="stat-pts"></span>
+        <span class="stat-sep">·</span>
+        <span id="stat-contours"></span>
+        <span class="stat-sep">·</span>
+        <span id="stat-superficie"></span>
+      </div>
+
+      <!-- Point sélectionné (coordonnées du point sous la souris) -->
       <div id="info-pt-selected"></div>
+
+      <!-- Navigation entre contours -->
       <div class="contour-nav" id="contour-nav" style="display:none">
         <button id="btn-prev-contour" title="Contour précédent">‹</button>
         <div id="contour-label"></div>
         <button id="btn-next-contour" title="Contour suivant">›</button>
       </div>
+
       <button id="btn-del-contour" disabled>✕ Supprimer ce contour</button>
+    </div>
+
+    <!-- Section : Géo — Mers (courant/haut-fond sélectionné) -->
+    <div class="panel-section" id="section-geo-mers" style="display:none">
+      <div class="panel-title">Élément sélectionné</div>
+      <div id="geo-mers-empty" class="empty-msg">Cliquez sur un courant ou un haut-fond</div>
+      <div id="geo-mers-detail" style="display:none">
+        <div id="geo-mers-label" style="color:var(--gold-light); font-family:Cinzel,serif; font-size:0.8rem; margin-bottom:4px;"></div>
+        <div id="geo-mers-type" style="font-size:0.72rem; color:var(--text-dim); margin-bottom:8px;"></div>
+        <div id="geo-mers-contour-nav" class="contour-nav" style="display:none">
+          <button id="btn-geo-mers-prev" title="Polygone précédent">‹</button>
+          <div id="geo-mers-contour-label"></div>
+          <button id="btn-geo-mers-next" title="Polygone suivant">›</button>
+        </div>
+        <div id="geo-mers-pts" style="font-size:0.72rem; color:var(--text-dim); margin-top:4px;"></div>
+      </div>
     </div>
 
     <!-- Section : case sélectionnée -->
@@ -801,8 +1054,19 @@
       </div>
     </div>
 
-    <!-- Section : courants -->
-    <div id="section-currents" style="display:none">
+    <!-- Section : Infos — Terres (démographie par juridiction) -->
+    <div id="section-infos-terres" style="display:none">
+      <div class="panel-title">Juridiction sélectionnée</div>
+      <div id="infos-terres-empty" class="empty-msg">Cliquez sur un territoire sur la carte</div>
+      <div id="infos-terres-detail" style="display:none; margin-top:8px; padding:8px; background:rgba(200,151,58,0.08); border:1px solid var(--border); border-radius:2px;">
+        <div id="infos-terres-label" style="color:var(--gold-light); font-family:Cinzel,serif; font-size:0.8rem; margin-bottom:8px;"></div>
+        <div id="infos-terres-fields" style="display:flex; flex-direction:column; gap:6px;"></div>
+        <div id="infos-terres-computed" style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text-dim);"></div>
+      </div>
+    </div>
+
+    <!-- Section : Infos — Mers (métadonnées courants) -->
+    <div id="section-infos-mers" style="display:none">
       <div class="panel-title">Courants maritimes</div>
       <div id="currents-list" style="display:none"></div>
       <!-- Panneau courant sélectionné -->
@@ -820,30 +1084,39 @@
           </button>
         </div>
       </div>
-      <!-- Export -->
+      <!-- Import géométrique -->
       <div style="margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">
         <button id="btn-import-sea-geometry" type="button" class="tool-btn" style="width:100%; font-size:0.78rem; padding:5px; margin-bottom:6px;">
-          Charger un export geometrique
+          Charger un export géométrique
         </button>
         <input id="input-import-sea-geometry" type="file" accept=".js,.txt,application/javascript,text/javascript,text/plain" style="display:none">
-        <button id="btn-export-sea" type="button" class="tool-btn" style="width:100%; font-size:0.78rem; padding:5px;">
-          ⬇ Exporter tout (sea-data.js)
-        </button>
-        <div style="margin-top:6px; font-size:0.72rem; color:var(--mist); line-height:1.4">
-          Télécharge le fichier avec les corrections en mémoire.<br>
-          Remplacer <code>js/sea-data.js</code> dans le dépôt.
-        </div>
       </div>
     </div>
 
-    <!-- Section : export -->
+    <!-- Coordonnées contours (Géo-Terres uniquement) -->
     <div id="export-area">
-      <div id="export-title">Export JS</div>
-      <div id="export-hint">Sélectionnez une zone pour voir le bloc prêt à coller dans <code>zones-data.js</code>.</div>
+      <div id="export-title">Coordonnées contours</div>
+      <div id="export-hint">Sélectionnez une zone pour afficher les coordonnées du contour actif.</div>
       <div id="export-box"></div>
       <button id="btn-copy">⎘ Copier</button>
     </div>
 
+    <!-- Bouton export fichier (Géo et Infos) -->
+    <div id="export-file-area" style="display:none; padding:10px; border-top:1px solid var(--border);">
+      <button id="btn-export-file" type="button" class="tool-btn" style="width:100%; font-size:0.78rem; padding:6px;">
+        ⬇ Exporter
+      </button>
+      <div id="export-file-hint" style="margin-top:6px; font-size:0.72rem; color:var(--mist); line-height:1.4;"></div>
+    </div>
+
+  </div><!-- #panel -->
+</div><!-- #app -->
+
+<!-- ═══ POPUP MODALE ══════════════════════════════════════════ -->
+<div id="ze-overlay" class="ze-overlay" style="display:none" role="dialog" aria-modal="true">
+  <div class="ze-modal">
+    <div class="ze-modal-title" id="ze-modal-title">Rattacher le contour</div>
+    <div id="ze-modal-body"></div>
   </div>
 </div>
 
@@ -860,6 +1133,7 @@
 <script src="../js/carte-data.js"></script>
 <script src="../js/zones-data.js"></script>
 <script src="../js/sea-data.js"></script>
+<script src="../js/recherche-commune.js"></script>
 
 <script>
 'use strict';
@@ -886,10 +1160,11 @@ const SEA_DIRECTION_ANGLES = {
 };
 const DEFAULT_SEA_SPEED = 2;
 const ZONE_TOOLS = [
-  { id: 'select', label: 'Sélection', icon: '◈', title: 'Sélectionner une zone / déplacer un point' },
-  { id: 'draw', label: 'Nouveau contour', icon: '✦', title: 'Tracer un nouveau contour' },
-  { id: 'insert', label: 'Insérer point', icon: '⊕', title: 'Insérer un point sur un segment existant' },
-  { id: 'erase', label: 'Supprimer point', icon: '⊗', title: 'Supprimer un point en cliquant dessus' },
+  { id: 'select', label: 'Sélection',      icon: '◈', title: 'Sélectionner une zone / déplacer un point' },
+  { id: 'draw',   label: 'Nouveau contour',icon: '✦', title: 'Tracer un nouveau contour' },
+  { id: 'insert', label: 'Insérer point',  icon: '⊕', title: 'Insérer un point sur un segment existant' },
+  { id: 'erase',  label: 'Supprimer point',icon: '⊗', title: 'Supprimer un point en cliquant dessus' },
+  { id: 'split',  label: 'Scinder',        icon: '⌥', title: 'Scinder un contour en deux (1 point commun ou 2 points de coupe)' },
 ];
 const SEA_TOOLS = [
   { id: 'current', label: 'Courant', icon: '≈', title: 'Afficher et régler le courant' },
@@ -911,13 +1186,33 @@ const HANDLE_SEGMENT = { radius: 4, color: 'rgba(80,140,220,0.8)', weight: 1.5, 
 // ÉTAT
 // ═══════════════════════════════════════════════════════════
 let map = null;
-let activeEditor = 'zone';
+let activeEditor = 'zone'; // 'zone' | 'sea' | 'currents'
+let activeTab    = 'terres'; // 'terres' | 'mers'  (ignoré en mode sea)
 let currentTool = 'select'; // zone: select/draw/erase/insert ; sea: current/wind
 let undoStack = [];
 
-// Données editables : copie profonde de ZONES_DATA
+// ─── Copies de travail partagées ─────────────────────────────
+// Une seule instance par fichier cible, partagée entre tous les modes.
+// Initialisées au boot depuis les globales JS ; jamais rechargées au
+// changement de mode ou d'onglet.
+
+// zones-data.js — partagé entre Géo-Terres et Infos-Terres
+let zonesWorkingCopy = {
+  DATA: null,  // clone profond de ZONES_DATA  (géométrie)
+  DEMO: null,  // clone profond de ZONES_DEMO  (métadonnées)
+};
+
+// sea-data.js — partagé entre Géo-Mers et Infos-Mers
+let seaWorkingCopy = {
+  currentGeom: null,  // clone de SEA_CURRENT_GEOMETRY
+  currentMeta: null,  // clone de SEA_CURRENT_META
+  shoalGeom:   null,  // clone de SEA_SHOAL_GEOMETRY
+  shoalMeta:   null,  // clone de SEA_SHOAL_META
+};
+
+// Alias de commodité — zonesEdit pointe sur zonesWorkingCopy.DATA après init
 let zonesEdit = {};
-let zonesMeta = {};
+let zonesMeta = {}; // conservé pour compat, non utilisé activement
 
 // Layers Leaflet
 let zoneLayers   = {}; // zoneId → [L.Polygon, ...]  (un par contour)
@@ -1104,36 +1399,81 @@ function setEditor(editor) {
   clearSegmentMarkers();
   activeEditor = editor;
   currentTool = editor === 'sea' ? 'current' : 'select';
-  if (editor === 'currents') currentTool = 'select';
   document.getElementById('editor-menu').classList.remove('open');
-  renderAllZones();
   renderToolButtons();
   updateEditorUI();
   updatePanel();
   updateSeaPanel();
+  updateInfosTerresPanel();
+  updateExport();
+}
+
+function setTab(tab) {
+  if (tab === activeTab) return;
+  activeTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+  updateEditorUI();
+  updatePanel();
+  updateInfosTerresPanel();
   updateExport();
 }
 
 function updateEditorUI() {
-  const editorLabels = { zone: 'Zone Editor', sea: 'Sea Editor', currents: 'Courants' };
-  document.getElementById('editor-switch-btn').textContent = editorLabels[activeEditor] || 'Zone Editor';
+  // Bouton sélecteur de mode : affiche le mode courant avec sa couleur
+  const modeLabels   = { zone: 'Géo', currents: 'Infos', sea: 'Sémaphore' };
+  const modeClasses  = { zone: 'mode-geo', currents: 'mode-infos', sea: 'mode-semaphore' };
+  document.getElementById('editor-switch-btn').textContent = modeLabels[activeEditor] || 'Mode';
+  document.getElementById('editor-switch-btn').className =
+    'tb-mode-btn ' + (modeClasses[activeEditor] || '');
+
+  // Menu déroulant : masquer le mode courant
   document.querySelectorAll('#editor-menu [data-editor]').forEach(btn => {
     btn.style.display = btn.dataset.editor === activeEditor ? 'none' : 'block';
   });
-  document.getElementById('section-zone').style.display = activeEditor === 'zone' ? 'block' : 'none';
-  document.getElementById('section-sea').style.display = activeEditor === 'sea' ? 'block' : 'none';
-  document.getElementById('section-currents').style.display = activeEditor === 'currents' ? 'block' : 'none';
-  document.getElementById('export-area').style.display = activeEditor === 'currents' ? 'none' : 'block';
-  document.getElementById('sea-tool-options').style.display = activeEditor === 'sea' ? 'block' : 'none';
-  document.getElementById('draw-controls').style.display = currentTool === 'draw' && activeEditor === 'zone' ? 'block' : 'none';
-  document.getElementById('draw-badge').style.display = currentTool === 'draw' && activeEditor === 'zone' ? 'block' : 'none';
-  Object.values(zoneLayers).flat().forEach(layer => {
-    if (activeEditor === 'sea') {
-      layer.off('click');
-      layer.options.interactive = false;
-    }
+
+  // Onglets Terres / Mers : visibles uniquement en Géo et Infos
+  const tabGroup = document.getElementById('tab-group');
+  tabGroup.style.display = (activeEditor === 'zone' || activeEditor === 'currents') ? 'flex' : 'none';
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === activeTab);
   });
-  if (activeEditor === 'sea') {
+
+  // Panneaux latéraux
+  const isGeoTerres   = activeEditor === 'zone'     && activeTab === 'terres';
+  const isGeoMers     = activeEditor === 'zone'     && activeTab === 'mers';
+  const isInfosTerres = activeEditor === 'currents' && activeTab === 'terres';
+  const isInfosMers   = activeEditor === 'currents' && activeTab === 'mers';
+  const isSea         = activeEditor === 'sea';
+
+  document.getElementById('section-geo-terres').style.display  = isGeoTerres  ? 'block' : 'none';
+  document.getElementById('section-geo-mers').style.display    = isGeoMers    ? 'block' : 'none';
+  document.getElementById('section-sea').style.display         = isSea        ? 'block' : 'none';
+  document.getElementById('section-infos-terres').style.display= isInfosTerres? 'block' : 'none';
+  document.getElementById('section-infos-mers').style.display  = isInfosMers  ? 'block' : 'none';
+
+  // Export contextuel (zone copier-coller) : seulement en Géo-Terres et Sémaphore
+  document.getElementById('export-area').style.display = (isGeoTerres || isSea) ? 'block' : 'none';
+
+  // Bouton export fichier : dans tous les modes sauf Sémaphore
+  const exportFileArea = document.getElementById('export-file-area');
+  exportFileArea.style.display = isSea ? 'none' : 'block';
+  updateExportFileHint();
+
+  // Outils Sea
+  document.getElementById('sea-tool-options').style.display = isSea ? 'block' : 'none';
+
+  // Contrôles tracé
+  const inDraw = currentTool === 'draw' && isGeoTerres;
+  document.getElementById('draw-controls').style.display = inDraw ? 'block' : 'none';
+  document.getElementById('draw-badge').style.display    = inDraw ? 'block' : 'none';
+
+  // Recréer les zones pour appliquer l'interactivité correcte selon le mode
+  renderAllZones();
+
+  // Couche Sea Editor (grille + cellules)
+  if (isSea) {
     if (seaCellLayer && !map.hasLayer(seaCellLayer)) seaCellLayer.addTo(map);
     if (seaLabelLayer && !map.hasLayer(seaLabelLayer)) seaLabelLayer.addTo(map);
     renderSeaGrid();
@@ -1147,13 +1487,32 @@ function updateEditorUI() {
     selectedSeaCellKey = null;
     selectedSeaCellKeys.clear();
   }
-  if (activeEditor === 'currents') {
+
+  // Couche Courants — visible en Infos-Mers ET Géo-Mers
+  if (isInfosMers || isGeoMers) {
     renderCurrentsLayer();
+    if (isGeoMers) renderGeoMersHandles();
   } else {
+    clearGeoMersHandles();
     clearCurrentsLayer();
   }
+
   const mapEl = document.getElementById('map');
   mapEl.className = 'tool-' + currentTool;
+}
+
+function updateExportFileHint() {
+  const hint = document.getElementById('export-file-hint');
+  if (!hint) return;
+  const isGeoTerres   = activeEditor === 'zone'     && activeTab === 'terres';
+  const isGeoMers     = activeEditor === 'zone'     && activeTab === 'mers';
+  const isInfosTerres = activeEditor === 'currents' && activeTab === 'terres';
+  const isInfosMers   = activeEditor === 'currents' && activeTab === 'mers';
+  if (isGeoTerres || isInfosTerres) {
+    hint.innerHTML = 'Génère <code>zones-data.js</code> complet (géométrie + métadonnées). Remplacer dans le dépôt.';
+  } else if (isGeoMers || isInfosMers) {
+    hint.innerHTML = 'Génère <code>sea-data.js</code> complet (format structuré actuel). Remplacer dans le dépôt.';
+  }
 }
 
 function renderSeaToolOptions() {
@@ -1546,14 +1905,14 @@ function renderCurrentsLayer() {
     const latlngs = seaZoneLatLngs(s.zone);
     if (!latlngs.some(poly => poly[0]?.length > 2)) return;
     const poly = L.polygon(latlngs, {
-      color: isSelected ? 'rgba(255,210,90,0.98)' : 'rgba(194,164,92,0.85)',
-      weight: isSelected ? 2 : 1,
-      dashArray: '4 4',
-      fillColor: isSelected ? 'rgba(255,210,90,0.35)' : 'rgba(194,164,92,0.28)',
+      color:       isSelected ? 'rgba(255,210,90,0.98)' : 'rgba(130,80,30,0.9)',
+      weight:      isSelected ? 2 : 1.5,
+      dashArray:   '5 4',
+      fillColor:   isSelected ? 'rgba(255,210,90,0.35)' : 'rgba(100,55,15,0.38)',
       fillOpacity: isSelected ? 0.7 : 1,
       interactive: true,
     }).addTo(currentLayer);
-    poly.on('click', () => selectShoal(s.id));
+    poly.on('click', (e) => { L.DomEvent.stopPropagation(e); selectShoal(s.id); });
   });
 
   currents.forEach(c => {
@@ -1571,8 +1930,9 @@ function renderCurrentsLayer() {
         weight:      isSelected ? 2 : 1,
         fillColor:   isSelected ? selFill   : (prioFill[priority]   || prioFill[2]),
         fillOpacity: isSelected ? 0.55 : 1,
-        interactive: false,
+        interactive: true,
       }).addTo(currentLayer);
+      poly.on('click', (e) => { L.DomEvent.stopPropagation(e); selectCurrent(c.id); });
 
       currentPolygons[c.id] = poly;
 
@@ -1590,7 +1950,7 @@ function renderCurrentsLayer() {
         opacity: 0,
         interactive: true,
       }).addTo(currentLayer);
-      hitLine.on('click', () => selectCurrent(c.id));
+      hitLine.on('click', (e) => { L.DomEvent.stopPropagation(e); selectCurrent(c.id); });
       const line = L.polyline(centerlineLatLngs, {
         color: lineColor,
         weight: isSelected ? 4 : 3,
@@ -1624,12 +1984,170 @@ function selectCurrent(id) {
   selectedCurrentId = (selectedCurrentId === id) ? null : id;
   if (selectedCurrentId) selectedShoalId = null;
   renderCurrentsLayer();
+  if (activeEditor === 'zone' && activeTab === 'mers') renderGeoMersHandles();
+  updateGeoMersPanel();
 }
 
 function selectShoal(id) {
   selectedShoalId = (selectedShoalId === id) ? null : id;
   if (selectedShoalId) selectedCurrentId = null;
   renderCurrentsLayer();
+  if (activeEditor === 'zone' && activeTab === 'mers') renderGeoMersHandles();
+  updateGeoMersPanel();
+}
+
+// ═══════════════════════════════════════════════════════════
+// GÉO-MERS — poignées d'édition sur la zone du courant/haut-fond
+// ═══════════════════════════════════════════════════════════
+let geoMersHandles  = []; // L.CircleMarker[] — points
+let geoMersSegments = []; // L.CircleMarker[] — mi-segments (insert)
+let geoMersDragging = null;
+
+function clearGeoMersHandles() {
+  geoMersHandles.forEach(h => map.removeLayer(h));
+  geoMersHandles = [];
+  geoMersSegments.forEach(m => map.removeLayer(m));
+  geoMersSegments = [];
+}
+
+function getSelectedSeaEntity() {
+  if (selectedCurrentId) {
+    const c = getWorkingCurrents().find(x => x.id === selectedCurrentId);
+    return c ? { type: 'current', entity: c } : null;
+  }
+  if (selectedShoalId) {
+    const s = getWorkingShoals().find(x => x.id === selectedShoalId);
+    return s ? { type: 'shoal', entity: s } : null;
+  }
+  return null;
+}
+
+function renderGeoMersHandles() {
+  clearGeoMersHandles();
+  if (!(activeEditor === 'zone' && activeTab === 'mers')) return;
+  const sel = getSelectedSeaEntity();
+  if (!sel) return;
+
+  const rings = getZoneRingsRef(sel.entity.zone);
+
+  rings.forEach((pts) => {
+    if (!Array.isArray(pts) || pts.length < 3) return;
+
+    // ── Poignées sur chaque point ──────────────────────────
+    pts.forEach((pt, ptIdx) => {
+      const circle = L.circleMarker(pxToLatLng(pt[0], pt[1]), { ...HANDLE_NORMAL, interactive: true });
+      circle._geoRingPts  = pts;
+      circle._geoPtIdx    = ptIdx;
+      circle._geoEntityId = sel.entity.id;
+
+      circle.on('mouseover', function() { if (!geoMersDragging) this.setStyle(HANDLE_HOVER); });
+      circle.on('mouseout',  function() { if (!geoMersDragging) this.setStyle(HANDLE_NORMAL); });
+      circle.on('mousedown', function(e) {
+        if (currentTool !== 'select') return;
+        L.DomEvent.stopPropagation(e);
+        pushUndo('Déplacer point (mer)');
+        geoMersDragging = {
+          ptsArray: this._geoRingPts, ptIdx: this._geoPtIdx,
+          marker: this, entityId: this._geoEntityId,
+        };
+        map.dragging.disable();
+      });
+      circle.on('click', function(e) {
+        L.DomEvent.stopPropagation(e);
+        if (currentTool === 'erase') {
+          eraseGeoMersPoint(this._geoRingPts, this._geoPtIdx, this._geoEntityId);
+        }
+      });
+
+      circle.addTo(map);
+      geoMersHandles.push(circle);
+    });
+
+    // ── Marqueurs de mi-segment (mode insert) ─────────────
+    if (currentTool === 'insert') {
+      for (let i = 0; i < pts.length; i++) {
+        const a   = pts[i];
+        const b   = pts[(i + 1) % pts.length];
+        const mid = midPx(a, b);
+        const m   = L.circleMarker(pxToLatLng(mid[0], mid[1]), { ...HANDLE_SEGMENT, interactive: true });
+        m._geoRingPts  = pts;
+        m._geoAfterIdx = i;
+        m._geoEntityId = sel.entity.id;
+        const midCopy  = [...mid]; // copie locale pour le closure
+
+        m.on('mouseover', function() { this.setStyle({ ...HANDLE_SEGMENT, radius: 6 }); });
+        m.on('mouseout',  function() { this.setStyle(HANDLE_SEGMENT); });
+        m.on('click', function(e) {
+          L.DomEvent.stopPropagation(e);
+          insertGeoMersPoint(this._geoRingPts, this._geoAfterIdx, midCopy, this._geoEntityId);
+        });
+        m.addTo(map);
+        geoMersSegments.push(m);
+      }
+    }
+  });
+}
+
+// Retourne les anneaux de points en référence directe (sans clone)
+function getZoneRingsRef(zone) {
+  if (!zone) return [];
+  // Cas 1 : tableau plat de points [[x,y],...]
+  if (Array.isArray(zone) && zone.length && typeof zone[0]?.[0] === 'number') {
+    return [zone];
+  }
+  // Cas 2 : tableau de polygones (chaque item peut être un tableau ou un objet)
+  if (Array.isArray(zone)) {
+    return zone.flatMap(item => {
+      if (Array.isArray(item)) return [item];
+      if (item && Array.isArray(item.exterior)) {
+        const rings = [item.exterior];
+        if (Array.isArray(item.holes)) rings.push(...item.holes.filter(Array.isArray));
+        return rings;
+      }
+      return [];
+    });
+  }
+  // Cas 3 : objet {exterior, holes} ou {polygons}
+  if (zone.exterior && Array.isArray(zone.exterior)) {
+    const rings = [zone.exterior];
+    if (Array.isArray(zone.holes)) rings.push(...zone.holes.filter(Array.isArray));
+    return rings;
+  }
+  if (zone.polygons && Array.isArray(zone.polygons)) {
+    return zone.polygons.flatMap(p => {
+      if (Array.isArray(p)) return [p];
+      if (p?.exterior) {
+        const rings = [p.exterior];
+        if (Array.isArray(p.holes)) rings.push(...p.holes.filter(Array.isArray));
+        return rings;
+      }
+      return [];
+    });
+  }
+  return [];
+}
+
+function updateGeoMersPanel() {
+  const emptyEl  = document.getElementById('geo-mers-empty');
+  const detailEl = document.getElementById('geo-mers-detail');
+  const labelEl  = document.getElementById('geo-mers-label');
+  const typeEl   = document.getElementById('geo-mers-type');
+  const ptsEl    = document.getElementById('geo-mers-pts');
+  if (!detailEl) return;
+
+  const sel = getSelectedSeaEntity();
+  if (!sel) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    detailEl.style.display = 'none';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
+  detailEl.style.display = 'block';
+  labelEl.textContent = sel.entity.label || sel.entity.id;
+  typeEl.textContent  = sel.type === 'current' ? 'Courant marin' : 'Haut-fond';
+  const polygons = seaZonePolygons(sel.entity.zone);
+  const totalPts = polygons.reduce((s, p) => s + ((p.exterior || p)?.length || 0), 0);
+  ptsEl.textContent = `${totalPts} point(s) · ${polygons.length} anneau(x)`;
 }
 
 function renderCurrentsList() {
@@ -1883,7 +2401,6 @@ function recomputeDirections(cl) {
 function bindCurrentsButtons() {
   const btnRev  = document.getElementById('btn-current-reverse');
   const btnDel  = document.getElementById('btn-current-delete');
-  const btnExp  = document.getElementById('btn-export-sea');
   const btnImp  = document.getElementById('btn-import-sea-geometry');
   const inputImp = document.getElementById('input-import-sea-geometry');
 
@@ -1919,10 +2436,7 @@ function bindCurrentsButtons() {
     };
   }
 
-  if (btnExp) {
-    btnExp.textContent = 'Exporter sea-data.js corrige';
-    btnExp.onclick = exportSeaDataV2;
-  }
+  // btn-export-sea supprimé du HTML — l'export est géré par btn-export-file
 
   if (btnImp && inputImp) {
     btnImp.onclick = () => inputImp.click();
@@ -2467,15 +2981,20 @@ function initMap() {
 
   // Mouvements souris → coordonnées dans la barre
   map.on('mousemove', onMapMouseMove);
+  map.on('mousemove', onDragMove);     // drag poignées Géo-Terres et Géo-Mers
   map.on('mousedown', onMapMouseDown);
-  map.on('mouseup', onMapMouseUp);
+  map.on('mouseup',   onMapMouseUp);
+  map.on('mouseup',   onDragEnd);      // relâchement drag poignées
   map.on('zoomend', () => {
     if (activeEditor === 'sea') renderSeaCells();
   });
   map.on('click',     onMapClick);
   map.on('contextmenu', onMapRightClick);
 
-  // Copie profonde des données
+  // ─── Initialisation des copies de travail partagées ─────────
+  // zones-data.js
+  zonesWorkingCopy.DATA = {};
+  zonesWorkingCopy.DEMO = (typeof ZONES_DEMO !== 'undefined') ? cloneJSON(ZONES_DEMO) : {};
   for (const id in ZONES_DATA) {
     zonesEdit[id] = [];
     zonesMeta[id] = [];
@@ -2485,12 +3004,103 @@ function initMap() {
       zonesEdit[id].push(points.map(pt => [...pt]));
       zonesMeta[id].push(contourMeta(contour));
     });
+    zonesWorkingCopy.DATA[id] = zonesEdit[id]; // alias : même référence
   }
+
+  // sea-data.js
+  seaWorkingCopy.currentGeom = (typeof SEA_CURRENT_GEOMETRY !== 'undefined')
+    ? cloneJSON(SEA_CURRENT_GEOMETRY) : [];
+  seaWorkingCopy.currentMeta = (typeof SEA_CURRENT_META !== 'undefined')
+    ? cloneJSON(SEA_CURRENT_META) : [];
+  seaWorkingCopy.shoalGeom = (typeof SEA_SHOAL_GEOMETRY !== 'undefined')
+    ? cloneJSON(SEA_SHOAL_GEOMETRY) : [];
+  seaWorkingCopy.shoalMeta = (typeof SEA_SHOAL_META !== 'undefined')
+    ? cloneJSON(SEA_SHOAL_META) : [];
+
+  // ─── Map couleur géopolitique par zone ───────────────────
+  // Construite depuis JURIDICTIONS + PUISSANCES à l'année de référence.
+  // Clé : zone id  Valeur : couleur hex de la puissance coloniale
+  buildZoneCouleurMap();
 
   renderAllZones();
   renderToolButtons();
   updateEditorUI();
   updateUndoButton();
+}
+
+// ═══════════════════════════════════════════════════════════
+// COULEURS GÉOPOLITIQUES
+// ═══════════════════════════════════════════════════════════
+// Map<zoneId → { hex, rgb }> construite au boot depuis JURIDICTIONS + PUISSANCES
+let zoneCouleurMap = new Map();
+
+function buildZoneCouleurMap() {
+  zoneCouleurMap.clear();
+  if (typeof JURIDICTIONS === 'undefined' || typeof PUISSANCES === 'undefined') return;
+
+  const annee = typeof CARTE_ANNEE_REFERENCE !== 'undefined' ? CARTE_ANNEE_REFERENCE : 1716;
+
+  // resoudre() est défini dans carte-data.js mais pas garanti dispo ici —
+  // on l'implémente directement pour éviter la dépendance.
+  function resoudreLocal(champ) {
+    if (!champ || typeof champ !== 'object') return champ;
+    const cles = Object.keys(champ).map(Number).filter(n => n <= annee).sort((a,b)=>a-b);
+    return cles.length ? champ[cles[cles.length - 1]] : null;
+  }
+
+  function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return `${r},${g},${b}`;
+  }
+
+  JURIDICTIONS.forEach(j => {
+    const puissanceId = resoudreLocal(j.puissance);
+    const p = puissanceId && PUISSANCES[puissanceId];
+    if (p && p.couleur) {
+      zoneCouleurMap.set(j.id, { hex: p.couleur, rgb: hexToRgb(p.couleur) });
+    }
+  });
+}
+
+// Retourne les styles Leaflet pour un polygone selon le contexte actuel
+function zoneStyle(zoneId, isSelected) {
+  if (isSelected) return STYLE_SELECTED;
+
+  const infosTerres = activeEditor === 'currents' && activeTab === 'terres';
+  const geoTerres   = activeEditor === 'zone'     && activeTab === 'terres';
+
+  if (infosTerres) {
+    // Avertissement uniquement si les champs sont null (pas encore saisis),
+    // pas si l'utilisateur a explicitement renseigné 0 (territoire désert légitime).
+    const demo = zonesWorkingCopy.DEMO?.[zoneId];
+    const estVide = !demo || demo.colons === null;
+    if (estVide) {
+      // Orange-rouge vif — territoire sans données
+      return { color: 'rgba(255,90,30,0.95)', weight: 2, fillColor: 'rgba(255,90,30,0.18)', fillOpacity: 1 };
+    }
+    // Couleur géopolitique
+    const c = zoneCouleurMap.get(zoneId);
+    if (c) return { color: `rgba(${c.rgb},0.75)`, weight: 1.5, fillColor: `rgba(${c.rgb},0.22)`, fillOpacity: 1 };
+    return STYLE_NORMAL;
+  }
+
+  if (geoTerres) {
+    // Couleur géopolitique en Géo-Terres aussi (aide à l'identification)
+    const c = zoneCouleurMap.get(zoneId);
+    if (c) return { color: `rgba(${c.rgb},0.6)`, weight: 1, fillColor: `rgba(${c.rgb},0.12)`, fillOpacity: 1 };
+    return STYLE_NORMAL;
+  }
+
+  return STYLE_NORMAL;
+}
+
+// Style hover adapté (version plus lumineuse du style de base)
+function zoneStyleHover(zoneId) {
+  const c = zoneCouleurMap.get(zoneId);
+  if (!c) return STYLE_HOVER;
+  return { color: `rgba(${c.rgb},0.95)`, weight: 2, fillColor: `rgba(${c.rgb},0.28)`, fillOpacity: 1 };
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2509,44 +3119,84 @@ function renderAllZones() {
 }
 
 function renderZone(zoneId) {
-  // Nettoyer les layers existants pour cette zone
   if (zoneLayers[zoneId]) {
     zoneLayers[zoneId].forEach(l => map.removeLayer(l));
   }
   zoneLayers[zoneId] = [];
 
   const contours = zonesEdit[zoneId];
+  const zonesInteractive = (activeEditor === 'zone'     && activeTab === 'terres')
+                        || (activeEditor === 'currents' && activeTab === 'terres');
+
+  // En Infos-Terres, détecter si la zone est vide pour le halo
+  const infosTerres = activeEditor === 'currents' && activeTab === 'terres';
+  const demo = zonesWorkingCopy.DEMO?.[zoneId];
+  const estVide = infosTerres && (!demo || demo.colons === null);
+
   contours.forEach((contour, contourIdx) => {
     const latlngs = contourToLatLngs(contour);
-    const isSelected = (zoneId === selectedZoneId && contourIdx === selectedContourIdx);
-    const style = isSelected ? STYLE_SELECTED : STYLE_NORMAL;
+    const isSelected = (zoneId === selectedZoneId && contourIdx === selectedContourIdx)
+                    || (zoneId === selectedInfosTerresId && activeEditor === 'currents');
 
-    const poly = L.polygon(latlngs, { ...style, interactive: activeEditor === 'zone' });
+    const style = zoneStyle(zoneId, isSelected);
+
+    // Halo pour zones vides en Infos-Terres (couche derrière)
+    if (estVide && !isSelected) {
+      const halo = L.polygon(latlngs, {
+        color: 'rgba(255,90,30,0)',
+        weight: 0,
+        fillColor: 'rgba(255,90,30,0.08)',
+        fillOpacity: 1,
+        interactive: false,
+        className: 'zone-halo-vide',
+      });
+      // On ajoute un second polygon décalé via un filtre SVG simulé par un poids large
+      const haloOuter = L.polygon(latlngs, {
+        color: 'rgba(255,90,30,0.5)',
+        weight: 8,
+        opacity: 0.35,
+        fillColor: 'transparent',
+        fillOpacity: 0,
+        interactive: false,
+      });
+      haloOuter.addTo(map);
+      halo.addTo(map);
+      zoneLayers[zoneId].push(haloOuter, halo);
+    }
+
+    const poly = L.polygon(latlngs, { ...style, interactive: zonesInteractive });
     poly._zoneId = zoneId;
     poly._contourIdx = contourIdx;
 
     poly.on('mouseover', function() {
-      if (activeEditor !== 'zone') return;
+      if (!zonesInteractive) return;
       if (draggingHandle) return;
-      if (!(this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)) {
-        this.setStyle(STYLE_HOVER);
-      }
-      this.bindTooltip(this._zoneId + (zonesEdit[this._zoneId].length > 1 ? ` (contour ${this._contourIdx + 1}/${zonesEdit[this._zoneId].length})` : ''), {
+      const isSel = (this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)
+                 || (this._zoneId === selectedInfosTerresId && activeEditor === 'currents');
+      if (!isSel) this.setStyle(zoneStyleHover(this._zoneId));
+      this.bindTooltip(this._zoneId + (zonesEdit[this._zoneId].length > 1
+        ? ` (contour ${this._contourIdx + 1}/${zonesEdit[this._zoneId].length})` : ''), {
         permanent: false, className: 'ed-tooltip', direction: 'top', sticky: true
       }).openTooltip();
     });
     poly.on('mouseout', function() {
-      if (activeEditor !== 'zone') return;
-      if (!(this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)) {
-        this.setStyle(STYLE_NORMAL);
-      }
+      if (!zonesInteractive) return;
+      const isSel = (this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)
+                 || (this._zoneId === selectedInfosTerresId && activeEditor === 'currents');
+      if (!isSel) this.setStyle(zoneStyle(this._zoneId, false));
       this.unbindTooltip();
     });
     poly.on('click', function(e) {
-      if (activeEditor !== 'zone') return;
+      if (!zonesInteractive) return;
       L.DomEvent.stopPropagation(e);
-      if (currentTool === 'select' || currentTool === 'erase' || currentTool === 'insert') {
-        selectZone(this._zoneId, this._contourIdx);
+      if (activeEditor === 'currents' && activeTab === 'terres') {
+        selectInfosTerres(this._zoneId);
+      } else if (activeEditor === 'zone' && activeTab === 'terres') {
+        if (currentTool === 'select' || currentTool === 'erase' || currentTool === 'insert') {
+          selectZone(this._zoneId, this._contourIdx);
+        } else if (currentTool === 'split') {
+          // En mode split, le clic sur le polygone ne fait rien (les poignées gèrent)
+        }
       }
     });
 
@@ -2627,18 +3277,19 @@ function renderHandles() {
     circle.addTo(map);
     handleLayers.push(circle);
   });
-
-  // Mode drag — listeners globaux sur la carte
-  map.on('mousemove', onDragMove);
-  map.on('mouseup',   onDragEnd);
 }
 
 function updatePtInfo(ptIdx) {
-  const pt = zonesEdit[selectedZoneId][selectedContourIdx][ptIdx];
-  document.getElementById('info-pt-selected').textContent = `Point ${ptIdx} → [${pt[0]}, ${pt[1]}]`;
+  const pt  = zonesEdit[selectedZoneId][selectedContourIdx][ptIdx];
+  const el  = document.getElementById('info-pt-selected');
+  el.textContent  = `pt ${ptIdx} → [${pt[0]}, ${pt[1]}]`;
+  el.style.visibility = 'visible';
 }
 function clearPtInfo() {
-  if (!draggingHandle) document.getElementById('info-pt-selected').textContent = '';
+  if (draggingHandle) return;
+  const el = document.getElementById('info-pt-selected');
+  el.textContent  = '\u00a0'; // espace insécable — préserve la hauteur
+  el.style.visibility = 'hidden';
 }
 
 // ─── Drag & Drop d'un point ───────────────────────────────────
@@ -2650,28 +3301,54 @@ function startDrag(ptIdx, marker, e) {
 }
 
 function onDragMove(e) {
-  if (!draggingHandle) return;
-  const [nx, ny] = latLngToPx(e.latlng);
-  // Mettre à jour le point dans les données
-  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
-  contour[draggingHandle.ptIdx] = [nx, ny];
-  // Déplacer le marqueur
-  draggingHandle.marker.setLatLng(pxToLatLng(nx, ny));
-  // Mettre à jour le polygon
-  updatePolyLatLngs(selectedZoneId, selectedContourIdx);
-  // Afficher coordonnées
-  document.getElementById('info-pt-selected').textContent = `Point ${draggingHandle.ptIdx} → [${nx}, ${ny}]`;
+  // Géo-Terres : drag d'un point de zone terrestre
+  if (draggingHandle) {
+    const [nx, ny] = latLngToPx(e.latlng);
+    const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+    contour[draggingHandle.ptIdx] = [nx, ny];
+    draggingHandle.marker.setLatLng(pxToLatLng(nx, ny));
+    updatePolyLatLngs(selectedZoneId, selectedContourIdx);
+    updatePtInfo(draggingHandle.ptIdx);
+    updatePanel(); // superficie mise à jour en temps réel
+    return;
+  }
+  // Géo-Mers : drag d'un point de zone maritime
+  if (geoMersDragging) {
+    const [nx, ny] = latLngToPx(e.latlng);
+    const { ptsArray, ptIdx, marker } = geoMersDragging;
+    // Écriture directe dans le tableau de référence — modifie entity.zone en place
+    ptsArray[ptIdx] = [nx, ny];
+    marker.setLatLng(pxToLatLng(nx, ny));
+    // Mettre à jour uniquement le polygon Leaflet de l'entité sélectionnée,
+    // sans recréer toute la couche (ce qui détruirait les handles en cours)
+    updateCurrentPolygonLatLngs(geoMersDragging.entityId);
+  }
 }
 
 function onDragEnd(e) {
-  if (!draggingHandle) return;
-  map.dragging.enable();
-  const [nx, ny] = latLngToPx(e.latlng);
-  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
-  contour[draggingHandle.ptIdx] = [nx, ny];
-  updatePolyLatLngs(selectedZoneId, selectedContourIdx);
-  updateExport();
-  draggingHandle = null;
+  // Géo-Terres
+  if (draggingHandle) {
+    map.dragging.enable();
+    const [nx, ny] = latLngToPx(e.latlng);
+    const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+    contour[draggingHandle.ptIdx] = [nx, ny];
+    updatePolyLatLngs(selectedZoneId, selectedContourIdx);
+    updateExport();
+    draggingHandle = null;
+    return;
+  }
+  // Géo-Mers
+  if (geoMersDragging) {
+    map.dragging.enable();
+    const [nx, ny] = latLngToPx(e.latlng);
+    const { ptsArray, ptIdx } = geoMersDragging;
+    ptsArray[ptIdx] = [nx, ny];
+    geoMersDragging = null;
+    // Recréer la couche complète au relâchement (arrows, centerline, etc.)
+    renderCurrentsLayer();
+    renderGeoMersHandles();
+    updateGeoMersPanel();
+  }
 }
 
 function updatePolyLatLngs(zoneId, contourIdx) {
@@ -2680,6 +3357,40 @@ function updatePolyLatLngs(zoneId, contourIdx) {
   if (zoneLayers[zoneId] && zoneLayers[zoneId][polyIdx]) {
     zoneLayers[zoneId][polyIdx].setLatLngs(contourToLatLngs(contour));
   }
+}
+
+// Met à jour le polygon Leaflet d'un courant/haut-fond sans recréer la couche
+function updateCurrentPolygonLatLngs(entityId) {
+  const poly = currentPolygons[entityId];
+  if (!poly) return;
+  const c = getWorkingCurrents().find(x => x.id === entityId);
+  const s = c ? null : getWorkingShoals().find(x => x.id === entityId);
+  const entity = c || s;
+  if (!entity) return;
+  const latlngs = seaZoneLatLngs(entity.zone);
+  try { poly.setLatLngs(latlngs); } catch(e) { /* multi-ring non supporté par setLatLngs */ }
+}
+
+function eraseGeoMersPoint(ptsArray, ptIdx, entityId) {
+  if (ptsArray.length <= 3) {
+    alert('Un anneau doit avoir au moins 3 points.');
+    return;
+  }
+  pushUndo('Supprimer point (mer)');
+  ptsArray.splice(ptIdx, 1);
+  renderCurrentsLayer();
+  renderGeoMersHandles();
+  updateCurrentPolygonLatLngs(entityId);
+  updateGeoMersPanel();
+}
+
+function insertGeoMersPoint(ptsArray, afterIdx, mid, entityId) {
+  pushUndo('Insérer point (mer)');
+  ptsArray.splice(afterIdx + 1, 0, [Math.round(mid[0]), Math.round(mid[1])]);
+  renderCurrentsLayer();
+  renderGeoMersHandles();
+  updateCurrentPolygonLatLngs(entityId);
+  updateGeoMersPanel();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2805,8 +3516,10 @@ function finishDraw() {
     return;
   }
   if (!selectedZoneId) {
-    alert('Sélectionnez d\'abord une zone (cliquez dessus en mode Sélection) pour lui ajouter ce contour.');
-    cancelDraw();
+    // Pas de zone sélectionnée → ouvrir la popup de rattachement
+    const pts = drawPoints.map(p => [...p]);
+    cancelDraw(true);
+    openAttachModal(pts);
     return;
   }
   pushUndo('Ajouter contour');
@@ -2883,8 +3596,25 @@ function onMapClick(e) {
     addDrawPoint(latLngToPx(e.latlng));
     return;
   }
+  // Clic dans le vide — désélectionner selon le mode actif
   if (currentTool === 'select') {
-    clearSelection();
+    if (activeEditor === 'zone' && activeTab === 'terres') {
+      clearSelection();
+    } else if (activeEditor === 'zone' && activeTab === 'mers') {
+      selectedCurrentId = null;
+      selectedShoalId   = null;
+      clearGeoMersHandles();
+      renderCurrentsLayer();
+      updateGeoMersPanel();
+    } else if (activeEditor === 'currents' && activeTab === 'terres') {
+      selectedInfosTerresId = null;
+      renderAllZones();
+      updateInfosTerresDetail();
+    } else if (activeEditor === 'currents' && activeTab === 'mers') {
+      selectedCurrentId = null;
+      selectedShoalId   = null;
+      renderCurrentsLayer();
+    }
   }
 }
 
@@ -2902,8 +3632,12 @@ function setTool(tool) {
   if (tool === currentTool && tool !== 'draw') return;
 
   // Quitter le mode draw proprement si on change d'outil
-  if (currentTool === 'draw' && tool !== 'draw') {
-    cancelDraw(true);
+  if (currentTool === 'draw' && tool !== 'draw') cancelDraw(true);
+
+  // Quitter le mode split proprement
+  if (currentTool === 'split' && tool !== 'split') {
+    splitFirstPt = null;
+    clearSplitHandles();
   }
 
   currentTool = tool;
@@ -2942,9 +3676,22 @@ function setTool(tool) {
     clearSegmentMarkers();
   }
 
-  // Rafraîchir les poignées si select/erase
+  // Mode split : afficher les poignées de découpe
+  if (tool === 'split' && selectedZoneId) {
+    clearHandles();
+    renderSplitHandles();
+  } else if (tool !== 'split') {
+    clearSplitHandles();
+  }
+
+  // Rafraîchir les poignées si select/erase/insert (et pas split)
   if ((tool === 'select' || tool === 'erase') && selectedZoneId) {
     renderHandles();
+  }
+
+  // Géo-Mers : re-rendre les poignées quand l'outil change (insert/erase/select)
+  if (activeEditor === 'zone' && activeTab === 'mers' && (selectedCurrentId || selectedShoalId)) {
+    renderGeoMersHandles();
   }
 }
 
@@ -2952,44 +3699,172 @@ function setTool(tool) {
 // MISE À JOUR DU PANNEAU
 // ═══════════════════════════════════════════════════════════
 function updatePanel() {
-  if (activeEditor !== 'zone') return;
-  const idEl   = document.getElementById('info-zone-id');
-  const ctEl   = document.getElementById('info-contour');
-  const ptsEl  = document.getElementById('info-pts');
-  const navEl  = document.getElementById('contour-nav');
+  if (!(activeEditor === 'zone' && activeTab === 'terres')) return;
+  const idEl    = document.getElementById('info-zone-id');
+  const statsEl = document.getElementById('info-stats');
+  const navEl   = document.getElementById('contour-nav');
   const labelEl = document.getElementById('contour-label');
   const btnPrev = document.getElementById('btn-prev-contour');
   const btnNext = document.getElementById('btn-next-contour');
   const btnDel  = document.getElementById('btn-del-contour');
 
   if (!selectedZoneId) {
-    idEl.textContent   = 'Cliquez sur une zone';
-    idEl.className     = 'empty-msg';
-    ctEl.textContent   = '';
-    ptsEl.textContent  = '';
-    navEl.style.display = 'none';
-    btnDel.disabled    = true;
+    idEl.textContent     = 'Cliquez sur une zone';
+    idEl.className       = 'empty-msg';
+    if (statsEl) statsEl.style.display = 'none';
+    navEl.style.display  = 'none';
+    btnDel.disabled      = true;
     return;
   }
 
   const contours = zonesEdit[selectedZoneId];
   const contour  = contours[selectedContourIdx];
+  const superficieTotale = Math.round(calcSuperficie(contours));
 
-  idEl.textContent  = selectedZoneId;
-  idEl.className    = '';
-  ptsEl.textContent = `${contour.length} point(s)`;
-  btnDel.disabled   = false;
+  idEl.textContent = selectedZoneId;
+  idEl.className   = '';
+
+  if (statsEl) {
+    statsEl.style.display = 'flex';
+    document.getElementById('stat-pts').textContent       = `${contour.length} pts`;
+    document.getElementById('stat-contours').textContent  = `${contours.length} contour${contours.length > 1 ? 's' : ''}`;
+    document.getElementById('stat-superficie').textContent= `${superficieTotale.toLocaleString('fr-FR')} px²`;
+  }
+
+  btnDel.disabled = false;
 
   if (contours.length > 1) {
     navEl.style.display = 'flex';
     labelEl.textContent = `Contour ${selectedContourIdx + 1} / ${contours.length}`;
     btnPrev.disabled = (selectedContourIdx === 0);
     btnNext.disabled = (selectedContourIdx === contours.length - 1);
-    ctEl.textContent  = '';
   } else {
     navEl.style.display = 'none';
-    ctEl.textContent = '1 contour';
   }
+}
+
+// ═══════════════════════════════════════════════════════════
+// INFOS-TERRES — liste juridictions + édition ZONES_DEMO
+// ═══════════════════════════════════════════════════════════
+let selectedInfosTerresId = null;
+
+function renderInfosTerresList() {
+  const listEl = document.getElementById('infos-terres-list');
+  if (!listEl) return;
+  const demo = zonesWorkingCopy.DEMO || {};
+  const ids = Object.keys(demo).sort((a, b) => a.localeCompare(b));
+  listEl.innerHTML = ids.map(id => `
+    <button class="info-zone-btn${id === selectedInfosTerresId ? ' active' : ''}"
+            data-id="${escapeAttr(id)}" type="button">${escapeHtmlText(id)}</button>
+  `).join('');
+  listEl.querySelectorAll('.info-zone-btn').forEach(btn => {
+    btn.addEventListener('click', () => selectInfosTerres(btn.dataset.id));
+  });
+}
+
+function selectInfosTerres(id) {
+  selectedInfosTerresId = id;
+  renderAllZones(); // met à jour la couleur de sélection sur la carte
+  updateInfosTerresDetail();
+}
+
+function updateInfosTerresDetail() {
+  const emptyEl    = document.getElementById('infos-terres-empty');
+  const detailEl   = document.getElementById('infos-terres-detail');
+  const labelEl    = document.getElementById('infos-terres-label');
+  const fieldsEl   = document.getElementById('infos-terres-fields');
+  const computedEl = document.getElementById('infos-terres-computed');
+  if (!detailEl) return;
+
+  if (!selectedInfosTerresId || !zonesWorkingCopy.DEMO) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    detailEl.style.display = 'none';
+    return;
+  }
+  const d = zonesWorkingCopy.DEMO[selectedInfosTerresId];
+  if (!d) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    detailEl.style.display = 'none';
+    return;
+  }
+
+  if (emptyEl) emptyEl.style.display = 'none';
+  detailEl.style.display = 'block';
+  labelEl.textContent = selectedInfosTerresId;
+
+  const EDITABLE_FIELDS = [
+    { key: 'colons',            label: 'Colons',            type: 'number' },
+    { key: 'esclaves',          label: 'Esclaves',          type: 'number' },
+    { key: 'indiens',           label: 'Indiens',           type: 'number' },
+    { key: 'indiens_asservis',  label: 'Indiens asservis',  type: 'number' },
+    { key: 'statut_autochtone', label: 'Statut autochtone',
+      type: 'select',
+      options: ['null', 'souverainete', 'resistance', 'domination'] },
+  ];
+
+  fieldsEl.innerHTML = EDITABLE_FIELDS.map(f => {
+    if (f.type === 'select') {
+      const val = d[f.key] ?? 'null';
+      const opts = f.options.map(o =>
+        `<option value="${o}"${o === String(val) ? ' selected' : ''}>${o}</option>`
+      ).join('');
+      return `<label class="sea-field" style="flex-direction:row;align-items:center;gap:8px;">
+        <span style="flex:1">${f.label}</span>
+        <select data-field="${f.key}" style="width:130px;background:var(--ink);color:var(--text);border:1px solid var(--border);padding:3px 6px;">${opts}</select>
+      </label>`;
+    }
+    return `<label class="sea-field" style="flex-direction:row;align-items:center;gap:8px;">
+      <span style="flex:1">${f.label}</span>
+      <input data-field="${f.key}" type="number" min="0" value="${d[f.key] ?? ''}"
+             placeholder="—"
+             style="width:90px;background:var(--ink);color:var(--text);border:1px solid var(--border);padding:3px 6px;">
+    </label>`;
+  }).join('');
+
+  // Listeners : mise à jour immédiate de zonesWorkingCopy.DEMO
+  fieldsEl.querySelectorAll('[data-field]').forEach(input => {
+    input.addEventListener('change', () => {
+      const key = input.dataset.field;
+      if (input.tagName === 'SELECT') {
+        zonesWorkingCopy.DEMO[selectedInfosTerresId][key] =
+          input.value === 'null' ? null : input.value;
+      } else {
+        // Champ vide → null (pas encore renseigné) ; "0" → 0 (valeur explicite)
+        const raw = input.value.trim();
+        zonesWorkingCopy.DEMO[selectedInfosTerresId][key] = raw === '' ? null : Number(raw);
+      }
+      updateInfosTerresComputed();
+    });
+  });
+
+  updateInfosTerresComputed();
+}
+
+function updateInfosTerresComputed() {
+  const computedEl = document.getElementById('infos-terres-computed');
+  if (!computedEl || !selectedInfosTerresId) return;
+  const d = zonesWorkingCopy.DEMO[selectedInfosTerresId];
+  if (!d) return;
+  const nonRenseigne = d.colons === null;
+  if (nonRenseigne) {
+    computedEl.innerHTML =
+      `<div style="color:rgba(255,90,30,0.8);font-style:italic;font-size:0.7rem;">Données non renseignées — effacez le halo en saisissant les valeurs ci-dessus (0 pour un territoire désert).</div>`;
+    return;
+  }
+  const population = (d.colons ?? 0) + (d.esclaves ?? 0) + (d.indiens ?? 0);
+  const superficie = d.superficie ?? 0;
+  const score = superficie > 0
+    ? Math.round(Math.log10(population / superficie + 1) * 1e4) / 1e4
+    : 0;
+  computedEl.innerHTML =
+    `<div style="margin-bottom:4px"><span style="color:var(--text-dim)">Population :</span> <strong>${population.toLocaleString('fr-FR')}</strong></div>` +
+    `<div style="margin-bottom:4px"><span style="color:var(--text-dim)">Superficie :</span> ${superficie ? superficie.toLocaleString('fr-FR') + ' px²' : '—'}</div>` +
+    `<div><span style="color:var(--text-dim)">Score densité :</span> ${score}</div>`;
+}
+
+function updateInfosTerresPanel() {
+  if (!(activeEditor === 'currents' && activeTab === 'terres')) return;
+  updateInfosTerresDetail();
 }
 
 function formatSeaValue(value) {
@@ -3045,7 +3920,7 @@ function updateExport() {
     if (!keys.length) {
       box.textContent = '';
       hint.style.display = 'block';
-      hint.textContent = 'Peignez des cases pour generer le bloc de donnees maritime.';
+      hint.textContent = 'Peignez des cases pour générer le bloc de données maritime.';
       return;
     }
     hint.style.display = 'none';
@@ -3054,14 +3929,61 @@ function updateExport() {
   }
 
   if (!selectedZoneId) {
-    box.textContent = '';
+    box.innerHTML = '';
     hint.style.display = 'block';
-    hint.innerHTML = 'Sélectionnez une zone pour voir le bloc prêt à coller dans <code>zones-data.js</code>.';
+    hint.innerHTML = 'Sélectionnez une zone pour afficher les coordonnées du contour actif.';
     return;
   }
 
   hint.style.display = 'none';
-  box.textContent = formatZoneJS(selectedZoneId);
+  renderExportBlocks(selectedZoneId);
+}
+
+// Génère un <span.contour-block> par contour dans #export-box
+// et scrolle / surligne le contour actif.
+function renderExportBlocks(zoneId) {
+  const box = document.getElementById('export-box');
+  if (!box) return;
+  const contours = zonesEdit[zoneId];
+  const header = `  '${zoneId}': [  // ${contours.length} contour(s), ${contours.reduce((s,c)=>s+c.length,0)} pts\n`;
+
+  // Ligne d'en-tête (non cliquable)
+  let html = `<span class="contour-block" style="color:#6a8060;">${escapeHtml(header)}</span>`;
+
+  contours.forEach((contour, ci) => {
+    const meta = zonesMeta[zoneId]?.[ci] || null;
+    let block = '';
+    if (meta) {
+      block += `    {\n`;
+      Object.entries(meta).forEach(([k, v]) => block += `      ${k}: ${JSON.stringify(v)},\n`);
+      block += `      points: [\n`;
+      for (let i = 0; i < contour.length; i += 6) {
+        block += '        ' + contour.slice(i,i+6).map(([x,y])=>`[${x}, ${y}]`).join(', ') + ',\n';
+      }
+      block += `      ],\n    },\n`;
+    } else {
+      block += `    [\n`;
+      for (let i = 0; i < contour.length; i += 6) {
+        block += '      ' + contour.slice(i,i+6).map(([x,y])=>`[${x}, ${y}]`).join(', ') + ',\n';
+      }
+      block += `    ],\n`;
+    }
+    const isActive = ci === selectedContourIdx;
+    html += `<span class="contour-block${isActive ? ' active' : ''}" data-contour="${ci}">${escapeHtml(block)}</span>`;
+  });
+
+  html += `<span class="contour-block" style="color:#6a8060;">  ],</span>`;
+  box.innerHTML = html;
+
+  // Scroll vers le contour actif — différé pour que le DOM soit peint
+  requestAnimationFrame(() => {
+    const activeSpan = box.querySelector('.contour-block.active');
+    if (activeSpan) activeSpan.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  });
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 function formatSeaCellsJS(keys) {
@@ -3127,6 +4049,395 @@ function goToContour(idx) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// EXPORT FICHIER — zones-data.js ou sea-data.js complet
+// ═══════════════════════════════════════════════════════════
+function exportCurrentFile() {
+  const isGeoTerres   = activeEditor === 'zone'     && activeTab === 'terres';
+  const isGeoMers     = activeEditor === 'zone'     && activeTab === 'mers';
+  const isInfosTerres = activeEditor === 'currents' && activeTab === 'terres';
+  const isInfosMers   = activeEditor === 'currents' && activeTab === 'mers';
+
+  if (isGeoTerres || isInfosTerres) {
+    exportZonesData();
+  } else if (isGeoMers || isInfosMers) {
+    exportSeaData();
+  }
+}
+
+function exportZonesData() {
+  // Recalcule superficie depuis la géométrie courante
+  const demo = zonesWorkingCopy.DEMO || {};
+  const data = zonesEdit; // alias vers zonesWorkingCopy.DATA
+
+  let out = '// zones-data.js — Contours territoriaux\n';
+  out += '// Généré par Zone Editor — Pavillon Noir\n';
+  out += '// ═══════════════════════════════════════════════════════════\n\n';
+  out += 'const ZONES_DATA = {\n\n';
+
+  for (const id in data) {
+    const contours = data[id];
+    const totalPts = contours.reduce((s, c) => s + c.length, 0);
+    out += `  '${id}': [  // ${contours.length} contour(s), ${totalPts} pts\n`;
+    contours.forEach((contour, ci) => {
+      const meta = zonesMeta[id]?.[ci] || null;
+      if (meta) {
+        out += `    {\n`;
+        Object.entries(meta).forEach(([k, v]) => out += `      ${k}: ${JSON.stringify(v)},\n`);
+        out += `      points: [\n`;
+        for (let i = 0; i < contour.length; i += 6) {
+          out += '        ' + contour.slice(i, i + 6).map(([x,y]) => `[${x}, ${y}]`).join(', ') + ',\n';
+        }
+        out += `      ],\n    },\n`;
+      } else {
+        out += `    [\n`;
+        for (let i = 0; i < contour.length; i += 6) {
+          out += '      ' + contour.slice(i, i + 6).map(([x,y]) => `[${x}, ${y}]`).join(', ') + ',\n';
+        }
+        out += `    ],\n`;
+      }
+    });
+    out += `  ],\n\n`;
+  }
+  out += '};\n\n\n';
+
+  // ZONES_DEMO — superficie recalculée, autres champs depuis zonesWorkingCopy.DEMO
+  out += '// ═══════════════════════════════════════════════════════════\n';
+  out += '// ZONES_DEMO — Démographie & superficie (circa 1716)\n';
+  out += '// superficie     : px² (Shoelace par anneau)\n';
+  out += '// score_densite  : log10(population/superficie + 1)\n';
+  out += '// statut_autochtone : \'souverainete\' | \'resistance\' | \'domination\' | null\n';
+  out += '// ═══════════════════════════════════════════════════════════\n\n';
+  out += 'const ZONES_DEMO = {\n\n';
+
+  for (const id in demo) {
+    const d = demo[id];
+    // Recalcul superficie depuis géométrie
+    const superficie = data[id] ? Math.round(calcSuperficie(data[id])) : (d.superficie ?? 0);
+    const pop = (d.colons || 0) + (d.esclaves || 0) + (d.indiens || 0);
+    const scoreDensite = superficie > 0 ? Math.round(Math.log10(pop / superficie + 1) * 1e4) / 1e4 : 0;
+
+    out += `  '${id}': {\n`;
+    out += `    colons: ${d.colons ?? 0},\n`;
+    out += `    esclaves: ${d.esclaves ?? 0},\n`;
+    out += `    indiens: ${d.indiens ?? 0},\n`;
+    out += `    indiens_asservis: ${d.indiens_asservis ?? 0},\n`;
+    out += `    population: ${pop},\n`;
+    out += `    superficie: ${superficie},\n`;
+    out += `    score_densite: ${scoreDensite},\n`;
+    if (d.statut_autochtone !== undefined) {
+      out += `    statut_autochtone: ${d.statut_autochtone === null ? 'null' : JSON.stringify(d.statut_autochtone)},\n`;
+    }
+    out += `  },\n\n`;
+  }
+  out += '};\n';
+
+  downloadBlob('zones-data.js', out);
+}
+
+function calcSuperficie(contours) {
+  // Shoelace sur le premier contour (contour principal) de chaque zone
+  let total = 0;
+  contours.forEach(contour => {
+    let area = 0;
+    const n = contour.length;
+    for (let i = 0; i < n; i++) {
+      const [x1, y1] = contour[i];
+      const [x2, y2] = contour[(i + 1) % n];
+      area += x1 * y2 - x2 * y1;
+    }
+    total += Math.abs(area) / 2;
+  });
+  return total;
+}
+
+function exportSeaData() {
+  exportSeaDataV2();
+}
+
+function downloadBlob(filename, content) {
+  const blob = new Blob([content], { type: 'text/javascript;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// OUTIL SCINDER
+// ═══════════════════════════════════════════════════════════
+let splitFirstPt = null;  // { ptIdx, marker } — premier point sélectionné
+let splitHandles  = [];   // L.CircleMarker[] affichés en mode split
+
+const HANDLE_SPLIT_IDLE  = { radius: 5, color: 'rgba(220,140,255,0.7)', weight: 1.5, fillColor: 'rgba(14,12,9,0.9)', fillOpacity: 1 };
+const HANDLE_SPLIT_FIRST = { radius: 7, color: '#e0a0ff', weight: 2.5, fillColor: 'rgba(200,100,255,0.35)', fillOpacity: 1 };
+
+function renderSplitHandles() {
+  clearSplitHandles();
+  if (currentTool !== 'split' || !selectedZoneId) return;
+  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+  contour.forEach((pt, ptIdx) => {
+    const isFirst = splitFirstPt && splitFirstPt.ptIdx === ptIdx;
+    const style   = isFirst ? HANDLE_SPLIT_FIRST : HANDLE_SPLIT_IDLE;
+    const circle  = L.circleMarker(pxToLatLng(pt[0], pt[1]), { ...style, interactive: true });
+    circle._ptIdx = ptIdx;
+    circle.on('mouseover', function() { if (!isFirst) this.setStyle({ ...HANDLE_SPLIT_IDLE, radius: 7, color: '#e0a0ff' }); });
+    circle.on('mouseout',  function() { if (!isFirst) this.setStyle(HANDLE_SPLIT_IDLE); });
+    circle.on('click', function(e) {
+      L.DomEvent.stopPropagation(e);
+      onSplitClick(this._ptIdx);
+    });
+    circle.addTo(map);
+    splitHandles.push(circle);
+  });
+}
+
+function clearSplitHandles() {
+  splitHandles.forEach(h => map.removeLayer(h));
+  splitHandles = [];
+}
+
+function onSplitClick(ptIdx) {
+  const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+
+  if (!splitFirstPt) {
+    // Premier clic : mémoriser le point
+    splitFirstPt = { ptIdx };
+    renderSplitHandles(); // re-render pour surligner
+    return;
+  }
+
+  const p1 = splitFirstPt.ptIdx;
+  const p2 = ptIdx;
+  splitFirstPt = null;
+
+  if (p1 === p2) {
+    // Cas B : point unique — chercher s'il est dupliqué dans le contour
+    const occurrences = contour.reduce((acc, pt, i) => {
+      if (pt[0] === contour[p1][0] && pt[1] === contour[p1][1]) acc.push(i);
+      return acc;
+    }, []);
+    if (occurrences.length < 2) {
+      renderSplitHandles();
+      return;
+    }
+    // Scinder en deux boucles au point commun
+    const i1 = occurrences[0], i2 = occurrences[1];
+    const loopA = contour.slice(i1, i2 + 1);
+    const loopB = [...contour.slice(i2), ...contour.slice(0, i1 + 1)];
+    applySplit(loopA, loopB);
+  } else {
+    // Cas A : deux points distincts — couper entre p1 et p2
+    if (p1 === p2) { renderSplitHandles(); return; }
+    const [lo, hi] = p1 < p2 ? [p1, p2] : [p2, p1];
+    const loopA = [...contour.slice(lo, hi + 1)];
+    const loopB = [...contour.slice(hi), ...contour.slice(0, lo + 1)];
+    applySplit(loopA, loopB);
+  }
+}
+
+function applySplit(loopA, loopB) {
+  if (loopA.length < 3 || loopB.length < 3) {
+    alert('La découpe produirait un contour de moins de 3 points — opération annulée.');
+    renderSplitHandles();
+    return;
+  }
+  pushUndo('Scinder contour');
+  // Remplacer le contour actif par loopA, insérer loopB juste après
+  zonesEdit[selectedZoneId].splice(selectedContourIdx, 1, loopA, loopB);
+  zonesMeta[selectedZoneId] ??= [];
+  zonesMeta[selectedZoneId].splice(selectedContourIdx, 1, null, null);
+  clearSplitHandles();
+  renderZone(selectedZoneId);
+  selectedContourIdx = Math.min(selectedContourIdx, zonesEdit[selectedZoneId].length - 1);
+  renderSplitHandles();
+  updatePanel();
+  updateExport();
+}
+
+// ═══════════════════════════════════════════════════════════
+// POPUP — RATTACHEMENT D'UN CONTOUR À UNE JURIDICTION
+// ═══════════════════════════════════════════════════════════
+let _pendingDrawPoints = null; // points en attente de rattachement
+
+function openAttachModal(points) {
+  _pendingDrawPoints = points;
+  const overlay = document.getElementById('ze-overlay');
+  const title   = document.getElementById('ze-modal-title');
+  const body    = document.getElementById('ze-modal-body');
+  title.textContent = 'Rattacher le contour';
+  body.innerHTML = `
+    <span class="ze-modal-label">Juridiction existante</span>
+    <div style="position:relative">
+      <input id="ze-attach-input" class="ze-modal-input" type="text"
+             placeholder="Nom ou identifiant…" autocomplete="off" aria-autocomplete="list">
+      <span id="ze-attach-fantome" style="position:absolute;top:0;left:0;height:100%;
+            display:flex;align-items:center;pointer-events:none;
+            font-family:Cinzel,serif;font-size:0.75rem;color:var(--text-dim);opacity:0.5;"></span>
+    </div>
+    <ul id="ze-attach-suggestions" class="ze-suggestions"></ul>
+    <hr class="ze-modal-sep">
+    <div class="ze-modal-actions">
+      <button id="ze-btn-cancel"  class="ze-btn danger">Annuler</button>
+      <button id="ze-btn-attach"  class="ze-btn primary" disabled>Rattacher</button>
+      <button id="ze-btn-new-jur" class="ze-btn">Nouvelle juridiction</button>
+    </div>
+    <div class="ze-modal-hint">Le contour sera ajouté à la juridiction choisie.</div>
+  `;
+  overlay.style.display = 'flex';
+
+  // Construire la source de données : IDs de ZONES_DATA
+  const zonesSource = Object.keys(zonesEdit).sort().map(id => ({ id, nom: id }));
+
+  const input       = document.getElementById('ze-attach-input');
+  const fantome     = document.getElementById('ze-attach-fantome');
+  const suggestions = document.getElementById('ze-attach-suggestions');
+  const btnAttach   = document.getElementById('ze-btn-attach');
+  let selectedZoneResult = null;
+
+  RC.initChampRecherche(input, fantome, suggestions, {
+    obtenirResultats: q => {
+      const qN = RC.normaliser(q);
+      return zonesSource
+        .filter(z => RC.normaliser(z.id).includes(qN))
+        .slice(0, 10)
+        .map(z => ({ type: 'zone', item: z, id: z.id, nom: z.id, matchTag: z.id }));
+    },
+    rendreItem: (r, qLow) => {
+      const hl = RC.surlignerMatch(r.nom, qLow);
+      return `<li class="carte-recherche-suggestion" data-id="${RC.escapeHtml(r.id)}" data-nom="${RC.escapeHtml(r.nom)}">${hl}</li>`;
+    },
+    onChoisir: (li) => {
+      selectedZoneResult = li.dataset.id;
+      input.value = selectedZoneResult;
+      btnAttach.disabled = false;
+    },
+    onEntreeSansMatch: (q) => {
+      // Sélection directe si q est un ID exact
+      if (zonesEdit[q]) { selectedZoneResult = q; btnAttach.disabled = false; }
+    },
+    msgAucunResultat: 'Aucune juridiction trouvée',
+  });
+
+  input.addEventListener('input', () => {
+    // Réactiver si l'utilisateur tape un ID exact
+    selectedZoneResult = zonesEdit[input.value.trim()] ? input.value.trim() : null;
+    btnAttach.disabled = !selectedZoneResult;
+  });
+
+  document.getElementById('ze-btn-attach').addEventListener('click', () => {
+    if (!selectedZoneResult) return;
+    closeModal();
+    attachDrawTo(selectedZoneResult);
+  });
+
+  document.getElementById('ze-btn-cancel').addEventListener('click', () => {
+    closeModal();
+    _pendingDrawPoints = null;
+    setTool('select');
+  });
+
+  document.getElementById('ze-btn-new-jur').addEventListener('click', () => {
+    openNewJurModal();
+  });
+
+  input.focus();
+}
+
+function openNewJurModal() {
+  const title = document.getElementById('ze-modal-title');
+  const body  = document.getElementById('ze-modal-body');
+  title.textContent = 'Nouvelle juridiction';
+  body.innerHTML = `
+    <span class="ze-modal-label">Identifiant (id)</span>
+    <input id="ze-new-id"  class="ze-modal-input" type="text" placeholder="ex: saint-domingue" autocomplete="off">
+    <span class="ze-modal-label" style="margin-top:8px;">Nom affiché</span>
+    <input id="ze-new-nom" class="ze-modal-input" type="text" placeholder="ex: Saint-Domingue" autocomplete="off">
+    <div class="ze-modal-actions">
+      <button id="ze-btn-back"   class="ze-btn">← Retour</button>
+      <button id="ze-btn-create" class="ze-btn primary" disabled>Créer</button>
+    </div>
+    <div class="ze-modal-hint">L'entrée sera créée avec des valeurs démographiques à zéro.<br>Éditez-les ensuite dans <strong>Infos — Terres</strong>.</div>
+  `;
+
+  const idInput  = document.getElementById('ze-new-id');
+  const nomInput = document.getElementById('ze-new-nom');
+  const btnCreate = document.getElementById('ze-btn-create');
+
+  function validate() {
+    const id  = idInput.value.trim();
+    const nom = nomInput.value.trim();
+    const idOk  = id.length > 0 && !zonesEdit[id];
+    btnCreate.disabled = !(idOk && nom.length > 0);
+    idInput.style.borderColor = id.length > 0
+      ? (zonesEdit[id] ? 'rgba(200,80,80,0.6)' : 'rgba(80,180,120,0.5)')
+      : '';
+  }
+  idInput.addEventListener('input', validate);
+  nomInput.addEventListener('input', validate);
+
+  document.getElementById('ze-btn-back').addEventListener('click', () => {
+    openAttachModal(_pendingDrawPoints);
+  });
+
+  document.getElementById('ze-btn-create').addEventListener('click', () => {
+    const id  = idInput.value.trim();
+    const nom = nomInput.value.trim();
+    if (!id || !nom || zonesEdit[id]) return;
+    closeModal();
+    createAndAttach(id, nom);
+  });
+
+  idInput.focus();
+}
+
+function closeModal() {
+  document.getElementById('ze-overlay').style.display = 'none';
+}
+
+function attachDrawTo(zoneId) {
+  if (!_pendingDrawPoints || _pendingDrawPoints.length < 3) return;
+  pushUndo('Ajouter contour');
+  zonesEdit[zoneId].push(_pendingDrawPoints.map(p => [...p]));
+  zonesMeta[zoneId] ??= [];
+  zonesMeta[zoneId].push(null);
+  _pendingDrawPoints = null;
+  selectedZoneId = zoneId;
+  selectedContourIdx = zonesEdit[zoneId].length - 1;
+  setTool('select');
+  renderZone(zoneId);
+  renderHandles();
+  updatePanel();
+  updateExport();
+}
+
+function createAndAttach(id, nom) {
+  if (!_pendingDrawPoints || _pendingDrawPoints.length < 3) return;
+  pushUndo('Créer juridiction');
+  // Géométrie
+  zonesEdit[id]   = [_pendingDrawPoints.map(p => [...p])];
+  zonesMeta[id]   = [null];
+  zonesWorkingCopy.DATA[id] = zonesEdit[id];
+  // Métadonnées — null sur tous les champs pour distinguer "pas encore renseigné"
+  // du 0 explicite (territoire désert). La détection d'avertissement visuel
+  // se base sur null, pas sur 0.
+  zonesWorkingCopy.DEMO[id] = {
+    colons: null, esclaves: null, indiens: null, indiens_asservis: null,
+    population: null, superficie: null, score_densite: null, statut_autochtone: null,
+  };
+  _pendingDrawPoints = null;
+  selectedZoneId = id;
+  selectedContourIdx = 0;
+  setTool('select');
+  renderZone(id);
+  renderHandles();
+  updatePanel();
+  updateExport();
+}
+
+// ═══════════════════════════════════════════════════════════
 // BINDINGS UI
 // ═══════════════════════════════════════════════════════════
 document.querySelectorAll('.tool-btn').forEach(btn => {
@@ -3139,6 +4450,10 @@ document.getElementById('editor-switch-btn').addEventListener('click', () => {
 document.querySelectorAll('#editor-menu [data-editor]').forEach(btn => {
   btn.addEventListener('click', () => setEditor(btn.dataset.editor));
 });
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => setTab(btn.dataset.tab));
+});
+document.getElementById('btn-export-file').addEventListener('click', exportCurrentFile);
 document.getElementById('btn-undo').addEventListener('click', undoLastOperation);
 document.addEventListener('mouseup', onMapMouseUp);
 
@@ -3190,8 +4505,11 @@ document.querySelectorAll('#sea-pattern-turn [data-turn]').forEach(btn => {
 });
 
 document.getElementById('btn-copy').addEventListener('click', function() {
-  const text = document.getElementById('export-box').textContent;
-  if (!text) return;
+  const box = document.getElementById('export-box');
+  // Extraire le texte brut depuis les spans (préserve les \n sans doublon)
+  const text = [...box.querySelectorAll('.contour-block')]
+    .map(s => s.textContent).join('') || box.textContent;
+  if (!text.trim()) return;
   navigator.clipboard.writeText(text).then(() => {
     this.textContent = '✓ Copié !';
     this.classList.add('copied');
