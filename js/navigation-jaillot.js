@@ -3584,9 +3584,56 @@
     });
   }
 
+  function inspecterPointNavigation(point) {
+    const p = { x: Number(point?.x), y: Number(point?.y) };
+    if (!Number.isFinite(p.x) || !Number.isFinite(p.y)) {
+      throw new Error('Point d inspection invalide.');
+    }
+    const niveauNav = typeof niveauNavigation !== 'undefined' ? Number(niveauNavigation) : 0;
+    const hautsFonds = getHautsFondsSegment(p, p)
+      .filter(hautFond => pointDansHautFondItem(p, hautFond))
+      .map(hautFond => ({
+        id: hautFond.id || hautFond.label || null,
+        label: hautFond.label || hautFond.id || 'Haut-fond',
+        visibiliteNav: hautFond.visibiliteNav ?? 0,
+        catMax: hautFond.catMax ?? CONFIG.categorieMaxHautsFonds,
+        catMaxNav: hautFond.catMaxNav ?? hautFond.catMax ?? CONFIG.categorieMaxHautsFonds,
+        passageNav: hautFond.passageNav ?? 99,
+        interdit: navireInterditHautFond(hautFond),
+      }));
+    const navire = navireActif();
+    const etat = etatNavireActif(navire);
+    return {
+      point: p,
+      niveauNavigation: Number.isFinite(niveauNav) ? niveauNav : 0,
+      modificateurs: {
+        courants: modificateurActif(1),
+        vent: modificateurActif(2),
+        deventement: modificateurActif(3),
+      },
+      navire: {
+        id: navire.id,
+        nom: navire.nom,
+        categorieTaille: categorieTailleNavire(navire),
+        encombrementPct: encombrementNavirePct(navire, etat),
+        carenageApplicable: carenageApplicableNavire(navire),
+        carenage: etat.carenage || null,
+        modificateurVitesseNoeuds: modificateurVitesseActuelNoeuds(navire, etat),
+        malusHauturier: !!navire.malusHauturier,
+      },
+      courant: courantEnPoint(p),
+      vent: ventEnPoint(p),
+      hautsFonds,
+      distanceCoteNm: distanceCotePointNm(p),
+      attenuationCourantCote: attenuationCourantCote(p),
+      navigablePoint: segmentNavigable(p, p),
+    };
+  }
+
   window.NavigationJaillot = {
     init,
     calculerRoute,
+    inspecterPointNavigation,
     segmentNavigable,
     courantEnPoint,
     ventEnPoint,
