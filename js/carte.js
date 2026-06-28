@@ -296,7 +296,7 @@ function styleMaritime(feature, type, active = false) {
     };
   }
 
-  const speed = Number(feature.speedKnots ?? feature.speedKnot ?? 0);
+  const speed = Number(feature.speedKnot ?? feature.speedKnots ?? 0);
   const fillOpacity = Math.max(0.1, Math.min(0.34, 0.12 + speed * 0.045));
   return {
     color: active ? '#b7e6ff' : '#5fa8c8',
@@ -313,7 +313,8 @@ function styleMaritime(feature, type, active = false) {
 function labelMaritime(feature, type) {
   if (type === 'shoal') return 'Banc / recif / haut-fond';
   const typeZone = feature.type ? `zone ${feature.type}` : null;
-  const vitesse = feature.speedKnots ? `${Math.round(feature.speedKnots * 10) / 10} nd` : null;
+  const speed = Number(feature.speedKnot ?? feature.speedKnots);
+  const vitesse = Number.isFinite(speed) && speed > 0 ? `${Math.round(speed * 10) / 10} nd` : null;
   return ['Zone maritime', typeZone, vitesse].filter(Boolean).join(' - ');
 }
 
@@ -1448,7 +1449,7 @@ function _maritimeArrowSamples(current) {
     const x = seg.a[0] + (seg.b[0] - seg.a[0]) * t;
     const y = seg.a[1] + (seg.b[1] - seg.a[1]) * t;
     const zone = _maritimeZoneAtPoint([x, y]);
-    const spd = Number(zone?.speedKnots ?? zone?.speedKnot ?? 0);
+    const spd = Number(zone?.speedKnot ?? zone?.speedKnots ?? 0);
     const nextTarget = target + _maritimeArrowSpacing(spd);
     if (pointInMapBounds(x, y) && zone) {
       samples.push({ x, y, direction: current.directions?.[seg.dirIdx] || 'E' });
@@ -2196,9 +2197,10 @@ function ouvrirPanneauMaritime(type, id) {
   if (villeActive) { setIconeVilleActive(villeActive, false); rapprocherVille(villeActive); villeActive = null; }
   fermerPopup();
 
+  const speed = Number(feature.speedKnot ?? feature.speedKnots);
   const metaItems = [
     { label: 'Type', value: type === 'current' ? (feature.type || 'haute-mer') : null },
-    { label: 'Vitesse', value: type === 'current' && feature.speedKnots ? `${Math.round(feature.speedKnots * 10) / 10} nd` : null },
+    { label: 'Vitesse', value: type === 'current' && Number.isFinite(speed) && speed > 0 ? `${Math.round(speed * 10) / 10} nd` : null },
     { label: 'Passage libre', value: type === 'shoal' && feature.catMax ? `categories 1-${feature.catMax}` : null },
     { label: 'Passage Nav', value: type === 'shoal' && feature.catMaxNav ? `categorie ${feature.catMaxNav} si Nav >= ${feature.passageNav ?? '?'}` : null },
     { label: 'Toujours interdit', value: type === 'shoal' && feature.catMax ? `categories ${feature.catMax + 1}+` : null },

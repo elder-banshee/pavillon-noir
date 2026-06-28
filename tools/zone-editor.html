@@ -1983,8 +1983,9 @@ function currentUsesSvgZone(current) {
 }
 
 function currentBaseSpeedKnots(current) {
-  const knots = Number(current.speedKnots ?? current.speedKnot);
+  const knots = Number(current.speedKnot ?? current.speedKnots);
   if (Number.isFinite(knots) && knots >= 0) return knots;
+  // TODO PN-SEA-EXPLICIT: supprimer les replis km/h avec l'ancien sea-data.js.
   const kmh = Number(current.speedKmh ?? current.vitesseKmh);
   if (Number.isFinite(kmh) && kmh >= 0) return kmh * SEA_KMH_TO_KNOTS_EDITOR;
   return 0;
@@ -2569,8 +2570,8 @@ function updateShoalMeta(shoal, input, options = {}) {
 function updateCurrentSpeed(current, input, options = {}) {
   const speedKmh = normalizeSpeedInput(input.value);
   if (speedKmh === null) return;
-  current.speedKnots = Math.round(speedKmh * SEA_KMH_TO_KNOTS_EDITOR * 1000) / 1000;
-  delete current.speedKnot;
+  current.speedKnot = Math.round(speedKmh * SEA_KMH_TO_KNOTS_EDITOR * 1000) / 1000;
+  delete current.speedKnots;
   delete current.speedKmh;
   delete current.vitesseKmh;
   delete current.force;
@@ -2736,7 +2737,7 @@ function mergeSeaGeometryIntoWorkingCopy(geometry, type) {
     if (!item) {
       item = { id, nom: id.replace(/[_-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) };
       if (type === 'shoal') item.maxCategorieTaille = 3;
-      else { item.type = 'haute-mer'; item.speedKnots = 0; }
+      else { item.type = 'haute-mer'; item.speedKnot = 0; }
       list.push(item);
     }
     const keys = type === 'shoal'
@@ -2775,6 +2776,9 @@ function exportSeaData() {
   }
 
   function fmtSpeedSegments(segments) {
+    // TODO PN-SEA-EXPLICIT: export legacy ancien modele courant=ruban.
+    // Supprimer cette branche quand l'editeur ne sortira plus que
+    // SEA_NAV_ZONE_META.speedKnot + SEA_CURRENT_GEOMETRY.centerline.
     if (!Array.isArray(segments) || !segments.length) return '';
     const lines = segments.map(seg => {
       const attenuation = seg.attenuationMinCote != null ? `, attenuationMinCote: ${seg.attenuationMinCote}` : '';
@@ -2847,6 +2851,9 @@ function exportSeaDataV2() {
   const navZones = getWorkingCurrents();
   const currents = getWorkingCurrentAxes();
   const shoals = getWorkingShoals();
+  const oceanBounds = (typeof SEA_OCEAN_BOUNDS !== 'undefined' && Array.isArray(SEA_OCEAN_BOUNDS))
+    ? cloneJSON(SEA_OCEAN_BOUNDS)
+    : [];
 
   function fmtPts(pts) {
     const items = (pts || []).map(([x,y]) => `[${x},${y}]`);
@@ -2909,6 +2916,13 @@ ${zoneSourceLine}    zone: ${formatSeaZoneJS(c.zone, fmtPts)},
   },`;
   }
 
+  function fmtOceanBoundsGeometryBlock(bounds) {
+    const zoneSourceLine = bounds.zoneSource ? `    zoneSource: ${quoteJS(bounds.zoneSource)},\n` : '';
+    return `  '${bounds.id}': {
+${zoneSourceLine}    zone: ${formatSeaZoneJS(bounds.zone, fmtPts)},
+  },`;
+  }
+
   function fmtCurrentGeometryBlock(c) {
     const closedLine = c.closed != null ? `    closed: ${Boolean(c.closed)},\n` : '';
     const zoneSourceLine = c.zoneSource ? `    zoneSource: ${quoteJS(c.zoneSource)},\n` : '';
@@ -2935,9 +2949,10 @@ ${fmtDirs(c.directions)}
   const navZoneMetaBlocks = navZones.map(c => fmtMetaBlock(c.id, c, navZoneGeometryKeys, {
     nom: c.nom || c.id,
     type: c.type || 'haute-mer',
-    speedKnots: currentBaseSpeedKnots(c),
+    speedKnot: currentBaseSpeedKnots(c),
   })).join('\n\n');
   const currentGeometryBlocks = currents.map(fmtCurrentGeometryBlock).join('\n\n');
+  const oceanBoundsGeometryBlocks = oceanBounds.map(fmtOceanBoundsGeometryBlock).join('\n\n');
   const currentMetaBlocks = currents.map(c => fmtMetaBlock(c.id, c, currentGeometryKeys, {
     nom: c.nom || c.id,
   })).join('\n\n');
@@ -2949,6 +2964,8 @@ ${fmtDirs(c.directions)}
 
   const output = `// sea-data.js - geometries exportables et metadonnees maritimes
 // Coordonnees pixel Jaillot (8500x5320)
+// Nouveau contrat maritime: zones explicites = surface navigable autorisee,
+// courants = centerlines directionnelles, vitesse = SEA_NAV_ZONE_META.speedKnot.
 
 // Section exportable depuis gen_sea_data.py.
 const SEA_NAV_ZONES_EXPLICITES = true;
@@ -2965,6 +2982,18 @@ ${navZoneMetaBlocks}
 const SEA_NAV_ZONES = Object.entries(SEA_NAV_ZONE_GEOMETRY).map(([id, geometry]) => ({
   id,
   ...(SEA_NAV_ZONE_META[id] || {}),
+  ...geometry,
+}));
+
+// Emprise navigable et fallback calme. Ce n'est pas une zone d'attributs/courant.
+const SEA_OCEAN_BOUNDS_GEOMETRY = {
+${oceanBoundsGeometryBlocks}
+};
+
+const SEA_OCEAN_BOUNDS = Object.entries(SEA_OCEAN_BOUNDS_GEOMETRY).map(([id, geometry]) => ({
+  id,
+  type: 'oceanBounds',
+  nom: id.replace(/[_-]/g, ' '),
   ...geometry,
 }));
 
@@ -3005,6 +3034,8 @@ if (typeof window !== 'undefined') {
   window.SEA_NAV_ZONE_GEOMETRY = SEA_NAV_ZONE_GEOMETRY;
   window.SEA_NAV_ZONE_META = SEA_NAV_ZONE_META;
   window.SEA_NAV_ZONES = SEA_NAV_ZONES;
+  window.SEA_OCEAN_BOUNDS_GEOMETRY = SEA_OCEAN_BOUNDS_GEOMETRY;
+  window.SEA_OCEAN_BOUNDS = SEA_OCEAN_BOUNDS;
   window.SEA_CURRENT_GEOMETRY = SEA_CURRENT_GEOMETRY;
   window.SEA_CURRENT_META = SEA_CURRENT_META;
   window.SEA_CURRENTS = SEA_CURRENTS;
@@ -4311,7 +4342,7 @@ function summarizeJaillotCurrent(current) {
   if (!current) return 'aucun courant retenu';
   const parts = [
     current.direction || 'direction n/a',
-    formatMaybeNumber(current.speedKnots, 2, ' nd'),
+    formatMaybeNumber(current.speedKnot ?? current.speedKnots, 2, ' nd'),
     current.zoneNom ? `zone ${escapeHtmlText(current.zoneNom)}` : null,
     current.typeZone ? `type ${escapeHtmlText(current.typeZone)}` : null,
   ];

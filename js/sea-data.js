@@ -3535,6 +3535,9 @@ const SEA_CURRENT_META = {
 
 const SEA_KMH_TO_KNOTS = 1 / 1.852;
 
+// TODO PN-SEA-EXPLICIT: compatibilite ancien modele courant=ruban.
+// A supprimer quand js/sea-data.js sera regenere depuis la mosaïque maritime:
+// les vitesses viendront alors de SEA_NAV_ZONE_META.speedKnot.
 function seaLegacySpeedKnots(meta = {}) {
   const direct = Number(meta.speedKnots ?? meta.speedKnot);
   if (Number.isFinite(direct) && direct >= 0) return direct;
@@ -3552,8 +3555,13 @@ function seaLegacySpeedKnots(meta = {}) {
   return 0;
 }
 
+// TODO PN-SEA-EXPLICIT: flag legacy. Le nouveau fichier genere devra passer
+// SEA_NAV_ZONES_EXPLICITES a true pour que la navigation soit autorisee
+// uniquement dans les zones maritimes explicites.
 const SEA_NAV_ZONES_EXPLICITES = false;
 
+// TODO PN-SEA-EXPLICIT: construction transitoire depuis les anciens rubans.
+// A remplacer par SEA_NAV_ZONE_GEOMETRY exporte directement par gen_sea_data.py.
 const SEA_NAV_ZONE_GEOMETRY = Object.fromEntries(Object.entries(SEA_CURRENT_GEOMETRY).map(([id, geometry]) => ([
   id,
   {
@@ -3562,12 +3570,15 @@ const SEA_NAV_ZONE_GEOMETRY = Object.fromEntries(Object.entries(SEA_CURRENT_GEOM
   },
 ])));
 
+// TODO PN-SEA-EXPLICIT: metadonnees transitoires derivees des anciens courants.
+// Le nouveau contrat attend nom/type/speedKnot/visibiliteNav par zone maritime.
 const SEA_NAV_ZONE_META = Object.fromEntries(Object.entries(SEA_CURRENT_META).map(([id, meta]) => ([
   id,
   {
     nom: meta.nom || meta.label || id,
     type: meta.type || 'haute-mer',
-    speedKnots: seaLegacySpeedKnots(meta),
+    speedKnot: seaLegacySpeedKnots(meta),
+    speedKnots: seaLegacySpeedKnots(meta), // TODO PN-SEA-EXPLICIT: alias legacy UI, supprimer apres migration.
     visibiliteNav: meta.visibiliteNav ?? 0,
   },
 ])));
@@ -3575,6 +3586,17 @@ const SEA_NAV_ZONE_META = Object.fromEntries(Object.entries(SEA_CURRENT_META).ma
 const SEA_NAV_ZONES = Object.entries(SEA_NAV_ZONE_GEOMETRY).map(([id, geometry]) => ({
   id,
   ...(SEA_NAV_ZONE_META[id] || {}),
+  ...geometry,
+}));
+
+// TODO PN-SEA-EXPLICIT: oceanBounds deviendra l'emprise navigable/fallback calme.
+// Le fichier legacy n'en porte pas encore; le nouveau generateur remplit ce bloc.
+const SEA_OCEAN_BOUNDS_GEOMETRY = {};
+
+const SEA_OCEAN_BOUNDS = Object.entries(SEA_OCEAN_BOUNDS_GEOMETRY).map(([id, geometry]) => ({
+  id,
+  type: 'oceanBounds',
+  nom: id.replace(/[_-]/g, ' '),
   ...geometry,
 }));
 
@@ -3891,6 +3913,8 @@ if (typeof window !== 'undefined') {
   window.SEA_NAV_ZONE_GEOMETRY = SEA_NAV_ZONE_GEOMETRY;
   window.SEA_NAV_ZONE_META = SEA_NAV_ZONE_META;
   window.SEA_NAV_ZONES = SEA_NAV_ZONES;
+  window.SEA_OCEAN_BOUNDS_GEOMETRY = SEA_OCEAN_BOUNDS_GEOMETRY;
+  window.SEA_OCEAN_BOUNDS = SEA_OCEAN_BOUNDS;
   window.SEA_CURRENTS = SEA_CURRENTS;
   window.SEA_SHOAL_GEOMETRY = SEA_SHOAL_GEOMETRY;
   window.SEA_SHOAL_META = SEA_SHOAL_META;

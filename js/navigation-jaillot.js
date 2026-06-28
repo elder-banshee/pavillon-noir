@@ -51,8 +51,10 @@
   const ventPointCache = new Map();
   const tempsSegmentCache = new Map();
   let zonesNavigationIndexCache = null;
+  let oceanBoundsIndexCache = null;
   let courantsIndexCache = null;
   let deventementsIndexCache = null;
+  let avertissementZonesNavigationExplicites = false;
   let etatNavire = {
     id: null,
     equipage: null,
@@ -441,12 +443,41 @@
   }
 
   function zonesNavigationExplicites() {
-    return typeof SEA_NAV_ZONES_EXPLICITES !== 'undefined' && !!SEA_NAV_ZONES_EXPLICITES;
+    const flag = typeof SEA_NAV_ZONES_EXPLICITES !== 'undefined' && !!SEA_NAV_ZONES_EXPLICITES;
+    if (!flag) return false;
+    const zones = sourceZonesNavigationCalculateur();
+    const oceanBounds = sourceOceanBoundsCalculateur();
+    if (zones.length > 0 || oceanBounds.length > 0) return true;
+    if (!avertissementZonesNavigationExplicites && typeof console !== 'undefined') {
+      avertissementZonesNavigationExplicites = true;
+      console.warn('[NavigationJaillot] SEA_NAV_ZONES_EXPLICITES=true mais SEA_NAV_ZONES et SEA_OCEAN_BOUNDS sont vides: repli compatible, navigation non bornee par emprise maritime.');
+    }
+    return false;
   }
 
   function sourceZonesNavigationCalculateur() {
     if (typeof SEA_NAV_ZONES !== 'undefined' && Array.isArray(SEA_NAV_ZONES)) return SEA_NAV_ZONES;
     return [];
+  }
+
+  function sourceOceanBoundsCalculateur() {
+    if (typeof SEA_OCEAN_BOUNDS !== 'undefined' && Array.isArray(SEA_OCEAN_BOUNDS)) return SEA_OCEAN_BOUNDS;
+    return [];
+  }
+
+  function modeNavigationMaritime() {
+    const flagZonesExplicites = typeof SEA_NAV_ZONES_EXPLICITES !== 'undefined' && !!SEA_NAV_ZONES_EXPLICITES;
+    const zones = sourceZonesNavigationCalculateur();
+    const oceanBounds = sourceOceanBoundsCalculateur();
+    return {
+      zonesExplicites: zonesNavigationExplicites(),
+      flagZonesExplicites,
+      compatLegacy: !flagZonesExplicites,
+      nbZonesNavigation: zones.length,
+      nbOceanBounds: oceanBounds.length,
+      fallbackCalmeOceanBounds: flagZonesExplicites && oceanBounds.length > 0,
+      nbCourants: sourceCourantsCalculateur().length,
+    };
   }
 
   function getZonesNavigationIndex() {
@@ -460,6 +491,19 @@
       };
     });
     return zonesNavigationIndexCache;
+  }
+
+  function getOceanBoundsIndex() {
+    if (oceanBoundsIndexCache) return oceanBoundsIndexCache;
+    const source = sourceOceanBoundsCalculateur();
+    oceanBoundsIndexCache = source.map(bounds => {
+      const anneaux = anneauxZoneSea(bounds.zone);
+      return {
+        bounds,
+        bbox: bboxAnneauxSea(anneaux),
+      };
+    });
+    return oceanBoundsIndexCache;
   }
 
   function getCourantsIndex() {
@@ -502,12 +546,25 @@
     return zones[0] || null;
   }
 
+  function pointDansOceanBounds(point) {
+    return getOceanBoundsIndex()
+      .filter(({ bbox }) => point.x >= bbox.minX && point.x <= bbox.maxX
+        && point.y >= bbox.minY && point.y <= bbox.maxY)
+      .some(({ bounds }) => pointDansZoneSea(point, bounds.zone));
+  }
+
   function pointDansZoneNavigation(point) {
+    // TODO PN-SEA-EXPLICIT: quand la mosaïque maritime sera complete,
+    // supprimer le repli "true" et exiger une zone explicite partout.
     if (!zonesNavigationExplicites()) return true;
+    const oceanBounds = sourceOceanBoundsCalculateur();
+    if (oceanBounds.length) return pointDansOceanBounds(point);
     return !!zoneNavigationEnPoint(point);
   }
 
   function segmentDansZonesNavigation(a, b) {
+    // TODO PN-SEA-EXPLICIT: ce garde-fou deviendra la regle principale
+    // d'autorisation de navigation, a la place du masque "tout sauf terres".
     if (!zonesNavigationExplicites()) return true;
     const px = distance(a, b);
     const parts = Math.max(1, Math.ceil(px / Math.max(8, CONFIG.grilleApprochePx * 2)));
@@ -698,8 +755,10 @@
 
   function vitesseZoneNavigationNoeuds(zone) {
     if (!zone) return 0;
-    const knots = Number(zone.speedKnots ?? zone.speedKnot);
+    const knots = Number(zone.speedKnot ?? zone.speedKnots);
     if (Number.isFinite(knots) && knots >= 0) return knots;
+    // TODO PN-SEA-EXPLICIT: supprimer les replis km/h avec l'ancien sea-data.js.
+    // Le nouveau contrat stocke uniquement speedKnot dans les zones maritimes.
     const kmh = Number(zone.speedKmh ?? zone.vitesseKmh);
     if (Number.isFinite(kmh) && kmh >= 0) return kmh * KMH_TO_KNOTS;
     return 0;
@@ -771,7 +830,8 @@
       zoneId: zone.id || null,
       zoneNom: zone.nom || zone.id || null,
       typeZone: zone.type || 'haute-mer',
-      speedKnots: vitesseNoeudsResultat,
+      speedKnot: vitesseNoeudsResultat,
+      speedKnots: vitesseNoeudsResultat, // TODO PN-SEA-EXPLICIT: alias legacy UI, supprimer apres migration.
       speedKmh: vitesseNoeudsResultat * KNOTS_TO_KMH,
       distanceCoteNm: distanceCotePointNm(point),
       direction: vecteurVersDirection(moyen),
@@ -779,7 +839,8 @@
       courants: retenus.map(c => ({
         id: c.id,
         nom: c.nom || c.id,
-        speedKnots: vitesseNoeuds,
+        speedKnot: vitesseNoeuds,
+        speedKnots: vitesseNoeuds, // TODO PN-SEA-EXPLICIT: alias legacy UI, supprimer apres migration.
       })),
     };
     courantPointCache.set(cacheKey, resultat);
@@ -1628,6 +1689,9 @@
 
   function getTerres() {
     if (terresCache) return terresCache;
+    // TODO PN-SEA-EXPLICIT: quand SEA_NAV_ZONES_EXPLICITES sera le seul mode,
+    // ZONES_DATA ne devra plus servir a autoriser la mer, seulement aux collisions
+    // terre, au deventement et aux distances de cote.
     const source = typeof ZONES_DATA !== 'undefined' ? ZONES_DATA : {};
     terresCache = Object.values(source).flatMap(contours => {
       if (!Array.isArray(contours)) return [];
@@ -1852,6 +1916,9 @@
   }
 
   function attenuationCourantCote(point) {
+    // TODO PN-SEA-EXPLICIT: l'attenuation automatique des courants est obsolete.
+    // Elle reste exposee pour le diagnostic Semaphore tant que les anciens ecrans
+    // l'affichent; les vitesses doivent venir des zones maritimes explicites.
     const distanceNmCote = distanceCotePointNm(point);
     if (!Number.isFinite(distanceNmCote)) return 1;
     if (distanceNmCote <= 0) return 0;
@@ -2827,6 +2894,7 @@
   function invaliderCacheHautsFonds() {
     hautsFondsIndexCache = null;
     zonesNavigationIndexCache = null;
+    oceanBoundsIndexCache = null;
     courantsIndexCache = null; // les courants filtres par niveauNavigation changent le cout des segments
     grilleCache = null;        // la grille filtre les nodes selon les hauts-fonds
     navigabiliteCache.clear(); // les segments bloques/libres dependent du niveau Nav et de la categorie
@@ -3670,6 +3738,7 @@
     return {
       point: p,
       niveauNavigation: Number.isFinite(niveauNav) ? niveauNav : 0,
+      modeNavigationMaritime: modeNavigationMaritime(),
       modificateurs: {
         courants: modificateurActif(1),
         vent: modificateurActif(2),
@@ -3698,6 +3767,7 @@
     init,
     calculerRoute,
     inspecterPointNavigation,
+    modeNavigationMaritime,
     segmentNavigable,
     zoneNavigationEnPoint,
     courantEnPoint,
