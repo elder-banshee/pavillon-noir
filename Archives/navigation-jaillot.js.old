@@ -66,18 +66,6 @@
     return `${Math.round(p.x)},${Math.round(p.y)}`;
   }
 
-  function sourceOscarGrid() {
-    if (typeof OSCAR_GRID !== 'undefined' && OSCAR_GRID?.cells) return OSCAR_GRID;
-    if (typeof window !== 'undefined' && window.OSCAR_GRID?.cells) return window.OSCAR_GRID;
-    return null;
-  }
-
-  function oscarCellKey(point) {
-    const grid = sourceOscarGrid();
-    const cellPx = Number(grid?.cellSizePx) || CONFIG.grillePx;
-    return `${Math.floor(point.x / cellPx)}_${Math.floor(point.y / cellPx)}`;
-  }
-
   function memePoint(a, b) {
     return !!a && !!b && distance(a, b) < 0.001;
   }
@@ -802,46 +790,58 @@
       courantPointCache.set(cacheKey, null);
       return null;
     }
-    const grid = sourceOscarGrid();
-    if (!grid) {
+    const zone = zoneNavigationEnPoint(point);
+    if (!zone) {
       courantPointCache.set(cacheKey, null);
       return null;
     }
-    const cellKey = oscarCellKey(point);
-    const cell = grid.cells[cellKey];
-    if (!cell) {
+    const presents = courantsZoneAuPoint(point, zone);
+    if (!presents.length) {
       courantPointCache.set(cacheKey, null);
       return null;
     }
-    const x = Number(cell.xKnot);
-    const y = Number(cell.yKnot);
-    const vitesseNoeudsResultat = Number(cell.speedKnot ?? Math.hypot(x, y));
-    if (!Number.isFinite(x) || !Number.isFinite(y)
-      || !Number.isFinite(vitesseNoeudsResultat) || vitesseNoeudsResultat <= 0) {
+
+    const retenus = presents;
+    let x = 0;
+    let y = 0;
+    let count = 0;
+    const vitesseNoeuds = vitesseZoneNavigationNoeuds(zone);
+    if (vitesseNoeuds <= 0) {
       courantPointCache.set(cacheKey, null);
       return null;
     }
-    const vecteur = { x, y };
+
+    retenus.forEach(courant => {
+      const direction = directionCourantAuPoint(courant, point);
+      const vecteur = directionVersVecteur(direction, vitesseNoeuds);
+      if (!vecteur) return;
+      x += vecteur.x;
+      y += vecteur.y;
+      count++;
+    });
+
+    if (!count) {
+      courantPointCache.set(cacheKey, null);
+      return null;
+    }
+    const moyen = { x: x / count, y: y / count };
+    const vitesseNoeudsResultat = Math.hypot(moyen.x, moyen.y);
     const resultat = {
-      zoneId: null,
-      zoneNom: 'OSCAR',
-      typeZone: 'haute-mer',
-      cellKey,
+      zoneId: zone.id || null,
+      zoneNom: zone.nom || zone.id || null,
+      typeZone: zone.type || 'haute-mer',
       speedKnot: vitesseNoeudsResultat,
       speedKnots: vitesseNoeudsResultat, // TODO PN-SEA-EXPLICIT: alias legacy UI, supprimer apres migration.
       speedKmh: vitesseNoeudsResultat * KNOTS_TO_KMH,
       distanceCoteNm: distanceCotePointNm(point),
-      direction: vecteurVersDirection(vecteur),
-      dirToDeg: Number.isFinite(Number(cell.dirToDeg)) ? Number(cell.dirToDeg) : null,
-      vecteur,
-      courants: [{
-        id: cellKey,
-        nom: `OSCAR ${cellKey}`,
-        speedKnot: vitesseNoeudsResultat,
-        speedKnots: vitesseNoeudsResultat, // TODO PN-SEA-EXPLICIT: alias legacy UI, supprimer apres migration.
-        maxSpeedKnot: Number.isFinite(Number(cell.maxSpeedKnot)) ? Number(cell.maxSpeedKnot) : null,
-        sources: Number.isFinite(Number(cell.sources)) ? Number(cell.sources) : null,
-      }],
+      direction: vecteurVersDirection(moyen),
+      vecteur: moyen,
+      courants: retenus.map(c => ({
+        id: c.id,
+        nom: c.nom || c.id,
+        speedKnot: vitesseNoeuds,
+        speedKnots: vitesseNoeuds, // TODO PN-SEA-EXPLICIT: alias legacy UI, supprimer apres migration.
+      })),
     };
     courantPointCache.set(cacheKey, resultat);
     return resultat;
