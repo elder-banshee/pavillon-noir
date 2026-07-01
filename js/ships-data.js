@@ -8,10 +8,21 @@
  *   type              {string?}  id d'un archetype du catalogue, pour les navires nommés
  *   categorieTaille   {number}   1 Chaloupe · 2 Sloop · 3 Goélette · 4 Frégate · 5 Vaisseau de ligne
  *   tirantEau         {number}   tirant d'eau en mètres (valeur corrigée)
- *   voilure           {string}   'aurique' · 'latine' · 'tierce' · 'carree' · 'livarde' · 'mixte'
- *                                → voilure 'carree' : virement lof-pour-lof obligatoire
+ *   greement          {string}   'aurique' · 'latine' · 'tierce' · 'carree' · 'livarde' · 'mixte'
+ *                                → gréement 'carree' : virement lof-pour-lof obligatoire
+ *   manoeuvrabilite   {number}   score de Manœuvre de base du navire (Nav ≥ 1)
+ *   toilage           {string?}  configuration de voilure éditable (Nav ≥ 4) : 'tres_sous_toile' ·
+ *                                'sous_toile' · 'sur_toile' · 'tres_sur_toile' · absent = standard
+ *                                Modifie vitesse ET Manœuvrabilité (voir nav-jaillot.js) :
+ *                                très sous-toilé -2V/+2M · sous-toilé -1V/+1M ·
+ *                                sur-toilé +1V/-2M · très sur-toilé +2V/-4M (déséquilibre voulu)
+ *   restrictionNav    {object?}  malus/interdiction par type de zone, ex. { hauturiere: -1 }
+ *                                valeur -1..-3 = malus Manœuvrabilité ; 'interdit' = accès refusé
+ *                                Zones : 'fluviale' · 'cotiere' · 'hauturiere' (absente = libre)
+ *   lestInverse       {boolean?} true si le lest inverse la règle d'encombrement (Nav ≥ 2) :
+ *                                < 25 % → -1 nœud, > 75 % → +1 nœud (ex. Chébec, Tartane)
  *   navigation        {object}
- *     vitesse_naive   {number}   vitesse constante en nœuds (Nav < 3)
+ *     vitesse_naive   {number}   vitesse constante en nœuds (Nav < 2)
  *     pres            {number|null}  vitesse en nœuds au près (Nav ≥ 3 ; null si N/A)
  *     largue          {number|null}
  *     grand_largue    {number|null}
@@ -54,6 +65,7 @@ const SHIP_FIELD_VISIBILITY = {
   model: 0,
   vitesse_naive_jour: 0,
   regionRestriction: 0,
+  manoeuvrabilite: 1,
   tonnage_total: 1,
   tonnage_occupe_total: 1,
   equipage_max: 1,
@@ -61,12 +73,13 @@ const SHIP_FIELD_VISIBILITY = {
   tonnage_occupe_utile: 2,
   encombrement: 2,
   equipage_min: 2,
-  voilure: 2,
+  greement: 2,
   vitesses_completes: 2,
   malus_navigation: 3,
   tirantEau: 3,
   carenage: 3,
   carene: 3,
+  toilage: 4,
   notes: 5,
 };
 
@@ -81,7 +94,8 @@ const SHIPS_DATA = [
     type: 'cotre_a_tape_cul',
     categorieTaille: 2,
     tirantEau: 2.5,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 2,
     navigation: {
       vitesse_naive: 3.54,
       pres: 3.5, largue: 9.5, grand_largue: 7, vent_arriere: 4,
@@ -102,7 +116,9 @@ const SHIPS_DATA = [
     nom: 'Chaloupe',
     categorieTaille: 1,
     tirantEau: 0.5,
-    voilure: 'mixte', // tiers ou carrée selon l'armement
+    greement: 'mixte', // tiers ou carrée selon l'armement
+    manoeuvrabilite: 1,
+    restrictionNav: { hauturiere: 'interdit' },
     navigation: {
       vitesse_naive: 2.7,
       pres: 2, largue: 5.5, grand_largue: 5.5, vent_arriere: 4,
@@ -121,7 +137,9 @@ const SHIPS_DATA = [
     nom: 'Berckois',
     categorieTaille: 1,
     tirantEau: 1.5,
-    voilure: 'tierce',
+    greement: 'tierce',
+    manoeuvrabilite: 2,
+    restrictionNav: { hauturiere: -3 },
     navigation: {
       vitesse_naive: 3.125,
       pres: 2.5, largue: 6.5, grand_largue: 6.5, vent_arriere: 4.5,
@@ -140,7 +158,9 @@ const SHIPS_DATA = [
     nom: 'Catalane',
     categorieTaille: 1,
     tirantEau: 1,
-    voilure: 'latine',
+    greement: 'latine',
+    manoeuvrabilite: 1,
+    restrictionNav: { hauturiere: -1 },
     navigation: {
       vitesse_naive: 3.125,
       pres: 4, largue: 7.5, grand_largue: 6.5, vent_arriere: 3.5,
@@ -159,7 +179,9 @@ const SHIPS_DATA = [
     nom: 'Petit prao',
     categorieTaille: 1,
     tirantEau: 0.5,
-    voilure: 'latine',
+    greement: 'latine',
+    manoeuvrabilite: 2,
+    restrictionNav: { hauturiere: 'interdit' },
     navigation: {
       vitesse_naive: 5,
       pres: 7, largue: 12, grand_largue: 10, vent_arriere: 6.5,
@@ -178,7 +200,9 @@ const SHIPS_DATA = [
     nom: 'Pirogue',
     categorieTaille: 1,
     tirantEau: 0.6, // TSV : 0,2~1 → médiane
-    voilure: null,  // N/A selon le type ; pas de polaires
+    greement: null,  // N/A selon le type ; pas de polaires
+    manoeuvrabilite: 2,
+    restrictionNav: { hauturiere: 'interdit' },
     navigation: {
       vitesse_naive: 5,
       pres: null, largue: null, grand_largue: null, vent_arriere: null,
@@ -199,7 +223,9 @@ const SHIPS_DATA = [
     nom: 'Sloop',
     categorieTaille: 2,
     tirantEau: 2,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 2,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 3.75,
       pres: 4, largue: 10.5, grand_largue: 7.5, vent_arriere: 4,
@@ -218,7 +244,9 @@ const SHIPS_DATA = [
     nom: 'Cotre',
     categorieTaille: 2,
     tirantEau: 2,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 2,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 4.375,
       pres: 4, largue: 10.5, grand_largue: 9.5, vent_arriere: 5,
@@ -237,7 +265,9 @@ const SHIPS_DATA = [
     nom: 'Cotre à tape-cul',
     categorieTaille: 2,
     tirantEau: 2.5,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 2,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 3.5,
       pres: 4, largue: 10.5, grand_largue: 9.5, vent_arriere: 5,
@@ -256,7 +286,9 @@ const SHIPS_DATA = [
     nom: 'Dundee',
     categorieTaille: 2,
     tirantEau: 2.5,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 1,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 3.54,
       pres: 3.5, largue: 9.5, grand_largue: 7, vent_arriere: 4,
@@ -275,7 +307,9 @@ const SHIPS_DATA = [
     nom: 'Félouque',
     categorieTaille: 2,
     tirantEau: 1,
-    voilure: 'latine',
+    greement: 'latine',
+    manoeuvrabilite: 0,
+    restrictionNav: { hauturiere: 'interdit' },
     navigation: {
       vitesse_naive: 4.15,
       pres: 5, largue: 10, grand_largue: 8, vent_arriere: 4.5,
@@ -293,8 +327,9 @@ const SHIPS_DATA = [
     id: 'flibot_petit',
     nom: 'Flibot (petit)',
     categorieTaille: 2,
-    tirantEau: 1,
-    voilure: 'aurique',
+    tirantEau: { standard: 2, deriveLevee: 1 },
+    greement: 'aurique',
+    manoeuvrabilite: 2,
     navigation: {
       vitesse_naive: 3.5,
       pres: 3, largue: 8.5, grand_largue: 7.5, vent_arriere: 4.5,
@@ -313,7 +348,8 @@ const SHIPS_DATA = [
     nom: 'Gabare',
     categorieTaille: 2,
     tirantEau: 2.5,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 2,
     navigation: {
       vitesse_naive: 3.5,
       pres: 3.5, largue: 9.5, grand_largue: 7, vent_arriere: 4,
@@ -332,7 +368,9 @@ const SHIPS_DATA = [
     nom: 'Hourque',
     categorieTaille: 2,
     tirantEau: 2,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: 0,
+    restrictionNav: { cotiere: -1, hauturiere: -2 },
     navigation: {
       vitesse_naive: 2.9,
       pres: 1.5, largue: 6, grand_largue: 6.5, vent_arriere: 4.5,
@@ -350,8 +388,9 @@ const SHIPS_DATA = [
     id: 'poon_de_hollande',
     nom: 'Poon de Hollande',
     categorieTaille: 2,
-    tirantEau: 1.5,
-    voilure: 'aurique',
+    tirantEau: { standard: 3, deriveLevee: 1.5 },
+    greement: 'aurique',
+    manoeuvrabilite: 2,
     navigation: {
       vitesse_naive: 3.5,
       pres: 3.5, largue: 9.5, grand_largue: 7, vent_arriere: 4,
@@ -360,9 +399,15 @@ const SHIPS_DATA = [
     tonnage:  { total: 70, utile: 60, fourchette: false },
     equipage: { max: 20, min: 5, standard: 11, fourchette: false },
     niveauNav: 5,
-    regionRestriction: ['fluviale'],
-    malusHauturier: true,
-    notes: 'Europe. Malus si tirant d\'eau < 3 m (dérive relevée).',
+    regionRestriction: [],
+    malusHauturier: false,
+    restrictionNav: { hauturiere: -1 },
+    notes: 'Europe. Double dérive latérale relevable : tirant d\'eau 3 m en configuration '
+      + 'normale (dérives baissées), ramené à 1,5 m dérives relevées pour l\'accès aux zones '
+      + 'très peu profondes, au prix d\'un malus spécial de Manœuvrabilité (indicatif — non '
+      + 'contraint par une profondeur réelle des zones maritimes pour le moment). Confortable '
+      + 'en navigation fluviale et côtière ; accède à la haute mer au prix d\'un léger malus. '
+      + 'Le navire le plus polyvalent du catalogue.',
   },
 
   {
@@ -370,7 +415,9 @@ const SHIPS_DATA = [
     nom: 'Prao caraïbe',
     categorieTaille: 2,
     tirantEau: 1,
-    voilure: 'latine',
+    greement: 'latine',
+    manoeuvrabilite: 0,
+    restrictionNav: { hauturiere: 'interdit' },
     navigation: {
       vitesse_naive: 3.5,
       pres: 6, largue: 12.5, grand_largue: 10, vent_arriere: 5.5,
@@ -389,7 +436,9 @@ const SHIPS_DATA = [
     nom: 'Tartane',
     categorieTaille: 2,
     tirantEau: 2,
-    voilure: 'latine',
+    greement: 'latine',
+    manoeuvrabilite: 1,
+    lestInverse: true,
     navigation: {
       vitesse_naive: 4.15,
       pres: 5, largue: 10, grand_largue: 8, vent_arriere: 4.5,
@@ -408,7 +457,9 @@ const SHIPS_DATA = [
     nom: 'Bisquine',
     categorieTaille: 2,
     tirantEau: 3,
-    voilure: 'tierce',
+    greement: 'tierce',
+    manoeuvrabilite: 1,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 4.15,
       pres: 3.5, largue: 9, grand_largue: 9, vent_arriere: 6,
@@ -427,7 +478,9 @@ const SHIPS_DATA = [
     nom: 'Chasse-marée',
     categorieTaille: 2,
     tirantEau: 2.5,
-    voilure: 'tierce',
+    greement: 'tierce',
+    manoeuvrabilite: 1,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 4.15,
       pres: 3.5, largue: 9, grand_largue: 9, vent_arriere: 6,
@@ -446,7 +499,9 @@ const SHIPS_DATA = [
     nom: 'Lougre',
     categorieTaille: 2,
     tirantEau: 2,
-    voilure: 'tierce',
+    greement: 'tierce',
+    manoeuvrabilite: 1,
+    restrictionNav: { fluviale: -2 },
     navigation: {
       vitesse_naive: 4.15,
       pres: 4, largue: 10, grand_largue: 10, vent_arriere: 7,
@@ -468,7 +523,9 @@ const SHIPS_DATA = [
     nom: 'Barge ou Chaland',
     categorieTaille: 3,
     tirantEau: 0.9,
-    voilure: 'livarde',
+    greement: 'livarde',
+    manoeuvrabilite: 1,
+    restrictionNav: { hauturiere: 'interdit' },
     navigation: {
       vitesse_naive: 3.125,
       pres: 3, largue: 7.5, grand_largue: 6.5, vent_arriere: 3.5,
@@ -487,7 +544,8 @@ const SHIPS_DATA = [
     nom: 'Barque',
     categorieTaille: 3,
     tirantEau: 3,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: 0,
     navigation: {
       vitesse_naive: 3.125,
       pres: 4.5, largue: 7.5, grand_largue: 6.5, vent_arriere: 3.5,
@@ -506,7 +564,8 @@ const SHIPS_DATA = [
     nom: 'Pinque',
     categorieTaille: 3,
     tirantEau: 3,
-    voilure: 'latine',
+    greement: 'latine',
+    manoeuvrabilite: 0,
     navigation: {
       vitesse_naive: 3.125,
       pres: 4.5, largue: 7.5, grand_largue: 6.5, vent_arriere: 3.5,
@@ -525,7 +584,10 @@ const SHIPS_DATA = [
     nom: 'Chébec',
     categorieTaille: 3,
     tirantEau: 3.5,
-    voilure: 'latine',
+    greement: 'latine',
+    manoeuvrabilite: -1,
+    restrictionNav: { hauturiere: -1 },
+    lestInverse: true,
     navigation: {
       vitesse_naive: 5,
       pres: 6.5, largue: 12, grand_largue: 10, vent_arriere: 6.5,
@@ -544,7 +606,9 @@ const SHIPS_DATA = [
     nom: 'Polacre',
     categorieTaille: 3,
     tirantEau: 3.5,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: 0,
+    lestInverse: true,
     navigation: {
       vitesse_naive: 5,
       pres: 6.5, largue: 12, grand_largue: 10, vent_arriere: 6.5,
@@ -563,7 +627,9 @@ const SHIPS_DATA = [
     nom: 'Brick',
     categorieTaille: 3,
     tirantEau: 5,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: 0,
+    restrictionNav: { fluviale: -2 },
     navigation: {
       vitesse_naive: 4.15,
       pres: 3, largue: 11, grand_largue: 12, vent_arriere: 8,
@@ -582,7 +648,9 @@ const SHIPS_DATA = [
     nom: 'Brigantin',
     categorieTaille: 3,
     tirantEau: 3,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: 1,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 4.375,
       pres: 3.5, largue: 10.5, grand_largue: 11.5, vent_arriere: 7.5,
@@ -601,7 +669,9 @@ const SHIPS_DATA = [
     nom: 'Corvette (Sloop of War)',
     categorieTaille: 3,
     tirantEau: 3.5,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -1,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 4.6,
       pres: 2.5, largue: 10, grand_largue: 11, vent_arriere: 8,
@@ -620,7 +690,9 @@ const SHIPS_DATA = [
     nom: 'Flibot (grand)',
     categorieTaille: 3,
     tirantEau: 2,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: 0,
+    restrictionNav: { hauturiere: -1 },
     navigation: {
       vitesse_naive: 3.5,
       pres: 3, largue: 7, grand_largue: 7, vent_arriere: 4.5,
@@ -639,7 +711,9 @@ const SHIPS_DATA = [
     nom: 'Goélette à hunier (schooner)',
     categorieTaille: 3,
     tirantEau: 3.5,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 1,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 5,
       pres: 5, largue: 12, grand_largue: 10.5, vent_arriere: 5.5,
@@ -658,7 +732,8 @@ const SHIPS_DATA = [
     nom: 'Goélette balaou',
     categorieTaille: 3,
     tirantEau: 2.5,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 1,
     navigation: {
       vitesse_naive: 5.625,
       pres: 5.5, largue: 13.5, grand_largue: 12, vent_arriere: 6.5,
@@ -677,7 +752,9 @@ const SHIPS_DATA = [
     nom: 'Goélette de guerre',
     categorieTaille: 3,
     tirantEau: 3.5,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 1,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 5,
       pres: 4, largue: 12, grand_largue: 11, vent_arriere: 6,
@@ -696,7 +773,9 @@ const SHIPS_DATA = [
     nom: 'Goélette franche',
     categorieTaille: 3,
     tirantEau: 3.5,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 2,
+    restrictionNav: { fluviale: -1 },
     navigation: {
       vitesse_naive: 5,
       pres: 5.5, largue: 12, grand_largue: 10, vent_arriere: 5.5,
@@ -715,7 +794,8 @@ const SHIPS_DATA = [
     nom: 'Galiote (petite galère)',
     categorieTaille: 3,
     tirantEau: 3,
-    voilure: 'tierce',
+    greement: 'tierce',
+    manoeuvrabilite: -1,
     navigation: {
       vitesse_naive: 5,
       pres: 1.5, largue: 4, grand_largue: 4, vent_arriere: 2.5,
@@ -734,7 +814,9 @@ const SHIPS_DATA = [
     nom: 'Trois-mâts goélette',
     categorieTaille: 3,
     tirantEau: 5,
-    voilure: 'aurique',
+    greement: 'aurique',
+    manoeuvrabilite: 0,
+    restrictionNav: { fluviale: -2 },
     navigation: {
       vitesse_naive: 4.375,
       pres: 4, largue: 10.5, grand_largue: 9.5, vent_arriere: 5,
@@ -755,7 +837,9 @@ const SHIPS_DATA = [
     nom: 'Flûte',
     categorieTaille: 4,
     tirantEau: 7,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -2,
+    restrictionNav: { fluviale: 'interdit' },
     navigation: {
       vitesse_naive: 3.5,
       pres: 2, largue: 7, grand_largue: 7.5, vent_arriere: 5,
@@ -774,7 +858,9 @@ const SHIPS_DATA = [
     nom: 'Frégate trois-mâts barque',
     categorieTaille: 4,
     tirantEau: 4.5,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: 0,
+    restrictionNav: { fluviale: -2 },
     navigation: {
       vitesse_naive: 4.375,
       pres: 3, largue: 9, grand_largue: 10, vent_arriere: 6.5,
@@ -793,7 +879,9 @@ const SHIPS_DATA = [
     nom: 'Frégate trois-mâts carré',
     categorieTaille: 4,
     tirantEau: 5,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -1,
+    restrictionNav: { fluviale: -3 },
     navigation: {
       vitesse_naive: 4.375,
       pres: 2.5, largue: 9, grand_largue: 10, vent_arriere: 7,
@@ -812,7 +900,9 @@ const SHIPS_DATA = [
     nom: 'Galère royale',
     categorieTaille: 4,
     tirantEau: 4,
-    voilure: 'tierce',
+    greement: 'tierce',
+    manoeuvrabilite: -2,
+    restrictionNav: { fluviale: -2 },
     navigation: {
       vitesse_naive: 5.8,
       pres: 2, largue: 4.5, grand_largue: 4.5, vent_arriere: 3,
@@ -831,7 +921,9 @@ const SHIPS_DATA = [
     nom: 'Marchand',
     categorieTaille: 4,
     tirantEau: 5,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -1,
+    restrictionNav: { fluviale: -2 },
     navigation: {
       vitesse_naive: 3.125,
       pres: 1.5, largue: 6.5, grand_largue: 7.5, vent_arriere: 5,
@@ -850,7 +942,9 @@ const SHIPS_DATA = [
     nom: 'Marchand (négrier)',
     categorieTaille: 4,
     tirantEau: 5,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -1,
+    restrictionNav: { fluviale: -2 },
     navigation: {
       vitesse_naive: 4.375,
       pres: 2.5, largue: 12, grand_largue: 13, vent_arriere: 9,
@@ -871,7 +965,9 @@ const SHIPS_DATA = [
     nom: 'Deux-ponts trois-mâts barque',
     categorieTaille: 5,
     tirantEau: 6.5,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -1,
+    restrictionNav: { fluviale: -3 },
     navigation: {
       vitesse_naive: 3.5,
       pres: 2.5, largue: 7.5, grand_largue: 8.5, vent_arriere: 5,
@@ -890,7 +986,9 @@ const SHIPS_DATA = [
     nom: 'Deux-ponts trois-mâts carré',
     categorieTaille: 5,
     tirantEau: 7,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -2,
+    restrictionNav: { fluviale: 'interdit' },
     navigation: {
       vitesse_naive: 3.5,
       pres: 2, largue: 7.5, grand_largue: 8.5, vent_arriere: 5,
@@ -909,7 +1007,9 @@ const SHIPS_DATA = [
     nom: 'Galéasse',
     categorieTaille: 5,
     tirantEau: 4.5,
-    voilure: 'tierce',
+    greement: 'tierce',
+    manoeuvrabilite: -3,
+    restrictionNav: { fluviale: 'interdit' },
     navigation: {
       vitesse_naive: 4,
       pres: 1, largue: 3.5, grand_largue: 3.5, vent_arriere: 2.5,
@@ -928,7 +1028,9 @@ const SHIPS_DATA = [
     nom: 'Galion',
     categorieTaille: 5,
     tirantEau: 7,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -3,
+    restrictionNav: { fluviale: 'interdit' },
     navigation: {
       vitesse_naive: 2.5,
       pres: 1, largue: 5, grand_largue: 6, vent_arriere: 4,
@@ -947,7 +1049,9 @@ const SHIPS_DATA = [
     nom: 'Marchand (Compagnie des Indes)',
     categorieTaille: 5,
     tirantEau: 7,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -2,
+    restrictionNav: { fluviale: 'interdit' },
     navigation: {
       vitesse_naive: 3.75,
       pres: 2, largue: 9, grand_largue: 10, vent_arriere: 7,
@@ -966,7 +1070,9 @@ const SHIPS_DATA = [
     nom: 'Trois-Ponts',
     categorieTaille: 5,
     tirantEau: 10,
-    voilure: 'carree',
+    greement: 'carree',
+    manoeuvrabilite: -3,
+    restrictionNav: { fluviale: 'interdit' },
     navigation: {
       vitesse_naive: 3,
       pres: 1.5, largue: 6, grand_largue: 6.6, vent_arriere: 4.5,

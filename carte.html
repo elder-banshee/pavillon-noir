@@ -304,7 +304,6 @@
     <div class="nav-modale" id="nav-modale">
       <div class="nav-modale-header">
         <h2 class="nav-modale-titre" id="nav-modale-titre">Planifier un itinéraire</h2>
-        <button class="nav-modale-fermer" id="nav-modale-fermer" aria-label="Fermer">✕</button>
       </div>
       <div class="nav-modale-corps" id="nav-modale-corps">
         <button class="nav-modale-navire" id="nav-modale-navire" type="button" data-navire-bouton>Navire</button>
@@ -346,17 +345,13 @@
     aria-labelledby="navire-modale-titre">
     <div class="navire-modale" id="navire-modale">
       <div class="navire-modale-header">
-        <button class="navire-modale-titre-btn" id="navire-modele-trigger" type="button" aria-expanded="false">
+        <div class="navire-modale-titre-wrap" id="navire-modele-trigger">
           <span class="navire-modale-titre" id="navire-modale-titre">Navire</span>
           <span class="navire-modale-chevron" aria-hidden="true">⌄</span>
-        </button>
-        <button class="navire-modale-fermer" id="navire-modale-fermer" aria-label="Fermer">×</button>
+          <select class="navire-modale-titre-select" id="navire-modele-select" aria-label="Choisir le navire"></select>
+        </div>
       </div>
       <div class="navire-modale-corps">
-        <label class="navire-modale-champ" id="navire-modele-champ">
-          <span>Navire</span>
-          <select id="navire-modele-select"></select>
-        </label>
         <div class="navire-modale-fiche" id="navire-modale-fiche"></div>
       </div>
       <div class="navire-modale-footer">

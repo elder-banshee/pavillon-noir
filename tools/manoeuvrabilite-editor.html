@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Éditeur Manœuvrabilité &amp; Restrictions — Pavillon Noir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+  :root {
+    --ink: #0e0c09; --ink2: #161310;
+    --parchment: #f2e8d5; --parchment2: #e8d9bc;
+    --gold: #c8973a; --gold-light: #e2b96a;
+    --border: rgba(200,151,58,0.28);
+    --text: #d8cbb5; --text-dim: #8a7d68;
+    --bonus: #8fd0a6; --alerte: #f08a78;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--ink); color: var(--text);
+    font-family: 'Crimson Text', Georgia, serif; font-size: 15px;
+    margin: 0; padding: 1.5rem 1.5rem 5rem;
+  }
+  h1 {
+    font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--gold-light);
+    letter-spacing: 0.04em; margin: 0 0 0.3rem;
+  }
+  p.intro { color: var(--text-dim); max-width: 60rem; margin: 0 0 1.2rem; line-height: 1.5; }
+  h2 {
+    font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--gold);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin: 1.8rem 0 0.5rem; padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; }
+  th, td { padding: 0.35rem 0.5rem; text-align: left; border-bottom: 1px solid rgba(200,151,58,0.12); }
+  th { font-family: 'Cinzel', serif; font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; }
+  td.nom { color: var(--parchment); }
+  td.ctx { color: var(--text-dim); font-size: 0.85rem; white-space: nowrap; }
+  input[type=number] {
+    width: 3.2rem; background: var(--ink2); border: 1px solid var(--border);
+    color: var(--gold-light); font-family: 'Crimson Text', serif; font-size: 0.95rem;
+    padding: 0.15rem 0.3rem; text-align: center;
+  }
+  select {
+    background: var(--ink2); border: 1px solid var(--border); color: var(--text);
+    font-family: 'Crimson Text', serif; font-size: 0.85rem; padding: 0.15rem 0.2rem;
+  }
+  select.mod-libre { color: var(--text-dim); }
+  select.mod-malus { color: var(--alerte); }
+  select.mod-interdit { color: var(--alerte); font-weight: 600; }
+  #barre {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;
+    background: rgba(14,12,9,0.97); border-top: 1px solid var(--border);
+    padding: 0.8rem 1.5rem; display: flex; gap: 0.8rem; align-items: center;
+  }
+  button {
+    font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase;
+    background: var(--gold); color: var(--ink); border: 0; padding: 0.5rem 1.1rem; cursor: pointer;
+  }
+  button:hover { background: var(--gold-light); }
+  #statut { color: var(--text-dim); font-size: 0.85rem; }
+  #sortie {
+    width: 100%; height: 10rem; margin-top: 0.6rem; background: var(--ink2);
+    color: var(--bonus); font-family: 'Consolas', monospace; font-size: 0.78rem;
+    border: 1px solid var(--border); padding: 0.6rem; display: none;
+  }
+</style>
+</head>
+<body>
+
+<h1>Manœuvrabilité &amp; Restrictions de zone</h1>
+<p class="intro">
+  Navire des PJ et Poon de Hollande déjà renseignés (exclus de cette liste).
+  Manœuvrabilité pré-remplie à titre indicatif selon la catégorie (Cat 1 = +3 → Cat 5 = -4) —
+  à ajuster librement, ce n'est qu'un point de départ. Restrictions de zone : « Libre » par défaut,
+  ne change que ce qui a réellement une raison de l'être (les zones ne sont pas encore actives
+  dans le Pilote, mais autant préparer les données maintenant).
+</p>
+
+<div id="tables"></div>
+
+<div id="barre">
+  <button id="btn-generer">Générer</button>
+  <span id="statut"></span>
+</div>
+<textarea id="sortie" readonly></textarea>
+
+<script>
+const SHIPS = [{"id":"chaloupe","nom":"Chaloupe","cat":1,"tonnageTotal":2,"equipMin":2,"equipMax":22,"manoeuvrabilite":null,"restrictionNav":null},{"id":"berckois","nom":"Berckois","cat":1,"tonnageTotal":3,"equipMin":2,"equipMax":5,"manoeuvrabilite":null,"restrictionNav":null},{"id":"catalane","nom":"Catalane","cat":1,"tonnageTotal":5,"equipMin":2,"equipMax":9,"manoeuvrabilite":null,"restrictionNav":null},{"id":"petit_prao","nom":"Petit prao","cat":1,"tonnageTotal":1,"equipMin":1,"equipMax":4,"manoeuvrabilite":null,"restrictionNav":null},{"id":"pirogue","nom":"Pirogue","cat":1,"tonnageTotal":4,"equipMin":1,"equipMax":40,"manoeuvrabilite":null,"restrictionNav":null},{"id":"sloop","nom":"Sloop","cat":2,"tonnageTotal":45,"equipMin":6,"equipMax":50,"manoeuvrabilite":null,"restrictionNav":null},{"id":"cotre","nom":"Cotre","cat":2,"tonnageTotal":60,"equipMin":10,"equipMax":60,"manoeuvrabilite":null,"restrictionNav":null},{"id":"cotre_a_tape_cul","nom":"Cotre à tape-cul","cat":2,"tonnageTotal":57,"equipMin":12,"equipMax":60,"manoeuvrabilite":null,"restrictionNav":null},{"id":"dundee","nom":"Dundee","cat":2,"tonnageTotal":55,"equipMin":10,"equipMax":30,"manoeuvrabilite":null,"restrictionNav":null},{"id":"felouque","nom":"Félouque","cat":2,"tonnageTotal":45,"equipMin":11,"equipMax":35,"manoeuvrabilite":null,"restrictionNav":null},{"id":"flibot_petit","nom":"Flibot (petit)","cat":2,"tonnageTotal":80,"equipMin":8,"equipMax":60,"manoeuvrabilite":null,"restrictionNav":null},{"id":"gabare","nom":"Gabare","cat":2,"tonnageTotal":300,"equipMin":10,"equipMax":80,"manoeuvrabilite":null,"restrictionNav":null},{"id":"hourque","nom":"Hourque","cat":2,"tonnageTotal":60,"equipMin":14,"equipMax":30,"manoeuvrabilite":null,"restrictionNav":null},{"id":"prao_caraibe","nom":"Prao caraïbe","cat":2,"tonnageTotal":12,"equipMin":4,"equipMax":40,"manoeuvrabilite":null,"restrictionNav":null},{"id":"tartane","nom":"Tartane","cat":2,"tonnageTotal":110,"equipMin":8,"equipMax":60,"manoeuvrabilite":null,"restrictionNav":null},{"id":"bisquine","nom":"Bisquine","cat":2,"tonnageTotal":30,"equipMin":7,"equipMax":20,"manoeuvrabilite":null,"restrictionNav":null},{"id":"chasse_maree","nom":"Chasse-marée","cat":2,"tonnageTotal":60,"equipMin":9,"equipMax":30,"manoeuvrabilite":null,"restrictionNav":null},{"id":"lougre","nom":"Lougre","cat":2,"tonnageTotal":90,"equipMin":10,"equipMax":50,"manoeuvrabilite":null,"restrictionNav":null},{"id":"barge_chaland","nom":"Barge ou Chaland","cat":3,"tonnageTotal":60,"equipMin":5,"equipMax":30,"manoeuvrabilite":null,"restrictionNav":null},{"id":"barque","nom":"Barque","cat":3,"tonnageTotal":150,"equipMin":20,"equipMax":60,"manoeuvrabilite":null,"restrictionNav":null},{"id":"pinque","nom":"Pinque","cat":3,"tonnageTotal":150,"equipMin":20,"equipMax":60,"manoeuvrabilite":null,"restrictionNav":null},{"id":"chebec","nom":"Chébec","cat":3,"tonnageTotal":300,"equipMin":20,"equipMax":220,"manoeuvrabilite":null,"restrictionNav":null},{"id":"polacre","nom":"Polacre","cat":3,"tonnageTotal":300,"equipMin":20,"equipMax":180,"manoeuvrabilite":null,"restrictionNav":null},{"id":"brick","nom":"Brick","cat":3,"tonnageTotal":200,"equipMin":22,"equipMax":150,"manoeuvrabilite":null,"restrictionNav":null},{"id":"brigantin","nom":"Brigantin","cat":3,"tonnageTotal":120,"equipMin":18,"equipMax":90,"manoeuvrabilite":null,"restrictionNav":null},{"id":"corvette","nom":"Corvette (Sloop of War)","cat":3,"tonnageTotal":375,"equipMin":40,"equipMax":150,"manoeuvrabilite":null,"restrictionNav":null},{"id":"flibot_grand","nom":"Flibot (grand)","cat":3,"tonnageTotal":250,"equipMin":15,"equipMax":120,"manoeuvrabilite":null,"restrictionNav":null},{"id":"goelete_a_hunier","nom":"Goélette à hunier (schooner)","cat":3,"tonnageTotal":125,"equipMin":19,"equipMax":120,"manoeuvrabilite":null,"restrictionNav":null},{"id":"goelete_balaou","nom":"Goélette balaou","cat":3,"tonnageTotal":60,"equipMin":14,"equipMax":50,"manoeuvrabilite":null,"restrictionNav":null},{"id":"goelete_de_guerre","nom":"Goélette de guerre","cat":3,"tonnageTotal":125,"equipMin":22,"equipMax":140,"manoeuvrabilite":null,"restrictionNav":null},{"id":"goelete_franche","nom":"Goélette franche","cat":3,"tonnageTotal":100,"equipMin":12,"equipMax":60,"manoeuvrabilite":null,"restrictionNav":null},{"id":"galiote","nom":"Galiote (petite galère)","cat":3,"tonnageTotal":90,"equipMin":60,"equipMax":150,"manoeuvrabilite":null,"restrictionNav":null},{"id":"trois_mats_goelete","nom":"Trois-mâts goélette","cat":3,"tonnageTotal":250,"equipMin":30,"equipMax":90,"manoeuvrabilite":null,"restrictionNav":null},{"id":"flute","nom":"Flûte","cat":4,"tonnageTotal":1300,"equipMin":25,"equipMax":200,"manoeuvrabilite":null,"restrictionNav":null},{"id":"fregate_trois_mats_barque","nom":"Frégate trois-mâts barque","cat":4,"tonnageTotal":420,"equipMin":50,"equipMax":250,"manoeuvrabilite":null,"restrictionNav":null},{"id":"fregate_trois_mats_carre","nom":"Frégate trois-mâts carré","cat":4,"tonnageTotal":594,"equipMin":60,"equipMax":350,"manoeuvrabilite":null,"restrictionNav":null},{"id":"galere_royale","nom":"Galère royale","cat":4,"tonnageTotal":125,"equipMin":150,"equipMax":260,"manoeuvrabilite":null,"restrictionNav":null},{"id":"marchand","nom":"Marchand","cat":4,"tonnageTotal":200,"equipMin":21,"equipMax":170,"manoeuvrabilite":null,"restrictionNav":null},{"id":"marchand_negrier","nom":"Marchand (négrier)","cat":4,"tonnageTotal":200,"equipMin":21,"equipMax":170,"manoeuvrabilite":null,"restrictionNav":null},{"id":"deux_ponts_trois_mats_barque","nom":"Deux-ponts trois-mâts barque","cat":5,"tonnageTotal":775,"equipMin":75,"equipMax":550,"manoeuvrabilite":null,"restrictionNav":null},{"id":"deux_ponts_trois_mats_carre","nom":"Deux-ponts trois-mâts carré","cat":5,"tonnageTotal":1130,"equipMin":80,"equipMax":650,"manoeuvrabilite":null,"restrictionNav":null},{"id":"galeasse","nom":"Galéasse","cat":5,"tonnageTotal":500,"equipMin":250,"equipMax":600,"manoeuvrabilite":null,"restrictionNav":null},{"id":"galion","nom":"Galion","cat":5,"tonnageTotal":1500,"equipMin":90,"equipMax":700,"manoeuvrabilite":null,"restrictionNav":null},{"id":"marchand_compagnie_indes","nom":"Marchand (Compagnie des Indes)","cat":5,"tonnageTotal":800,"equipMin":21,"equipMax":170,"manoeuvrabilite":null,"restrictionNav":null},{"id":"trois_ponts","nom":"Trois-Ponts","cat":5,"tonnageTotal":1600,"equipMin":100,"equipMax":1200,"manoeuvrabilite":null,"restrictionNav":null}];
+
+const SUGGESTION_PAR_CATEGORIE = { 1: 3, 2: 2, 3: 0, 4: -2, 5: -4 };
+const LABELS_CAT = { 1: 'Catégorie 1 — Chaloupe', 2: 'Catégorie 2 — Sloop', 3: 'Catégorie 3 — Goélette', 4: 'Catégorie 4 — Frégate', 5: 'Catégorie 5 — Vaisseau de ligne' };
+const OPTIONS_ZONE = [
+  { v: '0', label: 'Libre' },
+  { v: '-1', label: 'Malus -1' },
+  { v: '-2', label: 'Malus -2' },
+  { v: '-3', label: 'Malus -3' },
+  { v: 'interdit', label: 'Interdit' },
+];
+
+function classeSelect(v) {
+  if (v === 'interdit') return 'mod-interdit';
+  if (v === '0') return 'mod-libre';
+  return 'mod-malus';
+}
+
+function ligne(s) {
+  const suggestion = SUGGESTION_PAR_CATEGORIE[s.cat] ?? 0;
+  const zones = ['fluviale', 'cotiere', 'hauturiere'];
+  const zoneCells = zones.map(z => {
+    const val = s.restrictionNav && s.restrictionNav[z] !== undefined
+      ? String(s.restrictionNav[z]) : '0';
+    const options = OPTIONS_ZONE.map(o =>
+      `<option value="${o.v}" ${o.v === val ? 'selected' : ''}>${o.label}</option>`
+    ).join('');
+    return `<td><select data-zone="${z}" data-id="${s.id}" class="${classeSelect(val)}"
+      onchange="this.className=classeSelect(this.value)">${options}</select></td>`;
+  }).join('');
+  return `<tr>
+    <td class="nom">${s.nom}</td>
+    <td class="ctx">${s.tonnageTotal ?? '—'} tx</td>
+    <td class="ctx">${s.equipMin ?? '—'}–${s.equipMax ?? '—'} équ.</td>
+    <td><input type="number" data-manoeuvre data-id="${s.id}" value="${suggestion}" step="1"></td>
+    ${zoneCells}
+  </tr>`;
+}
+
+function rendre() {
+  const parCategorie = new Map();
+  SHIPS.forEach(s => {
+    if (!parCategorie.has(s.cat)) parCategorie.set(s.cat, []);
+    parCategorie.get(s.cat).push(s);
+  });
+  const conteneur = document.getElementById('tables');
+  conteneur.innerHTML = [...parCategorie.entries()].sort((a, b) => a[0] - b[0]).map(([cat, navires]) => `
+    <h2>${LABELS_CAT[cat] || 'Catégorie ' + cat}</h2>
+    <table>
+      <thead><tr>
+        <th>Navire</th><th>Tonnage</th><th>Équipage</th><th>Manœuvre</th>
+        <th>Fluviale</th><th>Côtière</th><th>Hauturière</th>
+      </tr></thead>
+      <tbody>${navires.map(ligne).join('')}</tbody>
+    </table>
+  `).join('');
+}
+
+function genererSortie() {
+  const resultat = SHIPS.map(s => {
+    const manoeuvre = document.querySelector(`input[data-manoeuvre][data-id="${s.id}"]`);
+    const restrictionNav = {};
+    ['fluviale', 'cotiere', 'hauturiere'].forEach(z => {
+      const sel = document.querySelector(`select[data-zone="${z}"][data-id="${s.id}"]`);
+      if (sel && sel.value !== '0') {
+        restrictionNav[z] = sel.value === 'interdit' ? 'interdit' : Number(sel.value);
+      }
+    });
+    return {
+      id: s.id,
+      manoeuvrabilite: manoeuvre ? Number(manoeuvre.value) : 0,
+      restrictionNav: Object.keys(restrictionNav).length ? restrictionNav : undefined,
+    };
+  });
+  const zone = document.getElementById('sortie');
+  zone.style.display = 'block';
+  zone.value = JSON.stringify(resultat, null, 2);
+  zone.select();
+  document.getElementById('statut').textContent = `${resultat.length} navires — copie le contenu ci-dessus et colle-le dans le chat.`;
+}
+
+document.getElementById('btn-generer').addEventListener('click', genererSortie);
+rendre();
+</script>
+</body>
+</html>

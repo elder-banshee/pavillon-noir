@@ -591,6 +591,56 @@
     return true;
   }
 
+  // ── Restrictions de navigation par type de zone (fluviale/côtière/hauturière) ──
+  // TODO PN-NAVZONE: classification géographique pas encore construite (chantier
+  // séparé, distinct de SEA_NAV_ZONES/oceanBounds qui servent aux courants OSCAR).
+  // Tant qu'elle n'existe pas, cette fonction renvoie systématiquement null : les
+  // interdictions et malus de restrictionNav restent inertes mais déjà câblés.
+  function typeZoneNavigationEnPoint(point) {
+    return null;
+  }
+
+  const LABELS_ZONE_NAV = { fluviale: 'fluviale', cotiere: 'côtière', hauturiere: 'hauturière' };
+
+  // Valeur de restrictionNav pour une zone donnée : 0/absent = libre, nombre négatif
+  // = malus Manœuvrabilité, 'interdit' = accès refusé. typeZone=null (zone inconnue,
+  // classification pas encore disponible) => toujours considéré libre.
+  function restrictionNavPourZone(navire, typeZone) {
+    if (!typeZone) return 0;
+    const valeur = navire?.restrictionNav?.[typeZone];
+    return valeur === undefined ? 0 : valeur;
+  }
+
+  function segmentRestrictionInterdite(a, b, navire = navireActif()) {
+    if (!navire?.restrictionNav) return false;
+    const px = distance(a, b);
+    const parts = Math.max(1, Math.ceil(px / Math.max(8, CONFIG.grilleApprochePx * 2)));
+    for (let i = 0; i <= parts; i++) {
+      const t = parts ? i / parts : 0;
+      const point = { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
+      const typeZone = typeZoneNavigationEnPoint(point);
+      if (restrictionNavPourZone(navire, typeZone) === 'interdit') return true;
+    }
+    return false;
+  }
+
+  function libelleRestrictionNav(navire) {
+    const restrictions = navire?.restrictionNav;
+    if (restrictions && typeof restrictions === 'object') {
+      const entrees = Object.entries(restrictions).filter(([, v]) => v !== 0 && v !== undefined);
+      if (!entrees.length) return 'Aucune';
+      return entrees.map(([zone, valeur]) => {
+        const label = LABELS_ZONE_NAV[zone] || zone;
+        if (valeur === 'interdit') return `${label} : interdite`;
+        const malus = Number(valeur);
+        return `${label} : malus ${Number.isFinite(malus) ? malus : valeur}`;
+      }).join(' · ');
+    }
+    // Repli sur l'ancien modèle (regionRestriction/malusHauturier) tant que tous
+    // les navires n'ont pas été migrés vers restrictionNav.
+    return navire?.malusHauturier ? 'Malus en haute mer' : 'Aucune';
+  }
+
   function directionVersVecteur(direction, force = 1) {
     const index = DIRECTIONS_COURANT.indexOf(direction);
     if (index < 0) return null;
@@ -877,9 +927,11 @@
   }
 
   function accesPiloteAutomatique() {
-    if (typeof modeMJ !== 'undefined' && modeMJ) return true;
-    const nav = typeof niveauNavigation !== 'undefined' ? Number(niveauNavigation) : 0;
-    return Number.isFinite(nav) && nav > 0;
+    // TODO PN-NAV-OUVERTURE: la navigation sera librement accessible dès Nav 0 une fois
+    // le chantier en cours stabilisé (Manœuvrabilité, toilage, restrictions de zone).
+    // En attendant, restreint au mode MJ pour ne pas exposer une fonctionnalité incomplète
+    // aux joueurs. Repasser à `return true;` quand le chantier sera prêt.
+    return typeof modeMJ !== 'undefined' && !!modeMJ;
   }
 
   function etatNavireActif(navire = navireActif()) {
@@ -904,6 +956,8 @@
       equipage: Number(defaults.equipageActuel) || Number(navire.equipage?.standard) || Number(navire.equipage?.min) || 0,
       tonnageOccupe,
       carenage: normaliserCarenage(defaults.carenage),
+      toilage: normaliserToilage(defaults.toilage),
+      deriveLevee: !!defaults.deriveLevee,
     };
   }
 
@@ -915,6 +969,10 @@
 
   function normaliserCarenage(valeur) {
     return valeur === 'recent' || valeur === 'ancien' ? valeur : 'normal';
+  }
+
+  function normaliserToilage(valeur) {
+    return Object.prototype.hasOwnProperty.call(TOILAGE_OPTIONS, valeur) ? valeur : null;
   }
 
   function limiteTonnageOccupeNavire(navire, niveau = niveauCatalogueNavire()) {
@@ -1010,6 +1068,43 @@
     return `${n}${suffixe}`;
   }
 
+  // tirantEau peut être un nombre simple, ou { standard, deriveLevee } pour les navires
+  // à dérives relevables (ex. Poon de Hollande, Flibot petit) — valeur indicative, non
+  // contrainte par une bathymétrie réelle des zones maritimes pour le moment. Affichage
+  // dynamique : bascule sur deriveLevee quand la case "Dérive relevée" est cochée.
+  function formatTirantEauNavire(navire, deriveLeveeActive = false) {
+    const t = navire?.tirantEau;
+    if (t && typeof t === 'object') {
+      const utiliserAlt = deriveLeveeActive && Number.isFinite(Number(t.deriveLevee));
+      return formatNombreNavire(utiliserAlt ? t.deriveLevee : t.standard, ' m');
+    }
+    return formatNombreNavire(t, ' m');
+  }
+
+  function tirantEauDeriveLevee(navire) {
+    const t = navire?.tirantEau;
+    return t && typeof t === 'object' && Number.isFinite(Number(t.deriveLevee)) ? Number(t.deriveLevee) : null;
+  }
+
+  // Ligne "Tirant d'eau" : marqueur data-navire-tirant-eau seulement pour les navires à
+  // dérive relevable, pour permettre la mise à jour dynamique sans re-rendu complet.
+  function donneeTirantEauNavire(navire, deriveLeveeActive) {
+    const texte = formatTirantEauNavire(navire, deriveLeveeActive);
+    if (tirantEauDeriveLevee(navire) === null) return donneeNavire('Tirant d’eau', texte);
+    return `
+      <div class="navire-modale-donnee">
+        <span class="navire-modale-donnee-label">Tirant d’eau</span>
+        <span class="navire-modale-donnee-valeur" data-navire-tirant-eau>${escapeHtml(texte)}</span>
+      </div>
+    `;
+  }
+
+  function majAffichageTirantEau(navire = navireActif(), etat = etatNavireActif(navire)) {
+    const el = document.querySelector('[data-navire-tirant-eau]');
+    if (!el) return;
+    el.textContent = formatTirantEauNavire(navire, !!etat.deriveLevee);
+  }
+
   function accesChampNavire(champ, niveau = niveauCatalogueNavire()) {
     if (typeof window.canAccessShipField === 'function') return window.canAccessShipField(champ, niveau);
     return niveau >= (champ === 'notes' ? 5 : 0);
@@ -1067,20 +1162,13 @@
 
   function rendreSelectNavire() {
     const select = document.getElementById('navire-modele-select');
-    const champ = document.getElementById('navire-modele-champ');
     const trigger = document.getElementById('navire-modele-trigger');
     if (!select) return;
     const courant = navireActif();
     const niveau = niveauCatalogueNavire();
     const accessible = niveau >= 1;
-    if (champ) {
-      champ.hidden = true;
-      champ.classList.remove('navire-modele-champ--ouvert');
-    }
     if (trigger) {
-      trigger.classList.toggle('navire-modale-titre-btn--selectable', accessible);
-      trigger.setAttribute('aria-expanded', 'false');
-      trigger.setAttribute('aria-disabled', accessible ? 'false' : 'true');
+      trigger.classList.toggle('navire-modale-titre-wrap--selectable', accessible);
       trigger.title = accessible ? 'Changer de navire' : '';
     }
     const pj = typeof window.getShipById === 'function' ? window.getShipById('navire-pj') : null;
@@ -1123,8 +1211,8 @@
     const encombrement = encombrementNavirePct(navire, etat, niveau) ?? 0;
     const equipageAlerte = Number.isFinite(equipage)
       && ((Number.isFinite(min) && equipage < min) || (Number.isFinite(max) && equipage > max));
-    const encombrementBonus = Number.isFinite(encombrement) && encombrement < 25;
-    const encombrementMalus = Number.isFinite(encombrement) && encombrement > 75;
+    const encombrementBonus = encombrementEstBonus(navire, encombrement);
+    const encombrementMalus = encombrementEstMalus(navire, encombrement);
     const encombrementClasse = encombrementMalus ? 'navire-alerte' : (encombrementBonus ? 'navire-bonus' : '');
     const override = categorieOverrideActive(navire);
     const restrictions = Array.isArray(navire.regionRestriction) && navire.regionRestriction.length
@@ -1142,11 +1230,13 @@
     const colonneGauche = [
       sectionEquipageNavire(navire, { niveau, equipage, min, max, equipageAlerte }),
       sectionCarenageNavire(navire, etat, niveau),
-      sectionCaracteristiquesNavire(navire, { niveau, restrictions }),
+      sectionToilageNavire(navire, etat, niveau),
+      sectionCaracteristiquesNavire(navire, { niveau, restrictions, etatDeriveLevee: !!etat.deriveLevee }),
     ].filter(Boolean).join('');
     const colonneDroite = [
       sectionTonnageNavire(navire, { niveau, tonnageTotal, tonnageUtile, tonnageLimite, tonnageOccupe, encombrement, encombrementClasse }),
       sectionVitessesNavire(navire, niveau),
+      sectionManoeuvrabiliteNavire(navire, etat, niveau),
     ].filter(Boolean).join('');
     const basFiche = [
       override ? sectionSimulationNavire() : '',
@@ -1166,9 +1256,12 @@
       const valeur = Number(e.target.value);
       etatNavire.equipage = Number.isFinite(valeur) ? Math.round(valeur) : null;
       majAlerteEquipageNavire(navire, e.target);
+      majAffichageManoeuvrabilite(navire, etatNavire);
     });
     initControleTonnageNavire(navire);
     initControleCarenageNavire();
+    initControleToilageNavire();
+    initControleDeriveLeveeNavire(navire);
     majAffichageVitessesModifiees(navire);
   }
 
@@ -1233,19 +1326,29 @@
 
   function sectionCaracteristiquesNavire(navire, ctx) {
     const lignes = [];
-    if (accesChampNavire('tirantEau', ctx.niveau)) lignes.push(donneeNavire('Tirant d’eau', formatNombreNavire(navire.tirantEau, ' m')));
-    if (accesChampNavire('voilure', ctx.niveau)) lignes.push(donneeNavire('Voilure', navire.voilure || '—'));
+    if (accesChampNavire('tirantEau', ctx.niveau)) lignes.push(donneeTirantEauNavire(navire, ctx.etatDeriveLevee));
+    if (accesChampNavire('greement', ctx.niveau)) lignes.push(donneeNavire('Gréement', navire.greement || '—'));
     if (accesChampNavire('regionRestriction', ctx.niveau)) lignes.push(donneeNavire('Restrictions', ctx.restrictions));
     if (accesChampNavire('malus_navigation', ctx.niveau)) {
-      lignes.push(donneeNavire('Malus hauturier', navire.malusHauturier ? 'Oui' : 'Non'));
+      lignes.push(donneeNavire('Restrictions de zone', libelleRestrictionNav(navire)));
     }
-    if (!lignes.length) return '';
+    if (!lignes.length && !accesChampNavire('tirantEau', ctx.niveau)) return '';
+    const deriveLevee = accesChampNavire('tirantEau', ctx.niveau) && tirantEauDeriveLevee(navire) !== null
+      ? `
+        <label class="navire-modale-donnee navire-modale-donnee--champ navire-derive-option ${ctx.etatDeriveLevee ? 'navire-alerte' : ''}">
+          <span class="navire-modale-donnee-label">Dérive relevée (−1 Manœuvrabilité)</span>
+          <input id="navire-derive-levee" type="checkbox" ${ctx.etatDeriveLevee ? 'checked' : ''}>
+        </label>
+      `
+      : '';
+    if (!lignes.length && !deriveLevee) return '';
     return `
       <section class="navire-modale-section navire-modale-section--caracteristiques">
         <h3>Caractéristiques</h3>
         <div class="navire-modale-grille">
           ${lignes.join('')}
         </div>
+        ${deriveLevee}
       </section>
     `;
   }
@@ -1271,11 +1374,40 @@
     `;
   }
 
+  const TOILAGE_OPTIONS = {
+    tres_sous_toile: { label: 'Très sous-toilé', vitesse: -2, manoeuvre: 2 },
+    sous_toile:      { label: 'Sous-toilé',       vitesse: -1, manoeuvre: 1 },
+    sur_toile:       { label: 'Sur-toilé',        vitesse: 1,  manoeuvre: -2 },
+    tres_sur_toile:  { label: 'Très sur-toilé',   vitesse: 2,  manoeuvre: -4 },
+  };
+
+  function sectionToilageNavire(navire, etat, niveau) {
+    if (!accesChampNavire('toilage', niveau)) return '';
+    const options = Object.entries(TOILAGE_OPTIONS);
+    return `
+      <section class="navire-modale-section navire-modale-section--toilage">
+        ${titreSectionNavire('Voilure')}
+        <div class="navire-toilage-choix navire-carenage-choix navire-modale-grille navire-modale-grille--compacte">
+          ${options.map(([cle, def]) => {
+            const actif = etat.toilage === cle;
+            const classe = actif ? (def.vitesse < 0 ? 'navire-alerte' : 'navire-bonus') : '';
+            return `
+              <label class="navire-modale-donnee navire-modale-donnee--champ navire-toilage-option navire-carenage-option ${classe}">
+                <span class="navire-modale-donnee-label">${escapeHtml(def.label)}</span>
+                <input type="checkbox" data-toilage="${cle}" ${actif ? 'checked' : ''}>
+              </label>
+            `;
+          }).join('')}
+        </div>
+      </section>
+    `;
+  }
+
   function sectionVitessesNavire(navire, niveau) {
     const lignes = [donneeVitesseNavire('Moyenne milles/jour', navire.navigation?.vitesse_naive, true)];
     if (accesChampNavire('vitesses_completes', niveau)) {
       lignes.push(
-        donneeVitesseNavire('Avirons', navire.navigation?.avirons),
+        donneeVitesseNavire('Avirons', navire.navigation?.avirons, false, true),
         donneeVitesseNavire('Près', navire.navigation?.pres),
         donneeVitesseNavire('Largue', navire.navigation?.largue),
         donneeVitesseNavire('Grand largue', navire.navigation?.grand_largue),
@@ -1290,6 +1422,81 @@
         </div>
       </section>
     `;
+  }
+
+  function formatSigneNavire(n) {
+    const v = Number(n);
+    if (!Number.isFinite(v)) return '—';
+    return v > 0 ? `+${v}` : `${v}`;
+  }
+
+  // Pénalité de Manœuvre liée au sous-effectif, par rapport au minimum requis.
+  // -Infinity = navire impossible à manœuvrer (sentinelle, pas un magic number).
+  function malusEquipageManoeuvre(navire, etat) {
+    const min = Number(navire?.equipage?.min);
+    const effectif = Number(etat?.equipage);
+    if (!Number.isFinite(min) || min <= 0 || !Number.isFinite(effectif)) return 0;
+    const pct = (effectif / min) * 100;
+    if (pct >= 100) return 0;
+    if (pct >= 80) return -1;
+    if (pct >= 60) return -2;
+    if (pct >= 50) return -3;
+    return -Infinity;
+  }
+
+  // Score de Manœuvre affiché en fiche : somme des facteurs que le niveau de
+  // Navigation actif permet réellement d'évaluer (même logique que
+  // modificateurVitesseActuelNoeuds — on n'additionne que ce que l'utilisateur voit).
+  function scoreManoeuvrabiliteActuel(navire = navireActif(), etat = etatNavireActif(navire), niveau = niveauCatalogueNavire()) {
+    let score = 0;
+    if (accesChampNavire('manoeuvrabilite', niveau)) {
+      const base = Number(navire.manoeuvrabilite);
+      if (Number.isFinite(base)) score += base;
+    }
+    if (accesChampNavire('equipage_min', niveau)) {
+      const malusEquipage = malusEquipageManoeuvre(navire, etat);
+      if (!Number.isFinite(malusEquipage)) return -Infinity;
+      score += malusEquipage;
+    }
+    if (accesChampNavire('toilage', niveau)) {
+      const toilage = TOILAGE_OPTIONS[etat.toilage];
+      if (toilage) score += toilage.manoeuvre;
+    }
+    if (accesChampNavire('malus_navigation', niveau)) {
+      // typeZoneNavigationEnPoint() renvoie null tant que la classification
+      // géographique fluviale/côtière/hauturière n'existe pas : contribution nulle.
+      const typeZone = typeZoneNavigationEnPoint(null);
+      const valeur = Number(restrictionNavPourZone(navire, typeZone));
+      if (Number.isFinite(valeur)) score += valeur;
+    }
+    if (etat.deriveLevee && tirantEauDeriveLevee(navire) !== null) score -= 1;
+    return score;
+  }
+
+  function sectionManoeuvrabiliteNavire(navire, etat, niveau) {
+    if (!accesChampNavire('manoeuvrabilite', niveau)) return '';
+    const score = scoreManoeuvrabiliteActuel(navire, etat, niveau);
+    const texte = Number.isFinite(score) ? formatSigneNavire(score) : 'Impossible à manœuvrer';
+    const classe = !Number.isFinite(score) || score < 0 ? 'navire-alerte' : (score > 0 ? 'navire-bonus' : '');
+    return `
+      <section class="navire-modale-section navire-modale-section--manoeuvre">
+        <h3>Manœuvrabilité</h3>
+        <div class="navire-modale-donnee-valeur navire-manoeuvre-score ${classe}" data-navire-manoeuvre>${texte}</div>
+      </section>
+    `;
+  }
+
+  // Rafraîchit uniquement la valeur affichée (pas de re-rendu complet de la fiche),
+  // même logique que majAffichageVitessesModifiees.
+  function majAffichageManoeuvrabilite(navire = navireActif(), etat = etatNavireActif(navire)) {
+    const el = document.querySelector('[data-navire-manoeuvre]');
+    if (!el) return;
+    const niveau = niveauCatalogueNavire();
+    const score = scoreManoeuvrabiliteActuel(navire, etat, niveau);
+    const texte = Number.isFinite(score) ? formatSigneNavire(score) : 'Impossible à manœuvrer';
+    el.textContent = texte;
+    el.classList.toggle('navire-alerte', !Number.isFinite(score) || score < 0);
+    el.classList.toggle('navire-bonus', Number.isFinite(score) && score > 0);
   }
 
   function sectionSimulationNavire() {
@@ -1342,7 +1549,7 @@
         if (Number.isFinite(tonnage)) {
           etatNavire.tonnageOccupe = Math.round(tonnage * 10) / 10;
           if (Number(e.target.value) !== etatNavire.tonnageOccupe) input.value = String(etatNavire.tonnageOccupe);
-          majStyleEncombrement(input, encombrementNavirePct(navire));
+          majStyleEncombrement(input, navire, encombrementNavirePct(navire));
           majAffichageVitessesModifiees(navire, etatNavire);
           invaliderCacheHautsFonds();
         }
@@ -1356,7 +1563,7 @@
       etatNavire.tonnageOccupe = occupe;
       if (source !== 'input' || Number(tonnage) !== occupe) input.value = String(occupe);
       if (source !== 'slider') slider.value = String(Math.max(0, Math.min(100, pct)));
-      majStyleEncombrement(input, pct);
+      majStyleEncombrement(input, navire, pct);
       majAffichageVitessesModifiees(navire, etatNavire);
       if (source !== 'init') invaliderCacheHautsFonds();
     }
@@ -1421,11 +1628,60 @@
     invaliderCacheHautsFonds();
   }
 
-  function majStyleEncombrement(input, pct) {
-    const bonus = Number.isFinite(pct) && pct < 25;
-    const malus = Number.isFinite(pct) && pct > 75;
-    input?.classList.toggle('navire-bonus', bonus);
-    input?.classList.toggle('navire-alerte', malus);
+  // Toilage : 4 cases mutuellement exclusives (aucune cochée = configuration standard).
+  function appliquerToilageDepuisControle(target) {
+    if (!target || !target.dataset || !('toilage' in target.dataset)) return;
+    const navire = navireActif();
+    const etat = etatNavireActif(navire);
+    const cases = document.querySelectorAll('[data-toilage]');
+    if (!cases.length) return;
+    etat.toilage = target.checked ? normaliserToilage(target.dataset.toilage) : null;
+    cases.forEach(input => {
+      const actif = input.dataset.toilage === etat.toilage;
+      input.checked = actif;
+      const def = TOILAGE_OPTIONS[input.dataset.toilage];
+      const option = input.closest('.navire-toilage-option');
+      option?.classList.toggle('navire-bonus', actif && def && def.vitesse >= 0);
+      option?.classList.toggle('navire-alerte', actif && def && def.vitesse < 0);
+    });
+    majAffichageVitessesModifiees(navire, etat);
+    majAffichageManoeuvrabilite(navire, etat);
+    invaliderCacheHautsFonds();
+  }
+
+  function initControleToilageNavire() {
+    const cases = document.querySelectorAll('[data-toilage]');
+    if (!cases.length) return;
+    cases.forEach(input => {
+      input.addEventListener('click', () => setTimeout(() => appliquerToilageDepuisControle(input), 0));
+      input.addEventListener('input', () => appliquerToilageDepuisControle(input));
+      input.addEventListener('change', () => appliquerToilageDepuisControle(input));
+    });
+  }
+
+  // Dérive relevée : n'existe que pour les navires à double dérive (ex. Poon de Hollande).
+  function appliquerDeriveLeveeDepuisControle(target) {
+    if (!target || target.id !== 'navire-derive-levee') return;
+    const navire = navireActif();
+    const etat = etatNavireActif(navire);
+    etat.deriveLevee = !!target.checked;
+    target.closest('.navire-derive-option')?.classList.toggle('navire-alerte', etat.deriveLevee);
+    majAffichageManoeuvrabilite(navire, etat);
+    majAffichageTirantEau(navire, etat);
+    invaliderCacheHautsFonds();
+  }
+
+  function initControleDeriveLeveeNavire() {
+    const input = document.getElementById('navire-derive-levee');
+    if (!input) return;
+    input.addEventListener('click', () => setTimeout(() => appliquerDeriveLeveeDepuisControle(input), 0));
+    input.addEventListener('input', () => appliquerDeriveLeveeDepuisControle(input));
+    input.addEventListener('change', () => appliquerDeriveLeveeDepuisControle(input));
+  }
+
+  function majStyleEncombrement(input, navire, pct) {
+    input?.classList.toggle('navire-bonus', encombrementEstBonus(navire, pct));
+    input?.classList.toggle('navire-alerte', encombrementEstMalus(navire, pct));
   }
 
   function vitesseModifieeAffichee(base, journalier = false, modificateur = modificateurVitesseActuelNoeuds()) {
@@ -1439,26 +1695,44 @@
     return { texte: `${Math.round(vitesse * 10) / 10} nd`, classe };
   }
 
-  function modificateurVitesseActuelNoeuds(navire = navireActif(), etat = etatNavireActif(navire)) {
+  // Chébec/Tartane : le lest inverse la règle d'encombrement (voir lestInverse).
+  function encombrementEstBonus(navire, pct) {
+    if (!Number.isFinite(pct)) return false;
+    return navire?.lestInverse ? pct > 75 : pct < 25;
+  }
+
+  function encombrementEstMalus(navire, pct) {
+    if (!Number.isFinite(pct)) return false;
+    return navire?.lestInverse ? pct < 25 : pct > 75;
+  }
+
+  function modificateurVitesseActuelNoeuds(navire = navireActif(), etat = etatNavireActif(navire), { inclureToilage = true } = {}) {
     let mod = 0;
     if (modificateurActif(2)) {
       const pct = encombrementNavirePct(navire, etat);
-      if (Number.isFinite(pct) && pct < 25) mod += 1;
-      else if (Number.isFinite(pct) && pct > 75) mod -= 1;
+      if (encombrementEstBonus(navire, pct)) mod += 1;
+      else if (encombrementEstMalus(navire, pct)) mod -= 1;
     }
     if (modificateurActif(3) && carenageApplicableNavire(navire)) {
       if (etat.carenage === 'recent') mod += 1;
       else if (etat.carenage === 'ancien') mod -= 1;
     }
+    // Le toilage (surface de voile) est sans effet sous avirons : exclu via inclureToilage.
+    if (inclureToilage && accesChampNavire('toilage', niveauCatalogueNavire())) {
+      const toilage = TOILAGE_OPTIONS[etat.toilage];
+      if (toilage) mod += toilage.vitesse;
+    }
     return mod;
   }
 
   function majAffichageVitessesModifiees(navire = navireActif(), etat = etatNavireActif(navire)) {
-    const modificateur = modificateurVitesseActuelNoeuds(navire, etat);
+    const modificateurStandard = modificateurVitesseActuelNoeuds(navire, etat);
+    const modificateurAvirons = modificateurVitesseActuelNoeuds(navire, etat, { inclureToilage: false });
     document.querySelectorAll('[data-navire-vitesse-base]').forEach(el => {
       const base = Number(el.dataset.navireVitesseBase);
       const journalier = el.dataset.navireVitesseJour === '1';
-      const rendu = vitesseModifieeAffichee(base, journalier, modificateur);
+      const avirons = el.dataset.navireVitesseAvirons === '1';
+      const rendu = vitesseModifieeAffichee(base, journalier, avirons ? modificateurAvirons : modificateurStandard);
       el.textContent = rendu.texte;
       el.classList.toggle('navire-bonus', rendu.classe === 'navire-bonus');
       el.classList.toggle('navire-alerte', rendu.classe === 'navire-alerte');
@@ -1493,10 +1767,11 @@
     `;
   }
 
-  function donneeVitesseNavire(label, valeur, journalier = false) {
+  function donneeVitesseNavire(label, valeur, journalier = false, avirons = false) {
     const base = Number(valeur);
     if (!Number.isFinite(base) || base <= 0) return donneeNavire(label, '—');
-    const rendu = vitesseModifieeAffichee(base, journalier);
+    const modificateur = modificateurVitesseActuelNoeuds(navireActif(), etatNavireActif(navireActif()), { inclureToilage: !avirons });
+    const rendu = vitesseModifieeAffichee(base, journalier, modificateur);
     const classes = [
       'navire-modale-donnee-valeur',
       'navire-vitesse-modifiable',
@@ -1505,7 +1780,7 @@
     return `
       <div class="navire-modale-donnee">
         <span class="navire-modale-donnee-label">${escapeHtml(label)}</span>
-        <span class="${classes}" data-navire-vitesse-base="${escapeHtml(base)}" data-navire-vitesse-jour="${journalier ? '1' : '0'}">${escapeHtml(rendu.texte)}</span>
+        <span class="${classes}" data-navire-vitesse-base="${escapeHtml(base)}" data-navire-vitesse-jour="${journalier ? '1' : '0'}" data-navire-vitesse-avirons="${avirons ? '1' : '0'}">${escapeHtml(rendu.texte)}</span>
       </div>
     `;
   }
@@ -1535,40 +1810,15 @@
     rendreFicheNavire();
     overlay.removeAttribute('aria-hidden');
     overlay.classList.add('navire-modale-overlay--visible');
-    setTimeout(() => document.getElementById('navire-modele-trigger')?.focus(), 60);
+    setTimeout(() => document.getElementById('navire-modele-select')?.focus(), 60);
   }
 
   function fermerModaleNavire() {
     const overlay = document.getElementById('navire-modale-overlay');
     if (!overlay) return;
-    fermerSelectNavire();
     overlay.setAttribute('aria-hidden', 'true');
     overlay.classList.remove('navire-modale-overlay--visible');
     majBoutonsNavire();
-  }
-
-  function ouvrirSelectNavire() {
-    const champ = document.getElementById('navire-modele-champ');
-    const select = document.getElementById('navire-modele-select');
-    const trigger = document.getElementById('navire-modele-trigger');
-    const modale = document.getElementById('navire-modale');
-    if (!champ || !select || select.disabled || trigger?.getAttribute('aria-disabled') === 'true') return;
-    const ouvrir = champ.hidden;
-    champ.hidden = !ouvrir;
-    champ.classList.toggle('navire-modele-champ--ouvert', ouvrir);
-    trigger?.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
-    modale?.classList.toggle('navire-modale--select-ouvert', ouvrir);
-    if (ouvrir) setTimeout(() => select.focus(), 20);
-  }
-
-  function fermerSelectNavire() {
-    const champ = document.getElementById('navire-modele-champ');
-    const trigger = document.getElementById('navire-modele-trigger');
-    if (!champ) return;
-    champ.hidden = true;
-    champ.classList.remove('navire-modele-champ--ouvert');
-    trigger?.setAttribute('aria-expanded', 'false');
-    document.getElementById('navire-modale')?.classList.remove('navire-modale--select-ouvert');
   }
 
   function fermerSurClicExterieurStrict(overlay, fermer) {
@@ -1600,22 +1850,33 @@
     const overlay = document.getElementById('navire-modale-overlay');
     if (!overlay) return;
 
-    document.getElementById('navire-modale-fermer')?.addEventListener('click', fermerModaleNavire);
     document.getElementById('navire-modale-ok')?.addEventListener('click', fermerModaleNavire);
     document.getElementById('navire-modale-reset')?.addEventListener('click', reinitialiserNavireActif);
-    document.getElementById('navire-modele-trigger')?.addEventListener('click', ouvrirSelectNavire);
     document.getElementById('navire-modele-select')?.addEventListener('change', e => {
       definirNavireActif(e.target.value);
       rendreSelectNavire();
       rendreFicheNavire();
-      fermerSelectNavire();
     });
-    overlay.addEventListener('input', e => appliquerCarenageDepuisControle(e.target));
-    overlay.addEventListener('change', e => appliquerCarenageDepuisControle(e.target));
+    overlay.addEventListener('input', e => {
+      appliquerCarenageDepuisControle(e.target);
+      appliquerToilageDepuisControle(e.target);
+      appliquerDeriveLeveeDepuisControle(e.target);
+    });
+    overlay.addEventListener('change', e => {
+      appliquerCarenageDepuisControle(e.target);
+      appliquerToilageDepuisControle(e.target);
+      appliquerDeriveLeveeDepuisControle(e.target);
+    });
     overlay.addEventListener('click', e => {
       const target = e.target;
       if (target?.id === 'navire-carenage-recent' || target?.id === 'navire-carenage-ancien') {
         setTimeout(() => appliquerCarenageDepuisControle(target), 0);
+      }
+      if (target?.dataset && 'toilage' in target.dataset) {
+        setTimeout(() => appliquerToilageDepuisControle(target), 0);
+      }
+      if (target?.id === 'navire-derive-levee') {
+        setTimeout(() => appliquerDeriveLeveeDepuisControle(target), 0);
       }
     });
     fermerSurClicExterieurStrict(overlay, fermerModaleNavire);
@@ -1648,6 +1909,9 @@
       return memoriserNavigabilite(cacheKey, false);
     }
     if (segmentTraverseHautFond(a, b)) {
+      return memoriserNavigabilite(cacheKey, false);
+    }
+    if (segmentRestrictionInterdite(a, b)) {
       return memoriserNavigabilite(cacheKey, false);
     }
     const terres = getTerresSegment(a, b, marge);
@@ -3544,12 +3808,41 @@
     );
   }
 
+  // Badge de niveau de Navigation actif, affiché en permanence dans la modale
+  // "options avancées" (nav-modale) — seul endroit où le tracé de route est
+  // effectivement lancé. Rappelé depuis carte.js à chaque changement de niveau.
+  // Le X de fermeture ayant été retiré du header, le badge occupe naturellement
+  // sa place à droite (flex space-between sur .nav-modale-header, 2 enfants).
+  function majBadgeNiveauNavModale() {
+    const titre = document.getElementById('nav-modale-titre');
+    if (!titre) return;
+    let badge = document.getElementById('nav-modale-niveau-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.id = 'nav-modale-niveau-badge';
+      badge.style.cssText = `
+        display:inline-flex; align-items:center; flex:0 0 auto;
+        font-family:'Cinzel',serif; font-size:0.72rem; font-weight:600;
+        letter-spacing:0.06em; text-transform:uppercase;
+        color:var(--ink); background:var(--gold);
+        padding:0.3rem 0.7rem; border-radius:3px;
+        box-shadow:0 1px 4px rgba(0,0,0,0.35);
+      `;
+      titre.insertAdjacentElement('afterend', badge);
+    }
+    const niveau = typeof niveauNavigation !== 'undefined' ? Number(niveauNavigation) : 0;
+    badge.textContent = `Navigation ${Number.isFinite(niveau) ? niveau : 0}`;
+  }
+  window.majBadgeNiveauNavModale = majBadgeNiveauNavModale;
+  window.addEventListener('navigation-level-change', majBadgeNiveauNavModale);
+
   function ouvrirModale() {
     const overlay = document.getElementById('nav-modale-overlay');
     const panneau = document.getElementById('nav-jaillot');
     if (!overlay) return;
 
     initControleNiveauNav();
+    majBadgeNiveauNavModale();
 
     const depuisFormulaire = lireFormulairePrincipal();
     const panneauA = depuisFormulaire[0] || etapeVide();
@@ -3682,7 +3975,6 @@
     const overlay = document.getElementById('nav-modale-overlay');
     if (!overlay) return;
 
-    document.getElementById('nav-modale-fermer')?.addEventListener('click', () => fermerModale(false, false));
     document.getElementById('nav-modale-annuler')?.addEventListener('click', () => fermerModale(false, true));
     document.getElementById('nav-modale-tracer')?.addEventListener('click', () => fermerModale(true, false));
     document.getElementById('nav-modale-navire')?.addEventListener('click', () => ouvrirModaleNavire());
