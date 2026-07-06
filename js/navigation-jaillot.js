@@ -17,6 +17,7 @@
     rayonCotePx: 90,
     rayonRouteRegionalePx: 700,
     tailleCelluleIndexPx: 256,
+    superficieMinPolygoneCotePx2: 297, // Redondo, leeward-islands contour 5/9.
     categorieMaxHautsFonds: 3,
     diagonales: true,
     limiteIterations: 45000,
@@ -1951,6 +1952,18 @@
     return null;
   }
 
+  function airePolygonePx2(points) {
+    let area = 0;
+    for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+      area += points[j].x * points[i].y - points[i].x * points[j].y;
+    }
+    return Math.abs(area) / 2;
+  }
+
+  function polygoneCompteCommeCote(poly) {
+    return Number(poly?.areaPx2) >= CONFIG.superficieMinPolygoneCotePx2;
+  }
+
   function getTerres() {
     if (terresCache) return terresCache;
     // TODO PN-SEA-EXPLICIT: quand SEA_NAV_ZONES_EXPLICITES sera le seul mode,
@@ -1966,6 +1979,7 @@
       const ys = pts.map(p => p.y);
       return {
         points: pts,
+        areaPx2: airePolygonePx2(pts),
         bbox: {
           minX: Math.min(...xs) - CONFIG.margeCotePx,
           maxX: Math.max(...xs) + CONFIG.margeCotePx,
@@ -2134,6 +2148,7 @@
     let meilleure = Infinity;
     const terres = getTerresSegment(a, b, CONFIG.rayonCotePx);
     for (const poly of terres) {
+      if (!polygoneCompteCommeCote(poly)) continue;
       if (!bboxCroise(a, b, poly.bbox, CONFIG.rayonCotePx)) continue;
       for (let i = 0; i < poly.points.length; i++) {
         const c = poly.points[i];
@@ -2156,6 +2171,7 @@
     let meilleure = Infinity;
     const terres = getTerresSegment(point, point, rayon);
     for (const poly of terres) {
+      if (!polygoneCompteCommeCote(poly)) continue;
       if (!bboxCroise(point, point, poly.bbox, rayon)) continue;
       if (pointDansPolygone(point, poly)) {
         distanceCoteCache.set(cacheKey, 0);
@@ -2179,14 +2195,35 @@
     return distanceCotePoint(point) * millesNautiquesParPx();
   }
 
+  function distanceCotePointPrecise(point) {
+    const cacheKey = ['P', 'precise', coordCle(point.x), coordCle(point.y)].join('|');
+    if (distanceCoteCache.has(cacheKey)) return distanceCoteCache.get(cacheKey);
+    let meilleure = Infinity;
+    for (const poly of getTerres()) {
+      if (!polygoneCompteCommeCote(poly)) continue;
+      if (pointDansPolygone(point, poly)) {
+        distanceCoteCache.set(cacheKey, 0);
+        return 0;
+      }
+      for (let i = 0; i < poly.points.length; i++) {
+        const c = poly.points[i];
+        const d = poly.points[(i + 1) % poly.points.length];
+        meilleure = Math.min(meilleure, distPointSegment(point, c, d));
+      }
+    }
+    distanceCoteCache.set(cacheKey, meilleure);
+    return meilleure;
+  }
+
+  function distanceCotePointPreciseNm(point) {
+    return distanceCotePointPrecise(point) * millesNautiquesParPx();
+  }
+
   function attenuationCourantCote(point) {
-    // TODO PN-SEA-EXPLICIT: l'attenuation automatique des courants est obsolete.
-    // Elle reste exposee pour le diagnostic Semaphore tant que les anciens ecrans
-    // l'affichent; les vitesses doivent venir des zones maritimes explicites.
-    const distanceNmCote = distanceCotePointNm(point);
-    if (!Number.isFinite(distanceNmCote)) return 1;
-    if (distanceNmCote <= 0) return 0;
-    return Math.min(1, distanceNmCote / CONFIG.rayonAttenuationCourantNm);
+    // Le champ OSCAR est un champ physique autonome : la proximite des cotes
+    // ne doit plus attenuer les courants. Les anciens courants restent un
+    // fallback de donnees, pas une couche de correction du nouveau champ.
+    return 1;
   }
 
   function getGrille() {
@@ -4050,7 +4087,8 @@
       courant: courantEnPoint(p),
       vent: ventEnPoint(p),
       hautsFonds,
-      distanceCoteNm: distanceCotePointNm(p),
+      distanceCoteNm: distanceCotePointPreciseNm(p),
+      attenuationCourantCote: attenuationCourantCote(p),
       navigablePoint: segmentNavigable(p, p),
     };
   }
@@ -4077,6 +4115,7 @@
     tempsSegmentHeures,
     millesNautiquesParPx,
     distanceCotePointNm,
+    distanceCotePointPreciseNm,
     attenuationCourantCote,
     afficherResultatOutils,
     masquerResultatOutils,
