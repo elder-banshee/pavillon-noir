@@ -1615,6 +1615,7 @@
   <script src="../js/sea-data.js"></script>
   <script src="../js/ships-data.js"></script>
   <script src="../js/recherche-commune.js"></script>
+  <script src="../js/oscar-hex-grid.js"></script>
   <script src="../js/oscar-grid.js"></script>
   <script src="../js/navigation-jaillot.js"></script>
 
@@ -2225,18 +2226,74 @@
     }
 
     function getOscarGrid() {
+      if (typeof OSCAR_HEX_GRID !== 'undefined' && OSCAR_HEX_GRID?.cells) return OSCAR_HEX_GRID;
+      if (window.OSCAR_HEX_GRID?.cells) return window.OSCAR_HEX_GRID;
       if (typeof OSCAR_GRID !== 'undefined' && OSCAR_GRID?.cells) return OSCAR_GRID;
       if (window.OSCAR_GRID?.cells) return window.OSCAR_GRID;
       return null;
     }
 
+    function oscarHexCenter(q, r, grid) {
+      const width = Number(grid.widthPx);
+      const radius = Number(grid.radiusPx);
+      const spacingY = Number(grid.centerSpacingPx?.y);
+      if (!Number.isFinite(width) || !Number.isFinite(radius) || !Number.isFinite(spacingY)) return null;
+      const offset = (r & 1) ? width / 2 : 0;
+      return {
+        x: width / 2 + offset + q * width,
+        y: radius + r * spacingY,
+      };
+    }
+
+    function oscarHexKeyFromPoint(point, grid) {
+      const width = Number(grid.widthPx);
+      const radius = Number(grid.radiusPx);
+      const spacingY = Number(grid.centerSpacingPx?.y);
+      if (!Number.isFinite(width) || !Number.isFinite(radius) || !Number.isFinite(spacingY)) return null;
+      const approxR = Math.round((point.y - radius) / spacingY);
+      let best = null;
+      for (let dr = -2; dr <= 2; dr += 1) {
+        const r = approxR + dr;
+        if (r < 0) continue;
+        const offset = (r & 1) ? width / 2 : 0;
+        const approxQ = Math.round((point.x - width / 2 - offset) / width);
+        for (let dq = -2; dq <= 2; dq += 1) {
+          const q = approxQ + dq;
+          if (q < 0) continue;
+          const candidateKey = `${r}_${q}`;
+          if (!grid.cells[candidateKey]) continue;
+          const center = oscarHexCenter(q, r, grid);
+          if (!center) continue;
+          const distancePx = Math.hypot(point.x - center.x, point.y - center.y);
+          if (!best || distancePx < best.distancePx) best = { key: candidateKey, distancePx };
+        }
+      }
+      return best?.key || null;
+    }
+
     function oscarCellKeyFromSeaKey(key) {
       if (!key) return null;
       const [col, row] = key.split(',').map(Number);
-      return Number.isFinite(col) && Number.isFinite(row) ? `${col}_${row}` : null;
+      if (!Number.isFinite(col) || !Number.isFinite(row)) return null;
+      const grid = getOscarGrid();
+      if (grid?.topology === 'hex') {
+        return oscarHexKeyFromPoint({
+          x: col * SEA_CELL_SIZE + SEA_CELL_SIZE / 2,
+          y: row * SEA_CELL_SIZE + SEA_CELL_SIZE / 2,
+        }, grid);
+      }
+      return `${col}_${row}`;
     }
 
-    function oscarCellCenterFromKey(key) {
+    function oscarCellCenterFromKey(key, cell = null) {
+      const grid = getOscarGrid();
+      if (grid?.topology === 'hex') {
+        const x = Number(cell?.x);
+        const y = Number(cell?.y);
+        if (Number.isFinite(x) && Number.isFinite(y)) return { x, y };
+        const [r, q] = key.split('_').map(Number);
+        return oscarHexCenter(q, r, grid) || { x: 0, y: 0 };
+      }
       const [col, row] = key.split('_').map(Number);
       const cellPx = Number(getOscarGrid()?.cellSizePx) || SEA_CELL_SIZE;
       return {
@@ -2245,14 +2302,28 @@
       };
     }
 
-    function oscarCellBoundsFromKey(key) {
+    function oscarCellLatLngsFromKey(key, cell = null) {
+      const grid = getOscarGrid();
+      if (grid?.topology === 'hex') {
+        const center = oscarCellCenterFromKey(key, cell);
+        const radius = Number(grid.radiusPx) || SEA_CELL_SIZE / 2;
+        return Array.from({ length: 6 }, (_, i) => {
+          const angle = (-90 + i * 60) * Math.PI / 180;
+          return pxToLatLng(center.x + Math.cos(angle) * radius, center.y + Math.sin(angle) * radius);
+        });
+      }
       const [col, row] = key.split('_').map(Number);
       const cellPx = Number(getOscarGrid()?.cellSizePx) || SEA_CELL_SIZE;
       const x1 = col * cellPx;
       const y1 = row * cellPx;
       const x2 = Math.min(IMG_W, x1 + cellPx);
       const y2 = Math.min(IMG_H, y1 + cellPx);
-      return L.latLngBounds(pxToLatLng(x1, y2), pxToLatLng(x2, y1));
+      return [
+        pxToLatLng(x1, y1),
+        pxToLatLng(x2, y1),
+        pxToLatLng(x2, y2),
+        pxToLatLng(x1, y2),
+      ];
     }
 
     function oscarCellSpeed(cell) {
@@ -2338,9 +2409,9 @@
       let arrowsDrawn = 0;
       const arrowLimit = 900;
       entries.forEach(([key, cell]) => {
-        L.rectangle(oscarCellBoundsFromKey(key), oscarCellStyle(cell)).addTo(oscarGridLayer);
+        L.polygon(oscarCellLatLngsFromKey(key, cell), oscarCellStyle(cell)).addTo(oscarGridLayer);
         if (showArrows && arrowsDrawn < arrowLimit) {
-          const center = oscarCellCenterFromKey(key);
+          const center = oscarCellCenterFromKey(key, cell);
           const latLng = pxToLatLng(center.x, center.y);
           if (!visibleBounds.contains(latLng)) return;
           const icon = L.divIcon({
@@ -2379,7 +2450,8 @@
       const domainLabel = oscarGridDomainFilter
         ? (OSCAR_GRID_DOMAIN_LABELS[oscarGridDomainFilter] || oscarGridDomainFilter)
         : 'tous domaines';
-      el.innerHTML = `<span>OSCAR :</span> ${entries.length} cellules - ${escapeHtmlText(domainLabel)} - max ${max.toFixed(2)} nd`;
+      const topology = grid.topology === 'hex' ? 'hex' : 'carrée';
+      el.innerHTML = `<span>OSCAR :</span> ${entries.length} cellules ${topology} - ${escapeHtmlText(domainLabel)} - max ${max.toFixed(2)} nd`;
     }
 
     function formatOscarCellForPanel(seaKey) {
@@ -2391,11 +2463,12 @@
       const domain = OSCAR_GRID_DOMAIN_LABELS[cell.domain] || cell.domain || 'domaine n/a';
       const max = Number.isFinite(Number(cell.maxSpeedKnot)) ? Number(cell.maxSpeedKnot).toFixed(2) : 'n/a';
       const sources = Number.isFinite(Number(cell.sources)) ? Number(cell.sources) : 'n/a';
+      const sourceCells = Number.isFinite(Number(cell.sourceCells)) ? ` - cases source ${Number(cell.sourceCells)}` : '';
       return [
         `<span>Cellule OSCAR :</span> ${escapeHtmlText(oscarKey)} - ${escapeHtmlText(domain)}`,
         `<span>Vitesse :</span> ${speed.toFixed(2)} nd (${(speed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h)`,
         `<span>Vecteur :</span> x ${formatMaybeNumber(cell.xKnot, 3, ' nd')} - y ${formatMaybeNumber(cell.yKnot, 3, ' nd')}`,
-        `<span>Direction :</span> ${formatMaybeNumber(cell.dirToDeg, 1, '°')} - max ${escapeHtmlText(max)} nd - sources ${escapeHtmlText(sources)}`,
+        `<span>Direction :</span> ${formatMaybeNumber(cell.dirToDeg, 1, '°')} - max ${escapeHtmlText(max)} nd - sources ${escapeHtmlText(sources)}${escapeHtmlText(sourceCells)}`,
       ].join('<br>');
     }
 

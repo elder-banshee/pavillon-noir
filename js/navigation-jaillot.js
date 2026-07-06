@@ -68,13 +68,54 @@
   }
 
   function sourceOscarGrid() {
+    if (typeof OSCAR_HEX_GRID !== 'undefined' && OSCAR_HEX_GRID?.cells) return OSCAR_HEX_GRID;
+    if (typeof window !== 'undefined' && window.OSCAR_HEX_GRID?.cells) return window.OSCAR_HEX_GRID;
     if (typeof OSCAR_GRID !== 'undefined' && OSCAR_GRID?.cells) return OSCAR_GRID;
     if (typeof window !== 'undefined' && window.OSCAR_GRID?.cells) return window.OSCAR_GRID;
     return null;
   }
 
+  function oscarHexCenter(q, r, grid) {
+    const width = Number(grid.widthPx);
+    const radius = Number(grid.radiusPx);
+    const spacingY = Number(grid.centerSpacingPx?.y);
+    if (!Number.isFinite(width) || !Number.isFinite(radius) || !Number.isFinite(spacingY)) return null;
+    const offset = (r & 1) ? width / 2 : 0;
+    return {
+      x: width / 2 + offset + q * width,
+      y: radius + r * spacingY,
+    };
+  }
+
+  function oscarHexCellKey(point, grid) {
+    const width = Number(grid.widthPx);
+    const radius = Number(grid.radiusPx);
+    const spacingY = Number(grid.centerSpacingPx?.y);
+    if (!Number.isFinite(width) || !Number.isFinite(radius) || !Number.isFinite(spacingY)) return null;
+    const approxR = Math.round((point.y - radius) / spacingY);
+    let best = null;
+    for (let dr = -2; dr <= 2; dr += 1) {
+      const r = approxR + dr;
+      if (r < 0) continue;
+      const offset = (r & 1) ? width / 2 : 0;
+      const approxQ = Math.round((point.x - width / 2 - offset) / width);
+      for (let dq = -2; dq <= 2; dq += 1) {
+        const q = approxQ + dq;
+        if (q < 0) continue;
+        const key = `${r}_${q}`;
+        if (!grid.cells[key]) continue;
+        const center = oscarHexCenter(q, r, grid);
+        if (!center) continue;
+        const distanceCentre = distance(point, center);
+        if (!best || distanceCentre < best.distanceCentre) best = { key, distanceCentre };
+      }
+    }
+    return best?.key || null;
+  }
+
   function oscarCellKey(point) {
     const grid = sourceOscarGrid();
+    if (grid?.topology === 'hex') return oscarHexCellKey(point, grid);
     const cellPx = Number(grid?.cellSizePx) || CONFIG.grillePx;
     return `${Math.floor(point.x / cellPx)}_${Math.floor(point.y / cellPx)}`;
   }
@@ -859,7 +900,7 @@
       return null;
     }
     const cellKey = oscarCellKey(point);
-    const cell = grid.cells[cellKey];
+    const cell = cellKey ? grid.cells[cellKey] : null;
     if (!cell) {
       courantPointCache.set(cacheKey, null);
       return null;
