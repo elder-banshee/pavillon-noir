@@ -779,35 +779,6 @@
       color: var(--text-dim);
     }
 
-    #btn-reset-sea-cell {
-      width: 100%;
-      margin-top: 10px;
-      padding: 6px;
-      background: transparent;
-      border: 1px solid rgba(180, 60, 60, 0.35);
-      color: rgba(220, 100, 100, 0.7);
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-    }
-
-    #btn-reset-sea-cell:hover:not(:disabled) {
-      background: rgba(180, 60, 60, 0.12);
-      color: #f08080;
-    }
-
-    #btn-reset-sea-cell:disabled {
-      opacity: 0.3;
-      cursor: default;
-    }
-
-    #sea-tool-options {
-      display: none;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
     .sea-field {
       display: flex;
       align-items: center;
@@ -827,139 +798,6 @@
       padding: 5px 7px;
       font-family: 'Cinzel', serif;
       font-size: 0.72rem;
-    }
-
-    .sea-size-buttons {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 4px;
-    }
-
-    .sea-size-buttons button {
-      height: 28px;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      font-family: 'Cinzel', serif;
-      font-size: 0.62rem;
-      cursor: pointer;
-    }
-
-    .sea-size-buttons button.active,
-    .sea-size-buttons button:hover {
-      background: var(--gold-dim);
-      border-color: var(--border-hover);
-      color: var(--gold-light);
-    }
-
-    .compass-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 46px);
-      gap: 4px;
-      justify-content: center;
-      margin-top: 8px;
-    }
-
-    .compass-grid button {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      font-family: 'Cinzel', serif;
-      font-size: 0.66rem;
-      cursor: pointer;
-    }
-
-    .compass-grid button.active,
-    .compass-grid button:hover {
-      color: var(--gold-light);
-      background: var(--gold-dim);
-      border-color: var(--border-hover);
-    }
-
-    .compass-grid .compass-center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold);
-      font-size: 1.1rem;
-    }
-
-    #btn-apply-sea-selection {
-      width: 100%;
-      margin-top: 12px;
-      padding: 8px;
-      background: rgba(80, 180, 120, 0.12);
-      border: 1px solid rgba(80, 180, 120, 0.4);
-      color: #7de0a0;
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-    }
-
-    #btn-apply-sea-selection:hover:not(:disabled) {
-      background: rgba(80, 180, 120, 0.22);
-    }
-
-    #btn-apply-sea-selection:disabled {
-      opacity: 0.35;
-      cursor: default;
-    }
-
-    .sea-pattern-controls {
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border);
-    }
-
-    .sea-segmented {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
-      margin-bottom: 8px;
-    }
-
-    .sea-segmented.two {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .sea-segmented button {
-      min-height: 28px;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      font-family: 'Cinzel', serif;
-      font-size: 0.62rem;
-      cursor: pointer;
-    }
-
-    .sea-segmented button.active,
-    .sea-segmented button:hover {
-      background: var(--gold-dim);
-      border-color: var(--border-hover);
-      color: var(--gold-light);
-    }
-
-    #btn-apply-sea-pattern {
-      width: 100%;
-      margin-top: 8px;
-      padding: 8px;
-      background: rgba(70, 170, 210, 0.12);
-      border: 1px solid rgba(70, 170, 210, 0.4);
-      color: #8fd8f2;
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-    }
-
-    #btn-apply-sea-pattern:hover:not(:disabled) {
-      background: rgba(70, 170, 210, 0.22);
-    }
-
-    #btn-apply-sea-pattern:disabled {
-      opacity: 0.35;
-      cursor: default;
     }
 
     /* ─── Panneau export ─────────────────────────────────────── */
@@ -1429,8 +1267,9 @@
       </div>
 
       <!-- Section : case sélectionnée -->
+      <!-- SÉMAPHORE : moniteur de navigation uniquement (pas d'édition). -->
       <div class="panel-section" id="section-sea">
-        <div class="panel-title">Case sélectionnée</div>
+        <div class="panel-title">Point inspecté</div>
         <label class="sea-field" id="semaphore-nav-level-field">
           <span>Niveau Nav</span>
           <select id="semaphore-nav-level">
@@ -1442,10 +1281,39 @@
             <option value="5">5</option>
           </select>
         </label>
-        <div id="sea-cell-id" class="empty-msg">Cliquez sur une case</div>
-        <div id="sea-current" class="sea-prop"><span>Courant :</span> non défini</div>
+        <div id="sea-cell-id" class="empty-msg">Cliquez sur la carte</div>
         <div id="sea-wind" class="sea-prop"><span>Hauts-fonds :</span> non défini</div>
-        <div id="sea-debug" class="sea-prop"><span>Calculateur :</span> cliquez sur une case</div>
+        <div id="sea-debug" class="sea-prop"><span>Calculateur :</span> cliquez sur la carte</div>
+      </div>
+
+      <!-- Section : contrôles tracé (visible en mode draw) -->
+      <div id="draw-controls" style="display:none">
+        <div class="panel-title">Nouveau contour</div>
+        <div id="draw-pt-count">0 point(s)</div>
+        <div id="draw-hint">Clic gauche pour poser des points.<br>Clic droit ou bouton ci-dessous pour fermer le
+          contour.</div>
+        <button id="btn-finish-draw">✦ Terminer le contour</button>
+        <button id="btn-cancel-draw">✕ Annuler</button>
+      </div>
+
+      <!-- Section : Infos — Terres (démographie par juridiction) -->
+      <div id="section-infos-terres" style="display:none">
+        <div class="panel-title">Juridiction sélectionnée</div>
+        <div id="infos-terres-empty" class="empty-msg">Cliquez sur un territoire sur la carte</div>
+        <div id="infos-terres-detail"
+          style="display:none; margin-top:8px; padding:8px; background:rgba(200,151,58,0.08); border:1px solid var(--border); border-radius:2px;">
+          <div id="infos-terres-label"
+            style="color:var(--gold-light); font-family:Cinzel,serif; font-size:0.8rem; margin-bottom:8px;"></div>
+          <div id="infos-terres-fields" style="display:flex; flex-direction:column; gap:6px;"></div>
+          <div id="infos-terres-computed"
+            style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text-dim);">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section : Infos — Mers (contrôle OSCAR + métadonnées courants) -->
+      <div id="section-infos-mers" style="display:none">
+        <div class="panel-title">Grille OSCAR</div>
         <div class="oscar-controls">
           <label>
             <span>Grille OSCAR</span>
@@ -1464,83 +1332,8 @@
           <div id="oscar-grid-summary" class="sea-prop"><span>OSCAR :</span> grille indisponible</div>
         </div>
         <div id="sea-oscar" class="sea-prop"><span>Cellule OSCAR :</span> non sélectionnée</div>
-        <button id="btn-reset-sea-cell" disabled>Réinitialiser la case</button>
-      </div>
 
-      <!-- Section : contrôles tracé (visible en mode draw) -->
-      <div id="draw-controls" style="display:none">
-        <div class="panel-title">Nouveau contour</div>
-        <div id="draw-pt-count">0 point(s)</div>
-        <div id="draw-hint">Clic gauche pour poser des points.<br>Clic droit ou bouton ci-dessous pour fermer le
-          contour.</div>
-        <button id="btn-finish-draw">✦ Terminer le contour</button>
-        <button id="btn-cancel-draw">✕ Annuler</button>
-      </div>
-
-      <!-- Section : réglages Sea Editor -->
-      <div id="sea-tool-options">
-        <div class="panel-title" id="sea-tool-title">Sélection</div>
-        <label class="sea-field" id="sea-speed-field">
-          <span>Vitesse (km/h)</span>
-          <input id="sea-speed" type="number" min="0" step="0.1" value="2">
-        </label>
-        <div class="panel-title" id="sea-direction-title">Direction</div>
-        <div class="compass-grid" id="sea-compass">
-          <button type="button" data-dir="N">N</button>
-          <button type="button" data-dir="NNE">NNE</button>
-          <button type="button" data-dir="NE">NE</button>
-          <button type="button" data-dir="ENE">ENE</button>
-          <button type="button" data-dir="E" class="active">E</button>
-          <button type="button" data-dir="ESE">ESE</button>
-          <button type="button" data-dir="SE">SE</button>
-          <button type="button" data-dir="SSE">SSE</button>
-          <button type="button" data-dir="S">S</button>
-          <button type="button" data-dir="SSW">SSW</button>
-          <button type="button" data-dir="SW">SW</button>
-          <button type="button" data-dir="WSW">WSW</button>
-          <button type="button" data-dir="W">W</button>
-          <button type="button" data-dir="WNW">WNW</button>
-          <button type="button" data-dir="NW">NW</button>
-          <button type="button" data-dir="NNW">NNW</button>
-        </div>
-        <button id="btn-apply-sea-selection" type="button" disabled>Appliquer à la sélection</button>
-        <div class="sea-pattern-controls">
-          <div class="panel-title">Motif de rotation</div>
-          <div class="sea-segmented" id="sea-pattern-type">
-            <button type="button" data-pattern="quarter" class="active">Quart</button>
-            <button type="button" data-pattern="half">Demi</button>
-            <button type="button" data-pattern="full">Cercle</button>
-          </div>
-          <div class="sea-segmented two" id="sea-pattern-turn">
-            <button type="button" data-turn="clockwise" class="active">Horaire</button>
-            <button type="button" data-turn="counterclockwise">Anti-horaire</button>
-          </div>
-          <label class="sea-field">
-            <span>Depart</span>
-            <select id="sea-pattern-start"></select>
-          </label>
-          <button id="btn-apply-sea-pattern" type="button" disabled>Appliquer le motif</button>
-        </div>
-      </div>
-
-      <!-- Section : Infos — Terres (démographie par juridiction) -->
-      <div id="section-infos-terres" style="display:none">
-        <div class="panel-title">Juridiction sélectionnée</div>
-        <div id="infos-terres-empty" class="empty-msg">Cliquez sur un territoire sur la carte</div>
-        <div id="infos-terres-detail"
-          style="display:none; margin-top:8px; padding:8px; background:rgba(200,151,58,0.08); border:1px solid var(--border); border-radius:2px;">
-          <div id="infos-terres-label"
-            style="color:var(--gold-light); font-family:Cinzel,serif; font-size:0.8rem; margin-bottom:8px;"></div>
-          <div id="infos-terres-fields" style="display:flex; flex-direction:column; gap:6px;"></div>
-          <div id="infos-terres-computed"
-            style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text-dim);">
-          </div>
-        </div>
-      </div>
-
-      <!-- Section : Infos — Mers (métadonnées courants) -->
-      <div id="section-infos-mers" style="display:none">
-        <div class="panel-title">Courants maritimes</div>
+        <div class="panel-title" style="margin-top:14px;">Hauts-fonds</div>
         <div id="currents-list" style="display:none"></div>
         <!-- Panneau courant sélectionné -->
         <div id="current-detail"
@@ -1551,25 +1344,6 @@
             style="display:none; font-size:0.75rem; color:var(--text-dim); margin-bottom:8px;"></div>
           <div id="current-meta-fields" style="display:flex; flex-direction:column; gap:6px; margin-bottom:8px;"></div>
           <div id="current-speed-fields" style="display:flex; flex-direction:column; gap:6px; margin-bottom:8px;"></div>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            <button id="btn-current-reverse" type="button" class="tool-btn"
-              style="font-size:0.75rem; padding:4px 8px; flex:1;">
-              ⇄ Inverser
-            </button>
-            <button id="btn-current-delete" type="button" class="tool-btn"
-              style="font-size:0.75rem; padding:4px 8px; flex:1; color:#c44;">
-              ✕ Supprimer
-            </button>
-          </div>
-        </div>
-        <!-- Import géométrique -->
-        <div style="margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">
-          <button id="btn-import-sea-geometry" type="button" class="tool-btn"
-            style="width:100%; font-size:0.78rem; padding:5px; margin-bottom:6px;">
-            Charger un export géométrique
-          </button>
-          <input id="input-import-sea-geometry" type="file"
-            accept=".js,.txt,application/javascript,text/javascript,text/plain" style="display:none">
         </div>
       </div>
 
@@ -1612,7 +1386,6 @@
 -->
   <script src="../js/carte-data.js"></script>
   <script src="../js/zones-data.js"></script>
-  <script src="../js/sea-data.js"></script>
   <script src="../js/ships-data.js"></script>
   <script src="../js/recherche-commune.js"></script>
   <script src="../js/oscar-hex-grid.js"></script>
@@ -1628,31 +1401,14 @@
     const IMG_W = CARTE_IMAGE.width;   // 8500
     const IMG_H = CARTE_IMAGE.height;  // 5320
     const IMG_SRC = '../' + CARTE_IMAGE.src; // chemin relatif depuis tools/
+    const OCEAN_MASK_SRC = 'assets/oceanbounds-mask.svg';
     const SEA_CELL_SIZE = 50;
-    const SEA_DIRECTIONS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-    const SEA_LOCATION_ANGLES = {
-      N: 0, NNE: 22.5, NE: 45, ENE: 67.5,
-      E: 90, ESE: 112.5, SE: 135, SSE: 157.5,
-      S: 180, SSW: 202.5, SW: 225, WSW: 247.5,
-      W: 270, WNW: 292.5, NW: 315, NNW: 337.5,
-    };
-    const SEA_DIRECTION_ANGLES = {
-      N: 180, NNE: 202.5, NE: 225, ENE: 247.5,
-      E: 270, ESE: 292.5, SE: 315, SSE: 337.5,
-      S: 0, SSW: 22.5, SW: 45, WSW: 67.5,
-      W: 90, WNW: 112.5, NW: 135, NNW: 157.5,
-    };
-    const DEFAULT_SEA_SPEED = 2;
     const ZONE_TOOLS = [
       { id: 'select', label: 'Sélection', icon: '◈', title: 'Sélectionner une zone / déplacer un point' },
       { id: 'draw', label: 'Nouveau contour', icon: '✦', title: 'Tracer un nouveau contour' },
       { id: 'insert', label: 'Insérer point', icon: '⊕', title: 'Insérer un point sur un segment existant' },
       { id: 'erase', label: 'Supprimer point', icon: '⊗', title: 'Supprimer un point en cliquant dessus' },
       { id: 'split', label: 'Scinder', icon: '⌥', title: 'Scinder un contour en deux (1 point commun ou 2 points de coupe)' },
-    ];
-    const SEA_TOOLS = [
-      { id: 'current', label: 'Courant', icon: '≈', title: 'Afficher et régler le courant' },
-      { id: 'wind', label: 'Vent', icon: '↗', title: 'Afficher et régler le vent' },
     ];
     const OSCAR_GRID_DOMAIN_LABELS = {
       atlantic: 'Atlantique',
@@ -1729,8 +1485,7 @@
       EDITOR: 256,
       TOOLS: 512,
       UNDO: 1024,
-      SEA_CELLS: 2048,
-      SEA_TOOLS: 4096,
+      OSCAR_SELECTION: 2048,
       OSCAR_GRID: 8192,
     };
 
@@ -1739,6 +1494,7 @@
       else if (ctx.isGeoMers) updateGeoMersPanel();
       else if (ctx.isInfosTerres) updateInfosTerresDetail();
       else if (ctx.isSea) updateSeaPanel();
+      if (ctx.isInfosMers) updateInfosMersOscarPanel();
     }
 
     function refreshHandles() {
@@ -1753,15 +1509,17 @@
         if (zoneId) renderZone(zoneId);
       }
       if (flags & R.CURRENTS) renderCurrentsLayer();
-      if (flags & R.SEA_CELLS) renderSeaCells();
-      if (flags & R.SEA_TOOLS) renderSeaToolOptions();
+      if (flags & R.OSCAR_SELECTION) renderSeaCells();
       if (flags & R.OSCAR_GRID) renderOscarGridLayer();
       if (flags & R.HANDLES) refreshHandles();
       if (flags & R.SEGMENTS) renderSegmentMarkers();
       if (flags & R.TOOLS) renderToolButtons();
       if (flags & R.EDITOR) updateEditorUI();
       if (flags & R.PANEL) refreshPanel();
-      if (flags & R.SEA_PANEL) updateSeaPanel();
+      if (flags & R.SEA_PANEL) {
+        if (ctx.isSea) updateSeaPanel();
+        if (ctx.isInfosMers) updateInfosMersOscarPanel();
+      }
       if (flags & R.EXPORT) updateExport();
       if (flags & R.UNDO) updateUndoButton();
     }
@@ -1776,14 +1534,6 @@
 
     function refreshAfterModeChange() {
       refresh(R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.OSCAR_GRID | R.EXPORT);
-    }
-
-    function refreshAfterSeaCellSelection() {
-      refresh(R.SEA_CELLS | R.SEA_PANEL | R.SEA_TOOLS);
-    }
-
-    function refreshAfterSeaCellEdit() {
-      refresh(R.SEA_CELLS | R.SEA_PANEL | R.SEA_TOOLS | R.EXPORT);
     }
 
     function setSeaEntitySelection(type, id) {
@@ -1836,8 +1586,6 @@
 
     // sea-data.js — partagé entre Géo-Mers et Infos-Mers
     let seaWorkingCopy = {
-      currentGeom: null,  // clone de SEA_CURRENT_GEOMETRY
-      currentMeta: null,  // clone de SEA_CURRENT_META
       shoalGeom: null,  // clone de SEA_SHOAL_GEOMETRY
       shoalMeta: null,  // clone de SEA_SHOAL_META
     };
@@ -1852,29 +1600,20 @@
     let segmentMarkers = []; // milieux de segments (mode insert)
     let drawLayer = null; // L.Polyline preview du tracé en cours
     let drawMarkers = [];   // marqueurs des points posés
-    let seaGridLayer = null;
+    let oceanMaskLayer = null;
     let seaCellLayer = null;
     let seaLabelLayer = null;
     let seaCellLayers = {};
     let oscarGridLayer = null;
     let oscarArrowLayer = null;
-    let currentLayer = null;      // L.LayerGroup pour les rubans de courant
-    let currentArrowLayer = null; // L.LayerGroup pour les flèches directionnelles
-
-    const DEFAULT_CURRENT_SPEED_SEGMENTS = {
-      guyanes_gulf_stream_r1: [
-        { label: 'Gulf Stream', from: 0, to: 39, speedKmh: 9 },
-        { label: 'Courant de Floride', from: 40, to: 67, speedKmh: 6.5, attenuationMinCote: 0.6 },
-        { label: 'Courant des Caraïbes', from: 68, to: 161, speedKmh: 3 },
-        { label: 'Courant des Guyanes', from: 162, to: 184, speedKmh: 2.5 },
-      ],
-    };
+    let currentLayer = null;      // L.LayerGroup pour les hauts-fonds
+    let currentArrowLayer = null;
 
     // Sélection
     let selectedZoneId = null;
     let selectedContourIdx = 0;  // index dans zonesEdit[selectedZoneId]
-    let selectedSeaCellKey = null;
-    let selectedSeaCellKeys = new Set();
+    let selectedSeaCellKey = null; // clé de cellule OSCAR inspectée (Sémaphore / Infos-Mers)
+    let selectedSemaphorePoint = null; // point pixel [x,y] exact du dernier clic Sémaphore
 
     // Glisser-déposer d'un point
     let draggingHandle = null; // { zoneId, contourIdx, ptIdx, marker }
@@ -1882,22 +1621,11 @@
 
     // Tracé en cours
     let drawPoints = []; // [[x,y], ...]
-    let seaCells = {};
     let semaphoreNavLevel = Number.isFinite(Number(window.niveauNavigation)) ? Number(window.niveauNavigation) : 0;
     window.niveauNavigation = semaphoreNavLevel;
     let oscarGridVisible = true;
     let oscarGridArrowsVisible = true;
     let oscarGridDomainFilter = '';
-    let seaToolSettings = {
-      current: { direction: 'E', speed: DEFAULT_SEA_SPEED },
-      wind: { direction: 'E', speed: DEFAULT_SEA_SPEED },
-    };
-    let seaPatternSettings = {
-      type: 'quarter',
-      turn: 'clockwise',
-      start: 'N',
-    };
-    let seaSelectionSize = 1;
 
     // ═══════════════════════════════════════════════════════════
     // UTILITAIRES — coordonnées
@@ -1936,14 +1664,11 @@
         label,
         zonesEdit: cloneJSON(zonesEdit),
         zonesMeta: cloneJSON(zonesMeta),
-        seaCells: cloneJSON(seaCells),
         currentsWorkingCopy: currentsWorkingCopy ? cloneJSON(currentsWorkingCopy) : null,
         currentAxesWorkingCopy: currentAxesWorkingCopy ? cloneJSON(currentAxesWorkingCopy) : null,
         shoalsWorkingCopy: shoalsWorkingCopy ? cloneJSON(shoalsWorkingCopy) : null,
         selectedZoneId,
         selectedContourIdx,
-        selectedSeaCellKey,
-        selectedSeaCellKeys: [...selectedSeaCellKeys],
         selectedCurrentId,
         selectedShoalId,
         activeEditor,
@@ -1958,14 +1683,11 @@
       if (!snapshot) return;
       zonesEdit = snapshot.zonesEdit;
       zonesMeta = snapshot.zonesMeta;
-      seaCells = snapshot.seaCells;
       currentsWorkingCopy = snapshot.currentsWorkingCopy;
       currentAxesWorkingCopy = snapshot.currentAxesWorkingCopy;
       shoalsWorkingCopy = snapshot.shoalsWorkingCopy;
       selectedZoneId = snapshot.selectedZoneId;
       selectedContourIdx = snapshot.selectedContourIdx;
-      selectedSeaCellKey = snapshot.selectedSeaCellKey;
-      selectedSeaCellKeys = new Set(snapshot.selectedSeaCellKeys || []);
       selectedCurrentId = snapshot.selectedCurrentId || null;
       selectedShoalId = snapshot.selectedShoalId || null;
       activeEditor = snapshot.activeEditor;
@@ -2070,7 +1792,6 @@
     }
 
     function updateContextControlsVisibility() {
-      document.getElementById('sea-tool-options').style.display = 'none';
       document.getElementById('btn-undo').style.display = ctx.isSea ? 'none' : '';
       document.getElementById('tb-coords').style.display = ctx.isSea ? 'none' : '';
 
@@ -2080,22 +1801,24 @@
     }
 
     function updateMapModeLayers() {
+      if (ctx.isSea || ctx.isInfosMers) renderOceanMaskLayer();
+      else clearOceanMaskLayer();
+
       renderAllZones();
 
-      if (ctx.isSea) {
+      // La grille OSCAR (et le contour de sélection) est désormais pilotée
+      // depuis Infos — Mers autant que Sémaphore.
+      if (ctx.isSea || ctx.isInfosMers) {
         if (seaCellLayer && !map.hasLayer(seaCellLayer)) seaCellLayer.addTo(map);
-        if (seaLabelLayer && !map.hasLayer(seaLabelLayer)) seaLabelLayer.addTo(map);
-        renderSeaGrid();
         renderOscarGridLayer();
         renderSeaCells();
       } else {
-        clearSeaGrid();
         clearOscarGridLayer();
         if (seaCellLayer && map.hasLayer(seaCellLayer)) map.removeLayer(seaCellLayer);
-        if (seaLabelLayer && map.hasLayer(seaLabelLayer)) map.removeLayer(seaLabelLayer);
         selectedSeaCellKey = null;
-        selectedSeaCellKeys.clear();
+        selectedSemaphorePoint = null;
       }
+      if (seaLabelLayer && map.hasLayer(seaLabelLayer)) map.removeLayer(seaLabelLayer);
 
       if (ctx.isInfosMers || ctx.isGeoMers || ctx.isSea) {
         refresh(R.CURRENTS);
@@ -2105,6 +1828,8 @@
         clearGeoMersHandles();
         clearCurrentsLayer();
       }
+
+      if (ctx.isInfosMers) updateInfosMersOscarPanel();
     }
 
     function updateMapToolClass() {
@@ -2122,28 +1847,6 @@
       }
     }
 
-    function renderSeaToolOptions() {
-      const settings = seaToolSettings[currentTool] || seaToolSettings.current;
-      document.getElementById('sea-tool-title').textContent = currentTool === 'wind' ? 'Vent' : 'Courant';
-      document.getElementById('sea-speed-field').style.display = 'flex';
-      document.getElementById('sea-direction-title').style.display = 'block';
-      document.getElementById('sea-compass').style.display = 'grid';
-      document.getElementById('sea-speed').value = settings.speed;
-      document.querySelectorAll('#sea-compass [data-dir]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.dir === settings.direction);
-      });
-      const applyBtn = document.getElementById('btn-apply-sea-selection');
-      if (applyBtn) applyBtn.disabled = selectedSeaCellKeys.size === 0;
-      const patternBtn = document.getElementById('btn-apply-sea-pattern');
-      if (patternBtn) patternBtn.disabled = selectedSeaCellKeys.size === 0;
-    }
-
-    function seaCellFromPx(pt) {
-      const col = Math.floor(Math.max(0, Math.min(IMG_W - 1, pt[0])) / SEA_CELL_SIZE);
-      const row = Math.floor(Math.max(0, Math.min(IMG_H - 1, pt[1])) / SEA_CELL_SIZE);
-      return { col, row, key: `${col},${row}` };
-    }
-
     function isPxInsideImage(pt) {
       return pt[0] >= 0 && pt[0] < IMG_W && pt[1] >= 0 && pt[1] < IMG_H;
     }
@@ -2156,33 +1859,6 @@
       return L.latLngBounds(pxToLatLng(x1, y2), pxToLatLng(x2, y1));
     }
 
-    function seaCellCenter(col, row) {
-      const x = Math.min(IMG_W, col * SEA_CELL_SIZE + SEA_CELL_SIZE / 2);
-      const y = Math.min(IMG_H, row * SEA_CELL_SIZE + SEA_CELL_SIZE / 2);
-      return pxToLatLng(x, y);
-    }
-
-    function seaCellKeysForBrush(centerKey) {
-      if (ctx.isSea) return [centerKey];
-      const [col, row] = centerKey.split(',').map(Number);
-      const keys = [];
-      for (let dx = 0; dx < seaSelectionSize; dx++) {
-        for (let dy = 0; dy < seaSelectionSize; dy++) {
-          const c = col + dx;
-          const r = row + dy;
-          if (c < 0 || r < 0 || c * SEA_CELL_SIZE >= IMG_W || r * SEA_CELL_SIZE >= IMG_H) continue;
-          keys.push(`${c},${r}`);
-        }
-      }
-      return keys;
-    }
-
-    function currentSeaPropertyKey() {
-      if (currentTool === 'current') return 'current';
-      if (currentTool === 'wind') return 'wind';
-      return null;
-    }
-
     function seaCellScreenSize() {
       if (!map) return SEA_CELL_SIZE;
       const a = map.latLngToContainerPoint(pxToLatLng(0, 0));
@@ -2191,7 +1867,7 @@
     }
 
     function seaCellStyle(key) {
-      const selected = selectedSeaCellKeys.has(key) || key === selectedSeaCellKey;
+      const selected = key === selectedSeaCellKey;
       return {
         pane: 'seaCellPane',
         color: selected ? 'rgba(80,200,120,0.95)' : 'rgba(70,170,210,0.65)',
@@ -2202,27 +1878,19 @@
       };
     }
 
-    function renderSeaGrid() {
-      if (seaGridLayer) return;
-      seaGridLayer = L.layerGroup([], { pane: 'seaGridPane' }).addTo(map);
-      for (let x = 0; x <= IMG_W; x += SEA_CELL_SIZE) {
-        L.polyline([pxToLatLng(x, 0), pxToLatLng(x, IMG_H)], {
-          pane: 'seaGridPane', className: 'sea-grid-line',
-          color: 'rgba(70,170,210,0.24)', weight: 1, interactive: false,
-        }).addTo(seaGridLayer);
-      }
-      for (let y = 0; y <= IMG_H; y += SEA_CELL_SIZE) {
-        L.polyline([pxToLatLng(0, y), pxToLatLng(IMG_W, y)], {
-          pane: 'seaGridPane', className: 'sea-grid-line',
-          color: 'rgba(70,170,210,0.24)', weight: 1, interactive: false,
-        }).addTo(seaGridLayer);
-      }
+    function renderOceanMaskLayer() {
+      if (oceanMaskLayer) return;
+      const bounds = L.latLngBounds(pxToLatLng(0, IMG_H), pxToLatLng(IMG_W, 0));
+      oceanMaskLayer = L.imageOverlay(OCEAN_MASK_SRC, bounds, {
+        opacity: 1,
+        interactive: false,
+      }).addTo(map);
     }
 
-    function clearSeaGrid() {
-      if (!seaGridLayer) return;
-      map.removeLayer(seaGridLayer);
-      seaGridLayer = null;
+    function clearOceanMaskLayer() {
+      if (!oceanMaskLayer) return;
+      map.removeLayer(oceanMaskLayer);
+      oceanMaskLayer = null;
     }
 
     function getOscarGrid() {
@@ -2269,6 +1937,20 @@
         }
       }
       return best?.key || null;
+    }
+
+    // Résout directement un point pixel vers une clé de cellule OSCAR (hex ou
+    // carrée), sans passer par l'ancienne grille SEA_CELL. Utilisée par le
+    // clic carte en Sémaphore et en Infos — Mers.
+    function oscarKeyFromPoint(point) {
+      const grid = getOscarGrid();
+      if (!grid) return null;
+      if (grid.topology === 'hex') return oscarHexKeyFromPoint(point, grid);
+      const cellPx = Number(grid.cellSizePx) || SEA_CELL_SIZE;
+      const col = Math.floor(point.x / cellPx);
+      const row = Math.floor(point.y / cellPx);
+      const key = `${col}_${row}`;
+      return grid.cells[key] ? key : null;
     }
 
     function oscarCellKeyFromSeaKey(key) {
@@ -2396,7 +2078,7 @@
 
     function renderOscarGridLayer() {
       clearOscarGridLayer();
-      if (!map || !ctx.isSea || !oscarGridVisible) return;
+      if (!map || !(ctx.isSea || ctx.isInfosMers) || !oscarGridVisible) return;
       const entries = filteredOscarEntries();
       if (!entries.length) return;
       oscarGridLayer = L.layerGroup([], { pane: 'oscarGridPane' }).addTo(map);
@@ -2456,7 +2138,7 @@
 
     function formatOscarCellForPanel(seaKey) {
       const grid = getOscarGrid();
-      const oscarKey = oscarCellKeyFromSeaKey(seaKey);
+      const oscarKey = seaKey;
       const cell = oscarKey ? grid?.cells?.[oscarKey] : null;
       if (!cell) return '<span>Cellule OSCAR :</span> aucune';
       const speed = oscarCellSpeed(cell);
@@ -2476,7 +2158,8 @@
     // COURANTS MARITIMES — édition en mémoire
     // ═══════════════════════════════════════════════════════════
 
-    // Copie de travail en mémoire (modifiable sans toucher SEA_CURRENTS original)
+    // Copie de travail en mémoire. Les courants SVG legacy ont été retirés :
+    // seuls les hauts-fonds de SEA_SHOALS restent éditables ici.
     let currentsWorkingCopy = null;
     let currentAxesWorkingCopy = null;
     let shoalsWorkingCopy = null;
@@ -2504,25 +2187,29 @@
     const SEA_KNOTS_TO_KMH_EDITOR = 1.852;
 
     function getWorkingCurrents() {
-      if (!currentsWorkingCopy) {
-        const src = (typeof SEA_NAV_ZONES !== 'undefined') ? SEA_NAV_ZONES : [];
-        currentsWorkingCopy = src.map(c => JSON.parse(JSON.stringify(c)));
-      }
+      if (!currentsWorkingCopy) currentsWorkingCopy = [];
       return currentsWorkingCopy;
     }
 
     function getWorkingCurrentAxes() {
-      if (!currentAxesWorkingCopy) {
-        const src = (typeof SEA_CURRENTS !== 'undefined') ? SEA_CURRENTS : [];
-        currentAxesWorkingCopy = src.map(c => JSON.parse(JSON.stringify(c)));
-      }
+      if (!currentAxesWorkingCopy) currentAxesWorkingCopy = [];
       return currentAxesWorkingCopy;
     }
 
     function getWorkingShoals() {
       if (!shoalsWorkingCopy) {
-        const src = (typeof SEA_SHOALS !== 'undefined') ? SEA_SHOALS : [];
-        shoalsWorkingCopy = src.map(s => JSON.parse(JSON.stringify(s)));
+        // Reconstruit depuis ZONES_DATA + ZONES_SHOAL (migration sea-data.js → zones-data.js).
+        // ZONES_DATA stocke les polygones comme [[...pts...], [...pts...]] — format directement
+        // compatible avec seaZonePolygons() qui gère les tableaux de contours multiples.
+        if (typeof ZONES_SHOAL !== 'undefined' && typeof ZONES_DATA !== 'undefined') {
+          shoalsWorkingCopy = Object.entries(ZONES_SHOAL).map(([id, meta]) => ({
+            id,
+            ...meta,
+            zone: ZONES_DATA[id] || [],
+          }));
+        } else {
+          shoalsWorkingCopy = [];
+        }
       }
       return shoalsWorkingCopy;
     }
@@ -3354,285 +3041,54 @@ ${holesTxt}
     }
 
     function bindCurrentsButtons() {
-      const btnRev = document.getElementById('btn-current-reverse');
-      const btnDel = document.getElementById('btn-current-delete');
-      const btnImp = document.getElementById('btn-import-sea-geometry');
-      const inputImp = document.getElementById('input-import-sea-geometry');
-
-      if (btnRev) {
-        btnRev.onclick = () => {
-          if (!selectedCurrentId) return;
-          const c = getWorkingCurrents().find(x => x.id === selectedCurrentId);
-          if (!c) return;
-          pushUndo('Inverser courant');
-          c.centerline = [...c.centerline].reverse();
-          // Recalculer les directions depuis la centerline inversée
-          c.directions = recomputeDirections(c.centerline);
-          refresh(R.CURRENTS);
-        };
-      }
-
-      if (btnDel) {
-        btnDel.onclick = () => {
-          if (selectedCurrentId) {
-            if (!confirm('Supprimer "' + selectedCurrentId + '" de la session ?')) return;
-            pushUndo('Supprimer courant');
-            currentsWorkingCopy = getWorkingCurrents().filter(x => x.id !== selectedCurrentId);
-            clearSeaEntitySelection();
-          } else if (selectedShoalId) {
-            if (!confirm('Supprimer "' + selectedShoalId + '" de la session ?')) return;
-            pushUndo('Supprimer haut-fond');
-            shoalsWorkingCopy = getWorkingShoals().filter(x => x.id !== selectedShoalId);
-            clearSeaEntitySelection();
-          } else {
-            return;
-          }
-          refresh(R.CURRENTS);
-        };
-      }
-
-      // btn-export-sea supprimé du HTML — l'export est géré par btn-export-file
-
-      if (btnImp && inputImp) {
-        btnImp.onclick = () => inputImp.click();
-        inputImp.onchange = () => {
-          const file = inputImp.files && inputImp.files[0];
-          inputImp.value = '';
-          if (file) importSeaGeometryFile(file);
-        };
-      }
+      // Les actions de courant et l'import SVG legacy ont été retirés.
+      // L'export fichier est géré par btn-export-file.
     }
 
-    function importSeaGeometryFile(file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const imported = readSeaGeometryExport(String(reader.result || ''));
-          const currentCount = mergeSeaGeometryIntoWorkingCopy(imported.currentGeometry, 'current');
-          const navZoneCount = mergeNavZonesGeometryIntoWorkingCopy(imported.navZonesGeometry);
-          const shoalCount = mergeSeaGeometryIntoWorkingCopy(imported.shoalGeometry, 'shoal');
-          refresh(R.CURRENTS);
-          if (selectedCurrentId) renderCurrentDetail(selectedCurrentId);
-          const totalCurrents = currentCount + navZoneCount;
-          alert(`Import geometrique termine : ${totalCurrents} courant(s), ${shoalCount} haut-fond(s).`);
-        } catch (err) {
-          console.error(err);
-          alert('Import impossible : ' + (err && err.message ? err.message : err));
-        }
-      };
-      reader.readAsText(file);
+    function importSeaGeometryFile() {
+      alert('Import géométrique retiré : sea-data.js ne conserve plus que les hauts-fonds.');
     }
 
-    function readSeaGeometryExport(source) {
-      const scope = {};
-      Function('window', `${source}
-    window.__seaGeometryImport = {
-  currentGeometry: typeof SEA_CURRENT_GEOMETRY !== 'undefined' ? SEA_CURRENT_GEOMETRY : null,
-  navZonesGeometry: typeof SEA_NAV_ZONES_GEOMETRY !== 'undefined' ? SEA_NAV_ZONES_GEOMETRY : null,
-  shoalGeometry: typeof SEA_SHOAL_GEOMETRY !== 'undefined' ? SEA_SHOAL_GEOMETRY : null,
-  currents: typeof SEA_CURRENTS !== 'undefined' ? SEA_CURRENTS : null,
-  shoals: typeof SEA_SHOALS !== 'undefined' ? SEA_SHOALS : null,
-};
-  `)(scope);
-
-      const data = scope.__seaGeometryImport || {};
-      const currentGeometry = data.currentGeometry || geometryMapFromArray(data.currents);
-      const navZonesGeometry = data.navZonesGeometry || null;
-      const shoalGeometry = data.shoalGeometry || geometryMapFromArray(data.shoals, true);
-      if (!currentGeometry && !shoalGeometry) {
-        throw new Error('aucune section SEA_CURRENT_GEOMETRY / SEA_SHOAL_GEOMETRY reconnue');
-      }
-      return { currentGeometry, navZonesGeometry, shoalGeometry };
+    function readSeaGeometryExport() {
+      return { shoalGeometry: null };
     }
 
     function geometryMapFromArray(items, shoal = false) {
-      if (!Array.isArray(items)) return null;
+      if (!shoal || !Array.isArray(items)) return null;
       const out = {};
       items.forEach(item => {
-        if (!item || !item.id) return;
-        out[item.id] = shoal
-          ? { zone: item.zone }
-          : {
-            closed: item.closed,
-            zoneSource: item.zoneSource,
-            centerline: item.centerline,
-            directions: item.directions,
-            zone: item.zone,
-          };
+        if (item && item.id) out[item.id] = { zone: item.zone };
       });
       return out;
     }
 
     function mergeSeaGeometryIntoWorkingCopy(geometry, type) {
-      if (!geometry || typeof geometry !== 'object') return 0;
-      const list = type === 'shoal' ? getWorkingShoals() : getWorkingCurrents();
+      if (type !== 'shoal' || !geometry || typeof geometry !== 'object') return 0;
+      const list = getWorkingShoals();
       let count = 0;
       Object.entries(geometry).forEach(([id, geom]) => {
         if (!geom || typeof geom !== 'object') return;
         let item = list.find(entry => entry.id === id);
-        const exists = Boolean(item);
         if (!item) {
-          item = { id, nom: id.replace(/[_-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) };
-          if (type === 'shoal') item.maxCategorieTaille = 3;
-          else { item.type = 'haute-mer'; item.speedKnot = 0; }
+          item = { id, label: id.replace(/[_-]/g, ' '), maxCategorieTaille: 3 };
           list.push(item);
         }
-        const keys = type === 'shoal'
-          ? ['zone']
-          : ['zoneSource', 'zone'];
-        keys.forEach(key => {
-          if (geom[key] !== undefined) item[key] = JSON.parse(JSON.stringify(geom[key]));
-        });
+        if (geom.zone !== undefined) item.zone = JSON.parse(JSON.stringify(geom.zone));
         count++;
       });
       return count;
     }
 
-    function mergeNavZonesGeometryIntoWorkingCopy(geometry) {
-      if (!Array.isArray(geometry)) return 0;
-      const zones = getWorkingCurrents();
-      const axes = getWorkingCurrentAxes();
-      let count = 0;
-      geometry.forEach(entry => {
-        if (!entry || !entry.id) return;
-
-        // Fusionner dans les zones (SEA_NAV_ZONES)
-        let zone = zones.find(z => z.id === entry.id);
-        if (!zone) {
-          zone = {
-            id: entry.id,
-            label: entry.label || entry.id.replace(/[_-]/g, ' '),
-            type: entry.type || 'haute-mer',
-            speedKnot: entry.speedKnot ?? 0,
-            visibiliteNav: entry.visibiliteNav ?? 1,
-          };
-          zones.push(zone);
-        }
-        if (entry.zone !== undefined) zone.zone = JSON.parse(JSON.stringify(entry.zone));
-        if (entry.zoneSource !== undefined) zone.zoneSource = entry.zoneSource;
-        if (entry.speedKnot !== undefined) zone.speedKnot = entry.speedKnot;
-        if (entry.type !== undefined) zone.type = entry.type;
-
-        // Fusionner la centerline dans les axes (SEA_CURRENTS)
-        if (entry.centerline) {
-          let axe = axes.find(a => a.id === entry.id);
-          if (!axe) {
-            axe = { id: entry.id };
-            axes.push(axe);
-          }
-          axe.centerline = JSON.parse(JSON.stringify(entry.centerline));
-          axe.directions = entry.directions ? JSON.parse(JSON.stringify(entry.directions)) : [];
-          axe.closed = entry.closed ?? false;
-          axe.zoneSource = entry.zoneSource ?? 'oscar';
-        }
-        count++;
-      });
-      return count;
+    function mergeNavZonesGeometryIntoWorkingCopy() {
+      return 0;
     }
 
     function exportSeaData() {
-      const currents = getWorkingCurrents();
-
-      function fmtPts(pts) {
-        const items = pts.map(([x, y]) => `[${x},${y}]`);
-        const lines = []; let cur = [], curLen = 4;
-        for (const item of items) {
-          if (cur.length && curLen + item.length + 2 > 90) {
-            lines.push('    ' + cur.join(', ') + ',');
-            cur = [item]; curLen = 4 + item.length;
-          } else { cur.push(item); curLen += item.length + 2; }
-        }
-        if (cur.length) lines.push('    ' + cur.join(', '));
-        return lines.join('\n');
-      }
-
-      function fmtDirs(dirs) {
-        const chunks = [];
-        for (let i = 0; i < dirs.length; i += 16) chunks.push(dirs.slice(i, i + 16));
-        return chunks.map((ch, i) =>
-          "    " + ch.map(d => `'${d}'`).join(', ') + (i < chunks.length - 1 ? ',' : '')
-        ).join('\n');
-      }
-
-      function fmtSpeedSegments(segments) {
-        // TODO PN-SEA-EXPLICIT: export legacy ancien modele courant=ruban.
-        // Supprimer cette branche quand l'editeur ne sortira plus que
-        // SEA_NAV_ZONE_META.speedKnot + SEA_CURRENT_GEOMETRY.centerline.
-        if (!Array.isArray(segments) || !segments.length) return '';
-        const lines = segments.map(seg => {
-          const attenuation = seg.attenuationMinCote != null ? `, attenuationMinCote: ${seg.attenuationMinCote}` : '';
-          return `      { label: '${seg.label}', from: ${seg.from}, to: ${seg.to}, speedKmh: ${seg.speedKmh}${attenuation} }`;
-        });
-        return `    speedSegments: [\n${lines.join(',\n')},\n    ],\n`;
-      }
-
-      function fmtShoalBlock(s) {
-        return `  {
-    id: '${s.id}',
-    label: '${s.label || s.id}',
-    maxCategorieTaille: ${s.maxCategorieTaille ?? 3},
-    zone: ${formatSeaZoneJS(s.zone, fmtPts)},
-  },`;
-      }
-
-      const blocks = currents.map(c => {
-        const closedLine = c.closed != null ? `    closed: ${Boolean(c.closed)},\n` : '';
-        const zoneSourceLine = c.zoneSource ? `    zoneSource: '${c.zoneSource}',\n` : '';
-        const speedLine = c.speedKmh != null ? `    speedKmh: ${c.speedKmh},\n` : '';
-        const speedSegmentsLine = fmtSpeedSegments(c.speedSegments);
-        return `  {
-    id: '${c.id}',
-    label: '${c.label || c.id}',
-    priorite: ${currentPriority(c)},
-    force: ${c.force},
-${closedLine}${zoneSourceLine}${speedLine}${speedSegmentsLine}    centerline: [
-${fmtPts(c.centerline)}
-    ],
-    directions: [
-${fmtDirs(c.directions)}
-    ],
-    zone: ${formatSeaZoneJS(c.zone, fmtPts)},
-  },`;
-      }).join('\n\n');
-      const shoalBlocks = getWorkingShoals().map(fmtShoalBlock).join('\n\n');
-      const output = `// sea-data.js — exporte depuis le Zone Editor
-// ${currents.length} courant(s)
-// Coordonnees pixel Jaillot (8500x5320)
-
-const SEA_CURRENTS = [
-
-${blocks}
-
-];
-
-const SEA_SHOALS = [
-
-${shoalBlocks}
-
-];
-
-if (typeof window !== 'undefined') {
-  window.SEA_CURRENTS = SEA_CURRENTS;
-  window.SEA_SHOALS = SEA_SHOALS;
-}
-`;
-
-      const blob = new Blob([output], { type: 'text/javascript;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'sea-data.js';
-      a.click();
-      URL.revokeObjectURL(url);
+      exportSeaDataV2();
     }
 
     function exportSeaDataV2() {
-      const navZones = getWorkingCurrents();
-      const currents = getWorkingCurrentAxes();
       const shoals = getWorkingShoals();
-      const oceanBounds = (typeof SEA_OCEAN_BOUNDS !== 'undefined' && Array.isArray(SEA_OCEAN_BOUNDS))
-        ? cloneJSON(SEA_OCEAN_BOUNDS)
-        : [];
 
       function fmtPts(pts) {
         const items = (pts || []).map(([x, y]) => `[${x},${y}]`);
@@ -3647,14 +3103,6 @@ if (typeof window !== 'undefined') {
         return lines.join('\n');
       }
 
-      function fmtDirs(dirs) {
-        const chunks = [];
-        for (let i = 0; i < (dirs || []).length; i += 16) chunks.push(dirs.slice(i, i + 16));
-        return chunks.map((ch, i) =>
-          "    " + ch.map(d => `'${d}'`).join(', ') + (i < chunks.length - 1 ? ',' : '')
-        ).join('\n');
-      }
-
       function quoteJS(value) {
         return JSON.stringify(String(value));
       }
@@ -3664,13 +3112,7 @@ if (typeof window !== 'undefined') {
         const childPad = ' '.repeat(indent + 2);
         if (typeof value === 'string') return quoteJS(value);
         if (value == null || typeof value === 'number' || typeof value === 'boolean') return String(value);
-        if (Array.isArray(value)) {
-          if (!value.length) return '[]';
-          if (value.every(item => item && typeof item === 'object' && !Array.isArray(item))) {
-            return `[\n${value.map(item => `${childPad}${fmtValue(item, indent + 2)}`).join(',\n')},\n${pad}]`;
-          }
-          return JSON.stringify(value);
-        }
+        if (Array.isArray(value)) return JSON.stringify(value);
         if (typeof value === 'object') {
           const entries = Object.entries(value).filter(([, v]) => v !== undefined);
           if (!entries.length) return '{}';
@@ -3688,116 +3130,26 @@ if (typeof window !== 'undefined') {
         return `  '${id}': {\n${entries.join('\n')}\n  },`;
       }
 
-      function fmtNavZoneGeometryBlock(c) {
-        const zoneSourceLine = c.zoneSource ? `    zoneSource: ${quoteJS(c.zoneSource)},\n` : '';
-        return `  '${c.id}': {
-${zoneSourceLine}    zone: ${formatSeaZoneJS(c.zone, fmtPts)},
-  },`;
-      }
-
-      function fmtOceanBoundsGeometryBlock(bounds) {
-        const zoneSourceLine = bounds.zoneSource ? `    zoneSource: ${quoteJS(bounds.zoneSource)},\n` : '';
-        return `  '${bounds.id}': {
-${zoneSourceLine}    zone: ${formatSeaZoneJS(bounds.zone, fmtPts)},
-  },`;
-      }
-
-      function fmtCurrentGeometryBlock(c) {
-        const closedLine = c.closed != null ? `    closed: ${Boolean(c.closed)},\n` : '';
-        const zoneSourceLine = c.zoneSource ? `    zoneSource: ${quoteJS(c.zoneSource)},\n` : '';
-        return `  '${c.id}': {
-${closedLine}${zoneSourceLine}    centerline: [
-${fmtPts(c.centerline)}
-    ],
-    directions: [
-${fmtDirs(c.directions)}
-    ],
-  },`;
-      }
-
       function fmtShoalGeometryBlock(s) {
-        return `  '${s.id}': {
-    zone: ${formatSeaZoneJS(s.zone, fmtPts)},
-  },`;
+        return `  '${s.id}': {\n    zone: ${formatSeaZoneJS(s.zone, fmtPts)},\n  },`;
       }
 
-      const navZoneGeometryKeys = new Set(['zone', 'zoneSource']);
-      const currentGeometryKeys = new Set(['closed', 'zoneSource', 'centerline', 'directions']);
       const shoalGeometryKeys = new Set(['zone']);
-      const navZoneGeometryBlocks = navZones.map(fmtNavZoneGeometryBlock).join('\n\n');
-      const navZoneMetaBlocks = navZones.map(c => fmtMetaBlock(c.id, c, navZoneGeometryKeys, {
-        nom: c.nom || c.id,
-        type: c.type || 'haute-mer',
-        speedKnot: currentBaseSpeedKnots(c),
-      })).join('\n\n');
-      const currentGeometryBlocks = currents.map(fmtCurrentGeometryBlock).join('\n\n');
-      const oceanBoundsGeometryBlocks = oceanBounds.map(fmtOceanBoundsGeometryBlock).join('\n\n');
-      const currentMetaBlocks = currents.map(c => fmtMetaBlock(c.id, c, currentGeometryKeys, {
-        nom: c.nom || c.id,
-      })).join('\n\n');
       const shoalGeometryBlocks = shoals.map(fmtShoalGeometryBlock).join('\n\n');
       const shoalMetaBlocks = shoals.map(s => fmtMetaBlock(s.id, s, shoalGeometryKeys, {
         label: s.label || s.id,
         maxCategorieTaille: s.maxCategorieTaille ?? 3,
       })).join('\n\n');
 
-      const output = `// sea-data.js - geometries exportables et metadonnees maritimes
-// Coordonnees pixel Jaillot (8500x5320)
-// Nouveau contrat maritime: zones explicites = surface navigable autorisee,
-// courants = centerlines directionnelles, vitesse = SEA_NAV_ZONE_META.speedKnot.
-
-// Section exportable depuis gen_sea_data.py.
-const SEA_NAV_ZONES_EXPLICITES = true;
-
-const SEA_NAV_ZONE_GEOMETRY = {
-${navZoneGeometryBlocks}
-};
-
-// Metadonnees editees manuellement: ne pas remplacer lors d'un nouvel export SVG.
-const SEA_NAV_ZONE_META = {
-${navZoneMetaBlocks}
-};
-
-const SEA_NAV_ZONES = Object.entries(SEA_NAV_ZONE_GEOMETRY).map(([id, geometry]) => ({
-  id,
-  ...(SEA_NAV_ZONE_META[id] || {}),
-  ...geometry,
-}));
-
-// Emprise navigable et fallback calme. Ce n'est pas une zone d'attributs/courant.
-const SEA_OCEAN_BOUNDS_GEOMETRY = {
-${oceanBoundsGeometryBlocks}
-};
-
-const SEA_OCEAN_BOUNDS = Object.entries(SEA_OCEAN_BOUNDS_GEOMETRY).map(([id, geometry]) => ({
-  id,
-  type: 'oceanBounds',
-  nom: id.replace(/[_-]/g, ' '),
-  ...geometry,
-}));
-
-// Section exportable depuis gen_sea_data.py.
-const SEA_CURRENT_GEOMETRY = {
-${currentGeometryBlocks}
-};
-
-// Metadonnees editees manuellement: ne pas remplacer lors d'un nouvel export SVG.
-const SEA_CURRENT_META = {
-${currentMetaBlocks}
-};
-
-const SEA_CURRENTS = Object.entries(SEA_CURRENT_GEOMETRY).map(([id, geometry]) => ({
-  id,
-  ...(SEA_CURRENT_META[id] || {}),
-  ...geometry,
-}));
+      const output = `// sea-data.js - hauts-fonds maritimes conservés
+// Coordonnées pixel Jaillot (8500x5320)
 
 // Section exportable depuis gen_sea_data.py.
 const SEA_SHOAL_GEOMETRY = {
 ${shoalGeometryBlocks}
 };
 
-// Metadonnees editees manuellement: ne pas remplacer lors d'un nouvel export SVG.
+// Métadonnées éditées manuellement.
 const SEA_SHOAL_META = {
 ${shoalMetaBlocks}
 };
@@ -3808,16 +3160,7 @@ const SEA_SHOALS = Object.entries(SEA_SHOAL_GEOMETRY).map(([id, geometry]) => ({
   ...geometry,
 }));
 
-if (typeof window !== 'undefined') {
-  window.SEA_NAV_ZONES_EXPLICITES = SEA_NAV_ZONES_EXPLICITES;
-  window.SEA_NAV_ZONE_GEOMETRY = SEA_NAV_ZONE_GEOMETRY;
-  window.SEA_NAV_ZONE_META = SEA_NAV_ZONE_META;
-  window.SEA_NAV_ZONES = SEA_NAV_ZONES;
-  window.SEA_OCEAN_BOUNDS_GEOMETRY = SEA_OCEAN_BOUNDS_GEOMETRY;
-  window.SEA_OCEAN_BOUNDS = SEA_OCEAN_BOUNDS;
-  window.SEA_CURRENT_GEOMETRY = SEA_CURRENT_GEOMETRY;
-  window.SEA_CURRENT_META = SEA_CURRENT_META;
-  window.SEA_CURRENTS = SEA_CURRENTS;
+if (typeof window !== "undefined") {
   window.SEA_SHOAL_GEOMETRY = SEA_SHOAL_GEOMETRY;
   window.SEA_SHOAL_META = SEA_SHOAL_META;
   window.SEA_SHOALS = SEA_SHOALS;
@@ -3853,155 +3196,31 @@ if (typeof window !== 'undefined') {
       return angles[dir] !== undefined ? angles[dir] : 0;
     }
 
+    // Affiche le contour de la cellule OSCAR actuellement inspectée (Sémaphore
+    // ou Infos — Mers). L'ancien système SEA_CELLS (peinture manuelle
+    // courant/vent case par case) a été retiré : il n'était plus lu par aucun
+    // outil en aval et ses boutons n'étaient déjà plus rendus dans l'UI.
     function renderSeaCells() {
       if (!seaCellLayer) return;
       seaCellLayer.clearLayers();
-      if (seaLabelLayer) seaLabelLayer.clearLayers();
       seaCellLayers = {};
-      const keys = new Set(ctx.isSea ? [] : Object.keys(seaCells));
-      selectedSeaCellKeys.forEach(key => keys.add(key));
-      if (selectedSeaCellKey) keys.add(selectedSeaCellKey);
-      keys.forEach(key => {
-        const [col, row] = key.split(',').map(Number);
-        const selected = selectedSeaCellKeys.has(key) || key === selectedSeaCellKey;
-        if (selected) {
-          const rect = L.rectangle(seaCellBounds(col, row), seaCellStyle(key));
-          rect.addTo(seaCellLayer);
-          seaCellLayers[key] = rect;
-        }
-        const propertyKey = ctx.isSea ? null : currentSeaPropertyKey();
-        const value = propertyKey ? seaCells[key]?.[propertyKey] : null;
-        if (value && seaLabelLayer) {
-          const angle = SEA_DIRECTION_ANGLES[value.direction] ?? 0;
-          const screenSize = seaCellScreenSize();
-          const arrowSize = Math.max(18, Math.min(42, screenSize * 0.62));
-          const speedSize = Math.max(10, Math.min(20, screenSize * 0.28));
-          const iconSize = Math.max(36, Math.min(64, screenSize * 0.95));
-          const icon = L.divIcon({
-            className: `sea-cell-label ${propertyKey}`,
-            html: `<span class="arrow" style="font-size:${arrowSize}px; transform: rotate(${angle}deg)">↑</span><span class="speed" style="font-size:${speedSize}px">${value.speed}</span>`,
-            iconSize: [iconSize, iconSize],
-            iconAnchor: [iconSize / 2, iconSize / 2],
-          });
-          L.marker(seaCellCenter(col, row), { icon, interactive: false, pane: 'seaCellPane' }).addTo(seaLabelLayer);
-        }
-      });
-    }
-
-    function setSeaSelection(keys, additive = false) {
-      if (!additive) selectedSeaCellKeys.clear();
-      keys.forEach(key => selectedSeaCellKeys.add(key));
-      selectedSeaCellKey = keys[keys.length - 1] || selectedSeaCellKey;
-      refreshAfterSeaCellSelection();
-    }
-
-    function toggleSeaSelection(keys, mode) {
-      if (mode === 'replace') selectedSeaCellKeys.clear();
-      keys.forEach(key => {
-        if (mode === 'remove') selectedSeaCellKeys.delete(key);
-        else selectedSeaCellKeys.add(key);
-      });
-      selectedSeaCellKey = keys[keys.length - 1] || selectedSeaCellKey;
-      refreshAfterSeaCellSelection();
-    }
-
-    function applySeaToolToSelection() {
-      const settings = seaToolSettings[currentTool];
-      if (!settings || !selectedSeaCellKeys.size) return;
-      pushUndo(currentTool === 'wind' ? 'Appliquer vent' : 'Appliquer courant');
-      const targetKeys = [...selectedSeaCellKeys];
-      targetKeys.forEach(targetKey => {
-        seaCells[targetKey] ??= {};
-        seaCells[targetKey][currentTool] = {
-          direction: settings.direction,
-          speed: Number(settings.speed) || 0,
-        };
-      });
-      selectedSeaCellKey = targetKeys[targetKeys.length - 1] || selectedSeaCellKey;
-      refreshAfterSeaCellEdit();
+      if (!(ctx.isSea || ctx.isInfosMers) || !selectedSeaCellKey) return;
+      const grid = getOscarGrid();
+      const cell = grid?.cells?.[selectedSeaCellKey];
+      if (!cell) return;
+      let shape;
+      if (grid.topology === 'hex') {
+        shape = L.polygon(oscarCellLatLngsFromKey(selectedSeaCellKey, cell), seaCellStyle(selectedSeaCellKey));
+      } else {
+        const [col, row] = selectedSeaCellKey.split('_').map(Number);
+        shape = L.rectangle(seaCellBounds(col, row), seaCellStyle(selectedSeaCellKey));
+      }
+      shape.addTo(seaCellLayer);
+      seaCellLayers[selectedSeaCellKey] = shape;
     }
 
     function normalizeAngle(deg) {
       return ((deg % 360) + 360) % 360;
-    }
-
-    function angleToDirection(deg) {
-      const normalized = normalizeAngle(deg);
-      let best = SEA_DIRECTIONS[0];
-      let bestDelta = Infinity;
-      SEA_DIRECTIONS.forEach(dir => {
-        const delta = Math.abs(normalizeAngle(normalized - SEA_DIRECTION_ANGLES[dir] + 180) - 180);
-        if (delta < bestDelta) {
-          best = dir;
-          bestDelta = delta;
-        }
-      });
-      return best;
-    }
-
-    function directionToLocationAngle(dir) {
-      return SEA_LOCATION_ANGLES[dir] ?? 0;
-    }
-
-    function selectedSeaCellCenters() {
-      return [...selectedSeaCellKeys].map(key => {
-        const [col, row] = key.split(',').map(Number);
-        return {
-          key,
-          col,
-          row,
-          x: col + 0.5,
-          y: row + 0.5,
-        };
-      });
-    }
-
-    function patternSpanDegrees() {
-      if (seaPatternSettings.type === 'full') return 360;
-      if (seaPatternSettings.type === 'half') return 180;
-      return 90;
-    }
-
-    function applySeaPatternToSelection() {
-      const settings = seaToolSettings[currentTool];
-      if (!settings || !selectedSeaCellKeys.size) return;
-
-      const cells = selectedSeaCellCenters();
-      const centerX = cells.reduce((sum, cell) => sum + cell.x, 0) / cells.length;
-      const centerY = cells.reduce((sum, cell) => sum + cell.y, 0) / cells.length;
-      const startAngle = directionToLocationAngle(seaPatternSettings.start);
-      const span = patternSpanDegrees();
-      const turnSign = seaPatternSettings.turn === 'clockwise' ? -1 : 1;
-      const tangentOffset = seaPatternSettings.turn === 'clockwise' ? -90 : 90;
-
-      pushUndo(currentTool === 'wind' ? 'Motif vent' : 'Motif courant');
-
-      cells.forEach(cell => {
-        const radial = normalizeAngle(Math.atan2(cell.y - centerY, cell.x - centerX) * 180 / Math.PI + 90);
-        let arcAngle = radial;
-        if (seaPatternSettings.type !== 'full') {
-          const progress = seaPatternSettings.turn === 'clockwise'
-            ? normalizeAngle(startAngle - radial)
-            : normalizeAngle(radial - startAngle);
-          arcAngle = normalizeAngle(startAngle + turnSign * Math.max(0, Math.min(span, progress)));
-        }
-        const vectorAngle = normalizeAngle(arcAngle + tangentOffset);
-        seaCells[cell.key] ??= {};
-        seaCells[cell.key][currentTool] = {
-          direction: angleToDirection(vectorAngle),
-          speed: Number(settings.speed) || 0,
-        };
-      });
-
-      refreshAfterSeaCellEdit();
-    }
-
-    function resetSelectedSeaCell() {
-      const keys = selectedSeaCellKeys.size ? [...selectedSeaCellKeys] : (selectedSeaCellKey ? [selectedSeaCellKey] : []);
-      if (!keys.some(key => seaCells[key])) return;
-      pushUndo('Reinitialiser case');
-      keys.forEach(key => delete seaCells[key]);
-      refresh(R.SEA_CELLS | R.SEA_PANEL | R.EXPORT);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -4022,8 +3241,6 @@ if (typeof window !== 'undefined') {
       const bounds = L.latLngBounds(pxToLatLng(0, IMG_H), pxToLatLng(IMG_W, 0));
       L.imageOverlay(IMG_SRC, bounds).addTo(map);
       populateOscarDomainSelect();
-      map.createPane('seaGridPane');
-      map.getPane('seaGridPane').style.zIndex = 430;
       map.createPane('oscarGridPane');
       map.getPane('oscarGridPane').style.zIndex = 435;
       map.createPane('oscarArrowPane');
@@ -4045,8 +3262,10 @@ if (typeof window !== 'undefined') {
       map.on('mouseup', onMapMouseUp);
       map.on('mouseup', onDragEnd);      // relâchement drag poignées
       map.on('zoomend', () => {
-        if (ctx.isSea) renderSeaCells();
-        if (ctx.isSea) renderOscarGridLayer();
+        if (ctx.isSea || ctx.isInfosMers) {
+          renderSeaCells();
+          renderOscarGridLayer();
+        }
       });
       map.on('click', onMapClick);
       map.on('contextmenu', onMapRightClick);
@@ -4069,10 +3288,6 @@ if (typeof window !== 'undefined') {
       }
 
       // sea-data.js
-      seaWorkingCopy.currentGeom = (typeof SEA_CURRENT_GEOMETRY !== 'undefined')
-        ? cloneJSON(SEA_CURRENT_GEOMETRY) : [];
-      seaWorkingCopy.currentMeta = (typeof SEA_CURRENT_META !== 'undefined')
-        ? cloneJSON(SEA_CURRENT_META) : [];
       seaWorkingCopy.shoalGeom = (typeof SEA_SHOAL_GEOMETRY !== 'undefined')
         ? cloneJSON(SEA_SHOAL_GEOMETRY) : [];
       seaWorkingCopy.shoalMeta = (typeof SEA_SHOAL_META !== 'undefined')
@@ -4786,14 +4001,21 @@ if (typeof window !== 'undefined') {
       if (ctx.isSea) {
         const pt = latLngToPx(e.latlng);
         if (isPxInsideImage(pt)) {
-          const cell = seaCellFromPx(pt);
-          selectedSeaCellKeys.clear();
-          selectedSeaCellKeys.add(cell.key);
-          selectedSeaCellKey = cell.key;
-          refreshAfterSeaCellSelection();
+          selectedSemaphorePoint = pt;
+          selectedSeaCellKey = oscarKeyFromPoint({ x: pt[0], y: pt[1] });
+          renderSeaCells();
+          updateSeaPanel();
         }
         if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
         return;
+      }
+      if (ctx.isInfosMers) {
+        const pt = latLngToPx(e.latlng);
+        if (isPxInsideImage(pt)) {
+          selectedSeaCellKey = oscarKeyFromPoint({ x: pt[0], y: pt[1] });
+          renderSeaCells();
+          updateInfosMersOscarPanel();
+        }
       }
       if (currentTool === 'draw') {
         addDrawPoint(latLngToPx(e.latlng));
@@ -4854,7 +4076,7 @@ if (typeof window !== 'undefined') {
         document.getElementById('draw-controls').style.display = 'none';
         clearHandles();
         clearSegmentMarkers();
-        refresh(R.SEA_TOOLS | R.SEA_CELLS | R.EXPORT);
+        refresh(R.OSCAR_SELECTION | R.EXPORT);
         return;
       }
 
@@ -5064,27 +4286,6 @@ if (typeof window !== 'undefined') {
       updateInfosTerresDetail();
     }
 
-    function formatSeaValue(value) {
-      if (!value) return 'non défini';
-      return `${value.direction} - ${value.speed} km/h`;
-    }
-
-    function formatSeaSelectionValue(prop) {
-      const keys = selectedSeaCellKeys.size ? [...selectedSeaCellKeys] : (selectedSeaCellKey ? [selectedSeaCellKey] : []);
-      const values = keys.map(key => seaCells[key]?.[prop]).filter(Boolean);
-      if (!values.length) return 'non défini';
-      const first = JSON.stringify(values[0]);
-      return values.every(value => JSON.stringify(value) === first) ? formatSeaValue(values[0]) : 'valeurs multiples';
-    }
-
-    function seaCellCenterPxFromKey(key) {
-      const [col, row] = key.split(',').map(Number);
-      return [
-        Math.min(IMG_W, col * SEA_CELL_SIZE + SEA_CELL_SIZE / 2),
-        Math.min(IMG_H, row * SEA_CELL_SIZE + SEA_CELL_SIZE / 2),
-      ];
-    }
-
     function summarizeSemaphoreCurrent(current) {
       const speed = currentBaseSpeedKmh(current);
       const speedText = speed ? `${speed} km/h` : 'vitesse variable';
@@ -5189,39 +4390,31 @@ if (typeof window !== 'undefined') {
 
     function updateSeaPanel() {
       const idEl = document.getElementById('sea-cell-id');
-      const currentEl = document.getElementById('sea-current');
       const windEl = document.getElementById('sea-wind');
       const debugEl = document.getElementById('sea-debug');
-      const oscarEl = document.getElementById('sea-oscar');
-      const resetBtn = document.getElementById('btn-reset-sea-cell');
-      updateOscarSummary();
-      if (resetBtn) {
-        resetBtn.disabled = true;
-        resetBtn.style.display = 'none';
-      }
-      if (!selectedSeaCellKey) {
-        idEl.textContent = 'Cliquez sur une case';
+      if (!selectedSemaphorePoint) {
+        idEl.textContent = 'Cliquez sur la carte';
         idEl.className = 'empty-msg';
-        currentEl.innerHTML = '<span>Courant OSCAR :</span> cliquez sur une case';
         windEl.innerHTML = '<span>Hauts-fonds :</span> non défini';
-        if (debugEl) debugEl.innerHTML = '<span>Calculateur :</span> cliquez sur une case';
-        if (oscarEl) oscarEl.innerHTML = '<span>Cellule OSCAR :</span> non sélectionnée';
+        if (debugEl) debugEl.innerHTML = '<span>Calculateur :</span> cliquez sur la carte';
         return;
       }
-      const [col, row] = selectedSeaCellKey.split(',').map(Number);
-      const selectedKeys = selectedSeaCellKeys.size ? [...selectedSeaCellKeys] : [selectedSeaCellKey];
-      const centers = selectedKeys.map(seaCellCenterPxFromKey);
-      const shoals = semaphoreVisibleShoals()
-        .filter(shoal => centers.some(pt => seaPointInZone(pt, shoal.zone)));
-      idEl.textContent = selectedSeaCellKeys.size > 1 ? `${selectedSeaCellKeys.size} cases sélectionnées` : `Case ${col}, ${row}`;
+      const center = selectedSemaphorePoint;
+      const shoals = semaphoreVisibleShoals().filter(shoal => seaPointInZone(center, shoal.zone));
+      idEl.textContent = `x ${Math.round(center[0])}, y ${Math.round(center[1])}`;
       idEl.className = '';
-      currentEl.innerHTML = '<span>Courant OSCAR :</span> voir cellule OSCAR ci-dessous';
       windEl.innerHTML = `<span>Hauts-fonds visibles :</span> ${formatSemaphoreList(shoals, summarizeSemaphoreShoal, 'aucun')}`;
-      if (oscarEl) oscarEl.innerHTML = formatOscarCellForPanel(selectedSeaCellKey);
-      if (debugEl) {
-        const center = centers[centers.length - 1];
-        debugEl.innerHTML = renderJaillotInspector(inspectSemaphorePoint(center), center);
-      }
+      if (debugEl) debugEl.innerHTML = renderJaillotInspector(inspectSemaphorePoint(center), center);
+    }
+
+    // Panneau OSCAR déplacé en Infos — Mers (contrôle case par case).
+    function updateInfosMersOscarPanel() {
+      updateOscarSummary();
+      const oscarEl = document.getElementById('sea-oscar');
+      if (!oscarEl) return;
+      oscarEl.innerHTML = selectedSeaCellKey
+        ? formatOscarCellForPanel(selectedSeaCellKey)
+        : '<span>Cellule OSCAR :</span> non sélectionnée';
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -5293,19 +4486,6 @@ if (typeof window !== 'undefined') {
 
     function escapeHtml(s) {
       return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    function formatSeaCellsJS(keys) {
-      let out = `const SEA_CELLS = {\n`;
-      keys.forEach(key => {
-        const cell = seaCells[key];
-        out += `  '${key}': {\n`;
-        if (cell.current) out += `    courant: ${JSON.stringify(cell.current)},\n`;
-        if (cell.wind) out += `    vent: ${JSON.stringify(cell.wind)},\n`;
-        out += `  },\n`;
-      });
-      out += `};`;
-      return out;
     }
 
     function formatZoneJS(zoneId) {
@@ -5755,7 +4935,6 @@ if (typeof window !== 'undefined') {
     document.getElementById('btn-del-contour').addEventListener('click', deleteContour);
     document.getElementById('btn-finish-draw').addEventListener('click', finishDraw);
     document.getElementById('btn-cancel-draw').addEventListener('click', () => cancelDraw(false));
-    document.getElementById('btn-reset-sea-cell').addEventListener('click', resetSelectedSeaCell);
     const semaphoreNavLevelSelect = document.getElementById('semaphore-nav-level');
     if (semaphoreNavLevelSelect) {
       semaphoreNavLevel = normalizeNavLevel(semaphoreNavLevel);
@@ -5792,43 +4971,6 @@ if (typeof window !== 'undefined') {
         refresh(R.OSCAR_GRID | R.SEA_PANEL);
       });
     }
-    document.getElementById('btn-apply-sea-selection').addEventListener('click', applySeaToolToSelection);
-    document.getElementById('btn-apply-sea-pattern').addEventListener('click', applySeaPatternToSelection);
-    document.getElementById('sea-speed').addEventListener('input', (e) => {
-      if (!seaToolSettings[currentTool]) return;
-      seaToolSettings[currentTool].speed = Number(e.target.value) || 0;
-    });
-    document.querySelectorAll('#sea-compass [data-dir]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (!SEA_DIRECTIONS.includes(btn.dataset.dir) || !seaToolSettings[currentTool]) return;
-        seaToolSettings[currentTool].direction = btn.dataset.dir;
-        renderSeaToolOptions();
-      });
-    });
-
-    const patternStartSelect = document.getElementById('sea-pattern-start');
-    patternStartSelect.innerHTML = SEA_DIRECTIONS.map(dir => `<option value="${dir}">${dir}</option>`).join('');
-    patternStartSelect.value = seaPatternSettings.start;
-    patternStartSelect.addEventListener('change', (e) => {
-      seaPatternSettings.start = e.target.value;
-    });
-    document.querySelectorAll('#sea-pattern-type [data-pattern]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        seaPatternSettings.type = btn.dataset.pattern;
-        document.querySelectorAll('#sea-pattern-type [data-pattern]').forEach(item => {
-          item.classList.toggle('active', item === btn);
-        });
-      });
-    });
-    document.querySelectorAll('#sea-pattern-turn [data-turn]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        seaPatternSettings.turn = btn.dataset.turn;
-        document.querySelectorAll('#sea-pattern-turn [data-turn]').forEach(item => {
-          item.classList.toggle('active', item === btn);
-        });
-      });
-    });
-
     document.getElementById('btn-copy').addEventListener('click', function () {
       const box = document.getElementById('export-box');
       // Extraire le texte brut depuis les spans (préserve les \n sans doublon)

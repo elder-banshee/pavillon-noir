@@ -71,7 +71,7 @@ const OVERLAY_LABELS = {
   densite: 'Densité de population',
   esclavage: 'Esclavage & Encomienda',
   autochtones: 'Foyers de populations autochtones',
-  maritime: 'Courants & hauts-fonds',
+  maritime: 'Hauts-fonds',
   masque: 'Carte Jaillot (1708)',
 };
 
@@ -265,15 +265,7 @@ function normaliserPolygonesMaritimes(zone) {
 }
 
 function sourceMaritimeCourants() {
-  if (typeof SEA_NAV_ZONES === 'undefined') return [];
-  if (modeMJ && !testNiveauNavActif) return SEA_NAV_ZONES;
-  return SEA_NAV_ZONES.filter(c => (c.visibiliteNav ?? 0) <= niveauNavigation);
-}
-
-function sourceMaritimeAxesCourants() {
-  if (typeof SEA_CURRENTS === 'undefined') return [];
-  if (modeMJ && !testNiveauNavActif) return SEA_CURRENTS;
-  return SEA_CURRENTS.filter(c => (c.visibiliteNav ?? 0) <= niveauNavigation);
+  return [];
 }
 
 function sourceMaritimeHautsFonds() {
@@ -1501,10 +1493,7 @@ function renderMaritime() {
   nettoyerCouchesMaritimes();
   if (overlayMode !== 'maritime' || !modeMJ || maritimeView !== 'fonds') return;
 
-  const features = [
-    ...sourceMaritimeCourants().map(item => ({ item, type: 'current' })),
-    ...sourceMaritimeHautsFonds().map(item => ({ item, type: 'shoal' })),
-  ];
+  const features = sourceMaritimeHautsFonds().map(item => ({ item, type: 'shoal' }));
 
   features.forEach(({ item, type }) => {
     const key = maritimeKey(type, item.id);
@@ -1546,26 +1535,6 @@ function renderMaritime() {
     groupe.addTo(carte);
     layersMaritimes[key] = groupe;
   });
-
-  const arrowLayers = [];
-  sourceMaritimeAxesCourants().forEach(item => {
-    if (!Array.isArray(item.centerline) || item.centerline.length < 2) return;
-    _maritimeArrowSamples(item).forEach(({ x, y, direction }) => {
-      const angle = _maritimeDirToAngle(direction);
-      const icon = L.divIcon({
-        className: '',
-        html: `<div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;transform:rotate(${angle}deg);font-size:16px;color:rgba(67,152,216,0.92);text-shadow:0 0 4px rgba(0,0,0,0.9);pointer-events:none;">➤</div>`,
-        iconSize: [20, 20], iconAnchor: [10, 10],
-      });
-      arrowLayers.push(L.marker(pixelToLatLng(x, y), { icon, interactive: false, keyboard: false }));
-    });
-  });
-  if (arrowLayers.length) {
-    const key = maritimeKey('current-axis', 'all');
-    const groupe = L.layerGroup(arrowLayers);
-    groupe.addTo(carte);
-    layersMaritimes[key] = groupe;
-  }
 }
 
 function renderPins() {
@@ -1960,7 +1929,7 @@ function majLegende() {
     wrap.className = 'carte-maritime-legende';
 
     [
-      { id: 'fonds', label: 'Courants et hauts-fonds' },
+      { id: 'fonds', label: 'Hauts-fonds' },
       { id: 'vents', label: 'Vents dominants' },
     ].forEach(item => {
       const btn = document.createElement('button');
@@ -1977,9 +1946,6 @@ function majLegende() {
       wrap.appendChild(btn);
     });
 
-    const courant = document.createElement('span');
-    courant.className = 'carte-puissance-check carte-puissance-check--static';
-    courant.innerHTML = '<span class="carte-puissance-pastille carte-puissance-pastille--courant"></span>Courants';
     const hautFond = document.createElement('span');
     hautFond.className = 'carte-puissance-check carte-puissance-check--static';
     hautFond.innerHTML = '<span class="carte-puissance-pastille carte-puissance-pastille--shoal"></span>Bancs / recifs / hauts-fonds';
@@ -1987,11 +1953,10 @@ function majLegende() {
     note.className = 'carte-maritime-note';
     note.textContent = maritimeView === 'vents'
       ? 'Affichage pret pour les vents dominants lorsque les donnees seront ajoutees.'
-      : `${sourceMaritimeCourants().length} courants, ${sourceMaritimeHautsFonds().length} zones sous-marines.`;
+      : `${sourceMaritimeHautsFonds().length} zones sous-marines.`;
 
     liste.appendChild(wrap);
     if (maritimeView === 'fonds') {
-      liste.appendChild(courant);
       liste.appendChild(hautFond);
     }
     liste.appendChild(note);

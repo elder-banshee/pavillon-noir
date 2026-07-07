@@ -1,0 +1,10 @@
+const fs = require('fs');
+const t = fs.readFileSync('C:/AI/Site Pavillon Noir/pavillon-noir/js/zones-data.js', 'utf8');
+const start = t.indexOf('ZONES_DEMO');
+const body = t.slice(start);
+const re = /'([^']+)':\s*\{[^}]*?superficie:\s*([0-9.]+)/g;
+let m; const out = [];
+while ((m = re.exec(body))) out.push([m[1], Number(m[2])]);
+out.sort((a,b) => b[1]-a[1]);
+console.log(out.map(o => o[0]+': '+o[1]).join('\n'));
+console.log('count', out.length);

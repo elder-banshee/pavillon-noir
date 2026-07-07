@@ -484,53 +484,33 @@
     return { minX, minY, maxX, maxY };
   }
 
-  // Courants visibles par le calculateur selon niveauNavigation.
-  // En mode MJ sans test actif : tous les courants (connaissance totale).
-  // En mode joueur ou test MJ : seulement ceux dont visibiliteNav <= niveauNavigation.
   function sourceCourantsCalculateur() {
-    if (typeof SEA_CURRENTS === 'undefined') return [];
-    const mjSansTest = typeof modeMJ !== 'undefined' && modeMJ
-      && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
-    if (mjSansTest) return SEA_CURRENTS;
-    const nav = typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0;
-    return SEA_CURRENTS.filter(c => (c.visibiliteNav ?? 0) <= nav);
+    return [];
   }
 
   function zonesNavigationExplicites() {
-    const flag = typeof SEA_NAV_ZONES_EXPLICITES !== 'undefined' && !!SEA_NAV_ZONES_EXPLICITES;
-    if (!flag) return false;
-    const zones = sourceZonesNavigationCalculateur();
-    const oceanBounds = sourceOceanBoundsCalculateur();
-    if (zones.length > 0 || oceanBounds.length > 0) return true;
-    if (!avertissementZonesNavigationExplicites && typeof console !== 'undefined') {
-      avertissementZonesNavigationExplicites = true;
-      console.warn('[NavigationJaillot] SEA_NAV_ZONES_EXPLICITES=true mais SEA_NAV_ZONES et SEA_OCEAN_BOUNDS sont vides: repli compatible, navigation non bornee par emprise maritime.');
-    }
     return false;
   }
 
   function sourceZonesNavigationCalculateur() {
-    if (typeof SEA_NAV_ZONES !== 'undefined' && Array.isArray(SEA_NAV_ZONES)) return SEA_NAV_ZONES;
     return [];
   }
 
   function sourceOceanBoundsCalculateur() {
-    if (typeof SEA_OCEAN_BOUNDS !== 'undefined' && Array.isArray(SEA_OCEAN_BOUNDS)) return SEA_OCEAN_BOUNDS;
     return [];
   }
 
   function modeNavigationMaritime() {
-    const flagZonesExplicites = typeof SEA_NAV_ZONES_EXPLICITES !== 'undefined' && !!SEA_NAV_ZONES_EXPLICITES;
     const zones = sourceZonesNavigationCalculateur();
     const oceanBounds = sourceOceanBoundsCalculateur();
     return {
       zonesExplicites: zonesNavigationExplicites(),
-      flagZonesExplicites,
-      compatLegacy: !flagZonesExplicites,
+      flagZonesExplicites: false,
+      compatLegacy: true,
       nbZonesNavigation: zones.length,
       nbOceanBounds: oceanBounds.length,
-      fallbackCalmeOceanBounds: flagZonesExplicites && oceanBounds.length > 0,
-      nbCourants: sourceCourantsCalculateur().length,
+      fallbackCalmeOceanBounds: false,
+      nbCourants: 0,
     };
   }
 
@@ -635,7 +615,7 @@
 
   // ── Restrictions de navigation par type de zone (fluviale/côtière/hauturière) ──
   // TODO PN-NAVZONE: classification géographique pas encore construite (chantier
-  // séparé, distinct de SEA_NAV_ZONES/oceanBounds qui servent aux courants OSCAR).
+  // séparé des courants OSCAR et des hauts-fonds conservés dans sea-data.js).
   // Tant qu'elle n'existe pas, cette fonction renvoie systématiquement null : les
   // interdictions et malus de restrictionNav restent inertes mais déjà câblés.
   function typeZoneNavigationEnPoint(point) {
@@ -2007,9 +1987,9 @@
 
   function getTerres() {
     if (terresCache) return terresCache;
-    // TODO PN-SEA-EXPLICIT: quand SEA_NAV_ZONES_EXPLICITES sera le seul mode,
-    // ZONES_DATA ne devra plus servir a autoriser la mer, seulement aux collisions
-    // terre, au deventement et aux distances de cote.
+    // Les anciennes zones maritimes explicites ont été retirées en dev :
+    // ZONES_DATA continue donc d'autoriser la mer via le masque historique,
+    // en plus de servir aux collisions terre, au déventement et aux distances de côte.
     const source = typeof ZONES_DATA !== 'undefined' ? ZONES_DATA : {};
     terresCache = Object.values(source).flatMap(contours => {
       if (!Array.isArray(contours)) return [];
@@ -2060,13 +2040,27 @@
   // Hauts-fonds visibles par le calculateur selon niveauNavigation.
   // En mode MJ sans test actif : tous les hauts-fonds (connaissance totale).
   // En mode joueur ou test MJ : seulement ceux dont visibiliteNav <= niveauNavigation.
+  function sourceShoals() {
+    if (typeof ZONES_DATA === 'undefined' || typeof ZONES_SHOAL === 'undefined') return [];
+    return Object.entries(ZONES_SHOAL).map(([id, meta]) => {
+      const contours = ZONES_DATA[id] || [];
+      // ZONES_DATA stocke les hauts-fonds comme [[...pts...], [...pts...]]
+      // polygonesZoneSea attend {polygons:[{exterior, holes}]} pour les multi-contours.
+      // On convertit chaque contour en { exterior, holes:[] }.
+      const zone = contours.length === 0
+        ? []
+        : { polygons: contours.map(ring => ({ exterior: ring, holes: [] })) };
+      return { id, ...meta, zone };
+    });
+  }
+
   function sourceHautsFondsCalculateur() {
-    if (typeof SEA_SHOALS === 'undefined') return [];
+    const all = sourceShoals();
     const mjSansTest = typeof modeMJ !== 'undefined' && modeMJ
       && typeof testNiveauNavActif !== 'undefined' && !testNiveauNavActif;
-    if (mjSansTest) return SEA_SHOALS;
+    if (mjSansTest) return all;
     const nav = typeof niveauNavigation !== 'undefined' ? niveauNavigation : 0;
-    return SEA_SHOALS.filter(s => (s.visibiliteNav ?? 0) <= nav);
+    return all.filter(s => (s.visibiliteNav ?? 0) <= nav);
   }
 
   function getIndexHautsFonds() {

@@ -1,8 +1,17 @@
 {
   "source": "js/oscar-grid.js",
   "output": "js/oscar-hex-grid.js",
+  "method": "interpolation ponderee par voisinage (alignee sur interpolated_vector de gen_oscar_stitched_centerlines.py), remplace le binning plus-proche-voisin de la v1",
+  "interpolation": {
+    "radiusPx": 95,
+    "limit": 8,
+    "minDistPx": 12
+  },
   "squareCells": 7626,
-  "hexCells": 7524,
+  "hexCells": 11903,
+  "hexCellsCalmes": 229,
+  "calmeSeuilNoeuds": 0.05,
+  "previousHexCellsBinningV1": 7524,
   "cellSizePx": 50,
   "hexAreaFactor": 0.85,
   "hex": {
@@ -16,266 +25,391 @@
     }
   },
   "domains": {
-    "pacific": 1477,
-    "gulf_mexico": 980,
-    "caribbean": 2350,
-    "florida": 311,
-    "bahamas": 635,
-    "atlantic": 1771
+    "atlantic": 3012,
+    "florida": 505,
+    "gulf_mexico": 1545,
+    "bahamas": 960,
+    "caribbean": 3298,
+    "pacific": 2583
   },
   "sourceCellsPerHex": {
-    "1": 7422,
-    "2": 102
+    "1": 490,
+    "2": 497,
+    "3": 482,
+    "4": 437,
+    "5": 466,
+    "6": 640,
+    "7": 744,
+    "8": 8147
   },
   "fidelity": {
-    "avgSpeedDiffKnot": 0.000977,
-    "maxSpeedDiffKnot": 0.222,
-    "avgAngleDiffDeg": 0.262746,
-    "maxAngleDiffDeg": 55.7,
+    "avgSpeedDiffKnot": 0.033221,
+    "maxSpeedDiffKnot": 1.056,
+    "avgAngleDiffDeg": 5.619335,
+    "maxAngleDiffDeg": 179.075955,
     "comparedSourceCells": 7626
   },
   "worstSpeedDiffs": [
     {
-      "sourceKey": "104_51",
-      "hexKey": "60_105",
-      "speedDiff": 0.22200000000000003,
-      "angleDiff": 20.5
+      "sourceKey": "79_33",
+      "hexKey": "38_80",
+      "sourceSpeedKnot": 0.087,
+      "hexSpeedKnot": 1.143,
+      "speedDiff": 1.056,
+      "angleDiff": 44.770215797200194
     },
     {
-      "sourceKey": "103_51",
-      "hexKey": "60_104",
-      "speedDiff": 0.129,
-      "angleDiff": 2.2999999999999545
+      "sourceKey": "57_55",
+      "hexKey": "64_58",
+      "sourceSpeedKnot": 0.065,
+      "hexSpeedKnot": 0.886,
+      "speedDiff": 0.821,
+      "angleDiff": 2.4713071912545956
     },
     {
-      "sourceKey": "103_52",
-      "hexKey": "60_104",
-      "speedDiff": 0.12799999999999997,
-      "angleDiff": 4.7999999999999545
+      "sourceKey": "83_21",
+      "hexKey": "24_84",
+      "sourceSpeedKnot": 2.506,
+      "hexSpeedKnot": 1.698,
+      "speedDiff": 0.8079999999999998,
+      "angleDiff": 0.23815130049274558
     },
     {
-      "sourceKey": "162_89",
-      "hexKey": "103_163",
-      "speedDiff": 0.125,
-      "angleDiff": 8.299999999999955
+      "sourceKey": "79_34",
+      "hexKey": "40_80",
+      "sourceSpeedKnot": 0.267,
+      "hexSpeedKnot": 1.042,
+      "speedDiff": 0.775,
+      "angleDiff": 5.719021087030569
     },
     {
-      "sourceKey": "53_88",
-      "hexKey": "103_53",
-      "speedDiff": 0.123,
-      "angleDiff": 2.3999999999999773
+      "sourceKey": "82_22",
+      "hexKey": "26_83",
+      "sourceSpeedKnot": 0.635,
+      "hexSpeedKnot": 1.365,
+      "speedDiff": 0.73,
+      "angleDiff": 0.13823867850510396
     },
     {
-      "sourceKey": "53_89",
-      "hexKey": "103_53",
-      "speedDiff": 0.122,
-      "angleDiff": 3.5
+      "sourceKey": "83_27",
+      "hexKey": "31_83",
+      "sourceSpeedKnot": 0.425,
+      "hexSpeedKnot": 1.149,
+      "speedDiff": 0.724,
+      "angleDiff": 8.908407590108482
     },
     {
-      "sourceKey": "160_88",
-      "hexKey": "103_161",
-      "speedDiff": 0.10299999999999998,
-      "angleDiff": 3.2999999999999545
+      "sourceKey": "59_50",
+      "hexKey": "58_60",
+      "sourceSpeedKnot": 0.635,
+      "hexSpeedKnot": 1.344,
+      "speedDiff": 0.7090000000000001,
+      "angleDiff": 6.407404296099799
     },
     {
-      "sourceKey": "162_88",
-      "hexKey": "103_163",
-      "speedDiff": 0.10299999999999998,
-      "angleDiff": 11.200000000000045
+      "sourceKey": "58_55",
+      "hexKey": "64_59",
+      "sourceSpeedKnot": 1.726,
+      "hexSpeedKnot": 1.03,
+      "speedDiff": 0.696,
+      "angleDiff": 14.486019440512905
     },
     {
-      "sourceKey": "160_89",
-      "hexKey": "103_161",
-      "speedDiff": 0.09799999999999998,
-      "angleDiff": 4
+      "sourceKey": "87_16",
+      "hexKey": "19_87",
+      "sourceSpeedKnot": 2.149,
+      "hexSpeedKnot": 1.457,
+      "speedDiff": 0.692,
+      "angleDiff": 3.7616904639387485
     },
     {
-      "sourceKey": "58_33",
-      "hexKey": "39_58",
-      "speedDiff": 0.09200000000000003,
-      "angleDiff": 4.600000000000023
+      "sourceKey": "79_26",
+      "hexKey": "30_80",
+      "sourceSpeedKnot": 0.196,
+      "hexSpeedKnot": 0.832,
+      "speedDiff": 0.6359999999999999,
+      "angleDiff": 5.298304183278674
     },
     {
-      "sourceKey": "104_52",
-      "hexKey": "60_105",
-      "speedDiff": 0.088,
-      "angleDiff": 55.700000000000045
+      "sourceKey": "58_53",
+      "hexKey": "62_59",
+      "sourceSpeedKnot": 0.303,
+      "hexSpeedKnot": 0.935,
+      "speedDiff": 0.6320000000000001,
+      "angleDiff": 23.964639706876028
     },
     {
-      "sourceKey": "58_34",
-      "hexKey": "39_58",
-      "speedDiff": 0.08700000000000002,
-      "angleDiff": 6.7999999999999545
+      "sourceKey": "80_25",
+      "hexKey": "29_80",
+      "sourceSpeedKnot": 0.195,
+      "hexSpeedKnot": 0.816,
+      "speedDiff": 0.621,
+      "angleDiff": 5.865544919459808
     },
     {
-      "sourceKey": "57_33",
-      "hexKey": "39_57",
-      "speedDiff": 0.08299999999999996,
-      "angleDiff": 9.299999999999955
+      "sourceKey": "83_32",
+      "hexKey": "37_83",
+      "sourceSpeedKnot": 0.15,
+      "hexSpeedKnot": 0.758,
+      "speedDiff": 0.608,
+      "angleDiff": 3.573921259900885
     },
     {
-      "sourceKey": "59_34",
-      "hexKey": "39_59",
-      "speedDiff": 0.07900000000000001,
-      "angleDiff": 1.7000000000000455
+      "sourceKey": "84_19",
+      "hexKey": "22_85",
+      "sourceSpeedKnot": 2.366,
+      "hexSpeedKnot": 1.768,
+      "speedDiff": 0.5980000000000001,
+      "angleDiff": 0.23039749075860527
     },
     {
-      "sourceKey": "52_88",
-      "hexKey": "103_52",
-      "speedDiff": 0.07899999999999996,
-      "angleDiff": 0.5
+      "sourceKey": "60_48",
+      "hexKey": "56_61",
+      "sourceSpeedKnot": 2.3,
+      "hexSpeedKnot": 1.714,
+      "speedDiff": 0.5859999999999999,
+      "angleDiff": 5.667915771768548
     },
     {
-      "sourceKey": "51_89",
-      "hexKey": "103_51",
-      "speedDiff": 0.07799999999999996,
-      "angleDiff": 0.10000000000002274
+      "sourceKey": "82_23",
+      "hexKey": "27_82",
+      "sourceSpeedKnot": 2.181,
+      "hexSpeedKnot": 1.604,
+      "speedDiff": 0.577,
+      "angleDiff": 1.2718895267651078
     },
     {
-      "sourceKey": "52_89",
-      "hexKey": "103_52",
-      "speedDiff": 0.07799999999999996,
-      "angleDiff": 0.7000000000000455
+      "sourceKey": "79_27",
+      "hexKey": "31_79",
+      "sourceSpeedKnot": 0.181,
+      "hexSpeedKnot": 0.755,
+      "speedDiff": 0.5740000000000001,
+      "angleDiff": 17.708112177135945
     },
     {
-      "sourceKey": "59_33",
-      "hexKey": "39_59",
-      "speedDiff": 0.07799999999999996,
-      "angleDiff": 1.2999999999999545
+      "sourceKey": "84_20",
+      "hexKey": "23_84",
+      "sourceSpeedKnot": 2.484,
+      "hexSpeedKnot": 1.929,
+      "speedDiff": 0.5549999999999999,
+      "angleDiff": 0.44669054592736757
     },
     {
-      "sourceKey": "51_88",
-      "hexKey": "103_51",
-      "speedDiff": 0.07700000000000007,
-      "angleDiff": 0.10000000000002274
+      "sourceKey": "81_28",
+      "hexKey": "33_81",
+      "sourceSpeedKnot": 2.719,
+      "hexSpeedKnot": 2.169,
+      "speedDiff": 0.5499999999999998,
+      "angleDiff": 0.8148350424964974
     },
     {
-      "sourceKey": "50_88",
-      "hexKey": "103_50",
-      "speedDiff": 0.07200000000000006,
-      "angleDiff": 0.39999999999997726
+      "sourceKey": "60_50",
+      "hexKey": "58_61",
+      "sourceSpeedKnot": 1.937,
+      "hexSpeedKnot": 1.4,
+      "speedDiff": 0.5370000000000001,
+      "angleDiff": 5.244741570292263
     }
   ],
   "worstAngleDiffs": [
     {
-      "sourceKey": "104_52",
-      "hexKey": "60_105",
-      "speedDiff": 0.088,
-      "angleDiff": 55.700000000000045
+      "sourceKey": "67_46",
+      "hexKey": "53_67",
+      "sourceSpeedKnot": 0.062,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.062,
+      "angleDiff": 179.07595464722726
     },
     {
-      "sourceKey": "51_22",
-      "hexKey": "25_51",
-      "speedDiff": 0.028999999999999998,
-      "angleDiff": 50.200000000000045
+      "sourceKey": "99_46",
+      "hexKey": "54_100",
+      "sourceSpeedKnot": 0.112,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.112,
+      "angleDiff": 178.9769698113322
     },
     {
-      "sourceKey": "50_22",
-      "hexKey": "25_50",
+      "sourceKey": "70_36",
+      "hexKey": "42_71",
+      "sourceSpeedKnot": 0.149,
+      "hexSpeedKnot": 0.068,
+      "speedDiff": 0.08099999999999999,
+      "angleDiff": 175.00515140086134
+    },
+    {
+      "sourceKey": "72_36",
+      "hexKey": "42_73",
+      "sourceSpeedKnot": 0.174,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.174,
+      "angleDiff": 170.7538872544368
+    },
+    {
+      "sourceKey": "138_52",
+      "hexKey": "61_139",
+      "sourceSpeedKnot": 0.071,
+      "hexSpeedKnot": 0.064,
       "speedDiff": 0.006999999999999992,
-      "angleDiff": 46.39999999999998
+      "angleDiff": 166.1207843138743
     },
     {
-      "sourceKey": "157_88",
-      "hexKey": "103_158",
-      "speedDiff": 0.0020000000000000018,
-      "angleDiff": 35.299999999999955
+      "sourceKey": "71_36",
+      "hexKey": "42_72",
+      "sourceSpeedKnot": 0.182,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.182,
+      "angleDiff": 164.0546040990771
     },
     {
-      "sourceKey": "157_89",
-      "hexKey": "103_158",
-      "speedDiff": 0.03900000000000001,
-      "angleDiff": 26.700000000000045
+      "sourceKey": "30_28",
+      "hexKey": "33_30",
+      "sourceSpeedKnot": 0.153,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.153,
+      "angleDiff": 160.14478563067894
     },
     {
-      "sourceKey": "97_16",
-      "hexKey": "18_98",
-      "speedDiff": 0.018000000000000016,
-      "angleDiff": 26.600000000000023
+      "sourceKey": "105_8",
+      "hexKey": "9_105",
+      "sourceSpeedKnot": 0.078,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.078,
+      "angleDiff": 156.03751102542185
     },
     {
-      "sourceKey": "50_21",
-      "hexKey": "25_50",
-      "speedDiff": 0.047000000000000014,
-      "angleDiff": 26.100000000000023
+      "sourceKey": "87_29",
+      "hexKey": "34_88",
+      "sourceSpeedKnot": 0.062,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.062,
+      "angleDiff": 155.94265054998823
     },
     {
-      "sourceKey": "105_15",
-      "hexKey": "18_106",
-      "speedDiff": 0.0010000000000000009,
-      "angleDiff": 26.100000000000023
+      "sourceKey": "79_40",
+      "hexKey": "47_79",
+      "sourceSpeedKnot": 0.133,
+      "hexSpeedKnot": 0.057,
+      "speedDiff": 0.07600000000000001,
+      "angleDiff": 155.39768296743597
     },
     {
-      "sourceKey": "104_16",
-      "hexKey": "18_105",
-      "speedDiff": 0,
-      "angleDiff": 25
+      "sourceKey": "56_57",
+      "hexKey": "66_57",
+      "sourceSpeedKnot": 0.078,
+      "hexSpeedKnot": 0.614,
+      "speedDiff": 0.536,
+      "angleDiff": 154.80251395393555
     },
     {
-      "sourceKey": "98_15",
-      "hexKey": "18_99",
-      "speedDiff": 0.020000000000000004,
-      "angleDiff": 24.299999999999955
+      "sourceKey": "81_54",
+      "hexKey": "63_81",
+      "sourceSpeedKnot": 0.071,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.071,
+      "angleDiff": 153.07232214895953
     },
     {
-      "sourceKey": "47_33",
-      "hexKey": "39_47",
-      "speedDiff": 0.020000000000000004,
-      "angleDiff": 22.700000000000045
+      "sourceKey": "57_28",
+      "hexKey": "33_57",
+      "sourceSpeedKnot": 0.066,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.066,
+      "angleDiff": 151.1134182330893
     },
     {
-      "sourceKey": "105_16",
-      "hexKey": "18_106",
-      "speedDiff": 0.012999999999999998,
-      "angleDiff": 22
+      "sourceKey": "81_53",
+      "hexKey": "62_82",
+      "sourceSpeedKnot": 0.062,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.062,
+      "angleDiff": 148.0918930643469
     },
     {
-      "sourceKey": "104_15",
-      "hexKey": "18_105",
-      "speedDiff": 0.01100000000000001,
-      "angleDiff": 21.5
+      "sourceKey": "69_41",
+      "hexKey": "48_70",
+      "sourceSpeedKnot": 0.23,
+      "hexSpeedKnot": 0.157,
+      "speedDiff": 0.07300000000000001,
+      "angleDiff": 147.46485330069754
     },
     {
-      "sourceKey": "104_51",
-      "hexKey": "60_105",
-      "speedDiff": 0.22200000000000003,
-      "angleDiff": 20.5
+      "sourceKey": "88_28",
+      "hexKey": "32_89",
+      "sourceSpeedKnot": 0.175,
+      "hexSpeedKnot": 0.062,
+      "speedDiff": 0.11299999999999999,
+      "angleDiff": 146.3405199151872
     },
     {
-      "sourceKey": "102_40",
-      "hexKey": "46_103",
-      "speedDiff": 0.021999999999999992,
-      "angleDiff": 20.399999999999977
+      "sourceKey": "58_28",
+      "hexKey": "33_58",
+      "sourceSpeedKnot": 0.079,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.079,
+      "angleDiff": 143.7073702715204
     },
     {
-      "sourceKey": "97_15",
-      "hexKey": "18_98",
-      "speedDiff": 0.04899999999999999,
-      "angleDiff": 18.899999999999977
+      "sourceKey": "80_40",
+      "hexKey": "47_80",
+      "sourceSpeedKnot": 0.118,
+      "hexSpeedKnot": 0.06,
+      "speedDiff": 0.057999999999999996,
+      "angleDiff": 142.32574062476772
     },
     {
-      "sourceKey": "46_33",
-      "hexKey": "39_46",
-      "speedDiff": 0.0030000000000000027,
-      "angleDiff": 18.799999999999955
+      "sourceKey": "103_50",
+      "hexKey": "58_104",
+      "sourceSpeedKnot": 0.16,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.16,
+      "angleDiff": 142.1250163489018
     },
     {
-      "sourceKey": "55_34",
-      "hexKey": "39_55",
-      "speedDiff": 0.01899999999999996,
-      "angleDiff": 18.700000000000045
-    },
-    {
-      "sourceKey": "56_34",
-      "hexKey": "39_56",
-      "speedDiff": 0.026000000000000023,
-      "angleDiff": 18.600000000000023
-    },
-    {
-      "sourceKey": "55_33",
-      "hexKey": "39_55",
-      "speedDiff": 0.025999999999999968,
-      "angleDiff": 18.5
+      "sourceKey": "88_21",
+      "hexKey": "24_89",
+      "sourceSpeedKnot": 0.07,
+      "hexSpeedKnot": 0,
+      "speedDiff": 0.07,
+      "angleDiff": 141.34019174590992
     }
-  ]
+  ],
+  "arbitrageManuel": {
+    "seuilAngleDeg": 30,
+    "seuilVitesseNoeuds": 0.3,
+    "count": 4,
+    "cas": [
+      {
+        "sourceKey": "89_52",
+        "hexKey": "60_90",
+        "sourceSpeedKnot": 0.334,
+        "hexSpeedKnot": 0.352,
+        "speedDiff": 0.01799999999999996,
+        "angleDiff": 36.778524502847745
+      },
+      {
+        "sourceKey": "146_79",
+        "hexKey": "92_147",
+        "sourceSpeedKnot": 0.812,
+        "hexSpeedKnot": 0.755,
+        "speedDiff": 0.05700000000000005,
+        "angleDiff": 32.423080791784855
+      },
+      {
+        "sourceKey": "58_54",
+        "hexKey": "63_58",
+        "sourceSpeedKnot": 0.768,
+        "hexSpeedKnot": 0.811,
+        "speedDiff": 0.04300000000000004,
+        "angleDiff": 30.53233935393598
+      },
+      {
+        "sourceKey": "125_76",
+        "hexKey": "88_126",
+        "sourceSpeedKnot": 0.726,
+        "hexSpeedKnot": 0.548,
+        "speedDiff": 0.17799999999999994,
+        "angleDiff": 30.08754266026756
+      }
+    ]
+  }
 }
