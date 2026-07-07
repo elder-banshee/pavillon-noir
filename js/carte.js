@@ -269,9 +269,14 @@ function sourceMaritimeCourants() {
 }
 
 function sourceMaritimeHautsFonds() {
-  if (typeof SEA_SHOALS === 'undefined') return [];
-  if (modeMJ && !testNiveauNavActif) return SEA_SHOALS;
-  return SEA_SHOALS.filter(s => (s.visibiliteNav ?? 2) <= niveauNavigation);
+  if (typeof ZONES_DATA === 'undefined' || typeof ZONES_SHOAL === 'undefined') return [];
+  const all = Object.entries(ZONES_SHOAL).map(([id, meta]) => ({
+    id,
+    ...meta,
+    zone: ZONES_DATA[id] || [],
+  }));
+  if (modeMJ && !testNiveauNavActif) return all;
+  return all.filter(s => (s.visibiliteNav ?? 2) <= niveauNavigation);
 }
 
 function styleMaritime(feature, type, active = false) {

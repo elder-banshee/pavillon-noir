@@ -443,16 +443,24 @@
     return dedans;
   }
 
-  function polygonesZoneSea(zone) {
-    if (Array.isArray(zone)) return [{ exterior: zone, holes: [] }];
-    if (zone && Array.isArray(zone.polygons)) {
-      return zone.polygons.map(polygoneZoneSea).filter(poly => poly.exterior.length >= 3);
+  function zoneSeaPolygons(zone) {
+    if (Array.isArray(zone)) {
+      // Tableau de contours multiples [[pts],[pts],...] — format ZONES_DATA
+      if (zone.length && Array.isArray(zone[0]) && Array.isArray(zone[0][0])) {
+        return zone.map(ring => ({ exterior: ring, holes: [] }))
+          .filter(poly => poly.exterior.length >= 3);
+      }
+      // Contour simple [[x,y],[x,y],...] — format legacy
+      return [{ exterior: zone, holes: [] }];
     }
-    const poly = polygoneZoneSea(zone);
+    if (zone && Array.isArray(zone.polygons)) {
+      return zone.polygons.map(zoneSeaNormaliser).filter(poly => poly.exterior.length >= 3);
+    }
+    const poly = zoneSeaNormaliser(zone);
     return poly.exterior.length >= 3 ? [poly] : [];
   }
 
-  function polygoneZoneSea(zone) {
+  function zoneSeaNormaliser(zone) {
     if (Array.isArray(zone)) return { exterior: zone, holes: [] };
     if (!zone || !Array.isArray(zone.exterior)) return { exterior: [], holes: [] };
     const trous = Array.isArray(zone.holes) ? zone.holes : (Array.isArray(zone.hole) ? [zone.hole] : []);
@@ -462,8 +470,8 @@
     };
   }
 
-  function anneauxZoneSea(zone) {
-    return polygonesZoneSea(zone)
+  function zoneSeaRings(zone) {
+    return zoneSeaPolygons(zone)
       .flatMap(poly => [poly.exterior, ...poly.holes])
       .filter(ring => Array.isArray(ring) && ring.length >= 3);
   }
@@ -518,7 +526,7 @@
     if (zonesNavigationIndexCache) return zonesNavigationIndexCache;
     const source = sourceZonesNavigationCalculateur();
     zonesNavigationIndexCache = source.map(zone => {
-      const anneaux = anneauxZoneSea(zone.zone);
+      const anneaux = zoneSeaRings(zone.zone);
       return {
         zone,
         bbox: bboxAnneauxSea(anneaux),
@@ -531,7 +539,7 @@
     if (oceanBoundsIndexCache) return oceanBoundsIndexCache;
     const source = sourceOceanBoundsCalculateur();
     oceanBoundsIndexCache = source.map(bounds => {
-      const anneaux = anneauxZoneSea(bounds.zone);
+      const anneaux = zoneSeaRings(bounds.zone);
       return {
         bounds,
         bbox: bboxAnneauxSea(anneaux),
@@ -561,7 +569,7 @@
   }
 
   function pointDansZoneSea(point, zone) {
-    return polygonesZoneSea(zone).some(poly => (
+    return zoneSeaPolygons(zone).some(poly => (
       pointDansAnneauSea(point, poly.exterior)
       && !poly.holes.some(trou => pointDansAnneauSea(point, trou))
     ));
@@ -2034,24 +2042,19 @@
   }
 
   function normaliserZoneSea(zone) {
-    return anneauxZoneSea(zone).map(ring => ring.map(([x, y]) => ({ x, y })));
+    return zoneSeaRings(zone).map(ring => ring.map(([x, y]) => ({ x, y })));
   }
 
   // Hauts-fonds visibles par le calculateur selon niveauNavigation.
   // En mode MJ sans test actif : tous les hauts-fonds (connaissance totale).
   // En mode joueur ou test MJ : seulement ceux dont visibiliteNav <= niveauNavigation.
-function sourceShoals() {
+  function sourceShoals() {
     if (typeof ZONES_DATA === 'undefined' || typeof ZONES_SHOAL === 'undefined') return [];
-    return Object.entries(ZONES_SHOAL).map(([id, meta]) => {
-      const contours = ZONES_DATA[id] || [];
-      // ZONES_DATA stocke les hauts-fonds comme [[...pts...], [...pts...]]
-      // polygonesZoneSea attend {polygons:[{exterior, holes}]} pour les multi-contours.
-      // On convertit chaque contour en { exterior, holes:[] }.
-      const zone = contours.length === 0
-        ? []
-        : { polygons: contours.map(ring => ({ exterior: ring, holes: [] })) };
-      return { id, ...meta, zone };
-    });
+    return Object.entries(ZONES_SHOAL).map(([id, meta]) => ({
+      id,
+      ...meta,
+      zone: ZONES_DATA[id] || [],
+    }));
   }
 
   function sourceHautsFondsCalculateur() {

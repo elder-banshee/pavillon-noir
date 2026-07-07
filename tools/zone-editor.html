@@ -142,13 +142,13 @@
       border-color: var(--border-hover);
     }
 
-    .tb-mode-btn.mode-geo {
+    .tb-mode-btn.mode-topo {
       color: #7de0a0;
       border-color: rgba(80, 180, 120, 0.45);
       background: rgba(80, 180, 120, 0.1);
     }
 
-    .tb-mode-btn.mode-infos {
+    .tb-mode-btn.mode-ocean {
       color: #d99dea;
       border-color: rgba(180, 100, 220, 0.5);
       background: rgba(160, 80, 210, 0.12);
@@ -160,11 +160,11 @@
       background: rgba(70, 170, 210, 0.1);
     }
 
-    .tb-mode-btn.mode-geo:hover {
+    .tb-mode-btn.mode-topo:hover {
       background: rgba(80, 180, 120, 0.18);
     }
 
-    .tb-mode-btn.mode-infos:hover {
+    .tb-mode-btn.mode-ocean:hover {
       background: rgba(160, 80, 210, 0.22);
     }
 
@@ -208,29 +208,29 @@
     }
 
     /* Couleur par mode dans le dropdown */
-    .editor-menu button[data-editor="zone"] {
+    .editor-menu button[data-editor="topo"] {
       color: #7de0a0;
     }
 
-    .editor-menu button[data-editor="currents"] {
+    .editor-menu button[data-editor="ocean"] {
       color: #d99dea;
     }
 
-    .editor-menu button[data-editor="sea"] {
+    .editor-menu button[data-editor="semaphore"] {
       color: #8fd8f2;
     }
 
-    .editor-menu button[data-editor="zone"]:hover {
+    .editor-menu button[data-editor="topo"]:hover {
       background: rgba(80, 180, 120, 0.14);
       border-color: rgba(80, 180, 120, 0.4);
     }
 
-    .editor-menu button[data-editor="currents"]:hover {
+    .editor-menu button[data-editor="ocean"]:hover {
       background: rgba(160, 80, 210, 0.14);
       border-color: rgba(180, 100, 220, 0.4);
     }
 
-    .editor-menu button[data-editor="sea"]:hover {
+    .editor-menu button[data-editor="semaphore"]:hover {
       background: rgba(70, 170, 210, 0.14);
       border-color: rgba(70, 170, 210, 0.4);
     }
@@ -1183,18 +1183,18 @@
       <span class="tb-brand">Zone Editor</span>
 
       <div class="editor-switch">
-        <button id="editor-switch-btn" class="tb-mode-btn" type="button">Géo</button>
+        <button id="editor-switch-btn" class="tb-mode-btn" type="button">Topographie</button>
         <div id="editor-menu" class="editor-menu">
-          <button type="button" data-editor="zone">Géo</button>
-          <button type="button" data-editor="currents">Infos</button>
-          <button type="button" data-editor="sea">Sémaphore</button>
+          <button type="button" data-editor="topo">Topographie</button>
+          <button type="button" data-editor="ocean">Océanographie</button>
+          <button type="button" data-editor="semaphore">Sémaphore</button>
         </div>
       </div>
 
-      <div id="tab-group" style="display:none">
+      <div id="tab-group" style="display:flex">
         <div class="tb-sep"></div>
-        <button class="tab-btn active" data-tab="terres" type="button">Terres</button>
-        <button class="tab-btn" data-tab="mers" type="button">Mers</button>
+        <button class="tab-btn active" data-tab="geo" type="button">Géo</button>
+        <button class="tab-btn" data-tab="info" type="button">Info</button>
       </div>
     </div>
 
@@ -1220,8 +1220,8 @@
     <!-- Panneau -->
     <div id="panel">
 
-      <!-- Section : Géo — Terres (zone sélectionnée) -->
-      <div class="panel-section" id="section-geo-terres">
+      <!-- Section : TOPOGRAPHIE — Géo (territoire ou haut-fond sélectionné) -->
+      <div class="panel-section" id="section-topo-geo">
         <div class="panel-title">Zone sélectionnée</div>
 
         <!-- Nom de la zone (encadré, centré) -->
@@ -1247,23 +1247,6 @@
         </div>
 
         <button id="btn-del-contour" disabled>✕ Supprimer ce contour</button>
-      </div>
-
-      <!-- Section : Géo — Mers (courant/haut-fond sélectionné) -->
-      <div class="panel-section" id="section-geo-mers" style="display:none">
-        <div class="panel-title">Élément sélectionné</div>
-        <div id="geo-mers-empty" class="empty-msg">Cliquez sur un courant ou un haut-fond</div>
-        <div id="geo-mers-detail" style="display:none">
-          <div id="geo-mers-label"
-            style="color:var(--gold-light); font-family:Cinzel,serif; font-size:0.8rem; margin-bottom:4px;"></div>
-          <div id="geo-mers-type" style="font-size:0.72rem; color:var(--text-dim); margin-bottom:8px;"></div>
-          <div id="geo-mers-contour-nav" class="contour-nav" style="display:none">
-            <button id="btn-geo-mers-prev" title="Polygone précédent">‹</button>
-            <div id="geo-mers-contour-label"></div>
-            <button id="btn-geo-mers-next" title="Polygone suivant">›</button>
-          </div>
-          <div id="geo-mers-pts" style="font-size:0.72rem; color:var(--text-dim); margin-top:4px;"></div>
-        </div>
       </div>
 
       <!-- Section : case sélectionnée -->
@@ -1296,10 +1279,10 @@
         <button id="btn-cancel-draw">✕ Annuler</button>
       </div>
 
-      <!-- Section : Infos — Terres (démographie par juridiction) -->
-      <div id="section-infos-terres" style="display:none">
-        <div class="panel-title">Juridiction sélectionnée</div>
-        <div id="infos-terres-empty" class="empty-msg">Cliquez sur un territoire sur la carte</div>
+      <!-- Section : TOPOGRAPHIE — Info (démographie territoire ou métadonnées haut-fond) -->
+      <div id="section-topo-info" style="display:none">
+        <div class="panel-title">Zone sélectionnée</div>
+        <div id="infos-terres-empty" class="empty-msg">Cliquez sur un territoire ou un haut-fond sur la carte</div>
         <div id="infos-terres-detail"
           style="display:none; margin-top:8px; padding:8px; background:rgba(200,151,58,0.08); border:1px solid var(--border); border-radius:2px;">
           <div id="infos-terres-label"
@@ -1311,8 +1294,8 @@
         </div>
       </div>
 
-      <!-- Section : Infos — Mers (contrôle OSCAR + métadonnées courants) -->
-      <div id="section-infos-mers" style="display:none">
+      <!-- Section : OCÉANOGRAPHIE (contrôle grille OSCAR + inspection cellule) -->
+      <div id="section-ocean" style="display:none">
         <div class="panel-title">Grille OSCAR</div>
         <div class="oscar-controls">
           <label>
@@ -1332,22 +1315,10 @@
           <div id="oscar-grid-summary" class="sea-prop"><span>OSCAR :</span> grille indisponible</div>
         </div>
         <div id="sea-oscar" class="sea-prop"><span>Cellule OSCAR :</span> non sélectionnée</div>
-
-        <div class="panel-title" style="margin-top:14px;">Hauts-fonds</div>
-        <div id="currents-list" style="display:none"></div>
-        <!-- Panneau courant sélectionné -->
-        <div id="current-detail"
-          style="display:none; margin-top:10px; padding:8px; background:rgba(20,100,200,0.15); border:1px solid rgba(20,100,200,0.4); border-radius:2px;">
-          <div id="current-detail-label"
-            style="color:var(--gold-light); font-family:Cinzel,serif; font-size:0.8rem; margin-bottom:6px;"></div>
-          <div id="current-detail-info"
-            style="display:none; font-size:0.75rem; color:var(--text-dim); margin-bottom:8px;"></div>
-          <div id="current-meta-fields" style="display:flex; flex-direction:column; gap:6px; margin-bottom:8px;"></div>
-          <div id="current-speed-fields" style="display:flex; flex-direction:column; gap:6px; margin-bottom:8px;"></div>
-        </div>
+        <!-- TODO PN-OCEAN-TOOLS : sélection multiple + édition par paquets (session future) -->
       </div>
 
-      <!-- Coordonnées contours (Géo-Terres uniquement) -->
+      <!-- Coordonnées contours (TOPOGRAPHIE — Géo uniquement) -->
       <div id="export-area">
         <div id="export-title">Coordonnées contours</div>
         <div id="export-hint">Sélectionnez une zone pour afficher les coordonnées du contour actif.</div>
@@ -1355,7 +1326,7 @@
         <button id="btn-copy">⎘ Copier</button>
       </div>
 
-      <!-- Bouton export fichier (Géo et Infos) -->
+      <!-- Bouton export fichier (Topographie et Océanographie) -->
       <div id="export-file-area" style="display:none; padding:10px; border-top:1px solid var(--border);">
         <button id="btn-export-file" type="button" class="tool-btn" style="width:100%; font-size:0.78rem; padding:6px;">
           ⬇ Exporter
@@ -1434,41 +1405,32 @@
     // ÉTAT
     // ═══════════════════════════════════════════════════════════
     let map = null;
-    let activeEditor = 'zone'; // 'zone' | 'sea' | 'currents'
-    let activeTab = 'terres'; // 'terres' | 'mers'  (ignoré en mode sea)
-    let currentTool = 'select'; // zone: select/draw/erase/insert ; sea: current/wind
+    let activeMode = 'topo'; // 'semaphore' | 'topo' | 'ocean'
+    let activeTab = 'geo'; // 'geo' | 'info'  (actif seulement en mode topo)
+    let currentTool = 'select'; // topo: select/draw/erase/insert/split ; ocean: select (multi) / paint
     let undoStack = [];
 
     const ctx = {
-      modeKey: 'geo-terres',
-      isGeoTerres: true,
-      isGeoMers: false,
-      isInfosTerres: false,
-      isInfosMers: false,
-      isSea: false,
-      isTerres() { return this.isGeoTerres || this.isInfosTerres; },
-      isMers() { return this.isGeoMers || this.isInfosMers; },
+      modeKey: 'topo-geo',
+      isTopoGeo: true,
+      isTopoInfo: false,
+      isOcean: false,
+      isSemaphore: false,
     };
 
     function refreshCtx() {
-      ctx.isGeoTerres = activeEditor === 'zone' && activeTab === 'terres';
-      ctx.isGeoMers = activeEditor === 'zone' && activeTab === 'mers';
-      ctx.isInfosTerres = activeEditor === 'currents' && activeTab === 'terres';
-      ctx.isInfosMers = activeEditor === 'currents' && activeTab === 'mers';
-      ctx.isSea = activeEditor === 'sea';
-      ctx.modeKey = ctx.isSea
+      ctx.isTopoGeo = activeMode === 'topo' && activeTab === 'geo';
+      ctx.isTopoInfo = activeMode === 'topo' && activeTab === 'info';
+      ctx.isOcean = activeMode === 'ocean';
+      ctx.isSemaphore = activeMode === 'semaphore';
+      ctx.modeKey = ctx.isSemaphore
         ? 'semaphore'
-        : ctx.isGeoTerres
-          ? 'geo-terres'
-          : ctx.isGeoMers
-            ? 'geo-mers'
-            : ctx.isInfosTerres
-              ? 'infos-terres'
-              : 'infos-mers';
-      if (ctx.isGeoMers && (currentTool === 'draw' || currentTool === 'split')) {
-        currentTool = 'select';
-      }
-      if (ctx.isSea && (currentTool === 'current' || currentTool === 'wind')) {
+        : ctx.isOcean
+          ? 'ocean'
+          : ctx.isTopoGeo
+            ? 'topo-geo'
+            : 'topo-info';
+      if (ctx.isOcean && (currentTool === 'draw' || currentTool === 'split' || currentTool === 'insert' || currentTool === 'erase')) {
         currentTool = 'select';
       }
     }
@@ -1490,16 +1452,14 @@
     };
 
     function refreshPanel() {
-      if (ctx.isGeoTerres) updatePanel();
-      else if (ctx.isGeoMers) updateGeoMersPanel();
-      else if (ctx.isInfosTerres) updateInfosTerresDetail();
-      else if (ctx.isSea) updateSeaPanel();
-      if (ctx.isInfosMers) updateInfosMersOscarPanel();
+      if (ctx.isTopoGeo) updatePanel();
+      else if (ctx.isTopoInfo) updateTopoInfoDetail();
+      else if (ctx.isSemaphore) updateSeaPanel();
+      if (ctx.isOcean) updateInfosMersOscarPanel();
     }
 
     function refreshHandles() {
-      if (ctx.isGeoMers) renderGeoMersHandles();
-      else if (ctx.isGeoTerres) renderHandles();
+      if (ctx.isTopoGeo) renderHandles();
     }
 
     function refresh(flags = 0, options = {}) {
@@ -1517,8 +1477,8 @@
       if (flags & R.EDITOR) updateEditorUI();
       if (flags & R.PANEL) refreshPanel();
       if (flags & R.SEA_PANEL) {
-        if (ctx.isSea) updateSeaPanel();
-        if (ctx.isInfosMers) updateInfosMersOscarPanel();
+        if (ctx.isSemaphore) updateSeaPanel();
+        if (ctx.isOcean) updateInfosMersOscarPanel();
       }
       if (flags & R.EXPORT) updateExport();
       if (flags & R.UNDO) updateUndoButton();
@@ -1528,24 +1488,16 @@
       refresh(R.SELECTED_ZONE | R.HANDLES | R.PANEL | R.EXPORT);
     }
 
-    function refreshAfterSeaGeometryEdit() {
-      refresh(R.CURRENTS | R.HANDLES | R.PANEL);
-    }
-
     function refreshAfterModeChange() {
       refresh(R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.OSCAR_GRID | R.EXPORT);
     }
 
-    function setSeaEntitySelection(type, id) {
-      geoMersSplitFirstPt = null;
-      selectedCurrentId = type === 'current' ? id : null;
-      selectedShoalId = type === 'shoal' ? id : null;
-    }
-
-    function clearSeaEntitySelection() {
-      geoMersSplitFirstPt = null;
-      selectedCurrentId = null;
-      selectedShoalId = null;
+    // Un polygone est un polygone : territoire et haut-fond partagent le même
+    // pipeline de sélection/édition de géométrie (zonesEdit). Seule la lecture
+    // des métadonnées (TOPOGRAPHIE — Info) et l'export distinguent les deux,
+    // via isShoalId(zoneId).
+    function isShoalId(zoneId) {
+      return !!(zonesWorkingCopy.SHOAL_META && zonesWorkingCopy.SHOAL_META[zoneId]);
     }
 
     function selectEntity(type, id, extra = {}) {
@@ -1560,15 +1512,8 @@
         return;
       }
 
-      if (type === 'current' || type === 'shoal') {
-        const currentId = type === 'current' ? selectedCurrentId : selectedShoalId;
-        setSeaEntitySelection(type, currentId === id ? null : id);
-        refreshAfterSeaGeometryEdit();
-        return;
-      }
-
-      if (type === 'infosTerres') {
-        selectedInfosTerresId = id;
+      if (type === 'topoInfo') {
+        selectedTopoInfoId = id;
         refresh(R.ZONES | R.PANEL);
       }
     }
@@ -1578,16 +1523,14 @@
     // Initialisées au boot depuis les globales JS ; jamais rechargées au
     // changement de mode ou d'onglet.
 
-    // zones-data.js — partagé entre Géo-Terres et Infos-Terres
+    // zones-data.js — source unique pour tout polygone (territoire ou haut-fond).
+    // Un polygone est un polygone : la géométrie vit dans DATA quel que soit son
+    // type. SHOAL_META distingue les ids haut-fonds pour les métadonnées
+    // (TOPOGRAPHIE — Info) et l'export (règles de visibilité différentes).
     let zonesWorkingCopy = {
-      DATA: null,  // clone profond de ZONES_DATA  (géométrie)
-      DEMO: null,  // clone profond de ZONES_DEMO  (métadonnées)
-    };
-
-    // sea-data.js — partagé entre Géo-Mers et Infos-Mers
-    let seaWorkingCopy = {
-      shoalGeom: null,  // clone de SEA_SHOAL_GEOMETRY
-      shoalMeta: null,  // clone de SEA_SHOAL_META
+      DATA: null,        // clone profond de ZONES_DATA  (géométrie, territoires + hauts-fonds)
+      DEMO: null,        // clone profond de ZONES_DEMO  (métadonnées démographie territoires)
+      SHOAL_META: null,  // clone profond de ZONES_SHOAL (métadonnées hauts-fonds)
     };
 
     // Alias de commodité — zonesEdit pointe sur zonesWorkingCopy.DATA après init
@@ -1664,14 +1607,9 @@
         label,
         zonesEdit: cloneJSON(zonesEdit),
         zonesMeta: cloneJSON(zonesMeta),
-        currentsWorkingCopy: currentsWorkingCopy ? cloneJSON(currentsWorkingCopy) : null,
-        currentAxesWorkingCopy: currentAxesWorkingCopy ? cloneJSON(currentAxesWorkingCopy) : null,
-        shoalsWorkingCopy: shoalsWorkingCopy ? cloneJSON(shoalsWorkingCopy) : null,
         selectedZoneId,
         selectedContourIdx,
-        selectedCurrentId,
-        selectedShoalId,
-        activeEditor,
+        activeMode,
         currentTool,
       });
       if (undoStack.length > 30) undoStack.shift();
@@ -1683,14 +1621,9 @@
       if (!snapshot) return;
       zonesEdit = snapshot.zonesEdit;
       zonesMeta = snapshot.zonesMeta;
-      currentsWorkingCopy = snapshot.currentsWorkingCopy;
-      currentAxesWorkingCopy = snapshot.currentAxesWorkingCopy;
-      shoalsWorkingCopy = snapshot.shoalsWorkingCopy;
       selectedZoneId = snapshot.selectedZoneId;
       selectedContourIdx = snapshot.selectedContourIdx;
-      selectedCurrentId = snapshot.selectedCurrentId || null;
-      selectedShoalId = snapshot.selectedShoalId || null;
-      activeEditor = snapshot.activeEditor;
+      activeMode = snapshot.activeMode;
       currentTool = snapshot.currentTool;
       refreshCtx();
       clearHandles();
@@ -1705,11 +1638,11 @@
     }
 
     function renderToolButtons() {
-      if (ctx.isInfosTerres || ctx.isInfosMers) { document.getElementById('tool-group').innerHTML = ''; return; }
-      if (ctx.isSea) { document.getElementById('tool-group').innerHTML = ''; return; }
-      const tools = ctx.isGeoMers
-        ? ZONE_TOOLS.filter(tool => tool.id !== 'draw' && tool.id !== 'split')
-        : ZONE_TOOLS;
+      if (ctx.isTopoInfo || ctx.isSemaphore) { document.getElementById('tool-group').innerHTML = ''; return; }
+      // OCÉANOGRAPHIE : outils de grille (sélection multiple / édition par
+      // paquets) à venir — pas de ZONE_TOOLS (aucun polygone en Océanographie).
+      if (ctx.isOcean) { document.getElementById('tool-group').innerHTML = ''; return; }
+      const tools = ZONE_TOOLS; // TOPOGRAPHIE — Géo : un polygone est un polygone, territoire ou haut-fond
       const group = document.getElementById('tool-group');
       group.innerHTML = tools.map(tool => `
     <button class="tool-btn${tool.id === currentTool ? ' active' : ''}" data-tool="${tool.id}" title="${tool.title}">
@@ -1722,18 +1655,18 @@
       });
     }
 
-    function setEditor(editor) {
-      if (editor === activeEditor) {
+    function setMode(mode) {
+      if (mode === activeMode) {
         document.getElementById('editor-menu').classList.remove('open');
         return;
       }
       if (currentTool === 'draw') cancelDraw(true);
       clearHandles();
       clearSegmentMarkers();
-      activeEditor = editor;
+      activeMode = mode;
+      if (activeMode !== 'topo') activeTab = 'geo'; // valeur par défaut si on revient en topo
       refreshCtx();
       currentTool = 'select';
-      if (ctx.isSea) clearSeaEntitySelection();
       document.getElementById('editor-menu').classList.remove('open');
       refreshAfterModeChange();
     }
@@ -1745,7 +1678,7 @@
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === tab);
       });
-      refresh(R.TOOLS | R.EDITOR | R.PANEL | R.EXPORT);
+      refresh(R.ZONES | R.TOOLS | R.EDITOR | R.PANEL | R.EXPORT);
     }
 
     function updateEditorUI() {
@@ -1758,57 +1691,56 @@
     }
 
     function updateEditorChrome() {
-      const modeLabels = { zone: 'Géo', currents: 'Infos', sea: 'Sémaphore' };
-      const modeClasses = { zone: 'mode-geo', currents: 'mode-infos', sea: 'mode-semaphore' };
-      document.getElementById('editor-switch-btn').textContent = modeLabels[activeEditor] || 'Mode';
+      const modeLabels = { topo: 'Topographie', ocean: 'Océanographie', semaphore: 'Sémaphore' };
+      const modeClasses = { topo: 'mode-topo', ocean: 'mode-ocean', semaphore: 'mode-semaphore' };
+      document.getElementById('editor-switch-btn').textContent = modeLabels[activeMode] || 'Mode';
       document.getElementById('editor-switch-btn').className =
-        'tb-mode-btn ' + (modeClasses[activeEditor] || '');
+        'tb-mode-btn ' + (modeClasses[activeMode] || '');
 
       document.querySelectorAll('#editor-menu [data-editor]').forEach(btn => {
-        btn.style.display = btn.dataset.editor === activeEditor ? 'none' : 'block';
+        btn.style.display = btn.dataset.editor === activeMode ? 'none' : 'block';
       });
     }
 
     function updateTabChrome() {
       const tabGroup = document.getElementById('tab-group');
-      tabGroup.style.display = ctx.isSea ? 'none' : 'flex';
+      tabGroup.style.display = ctx.isTopoGeo || ctx.isTopoInfo ? 'flex' : 'none';
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === activeTab);
       });
     }
 
     function updateSidePanelsVisibility() {
-      document.getElementById('section-geo-terres').style.display = ctx.isGeoTerres ? 'block' : 'none';
-      document.getElementById('section-geo-mers').style.display = ctx.isGeoMers ? 'block' : 'none';
-      document.getElementById('section-sea').style.display = ctx.isSea ? 'block' : 'none';
-      document.getElementById('section-infos-terres').style.display = ctx.isInfosTerres ? 'block' : 'none';
-      document.getElementById('section-infos-mers').style.display = ctx.isInfosMers ? 'block' : 'none';
+      document.getElementById('section-topo-geo').style.display = ctx.isTopoGeo ? 'block' : 'none';
+      document.getElementById('section-topo-info').style.display = ctx.isTopoInfo ? 'block' : 'none';
+      document.getElementById('section-ocean').style.display = ctx.isOcean ? 'block' : 'none';
+      document.getElementById('section-sea').style.display = ctx.isSemaphore ? 'block' : 'none';
 
-      document.getElementById('export-area').style.display = ctx.isGeoTerres ? 'block' : 'none';
+      document.getElementById('export-area').style.display = ctx.isTopoGeo ? 'block' : 'none';
 
       const exportFileArea = document.getElementById('export-file-area');
-      exportFileArea.style.display = ctx.isSea ? 'none' : 'block';
+      exportFileArea.style.display = ctx.isSemaphore ? 'none' : 'block';
       updateExportFileHint();
     }
 
     function updateContextControlsVisibility() {
-      document.getElementById('btn-undo').style.display = ctx.isSea ? 'none' : '';
-      document.getElementById('tb-coords').style.display = ctx.isSea ? 'none' : '';
+      document.getElementById('btn-undo').style.display = ctx.isSemaphore || ctx.isOcean ? 'none' : '';
+      document.getElementById('tb-coords').style.display = ctx.isSemaphore ? 'none' : '';
 
-      const inDraw = currentTool === 'draw' && ctx.isGeoTerres;
+      const inDraw = currentTool === 'draw' && ctx.isTopoGeo;
       document.getElementById('draw-controls').style.display = inDraw ? 'block' : 'none';
       document.getElementById('draw-badge').style.display = inDraw ? 'block' : 'none';
     }
 
     function updateMapModeLayers() {
-      if (ctx.isSea || ctx.isInfosMers) renderOceanMaskLayer();
+      if (ctx.isSemaphore || ctx.isOcean) renderOceanMaskLayer();
       else clearOceanMaskLayer();
 
       renderAllZones();
 
-      // La grille OSCAR (et le contour de sélection) est désormais pilotée
-      // depuis Infos — Mers autant que Sémaphore.
-      if (ctx.isSea || ctx.isInfosMers) {
+      // La grille OSCAR (et le contour de sélection) est pilotée depuis
+      // OCÉANOGRAPHIE autant que SÉMAPHORE.
+      if (ctx.isSemaphore || ctx.isOcean) {
         if (seaCellLayer && !map.hasLayer(seaCellLayer)) seaCellLayer.addTo(map);
         renderOscarGridLayer();
         renderSeaCells();
@@ -1820,16 +1752,17 @@
       }
       if (seaLabelLayer && map.hasLayer(seaLabelLayer)) map.removeLayer(seaLabelLayer);
 
-      if (ctx.isInfosMers || ctx.isGeoMers || ctx.isSea) {
+      // Survol de risque des hauts-fonds : SÉMAPHORE uniquement (non-interactif).
+      // Plus aucun polygone en OCÉANOGRAPHIE (grille hexagonale exclusivement) ;
+      // l'édition de géométrie des hauts-fonds se fait en TOPOGRAPHIE — Géo,
+      // via le pipeline générique des zones (déjà couvert par renderAllZones).
+      if (ctx.isSemaphore) {
         refresh(R.CURRENTS);
-        if (ctx.isGeoMers) renderGeoMersHandles();
-        else clearGeoMersHandles();
       } else {
-        clearGeoMersHandles();
         clearCurrentsLayer();
       }
 
-      if (ctx.isInfosMers) updateInfosMersOscarPanel();
+      if (ctx.isOcean) updateInfosMersOscarPanel();
     }
 
     function updateMapToolClass() {
@@ -1840,10 +1773,10 @@
     function updateExportFileHint() {
       const hint = document.getElementById('export-file-hint');
       if (!hint) return;
-      if (ctx.isGeoTerres || ctx.isInfosTerres) {
-        hint.innerHTML = 'Génère <code>zones-data.js</code> complet (géométrie + métadonnées). Remplacer dans le dépôt.';
-      } else if (ctx.isGeoMers || ctx.isInfosMers) {
-        hint.innerHTML = 'Génère <code>sea-data.js</code> complet (format structuré actuel). Remplacer dans le dépôt.';
+      if (ctx.isTopoGeo || ctx.isTopoInfo) {
+        hint.innerHTML = 'Génère <code>zones-data.js</code> complet (géométrie + métadonnées territoires et hauts-fonds). Remplacer dans le dépôt.';
+      } else if (ctx.isOcean) {
+        hint.innerHTML = 'Génère <code>oscar-grid.js</code> (cellules éditées manuellement). Remplacer dans le dépôt.';
       }
     }
 
@@ -2078,7 +2011,7 @@
 
     function renderOscarGridLayer() {
       clearOscarGridLayer();
-      if (!map || !(ctx.isSea || ctx.isInfosMers) || !oscarGridVisible) return;
+      if (!map || !(ctx.isSemaphore || ctx.isOcean) || !oscarGridVisible) return;
       const entries = filteredOscarEntries();
       if (!entries.length) return;
       oscarGridLayer = L.layerGroup([], { pane: 'oscarGridPane' }).addTo(map);
@@ -2155,18 +2088,14 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // COURANTS MARITIMES — édition en mémoire
+    // HAUTS-FONDS — survol de risque (SÉMAPHORE)
     // ═══════════════════════════════════════════════════════════
-
-    // Copie de travail en mémoire. Les courants SVG legacy ont été retirés :
-    // seuls les hauts-fonds de SEA_SHOALS restent éditables ici.
-    let currentsWorkingCopy = null;
-    let currentAxesWorkingCopy = null;
-    let shoalsWorkingCopy = null;
-    let selectedCurrentId = null;
-    let selectedShoalId = null;
-    // Référence aux polygones Leaflet par id (pour highlight)
-    let currentPolygons = {};
+    // Les courants-axe (rubans SVG legacy) ont été retirés — la donnée
+    // courant vit désormais exclusivement dans la grille OSCAR/Copernicus
+    // (voir js/navigation-jaillot.js). Seuls les hauts-fonds restent des
+    // entités polygonales ; leur géométrie est éditée comme n'importe
+    // quel polygone en TOPOGRAPHIE — Géo (zonesEdit). Ici on ne fait que
+    // relire ces polygones pour le survol non-interactif en SÉMAPHORE.
 
     function escapeAttr(value) {
       return String(value ?? '')
@@ -2186,35 +2115,16 @@
     const SEA_KMH_TO_KNOTS_EDITOR = 1 / 1.852;
     const SEA_KNOTS_TO_KMH_EDITOR = 1.852;
 
-    function getWorkingCurrents() {
-      if (!currentsWorkingCopy) currentsWorkingCopy = [];
-      return currentsWorkingCopy;
-    }
-
-    function getWorkingCurrentAxes() {
-      if (!currentAxesWorkingCopy) currentAxesWorkingCopy = [];
-      return currentAxesWorkingCopy;
-    }
-
     function getWorkingShoals() {
-      if (!shoalsWorkingCopy) {
-        // Reconstruit depuis ZONES_DATA + ZONES_SHOAL (migration sea-data.js → zones-data.js).
-        // ZONES_DATA stocke les polygones comme [[...pts...], [...pts...]] — format directement
-        // compatible avec seaZonePolygons() qui gère les tableaux de contours multiples.
-        if (typeof ZONES_SHOAL !== 'undefined' && typeof ZONES_DATA !== 'undefined') {
-          shoalsWorkingCopy = Object.entries(ZONES_SHOAL).map(([id, meta]) => ({
-            id,
-            ...meta,
-            zone: ZONES_DATA[id] || [],
-          }));
-        } else {
-          shoalsWorkingCopy = [];
-        }
-      }
-      return shoalsWorkingCopy;
+      if (!zonesWorkingCopy.SHOAL_META) return [];
+      return Object.entries(zonesWorkingCopy.SHOAL_META).map(([id, meta]) => ({
+        id,
+        ...meta,
+        zone: zonesEdit[id] || [],
+      }));
     }
 
-    function seaZonePolygons(zone) {
+    function zoneSeaPolygons(zone) {
       if (Array.isArray(zone)) {
         if (zone.length && typeof zone[0]?.[0] === 'number') {
           return [{ exterior: zone, holes: [] }];
@@ -2232,14 +2142,14 @@
       return poly.exterior.length > 2 ? [poly] : [];
     }
 
-    function seaZoneRings(zone) {
-      return seaZonePolygons(zone)
+    function zoneSeaRings(zone) {
+      return zoneSeaPolygons(zone)
         .flatMap(poly => [poly.exterior, ...poly.holes])
         .filter(ring => Array.isArray(ring) && ring.length > 2);
     }
 
     function seaZoneLatLngs(zone) {
-      return seaZonePolygons(zone).map(poly => {
+      return zoneSeaPolygons(zone).map(poly => {
         const rings = [poly.exterior, ...poly.holes].filter(ring => ring.length > 2);
         return rings.map(ring => ring.map(([x, y]) => pxToLatLng(x, y)));
       });
@@ -2259,7 +2169,7 @@
     }
 
     function seaPointInZone(pt, zone) {
-      return seaZonePolygons(zone).some(poly => (
+      return zoneSeaPolygons(zone).some(poly => (
         seaPointInRing(pt, poly.exterior)
         && !poly.holes.some(hole => seaPointInRing(pt, hole))
       ));
@@ -2314,113 +2224,14 @@
     }
 
     function seaZonesOverlap(zoneA, zoneB) {
-      const polysA = seaZonePolygons(zoneA);
-      const polysB = seaZonePolygons(zoneB);
+      const polysA = zoneSeaPolygons(zoneA);
+      const polysB = zoneSeaPolygons(zoneB);
       return polysA.some(a => polysB.some(b => seaRingsOverlap(a.exterior, b.exterior)));
     }
 
-    function overlappingSeaZoneIds(zones) {
-      const overlaps = new Set();
-      for (let i = 0; i < zones.length; i++) {
-        for (let j = i + 1; j < zones.length; j++) {
-          if (seaZonesOverlap(zones[i].zone, zones[j].zone)) {
-            overlaps.add(zones[i].id);
-            overlaps.add(zones[j].id);
-          }
-        }
-      }
-      return overlaps;
-    }
-
-    function seaSpeedAtSegment(current, segmentIndex) {
-      return currentBaseSpeedKnots(current);
-    }
-
-    function seaArrowSpacingForSpeed(speedKnots) {
-      if (speedKnots >= 4.5) return 145;
-      if (speedKnots >= 3.2) return 165;
-      if (speedKnots >= 1.6) return 210;
-      return 245;
-    }
-
-    function seaNavZoneAtPoint(point) {
-      return getWorkingCurrents().find(zone => seaPointInZone(point, zone.zone)) || null;
-    }
-
-    function seaArrowSamples(current, spacingPx = 220) {
-      const cl = current.centerline || [];
-      if (cl.length < 2) return [];
-
-      const segments = [];
-      let total = 0;
-      const segmentCount = current.closed ? cl.length : cl.length - 1;
-      for (let i = 0; i < segmentCount; i++) {
-        const a = cl[i];
-        const b = cl[(i + 1) % cl.length];
-        const dx = b[0] - a[0];
-        const dy = b[1] - a[1];
-        const len = Math.sqrt(dx * dx + dy * dy);
-        if (len < 1) continue;
-        segments.push({ a, b, len, start: total, dirIdx: i });
-        total += len;
-      }
-      if (!segments.length) return [];
-
-      const samples = [];
-      let target = Math.min(spacingPx / 2, total / 2);
-      while (target < total) {
-        const seg = segments.find(s => target >= s.start && target <= s.start + s.len) || segments[segments.length - 1];
-        const t = Math.max(0, Math.min(1, (target - seg.start) / seg.len));
-        const x = seg.a[0] + (seg.b[0] - seg.a[0]) * t;
-        const y = seg.a[1] + (seg.b[1] - seg.a[1]) * t;
-        const zone = seaNavZoneAtPoint([x, y]);
-        const speed = zone ? currentBaseSpeedKnots(zone) : 0;
-        const nextTarget = target + seaArrowSpacingForSpeed(speed);
-        if (zone) {
-          samples.push({
-            x,
-            y,
-            direction: current.directions?.[seg.dirIdx] || 'E',
-          });
-        }
-        target = nextTarget;
-      }
-      return samples;
-    }
-
-    function currentPointCount(current) {
-      return Array.isArray(current.centerline) ? current.centerline.length : 0;
-    }
-
-    function currentTitleWithPoints(current) {
-      const count = currentPointCount(current);
-      const nom = current.nom || current.label || current.id;
-      return count ? `${nom} (${count} ${count > 1 ? 'points' : 'point'})` : nom;
-    }
-
-    function currentUsesSvgZone(current) {
-      return current?.zoneSource === 'svg';
-    }
-
-    function currentBaseSpeedKnots(current) {
-      const knots = Number(current.speedKnot ?? current.speedKnots);
-      if (Number.isFinite(knots) && knots >= 0) return knots;
-      // TODO PN-SEA-EXPLICIT: supprimer les replis km/h avec l'ancien sea-data.js.
-      const kmh = Number(current.speedKmh ?? current.vitesseKmh);
-      if (Number.isFinite(kmh) && kmh >= 0) return kmh * SEA_KMH_TO_KNOTS_EDITOR;
-      return 0;
-    }
-
-    function currentBaseSpeedKmh(current) {
-      return Math.round(currentBaseSpeedKnots(current) * SEA_KNOTS_TO_KMH_EDITOR * 10) / 10;
-    }
-
-    function currentSpeedRenderRank(current) {
-      const speed = currentBaseSpeedKnots(current);
-      if (speed >= 4.5) return 1;
-      if (speed >= 2.2) return 2;
-      return 3;
-    }
+    // Code mort "courants axe" (overlap, échantillonnage de flèches, vitesse
+    // ruban) supprimé — plus aucune donnée de courant-axe depuis le passage
+    // à la grille OSCAR/Copernicus (getWorkingCurrents() était figé à []).
 
     function normalizeNavLevel(value) {
       const level = Number(value);
@@ -2428,16 +2239,8 @@
       return Math.max(0, Math.min(5, Math.round(level)));
     }
 
-    function semaphoreCurrentVisible(current) {
-      return !ctx.isSea || (current.visibiliteNav ?? 0) <= semaphoreNavLevel;
-    }
-
     function semaphoreShoalVisible(shoal) {
-      return !ctx.isSea || (shoal.visibiliteNav ?? 0) <= semaphoreNavLevel;
-    }
-
-    function semaphoreVisibleCurrents() {
-      return getWorkingCurrents().filter(semaphoreCurrentVisible);
+      return !ctx.isSemaphore || (shoal.visibiliteNav ?? 0) <= semaphoreNavLevel;
     }
 
     function semaphoreVisibleShoals() {
@@ -2539,377 +2342,29 @@ ${holesTxt}
     }
     function renderCurrentsLayer() {
       clearCurrentsLayer();
-      const currents = ctx.isSea ? [] : semaphoreVisibleCurrents();
+      // Survol de risque des hauts-fonds : SÉMAPHORE uniquement, non-interactif.
+      if (!ctx.isSemaphore) return;
       const shoals = semaphoreVisibleShoals();
-      const overlappingZones = overlappingSeaZoneIds(currents);
-      const interactiveSeaEntities = !ctx.isSea;
-      currentPolygons = {};
 
       currentLayer = L.layerGroup().addTo(map);
-      currentArrowLayer = L.layerGroup().addTo(map);
-
-      const forceColors = { 1: 'rgba(80,160,220,0.22)', 2: 'rgba(50,130,210,0.32)', 3: 'rgba(20,100,200,0.42)' };
-      const forceStroke = { 1: 'rgba(80,160,220,0.6)', 2: 'rgba(50,130,210,0.8)', 3: 'rgba(20,100,200,0.95)' };
-      const selFill = 'rgba(255,200,50,0.35)';
-      const selStroke = 'rgba(255,200,50,0.95)';
 
       shoals.forEach(s => {
-        const isSelected = s.id === selectedShoalId;
         const latlngs = seaZoneLatLngs(s.zone);
         if (!latlngs.some(poly => poly[0]?.length > 2)) return;
-        const poly = L.polygon(latlngs, {
-          color: isSelected ? 'rgba(255,210,90,0.98)' : 'rgba(130,80,30,0.9)',
-          weight: isSelected ? 2 : 1.5,
+        L.polygon(latlngs, {
+          color: 'rgba(130,80,30,0.9)',
+          weight: 1.5,
           dashArray: '5 4',
-          fillColor: isSelected ? 'rgba(255,210,90,0.35)' : 'rgba(100,55,15,0.38)',
-          fillOpacity: isSelected ? 0.7 : 1,
-          interactive: interactiveSeaEntities,
+          fillColor: 'rgba(100,55,15,0.38)',
+          fillOpacity: 1,
+          interactive: false,
         }).addTo(currentLayer);
-        if (interactiveSeaEntities) {
-          poly.on('click', (e) => { L.DomEvent.stopPropagation(e); selectShoal(s.id); });
-        }
-      });
-
-      currents.forEach(c => {
-        const isSelected = c.id === selectedCurrentId;
-        const hasOverlap = overlappingZones.has(c.id);
-
-        // Ruban : simple polygon or closed ribbon with inner empty ring.
-        const latlngs = seaZoneLatLngs(c.zone);
-        if (latlngs.some(poly => poly[0]?.length > 2)) {
-          const prioFill = { 1: 'rgba(15,70,160,0.55)', 2: 'rgba(40,120,210,0.38)', 3: 'rgba(80,170,240,0.25)' };
-          const prioStroke = { 1: 'rgba(20,90,200,0.95)', 2: 'rgba(50,140,220,0.85)', 3: 'rgba(90,185,250,0.75)' };
-          const priority = currentSpeedRenderRank(c);
-          const poly = L.polygon(latlngs, {
-            color: hasOverlap ? 'rgba(255,80,60,0.95)' : (isSelected ? selStroke : (prioStroke[priority] || prioStroke[2])),
-            weight: hasOverlap ? 2 : (isSelected ? 2 : 1),
-            fillColor: hasOverlap ? 'rgba(210,40,25,0.42)' : (isSelected ? selFill : (prioFill[priority] || prioFill[2])),
-            fillOpacity: isSelected ? 0.55 : 1,
-            interactive: interactiveSeaEntities,
-          }).addTo(currentLayer);
-          if (interactiveSeaEntities) {
-            poly.on('click', (e) => { L.DomEvent.stopPropagation(e); selectCurrent(c.id); });
-          }
-
-          currentPolygons[c.id] = poly;
-
-        }
-
-      });
-
-      if (!ctx.isSea) getWorkingCurrentAxes().forEach(c => {
-        const isSelected = c.id === selectedCurrentId;
-        if (Array.isArray(c.centerline) && c.centerline.length >= 2) {
-          const centerlineLatLngs = c.centerline.map(([x, y]) => pxToLatLng(x, y));
-          const priority = 2;
-          const lineColor = isSelected
-            ? selStroke
-            : ({ 1: 'rgba(180,220,255,0.95)', 2: 'rgba(145,205,250,0.88)', 3: 'rgba(110,190,245,0.78)' }[priority] || 'rgba(145,205,250,0.88)');
-          const hitLine = L.polyline(centerlineLatLngs, {
-            color: '#ffffff',
-            weight: 18,
-            opacity: 0,
-            interactive: interactiveSeaEntities,
-          }).addTo(currentLayer);
-          if (interactiveSeaEntities) {
-            hitLine.on('click', (e) => { L.DomEvent.stopPropagation(e); });
-          }
-          const line = L.polyline(centerlineLatLngs, {
-            color: lineColor,
-            weight: isSelected ? 4 : 3,
-            opacity: isSelected ? 1 : 0.88,
-            dashArray: currentUsesSvgZone(c) ? '7 5' : null,
-            interactive: false,
-          }).addTo(currentLayer);
-        }
-
-        // Fleches
-        if (c.centerline && c.directions) {
-          seaArrowSamples(c).forEach(sample => {
-            const angle = dirToAngleDeg(sample.direction);
-            const color = isSelected ? 'rgba(255,210,60,0.95)' : 'rgba(80,180,255,0.92)';
-            const icon = L.divIcon({
-              className: '',
-              html: `<div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;transform:rotate(${angle}deg);font-size:16px;color:${color};text-shadow:0 0 4px rgba(0,0,0,0.9);pointer-events:none;">➤</div>`,
-              iconSize: [20, 20], iconAnchor: [10, 10],
-            });
-            L.marker(pxToLatLng(sample.x, sample.y), { icon, interactive: false, keyboard: false }).addTo(currentArrowLayer);
-          });
-        }
-
-      });
-
-      if (!ctx.isSea) {
-        renderCurrentsList();
-        renderCurrentDetail();
-        bindCurrentsButtons();
-      }
-    }
-
-    function selectCurrent(id) {
-      selectEntity('current', id);
-    }
-
-    function selectShoal(id) {
-      selectEntity('shoal', id);
-    }
-
-    // ═══════════════════════════════════════════════════════════
-    // GÉO-MERS — poignées d'édition sur la zone du courant/haut-fond
-    // ═══════════════════════════════════════════════════════════
-    let geoMersHandles = []; // L.CircleMarker[] — points
-    let geoMersSegments = []; // L.CircleMarker[] — mi-segments (insert)
-    let geoMersDragging = null;
-    let geoMersSplitFirstPt = null; // { ptsArray, ptIdx, entityId }
-
-    function clearGeoMersHandles() {
-      geoMersHandles.forEach(h => map.removeLayer(h));
-      geoMersHandles = [];
-      geoMersSegments.forEach(m => map.removeLayer(m));
-      geoMersSegments = [];
-    }
-
-    function getSelectedSeaEntity() {
-      if (selectedCurrentId) {
-        const c = getWorkingCurrents().find(x => x.id === selectedCurrentId);
-        return c ? { type: 'current', entity: c } : null;
-      }
-      if (selectedShoalId) {
-        const s = getWorkingShoals().find(x => x.id === selectedShoalId);
-        return s ? { type: 'shoal', entity: s } : null;
-      }
-      return null;
-    }
-
-    function renderGeoMersHandles() {
-      clearGeoMersHandles();
-      if (!ctx.isGeoMers) return;
-      const sel = getSelectedSeaEntity();
-      if (!sel) return;
-
-      const rings = getZoneRingsRef(sel.entity.zone);
-      rings.forEach((pts) => {
-        if (!Array.isArray(pts) || pts.length < 3) return;
-
-        renderPointHandlesForRing(pts, geoMersHandles, {
-          mouseover(marker) {
-            if (currentTool === 'split') {
-              const isFirst = geoMersSplitFirstPt?.ptsArray === pts && geoMersSplitFirstPt?.ptIdx === marker._ptIdx;
-              if (!isFirst) marker.setStyle({ ...HANDLE_SPLIT_IDLE, radius: 7, color: '#e0a0ff' });
-            } else if (!geoMersDragging) {
-              marker.setStyle(HANDLE_HOVER);
-            }
-          },
-          mouseout(marker) {
-            if (currentTool === 'split') {
-              const isFirst = geoMersSplitFirstPt?.ptsArray === pts && geoMersSplitFirstPt?.ptIdx === marker._ptIdx;
-              marker.setStyle(isFirst ? HANDLE_SPLIT_FIRST : HANDLE_SPLIT_IDLE);
-            } else if (!geoMersDragging) {
-              marker.setStyle(HANDLE_NORMAL);
-            }
-          },
-          mousedown(marker, ptIdx, e) {
-            if (currentTool !== 'select') return;
-            L.DomEvent.stopPropagation(e);
-            pushUndo('Deplacer point (mer)');
-            geoMersDragging = {
-              ptsArray: pts, ptIdx,
-              marker, entityId: sel.entity.id,
-            };
-            map.dragging.disable();
-          },
-          click(marker, ptIdx, e) {
-            L.DomEvent.stopPropagation(e);
-            if (currentTool === 'split') {
-              onGeoMersSplitClick(pts, ptIdx, sel.entity.id);
-            } else if (currentTool === 'erase') {
-              eraseGeoMersPoint(pts, ptIdx, sel.entity.id);
-            }
-          },
-          style(marker, ptIdx) {
-            if (currentTool === 'split') {
-              const isFirst = geoMersSplitFirstPt?.ptsArray === pts && geoMersSplitFirstPt?.ptIdx === ptIdx;
-              marker.setStyle(isFirst ? HANDLE_SPLIT_FIRST : HANDLE_SPLIT_IDLE);
-            }
-          },
-        });
-
-        if (currentTool === 'insert') {
-          renderSegmentHandlesForRing(pts, geoMersSegments, (afterIdx, mid) => {
-            insertGeoMersPoint(pts, afterIdx, mid, sel.entity.id);
-          });
-        }
-      });
-    }
-    // Retourne les anneaux de points en référence directe (sans clone)
-    function getZoneRingsRef(zone) {
-      if (!zone) return [];
-      // Cas 1 : tableau plat de points [[x,y],...]
-      if (Array.isArray(zone) && zone.length && typeof zone[0]?.[0] === 'number') {
-        return [zone];
-      }
-      // Cas 2 : tableau de polygones (chaque item peut être un tableau ou un objet)
-      if (Array.isArray(zone)) {
-        return zone.flatMap(item => {
-          if (Array.isArray(item)) return [item];
-          if (item && Array.isArray(item.exterior)) {
-            const rings = [item.exterior];
-            if (Array.isArray(item.holes)) rings.push(...item.holes.filter(Array.isArray));
-            return rings;
-          }
-          return [];
-        });
-      }
-      // Cas 3 : objet {exterior, holes} ou {polygons}
-      if (zone.exterior && Array.isArray(zone.exterior)) {
-        const rings = [zone.exterior];
-        if (Array.isArray(zone.holes)) rings.push(...zone.holes.filter(Array.isArray));
-        return rings;
-      }
-      if (zone.polygons && Array.isArray(zone.polygons)) {
-        return zone.polygons.flatMap(p => {
-          if (Array.isArray(p)) return [p];
-          if (p?.exterior) {
-            const rings = [p.exterior];
-            if (Array.isArray(p.holes)) rings.push(...p.holes.filter(Array.isArray));
-            return rings;
-          }
-          return [];
-        });
-      }
-      return [];
-    }
-
-    function updateGeoMersPanel() {
-      const emptyEl = document.getElementById('geo-mers-empty');
-      const detailEl = document.getElementById('geo-mers-detail');
-      const labelEl = document.getElementById('geo-mers-label');
-      const typeEl = document.getElementById('geo-mers-type');
-      const ptsEl = document.getElementById('geo-mers-pts');
-      if (!detailEl) return;
-
-      const sel = getSelectedSeaEntity();
-      if (!sel) {
-        if (emptyEl) emptyEl.style.display = 'block';
-        detailEl.style.display = 'none';
-        return;
-      }
-      if (emptyEl) emptyEl.style.display = 'none';
-      detailEl.style.display = 'block';
-      labelEl.textContent = sel.entity.label || sel.entity.id;
-      typeEl.textContent = sel.type === 'current' ? 'Courant marin' : 'Haut-fond';
-      const polygons = seaZonePolygons(sel.entity.zone);
-      const totalPts = polygons.reduce((s, p) => s + ((p.exterior || p)?.length || 0), 0);
-      ptsEl.textContent = `${totalPts} point(s) · ${polygons.length} anneau(x)`;
-    }
-
-    function renderCurrentsList() {
-      const currents = getWorkingCurrents();
-      const shoals = getWorkingShoals();
-      const listEl = document.getElementById('currents-list');
-      if (!listEl) return;
-      if (!currents.length && !shoals.length) { listEl.textContent = 'Aucun courant ni haut-fond.'; return; }
-      const overlappingZones = overlappingSeaZoneIds(currents);
-
-      const currentItems = currents.map(c => {
-        const sel = c.id === selectedCurrentId;
-        const overlap = overlappingZones.has(c.id);
-        return `<div data-cid="${c.id}" style="
-        margin-bottom:5px; padding:5px 7px; cursor:pointer;
-        background:${overlap ? 'rgba(210,40,25,0.22)' : (sel ? 'rgba(255,200,50,0.18)' : 'rgba(20,100,200,0.12)')};
-        border:1px solid ${overlap ? 'rgba(255,90,70,0.75)' : (sel ? 'rgba(255,200,50,0.6)' : 'rgba(20,100,200,0.3)')};
-        border-radius:2px;">
-      <span style="color:${sel ? '#ffd23f' : 'var(--gold-light)'};font-family:Cinzel,serif;font-size:0.73rem;">${escapeHtmlText(c.nom || c.id)}</span>
-      <div style="margin-top:3px; font-size:0.68rem; color:var(--text-dim);">
-        ${overlap ? 'Recouvrement - ' : ''}${escapeHtmlText(c.type || 'haute-mer')} - ${currentBaseSpeedKmh(c)} km/h - Nav ${c.visibiliteNav ?? 0}
-      </div>
-    </div>`;
-      }).join('');
-
-      const shoalItems = shoals.map(s => {
-        const sel = s.id === selectedShoalId;
-        return `<div data-shoal-id="${s.id}" style="
-        margin-bottom:5px; padding:5px 7px; cursor:pointer;
-        background:${sel ? 'rgba(255,200,50,0.18)' : 'rgba(194,164,92,0.12)'};
-        border:1px solid ${sel ? 'rgba(255,200,50,0.6)' : 'rgba(194,164,92,0.35)'};
-        border-radius:2px;">
-      <span style="color:${sel ? '#ffd23f' : 'var(--gold-light)'};font-family:Cinzel,serif;font-size:0.73rem;">${escapeHtmlText(s.label || s.id)}</span>
-      <div style="margin-top:3px; font-size:0.68rem; color:var(--text-dim);">
-        Haut-fond - cat. ${s.cat_taille ?? s.maxCategorieTaille ?? 3}
-      </div>
-    </div>`;
-      }).join('');
-
-      listEl.innerHTML = `${currentItems}${shoalItems ? '<div style="margin:9px 0 5px;color:var(--mist);font-size:0.7rem;">Hauts-fonds</div>' + shoalItems : ''}`;
-
-      listEl.querySelectorAll('[data-cid]').forEach(el => {
-        el.addEventListener('click', () => selectCurrent(el.dataset.cid));
-      });
-      listEl.querySelectorAll('[data-shoal-id]').forEach(el => {
-        el.addEventListener('click', () => selectShoal(el.dataset.shoalId));
       });
     }
 
-    function renderCurrentDetail() {
-      const detail = document.getElementById('current-detail');
-      const label = document.getElementById('current-detail-label');
-      const info = document.getElementById('current-detail-info');
-      const meta = document.getElementById('current-meta-fields');
-      const speeds = document.getElementById('current-speed-fields');
-      if (!detail) return;
-
-      if (selectedShoalId) {
-        renderShoalDetail(detail, label, info, meta, speeds);
-        return;
-      }
-
-      if (!selectedCurrentId) { detail.style.display = 'none'; return; }
-
-      const c = getWorkingCurrents().find(x => x.id === selectedCurrentId);
-      if (!c) { detail.style.display = 'none'; return; }
-
-      detail.style.display = 'block';
-      label.textContent = currentTitleWithPoints(c);
-      info.textContent = '';
-      if (meta) {
-        meta.innerHTML = renderCurrentMetaFieldsHtml(c);
-        meta.querySelectorAll('[data-current-meta]').forEach(input => {
-          input.addEventListener('change', () => updateCurrentMeta(c, input));
-          input.addEventListener('input', () => updateCurrentMeta(c, input, { soft: true }));
-        });
-      }
-      if (!speeds) return;
-      speeds.innerHTML = renderSpeedInputHtml({
-        id: 'base',
-        label: 'Vitesse',
-        value: currentBaseSpeedKmh(c),
-      });
-
-      speeds.querySelectorAll('[data-speed-id]').forEach(input => {
-        input.addEventListener('change', () => updateCurrentSpeed(c, input));
-        input.addEventListener('input', () => updateCurrentSpeed(c, input, { soft: true }));
-      });
-    }
-
-    function renderShoalDetail(detail, label, info, meta, speeds) {
-      const s = getWorkingShoals().find(x => x.id === selectedShoalId);
-      if (!s) { detail.style.display = 'none'; return; }
-
-      detail.style.display = 'block';
-      label.textContent = s.label || s.id;
-      if (info) {
-        info.style.display = 'block';
-        info.textContent = `Haut-fond / recif - ${seaZoneRings(s.zone).reduce((sum, ring) => sum + ring.length, 0)} points`;
-      }
-      if (speeds) speeds.innerHTML = '';
-      if (!meta) return;
-
-      meta.innerHTML = renderShoalMetaFieldsHtml(s);
-      meta.querySelectorAll('[data-shoal-meta]').forEach(input => {
-        input.addEventListener('change', () => updateShoalMeta(s, input));
-        input.addEventListener('input', () => updateShoalMeta(s, input, { soft: true }));
-      });
-    }
+    // Code mort — liste "currents-list" (ancien panneau Infos-Mers) et
+    // panneau "current-detail" (ancien Géo-Mers/Infos-Mers), remplacés par
+    // updateTopoInfoDetail() en TOPOGRAPHIE — Info.
 
     function renderShoalMetaFieldsHtml(shoal) {
       return `
@@ -2966,24 +2421,29 @@ ${holesTxt}
     function updateShoalMeta(shoal, input, options = {}) {
       const key = input.dataset.shoalMeta;
       if (!key) return;
+      // Écrit directement dans la copie de travail des métadonnées — shoal
+      // (retourné par getWorkingShoals()) est un objet reconstruit à chaque
+      // appel, pas une référence stable.
+      const meta = zonesWorkingCopy.SHOAL_META?.[shoal.id];
+      if (!meta) return;
       if (key === 'catMax' || key === 'catMaxNav' || key === 'passageNav') {
         const raw = input.value.trim();
-        if (raw === '' || raw === '—') { delete shoal[key]; return; }
+        if (raw === '' || raw === '—') { delete meta[key]; return; }
         const value = Math.max(0, Math.min(5, Math.round(Number(raw))));
         if (!Number.isFinite(value)) return;
-        shoal[key] = value;
+        meta[key] = value;
       } else if (key === 'visibiliteNav') {
         const value = Math.max(0, Math.min(5, Math.round(Number(input.value))));
         if (!Number.isFinite(value)) return;
-        shoal.visibiliteNav = value;
+        meta.visibiliteNav = value;
       } else {
         const value = input.value.trim();
-        if (value) shoal[key] = value;
-        else delete shoal[key];
+        if (value) meta[key] = value;
+        else delete meta[key];
       }
 
-      if (!options.soft || key === 'cat_taille') {
-        refresh(R.CURRENTS);
+      if (!options.soft) {
+        refresh(R.PANEL);
       }
     }
 
@@ -3045,141 +2505,13 @@ ${holesTxt}
       // L'export fichier est géré par btn-export-file.
     }
 
-    function importSeaGeometryFile() {
-      alert('Import géométrique retiré : sea-data.js ne conserve plus que les hauts-fonds.');
-    }
+    // Code mort — import/export sea-data.js (fichier retiré, point 9). Les
+    // hauts-fonds (géométrie + métadonnées) sont désormais exportés via
+    // exportZonesData() → zones-data.js (ZONES_DATA + ZONES_SHOAL).
 
-    function readSeaGeometryExport() {
-      return { shoalGeometry: null };
-    }
-
-    function geometryMapFromArray(items, shoal = false) {
-      if (!shoal || !Array.isArray(items)) return null;
-      const out = {};
-      items.forEach(item => {
-        if (item && item.id) out[item.id] = { zone: item.zone };
-      });
-      return out;
-    }
-
-    function mergeSeaGeometryIntoWorkingCopy(geometry, type) {
-      if (type !== 'shoal' || !geometry || typeof geometry !== 'object') return 0;
-      const list = getWorkingShoals();
-      let count = 0;
-      Object.entries(geometry).forEach(([id, geom]) => {
-        if (!geom || typeof geom !== 'object') return;
-        let item = list.find(entry => entry.id === id);
-        if (!item) {
-          item = { id, label: id.replace(/[_-]/g, ' '), maxCategorieTaille: 3 };
-          list.push(item);
-        }
-        if (geom.zone !== undefined) item.zone = JSON.parse(JSON.stringify(geom.zone));
-        count++;
-      });
-      return count;
-    }
-
-    function mergeNavZonesGeometryIntoWorkingCopy() {
-      return 0;
-    }
-
-    function exportSeaData() {
-      exportSeaDataV2();
-    }
-
-    function exportSeaDataV2() {
-      const shoals = getWorkingShoals();
-
-      function fmtPts(pts) {
-        const items = (pts || []).map(([x, y]) => `[${x},${y}]`);
-        const lines = []; let cur = [], curLen = 4;
-        for (const item of items) {
-          if (cur.length && curLen + item.length + 2 > 90) {
-            lines.push('    ' + cur.join(', ') + ',');
-            cur = [item]; curLen = 4 + item.length;
-          } else { cur.push(item); curLen += item.length + 2; }
-        }
-        if (cur.length) lines.push('    ' + cur.join(', '));
-        return lines.join('\n');
-      }
-
-      function quoteJS(value) {
-        return JSON.stringify(String(value));
-      }
-
-      function fmtValue(value, indent = 4) {
-        const pad = ' '.repeat(indent);
-        const childPad = ' '.repeat(indent + 2);
-        if (typeof value === 'string') return quoteJS(value);
-        if (value == null || typeof value === 'number' || typeof value === 'boolean') return String(value);
-        if (Array.isArray(value)) return JSON.stringify(value);
-        if (typeof value === 'object') {
-          const entries = Object.entries(value).filter(([, v]) => v !== undefined);
-          if (!entries.length) return '{}';
-          return `{\n${entries.map(([key, v]) => `${childPad}${key}: ${fmtValue(v, indent + 2)}`).join(',\n')},\n${pad}}`;
-        }
-        return 'null';
-      }
-
-      function fmtMetaBlock(id, item, geometryKeys, forced = {}) {
-        const entries = [];
-        Object.entries({ ...item, ...forced }).forEach(([key, value]) => {
-          if (key === 'id' || geometryKeys.has(key) || value === undefined) return;
-          entries.push(`    ${key}: ${fmtValue(value, 4)},`);
-        });
-        return `  '${id}': {\n${entries.join('\n')}\n  },`;
-      }
-
-      function fmtShoalGeometryBlock(s) {
-        return `  '${s.id}': {\n    zone: ${formatSeaZoneJS(s.zone, fmtPts)},\n  },`;
-      }
-
-      const shoalGeometryKeys = new Set(['zone']);
-      const shoalGeometryBlocks = shoals.map(fmtShoalGeometryBlock).join('\n\n');
-      const shoalMetaBlocks = shoals.map(s => fmtMetaBlock(s.id, s, shoalGeometryKeys, {
-        label: s.label || s.id,
-        maxCategorieTaille: s.maxCategorieTaille ?? 3,
-      })).join('\n\n');
-
-      const output = `// sea-data.js - hauts-fonds maritimes conservés
-// Coordonnées pixel Jaillot (8500x5320)
-
-// Section exportable depuis gen_sea_data.py.
-const SEA_SHOAL_GEOMETRY = {
-${shoalGeometryBlocks}
-};
-
-// Métadonnées éditées manuellement.
-const SEA_SHOAL_META = {
-${shoalMetaBlocks}
-};
-
-const SEA_SHOALS = Object.entries(SEA_SHOAL_GEOMETRY).map(([id, geometry]) => ({
-  id,
-  ...(SEA_SHOAL_META[id] || {}),
-  ...geometry,
-}));
-
-if (typeof window !== "undefined") {
-  window.SEA_SHOAL_GEOMETRY = SEA_SHOAL_GEOMETRY;
-  window.SEA_SHOAL_META = SEA_SHOAL_META;
-  window.SEA_SHOALS = SEA_SHOALS;
-}
-`;
-
-      const blob = new Blob([output], { type: 'text/javascript;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'sea-data.js';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
 
     function clearCurrentsLayer() {
       if (currentLayer) { map.removeLayer(currentLayer); currentLayer = null; }
-      if (currentArrowLayer) { map.removeLayer(currentArrowLayer); currentArrowLayer = null; }
-      currentPolygons = {};
     }
 
     // Convertit une direction cardinale en angle CSS de rotation de la flèche ➤
@@ -3204,7 +2536,7 @@ if (typeof window !== "undefined") {
       if (!seaCellLayer) return;
       seaCellLayer.clearLayers();
       seaCellLayers = {};
-      if (!(ctx.isSea || ctx.isInfosMers) || !selectedSeaCellKey) return;
+      if (!(ctx.isSemaphore || ctx.isOcean) || !selectedSeaCellKey) return;
       const grid = getOscarGrid();
       const cell = grid?.cells?.[selectedSeaCellKey];
       if (!cell) return;
@@ -3262,7 +2594,7 @@ if (typeof window !== "undefined") {
       map.on('mouseup', onMapMouseUp);
       map.on('mouseup', onDragEnd);      // relâchement drag poignées
       map.on('zoomend', () => {
-        if (ctx.isSea || ctx.isInfosMers) {
+        if (ctx.isSemaphore || ctx.isOcean) {
           renderSeaCells();
           renderOscarGridLayer();
         }
@@ -3287,11 +2619,11 @@ if (typeof window !== "undefined") {
         zonesWorkingCopy.DATA[id] = zonesEdit[id]; // alias : même référence
       }
 
-      // sea-data.js
-      seaWorkingCopy.shoalGeom = (typeof SEA_SHOAL_GEOMETRY !== 'undefined')
-        ? cloneJSON(SEA_SHOAL_GEOMETRY) : [];
-      seaWorkingCopy.shoalMeta = (typeof SEA_SHOAL_META !== 'undefined')
-        ? cloneJSON(SEA_SHOAL_META) : [];
+      // zones-data.js — ZONES_SHOAL fournit les métadonnées haut-fond
+      // (la géométrie des hauts-fonds est déjà dans ZONES_DATA, traitée
+      // ci-dessus comme n'importe quel autre id de zone).
+      zonesWorkingCopy.SHOAL_META = (typeof ZONES_SHOAL !== 'undefined')
+        ? cloneJSON(ZONES_SHOAL) : {};
 
       // ─── Map couleur géopolitique par zone ───────────────────
       // Construite depuis JURIDICTIONS + PUISSANCES à l'année de référence.
@@ -3341,7 +2673,10 @@ if (typeof window !== "undefined") {
     function zoneStyle(zoneId, isSelected) {
       if (isSelected) return STYLE_SELECTED;
 
-      if (ctx.isInfosTerres) {
+      if (ctx.isTopoInfo) {
+        if (isShoalId(zoneId)) {
+          return { color: 'rgba(130,80,30,0.9)', weight: 1.5, dashArray: '5 4', fillColor: 'rgba(100,55,15,0.38)', fillOpacity: 1 };
+        }
         // Avertissement uniquement si les champs sont null (pas encore saisis),
         // pas si l'utilisateur a explicitement renseigné 0 (territoire désert légitime).
         const demo = zonesWorkingCopy.DEMO?.[zoneId];
@@ -3356,8 +2691,11 @@ if (typeof window !== "undefined") {
         return STYLE_NORMAL;
       }
 
-      if (ctx.isGeoTerres) {
-        // Couleur géopolitique en Géo-Terres aussi (aide à l'identification)
+      if (ctx.isTopoGeo) {
+        if (isShoalId(zoneId)) {
+          return { color: 'rgba(130,80,30,0.9)', weight: 1.5, dashArray: '5 4', fillColor: 'rgba(100,55,15,0.38)', fillOpacity: 1 };
+        }
+        // Couleur géopolitique en Topo-Géo aussi (aide à l'identification)
         const c = zoneCouleurMap.get(zoneId);
         if (c) return { color: `rgba(${c.rgb},0.6)`, weight: 1, fillColor: `rgba(${c.rgb},0.12)`, fillOpacity: 1 };
         return STYLE_NORMAL;
@@ -3395,16 +2733,16 @@ if (typeof window !== "undefined") {
       zoneLayers[zoneId] = [];
 
       const contours = zonesEdit[zoneId];
-      const zonesInteractive = ctx.isGeoTerres || ctx.isInfosTerres;
+      const zonesInteractive = ctx.isTopoGeo || ctx.isTopoInfo;
 
-      // En Infos-Terres, détecter si la zone est vide pour le halo
+      // En Topo-Info, détecter si un territoire est vide pour le halo (hauts-fonds exclus)
       const demo = zonesWorkingCopy.DEMO?.[zoneId];
-      const estVide = ctx.isInfosTerres && (!demo || demo.colons === null);
+      const estVide = ctx.isTopoInfo && !isShoalId(zoneId) && (!demo || demo.colons === null);
 
       contours.forEach((contour, contourIdx) => {
         const latlngs = contourToLatLngs(contour);
         const isSelected = (zoneId === selectedZoneId && contourIdx === selectedContourIdx)
-          || (zoneId === selectedInfosTerresId && ctx.isInfosTerres);
+          || (zoneId === selectedTopoInfoId && ctx.isTopoInfo);
 
         const style = zoneStyle(zoneId, isSelected);
 
@@ -3440,7 +2778,7 @@ if (typeof window !== "undefined") {
           if (!zonesInteractive) return;
           if (draggingHandle) return;
           const isSel = (this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)
-            || (this._zoneId === selectedInfosTerresId && ctx.isInfosTerres);
+            || (this._zoneId === selectedTopoInfoId && ctx.isTopoInfo);
           if (!isSel) this.setStyle(zoneStyleHover(this._zoneId));
           this.bindTooltip(this._zoneId + (zonesEdit[this._zoneId].length > 1
             ? ` (contour ${this._contourIdx + 1}/${zonesEdit[this._zoneId].length})` : ''), {
@@ -3450,16 +2788,16 @@ if (typeof window !== "undefined") {
         poly.on('mouseout', function () {
           if (!zonesInteractive) return;
           const isSel = (this._zoneId === selectedZoneId && this._contourIdx === selectedContourIdx)
-            || (this._zoneId === selectedInfosTerresId && ctx.isInfosTerres);
+            || (this._zoneId === selectedTopoInfoId && ctx.isTopoInfo);
           if (!isSel) this.setStyle(zoneStyle(this._zoneId, false));
           this.unbindTooltip();
         });
         poly.on('click', function (e) {
           if (!zonesInteractive) return;
           L.DomEvent.stopPropagation(e);
-          if (ctx.isInfosTerres) {
-            selectInfosTerres(this._zoneId);
-          } else if (ctx.isGeoTerres) {
+          if (ctx.isTopoInfo) {
+            selectTopoInfo(this._zoneId);
+          } else if (ctx.isTopoGeo) {
             if (currentTool === 'select' || currentTool === 'erase' || currentTool === 'insert') {
               selectZone(this._zoneId, this._contourIdx);
             } else if (currentTool === 'split') {
@@ -3490,20 +2828,9 @@ if (typeof window !== "undefined") {
       refresh(R.PANEL | R.EXPORT);
     }
 
-    function clearGeoMersSelection() {
-      clearSeaEntitySelection();
-      clearGeoMersHandles();
-      refresh(R.CURRENTS | R.PANEL);
-    }
-
-    function clearInfosTerresSelection() {
-      selectedInfosTerresId = null;
+    function clearTopoInfoSelection() {
+      selectedTopoInfoId = null;
       refresh(R.ZONES | R.PANEL);
-    }
-
-    function clearInfosMersSelection() {
-      clearSeaEntitySelection();
-      refresh(R.CURRENTS);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -3618,21 +2945,10 @@ if (typeof window !== "undefined") {
         updatePanel(); // superficie mise à jour en temps réel
         return;
       }
-      // Géo-Mers : drag d'un point de zone maritime
-      if (geoMersDragging) {
-        const [nx, ny] = latLngToPx(e.latlng);
-        const { ptsArray, ptIdx, marker } = geoMersDragging;
-        // Écriture directe dans le tableau de référence — modifie entity.zone en place
-        ptsArray[ptIdx] = [nx, ny];
-        marker.setLatLng(pxToLatLng(nx, ny));
-        // Mettre à jour uniquement le polygon Leaflet de l'entité sélectionnée,
-        // sans recréer toute la couche (ce qui détruirait les handles en cours)
-        updateCurrentPolygonLatLngs(geoMersDragging.entityId);
-      }
     }
 
     function onDragEnd(e) {
-      // Géo-Terres
+      // TOPOGRAPHIE — Géo (territoire ou haut-fond, pipeline unifié)
       if (draggingHandle) {
         map.dragging.enable();
         const [nx, ny] = latLngToPx(e.latlng);
@@ -3642,16 +2958,6 @@ if (typeof window !== "undefined") {
         updateExport();
         draggingHandle = null;
         return;
-      }
-      // Géo-Mers
-      if (geoMersDragging) {
-        map.dragging.enable();
-        const [nx, ny] = latLngToPx(e.latlng);
-        const { ptsArray, ptIdx } = geoMersDragging;
-        ptsArray[ptIdx] = [nx, ny];
-        geoMersDragging = null;
-        // Recréer la couche complète au relâchement (arrows, centerline, etc.)
-        refreshAfterSeaGeometryEdit();
       }
     }
 
@@ -3663,195 +2969,11 @@ if (typeof window !== "undefined") {
       }
     }
 
-    // Met à jour le polygon Leaflet d'un courant/haut-fond sans recréer la couche
-    function updateCurrentPolygonLatLngs(entityId) {
-      const poly = currentPolygons[entityId];
-      if (!poly) return;
-      const c = getWorkingCurrents().find(x => x.id === entityId);
-      const s = c ? null : getWorkingShoals().find(x => x.id === entityId);
-      const entity = c || s;
-      if (!entity) return;
-      const latlngs = seaZoneLatLngs(entity.zone);
-      try { poly.setLatLngs(latlngs); } catch (e) { /* multi-ring non supporté par setLatLngs */ }
-    }
-
-    function eraseGeoMersPoint(ptsArray, ptIdx, entityId) {
-      if (ptsArray.length <= 3) {
-        alert('Un anneau doit avoir au moins 3 points.');
-        return;
-      }
-      pushUndo('Supprimer point (mer)');
-      ptsArray.splice(ptIdx, 1);
-      refreshAfterSeaGeometryEdit();
-    }
-
-    function insertGeoMersPoint(ptsArray, afterIdx, mid, entityId) {
-      pushUndo('Insérer point (mer)');
-      ptsArray.splice(afterIdx + 1, 0, [Math.round(mid[0]), Math.round(mid[1])]);
-      refreshAfterSeaGeometryEdit();
-    }
-
-    // EXPERIMENTAL / DORMANT:
-    // La scission maritime ci-dessous n'est pas fiable en l'etat, surtout pour les
-    // gyres, trous et multipolygones. L'outil Scinder est donc masque en Geo-Mers
-    // et ces fonctions ne doivent pas etre considerees comme fonctionnelles.
-    function splitRingLoops(contour, p1, p2) {
-      if (p1 === p2) {
-        const occurrences = contour.reduce((acc, pt, i) => {
-          if (pt[0] === contour[p1][0] && pt[1] === contour[p1][1]) acc.push(i);
-          return acc;
-        }, []);
-        if (occurrences.length < 2) return null;
-        const i1 = occurrences[0], i2 = occurrences[1];
-        return {
-          loopA: contour.slice(i1, i2 + 1),
-          loopB: [...contour.slice(i2), ...contour.slice(0, i1 + 1)],
-        };
-      }
-
-      const [lo, hi] = p1 < p2 ? [p1, p2] : [p2, p1];
-      return {
-        loopA: [...contour.slice(lo, hi + 1)],
-        loopB: [...contour.slice(hi), ...contour.slice(0, lo + 1)],
-      };
-    }
-
-    function onGeoMersSplitClick(ptsArray, ptIdx, entityId) {
-      if (!geoMersSplitFirstPt || geoMersSplitFirstPt.ptsArray !== ptsArray) {
-        geoMersSplitFirstPt = { ptsArray, ptIdx, entityId };
-        renderGeoMersHandles();
-        return;
-      }
-
-      const loops = splitRingLoops(ptsArray, geoMersSplitFirstPt.ptIdx, ptIdx);
-      geoMersSplitFirstPt = null;
-      if (!loops) {
-        renderGeoMersHandles();
-        return;
-      }
-      applyGeoMersSplit(ptsArray, loops.loopA, loops.loopB, entityId);
-    }
-
-    function applyGeoMersSplit(ptsArray, loopA, loopB, entityId) {
-      if (loopA.length < 3 || loopB.length < 3) {
-        alert('La découpe produirait un anneau de moins de 3 points — opération annulée.');
-        renderGeoMersHandles();
-        return;
-      }
-
-      pushUndo('Scinder contour (mer)');
-      ptsArray.splice(0, ptsArray.length, ...loopA);
-      const sel = getSelectedSeaEntity();
-      if (!sel || sel.entity.id !== entityId) {
-        refreshAfterSeaGeometryEdit();
-        return;
-      }
-      if (sel.entity.zone === ptsArray) {
-        sel.entity.zone = [loopA, loopB];
-        refreshAfterSeaGeometryEdit();
-        return;
-      }
-      const rings = getZoneRingsRef(sel.entity.zone);
-      const idx = rings.findIndex(ring => ring === ptsArray);
-      if (idx >= 0) {
-        const owner = getGeoMersRingOwner(sel.entity.zone, ptsArray);
-        if (owner) owner.insert(loopA, loopB);
-      }
-      refreshAfterSeaGeometryEdit();
-    }
-
-    function getGeoMersRingOwner(zone, ptsArray) {
-      if (!zone) return null;
-
-      if (Array.isArray(zone)) {
-        if (zone === ptsArray) {
-          return {
-            insert(loopA) {
-              ptsArray.splice(0, ptsArray.length, ...loopA);
-            },
-          };
-        }
-        for (let i = 0; i < zone.length; i++) {
-          const item = zone[i];
-          if (item === ptsArray) {
-            return {
-              insert(loopA, loopB) {
-                ptsArray.splice(0, ptsArray.length, ...loopA);
-                zone.splice(i + 1, 0, loopB);
-              },
-            };
-          }
-          if (item && Array.isArray(item.exterior) && item.exterior === ptsArray) {
-            return {
-              insert(loopA, loopB) {
-                item.exterior.splice(0, item.exterior.length, ...loopA);
-                zone.splice(i + 1, 0, { exterior: loopB, holes: [] });
-              },
-            };
-          }
-          if (item && Array.isArray(item.holes)) {
-            const holeIdx = item.holes.findIndex(hole => hole === ptsArray);
-            if (holeIdx >= 0) {
-              return {
-                insert(loopA, loopB) {
-                  ptsArray.splice(0, ptsArray.length, ...loopA);
-                  item.holes.splice(holeIdx + 1, 0, loopB);
-                },
-              };
-            }
-          }
-        }
-      }
-
-      if (Array.isArray(zone.polygons)) {
-        for (let i = 0; i < zone.polygons.length; i++) {
-          const poly = zone.polygons[i];
-          if (poly === ptsArray) {
-            return {
-              insert(loopA, loopB) {
-                ptsArray.splice(0, ptsArray.length, ...loopA);
-                zone.polygons.splice(i + 1, 0, loopB);
-              },
-            };
-          }
-          if (poly?.exterior === ptsArray) {
-            return {
-              insert(loopA, loopB) {
-                poly.exterior.splice(0, poly.exterior.length, ...loopA);
-                zone.polygons.splice(i + 1, 0, { exterior: loopB, holes: [] });
-              },
-            };
-          }
-          if (Array.isArray(poly?.holes)) {
-            const holeIdx = poly.holes.findIndex(hole => hole === ptsArray);
-            if (holeIdx >= 0) {
-              return {
-                insert(loopA, loopB) {
-                  ptsArray.splice(0, ptsArray.length, ...loopA);
-                  poly.holes.splice(holeIdx + 1, 0, loopB);
-                },
-              };
-            }
-          }
-        }
-      }
-
-      if (zone.exterior === ptsArray) {
-        return {
-          insert(loopA, loopB) {
-            const holes = Array.isArray(zone.holes) ? zone.holes : [];
-            delete zone.exterior;
-            delete zone.holes;
-            zone.polygons = [
-              { exterior: loopA, holes },
-              { exterior: loopB, holes: [] },
-            ];
-          },
-        };
-      }
-
-      return null;
-    }
+    // Code mort — édition Géo-Mers (drag/insert/erase/split de courants et
+    // hauts-fonds via un pipeline séparé). Un haut-fond est désormais un
+    // polygone comme un autre, édité via le pipeline générique ci-dessus
+    // (onDragMove/onDragEnd/renderHandles), avec draw/insert/erase/split
+    // disponibles sans restriction ("un polygone est un polygone").
 
     // ═══════════════════════════════════════════════════════════
     // MARQUEURS DE SEGMENTS (mode insert)
@@ -3998,7 +3120,7 @@ if (typeof window !== "undefined") {
     }
 
     function onMapClick(e) {
-      if (ctx.isSea) {
+      if (ctx.isSemaphore) {
         const pt = latLngToPx(e.latlng);
         if (isPxInsideImage(pt)) {
           selectedSemaphorePoint = pt;
@@ -4009,7 +3131,7 @@ if (typeof window !== "undefined") {
         if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
         return;
       }
-      if (ctx.isInfosMers) {
+      if (ctx.isOcean) {
         const pt = latLngToPx(e.latlng);
         if (isPxInsideImage(pt)) {
           selectedSeaCellKey = oscarKeyFromPoint({ x: pt[0], y: pt[1] });
@@ -4023,20 +3145,16 @@ if (typeof window !== "undefined") {
       }
       // Clic dans le vide — désélectionner selon le mode actif
       if (currentTool === 'select') {
-        if (ctx.isGeoTerres) {
+        if (ctx.isTopoGeo) {
           clearSelection();
-        } else if (ctx.isGeoMers) {
-          clearGeoMersSelection();
-        } else if (ctx.isInfosTerres) {
-          clearInfosTerresSelection();
-        } else if (ctx.isInfosMers) {
-          clearInfosMersSelection();
+        } else if (ctx.isTopoInfo) {
+          clearTopoInfoSelection();
         }
       }
     }
 
     function onMapRightClick(e) {
-      if (ctx.isSea) return;
+      if (ctx.isSemaphore || ctx.isOcean) return;
       if (currentTool === 'draw') {
         finishDraw();
       }
@@ -4046,8 +3164,8 @@ if (typeof window !== "undefined") {
     // CHANGEMENT D'OUTIL
     // ═══════════════════════════════════════════════════════════
     function setTool(tool) {
-      if (ctx.isGeoMers && (tool === 'draw' || tool === 'split')) {
-        tool = 'select';
+      if (ctx.isOcean) {
+        tool = 'select'; // pas d'outils polygones en OCÉANOGRAPHIE
       }
       if (tool === currentTool && tool !== 'draw') return;
 
@@ -4057,7 +3175,6 @@ if (typeof window !== "undefined") {
       // Quitter le mode split proprement
       if (currentTool === 'split' && tool !== 'split') {
         splitFirstPt = null;
-        geoMersSplitFirstPt = null;
         clearSplitHandles();
       }
 
@@ -4071,7 +3188,7 @@ if (typeof window !== "undefined") {
       const mapEl = document.getElementById('map');
       mapEl.className = 'tool-' + tool;
 
-      if (ctx.isSea) {
+      if (ctx.isSemaphore || ctx.isOcean) {
         document.getElementById('draw-badge').style.display = 'none';
         document.getElementById('draw-controls').style.display = 'none';
         clearHandles();
@@ -4089,14 +3206,14 @@ if (typeof window !== "undefined") {
       }
 
       // Mode insert : afficher les marqueurs de segments si zone sélectionnée
-      if (ctx.isGeoTerres && tool === 'insert' && selectedZoneId) {
+      if (ctx.isTopoGeo && tool === 'insert' && selectedZoneId) {
         renderSegmentMarkers();
       } else {
         clearSegmentMarkers();
       }
 
       // Mode split : afficher les poignées de découpe
-      if (ctx.isGeoTerres && tool === 'split' && selectedZoneId) {
+      if (ctx.isTopoGeo && tool === 'split' && selectedZoneId) {
         clearHandles();
         renderSplitHandles();
       } else if (tool !== 'split') {
@@ -4104,13 +3221,8 @@ if (typeof window !== "undefined") {
       }
 
       // Rafraîchir les poignées si select/erase/insert (et pas split)
-      if (ctx.isGeoTerres && (tool === 'select' || tool === 'erase') && selectedZoneId) {
+      if (ctx.isTopoGeo && (tool === 'select' || tool === 'erase') && selectedZoneId) {
         renderHandles();
-      }
-
-      // Géo-Mers : re-rendre les poignées quand l'outil change (insert/erase/select/split)
-      if (ctx.isGeoMers && (selectedCurrentId || selectedShoalId)) {
-        renderGeoMersHandles();
       }
     }
 
@@ -4118,7 +3230,7 @@ if (typeof window !== "undefined") {
     // MISE À JOUR DU PANNEAU
     // ═══════════════════════════════════════════════════════════
     function updatePanel() {
-      if (!ctx.isGeoTerres) return;
+      if (!ctx.isTopoGeo) return;
       const idEl = document.getElementById('info-zone-id');
       const statsEl = document.getElementById('info-stats');
       const navEl = document.getElementById('contour-nav');
@@ -4163,9 +3275,9 @@ if (typeof window !== "undefined") {
     }
 
     // ═══════════════════════════════════════════════════════════
-    // INFOS-TERRES — liste juridictions + édition ZONES_DEMO
+    // TOPOGRAPHIE — Info : liste juridictions + édition ZONES_DEMO / hauts-fonds
     // ═══════════════════════════════════════════════════════════
-    let selectedInfosTerresId = null;
+    let selectedTopoInfoId = null;
 
     function renderInfosTerresList() {
       const listEl = document.getElementById('infos-terres-list');
@@ -4173,19 +3285,19 @@ if (typeof window !== "undefined") {
       const demo = zonesWorkingCopy.DEMO || {};
       const ids = Object.keys(demo).sort((a, b) => a.localeCompare(b));
       listEl.innerHTML = ids.map(id => `
-    <button class="info-zone-btn${id === selectedInfosTerresId ? ' active' : ''}"
+    <button class="info-zone-btn${id === selectedTopoInfoId ? ' active' : ''}"
             data-id="${escapeAttr(id)}" type="button">${escapeHtmlText(id)}</button>
   `).join('');
       listEl.querySelectorAll('.info-zone-btn').forEach(btn => {
-        btn.addEventListener('click', () => selectInfosTerres(btn.dataset.id));
+        btn.addEventListener('click', () => selectTopoInfo(btn.dataset.id));
       });
     }
 
-    function selectInfosTerres(id) {
-      selectEntity('infosTerres', id);
+    function selectTopoInfo(id) {
+      selectEntity('topoInfo', id);
     }
 
-    function updateInfosTerresDetail() {
+    function updateTopoInfoDetail() {
       const emptyEl = document.getElementById('infos-terres-empty');
       const detailEl = document.getElementById('infos-terres-detail');
       const labelEl = document.getElementById('infos-terres-label');
@@ -4193,12 +3305,39 @@ if (typeof window !== "undefined") {
       const computedEl = document.getElementById('infos-terres-computed');
       if (!detailEl) return;
 
-      if (!selectedInfosTerresId || !zonesWorkingCopy.DEMO) {
+      if (!selectedTopoInfoId) {
         if (emptyEl) emptyEl.style.display = 'block';
         detailEl.style.display = 'none';
         return;
       }
-      const d = zonesWorkingCopy.DEMO[selectedInfosTerresId];
+
+      // Haut-fond : métadonnées ZONES_SHOAL (via zonesWorkingCopy.SHOAL_META)
+      if (isShoalId(selectedTopoInfoId)) {
+        const s = getWorkingShoals().find(x => x.id === selectedTopoInfoId);
+        if (!s) {
+          if (emptyEl) emptyEl.style.display = 'block';
+          detailEl.style.display = 'none';
+          return;
+        }
+        if (emptyEl) emptyEl.style.display = 'none';
+        detailEl.style.display = 'block';
+        labelEl.textContent = s.label || s.id;
+        fieldsEl.innerHTML = renderShoalMetaFieldsHtml(s);
+        fieldsEl.querySelectorAll('[data-shoal-meta]').forEach(input => {
+          input.addEventListener('change', () => updateShoalMeta(s, input));
+          input.addEventListener('input', () => updateShoalMeta(s, input, { soft: true }));
+        });
+        if (computedEl) computedEl.innerHTML = '';
+        return;
+      }
+
+      // Territoire : métadonnées démographie ZONES_DEMO (comportement inchangé)
+      if (!zonesWorkingCopy.DEMO) {
+        if (emptyEl) emptyEl.style.display = 'block';
+        detailEl.style.display = 'none';
+        return;
+      }
+      const d = zonesWorkingCopy.DEMO[selectedTopoInfoId];
       if (!d) {
         if (emptyEl) emptyEl.style.display = 'block';
         detailEl.style.display = 'none';
@@ -4207,7 +3346,7 @@ if (typeof window !== "undefined") {
 
       if (emptyEl) emptyEl.style.display = 'none';
       detailEl.style.display = 'block';
-      labelEl.textContent = selectedInfosTerresId;
+      labelEl.textContent = selectedTopoInfoId;
 
       const EDITABLE_FIELDS = [
         { key: 'colons', label: 'Colons', type: 'number' },
@@ -4245,12 +3384,12 @@ if (typeof window !== "undefined") {
         input.addEventListener('change', () => {
           const key = input.dataset.field;
           if (input.tagName === 'SELECT') {
-            zonesWorkingCopy.DEMO[selectedInfosTerresId][key] =
+            zonesWorkingCopy.DEMO[selectedTopoInfoId][key] =
               input.value === 'null' ? null : input.value;
           } else {
             // Champ vide → null (pas encore renseigné) ; "0" → 0 (valeur explicite)
             const raw = input.value.trim();
-            zonesWorkingCopy.DEMO[selectedInfosTerresId][key] = raw === '' ? null : Number(raw);
+            zonesWorkingCopy.DEMO[selectedTopoInfoId][key] = raw === '' ? null : Number(raw);
           }
           updateInfosTerresComputed();
         });
@@ -4261,8 +3400,8 @@ if (typeof window !== "undefined") {
 
     function updateInfosTerresComputed() {
       const computedEl = document.getElementById('infos-terres-computed');
-      if (!computedEl || !selectedInfosTerresId) return;
-      const d = zonesWorkingCopy.DEMO[selectedInfosTerresId];
+      if (!computedEl || !selectedTopoInfoId || isShoalId(selectedTopoInfoId)) return;
+      const d = zonesWorkingCopy.DEMO[selectedTopoInfoId];
       if (!d) return;
       const nonRenseigne = d.colons === null;
       if (nonRenseigne) {
@@ -4281,17 +3420,9 @@ if (typeof window !== "undefined") {
         `<div><span style="color:var(--text-dim)">Score densité :</span> ${score}</div>`;
     }
 
-    function updateInfosTerresPanel() {
-      if (!ctx.isInfosTerres) return;
-      updateInfosTerresDetail();
-    }
-
-    function summarizeSemaphoreCurrent(current) {
-      const speed = currentBaseSpeedKmh(current);
-      const speedText = speed ? `${speed} km/h` : 'vitesse variable';
-      const navText = `Nav ${current.visibiliteNav ?? 0}`;
-      const typeText = current.type || 'haute-mer';
-      return `${escapeHtmlText(current.nom || current.id)} (${speedText}, ${typeText}, ${navText})`;
+    function updateTopoInfoPanel() {
+      if (!ctx.isTopoInfo) return;
+      updateTopoInfoDetail();
     }
 
     function summarizeSemaphoreShoal(shoal) {
@@ -4424,7 +3555,7 @@ if (typeof window !== "undefined") {
       const box = document.getElementById('export-box');
       const hint = document.getElementById('export-hint');
 
-      if (ctx.isSea) {
+      if (!ctx.isTopoGeo) {
         box.textContent = '';
         hint.style.display = 'none';
         return;
@@ -4535,13 +3666,14 @@ if (typeof window !== "undefined") {
     }
 
     // ═══════════════════════════════════════════════════════════
-    // EXPORT FICHIER — zones-data.js ou sea-data.js complet
+    // EXPORT FICHIER — zones-data.js complet (géométrie + métadonnées)
     // ═══════════════════════════════════════════════════════════
     function exportCurrentFile() {
-      if (ctx.isGeoTerres || ctx.isInfosTerres) {
+      if (ctx.isTopoGeo || ctx.isTopoInfo) {
         exportZonesData();
-      } else if (ctx.isGeoMers || ctx.isInfosMers) {
-        exportSeaData();
+      } else if (ctx.isOcean) {
+        // TODO PN-OCEAN-EXPORT : export grille OSCAR (session future, point 10).
+        alert('Export OCÉANOGRAPHIE pas encore implémenté (outils grille à venir).');
       }
     }
 
@@ -4610,6 +3742,22 @@ if (typeof window !== "undefined") {
         }
         out += `  },\n\n`;
       }
+      out += '};\n\n\n';
+
+      // ZONES_SHOAL — métadonnées hauts-fonds (géométrie déjà dans ZONES_DATA)
+      out += '// ═══════════════════════════════════════════════════════════\n';
+      out += '// ZONES_SHOAL — Métadonnées hauts-fonds (visibilité nav, risque…)\n';
+      out += '// Géométrie : voir ZONES_DATA ci-dessus (même id).\n';
+      out += '// ═══════════════════════════════════════════════════════════\n\n';
+      out += 'const ZONES_SHOAL = {\n\n';
+
+      const shoalMeta = zonesWorkingCopy.SHOAL_META || {};
+      for (const id in shoalMeta) {
+        const m = shoalMeta[id];
+        out += `  '${id}': {\n`;
+        Object.entries(m).forEach(([k, v]) => out += `    ${k}: ${JSON.stringify(v)},\n`);
+        out += `  },\n\n`;
+      }
       out += '};\n';
 
       downloadBlob('zones-data.js', out);
@@ -4629,10 +3777,6 @@ if (typeof window !== "undefined") {
         total += Math.abs(area) / 2;
       });
       return total;
-    }
-
-    function exportSeaData() {
-      exportSeaDataV2();
     }
 
     function downloadBlob(filename, content) {
@@ -4917,7 +4061,7 @@ if (typeof window !== "undefined") {
       document.getElementById('editor-menu').classList.toggle('open');
     });
     document.querySelectorAll('#editor-menu [data-editor]').forEach(btn => {
-      btn.addEventListener('click', () => setEditor(btn.dataset.editor));
+      btn.addEventListener('click', () => setMode(btn.dataset.editor));
     });
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => setTab(btn.dataset.tab));
