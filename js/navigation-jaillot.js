@@ -2040,7 +2040,7 @@
   // Hauts-fonds visibles par le calculateur selon niveauNavigation.
   // En mode MJ sans test actif : tous les hauts-fonds (connaissance totale).
   // En mode joueur ou test MJ : seulement ceux dont visibiliteNav <= niveauNavigation.
-  function sourceShoals() {
+function sourceShoals() {
     if (typeof ZONES_DATA === 'undefined' || typeof ZONES_SHOAL === 'undefined') return [];
     return Object.entries(ZONES_SHOAL).map(([id, meta]) => {
       const contours = ZONES_DATA[id] || [];

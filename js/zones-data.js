@@ -97,7 +97,7 @@ const ZONES_DATA = {
     ],
   ],
 
-  'banc-de-cuba': [  // haut-fond — 1 contour, 47 pts
+'banc-de-cuba': [  // haut-fond — 1 contour, 47 pts
     [
       [4186, 2648], [3902, 2746], [3799, 2779], [3739, 2800], [3702, 2816], [3686, 2824],
       [3676, 2830], [3669, 2837], [3667, 2842], [3668, 2848], [3671, 2853], [3676, 2857],
@@ -2742,10 +2742,10 @@ const ZONES_DEMO = {
 // Champs :
 //   label         : nom affiché
 //   visibiliteNav : niveau de Navigation minimum pour voir ce haut-fond
-//   catMax        : catégorie de taille maximale libre (sans restriction)
-//   catMaxNav     : catégorie de taille maximale avec niveau Nav requis (optionnel)
+//   catMax        : catégorie de taille maximale autorisée sans restriction
+//   catMaxNav     : catégorie de taille maximale avec restriction (optionnel)
 //   passageNav    : niveau de Navigation requis pour catMaxNav (optionnel)
-//   risque        : texte affiché au MJ
+//   risque        : texte de risque affiché au MJ
 //   contexte      : description géographique
 //   note_mj       : note interne MJ
 // ═══════════════════════════════════════════════════════════
