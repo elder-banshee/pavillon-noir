@@ -1062,6 +1062,11 @@
       transform-origin: 50% 50%;
     }
 
+    .oscar-grid-label.coastal {
+      color: #5eead4;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 1), 0 0 7px rgba(14, 165, 233, 0.9);
+    }
+
     .oscar-controls {
       display: flex;
       flex-direction: column;
@@ -1087,6 +1092,92 @@
 
     .oscar-controls select {
       max-width: 140px;
+    }
+
+    .ocean-cell-detail {
+      margin-top: 8px;
+      padding: 8px;
+      background: rgba(200,151,58,0.08);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+
+    .ocean-cell-title {
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+    }
+
+    .ocean-cell-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 5px;
+      border: 1px solid rgba(200,151,58,0.45);
+      color: var(--gold-light);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+    }
+
+    .ocean-cell-badge.manual {
+      border-color: rgba(245, 158, 11, 0.7);
+      color: #fbbf24;
+    }
+
+    .ocean-cell-badge.coastal {
+      border-color: rgba(94, 234, 212, 0.7);
+      color: #5eead4;
+    }
+
+    .ocean-cell-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .ocean-cell-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .ocean-cell-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      color: var(--text-dim);
+      font-size: 0.72rem;
+    }
+
+    .ocean-cell-form input {
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 5px 6px;
+      font-size: 0.78rem;
+    }
+
+    .ocean-cell-form .ocean-cell-toggle {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      color: var(--text);
+    }
+
+    .ocean-cell-form input[type="checkbox"] {
+      width: auto;
+      accent-color: var(--gold);
+    }
+
+    .ocean-coastal-fields {
+      display: contents;
     }
 
     /* ─── Badge nouveau contour ──────────────────────────────── */
@@ -1312,10 +1403,18 @@
               <option value="">Tous</option>
             </select>
           </label>
+          <label>
+            <span>Filtre</span>
+            <select id="oscar-grid-filter">
+              <option value="">Toutes</option>
+              <option value="manual">Modifiées manuellement</option>
+              <option value="coastal">Courant côtier / double</option>
+              <option value="calm">Calmes non éditées</option>
+            </select>
+          </label>
           <div id="oscar-grid-summary" class="sea-prop"><span>OSCAR :</span> grille indisponible</div>
         </div>
         <div id="sea-oscar" class="sea-prop"><span>Cellule OSCAR :</span> non sélectionnée</div>
-        <!-- TODO PN-OCEAN-TOOLS : sélection multiple + édition par paquets (session future) -->
       </div>
 
       <!-- Coordonnées contours (TOPOGRAPHIE — Géo uniquement) -->
@@ -1360,7 +1459,6 @@
   <script src="../js/ships-data.js"></script>
   <script src="../js/recherche-commune.js"></script>
   <script src="../js/oscar-hex-grid.js"></script>
-  <script src="../js/oscar-grid.js"></script>
   <script src="../js/navigation-jaillot.js"></script>
 
   <script>
@@ -1381,7 +1479,7 @@
       { id: 'erase', label: 'Supprimer point', icon: '⊗', title: 'Supprimer un point en cliquant dessus' },
       { id: 'split', label: 'Scinder', icon: '⌥', title: 'Scinder un contour en deux (1 point commun ou 2 points de coupe)' },
     ];
-    const OSCAR_GRID_DOMAIN_LABELS = {
+    const OSCAR_DOMAIN_LABELS = {
       atlantic: 'Atlantique',
       pacific: 'Pacifique',
       caribbean: 'Caraïbes',
@@ -1389,6 +1487,7 @@
       bahamas: 'Bahamas',
       florida: 'Floride',
     };
+    const OSCAR_CALM_SPEED_MAX = 0.10;
 
     // ─── Couleurs des polygones par état ─────────────────────────
     const STYLE_NORMAL = { color: 'rgba(200,151,58,0.7)', weight: 1, fillColor: 'rgba(200,151,58,0.08)', fillOpacity: 1 };
@@ -1407,7 +1506,7 @@
     let map = null;
     let activeMode = 'topo'; // 'semaphore' | 'topo' | 'ocean'
     let activeTab = 'geo'; // 'geo' | 'info'  (actif seulement en mode topo)
-    let currentTool = 'select'; // topo: select/draw/erase/insert/split ; ocean: select (multi) / paint
+    let currentTool = 'select'; // topo: select/draw/erase/insert/split ; ocean: select
     let undoStack = [];
 
     const ctx = {
@@ -1448,7 +1547,7 @@
       TOOLS: 512,
       UNDO: 1024,
       OSCAR_SELECTION: 2048,
-      OSCAR_GRID: 8192,
+      OSCAR_HEX_GRID: 8192,
     };
 
     function refreshPanel() {
@@ -1470,7 +1569,7 @@
       }
       if (flags & R.CURRENTS) renderCurrentsLayer();
       if (flags & R.OSCAR_SELECTION) renderSeaCells();
-      if (flags & R.OSCAR_GRID) renderOscarGridLayer();
+      if (flags & R.OSCAR_HEX_GRID) renderOscarGridLayer();
       if (flags & R.HANDLES) refreshHandles();
       if (flags & R.SEGMENTS) renderSegmentMarkers();
       if (flags & R.TOOLS) renderToolButtons();
@@ -1489,7 +1588,7 @@
     }
 
     function refreshAfterModeChange() {
-      refresh(R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.OSCAR_GRID | R.EXPORT);
+      refresh(R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.OSCAR_HEX_GRID | R.EXPORT);
     }
 
     // Un polygone est un polygone : territoire et haut-fond partagent le même
@@ -1556,6 +1655,7 @@
     let selectedZoneId = null;
     let selectedContourIdx = 0;  // index dans zonesEdit[selectedZoneId]
     let selectedSeaCellKey = null; // clé de cellule OSCAR inspectée (Sémaphore / Infos-Mers)
+    let selectedOceanCellKeys = new Set(); // sélection multiple OCÉANOGRAPHIE
     let selectedSemaphorePoint = null; // point pixel [x,y] exact du dernier clic Sémaphore
 
     // Glisser-déposer d'un point
@@ -1569,6 +1669,9 @@
     let oscarGridVisible = true;
     let oscarGridArrowsVisible = true;
     let oscarGridDomainFilter = '';
+    let oscarGridTypeFilter = '';
+    let oceanCellEditing = false;
+    let oceanCellClipboard = null;
 
     // ═══════════════════════════════════════════════════════════
     // UTILITAIRES — coordonnées
@@ -1639,8 +1742,6 @@
 
     function renderToolButtons() {
       if (ctx.isTopoInfo || ctx.isSemaphore) { document.getElementById('tool-group').innerHTML = ''; return; }
-      // OCÉANOGRAPHIE : outils de grille (sélection multiple / édition par
-      // paquets) à venir — pas de ZONE_TOOLS (aucun polygone en Océanographie).
       if (ctx.isOcean) { document.getElementById('tool-group').innerHTML = ''; return; }
       const tools = ZONE_TOOLS; // TOPOGRAPHIE — Géo : un polygone est un polygone, territoire ou haut-fond
       const group = document.getElementById('tool-group');
@@ -1748,6 +1849,8 @@
         clearOscarGridLayer();
         if (seaCellLayer && map.hasLayer(seaCellLayer)) map.removeLayer(seaCellLayer);
         selectedSeaCellKey = null;
+        selectedOceanCellKeys.clear();
+        oceanCellEditing = false;
         selectedSemaphorePoint = null;
       }
       if (seaLabelLayer && map.hasLayer(seaLabelLayer)) map.removeLayer(seaLabelLayer);
@@ -1776,20 +1879,12 @@
       if (ctx.isTopoGeo || ctx.isTopoInfo) {
         hint.innerHTML = 'Génère <code>zones-data.js</code> complet (géométrie + métadonnées territoires et hauts-fonds). Remplacer dans le dépôt.';
       } else if (ctx.isOcean) {
-        hint.innerHTML = 'Génère <code>oscar-grid.js</code> (cellules éditées manuellement). Remplacer dans le dépôt.';
+        hint.innerHTML = 'Génère <code>oscar-hex-grid.js</code> (cellules éditées manuellement). Remplacer dans le dépôt.';
       }
     }
 
     function isPxInsideImage(pt) {
       return pt[0] >= 0 && pt[0] < IMG_W && pt[1] >= 0 && pt[1] < IMG_H;
-    }
-
-    function seaCellBounds(col, row) {
-      const x1 = col * SEA_CELL_SIZE;
-      const y1 = row * SEA_CELL_SIZE;
-      const x2 = Math.min(IMG_W, x1 + SEA_CELL_SIZE);
-      const y2 = Math.min(IMG_H, y1 + SEA_CELL_SIZE);
-      return L.latLngBounds(pxToLatLng(x1, y2), pxToLatLng(x2, y1));
     }
 
     function seaCellScreenSize() {
@@ -1801,12 +1896,25 @@
 
     function seaCellStyle(key) {
       const selected = key === selectedSeaCellKey;
+      const inBatch = selectedOceanCellKeys.has(key);
+      const cell = getOscarGrid()?.cells?.[key];
+      const manual = isOscarManualCell(cell);
+      const coastal = hasOscarCoastalCurrent(cell);
+      const highlighted = selected || inBatch;
       return {
         pane: 'seaCellPane',
-        color: selected ? 'rgba(80,200,120,0.95)' : 'rgba(70,170,210,0.65)',
-        weight: selected ? 2.5 : 1,
-        fillColor: selected ? 'rgba(60,180,100,0.30)' : 'transparent',
-        fillOpacity: selected ? 1 : 0,
+        color: coastal
+          ? 'rgba(94, 234, 212, 0.95)'
+            : manual
+              ? 'rgba(245, 158, 11, 0.98)'
+              : selected
+                ? 'rgba(80,200,120,0.95)'
+                : inBatch
+                  ? 'rgba(125, 180, 255, 0.92)'
+                  : 'rgba(70,170,210,0.65)',
+        weight: coastal || manual ? 3 : (selected ? 2.5 : (inBatch ? 2 : 1)),
+        fillColor: highlighted ? 'rgba(60,180,100,0.30)' : 'transparent',
+        fillOpacity: highlighted ? 1 : 0,
         interactive: false,
       };
     }
@@ -1829,9 +1937,7 @@
     function getOscarGrid() {
       if (typeof OSCAR_HEX_GRID !== 'undefined' && OSCAR_HEX_GRID?.cells) return OSCAR_HEX_GRID;
       if (window.OSCAR_HEX_GRID?.cells) return window.OSCAR_HEX_GRID;
-      if (typeof OSCAR_GRID !== 'undefined' && OSCAR_GRID?.cells) return OSCAR_GRID;
-      if (window.OSCAR_GRID?.cells) return window.OSCAR_GRID;
-      return null;
+      throw new Error('OSCAR_HEX_GRID indisponible : ../js/oscar-hex-grid.js doit être chargé avant Zone Editor.');
     }
 
     function oscarHexCenter(q, r, grid) {
@@ -1877,13 +1983,14 @@
     // clic carte en Sémaphore et en Infos — Mers.
     function oscarKeyFromPoint(point) {
       const grid = getOscarGrid();
-      if (!grid) return null;
-      if (grid.topology === 'hex') return oscarHexKeyFromPoint(point, grid);
-      const cellPx = Number(grid.cellSizePx) || SEA_CELL_SIZE;
-      const col = Math.floor(point.x / cellPx);
-      const row = Math.floor(point.y / cellPx);
-      const key = `${col}_${row}`;
-      return grid.cells[key] ? key : null;
+      if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
+      return oscarHexKeyFromPoint(point, grid);
+    }
+
+    function oscarCandidateKeyFromPoint(point) {
+      const grid = getOscarGrid();
+      if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
+      return oscarHexKeyFromPoint(point, grid);
     }
 
     function oscarCellKeyFromSeaKey(key) {
@@ -1891,54 +1998,34 @@
       const [col, row] = key.split(',').map(Number);
       if (!Number.isFinite(col) || !Number.isFinite(row)) return null;
       const grid = getOscarGrid();
-      if (grid?.topology === 'hex') {
-        return oscarHexKeyFromPoint({
-          x: col * SEA_CELL_SIZE + SEA_CELL_SIZE / 2,
-          y: row * SEA_CELL_SIZE + SEA_CELL_SIZE / 2,
-        }, grid);
-      }
-      return `${col}_${row}`;
+      if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
+      return oscarHexKeyFromPoint({
+        x: col * SEA_CELL_SIZE + SEA_CELL_SIZE / 2,
+        y: row * SEA_CELL_SIZE + SEA_CELL_SIZE / 2,
+      }, grid);
     }
 
     function oscarCellCenterFromKey(key, cell = null) {
       const grid = getOscarGrid();
-      if (grid?.topology === 'hex') {
-        const x = Number(cell?.x);
-        const y = Number(cell?.y);
-        if (Number.isFinite(x) && Number.isFinite(y)) return { x, y };
-        const [r, q] = key.split('_').map(Number);
-        return oscarHexCenter(q, r, grid) || { x: 0, y: 0 };
-      }
-      const [col, row] = key.split('_').map(Number);
-      const cellPx = Number(getOscarGrid()?.cellSizePx) || SEA_CELL_SIZE;
-      return {
-        x: Math.min(IMG_W, col * cellPx + cellPx / 2),
-        y: Math.min(IMG_H, row * cellPx + cellPx / 2),
-      };
+      if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
+      const x = Number(cell?.x);
+      const y = Number(cell?.y);
+      if (Number.isFinite(x) && Number.isFinite(y)) return { x, y };
+      const [r, q] = key.split('_').map(Number);
+      const center = oscarHexCenter(q, r, grid);
+      if (!center) throw new Error(`Cellule OSCAR hex invalide : ${key}`);
+      return center;
     }
 
     function oscarCellLatLngsFromKey(key, cell = null) {
       const grid = getOscarGrid();
-      if (grid?.topology === 'hex') {
-        const center = oscarCellCenterFromKey(key, cell);
-        const radius = Number(grid.radiusPx) || SEA_CELL_SIZE / 2;
-        return Array.from({ length: 6 }, (_, i) => {
-          const angle = (-90 + i * 60) * Math.PI / 180;
-          return pxToLatLng(center.x + Math.cos(angle) * radius, center.y + Math.sin(angle) * radius);
-        });
-      }
-      const [col, row] = key.split('_').map(Number);
-      const cellPx = Number(getOscarGrid()?.cellSizePx) || SEA_CELL_SIZE;
-      const x1 = col * cellPx;
-      const y1 = row * cellPx;
-      const x2 = Math.min(IMG_W, x1 + cellPx);
-      const y2 = Math.min(IMG_H, y1 + cellPx);
-      return [
-        pxToLatLng(x1, y1),
-        pxToLatLng(x2, y1),
-        pxToLatLng(x2, y2),
-        pxToLatLng(x1, y2),
-      ];
+      if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
+      const center = oscarCellCenterFromKey(key, cell);
+      const radius = Number(grid.radiusPx) || SEA_CELL_SIZE / 2;
+      return Array.from({ length: 6 }, (_, i) => {
+        const angle = (-90 + i * 60) * Math.PI / 180;
+        return pxToLatLng(center.x + Math.cos(angle) * radius, center.y + Math.sin(angle) * radius);
+      });
     }
 
     function oscarCellSpeed(cell) {
@@ -1946,13 +2033,138 @@
       return Number.isFinite(speed) ? speed : 0;
     }
 
-    function oscarCellDisplayAngle(cell) {
-      const dirToDeg = Number(cell?.dirToDeg);
+    function oscarCellVectorSpeed(vector) {
+      const speed = Number(vector?.speedKnot ?? Math.hypot(Number(vector?.xKnot) || 0, Number(vector?.yKnot) || 0));
+      return Number.isFinite(speed) ? speed : 0;
+    }
+
+    function isOscarManualCell(cell) {
+      return cell?.source === 'manual';
+    }
+
+    function isOscarCalmCell(cell) {
+      return cell?.source === 'calm' || cell?.calme === true;
+    }
+
+    function hasOscarCoastalCurrent(cell) {
+      return !!cell?.coastal;
+    }
+
+    function isOscarCalmUneditedCell(cell) {
+      return !isOscarManualCell(cell)
+        && !hasOscarCoastalCurrent(cell)
+        && oscarCellSpeed(cell) <= OSCAR_CALM_SPEED_MAX;
+    }
+
+    function oscarCellSourceLabel(cell) {
+      if (isOscarCalmCell(cell)) return 'calme';
+      return isOscarManualCell(cell) ? 'manuel' : 'Copernicus';
+    }
+
+    function oscarVectorFromSpeedDir(speedKnot, dirToDeg) {
+      const speed = Math.max(0, Number(speedKnot) || 0);
+      const dir = normalizeAngle(Number(dirToDeg) || 0);
+      const rad = dir * Math.PI / 180;
+      return {
+        xKnot: Math.round(Math.cos(rad) * speed * 1000) / 1000,
+        yKnot: Math.round(Math.sin(rad) * speed * 1000) / 1000,
+        speedKnot: Math.round(speed * 1000) / 1000,
+        dirToDeg: Math.round(dir * 10) / 10,
+      };
+    }
+
+    function oscarCellMainVector(cell) {
+      return {
+        xKnot: cell?.xKnot,
+        yKnot: cell?.yKnot,
+        speedKnot: cell?.speedKnot,
+        dirToDeg: cell?.dirToDeg,
+      };
+    }
+
+    function rememberOriginalOscarCell(cell) {
+      if (!cell || cell._copernicusOriginal) return;
+      Object.defineProperty(cell, '_copernicusOriginal', {
+        value: oscarCellMainVector(cell),
+        enumerable: false,
+        configurable: true,
+        writable: true,
+      });
+    }
+
+    function oscarNeighborKeys(key) {
+      const [r, q] = String(key || '').split('_').map(Number);
+      if (!Number.isFinite(q) || !Number.isFinite(r)) return [];
+      const offsets = (r & 1)
+        ? [[0, -1], [1, -1], [-1, 0], [1, 0], [0, 1], [1, 1]]
+        : [[-1, -1], [0, -1], [-1, 0], [1, 0], [-1, 1], [0, 1]];
+      return offsets.map(([dq, dr]) => `${r + dr}_${q + dq}`);
+    }
+
+    function inferOscarCellDomain(key) {
+      const grid = getOscarGrid();
+      if (!grid?.cells) return oscarGridDomainFilter || 'manual';
+      const counts = new Map();
+      oscarNeighborKeys(key).forEach(neighborKey => {
+        const domain = grid.cells[neighborKey]?.domain;
+        if (!domain) return;
+        counts.set(domain, (counts.get(domain) || 0) + 1);
+      });
+      if (counts.size) return [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+      return oscarGridDomainFilter || 'manual';
+    }
+
+    function createCalmOscarCell(key, domain = null) {
+      const grid = getOscarGrid();
+      if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
+      const [r, q] = String(key || '').split('_').map(Number);
+      const center = oscarHexCenter(q, r, grid);
+      if (!center) throw new Error(`Cellule OSCAR hex invalide : ${key}`);
+      return {
+        q,
+        r,
+        x: Math.round(center.x * 100) / 100,
+        y: Math.round(center.y * 100) / 100,
+        xKnot: 0,
+        yKnot: 0,
+        speedKnot: 0,
+        dirToDeg: 0,
+        maxSpeedKnot: 0,
+        sources: 0,
+        sourceCells: 0,
+        domain: domain || inferOscarCellDomain(key),
+        source: 'calm',
+        calme: true,
+      };
+    }
+
+    function oscarCellDisplayAngle(cell, vectorKey = null) {
+      const vector = vectorKey ? cell?.[vectorKey] : cell;
+      const dirToDeg = Number(vector?.dirToDeg);
       if (Number.isFinite(dirToDeg)) return normalizeAngle(dirToDeg + 90);
-      const x = Number(cell?.xKnot);
-      const y = Number(cell?.yKnot);
+      const x = Number(vector?.xKnot);
+      const y = Number(vector?.yKnot);
       if (!Number.isFinite(x) || !Number.isFinite(y)) return 90;
       return normalizeAngle(Math.atan2(y, x) * 180 / Math.PI + 90);
+    }
+
+    function oscarArrowLatLng(center, key, side, screenSize) {
+      if (side === 'center') return pxToLatLng(center.x, center.y);
+      const sign = side === 'coastal' ? 1 : -1;
+      const offset = Math.max(7, Math.min(16, screenSize * 0.22));
+      const nearestCoast = window.NavigationJaillot?.coteLaPlusProchePoint?.({ x: center.x, y: center.y });
+      const coastPoint = nearestCoast?.point;
+      let angle;
+      if (coastPoint && Number.isFinite(Number(coastPoint.x)) && Number.isFinite(Number(coastPoint.y))) {
+        angle = Math.atan2(Number(coastPoint.y) - center.y, Number(coastPoint.x) - center.x);
+      } else {
+        const [q] = String(key || '').split('_').map(Number);
+        angle = (Number.isFinite(q) && q % 2 ? 30 : -30) * Math.PI / 180;
+      }
+      return pxToLatLng(
+        center.x + Math.cos(angle) * offset * sign,
+        center.y + Math.sin(angle) * offset * sign
+      );
     }
 
     function interpolateRgb(a, b, t) {
@@ -2001,7 +2213,13 @@
       const grid = getOscarGrid();
       if (!grid) return [];
       return Object.entries(grid.cells)
-        .filter(([, cell]) => !oscarGridDomainFilter || cell.domain === oscarGridDomainFilter);
+        .filter(([, cell]) => !oscarGridDomainFilter || cell.domain === oscarGridDomainFilter)
+        .filter(([, cell]) => {
+          if (oscarGridTypeFilter === 'manual') return isOscarManualCell(cell);
+          if (oscarGridTypeFilter === 'coastal') return hasOscarCoastalCurrent(cell);
+          if (oscarGridTypeFilter === 'calm') return isOscarCalmUneditedCell(cell);
+          return true;
+        });
     }
 
     function clearOscarGridLayer() {
@@ -2027,7 +2245,8 @@
         L.polygon(oscarCellLatLngsFromKey(key, cell), oscarCellStyle(cell)).addTo(oscarGridLayer);
         if (showArrows && arrowsDrawn < arrowLimit) {
           const center = oscarCellCenterFromKey(key, cell);
-          const latLng = pxToLatLng(center.x, center.y);
+          const hasCoastal = hasOscarCoastalCurrent(cell);
+          const latLng = oscarArrowLatLng(center, key, hasCoastal ? 'copernicus' : 'center', screenSize);
           if (!visibleBounds.contains(latLng)) return;
           const icon = L.divIcon({
             className: 'oscar-grid-label',
@@ -2036,6 +2255,16 @@
             iconAnchor: [iconSize / 2, iconSize / 2],
           });
           L.marker(latLng, { icon, interactive: false, pane: 'oscarArrowPane' }).addTo(oscarArrowLayer);
+          if (hasCoastal) {
+            const coastalLatLng = oscarArrowLatLng(center, key, 'coastal', screenSize);
+            const coastalIcon = L.divIcon({
+              className: 'oscar-grid-label coastal',
+              html: `<span class="arrow" style="font-size:${Math.round(arrowSize * 0.86)}px; transform: rotate(${oscarCellDisplayAngle(cell, 'coastal')}deg)">↑</span>`,
+              iconSize: [iconSize, iconSize],
+              iconAnchor: [iconSize / 2, iconSize / 2],
+            });
+            L.marker(coastalLatLng, { icon: coastalIcon, interactive: false, pane: 'oscarArrowPane' }).addTo(oscarArrowLayer);
+          }
           arrowsDrawn += 1;
         }
       });
@@ -2046,7 +2275,7 @@
       if (!select) return;
       const domains = [...new Set(Object.values(getOscarGrid()?.cells || {}).map(cell => cell.domain).filter(Boolean))].sort();
       select.innerHTML = '<option value="">Tous</option>' + domains
-        .map(domain => `<option value="${escapeAttr(domain)}">${escapeHtmlText(OSCAR_GRID_DOMAIN_LABELS[domain] || domain)}</option>`)
+        .map(domain => `<option value="${escapeAttr(domain)}">${escapeHtmlText(OSCAR_DOMAIN_LABELS[domain] || domain)}</option>`)
         .join('');
       select.value = oscarGridDomainFilter;
     }
@@ -2062,29 +2291,147 @@
       const entries = filteredOscarEntries();
       const speeds = entries.map(([, cell]) => oscarCellSpeed(cell));
       const max = speeds.length ? Math.max(...speeds) : 0;
+      const manualCount = entries.filter(([, cell]) => isOscarManualCell(cell)).length;
+      const coastalCount = entries.filter(([, cell]) => hasOscarCoastalCurrent(cell)).length;
+      const calmCount = entries.filter(([, cell]) => isOscarCalmUneditedCell(cell)).length;
       const domainLabel = oscarGridDomainFilter
-        ? (OSCAR_GRID_DOMAIN_LABELS[oscarGridDomainFilter] || oscarGridDomainFilter)
+        ? (OSCAR_DOMAIN_LABELS[oscarGridDomainFilter] || oscarGridDomainFilter)
         : 'tous domaines';
-      const topology = grid.topology === 'hex' ? 'hex' : 'carrée';
-      el.innerHTML = `<span>OSCAR :</span> ${entries.length} cellules ${topology} - ${escapeHtmlText(domainLabel)} - max ${max.toFixed(2)} nd`;
+      if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
+      el.innerHTML = `<span>OSCAR :</span> ${entries.length} cellules hex - ${escapeHtmlText(domainLabel)} - max ${max.toFixed(2)} nd - manuel ${manualCount} - côtier ${coastalCount} - calmes ${calmCount}`;
     }
 
     function formatOscarCellForPanel(seaKey) {
       const grid = getOscarGrid();
       const oscarKey = seaKey;
       const cell = oscarKey ? grid?.cells?.[oscarKey] : null;
-      if (!cell) return '<span>Cellule OSCAR :</span> aucune';
+      if (!cell) return formatMissingOscarCellForPanel(oscarKey);
       const speed = oscarCellSpeed(cell);
-      const domain = OSCAR_GRID_DOMAIN_LABELS[cell.domain] || cell.domain || 'domaine n/a';
+      const domain = OSCAR_DOMAIN_LABELS[cell.domain] || cell.domain || 'domaine n/a';
       const max = Number.isFinite(Number(cell.maxSpeedKnot)) ? Number(cell.maxSpeedKnot).toFixed(2) : 'n/a';
       const sources = Number.isFinite(Number(cell.sources)) ? Number(cell.sources) : 'n/a';
       const sourceCells = Number.isFinite(Number(cell.sourceCells)) ? ` - cases source ${Number(cell.sourceCells)}` : '';
+      const coastal = cell.coastal || null;
+      const coastalSpeed = oscarCellVectorSpeed(coastal);
+      const badges = [
+        `<span class="ocean-cell-badge${isOscarManualCell(cell) ? ' manual' : ''}">${oscarCellSourceLabel(cell)}</span>`,
+        hasOscarCoastalCurrent(cell) ? '<span class="ocean-cell-badge coastal">courant côtier</span>' : '',
+        hasOscarCoastalCurrent(cell) ? '<span class="ocean-cell-badge coastal">courant double</span>' : '',
+      ].filter(Boolean).join('');
+      const actionHtml = oceanCellEditing
+        ? formatOscarCellEditForm(cell)
+        : oceanCellActionsHtml({ editLabel: 'Éditer' });
       return [
-        `<span>Cellule OSCAR :</span> ${escapeHtmlText(oscarKey)} - ${escapeHtmlText(domain)}`,
-        `<span>Vitesse :</span> ${speed.toFixed(2)} nd (${(speed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h)`,
-        `<span>Vecteur :</span> x ${formatMaybeNumber(cell.xKnot, 3, ' nd')} - y ${formatMaybeNumber(cell.yKnot, 3, ' nd')}`,
-        `<span>Direction :</span> ${formatMaybeNumber(cell.dirToDeg, 1, '°')} - max ${escapeHtmlText(max)} nd - sources ${escapeHtmlText(sources)}${escapeHtmlText(sourceCells)}`,
-      ].join('<br>');
+        '<div class="ocean-cell-detail">',
+        `<div class="ocean-cell-title">${escapeHtmlText(oscarKey)}${badges}</div>`,
+        `<div class="sea-prop"><span>Domaine :</span> ${escapeHtmlText(domain)}</div>`,
+        `<div class="sea-prop"><span>Courant principal :</span> ${speed.toFixed(2)} nd (${(speed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h), direction ${formatMaybeNumber(cell.dirToDeg, 1, '°')}</div>`,
+        coastal
+          ? `<div class="sea-prop"><span>Courant côtier :</span> ${coastalSpeed.toFixed(2)} nd (${(coastalSpeed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h), direction ${formatMaybeNumber(coastal.dirToDeg, 1, '°')}</div>`
+          : '<div class="sea-prop"><span>Courant côtier :</span> aucun</div>',
+        `<div class="sea-prop"><span>Données source :</span> max observé ${escapeHtmlText(max)} nd - ${escapeHtmlText(sources)} mesure(s)${escapeHtmlText(sourceCells)}</div>`,
+        actionHtml,
+        '</div>',
+      ].join('');
+    }
+
+    function oceanCellActionsHtml({ editLabel = 'Éditer', allowCreate = false } = {}) {
+      return [
+        '<div class="ocean-cell-actions">',
+        allowCreate ? '<button type="button" class="tool-btn" data-ocean-action="create-calm">Créer calme</button>' : `<button type="button" class="tool-btn" data-ocean-action="edit">${escapeHtmlText(editLabel)}</button>`,
+        '<button type="button" class="tool-btn" data-ocean-action="copy">Copier</button>',
+        `<button type="button" class="tool-btn" data-ocean-action="paste"${oceanCellClipboard ? '' : ' disabled'}>Coller</button>`,
+        allowCreate ? '' : '<button type="button" class="tool-btn" data-ocean-action="delete">Supprimer</button>',
+        '</div>',
+      ].join('');
+    }
+
+    function formatMissingOscarCellForPanel(oscarKey) {
+      if (!oscarKey) return '<span>Cellule OSCAR :</span> aucune';
+      return [
+        '<div class="ocean-cell-detail">',
+        `<div class="ocean-cell-title">${escapeHtmlText(oscarKey)}<span class="ocean-cell-badge">trou</span></div>`,
+        '<div class="sea-prop"><span>Cellule :</span> absente de la grille OSCAR</div>',
+        `<div class="sea-prop"><span>Domaine proposé :</span> ${escapeHtmlText(inferOscarCellDomain(oscarKey))}</div>`,
+        oceanCellActionsHtml({ allowCreate: true }),
+        '</div>',
+      ].join('');
+    }
+
+    function selectedOceanEntries() {
+      const grid = getOscarGrid();
+      if (!grid) return [];
+      return [...selectedOceanCellKeys]
+        .map(key => [key, grid.cells[key]])
+        .filter(([, cell]) => !!cell);
+    }
+
+    function isOceanBatchSelection() {
+      return ctx.isOcean && selectedOceanCellKeys.size > 1;
+    }
+
+    function formatOceanBatchPanel() {
+      const entries = selectedOceanEntries();
+      const manualCount = entries.filter(([, cell]) => isOscarManualCell(cell)).length;
+      const coastalCount = entries.filter(([, cell]) => hasOscarCoastalCurrent(cell)).length;
+      const calmCount = entries.filter(([, cell]) => isOscarCalmUneditedCell(cell)).length;
+      const actionHtml = oceanCellEditing
+        ? formatOscarCellEditForm(entries[0]?.[1])
+        : [
+          oceanCellActionsHtml({ editLabel: 'Éditer la sélection' }).replace('</div>', '<button type="button" class="tool-btn" data-ocean-action="clear-selection">Vider</button></div>'),
+        ].join('');
+      return [
+        '<div class="ocean-cell-detail">',
+        `<div class="ocean-cell-title">Sélection multiple (${entries.length} cellules)<span class="ocean-cell-badge">édition commune</span></div>`,
+        `<div class="sea-prop"><span>Contenu :</span> ${manualCount} manuelle(s), ${coastalCount} avec courant côtier, ${calmCount} calme(s) non éditée(s)</div>`,
+        '<div class="sea-prop"><span>Application :</span> les valeurs saisies seront appliquées à toutes les cellules sélectionnées.</div>',
+        actionHtml,
+        '</div>',
+      ].join('');
+    }
+
+    function formatOscarCellEditForm(cell) {
+      if (!cell) return '';
+      const mainSpeed = oscarCellSpeed(cell);
+      const mainDir = Number.isFinite(Number(cell.dirToDeg))
+        ? normalizeAngle(Number(cell.dirToDeg))
+        : normalizeAngle(Math.atan2(Number(cell.yKnot) || 0, Number(cell.xKnot) || 0) * 180 / Math.PI);
+      const hasCoastal = hasOscarCoastalCurrent(cell);
+      const coastal = cell.coastal || cell;
+      const coastalSpeed = oscarCellVectorSpeed(coastal);
+      const coastalDir = Number.isFinite(Number(coastal.dirToDeg))
+        ? normalizeAngle(Number(coastal.dirToDeg))
+        : normalizeAngle(Math.atan2(Number(coastal.yKnot) || 0, Number(coastal.xKnot) || 0) * 180 / Math.PI);
+      const restoreButton = isOscarManualCell(cell) || hasCoastal
+        ? '<button type="button" class="tool-btn" data-ocean-action="restore">Rétablir Copernicus</button>'
+        : '';
+      return [
+        '<div class="ocean-cell-form">',
+        '<label>Vitesse (nd)',
+        `<input id="ocean-main-speed" type="number" min="0" step="0.01" value="${escapeAttr(mainSpeed.toFixed(2))}">`,
+        '</label>',
+        '<label>Direction (°)',
+        `<input id="ocean-main-dir" type="number" min="0" max="359.9" step="0.1" value="${escapeAttr(mainDir.toFixed(1))}">`,
+        '</label>',
+        '<label class="ocean-cell-toggle">',
+        `<input id="ocean-has-coastal" type="checkbox"${hasCoastal ? ' checked' : ''}>`,
+        'Ajouter un courant côtier',
+        '</label>',
+        `<div id="ocean-coastal-fields" class="ocean-coastal-fields" style="${hasCoastal ? '' : 'display:none;'}">`,
+        '<label>Vitesse côtière (nd)',
+        `<input id="ocean-coastal-speed" type="number" min="0" step="0.01" value="${escapeAttr(coastalSpeed.toFixed(2))}">`,
+        '</label>',
+        '<label>Direction côtière (°)',
+        `<input id="ocean-coastal-dir" type="number" min="0" max="359.9" step="0.1" value="${escapeAttr(coastalDir.toFixed(1))}">`,
+        '</label>',
+        '</div>',
+        '</div>',
+        '<div class="ocean-cell-actions">',
+        '<button type="button" class="tool-btn" data-ocean-action="apply">Appliquer</button>',
+        '<button type="button" class="tool-btn" data-ocean-action="cancel">Annuler</button>',
+        restoreButton,
+        '</div>',
+      ].join('');
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -2536,19 +2883,23 @@ ${holesTxt}
       if (!seaCellLayer) return;
       seaCellLayer.clearLayers();
       seaCellLayers = {};
-      if (!(ctx.isSemaphore || ctx.isOcean) || !selectedSeaCellKey) return;
+      if (!(ctx.isSemaphore || ctx.isOcean)) return;
       const grid = getOscarGrid();
-      const cell = grid?.cells?.[selectedSeaCellKey];
-      if (!cell) return;
-      let shape;
-      if (grid.topology === 'hex') {
-        shape = L.polygon(oscarCellLatLngsFromKey(selectedSeaCellKey, cell), seaCellStyle(selectedSeaCellKey));
-      } else {
-        const [col, row] = selectedSeaCellKey.split('_').map(Number);
-        shape = L.rectangle(seaCellBounds(col, row), seaCellStyle(selectedSeaCellKey));
-      }
-      shape.addTo(seaCellLayer);
-      seaCellLayers[selectedSeaCellKey] = shape;
+      const diagnosticKeys = ctx.isOcean
+        ? filteredOscarEntries()
+          .filter(([, cell]) => isOscarManualCell(cell) || hasOscarCoastalCurrent(cell))
+          .map(([key]) => key)
+        : [];
+      const keys = ctx.isOcean
+        ? [...new Set([...diagnosticKeys, ...selectedOceanCellKeys, selectedSeaCellKey].filter(Boolean))]
+        : [selectedSeaCellKey].filter(Boolean);
+      keys.forEach(key => {
+        const cell = grid?.cells?.[key];
+        if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
+        const shape = L.polygon(oscarCellLatLngsFromKey(key, cell), seaCellStyle(key));
+        shape.addTo(seaCellLayer);
+        seaCellLayers[key] = shape;
+      });
     }
 
     function normalizeAngle(deg) {
@@ -2564,6 +2915,8 @@ ${holesTxt}
         zoomControl: true,
         doubleClickZoom: false,
         scrollWheelZoom: true,
+        boxZoom: false,
+        keyboard: false,
         attributionControl: false,
         minZoom: -3,
         maxZoom: 4,
@@ -2599,6 +2952,9 @@ ${holesTxt}
           renderOscarGridLayer();
         }
       });
+      map.getContainer().addEventListener('mousedown', (e) => {
+        if (ctx.isOcean && e.shiftKey) e.stopPropagation();
+      }, true);
       map.on('click', onMapClick);
       map.on('contextmenu', onMapRightClick);
       refreshCtx();
@@ -3134,10 +3490,33 @@ ${holesTxt}
       if (ctx.isOcean) {
         const pt = latLngToPx(e.latlng);
         if (isPxInsideImage(pt)) {
-          selectedSeaCellKey = oscarKeyFromPoint({ x: pt[0], y: pt[1] });
+          const point = { x: pt[0], y: pt[1] };
+          const nextSeaCellKey = oscarKeyFromPoint(point) || oscarCandidateKeyFromPoint(point);
+          const multiSelect = !!e.originalEvent?.shiftKey;
+          if (multiSelect && nextSeaCellKey) {
+            oceanCellEditing = false;
+            if (!selectedOceanCellKeys.size && selectedSeaCellKey && selectedSeaCellKey !== nextSeaCellKey) {
+              selectedOceanCellKeys.add(selectedSeaCellKey);
+            }
+            if (selectedOceanCellKeys.has(nextSeaCellKey)) {
+              selectedOceanCellKeys.delete(nextSeaCellKey);
+              if (selectedSeaCellKey === nextSeaCellKey) {
+                selectedSeaCellKey = selectedOceanCellKeys.values().next().value || null;
+              }
+            } else {
+              selectedOceanCellKeys.add(nextSeaCellKey);
+              selectedSeaCellKey = nextSeaCellKey;
+            }
+          } else {
+            if (nextSeaCellKey !== selectedSeaCellKey) oceanCellEditing = false;
+            selectedSeaCellKey = nextSeaCellKey;
+            selectedOceanCellKeys.clear();
+          }
           renderSeaCells();
           updateInfosMersOscarPanel();
         }
+        if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
+        return;
       }
       if (currentTool === 'draw') {
         addDrawPoint(latLngToPx(e.latlng));
@@ -3165,7 +3544,7 @@ ${holesTxt}
     // ═══════════════════════════════════════════════════════════
     function setTool(tool) {
       if (ctx.isOcean) {
-        tool = 'select'; // pas d'outils polygones en OCÉANOGRAPHIE
+        tool = 'select';
       }
       if (tool === currentTool && tool !== 'draw') return;
 
@@ -3543,9 +3922,165 @@ ${holesTxt}
       updateOscarSummary();
       const oscarEl = document.getElementById('sea-oscar');
       if (!oscarEl) return;
-      oscarEl.innerHTML = selectedSeaCellKey
-        ? formatOscarCellForPanel(selectedSeaCellKey)
-        : '<span>Cellule OSCAR :</span> non sélectionnée';
+      oscarEl.innerHTML = isOceanBatchSelection()
+        ? formatOceanBatchPanel()
+        : selectedSeaCellKey
+          ? formatOscarCellForPanel(selectedSeaCellKey)
+          : '<span>Cellule OSCAR :</span> non sélectionnée';
+    }
+
+    function selectedOscarCell() {
+      const grid = getOscarGrid();
+      return selectedSeaCellKey ? grid?.cells?.[selectedSeaCellKey] : null;
+    }
+
+    function oceanTargetKeys({ includeMissing = false } = {}) {
+      const grid = getOscarGrid();
+      const keys = isOceanBatchSelection()
+        ? [...selectedOceanCellKeys]
+        : [selectedSeaCellKey].filter(Boolean);
+      return includeMissing ? keys : keys.filter(key => !!grid?.cells?.[key]);
+    }
+
+    function oceanEditTargets() {
+      if (isOceanBatchSelection()) return selectedOceanEntries().map(([, cell]) => cell);
+      const cell = selectedOscarCell();
+      return cell ? [cell] : [];
+    }
+
+    function setOceanCellEditing(editing) {
+      oceanCellEditing = !!editing && oceanEditTargets().length > 0;
+      updateInfosMersOscarPanel();
+    }
+
+    function applyOceanCellEdit() {
+      const targets = oceanEditTargets();
+      if (!targets.length) return;
+      const mainSpeedInput = document.getElementById('ocean-main-speed');
+      const mainDirInput = document.getElementById('ocean-main-dir');
+      const hasCoastalInput = document.getElementById('ocean-has-coastal');
+      const speedInput = document.getElementById('ocean-coastal-speed');
+      const dirInput = document.getElementById('ocean-coastal-dir');
+      const mainSpeed = Number(mainSpeedInput?.value);
+      const mainDir = Number(mainDirInput?.value);
+      if (!Number.isFinite(mainSpeed) || mainSpeed < 0) {
+        alert('La vitesse doit être un nombre positif ou nul.');
+        mainSpeedInput?.focus();
+        return;
+      }
+      if (!Number.isFinite(mainDir)) {
+        alert('La direction doit être un nombre en degrés.');
+        mainDirInput?.focus();
+        return;
+      }
+      const hasCoastal = !!hasCoastalInput?.checked;
+      let coastalSpeed = 0;
+      let coastalDir = 0;
+      if (hasCoastal) {
+        coastalSpeed = Number(speedInput?.value);
+        coastalDir = Number(dirInput?.value);
+        if (!Number.isFinite(coastalSpeed) || coastalSpeed < 0) {
+          alert('La vitesse côtière doit être un nombre positif ou nul.');
+          speedInput?.focus();
+          return;
+        }
+        if (!Number.isFinite(coastalDir)) {
+          alert('La direction côtière doit être un nombre en degrés.');
+          dirInput?.focus();
+          return;
+        }
+      }
+      targets.forEach(cell => {
+        rememberOriginalOscarCell(cell);
+        Object.assign(cell, oscarVectorFromSpeedDir(mainSpeed, mainDir));
+        if (hasCoastal) cell.coastal = oscarVectorFromSpeedDir(coastalSpeed, coastalDir);
+        else delete cell.coastal;
+        cell.source = 'manual';
+      });
+      oceanCellEditing = false;
+      refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
+    }
+
+    function restoreOceanCellCopernicus() {
+      const targets = oceanEditTargets();
+      if (!targets.length) return;
+      targets.forEach(cell => {
+        if (cell._copernicusOriginal) {
+          Object.assign(cell, cell._copernicusOriginal);
+          delete cell._copernicusOriginal;
+        }
+        delete cell.coastal;
+        delete cell.source;
+      });
+      oceanCellEditing = false;
+      refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
+    }
+
+    function handleOceanCellAction(action) {
+      if (action === 'edit') setOceanCellEditing(true);
+      else if (action === 'cancel') setOceanCellEditing(false);
+      else if (action === 'apply') applyOceanCellEdit();
+      else if (action === 'restore') restoreOceanCellCopernicus();
+      else if (action === 'copy') copyOceanCells();
+      else if (action === 'paste') pasteOceanCells();
+      else if (action === 'delete') deleteOceanCells();
+      else if (action === 'create-calm') createSelectedCalmOceanCell();
+      else if (action === 'clear-selection') {
+        selectedOceanCellKeys.clear();
+        oceanCellEditing = false;
+        refresh(R.OSCAR_SELECTION | R.SEA_PANEL);
+      }
+    }
+
+    function cloneOscarCellForClipboard(cell) {
+      return serializableOscarCell(cell);
+    }
+
+    function copyOceanCells() {
+      const entries = isOceanBatchSelection() ? selectedOceanEntries() : [[selectedSeaCellKey, selectedOscarCell()]].filter(([, cell]) => !!cell);
+      if (!entries.length) return;
+      oceanCellClipboard = entries.map(([key, cell]) => ({
+        key,
+        cell: cloneOscarCellForClipboard(cell),
+      }));
+      updateInfosMersOscarPanel();
+    }
+
+    function pasteOceanCells() {
+      if (!oceanCellClipboard?.length) return;
+      const grid = getOscarGrid();
+      if (!grid?.cells) return;
+      const keys = oceanTargetKeys({ includeMissing: true });
+      if (!keys.length) return;
+      keys.forEach((key, idx) => {
+        const source = oceanCellClipboard[idx % oceanCellClipboard.length]?.cell;
+        if (!source) return;
+        grid.cells[key] = cloneJSON(source);
+        grid.cells[key].source = grid.cells[key].source || 'manual';
+        if (!grid.cells[key].domain) grid.cells[key].domain = inferOscarCellDomain(key);
+      });
+      oceanCellEditing = false;
+      refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
+    }
+
+    function deleteOceanCells() {
+      const grid = getOscarGrid();
+      if (!grid?.cells) return;
+      const keys = oceanTargetKeys();
+      if (!keys.length) return;
+      if (!confirm(`Supprimer ${keys.length} cellule(s) OSCAR de la grille ?`)) return;
+      keys.forEach(key => delete grid.cells[key]);
+      selectedOceanCellKeys = new Set([...selectedOceanCellKeys].filter(key => grid.cells[key]));
+      if (selectedSeaCellKey && !grid.cells[selectedSeaCellKey]) selectedSeaCellKey = null;
+      oceanCellEditing = false;
+      refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
+    }
+
+    function createSelectedCalmOceanCell() {
+      const grid = getOscarGrid();
+      if (!grid?.cells || !selectedSeaCellKey) return;
+      grid.cells[selectedSeaCellKey] = createCalmOscarCell(selectedSeaCellKey);
+      refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -3672,9 +4207,39 @@ ${holesTxt}
       if (ctx.isTopoGeo || ctx.isTopoInfo) {
         exportZonesData();
       } else if (ctx.isOcean) {
-        // TODO PN-OCEAN-EXPORT : export grille OSCAR (session future, point 10).
-        alert('Export OCÉANOGRAPHIE pas encore implémenté (outils grille à venir).');
+        exportOscarGrid();
       }
+    }
+
+    function serializableOscarCell(cell) {
+      const out = {};
+      Object.entries(cell || {}).forEach(([key, value]) => {
+        if (key.startsWith('_')) return;
+        out[key] = value;
+      });
+      return out;
+    }
+
+    function exportOscarGrid() {
+      const grid = getOscarGrid();
+      if (!grid?.cells) {
+        alert('Grille OSCAR indisponible.');
+        return;
+      }
+      const exportGrid = {};
+      Object.entries(grid).forEach(([key, value]) => {
+        if (key === 'cells') return;
+        exportGrid[key] = value;
+      });
+      exportGrid.cells = {};
+      Object.entries(grid.cells).forEach(([key, cell]) => {
+        exportGrid.cells[key] = serializableOscarCell(cell);
+      });
+      if (exportGrid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est exportable.');
+      let out = '// oscar-hex-grid.js - genere par Zone Editor depuis la grille OSCAR hex courante\n\n';
+      out += `const OSCAR_HEX_GRID = ${JSON.stringify(exportGrid)};\n`;
+      out += "if (typeof window !== 'undefined') window.OSCAR_HEX_GRID = OSCAR_HEX_GRID;\n";
+      downloadBlob('oscar-hex-grid.js', out);
     }
 
     function exportZonesData() {
@@ -4097,7 +4662,7 @@ ${holesTxt}
       oscarGridVisibleInput.checked = oscarGridVisible;
       oscarGridVisibleInput.addEventListener('change', (e) => {
         oscarGridVisible = !!e.target.checked;
-        refresh(R.OSCAR_GRID | R.SEA_PANEL);
+        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
       });
     }
     const oscarGridArrowsInput = document.getElementById('oscar-grid-arrows');
@@ -4105,14 +4670,34 @@ ${holesTxt}
       oscarGridArrowsInput.checked = oscarGridArrowsVisible;
       oscarGridArrowsInput.addEventListener('change', (e) => {
         oscarGridArrowsVisible = !!e.target.checked;
-        refresh(R.OSCAR_GRID | R.SEA_PANEL);
+        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
       });
     }
     const oscarGridDomainSelect = document.getElementById('oscar-grid-domain');
     if (oscarGridDomainSelect) {
       oscarGridDomainSelect.addEventListener('change', (e) => {
         oscarGridDomainFilter = e.target.value || '';
-        refresh(R.OSCAR_GRID | R.SEA_PANEL);
+        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+      });
+    }
+    const oscarGridFilterSelect = document.getElementById('oscar-grid-filter');
+    if (oscarGridFilterSelect) {
+      oscarGridFilterSelect.addEventListener('change', (e) => {
+        oscarGridTypeFilter = e.target.value || '';
+        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+      });
+    }
+    const seaOscarPanel = document.getElementById('sea-oscar');
+    if (seaOscarPanel) {
+      seaOscarPanel.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-ocean-action]');
+        if (!btn) return;
+        handleOceanCellAction(btn.dataset.oceanAction);
+      });
+      seaOscarPanel.addEventListener('change', (e) => {
+        if (e.target?.id !== 'ocean-has-coastal') return;
+        const fields = document.getElementById('ocean-coastal-fields');
+        if (fields) fields.style.display = e.target.checked ? 'contents' : 'none';
       });
     }
     document.getElementById('btn-copy').addEventListener('click', function () {

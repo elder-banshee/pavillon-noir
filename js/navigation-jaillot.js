@@ -70,9 +70,7 @@
   function sourceOscarGrid() {
     if (typeof OSCAR_HEX_GRID !== 'undefined' && OSCAR_HEX_GRID?.cells) return OSCAR_HEX_GRID;
     if (typeof window !== 'undefined' && window.OSCAR_HEX_GRID?.cells) return window.OSCAR_HEX_GRID;
-    if (typeof OSCAR_GRID !== 'undefined' && OSCAR_GRID?.cells) return OSCAR_GRID;
-    if (typeof window !== 'undefined' && window.OSCAR_GRID?.cells) return window.OSCAR_GRID;
-    return null;
+    throw new Error('OSCAR_HEX_GRID indisponible : js/oscar-hex-grid.js doit être chargé avant navigation-jaillot.js.');
   }
 
   function oscarHexCenter(q, r, grid) {
@@ -115,9 +113,8 @@
 
   function oscarCellKey(point) {
     const grid = sourceOscarGrid();
-    if (grid?.topology === 'hex') return oscarHexCellKey(point, grid);
-    const cellPx = Number(grid?.cellSizePx) || CONFIG.grillePx;
-    return `${Math.floor(point.x / cellPx)}_${Math.floor(point.y / cellPx)}`;
+    if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
+    return oscarHexCellKey(point, grid);
   }
 
   function memePoint(a, b) {
@@ -383,6 +380,15 @@
     if (!len2) return distance(p, a);
     const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2));
     return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+  }
+
+  function pointLePlusProcheSegment(p, a, b) {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const len2 = dx * dx + dy * dy;
+    if (!len2) return { x: a.x, y: a.y };
+    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2));
+    return { x: a.x + t * dx, y: a.y + t * dy };
   }
 
   function distSegmentSegment(a, b, c, d) {
@@ -2255,6 +2261,44 @@
 
   function distanceCotePointPreciseNm(point) {
     return distanceCotePointPrecise(point) * millesNautiquesParPx();
+  }
+
+  function coteLaPlusProchePoint(point) {
+    const cacheKey = ['P', 'cote-proche', coordCle(point.x), coordCle(point.y)].join('|');
+    if (distanceCoteCache.has(cacheKey)) return distanceCoteCache.get(cacheKey);
+    let meilleure = {
+      distancePx: Infinity,
+      point: null,
+    };
+    for (const poly of getTerres()) {
+      if (!polygoneCompteCommeCote(poly)) continue;
+      if (pointDansPolygone(point, poly)) {
+        meilleure = {
+          distancePx: 0,
+          distanceNm: 0,
+          point: { x: point.x, y: point.y },
+        };
+        distanceCoteCache.set(cacheKey, meilleure);
+        return meilleure;
+      }
+      for (let i = 0; i < poly.points.length; i++) {
+        const a = poly.points[i];
+        const b = poly.points[(i + 1) % poly.points.length];
+        const proche = pointLePlusProcheSegment(point, a, b);
+        const distancePx = distance(point, proche);
+        if (distancePx < meilleure.distancePx) {
+          meilleure = {
+            distancePx,
+            point: proche,
+          };
+        }
+      }
+    }
+    if (Number.isFinite(meilleure.distancePx) && meilleure.point) {
+      meilleure.distanceNm = meilleure.distancePx * millesNautiquesParPx();
+    }
+    distanceCoteCache.set(cacheKey, meilleure);
+    return meilleure;
   }
 
   function attenuationCourantCote(point) {
@@ -4154,6 +4198,7 @@
     millesNautiquesParPx,
     distanceCotePointNm,
     distanceCotePointPreciseNm,
+    coteLaPlusProchePoint,
     attenuationCourantCote,
     afficherResultatOutils,
     masquerResultatOutils,
