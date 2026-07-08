@@ -2284,13 +2284,22 @@
       };
     }
 
+    // Retourne l'angle d'affichage d'un vecteur, ou null si la cellule n'en
+    // porte aucun. La magnitude prime sur dirToDeg : à vecteur nul, dirToDeg
+    // n'a aucun sens physique — or les données réelles portent souvent
+    // dirToDeg: 0 (littéral) sur les cellules calmes, pas seulement null.
+    // Se fier uniquement à dirToDeg ferait donc passer la quasi-totalité des
+    // cellules calmes pour un vecteur orienté plein Est.
     function oscarCellDisplayAngle(cell, vectorKey = null) {
       const vector = vectorKey ? cell?.[vectorKey] : cell;
-      const dirToDeg = Number(vector?.dirToDeg);
-      if (Number.isFinite(dirToDeg)) return normalizeAngle(dirToDeg + 90);
       const x = Number(vector?.xKnot);
       const y = Number(vector?.yKnot);
-      if (!Number.isFinite(x) || !Number.isFinite(y)) return 90;
+      const hasVector = Number.isFinite(x) && Number.isFinite(y) && (x !== 0 || y !== 0);
+      if (!hasVector) return null;
+      const dirToDeg = vector?.dirToDeg;
+      if (dirToDeg !== null && dirToDeg !== undefined && Number.isFinite(Number(dirToDeg))) {
+        return normalizeAngle(Number(dirToDeg) + 90);
+      }
       return normalizeAngle(Math.atan2(y, x) * 180 / Math.PI + 90);
     }
 
@@ -2322,12 +2331,22 @@
       ];
     }
 
+    // Le premier palier est ancré sur OSCAR_CALM_COLOR (source unique) pour
+    // qu'une cellule à vitesse nulle rende exactement la même couleur, quelle
+    // que soit son origine (calme générée, Copernicus à 0.00 nd, manuelle...).
+    // Les paliers suivants reprennent l'espacement relatif de l'ancien
+    // dégradé à 5 paliers (0/.28/.52/.74/1.00), qui distinguait bien les
+    // courants faibles et moyens, avec deux paliers intermédiaires ajoutés
+    // dans cette même zone pour plus de nuance.
     function oscarSpeedColor(speed) {
       const stops = [
-        { at: 0.00, rgb: [18, 61, 138] },
-        { at: 0.28, rgb: [0, 150, 136] },
-        { at: 0.52, rgb: [205, 220, 57] },
-        { at: 0.74, rgb: [245, 158, 11] },
+        { at: 0.00, rgb: OSCAR_CALM_COLOR },
+        { at: 0.06, rgb: [18, 61, 138] },
+        { at: 0.32, rgb: [0, 150, 136] },
+        { at: 0.43, rgb: [90, 190, 100] },
+        { at: 0.55, rgb: [205, 220, 57] },
+        { at: 0.65, rgb: [230, 190, 30] },
+        { at: 0.76, rgb: [245, 158, 11] },
         { at: 1.00, rgb: [220, 38, 38] },
       ];
       const t = Math.max(0, Math.min(1, speed / oscarSpeedColorCap));
@@ -2341,22 +2360,15 @@
       return stops[stops.length - 1].rgb;
     }
 
+    // Rendu unifié : la couleur ne dépend que de la vitesse (oscarSpeedColor),
+    // jamais de l'origine de la cellule. Une cellule calme générée et une
+    // cellule Copernicus à 0.00 nd doivent rendre exactement la même teinte —
+    // sinon on lit visuellement deux vitesses différentes là où il n'y en a
+    // qu'une. Le filtre "Calmes non éditées" reste le moyen de les isoler.
     function oscarCellStyle(cell) {
-      if (isOscarCalmCell(cell)) {
-        const [r, g, b] = OSCAR_CALM_COLOR;
-        return {
-          pane: 'oscarGridPane',
-          className: 'oscar-grid-cell oscar-grid-cell-calme',
-          color: `rgba(${r}, ${g}, ${b}, 0.55)`,
-          weight: 0.75,
-          fillColor: `rgba(${r}, ${g}, ${b}, 0.55)`,
-          fillOpacity: 1,
-          interactive: false,
-        };
-      }
       const speed = oscarCellSpeed(cell);
       const [r, g, b] = oscarSpeedColor(speed);
-      const intensity = Math.max(0.25, Math.min(1, speed / oscarSpeedColorCap));
+      const intensity = Math.max(0.3, Math.min(1, speed / oscarSpeedColorCap));
       return {
         pane: 'oscarGridPane',
         className: 'oscar-grid-cell',
@@ -2408,11 +2420,17 @@
       entries.forEach(([key, cell]) => {
         const center = oscarCellCenterFromKey(key, cell);
         const hasCoastal = hasOscarCoastalCurrent(cell);
-        const mainPoint = oscarArrowPoint(center, key, hasCoastal ? 'copernicus' : 'center');
-        arrows.push(oscarArrowSvgPath(mainPoint, oscarCellDisplayAngle(cell), size));
+        const mainAngle = oscarCellDisplayAngle(cell);
+        if (mainAngle !== null) {
+          const mainPoint = oscarArrowPoint(center, key, hasCoastal ? 'copernicus' : 'center');
+          arrows.push(oscarArrowSvgPath(mainPoint, mainAngle, size));
+        }
         if (hasCoastal) {
-          const coastalPoint = oscarArrowPoint(center, key, 'coastal');
-          arrows.push(oscarArrowSvgPath(coastalPoint, oscarCellDisplayAngle(cell, 'coastal'), coastalSize, 'coastal'));
+          const coastalAngle = oscarCellDisplayAngle(cell, 'coastal');
+          if (coastalAngle !== null) {
+            const coastalPoint = oscarArrowPoint(center, key, 'coastal');
+            arrows.push(oscarArrowSvgPath(coastalPoint, coastalAngle, coastalSize, 'coastal'));
+          }
         }
       });
       if (!arrows.length) return;
