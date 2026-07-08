@@ -25,7 +25,7 @@
     millesImperiauxReference: 300,
     metresParMilleImperial: 1609,
     metresParMilleNautique: 1852,
-    rayonAttenuationCourantNm: 30,
+    rayonRechercheCoteNm: 30,
     porteeDeventementNm: 24,
     demiAngleDeventementDeg: 32,
     facteurMinDeventement: 0.35,
@@ -53,9 +53,7 @@
   const tempsSegmentCache = new Map();
   let zonesNavigationIndexCache = null;
   let oceanBoundsIndexCache = null;
-  let courantsIndexCache = null;
   let deventementsIndexCache = null;
-  let avertissementZonesNavigationExplicites = false;
   let etatNavire = {
     id: null,
     equipage: null,
@@ -63,8 +61,8 @@
 
   function normaliserTexte(str) { return window.RC.normaliser(str); }
 
-  function pointCle(p) {
-    return `${Math.round(p.x)},${Math.round(p.y)}`;
+  function pointCle(point) {
+    return `${Math.round(point.x)},${Math.round(point.y)}`;
   }
 
   function sourceOscarGrid() {
@@ -152,8 +150,8 @@
     return distance(a, b) * millesNautiquesParPx();
   }
 
-  function rayonAttenuationCourantPx() {
-    return CONFIG.rayonAttenuationCourantNm / millesNautiquesParPx();
+  function rayonRechercheCotePx() {
+    return CONFIG.rayonRechercheCoteNm / millesNautiquesParPx();
   }
 
   function vitesseNavireMoyenneNoeuds() {
@@ -373,21 +371,21 @@
     return heuristiqueTemps(a, b) * CONFIG.poidsHeuristiqueTemps;
   }
 
-  function distPointSegment(p, a, b) {
+  function distPointSegment(point, a, b) {
     const dx = b.x - a.x;
     const dy = b.y - a.y;
     const len2 = dx * dx + dy * dy;
-    if (!len2) return distance(p, a);
-    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2));
-    return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+    if (!len2) return distance(point, a);
+    const t = Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / len2));
+    return Math.hypot(point.x - (a.x + t * dx), point.y - (a.y + t * dy));
   }
 
-  function pointLePlusProcheSegment(p, a, b) {
+  function pointLePlusProcheSegment(point, a, b) {
     const dx = b.x - a.x;
     const dy = b.y - a.y;
     const len2 = dx * dx + dy * dy;
     if (!len2) return { x: a.x, y: a.y };
-    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2));
+    const t = Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / len2));
     return { x: a.x + t * dx, y: a.y + t * dy };
   }
 
@@ -498,12 +496,11 @@
     return { minX, minY, maxX, maxY };
   }
 
-  function sourceCourantsCalculateur() {
-    return [];
-  }
-
   function zonesNavigationExplicites() {
-    return false;
+    // Bascule actée (post REPRISE_70, TODO PN-SEA-EXPLICIT levé) : le moteur
+    // exige désormais qu'un point soit dans oceanBounds pour être navigable,
+    // en plus du masque terres.
+    return true;
   }
 
   function sourceZonesNavigationCalculateur() {
@@ -511,10 +508,14 @@
   }
 
   function sourceOceanBoundsCalculateur() {
-    // Câblage inerte : n'a d'effet que si zonesNavigationExplicites() (ci-dessus)
-    // devient true — décision volontaire distincte, non prise cette session.
-    // cf. REPRISE_70, TODO PN-SEA-EXPLICIT.
-    if (typeof ZONES_OCEAN_BOUNDS === 'undefined') return [];
+    // Source du masque navigable explicite (ZONES_OCEAN_BOUNDS, zones-data.js).
+    // Pas de repli silencieux : mode explicite actif + module absent = erreur
+    // franche (principe REPRISE_69 « fail fast, fail loud »).
+    if (typeof ZONES_OCEAN_BOUNDS === 'undefined') {
+      if (zonesNavigationExplicites())
+        throw new Error('ZONES_OCEAN_BOUNDS absent — vérifier zones-data.js (mode zones explicites actif).');
+      return [];
+    }
     return Object.entries(ZONES_OCEAN_BOUNDS).map(([id, bounds]) => ({
       id,
       zone: bounds.zone,
@@ -554,32 +555,54 @@
     const source = sourceOceanBoundsCalculateur();
     oceanBoundsIndexCache = source.map(bounds => {
       const anneaux = zoneSeaRings(bounds.zone);
+      const bbox = bboxAnneauxSea(anneaux);
       return {
         bounds,
-        bbox: bboxAnneauxSea(anneaux),
+        bbox,
+        bandes: construireBandesAnneaux(anneaux, bbox),
       };
     });
     return oceanBoundsIndexCache;
   }
 
-  function getCourantsIndex() {
-    if (courantsIndexCache) return courantsIndexCache;
-    const source = sourceCourantsCalculateur();
-    courantsIndexCache = source.map(courant => {
-      const points = courant.centerline || [];
-      const xs = points.map(([x]) => x);
-      const ys = points.map(([, y]) => y);
-      return {
-        courant,
-        bbox: points.length ? {
-          minX: Math.min(...xs),
-          maxX: Math.max(...xs),
-          minY: Math.min(...ys),
-          maxY: Math.max(...ys),
-        } : { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity },
-      };
+  // Index par bandes horizontales des arêtes d'un jeu d'anneaux (extérieur +
+  // trous confondus) : le test point-dans-zone par lancer de rayon ne parcourt
+  // alors que les arêtes dont l'intervalle Y contient le point, au lieu des
+  // milliers d'arêtes du contour oceanBounds complet (même besoin d'index
+  // spatial que getIndexTerres / getIndexHautsFonds).
+  function construireBandesAnneaux(anneaux, bbox) {
+    const nbBandes = 256;
+    const hauteur = Math.max(1e-9, bbox.maxY - bbox.minY);
+    const bandes = Array.from({ length: nbBandes }, () => []);
+    anneaux.forEach(ring => {
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const y1 = ring[i][1];
+        const y2 = ring[j][1];
+        const bandeMin = Math.max(0, Math.min(nbBandes - 1,
+          Math.floor((Math.min(y1, y2) - bbox.minY) / hauteur * nbBandes)));
+        const bandeMax = Math.max(0, Math.min(nbBandes - 1,
+          Math.floor((Math.max(y1, y2) - bbox.minY) / hauteur * nbBandes)));
+        const arete = [ring[i][0], y1, ring[j][0], y2];
+        for (let k = bandeMin; k <= bandeMax; k++) bandes[k].push(arete);
+      }
     });
-    return courantsIndexCache;
+    return { nbBandes, bandes };
+  }
+
+  // Parité pair-impair sur les arêtes de la bande du point : équivalent à
+  // « dans l'extérieur et hors des trous » pour des anneaux bien formés,
+  // exactement comme pointDansZoneSea, mais en ne visitant que ~1/256 des arêtes.
+  function pointDansBandesAnneaux(point, bbox, index) {
+    const hauteur = Math.max(1e-9, bbox.maxY - bbox.minY);
+    const k = Math.max(0, Math.min(index.nbBandes - 1,
+      Math.floor((point.y - bbox.minY) / hauteur * index.nbBandes)));
+    let dedans = false;
+    for (const [xi, yi, xj, yj] of index.bandes[k]) {
+      const croise = ((yi > point.y) !== (yj > point.y))
+        && (point.x < (xj - xi) * (point.y - yi) / ((yj - yi) || 0.000001) + xi);
+      if (croise) dedans = !dedans;
+    }
+    return dedans;
   }
 
   function pointDansZoneSea(point, zone) {
@@ -606,25 +629,26 @@
     return getOceanBoundsIndex()
       .filter(({ bbox }) => point.x >= bbox.minX && point.x <= bbox.maxX
         && point.y >= bbox.minY && point.y <= bbox.maxY)
-      .some(({ bounds }) => pointDansZoneSea(point, bounds.zone));
+      .some(({ bbox, bandes }) => pointDansBandesAnneaux(point, bbox, bandes));
   }
 
   function pointDansZoneNavigation(point) {
-    // TODO PN-SEA-EXPLICIT: quand la mosaïque maritime sera complete,
-    // supprimer le repli "true" et exiger une zone explicite partout.
     if (!zonesNavigationExplicites()) return true;
-    const oceanBounds = sourceOceanBoundsCalculateur();
-    if (oceanBounds.length) return pointDansOceanBounds(point);
+    if (getOceanBoundsIndex().length) return pointDansOceanBounds(point);
     return !!zoneNavigationEnPoint(point);
   }
 
-  function segmentDansZonesNavigation(a, b) {
-    // TODO PN-SEA-EXPLICIT: ce garde-fou deviendra la regle principale
-    // d'autorisation de navigation, a la place du masque "tout sauf terres".
+  function segmentDansZonesNavigation(a, b, options = {}) {
+    // Règle principale d'autorisation de navigation : chaque échantillon du
+    // segment doit être dans oceanBounds, en complément du masque terres.
+    // Les extrémités posées à terre (ports, segments terminaux) sont exemptées
+    // via les mêmes options ignorer* que le test de terres de segmentNavigable.
     if (!zonesNavigationExplicites()) return true;
     const px = distance(a, b);
     const parts = Math.max(1, Math.ceil(px / Math.max(8, CONFIG.grilleApprochePx * 2)));
     for (let i = 0; i <= parts; i++) {
+      if (i === 0 && options.ignorerDepartDansTerre) continue;
+      if (i === parts && options.ignorerArriveeDansTerre) continue;
       const t = parts ? i / parts : 0;
       const point = {
         x: a.x + (b.x - a.x) * t,
@@ -715,18 +739,6 @@
     return base;
   }
 
-  function pointPlusProcheSegment(p, a, b) {
-    const dx = b.x - a.x;
-    const dy = b.y - a.y;
-    const len2 = dx * dx + dy * dy;
-    if (!len2) return a;
-    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2));
-    return {
-      x: a.x + t * dx,
-      y: a.y + t * dy,
-    };
-  }
-
   function getDeventementsIndex() {
     if (deventementsIndexCache) return deventementsIndexCache;
     const juridictions = typeof JURIDICTIONS !== 'undefined' ? JURIDICTIONS : [];
@@ -772,7 +784,7 @@
       for (let i = 0; i < zone.points.length; i++) {
         const a = zone.points[i];
         const b = zone.points[(i + 1) % zone.points.length];
-        const candidat = pointPlusProcheSegment(point, a, b);
+        const candidat = pointLePlusProcheSegment(point, a, b);
         const d = distance(point, candidat);
         if (d < meilleureDist) {
           meilleureDist = d;
@@ -823,69 +835,6 @@
     };
     ventPointCache.set(cacheKey, resultat);
     return resultat;
-  }
-
-  function segmentCourantAuPoint(courant, point) {
-    return segmentCourantProche(courant, point).index;
-  }
-
-  function segmentCourantProche(courant, point) {
-    const cl = courant.centerline || [];
-    if (cl.length < 2) return { index: 0, point: null, distance: Infinity };
-
-    let meilleurIdx = 0;
-    let meilleurPoint = null;
-    let meilleureDist = Infinity;
-    const segmentCount = courant.closed ? cl.length : cl.length - 1;
-    for (let i = 0; i < segmentCount; i++) {
-      const a = { x: cl[i][0], y: cl[i][1] };
-      const b = { x: cl[(i + 1) % cl.length][0], y: cl[(i + 1) % cl.length][1] };
-      const proche = pointPlusProcheSegment(point, a, b);
-      const d = distance(point, proche);
-      if (d < meilleureDist) {
-        meilleureDist = d;
-        meilleurIdx = i;
-        meilleurPoint = proche;
-      }
-    }
-    return { index: meilleurIdx, point: meilleurPoint, distance: meilleureDist };
-  }
-
-  function directionCourantAuPoint(courant, point) {
-    const cl = courant.centerline || [];
-    if (!cl.length) return courant.directions?.[0] || null;
-    if (cl.length === 1) return courant.directions?.[0] || null;
-    const index = segmentCourantAuPoint(courant, point);
-    return courant.directions?.[index] || courant.directions?.[courant.directions.length - 1] || null;
-  }
-
-  function vitesseZoneNavigationNoeuds(zone) {
-    if (!zone) return 0;
-    const knots = Number(zone.speedKnot ?? zone.speedKnots);
-    if (Number.isFinite(knots) && knots >= 0) return knots;
-    // TODO PN-SEA-EXPLICIT: supprimer les replis km/h avec l'ancien sea-data.js.
-    // Le nouveau contrat stocke uniquement speedKnot dans les zones maritimes.
-    const kmh = Number(zone.speedKmh ?? zone.vitesseKmh);
-    if (Number.isFinite(kmh) && kmh >= 0) return kmh * KMH_TO_KNOTS;
-    return 0;
-  }
-
-  function courantTraverseZone(courant, zone, point) {
-    if (!zone) return false;
-    const proche = segmentCourantProche(courant, point);
-    return !!proche.point && pointDansZoneSea(proche.point, zone.zone);
-  }
-
-  function courantsZoneAuPoint(point, zone) {
-    if (!zone) return [];
-    return getCourantsIndex()
-      .map(({ courant }) => courant)
-      .filter(courant => courantTraverseZone(courant, zone, point));
-  }
-
-  function courantsAuPoint(point) {
-    const zone = zoneNavigationEnPoint(point);
-    return courantsZoneAuPoint(point, zone);
   }
 
   function courantEnPoint(point) {
@@ -1949,7 +1898,7 @@
       options.ignorerArriveeDansTerre ? 1 : 0,
     ].join('|');
     if (navigabiliteCache.has(cacheKey)) return navigabiliteCache.get(cacheKey);
-    if (!segmentDansZonesNavigation(a, b)) {
+    if (!segmentDansZonesNavigation(a, b, options)) {
       return memoriserNavigabilite(cacheKey, false);
     }
     if (segmentTraverseHautFond(a, b)) {
@@ -1980,9 +1929,9 @@
     return valeur;
   }
 
-  function pointNavigable(p, options = {}) {
-    if (typeof pointInMapBounds === 'function' && !pointInMapBounds(p.x, p.y)) return false;
-    return segmentNavigable(p, p, { margePx: options.margePx ?? CONFIG.margeCotePx });
+  function pointNavigable(point, options = {}) {
+    if (typeof pointInMapBounds === 'function' && !pointInMapBounds(point.x, point.y)) return false;
+    return segmentNavigable(point, point, { margePx: options.margePx ?? CONFIG.margeCotePx });
   }
 
   function cleCelluleIndex(cx, cy) {
@@ -2219,7 +2168,7 @@
   function distanceCotePoint(point) {
     const cacheKey = ['P', coordCle(point.x), coordCle(point.y)].join('|');
     if (distanceCoteCache.has(cacheKey)) return distanceCoteCache.get(cacheKey);
-    const rayon = rayonAttenuationCourantPx();
+    const rayon = rayonRechercheCotePx();
     let meilleure = Infinity;
     const terres = getTerresSegment(point, point, rayon);
     for (const poly of terres) {
@@ -2307,13 +2256,6 @@
     }
     distanceCoteCache.set(cacheKey, meilleure);
     return meilleure;
-  }
-
-  function attenuationCourantCote(point) {
-    // Le champ OSCAR est un champ physique autonome : la proximite des cotes
-    // ne doit plus attenuer les courants. Les anciens courants restent un
-    // fallback de donnees, pas une couche de correction du nouveau champ.
-    return 1;
   }
 
   function getGrille() {
@@ -2924,28 +2866,6 @@
     return candidats.slice(0, 5);
   }
 
-  function meilleureApprocheArrivee(route, arrivee) {
-    const candidats = [];
-    const debut = Math.max(0, route.length - 3);
-    for (let i = route.length - 1; i >= debut; i--) {
-      const point = route[i];
-      const approche = routeLocaleFine(point, arrivee, arrivee);
-      if (approche) {
-        candidats.push(route.slice(0, i + 1).concat(approche.slice(1)));
-      } else if (segmentTerminalNavigable(point, arrivee)
-        || segmentNavigable(point, arrivee, {
-          ignorerArriveeDansTerre: true,
-          margePx: Math.max(1, CONFIG.margeCotePx - 2),
-        })) {
-        candidats.push(route.slice(0, i + 1).concat([arrivee]));
-      }
-    }
-    if (!candidats.length) return null;
-    return candidats.reduce((meilleur, courant) =>
-      dureeRouteHeures(courant) < dureeRouteHeures(meilleur) ? courant : meilleur
-    );
-  }
-
   function portsDisponibles() {
     if (typeof VILLES === 'undefined') return [];
     const annee = typeof anneeActive !== 'undefined'
@@ -3028,12 +2948,6 @@
       && Number.isFinite(coords[1]);
   }
 
-  function longueurRoute(points) {
-    let total = 0;
-    for (let i = 1; i < points.length; i++) total += distance(points[i - 1], points[i]);
-    return total;
-  }
-
   function distanceRouteNm(points) {
     let total = 0;
     for (let i = 1; i < points.length; i++) total += distanceNm(points[i - 1], points[i]);
@@ -3062,8 +2976,8 @@
     return `${reste} h`;
   }
 
-  function formatDistanceMilles(distance) {
-    const milles = Math.round(distance);
+  function formatDistanceMilles(distanceNmValeur) {
+    const milles = Math.round(distanceNmValeur);
     return `${milles} ${milles > 1 ? 'milles' : 'mille'}`;
   }
 
@@ -3286,7 +3200,6 @@
     hautsFondsIndexCache = null;
     zonesNavigationIndexCache = null;
     oceanBoundsIndexCache = null;
-    courantsIndexCache = null; // les courants filtres par niveauNavigation changent le cout des segments
     grilleCache = null;        // la grille filtre les nodes selon les hauts-fonds
     navigabiliteCache.clear(); // les segments bloques/libres dependent du niveau Nav et de la categorie
     ventPointCache.clear();    // le vent est conditionne par modificateurActif(2)
@@ -3296,19 +3209,6 @@
   window.invaliderCacheHautsFonds = invaliderCacheHautsFonds;
 
   // ── SVG partagés ─────────────────────────────────────────────────────────
-
-  // Barre à roues — symbole "Tracer route" (panneau ville + bouton pilote navire)
-  const SVG_BARRE_ROUES = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
-    <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
-    ${[0,45,90,135,180,225,270,315].map(a => {
-      const r = a * Math.PI / 180;
-      const x1 = (12 + Math.cos(r)*3.2).toFixed(2), y1 = (12 + Math.sin(r)*3.2).toFixed(2);
-      const x2 = (12 + Math.cos(r)*9).toFixed(2),   y2 = (12 + Math.sin(r)*9).toFixed(2);
-      const hx = (12 + Math.cos(r)*10.8).toFixed(2), hy = (12 + Math.sin(r)*10.8).toFixed(2);
-      return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="${hx}" cy="${hy}" r="1.5"/>`;
-    }).join('')}
-  </svg>`;
 
   // Compas de navigation — icône "Calculateur d'itinéraire"
   const SVG_COMPAS = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -3644,10 +3544,6 @@
       }
     }
 
-    // Calculer l'index du placeholder dans la liste complète
-    const tousLesLi = [...liste.querySelectorAll('.nav-modale-etape')];
-    const idxPlaceholder = tousLesLi.indexOf(drag.placeholder);
-
     // Appliquer un translateY à chaque item selon sa position relative au placeholder
     // Les items avant le placeholder : pas de décalage
     // Les items après le placeholder : décalés vers le bas de hauteurItem (placeholder pousse)
@@ -3877,14 +3773,6 @@
     poignee.addEventListener('pointerdown', e => poigneeDragStart(e, li, index));
 
     return li;
-  }
-
-  function escapeHtml(str) {
-    return String(str || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
   }
 
   function rendreEtapes() {
@@ -4174,11 +4062,11 @@
         malusHauturier: !!navire.malusHauturier,
       },
       zoneNavigation: zoneNavigationEnPoint(p),
+      dansOceanBounds: pointDansOceanBounds(p),
       courant: courantEnPoint(p),
       vent: ventEnPoint(p),
       hautsFonds,
       distanceCoteNm: distanceCotePointPreciseNm(p),
-      attenuationCourantCote: attenuationCourantCote(p),
       navigablePoint: segmentNavigable(p, p),
     };
   }
@@ -4207,7 +4095,6 @@
     distanceCotePointNm,
     distanceCotePointPreciseNm,
     coteLaPlusProchePoint,
-    attenuationCourantCote,
     afficherResultatOutils,
     masquerResultatOutils,
     ouvrirModaleAvecDestination,
