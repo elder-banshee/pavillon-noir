@@ -1094,6 +1094,23 @@
       max-width: 140px;
     }
 
+    .oscar-grid-loader {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      padding-bottom: 8px;
+      margin-bottom: 4px;
+      border-bottom: 1px solid rgba(200, 151, 58, 0.12);
+    }
+
+    .oscar-grid-loader .sea-prop {
+      flex-basis: 100%;
+      margin: 0;
+      font-size: 0.68rem;
+      color: var(--text-dim);
+    }
+
     .ocean-cell-detail {
       margin-top: 8px;
       padding: 8px;
@@ -1389,6 +1406,13 @@
       <div id="section-ocean" style="display:none">
         <div class="panel-title">Grille OSCAR</div>
         <div class="oscar-controls">
+          <div class="oscar-grid-loader">
+            <button type="button" id="oscar-grid-load-btn" class="tool-btn">Charger une grille…</button>
+            <button type="button" id="oscar-grid-reset-btn" class="tool-btn" title="Revenir à js/oscar-hex-grid.js">Réinitialiser</button>
+            <input id="oscar-grid-load-input" type="file" accept=".js" style="display:none">
+            <div id="oscar-grid-loaded-label" class="sea-prop"><span>Source :</span> grille du dépôt (js/oscar-hex-grid.js)</div>
+            <div id="oscar-clipboard-status" class="sea-prop"><span>Presse-papiers :</span> vide</div>
+          </div>
           <label>
             <span>Grille OSCAR</span>
             <input id="oscar-grid-visible" type="checkbox" checked>
@@ -1488,6 +1512,9 @@
       florida: 'Floride',
     };
     const OSCAR_CALM_SPEED_MAX = 0.10;
+    // Couleur dédiée aux cellules calmes — bleu nuit distinct du bas du dégradé,
+    // pour ne pas les confondre avec un courant réel faible.
+    const OSCAR_CALM_COLOR = [10, 16, 30];
 
     // ─── Couleurs des polygones par état ─────────────────────────
     const STYLE_NORMAL = { color: 'rgba(200,151,58,0.7)', weight: 1, fillColor: 'rgba(200,151,58,0.08)', fillOpacity: 1 };
@@ -1672,6 +1699,17 @@
     let oscarGridTypeFilter = '';
     let oceanCellEditing = false;
     let oceanCellClipboard = null;
+    // Sélection multiple par glisser (Shift + clic-maintenu) en OCÉANOGRAPHIE.
+    let oceanPaintSelecting = false;
+    let oceanPaintMode = 'add';
+    let oceanPaintLastKey = null;
+    let oceanPaintDidExtend = false;
+    // Grille OSCAR chargée manuellement (comparaison de checkpoints) — prioritaire
+    // sur OSCAR_HEX_GRID si présente. Plafond de dégradé recalculé à chaque
+    // chargement, car chaque checkpoint a sa propre distribution de vitesses.
+    let customOscarGrid = null;
+    let customOscarGridLabel = '';
+    let oscarSpeedColorCap = 2.9;
 
     // ═══════════════════════════════════════════════════════════
     // UTILITAIRES — coordonnées
@@ -1935,9 +1973,24 @@
     }
 
     function getOscarGrid() {
+      if (customOscarGrid?.cells) return customOscarGrid;
       if (typeof OSCAR_HEX_GRID !== 'undefined' && OSCAR_HEX_GRID?.cells) return OSCAR_HEX_GRID;
       if (window.OSCAR_HEX_GRID?.cells) return window.OSCAR_HEX_GRID;
       throw new Error('OSCAR_HEX_GRID indisponible : ../js/oscar-hex-grid.js doit être chargé avant Zone Editor.');
+    }
+
+    // Recalcule le plafond du dégradé vitesse (p99 des cellules non-calmes) —
+    // chaque checkpoint a sa propre distribution, un plafond fixe n'a pas de sens
+    // dès qu'on compare plusieurs grilles générées par des méthodes différentes.
+    function recomputeOscarSpeedColorCap(grid) {
+      const speeds = Object.values(grid.cells || {})
+        .filter(cell => !isOscarCalmCell(cell))
+        .map(cell => oscarCellSpeed(cell))
+        .filter(speed => speed > 0)
+        .sort((a, b) => a - b);
+      if (!speeds.length) { oscarSpeedColorCap = 2.9; return; }
+      const p99 = speeds[Math.floor(speeds.length * 0.99)];
+      oscarSpeedColorCap = Math.max(0.5, Math.round(p99 * 100) / 100);
     }
 
     function oscarHexCenter(q, r, grid) {
@@ -2183,7 +2236,7 @@
         { at: 0.74, rgb: [245, 158, 11] },
         { at: 1.00, rgb: [220, 38, 38] },
       ];
-      const t = Math.max(0, Math.min(1, speed / 2.7));
+      const t = Math.max(0, Math.min(1, speed / oscarSpeedColorCap));
       for (let i = 1; i < stops.length; i++) {
         if (t <= stops[i].at) {
           const prev = stops[i - 1];
@@ -2195,9 +2248,21 @@
     }
 
     function oscarCellStyle(cell) {
+      if (isOscarCalmCell(cell)) {
+        const [r, g, b] = OSCAR_CALM_COLOR;
+        return {
+          pane: 'oscarGridPane',
+          className: 'oscar-grid-cell oscar-grid-cell-calme',
+          color: `rgba(${r}, ${g}, ${b}, 0.55)`,
+          weight: 0.75,
+          fillColor: `rgba(${r}, ${g}, ${b}, 0.55)`,
+          fillOpacity: 1,
+          interactive: false,
+        };
+      }
       const speed = oscarCellSpeed(cell);
       const [r, g, b] = oscarSpeedColor(speed);
-      const intensity = Math.max(0.25, Math.min(1, speed / 2.7));
+      const intensity = Math.max(0.25, Math.min(1, speed / oscarSpeedColorCap));
       return {
         pane: 'oscarGridPane',
         className: 'oscar-grid-cell',
@@ -2925,7 +2990,24 @@ ${holesTxt}
       // Image de fond
       const bounds = L.latLngBounds(pxToLatLng(0, IMG_H), pxToLatLng(IMG_W, 0));
       L.imageOverlay(IMG_SRC, bounds).addTo(map);
+      recomputeOscarSpeedColorCap(getOscarGrid());
       populateOscarDomainSelect();
+      updateOceanClipboardStatus();
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'pn-ocean-clipboard') updateOceanClipboardStatus();
+      });
+      // Désactiver le panoramique de Leaflet DÈS l'appui sur Shift en OCÉANOGRAPHIE,
+      // avant tout mousedown : évite la course avec le module de drag interne de
+      // Leaflet, qui traite mousedown avant nos propres gestionnaires.
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Shift' && ctx.isOcean && map) map.dragging.disable();
+      });
+      document.addEventListener('keyup', (e) => {
+        if (e.key === 'Shift' && map && !oceanPaintSelecting) map.dragging.enable();
+      });
+      // Capture-phase, avant que Leaflet ne voie l'événement (cf. commentaire
+      // sur oceanPaintOnDown).
+      map.getContainer().addEventListener('mousedown', oceanPaintOnDown, true);
       map.createPane('oscarGridPane');
       map.getPane('oscarGridPane').style.zIndex = 435;
       map.createPane('oscarArrowPane');
@@ -3475,6 +3557,58 @@ ${holesTxt}
     function onMapMouseUp() {
     }
 
+    // ─── Sélection par glisser (Shift + clic-maintenu) en OCÉANOGRAPHIE ───────
+    // Écoute native en phase de capture, indépendante des événements Leaflet :
+    // évite toute course avec le module de panoramique interne de Leaflet, qui
+    // peut intercepter mousedown/mousemove avant nos gestionnaires map.on(...).
+    function oceanPointFromNativeEvent(nativeEvent) {
+      const latlng = map.mouseEventToLatLng(nativeEvent);
+      const [x, y] = latLngToPx(latlng);
+      return { x, y };
+    }
+
+    function oceanPaintOnMove(nativeEvent) {
+      if (!oceanPaintSelecting) return;
+      const { x, y } = oceanPointFromNativeEvent(nativeEvent);
+      if (!isPxInsideImage([x, y])) return;
+      const key = oscarKeyFromPoint({ x, y }) || oscarCandidateKeyFromPoint({ x, y });
+      if (key && key !== oceanPaintLastKey) {
+        oceanPaintLastKey = key;
+        oceanPaintDidExtend = true;
+        oceanCellEditing = false;
+        if (oceanPaintMode === 'add') selectedOceanCellKeys.add(key);
+        else selectedOceanCellKeys.delete(key);
+        selectedSeaCellKey = key;
+        renderSeaCells();
+        updateInfosMersOscarPanel();
+      }
+    }
+
+    function oceanPaintOnUp() {
+      if (!oceanPaintSelecting) return;
+      oceanPaintSelecting = false;
+      map.dragging.enable();
+      document.removeEventListener('mousemove', oceanPaintOnMove, true);
+      document.removeEventListener('mouseup', oceanPaintOnUp, true);
+    }
+
+    function oceanPaintOnDown(nativeEvent) {
+      if (!ctx.isOcean || nativeEvent.button !== 0 || !nativeEvent.shiftKey) return;
+      const { x, y } = oceanPointFromNativeEvent(nativeEvent);
+      if (!isPxInsideImage([x, y])) return;
+      const key = oscarKeyFromPoint({ x, y }) || oscarCandidateKeyFromPoint({ x, y });
+      if (!key) return;
+      nativeEvent.preventDefault();
+      nativeEvent.stopPropagation();
+      oceanPaintSelecting = true;
+      oceanPaintDidExtend = false;
+      oceanPaintLastKey = null;
+      oceanPaintMode = selectedOceanCellKeys.has(key) ? 'remove' : 'add';
+      map.dragging.disable();
+      document.addEventListener('mousemove', oceanPaintOnMove, true);
+      document.addEventListener('mouseup', oceanPaintOnUp, true);
+    }
+
     function onMapClick(e) {
       if (ctx.isSemaphore) {
         const pt = latLngToPx(e.latlng);
@@ -3488,6 +3622,11 @@ ${holesTxt}
         return;
       }
       if (ctx.isOcean) {
+        if (oceanPaintDidExtend) {
+          oceanPaintDidExtend = false;
+          if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
+          return;
+        }
         const pt = latLngToPx(e.latlng);
         if (isPxInsideImage(pt)) {
           const point = { x: pt[0], y: pt[1] };
@@ -4043,17 +4182,56 @@ ${holesTxt}
         key,
         cell: cloneOscarCellForClipboard(cell),
       }));
+      // Partagé via localStorage : permet de copier depuis une grille chargée dans
+      // un autre onglet (comparaison de checkpoints) et coller ici.
+      try {
+        localStorage.setItem('pn-ocean-clipboard', JSON.stringify({
+          savedAt: Date.now(),
+          source: customOscarGridLabel || 'js/oscar-hex-grid.js',
+          entries: oceanCellClipboard,
+        }));
+      } catch (err) {
+        console.warn('Presse-papiers OCÉANOGRAPHIE : échec localStorage', err);
+      }
+      updateOceanClipboardStatus();
       updateInfosMersOscarPanel();
     }
 
+    function readOceanClipboardShared() {
+      try {
+        const raw = localStorage.getItem('pn-ocean-clipboard');
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed?.entries) ? parsed : null;
+      } catch (err) {
+        console.warn('Presse-papiers OCÉANOGRAPHIE : lecture invalide', err);
+        return null;
+      }
+    }
+
+    function updateOceanClipboardStatus() {
+      const el = document.getElementById('oscar-clipboard-status');
+      if (!el) return;
+      const shared = readOceanClipboardShared();
+      if (!shared?.entries?.length) {
+        el.innerHTML = '<span>Presse-papiers :</span> vide';
+        return;
+      }
+      const age = Math.max(0, Math.round((Date.now() - (shared.savedAt || 0)) / 1000));
+      const ageLabel = age < 60 ? `${age}s` : `${Math.round(age / 60)}min`;
+      el.innerHTML = `<span>Presse-papiers :</span> ${shared.entries.length} cellule(s) — depuis ${escapeHtmlText(shared.source || '?')} (${ageLabel})`;
+    }
+
     function pasteOceanCells() {
-      if (!oceanCellClipboard?.length) return;
+      const shared = readOceanClipboardShared();
+      const clipboard = shared?.entries?.length ? shared.entries : oceanCellClipboard;
+      if (!clipboard?.length) return;
       const grid = getOscarGrid();
       if (!grid?.cells) return;
       const keys = oceanTargetKeys({ includeMissing: true });
       if (!keys.length) return;
       keys.forEach((key, idx) => {
-        const source = oceanCellClipboard[idx % oceanCellClipboard.length]?.cell;
+        const source = clipboard[idx % clipboard.length]?.cell;
         if (!source) return;
         grid.cells[key] = cloneJSON(source);
         grid.cells[key].source = grid.cells[key].source || 'manual';
@@ -4655,6 +4833,72 @@ ${holesTxt}
         window.dispatchEvent(new CustomEvent('navigation-level-change', { detail: { niveauNavigation: semaphoreNavLevel } }));
         e.target.value = String(semaphoreNavLevel);
         refresh(R.CURRENTS | R.SEA_PANEL);
+      });
+    }
+    function extractOscarGridFromSource(text) {
+      const marker = 'const OSCAR_HEX_GRID = ';
+      const start = text.indexOf(marker);
+      if (start < 0) throw new Error('Fichier invalide : "const OSCAR_HEX_GRID = " introuvable.');
+      const braceStart = text.indexOf('{', start);
+      if (braceStart < 0) throw new Error('Fichier invalide : objet OSCAR_HEX_GRID introuvable.');
+      let depth = 0, i = braceStart;
+      for (; i < text.length; i++) {
+        if (text[i] === '{') depth++;
+        else if (text[i] === '}') { depth--; if (depth === 0) { i++; break; } }
+      }
+      if (depth !== 0) throw new Error('Fichier invalide : accolades non équilibrées.');
+      const json = text.slice(braceStart, i);
+      const grid = JSON.parse(json);
+      if (!grid?.cells) throw new Error('Fichier invalide : champ "cells" absent.');
+      return grid;
+    }
+
+    function describeOscarGridSource(grid, filename) {
+      const n = Object.keys(grid.cells).length;
+      const method = grid.speedCorrection?.method || grid.speedCorrection?.factor
+        ? (grid.speedCorrection.method || `facteur ×${grid.speedCorrection.factor}`)
+        : 'aucune correction';
+      return `${filename} — v${grid.version ?? '?'}, ${n} cellules, ${method}, plafond dégradé ${oscarSpeedColorCap} nd`;
+    }
+
+    const oscarGridLoadBtn = document.getElementById('oscar-grid-load-btn');
+    const oscarGridLoadInput = document.getElementById('oscar-grid-load-input');
+    const oscarGridResetBtn = document.getElementById('oscar-grid-reset-btn');
+    const oscarGridLoadedLabel = document.getElementById('oscar-grid-loaded-label');
+    if (oscarGridLoadBtn && oscarGridLoadInput) {
+      oscarGridLoadBtn.addEventListener('click', () => oscarGridLoadInput.click());
+      oscarGridLoadInput.addEventListener('change', async (e) => {
+        const file = e.target.files?.[0];
+        e.target.value = '';
+        if (!file) return;
+        try {
+          const text = await file.text();
+          const grid = extractOscarGridFromSource(text);
+          customOscarGrid = grid;
+          customOscarGridLabel = file.name;
+          recomputeOscarSpeedColorCap(grid);
+          clearOscarGridLayer();
+          populateOscarDomainSelect();
+          if (oscarGridLoadedLabel) {
+            oscarGridLoadedLabel.innerHTML = `<span>Source :</span> ${escapeHtmlText(describeOscarGridSource(grid, file.name))}`;
+          }
+          refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+        } catch (err) {
+          alert('Échec du chargement de la grille : ' + err.message);
+        }
+      });
+    }
+    if (oscarGridResetBtn) {
+      oscarGridResetBtn.addEventListener('click', () => {
+        customOscarGrid = null;
+        customOscarGridLabel = '';
+        recomputeOscarSpeedColorCap(getOscarGrid());
+        clearOscarGridLayer();
+        populateOscarDomainSelect();
+        if (oscarGridLoadedLabel) {
+          oscarGridLoadedLabel.innerHTML = '<span>Source :</span> grille du dépôt (js/oscar-hex-grid.js)';
+        }
+        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
       });
     }
     const oscarGridVisibleInput = document.getElementById('oscar-grid-visible');

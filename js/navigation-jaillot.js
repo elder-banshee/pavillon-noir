@@ -511,7 +511,15 @@
   }
 
   function sourceOceanBoundsCalculateur() {
-    return [];
+    // Câblage inerte : n'a d'effet que si zonesNavigationExplicites() (ci-dessus)
+    // devient true — décision volontaire distincte, non prise cette session.
+    // cf. REPRISE_70, TODO PN-SEA-EXPLICIT.
+    if (typeof ZONES_OCEAN_BOUNDS === 'undefined') return [];
+    return Object.entries(ZONES_OCEAN_BOUNDS).map(([id, bounds]) => ({
+      id,
+      zone: bounds.zone,
+      zoneSource: bounds.zoneSource,
+    }));
   }
 
   function modeNavigationMaritime() {
