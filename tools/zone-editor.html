@@ -1564,7 +1564,7 @@
     const R = {
       ZONES: 1,
       SELECTED_ZONE: 2,
-      CURRENTS: 4,
+      SHOAL_HOVER: 4,
       HANDLES: 8,
       SEGMENTS: 16,
       PANEL: 32,
@@ -1594,7 +1594,7 @@
         const zoneId = options.zoneId ?? selectedZoneId;
         if (zoneId) renderZone(zoneId);
       }
-      if (flags & R.CURRENTS) renderCurrentsLayer();
+      if (flags & R.SHOAL_HOVER) renderShoalHoverLayer();
       if (flags & R.OSCAR_SELECTION) renderSeaCells();
       if (flags & R.OSCAR_HEX_GRID) renderOscarGridLayer();
       if (flags & R.HANDLES) refreshHandles();
@@ -1661,7 +1661,7 @@
 
     // Alias de commodité — zonesEdit pointe sur zonesWorkingCopy.DATA après init
     let zonesEdit = {};
-    let zonesMeta = {}; // conservé pour compat, non utilisé activement
+    let zonesMeta = {}; // métadonnées par contour (lu/écrit par l'édition et l'export)
 
     // Layers Leaflet
     let zoneLayers = {}; // zoneId → [L.Polygon, ...]  (un par contour)
@@ -1671,12 +1671,10 @@
     let drawMarkers = [];   // marqueurs des points posés
     let oceanMaskLayer = null;
     let seaCellLayer = null;
-    let seaLabelLayer = null;
     let seaCellLayers = {};
     let oscarGridLayer = null;
     let oscarArrowLayer = null;
-    let currentLayer = null;      // L.LayerGroup pour les hauts-fonds
-    let currentArrowLayer = null;
+    let shoalHoverLayer = null;   // L.LayerGroup du survol de risque hauts-fonds (SÉMAPHORE)
 
     // Sélection
     let selectedZoneId = null;
@@ -1687,7 +1685,6 @@
 
     // Glisser-déposer d'un point
     let draggingHandle = null; // { zoneId, contourIdx, ptIdx, marker }
-    let draggingOrigin = null;
 
     // Tracé en cours
     let drawPoints = []; // [[x,y], ...]
@@ -1891,16 +1888,14 @@
         oceanCellEditing = false;
         selectedSemaphorePoint = null;
       }
-      if (seaLabelLayer && map.hasLayer(seaLabelLayer)) map.removeLayer(seaLabelLayer);
-
       // Survol de risque des hauts-fonds : SÉMAPHORE uniquement (non-interactif).
       // Plus aucun polygone en OCÉANOGRAPHIE (grille hexagonale exclusivement) ;
       // l'édition de géométrie des hauts-fonds se fait en TOPOGRAPHIE — Géo,
       // via le pipeline générique des zones (déjà couvert par renderAllZones).
       if (ctx.isSemaphore) {
-        refresh(R.CURRENTS);
+        refresh(R.SHOAL_HOVER);
       } else {
-        clearCurrentsLayer();
+        clearShoalHoverLayer();
       }
 
       if (ctx.isOcean) updateInfosMersOscarPanel();
@@ -2040,24 +2035,6 @@
       return oscarHexKeyFromPoint(point, grid);
     }
 
-    function oscarCandidateKeyFromPoint(point) {
-      const grid = getOscarGrid();
-      if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
-      return oscarHexKeyFromPoint(point, grid);
-    }
-
-    function oscarCellKeyFromSeaKey(key) {
-      if (!key) return null;
-      const [col, row] = key.split(',').map(Number);
-      if (!Number.isFinite(col) || !Number.isFinite(row)) return null;
-      const grid = getOscarGrid();
-      if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
-      return oscarHexKeyFromPoint({
-        x: col * SEA_CELL_SIZE + SEA_CELL_SIZE / 2,
-        y: row * SEA_CELL_SIZE + SEA_CELL_SIZE / 2,
-      }, grid);
-    }
-
     function oscarCellCenterFromKey(key, cell = null) {
       const grid = getOscarGrid();
       if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
@@ -2083,11 +2060,6 @@
 
     function oscarCellSpeed(cell) {
       const speed = Number(cell?.speedKnot ?? Math.hypot(Number(cell?.xKnot) || 0, Number(cell?.yKnot) || 0));
-      return Number.isFinite(speed) ? speed : 0;
-    }
-
-    function oscarCellVectorSpeed(vector) {
-      const speed = Number(vector?.speedKnot ?? Math.hypot(Number(vector?.xKnot) || 0, Number(vector?.yKnot) || 0));
       return Number.isFinite(speed) ? speed : 0;
     }
 
@@ -2377,7 +2349,7 @@
       const sources = Number.isFinite(Number(cell.sources)) ? Number(cell.sources) : 'n/a';
       const sourceCells = Number.isFinite(Number(cell.sourceCells)) ? ` - cases source ${Number(cell.sourceCells)}` : '';
       const coastal = cell.coastal || null;
-      const coastalSpeed = oscarCellVectorSpeed(coastal);
+      const coastalSpeed = oscarCellSpeed(coastal);
       const badges = [
         `<span class="ocean-cell-badge${isOscarManualCell(cell) ? ' manual' : ''}">${oscarCellSourceLabel(cell)}</span>`,
         hasOscarCoastalCurrent(cell) ? '<span class="ocean-cell-badge coastal">courant côtier</span>' : '',
@@ -2463,7 +2435,7 @@
         : normalizeAngle(Math.atan2(Number(cell.yKnot) || 0, Number(cell.xKnot) || 0) * 180 / Math.PI);
       const hasCoastal = hasOscarCoastalCurrent(cell);
       const coastal = cell.coastal || cell;
-      const coastalSpeed = oscarCellVectorSpeed(coastal);
+      const coastalSpeed = oscarCellSpeed(coastal);
       const coastalDir = Number.isFinite(Number(coastal.dirToDeg))
         ? normalizeAngle(Number(coastal.dirToDeg))
         : normalizeAngle(Math.atan2(Number(coastal.yKnot) || 0, Number(coastal.xKnot) || 0) * 180 / Math.PI);
@@ -2524,7 +2496,6 @@
         .replace(/>/g, '&gt;');
     }
 
-    const SEA_KMH_TO_KNOTS_EDITOR = 1 / 1.852;
     const SEA_KNOTS_TO_KMH_EDITOR = 1.852;
 
     function getWorkingShoals() {
@@ -2554,12 +2525,6 @@
       return poly.exterior.length > 2 ? [poly] : [];
     }
 
-    function zoneSeaRings(zone) {
-      return zoneSeaPolygons(zone)
-        .flatMap(poly => [poly.exterior, ...poly.holes])
-        .filter(ring => Array.isArray(ring) && ring.length > 2);
-    }
-
     function seaZoneLatLngs(zone) {
       return zoneSeaPolygons(zone).map(poly => {
         const rings = [poly.exterior, ...poly.holes].filter(ring => ring.length > 2);
@@ -2587,64 +2552,6 @@
       ));
     }
 
-    function seaRingBBox(ring) {
-      const xs = ring.map(([x]) => x);
-      const ys = ring.map(([, y]) => y);
-      return { minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys) };
-    }
-
-    function seaBBoxesOverlap(a, b) {
-      return a.minX <= b.maxX && a.maxX >= b.minX && a.minY <= b.maxY && a.maxY >= b.minY;
-    }
-
-    function seaOrientation(a, b, c) {
-      const v = (b[1] - a[1]) * (c[0] - b[0]) - (b[0] - a[0]) * (c[1] - b[1]);
-      if (Math.abs(v) < 1e-9) return 0;
-      return v > 0 ? 1 : 2;
-    }
-
-    function seaOnSegment(a, b, c) {
-      return b[0] <= Math.max(a[0], c[0]) && b[0] >= Math.min(a[0], c[0])
-        && b[1] <= Math.max(a[1], c[1]) && b[1] >= Math.min(a[1], c[1]);
-    }
-
-    function seaSegmentsIntersect(a, b, c, d) {
-      const o1 = seaOrientation(a, b, c);
-      const o2 = seaOrientation(a, b, d);
-      const o3 = seaOrientation(c, d, a);
-      const o4 = seaOrientation(c, d, b);
-      if (o1 !== o2 && o3 !== o4) return true;
-      if (o1 === 0 && seaOnSegment(a, c, b)) return true;
-      if (o2 === 0 && seaOnSegment(a, d, b)) return true;
-      if (o3 === 0 && seaOnSegment(c, a, d)) return true;
-      if (o4 === 0 && seaOnSegment(c, b, d)) return true;
-      return false;
-    }
-
-    function seaRingsOverlap(a, b) {
-      if (!seaBBoxesOverlap(seaRingBBox(a), seaRingBBox(b))) return false;
-      for (let i = 0; i < a.length; i++) {
-        const a1 = a[i];
-        const a2 = a[(i + 1) % a.length];
-        for (let j = 0; j < b.length; j++) {
-          const b1 = b[j];
-          const b2 = b[(j + 1) % b.length];
-          if (seaSegmentsIntersect(a1, a2, b1, b2)) return true;
-        }
-      }
-      return seaPointInRing(a[0], b) || seaPointInRing(b[0], a);
-    }
-
-    function seaZonesOverlap(zoneA, zoneB) {
-      const polysA = zoneSeaPolygons(zoneA);
-      const polysB = zoneSeaPolygons(zoneB);
-      return polysA.some(a => polysB.some(b => seaRingsOverlap(a.exterior, b.exterior)));
-    }
-
-    // Code mort "courants axe" (overlap, échantillonnage de flèches, vitesse
-    // ruban) supprimé — plus aucune donnée de courant-axe depuis le passage
-    // à la grille OSCAR/Copernicus (getWorkingCurrents() était figé à []).
-
     function normalizeNavLevel(value) {
       const level = Number(value);
       if (!Number.isFinite(level)) return 0;
@@ -2657,16 +2564,6 @@
 
     function semaphoreVisibleShoals() {
       return getWorkingShoals().filter(semaphoreShoalVisible);
-    }
-
-    function normalizeSpeedInput(value) {
-      const normalized = Number(String(value).replace(',', '.'));
-      return Number.isFinite(normalized) && normalized >= 0 ? normalized : null;
-    }
-
-    function normalizePriorityInput(value) {
-      const priority = Math.round(Number(value));
-      return Number.isFinite(priority) ? priority : null;
     }
 
     function cloneRing(ring) {
@@ -2690,75 +2587,13 @@
       };
     }
 
-    function renderCurrentMetaFieldsHtml(current) {
-      const visNav = current.visibiliteNav ?? 0;
-      const type = current.type || 'haute-mer';
-      return `
-    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
-      <span style="flex:1;">Nom</span>
-      <input type="text" value="${escapeAttr(current.nom || current.id)}" data-current-meta="nom"
-        style="width:170px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
-        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
-    </label>
-    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
-      <span style="flex:1;">Type</span>
-      <select data-current-meta="type"
-        style="width:120px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
-        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
-        ${['fluvial', 'cotier', 'haute-mer'].map(value => `<option value="${value}"${value === type ? ' selected' : ''}>${value}</option>`).join('')}
-      </select>
-    </label>
-    <label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
-      <span style="flex:1;">Visibilite Nav</span>
-      <input type="number" min="0" max="5" step="1" value="${visNav}" data-current-meta="visibiliteNav"
-        style="width:92px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
-        color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
-    </label>`;
-    }
-
-    function renderSpeedInputHtml({ id, label, value }) {
-      return `<label style="display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim);">
-    <span style="flex:1;">${label}</span>
-    <input type="number" min="0" step="0.1" value="${value}" data-speed-id="${id}"
-      style="width:74px; background:rgba(0,0,0,0.28); border:1px solid rgba(212,175,55,0.35);
-      color:var(--text-light); padding:3px 5px; border-radius:2px; font-size:0.74rem;">
-    <span>km/h</span>
-  </label>`;
-    }
-
-    function formatSeaZoneJS(zone, fmtPts) {
-      if (zone && Array.isArray(zone.polygons)) {
-        const polygonsTxt = zone.polygons.map(poly => `      ${formatSeaZoneJS(poly, fmtPts).replace(/\n/g, '\n      ')}`).join(',\n');
-        return `{
-      polygons: [
-${polygonsTxt}
-      ],
-    }`;
-      }
-      if (Array.isArray(zone)) return `[
-${fmtPts(zone)}
-    ]`;
-      if (!zone || !Array.isArray(zone.exterior)) return '[]';
-      const holes = Array.isArray(zone.holes) ? zone.holes : (Array.isArray(zone.hole) ? [zone.hole] : []);
-      const holesTxt = holes.map(hole => `      [
-${fmtPts(hole)}
-      ]`).join(',\n');
-      return `{
-      exterior: [
-${fmtPts(zone.exterior)}
-      ],
-      holes: [
-${holesTxt}
-      ],
-    }`;
-    }
-    function renderCurrentsLayer() {
-      clearCurrentsLayer();
+    function renderShoalHoverLayer() {
+      clearShoalHoverLayer();
       // Survol de risque des hauts-fonds : SÉMAPHORE uniquement, non-interactif.
       if (!ctx.isSemaphore) return;
       const shoals = semaphoreVisibleShoals();
 
-      currentLayer = L.layerGroup().addTo(map);
+      shoalHoverLayer = L.layerGroup().addTo(map);
 
       shoals.forEach(s => {
         const latlngs = seaZoneLatLngs(s.zone);
@@ -2770,7 +2605,7 @@ ${holesTxt}
           fillColor: 'rgba(100,55,15,0.38)',
           fillOpacity: 1,
           interactive: false,
-        }).addTo(currentLayer);
+        }).addTo(shoalHoverLayer);
       });
     }
 
@@ -2859,85 +2694,8 @@ ${holesTxt}
       }
     }
 
-    function updateCurrentSpeed(current, input, options = {}) {
-      const speedKmh = normalizeSpeedInput(input.value);
-      if (speedKmh === null) return;
-      current.speedKnot = Math.round(speedKmh * SEA_KMH_TO_KNOTS_EDITOR * 1000) / 1000;
-      delete current.speedKnots;
-      delete current.speedKmh;
-      delete current.vitesseKmh;
-      delete current.force;
-      delete current.speedSegments;
-      delete current.vitesseSegments;
-
-      if (!options.soft) {
-        refresh(R.CURRENTS);
-      }
-    }
-
-    function updateCurrentMeta(current, input, options = {}) {
-      const key = input.dataset.currentMeta;
-      if (key === 'nom') {
-        const nom = input.value.trim();
-        if (nom) current.nom = nom;
-        else delete current.nom;
-        delete current.label;
-      } else if (key === 'type') {
-        current.type = input.value || 'haute-mer';
-      } else if (key === 'visibiliteNav') {
-        const niveau = Math.max(0, Math.min(5, Math.round(Number(input.value))));
-        if (!Number.isFinite(niveau)) return;
-        current.visibiliteNav = niveau;
-      } else {
-        return;
-      }
-
-      if (!options.soft || key === 'type') {
-        refresh(R.CURRENTS);
-      }
-    }
-
-    // Recalcule les 16 directions cardinales depuis une centerline JS
-    function recomputeDirections(cl) {
-      const DIRS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-      return cl.map((pt, i) => {
-        let dx, dy;
-        if (i === 0) { dx = cl[1][0] - cl[0][0]; dy = cl[1][1] - cl[0][1]; }
-        else if (i === cl.length - 1) { dx = cl[i][0] - cl[i - 1][0]; dy = cl[i][1] - cl[i - 1][1]; }
-        else { dx = cl[i + 1][0] - cl[i - 1][0]; dy = cl[i + 1][1] - cl[i - 1][1]; }
-        // atan2 avec -dy pour axe Y image (Y vers le bas = sud)
-        const angleDeg = Math.atan2(-dy, dx) * 180 / Math.PI;
-        const azimut = ((90 - angleDeg) % 360 + 360) % 360;
-        return DIRS[Math.round(azimut / 22.5) % 16];
-      });
-    }
-
-    function bindCurrentsButtons() {
-      // Les actions de courant et l'import SVG legacy ont été retirés.
-      // L'export fichier est géré par btn-export-file.
-    }
-
-    // Code mort — import/export sea-data.js (fichier retiré, point 9). Les
-    // hauts-fonds (géométrie + métadonnées) sont désormais exportés via
-    // exportZonesData() → zones-data.js (ZONES_DATA + ZONES_SHOAL).
-
-
-    function clearCurrentsLayer() {
-      if (currentLayer) { map.removeLayer(currentLayer); currentLayer = null; }
-    }
-
-    // Convertit une direction cardinale en angle CSS de rotation de la flèche ➤
-    // ➤ pointe naturellement vers la droite (Est). Rotation CSS sens horaire.
-    // Axe Y Leaflet = Y image inversé → Nord affiché = y décroissant = haut écran.
-    // On ajoute 180° car les directions sont encodées en provenance dans svg_to_currents.py.
-    function dirToAngleDeg(dir) {
-      const angles = {
-        N: 90, NNE: 112.5, NE: 135, ENE: 157.5,
-        E: 180, ESE: 202.5, SE: 225, SSE: 247.5,
-        S: 270, SSW: 292.5, SW: 315, WSW: 337.5,
-        W: 0, WNW: 22.5, NW: 45, NNW: 67.5,
-      };
-      return angles[dir] !== undefined ? angles[dir] : 0;
+    function clearShoalHoverLayer() {
+      if (shoalHoverLayer) { map.removeLayer(shoalHoverLayer); shoalHoverLayer = null; }
     }
 
     // Affiche le contour de la cellule OSCAR actuellement inspectée (Sémaphore
@@ -3015,7 +2773,6 @@ ${holesTxt}
       map.createPane('seaCellPane');
       map.getPane('seaCellPane').style.zIndex = 440;
       seaCellLayer = L.layerGroup().addTo(map);
-      seaLabelLayer = L.layerGroup().addTo(map);
 
       setTimeout(() => {
         map.fitBounds(bounds);
@@ -3339,7 +3096,7 @@ ${holesTxt}
         mousedown(marker, ptIdx, e) {
           if (currentTool !== 'select') return;
           L.DomEvent.stopPropagation(e);
-          startDrag(ptIdx, marker, e);
+          startDrag(ptIdx, marker);
         },
         click(marker, ptIdx, e) {
           L.DomEvent.stopPropagation(e);
@@ -3364,10 +3121,9 @@ ${holesTxt}
     }
 
     // ─── Drag & Drop d'un point ───────────────────────────────────
-    function startDrag(ptIdx, marker, e) {
+    function startDrag(ptIdx, marker) {
       pushUndo('Deplacer point');
       draggingHandle = { ptIdx, marker };
-      draggingOrigin = e.latlng;
       map.dragging.disable();
     }
 
@@ -3571,7 +3327,7 @@ ${holesTxt}
       if (!oceanPaintSelecting) return;
       const { x, y } = oceanPointFromNativeEvent(nativeEvent);
       if (!isPxInsideImage([x, y])) return;
-      const key = oscarKeyFromPoint({ x, y }) || oscarCandidateKeyFromPoint({ x, y });
+      const key = oscarKeyFromPoint({ x, y });
       if (key && key !== oceanPaintLastKey) {
         oceanPaintLastKey = key;
         oceanPaintDidExtend = true;
@@ -3596,7 +3352,7 @@ ${holesTxt}
       if (!ctx.isOcean || nativeEvent.button !== 0 || !nativeEvent.shiftKey) return;
       const { x, y } = oceanPointFromNativeEvent(nativeEvent);
       if (!isPxInsideImage([x, y])) return;
-      const key = oscarKeyFromPoint({ x, y }) || oscarCandidateKeyFromPoint({ x, y });
+      const key = oscarKeyFromPoint({ x, y });
       if (!key) return;
       nativeEvent.preventDefault();
       nativeEvent.stopPropagation();
@@ -3630,7 +3386,7 @@ ${holesTxt}
         const pt = latLngToPx(e.latlng);
         if (isPxInsideImage(pt)) {
           const point = { x: pt[0], y: pt[1] };
-          const nextSeaCellKey = oscarKeyFromPoint(point) || oscarCandidateKeyFromPoint(point);
+          const nextSeaCellKey = oscarKeyFromPoint(point);
           const multiSelect = !!e.originalEvent?.shiftKey;
           if (multiSelect && nextSeaCellKey) {
             oceanCellEditing = false;
@@ -3797,20 +3553,6 @@ ${holesTxt}
     // ═══════════════════════════════════════════════════════════
     let selectedTopoInfoId = null;
 
-    function renderInfosTerresList() {
-      const listEl = document.getElementById('infos-terres-list');
-      if (!listEl) return;
-      const demo = zonesWorkingCopy.DEMO || {};
-      const ids = Object.keys(demo).sort((a, b) => a.localeCompare(b));
-      listEl.innerHTML = ids.map(id => `
-    <button class="info-zone-btn${id === selectedTopoInfoId ? ' active' : ''}"
-            data-id="${escapeAttr(id)}" type="button">${escapeHtmlText(id)}</button>
-  `).join('');
-      listEl.querySelectorAll('.info-zone-btn').forEach(btn => {
-        btn.addEventListener('click', () => selectTopoInfo(btn.dataset.id));
-      });
-    }
-
     function selectTopoInfo(id) {
       selectEntity('topoInfo', id);
     }
@@ -3936,11 +3678,6 @@ ${holesTxt}
         `<div style="margin-bottom:4px"><span style="color:var(--text-dim)">Population :</span> <strong>${population.toLocaleString('fr-FR')}</strong></div>` +
         `<div style="margin-bottom:4px"><span style="color:var(--text-dim)">Superficie :</span> ${superficie ? superficie.toLocaleString('fr-FR') + ' px²' : '—'}</div>` +
         `<div><span style="color:var(--text-dim)">Score densité :</span> ${score}</div>`;
-    }
-
-    function updateTopoInfoPanel() {
-      if (!ctx.isTopoInfo) return;
-      updateTopoInfoDetail();
     }
 
     function summarizeSemaphoreShoal(shoal) {
@@ -4287,33 +4024,44 @@ ${holesTxt}
 
     // Génère un <span.contour-block> par contour dans #export-box
     // et scrolle / surligne le contour actif.
+    // Sérialisation partagée du format zones-data.js : utilisée par l'aperçu
+    // cliquable (renderExportBlocks) et par l'export fichier (exportZonesData),
+    // pour que les deux restent alignés octet pour octet.
+    function formatZoneHeader(zoneId, contours) {
+      return `  '${zoneId}': [  // ${contours.length} contour(s), ${contours.reduce((s, c) => s + c.length, 0)} pts\n`;
+    }
+
+    function formatContourBlock(contour, meta) {
+      let block = '';
+      if (meta) {
+        block += `    {\n`;
+        Object.entries(meta).forEach(([k, v]) => block += `      ${k}: ${JSON.stringify(v)},\n`);
+        block += `      points: [\n`;
+        for (let i = 0; i < contour.length; i += 6) {
+          block += '        ' + contour.slice(i, i + 6).map(([x, y]) => `[${x}, ${y}]`).join(', ') + ',\n';
+        }
+        block += `      ],\n    },\n`;
+      } else {
+        block += `    [\n`;
+        for (let i = 0; i < contour.length; i += 6) {
+          block += '      ' + contour.slice(i, i + 6).map(([x, y]) => `[${x}, ${y}]`).join(', ') + ',\n';
+        }
+        block += `    ],\n`;
+      }
+      return block;
+    }
+
     function renderExportBlocks(zoneId) {
       const box = document.getElementById('export-box');
       if (!box) return;
       const contours = zonesEdit[zoneId];
-      const header = `  '${zoneId}': [  // ${contours.length} contour(s), ${contours.reduce((s, c) => s + c.length, 0)} pts\n`;
 
       // Ligne d'en-tête (non cliquable)
-      let html = `<span class="contour-block" style="color:#6a8060;">${escapeHtml(header)}</span>`;
+      let html = `<span class="contour-block" style="color:#6a8060;">${escapeHtml(formatZoneHeader(zoneId, contours))}</span>`;
 
       contours.forEach((contour, ci) => {
         const meta = zonesMeta[zoneId]?.[ci] || null;
-        let block = '';
-        if (meta) {
-          block += `    {\n`;
-          Object.entries(meta).forEach(([k, v]) => block += `      ${k}: ${JSON.stringify(v)},\n`);
-          block += `      points: [\n`;
-          for (let i = 0; i < contour.length; i += 6) {
-            block += '        ' + contour.slice(i, i + 6).map(([x, y]) => `[${x}, ${y}]`).join(', ') + ',\n';
-          }
-          block += `      ],\n    },\n`;
-        } else {
-          block += `    [\n`;
-          for (let i = 0; i < contour.length; i += 6) {
-            block += '      ' + contour.slice(i, i + 6).map(([x, y]) => `[${x}, ${y}]`).join(', ') + ',\n';
-          }
-          block += `    ],\n`;
-        }
+        const block = formatContourBlock(contour, meta);
         const isActive = ci === selectedContourIdx;
         html += `<span class="contour-block${isActive ? ' active' : ''}" data-contour="${ci}">${escapeHtml(block)}</span>`;
       });
@@ -4330,38 +4078,6 @@ ${holesTxt}
 
     function escapeHtml(s) {
       return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    function formatZoneJS(zoneId) {
-      const contours = zonesEdit[zoneId];
-      let out = `  '${zoneId}': [  // ${contours.length} contour(s), ${contours.reduce((s, c) => s + c.length, 0)} pts\n`;
-
-      contours.forEach((contour, ci) => {
-        const meta = zonesMeta[zoneId]?.[ci] || null;
-        if (meta) {
-          out += `    {\n`;
-          Object.entries(meta).forEach(([key, value]) => {
-            out += `      ${key}: ${JSON.stringify(value)},\n`;
-          });
-          out += `      points: [\n`;
-        } else {
-          out += `    [\n`;
-        }
-        // Grouper par lignes de 6 points
-        for (let i = 0; i < contour.length; i += 6) {
-          const chunk = contour.slice(i, i + 6);
-          out += (meta ? '        ' : '      ') + chunk.map(([x, y]) => `[${x}, ${y}]`).join(', ') + ',\n';
-        }
-        if (meta) {
-          out += `      ],\n`;
-          out += `    },\n`;
-        } else {
-          out += `    ],\n`;
-        }
-      });
-
-      out += `  ],`;
-      return out;
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -4432,25 +4148,9 @@ ${holesTxt}
 
       for (const id in data) {
         const contours = data[id];
-        const totalPts = contours.reduce((s, c) => s + c.length, 0);
-        out += `  '${id}': [  // ${contours.length} contour(s), ${totalPts} pts\n`;
+        out += formatZoneHeader(id, contours);
         contours.forEach((contour, ci) => {
-          const meta = zonesMeta[id]?.[ci] || null;
-          if (meta) {
-            out += `    {\n`;
-            Object.entries(meta).forEach(([k, v]) => out += `      ${k}: ${JSON.stringify(v)},\n`);
-            out += `      points: [\n`;
-            for (let i = 0; i < contour.length; i += 6) {
-              out += '        ' + contour.slice(i, i + 6).map(([x, y]) => `[${x}, ${y}]`).join(', ') + ',\n';
-            }
-            out += `      ],\n    },\n`;
-          } else {
-            out += `    [\n`;
-            for (let i = 0; i < contour.length; i += 6) {
-              out += '      ' + contour.slice(i, i + 6).map(([x, y]) => `[${x}, ${y}]`).join(', ') + ',\n';
-            }
-            out += `    ],\n`;
-          }
+          out += formatContourBlock(contour, zonesMeta[id]?.[ci] || null);
         });
         out += `  ],\n\n`;
       }
@@ -4832,7 +4532,7 @@ ${holesTxt}
         window.invaliderCacheHautsFonds?.();
         window.dispatchEvent(new CustomEvent('navigation-level-change', { detail: { niveauNavigation: semaphoreNavLevel } }));
         e.target.value = String(semaphoreNavLevel);
-        refresh(R.CURRENTS | R.SEA_PANEL);
+        refresh(R.SHOAL_HOVER | R.SEA_PANEL);
       });
     }
     function extractOscarGridFromSource(text) {
