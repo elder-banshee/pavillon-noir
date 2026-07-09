@@ -191,6 +191,29 @@
       display: flex;
     }
 
+    /* Réglages inline de l'outil Amplifier/Atténuer (barre d'outils
+       OCÉANOGRAPHIE) — dans le flux normal de la barre, jamais par-dessus
+       la carte, contrairement à un popover. */
+    .ocean-adjust-settings {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .ocean-adjust-inline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .ocean-adjust-warning {
+      grid-column: 1 / -1;
+      color: #f0b849;
+    }
+
     .editor-menu button {
       width: 100%;
       padding: 7px 12px;
@@ -1510,6 +1533,7 @@
     const OCEAN_TOOLS = [
       { id: 'select', label: 'Sélection', icon: '◈', title: 'Sélectionner une cellule OSCAR' },
       { id: 'ocean-lasso', label: 'Lasso', icon: '⌁', title: 'Ajouter au lot les cellules entourées' },
+      { id: 'ocean-adjust', label: 'Amplifier/Atténuer', icon: '⇕', title: 'Cliquer une cellule (ou un groupe déjà sélectionné) pour amplifier/atténuer sa vitesse' },
     ];
     const OCEAN_TOOL_ACTIONS = [
       { id: 'copy', label: 'Copier', icon: '⎘', title: 'Copier les vecteurs des cellules sélectionnées' },
@@ -1525,8 +1549,17 @@
       florida: 'Floride',
     };
     const OSCAR_CALM_SPEED_MAX = 0.10;
-    // Couleur dédiée aux cellules calmes — bleu nuit distinct du bas du dégradé,
-    // pour ne pas les confondre avec un courant réel faible.
+    // Outil Amplifier/Atténuer (OCÉANOGRAPHIE) : paliers du curseur linéaire,
+    // ratio appliqué aux 6 voisines en mode Halo (facteur réduit + base du
+    // plancher d'une voisine sans vecteur), plancher fixe pour une cible
+    // elle-même sans vecteur.
+    const OSCAR_ADJUST_FACTORS = [0.05, 0.10, 0.15];
+    const OSCAR_ADJUST_HALO_RATIO = 0.5;
+    const OSCAR_ADJUST_TARGET_FLOOR = 0.01;
+    // Couleur plancher du dégradé de vitesse (t=0), également utilisée comme
+    // teinte de filtre pour "Calmes non éditées". Ce n'est plus une couleur
+    // dédiée aux cellules calmes : oscarSpeedColor s'y ancre pour toute
+    // cellule à vitesse nulle, quelle que soit son origine (cf. session 72).
     const OSCAR_CALM_COLOR = [10, 16, 30];
 
     // ─── Couleurs des polygones par état ─────────────────────────
@@ -1709,6 +1742,12 @@
     let oscarGridDomainFilter = '';
     let oscarGridTypeFilter = '';
     let oceanCellEditing = false;
+    // Réglages de l'outil Amplifier/Atténuer — état persistant (pas relu
+    // depuis un formulaire recréé à chaque ouverture), pour permettre une
+    // application répétée sans reconfigurer à chaque cellule.
+    let oceanAdjustAttenuate = false;
+    let oceanAdjustFactorIdx = 1; // index dans OSCAR_ADJUST_FACTORS
+    let oceanAdjustHalo = false;
     let oceanCellClipboard = null;
     let sessionEditedOceanCellKeys = new Set();
     // Sélection multiple par glisser (Shift + clic-maintenu) en OCÉANOGRAPHIE.
@@ -1852,7 +1891,21 @@
     </button>
   `).join('')
         : '';
-      group.innerHTML = toolHtml + actionHtml;
+      // Réglages de l'outil Amplifier/Atténuer : barre inline dans la barre
+      // d'outils (jamais par-dessus la carte), visible seulement quand cet
+      // outil est actif. État persistant (oceanAdjustAttenuate/FactorIdx/Halo) :
+      // pas de formulaire recréé, donc pas de réinitialisation entre deux clics.
+      const adjustSettingsHtml = (ctx.isOcean && currentTool === 'ocean-adjust')
+        ? `<div class="tb-sep"></div>
+    <div class="ocean-adjust-settings">
+      <label class="ocean-adjust-inline"><input type="checkbox" id="ocean-adjust-attenuate"${oceanAdjustAttenuate ? ' checked' : ''}> Atténuer</label>
+      <label class="ocean-adjust-inline">Facteur <span id="ocean-adjust-factor-label">${Math.round(OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] * 100)} %</span>
+        <input type="range" id="ocean-adjust-factor" min="0" max="${OSCAR_ADJUST_FACTORS.length - 1}" step="1" value="${oceanAdjustFactorIdx}">
+      </label>
+      <label class="ocean-adjust-inline"><input type="checkbox" id="ocean-adjust-halo"${oceanAdjustHalo ? ' checked' : ''}> Halo</label>
+    </div>`
+        : '';
+      group.innerHTML = toolHtml + actionHtml + adjustSettingsHtml;
       group.querySelectorAll('.tool-btn').forEach(btn => {
         if (btn.dataset.tool) btn.addEventListener('click', () => setTool(btn.dataset.tool));
         if (btn.dataset.oceanToolbarAction) btn.addEventListener('click', () => handleOceanCellAction(btn.dataset.oceanToolbarAction));
@@ -2270,6 +2323,18 @@
       });
     }
 
+    // Les 6 décalages axiaux standards autour d'une cellule hexagonale.
+    const OSCAR_AXIAL_NEIGHBOR_OFFSETS = [
+      { q: 1, r: 0 }, { q: 1, r: -1 }, { q: 0, r: -1 },
+      { q: -1, r: 0 }, { q: -1, r: 1 }, { q: 0, r: 1 },
+    ];
+
+    function oscarHexNeighborKeys(key) {
+      return OSCAR_AXIAL_NEIGHBOR_OFFSETS
+        .map(offset => oscarKeyAtRelativeOffset(key, offset))
+        .filter(Boolean);
+    }
+
     function oscarCellGeometryForKey(key) {
       const grid = getOscarGrid();
       if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
@@ -2593,21 +2658,21 @@
       return [
         '<div class="ocean-cell-form">',
         '<label>Vitesse (nd)',
-        `<input id="ocean-main-speed" type="number" min="0" step="0.01" value="${escapeAttr(mainSpeed.toFixed(2))}">`,
+        `<input id="ocean-main-speed" type="number" min="0" step="0.01" value="${escapeAttr(mainSpeed.toFixed(2))}" data-initial="${escapeAttr(mainSpeed.toFixed(2))}">`,
         '</label>',
         '<label>Direction (°)',
-        `<input id="ocean-main-dir" type="number" min="0" max="359.9" step="0.1" value="${escapeAttr(mainDir.toFixed(1))}">`,
+        `<input id="ocean-main-dir" type="number" min="0" max="359.9" step="0.1" value="${escapeAttr(mainDir.toFixed(1))}" data-initial="${escapeAttr(mainDir.toFixed(1))}">`,
         '</label>',
         '<label class="ocean-cell-toggle">',
-        `<input id="ocean-has-coastal" type="checkbox"${hasCoastal ? ' checked' : ''}>`,
+        `<input id="ocean-has-coastal" type="checkbox"${hasCoastal ? ' checked' : ''} data-initial="${hasCoastal}">`,
         'Ajouter un courant côtier',
         '</label>',
         `<div id="ocean-coastal-fields" class="ocean-coastal-fields" style="${hasCoastal ? '' : 'display:none;'}">`,
         '<label>Vitesse côtière (nd)',
-        `<input id="ocean-coastal-speed" type="number" min="0" step="0.01" value="${escapeAttr(coastalSpeed.toFixed(2))}">`,
+        `<input id="ocean-coastal-speed" type="number" min="0" step="0.01" value="${escapeAttr(coastalSpeed.toFixed(2))}" data-initial="${escapeAttr(coastalSpeed.toFixed(2))}">`,
         '</label>',
         '<label>Direction côtière (°)',
-        `<input id="ocean-coastal-dir" type="number" min="0" max="359.9" step="0.1" value="${escapeAttr(coastalDir.toFixed(1))}">`,
+        `<input id="ocean-coastal-dir" type="number" min="0" max="359.9" step="0.1" value="${escapeAttr(coastalDir.toFixed(1))}" data-initial="${escapeAttr(coastalDir.toFixed(1))}">`,
         '</label>',
         '</div>',
         '</div>',
@@ -3632,6 +3697,15 @@
           if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
           return;
         }
+        if (currentTool === 'ocean-adjust') {
+          const pt = latLngToPx(e.latlng);
+          if (isPxInsideImage(pt)) {
+            const clickedKey = oscarKeyFromPoint({ x: pt[0], y: pt[1] });
+            if (clickedKey) applyOceanCellAdjustAt(clickedKey);
+          }
+          if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
+          return;
+        }
         if (oceanPaintDidExtend) {
           oceanPaintDidExtend = false;
           if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
@@ -3725,7 +3799,7 @@
         document.getElementById('draw-controls').style.display = 'none';
         clearHandles();
         clearSegmentMarkers();
-        refresh(R.OSCAR_SELECTION | R.EXPORT);
+        refresh(R.OSCAR_SELECTION | R.EXPORT | R.TOOLS);
         return;
       }
 
@@ -4055,12 +4129,13 @@
     function updateInfosMersOscarPanel() {
       updateOscarSummary();
       const oscarEl = document.getElementById('sea-oscar');
-      if (!oscarEl) return;
-      oscarEl.innerHTML = isOceanBatchSelection()
-        ? formatOceanBatchPanel()
-        : selectedSeaCellKey
-          ? formatOscarCellForPanel(selectedSeaCellKey)
-          : '<span>Cellule OSCAR :</span> non sélectionnée';
+      if (oscarEl) {
+        oscarEl.innerHTML = isOceanBatchSelection()
+          ? formatOceanBatchPanel()
+          : selectedSeaCellKey
+            ? formatOscarCellForPanel(selectedSeaCellKey)
+            : '<span>Cellule OSCAR :</span> non sélectionnée';
+      }
       updateOceanToolbarActionState();
     }
 
@@ -4104,6 +4179,130 @@
       updateInfosMersOscarPanel();
     }
 
+    // Ajuste la vitesse d'une cellule par un facteur multiplicatif, cible ou
+    // voisine de halo. referenceResult (cible déjà ajustée) n'est fourni que
+    // pour une voisine ; manualDir n'est fourni que pour une cible sans
+    // aucune direction exploitable (résolu en amont dans applyOceanCellAdjustToKeys).
+    // Priorité de direction quand il faut amorcer un vecteur nul :
+    // 1) direction résiduelle propre à la cellule (fréquente sur les
+    //    données Copernicus à vitesse nulle — cible ou voisine) ;
+    // 2) direction de la cible déjà ajustée, héritée par une voisine sans
+    //    direction propre ;
+    // 3) direction saisie manuellement (cas d'une cible sans aucune des deux).
+    function oscarApplyAdjustFactor(cell, factor, attenuate, referenceResult, manualDir) {
+      rememberOriginalOscarCell(cell);
+      const currentSpeed = oscarCellSpeed(cell);
+      const residualDir = Number.isFinite(Number(cell.dirToDeg)) ? Number(cell.dirToDeg) : null;
+      let newSpeed;
+      let newDir;
+      if (currentSpeed > 0) {
+        newSpeed = currentSpeed * (attenuate ? (1 - factor) : (1 + factor));
+        newDir = residualDir ?? 0;
+      } else if (attenuate) {
+        newSpeed = 0;
+        newDir = residualDir ?? 0;
+      } else {
+        newDir = residualDir ?? referenceResult?.dir ?? manualDir;
+        if (!Number.isFinite(newDir)) {
+          throw new Error('Direction manquante pour amplifier une cellule sans vecteur.');
+        }
+        newSpeed = referenceResult
+          ? Math.round(referenceResult.speed * OSCAR_ADJUST_HALO_RATIO * 1000) / 1000
+          : OSCAR_ADJUST_TARGET_FLOOR;
+      }
+      Object.assign(cell, oscarVectorFromSpeedDir(newSpeed, newDir));
+      return { speed: newSpeed, dir: newDir };
+    }
+
+    // Point d'entrée du clic en mode outil "Amplifier/Atténuer" : pot de
+    // peinture. Si la cellule cliquée fait partie d'une sélection multiple
+    // déjà constituée avec l'outil Sélection, le réglage s'applique à tout
+    // le groupe ; sinon uniquement à la cellule cliquée.
+    function applyOceanCellAdjustAt(clickedKey) {
+      const grid = getOscarGrid();
+      if (!grid?.cells?.[clickedKey]) return;
+      const targetKeys = selectedOceanCellKeys.has(clickedKey)
+        ? orderedOscarKeys(selectedOceanCellKeys)
+        : [clickedKey];
+      applyOceanCellAdjustToKeys(targetKeys);
+    }
+
+    function applyOceanCellAdjustToKeys(targetKeys) {
+      const grid = getOscarGrid();
+      if (!targetKeys.length || !grid) return;
+      const attenuate = oceanAdjustAttenuate;
+      const factor = OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] ?? OSCAR_ADJUST_FACTORS[1];
+      const halo = oceanAdjustHalo;
+
+      // Validation : en mode Amplifier, toute cible sans vecteur ni direction
+      // résiduelle doit recevoir une direction — demandée au clic puisqu'il
+      // n'y a plus de formulaire à remplir avant application. Annulation
+      // (ou saisie invalide) sur une seule cellule annule tout le clic :
+      // pas d'application partielle.
+      const manualDirs = {};
+      if (!attenuate) {
+        for (const key of targetKeys) {
+          const cell = grid.cells[key];
+          if (!cell || oscarCellSpeed(cell) > 0 || Number.isFinite(Number(cell.dirToDeg))) continue;
+          const val = window.prompt(`La cellule ${key} n'a ni vecteur ni direction résiduelle.\nDirection à utiliser pour amplifier (°) :`, '0');
+          if (val === null) return;
+          const num = Number(val);
+          if (!Number.isFinite(num)) {
+            alert(`Direction invalide pour ${key}.`);
+            return;
+          }
+          manualDirs[key] = normalizeAngle(num);
+        }
+      }
+
+      pushUndo(attenuate ? 'Atténuer cellules OSCAR' : 'Amplifier cellules OSCAR');
+
+      const targetKeySet = new Set(targetKeys);
+      const targetResults = {};
+      targetKeys.forEach(key => {
+        const cell = grid.cells[key];
+        if (!cell) return;
+        targetResults[key] = oscarApplyAdjustFactor(cell, factor, attenuate, null, manualDirs[key]);
+        cell.source = 'manual';
+        sessionEditedOceanCellKeys.add(key);
+      });
+
+      if (halo) {
+        const haloFactor = factor * OSCAR_ADJUST_HALO_RATIO;
+        // Regrouper les voisines par cibles bordantes, pour ne pas laisser
+        // l'ordre de traitement (donc l'ordre de sélection) décider
+        // arbitrairement quelle cible influence une voisine partagée.
+        const neighborBorders = {};
+        targetKeys.forEach(key => {
+          if (!targetResults[key]) return;
+          oscarHexNeighborKeys(key).forEach(nKey => {
+            if (targetKeySet.has(nKey) || !grid.cells[nKey]) return; // déjà cible à part entière
+            (neighborBorders[nKey] ??= []).push(key);
+          });
+        });
+        Object.entries(neighborBorders).forEach(([nKey, borderingKeys]) => {
+          const neighbor = grid.cells[nKey];
+          const hasOwnVector = oscarCellSpeed(neighbor) > 0 || Number.isFinite(Number(neighbor.dirToDeg));
+          if (hasOwnVector) {
+            // Vecteur propre : chaque cible bordante contribue (effet cumulatif),
+            // cohérent avec le comportement d'une cellule bordée par une seule cible.
+            borderingKeys.forEach(key => oscarApplyAdjustFactor(neighbor, haloFactor, attenuate, targetResults[key]));
+          } else {
+            // Pas de vecteur propre : une seule référence, la cible bordante
+            // la plus rapide — pas de cumul arbitraire dépendant de l'ordre.
+            const bestKey = borderingKeys.reduce((best, key) =>
+              targetResults[key].speed > targetResults[best].speed ? key : best
+            , borderingKeys[0]);
+            oscarApplyAdjustFactor(neighbor, haloFactor, attenuate, targetResults[bestKey]);
+          }
+          neighbor.source = 'manual';
+          sessionEditedOceanCellKeys.add(nKey);
+        });
+      }
+
+      refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
+    }
+
     function applyOceanCellEdit() {
       const targets = oceanEditTargets();
       if (!targets.length) return;
@@ -4141,15 +4340,69 @@
           return;
         }
       }
+
+      // Un champ n'est appliqué que s'il a réellement été modifié par
+      // rapport à sa valeur d'ouverture (data-initial). Sur une sélection
+      // multiple, appliquer un champ non touché homogénéiserait toutes les
+      // cellules sur la valeur affichée pour la seule cellule de référence
+      // — par exemple, ajouter un courant côtier à toute une bande de
+      // cellules ne doit pas réécrire leur vecteur principal respectif.
+      const isTouched = (input) => !!input && input.dataset.initial !== undefined
+        && Number(input.value) !== Number(input.dataset.initial);
+      const speedTouched = isTouched(mainSpeedInput);
+      const dirTouched = isTouched(mainDirInput);
+      const hasCoastalTouched = !!hasCoastalInput && hasCoastalInput.dataset.initial !== undefined
+        && String(hasCoastal) !== hasCoastalInput.dataset.initial;
+      const coastalSpeedTouched = isTouched(speedInput);
+      const coastalDirTouched = isTouched(dirInput);
+
+      if (!speedTouched && !dirTouched && !hasCoastalTouched && !coastalSpeedTouched && !coastalDirTouched) {
+        oceanCellEditing = false;
+        refresh(R.SEA_PANEL);
+        return; // rien à appliquer
+      }
+
       pushUndo('Modifier cellule OSCAR');
       const targetKeys = oceanTargetKeys();
       targets.forEach((cell, idx) => {
         rememberOriginalOscarCell(cell);
-        Object.assign(cell, oscarVectorFromSpeedDir(mainSpeed, mainDir));
-        if (hasCoastal) cell.coastal = oscarVectorFromSpeedDir(coastalSpeed, coastalDir);
-        else delete cell.coastal;
-        cell.source = 'manual';
-        if (targetKeys[idx]) sessionEditedOceanCellKeys.add(targetKeys[idx]);
+        let touchedSomething = false;
+
+        if (speedTouched || dirTouched) {
+          const currentSpeed = oscarCellSpeed(cell);
+          const currentDir = Number.isFinite(Number(cell.dirToDeg))
+            ? normalizeAngle(Number(cell.dirToDeg))
+            : normalizeAngle(Math.atan2(Number(cell.yKnot) || 0, Number(cell.xKnot) || 0) * 180 / Math.PI);
+          Object.assign(cell, oscarVectorFromSpeedDir(
+            speedTouched ? mainSpeed : currentSpeed,
+            dirTouched ? mainDir : currentDir,
+          ));
+          touchedSomething = true;
+        }
+
+        if (hasCoastalTouched) {
+          if (hasCoastal) cell.coastal = oscarVectorFromSpeedDir(coastalSpeed, coastalDir);
+          else delete cell.coastal;
+          touchedSomething = true;
+        } else if (hasCoastal && cell.coastal && (coastalSpeedTouched || coastalDirTouched)) {
+          // Case côtière non touchée, mais vitesse/direction côtière
+          // modifiées : ne s'applique qu'aux cellules qui ont déjà un
+          // courant côtier — on ne force pas sa création ailleurs.
+          const currentCoastalSpeed = oscarCellSpeed(cell.coastal);
+          const currentCoastalDir = Number.isFinite(Number(cell.coastal.dirToDeg))
+            ? normalizeAngle(Number(cell.coastal.dirToDeg))
+            : normalizeAngle(Math.atan2(Number(cell.coastal.yKnot) || 0, Number(cell.coastal.xKnot) || 0) * 180 / Math.PI);
+          cell.coastal = oscarVectorFromSpeedDir(
+            coastalSpeedTouched ? coastalSpeed : currentCoastalSpeed,
+            coastalDirTouched ? coastalDir : currentCoastalDir,
+          );
+          touchedSomething = true;
+        }
+
+        if (touchedSomething) {
+          cell.source = 'manual';
+          if (targetKeys[idx]) sessionEditedOceanCellKeys.add(targetKeys[idx]);
+        }
       });
       oceanCellEditing = false;
       refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
@@ -4977,6 +5230,25 @@
         if (e.target?.id !== 'ocean-has-coastal') return;
         const fields = document.getElementById('ocean-coastal-fields');
         if (fields) fields.style.display = e.target.checked ? 'contents' : 'none';
+      });
+    }
+    // Réglages inline de l'outil Amplifier/Atténuer : vivent dans #tool-group
+    // (barre supérieure), reconstruits à chaque refresh(R.TOOLS) — délégation
+    // sur le conteneur stable plutôt que sur les contrôles, mêmes principes
+    // que la délégation #sea-oscar ci-dessus. Mettent à jour l'état persistant
+    // directement (pas de lecture DOM différée à l'application).
+    const toolGroupPanel = document.getElementById('tool-group');
+    if (toolGroupPanel) {
+      toolGroupPanel.addEventListener('change', (e) => {
+        if (e.target?.id === 'ocean-adjust-attenuate') oceanAdjustAttenuate = e.target.checked;
+        else if (e.target?.id === 'ocean-adjust-halo') oceanAdjustHalo = e.target.checked;
+      });
+      toolGroupPanel.addEventListener('input', (e) => {
+        if (e.target?.id !== 'ocean-adjust-factor') return;
+        oceanAdjustFactorIdx = Number(e.target.value);
+        const label = document.getElementById('ocean-adjust-factor-label');
+        const factor = OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] ?? OSCAR_ADJUST_FACTORS[1];
+        if (label) label.textContent = `${Math.round(factor * 100)} %`;
       });
     }
     document.getElementById('btn-copy').addEventListener('click', function () {
