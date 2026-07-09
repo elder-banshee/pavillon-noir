@@ -156,8 +156,6 @@ function pixelToLatLng(x, y) {
   return L.latLng(CARTE_IMAGE.height - y, x);
 }
 
-function normaliser(str) { return window.RC.normaliser(str); }
-
 function weightPourZoom(weightBase, zoom) {
   const zoomMin = carte.getMinZoom();
   return Math.max(0.2, weightBase * Math.pow(ZOOM_FACTEUR, zoom - zoomMin));
@@ -663,15 +661,15 @@ function executerQuandIdle(fn) {
 
 function prechaufferDonneesRechercheDesktop() {
   JURIDICTIONS.forEach(j => {
-    normaliser(j.nom);
-    (j.tags || []).forEach(normaliser);
+    window.RC.normaliser(j.nom);
+    (j.tags || []).forEach(window.RC.normaliser);
   });
 
   if (typeof VILLES !== 'undefined') {
     VILLES.forEach(ville => {
-      normaliser(ville.nom || '');
-      normaliser(ville.label || '');
-      (ville.tags || []).forEach(normaliser);
+      window.RC.normaliser(ville.nom || '');
+      window.RC.normaliser(ville.label || '');
+      (ville.tags || []).forEach(window.RC.normaliser);
     });
   }
 }

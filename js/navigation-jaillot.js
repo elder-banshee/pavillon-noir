@@ -59,8 +59,6 @@
     equipage: null,
   };
 
-  function normaliserTexte(str) { return window.RC.normaliser(str); }
-
   function pointCle(point) {
     return `${Math.round(point.x)},${Math.round(point.y)}`;
   }
@@ -2881,20 +2879,20 @@
         if (v.visible_de && annee < v.visible_de) return false;
         return true;
       })
-      .sort((a, b) => normaliserTexte(a.nom).localeCompare(normaliserTexte(b.nom), 'fr'));
+      .sort((a, b) => window.RC.normaliser(a.nom).localeCompare(window.RC.normaliser(b.nom), 'fr'));
   }
 
   function trouverPort(valeur) {
     const brut = String(valeur || '').trim();
-    const q = normaliserTexte(brut);
+    const q = window.RC.normaliser(brut);
     if (!q) return null;
     // Cas spécial : navire-PJ
     if (brut === '_navire_pj') return entreeNavirePJ();
     const ports = portsDisponibles();
-    return ports.find(v => normaliserTexte(v.nom) === q || normaliserTexte(v.label) === q || v.id === brut)
-      || ports.find(v => (v.tags || []).some(tag => normaliserTexte(tag) === q))
-      || ports.find(v => normaliserTexte(v.nom).includes(q) || normaliserTexte(v.label).includes(q))
-      || ports.find(v => (v.tags || []).some(tag => normaliserTexte(tag).includes(q)));
+    return ports.find(v => window.RC.normaliser(v.nom) === q || window.RC.normaliser(v.label) === q || v.id === brut)
+      || ports.find(v => (v.tags || []).some(tag => window.RC.normaliser(tag) === q))
+      || ports.find(v => window.RC.normaliser(v.nom).includes(q) || window.RC.normaliser(v.label).includes(q))
+      || ports.find(v => (v.tags || []).some(tag => window.RC.normaliser(tag).includes(q)));
   }
 
   function surlignerMatch(texte, qLow) { return window.RC.surlignerMatch(texte, qLow); }
@@ -3082,7 +3080,7 @@
     }
 
     function rendreItem({ item, nom, matchTag, parenthese }, qLow) {
-      const nomMatch  = normaliserTexte(matchTag) === normaliserTexte(nom);
+      const nomMatch  = window.RC.normaliser(matchTag) === window.RC.normaliser(nom);
       const matchHtml = nomMatch ? '' :
         `<span class="carte-recherche-suggestion-match">${surlignerMatch(matchTag, qLow)}</span>`;
       return `<li class="carte-recherche-suggestion nav-jaillot-suggestion" role="option"
@@ -3113,7 +3111,7 @@
       onPositionner: positionnerSuggestions,
       onBlur: () => {
         const port = trouverPort(input.dataset.portId || input.value);
-        if (port && normaliserTexte(input.value) === normaliserTexte(port.nom)) {
+        if (port && window.RC.normaliser(input.value) === window.RC.normaliser(port.nom)) {
           input.dataset.portId = port.id;
         } else if (!port) {
           input.dataset.portId = '';
