@@ -1533,7 +1533,7 @@
     const OCEAN_TOOLS = [
       { id: 'select', label: 'Sélection', icon: '◈', title: 'Sélectionner une cellule OSCAR' },
       { id: 'ocean-lasso', label: 'Lasso', icon: '⌁', title: 'Ajouter au lot les cellules entourées' },
-      { id: 'ocean-adjust', label: 'Amplifier/Atténuer', icon: '⇕', title: 'Cliquer une cellule (ou un groupe déjà sélectionné) pour amplifier/atténuer sa vitesse' },
+      { id: 'ocean-adjust', label: 'Accentuer/Estomper', icon: '⇕', title: 'Cliquer une cellule (ou un groupe déjà sélectionné) pour amplifier/atténuer sa vitesse' },
     ];
     const OCEAN_TOOL_ACTIONS = [
       { id: 'copy', label: 'Copier', icon: '⎘', title: 'Copier les vecteurs des cellules sélectionnées' },
@@ -1742,12 +1742,19 @@
     let oscarGridDomainFilter = '';
     let oscarGridTypeFilter = '';
     let oceanCellEditing = false;
-    // Réglages de l'outil Amplifier/Atténuer — état persistant (pas relu
+    // Réglages de l'outil Accentuer/Estomper — état persistant (pas relu
     // depuis un formulaire recréé à chaque ouverture), pour permettre une
     // application répétée sans reconfigurer à chaque cellule.
     let oceanAdjustAttenuate = false;
-    let oceanAdjustFactorIdx = 1; // index dans OSCAR_ADJUST_FACTORS
+    let oceanAdjustFactorIdx = 1; // index dans OSCAR_ADJUST_FACTORS (curseur 5/10/15%)
+    let oceanAdjustCustomFactor = null; // % personnalisé (nombre) — prévaut sur le curseur si renseigné
     let oceanAdjustHalo = false;
+    // Égaliseur — mode d'affichage temporaire (pas un outil de clic) qui
+    // isole visuellement une bande de vitesse pour repérer un courant à
+    // corriger, avec sélection automatique des cellules isolées.
+    let oceanEqActive = false;
+    let oceanEqTargetSpeed = 1;
+    let oceanEqBandwidth = 1;
     let oceanCellClipboard = null;
     let sessionEditedOceanCellKeys = new Set();
     // Sélection multiple par glisser (Shift + clic-maintenu) en OCÉANOGRAPHIE.
@@ -1891,10 +1898,13 @@
     </button>
   `).join('')
         : '';
-      // Réglages de l'outil Amplifier/Atténuer : barre inline dans la barre
+      // Réglages de l'outil Accentuer/Estomper : barre inline dans la barre
       // d'outils (jamais par-dessus la carte), visible seulement quand cet
       // outil est actif. État persistant (oceanAdjustAttenuate/FactorIdx/Halo) :
       // pas de formulaire recréé, donc pas de réinitialisation entre deux clics.
+      // Le champ % personnalisé prévaut sur le curseur 5/10/15% s'il est
+      // renseigné — pour une bride plus large que celle, volontairement
+      // modeste, du curseur.
       const adjustSettingsHtml = (ctx.isOcean && currentTool === 'ocean-adjust')
         ? `<div class="tb-sep"></div>
     <div class="ocean-adjust-settings">
@@ -1902,10 +1912,40 @@
       <label class="ocean-adjust-inline">Facteur <span id="ocean-adjust-factor-label">${Math.round(OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] * 100)} %</span>
         <input type="range" id="ocean-adjust-factor" min="0" max="${OSCAR_ADJUST_FACTORS.length - 1}" step="1" value="${oceanAdjustFactorIdx}">
       </label>
+      <label class="ocean-adjust-inline" title="Prévaut sur le curseur si renseigné">ou %
+        <input type="number" id="ocean-adjust-custom-factor" min="1" max="1000" step="1" placeholder="ex : 40" value="${oceanAdjustCustomFactor ?? ''}" style="width:56px;">
+      </label>
       <label class="ocean-adjust-inline"><input type="checkbox" id="ocean-adjust-halo"${oceanAdjustHalo ? ' checked' : ''}> Halo</label>
     </div>`
         : '';
-      group.innerHTML = toolHtml + actionHtml + adjustSettingsHtml;
+      // Égaliseur : mode d'affichage (bascule + 2 curseurs), indépendant de
+      // l'outil courant — n'affecte que le rendu de la grille, jamais le
+      // comportement du clic. Le bouton bascule reste visible en permanence ;
+      // les curseurs et "Sélectionner" n'apparaissent que si actif. Pas de
+      // 0.01 nd (au lieu de 0.05) et boutons ± de part et d'autre : un
+      // curseur seul ne permet pas d'atteindre une valeur précise sous 1 nd,
+      // là où se trouvent la plupart des courants à corriger.
+      const eqSettingsHtml = ctx.isOcean
+        ? `<div class="tb-sep"></div>
+    <div class="ocean-adjust-settings">
+      <button class="tool-btn${oceanEqActive ? ' active' : ''}" id="ocean-eq-toggle-btn" data-ocean-toolbar-action="eq-toggle" title="Isoler visuellement une bande de vitesse pour repérer un courant à corriger">
+        <span class="icon">◎</span> Égaliseur
+      </button>
+      ${oceanEqActive ? `
+      <label class="ocean-adjust-inline">Cible <span id="ocean-eq-target-label">${oceanEqTargetSpeed.toFixed(2)} nd</span>
+        <button type="button" class="tool-btn ocean-eq-step" data-ocean-toolbar-action="eq-target-minus">−</button>
+        <input type="range" id="ocean-eq-target" min="0" max="${oscarSpeedColorCap}" step="0.01" value="${oceanEqTargetSpeed}">
+        <button type="button" class="tool-btn ocean-eq-step" data-ocean-toolbar-action="eq-target-plus">+</button>
+      </label>
+      <label class="ocean-adjust-inline">Largeur ± <span id="ocean-eq-band-label">${oceanEqBandwidth.toFixed(2)} nd</span>
+        <button type="button" class="tool-btn ocean-eq-step" data-ocean-toolbar-action="eq-band-minus">−</button>
+        <input type="range" id="ocean-eq-bandwidth" min="0.01" max="2" step="0.01" value="${oceanEqBandwidth}">
+        <button type="button" class="tool-btn ocean-eq-step" data-ocean-toolbar-action="eq-band-plus">+</button>
+      </label>
+      <button class="tool-btn" data-ocean-toolbar-action="eq-select">Sélectionner</button>` : ''}
+    </div>`
+        : '';
+      group.innerHTML = toolHtml + actionHtml + adjustSettingsHtml + eqSettingsHtml;
       group.querySelectorAll('.tool-btn').forEach(btn => {
         if (btn.dataset.tool) btn.addEventListener('click', () => setTool(btn.dataset.tool));
         if (btn.dataset.oceanToolbarAction) btn.addEventListener('click', () => handleOceanCellAction(btn.dataset.oceanToolbarAction));
@@ -2097,9 +2137,14 @@
       throw new Error('OSCAR_HEX_GRID indisponible : ../js/oscar-hex-grid.js doit être chargé avant Zone Editor.');
     }
 
-    // Recalcule le plafond du dégradé vitesse (p99 des cellules non-calmes) —
-    // chaque checkpoint a sa propre distribution, un plafond fixe n'a pas de sens
-    // dès qu'on compare plusieurs grilles générées par des méthodes différentes.
+    // Recalcule le plafond du dégradé vitesse (vitesse max réelle des
+    // cellules non-calmes) — chaque checkpoint a sa propre distribution, un
+    // plafond fixe n'a pas de sens dès qu'on compare plusieurs grilles
+    // générées par des méthodes différentes. Le vrai maximum est utilisé
+    // plutôt qu'un percentile (p99 auparavant) : tronquer le plafond sous le
+    // maximum réel fait que toutes les cellules au-delà affichent la même
+    // couleur, quelle que soit leur vitesse réelle — une perte d'information
+    // silencieuse, justement ce qu'on veut éviter.
     function recomputeOscarSpeedColorCap(grid) {
       const speeds = Object.values(grid.cells || {})
         .filter(cell => !isOscarCalmCell(cell))
@@ -2107,8 +2152,8 @@
         .filter(speed => speed > 0)
         .sort((a, b) => a - b);
       if (!speeds.length) { oscarSpeedColorCap = 2.9; return; }
-      const p99 = speeds[Math.floor(speeds.length * 0.99)];
-      oscarSpeedColorCap = Math.max(0.5, Math.round(p99 * 100) / 100);
+      const max = speeds[speeds.length - 1];
+      oscarSpeedColorCap = Math.max(0.5, Math.round(max * 100) / 100);
     }
 
     function oscarHexCenter(q, r, grid) {
@@ -2399,20 +2444,33 @@
     // Le premier palier est ancré sur OSCAR_CALM_COLOR (source unique) pour
     // qu'une cellule à vitesse nulle rende exactement la même couleur, quelle
     // que soit son origine (calme générée, Copernicus à 0.00 nd, manuelle...).
-    // Les paliers suivants reprennent l'espacement relatif de l'ancien
-    // dégradé à 5 paliers (0/.28/.52/.74/1.00), qui distinguait bien les
-    // courants faibles et moyens, avec deux paliers intermédiaires ajoutés
-    // dans cette même zone pour plus de nuance.
+    //
+    // 15 nuances (5 familles de 3 : bleu/vert/jaune/orange/rouge), réparties
+    // sur des tranches de VITESSE RÉELLE croissantes (nd), pas des percentiles
+    // de population — vérifié sur la grille réelle (10 634 cellules) qu'un
+    // calage par percentile de population tasserait les 14 paliers entre
+    // t=0.02 et t=0.29 (62 % des cellules sont sous 0.4 nd, 89 % sous 1 nd),
+    // laissant tout l'écart 1.2 → 4.26 nd dans une seule teinte de rouge —
+    // l'inverse de l'objectif. Les tranches s'élargissent donc vers le haut,
+    // pour que les vitesses élevées (rares mais réparties sur un grand
+    // intervalle) restent visuellement distinguables entre elles.
     function oscarSpeedColor(speed) {
       const stops = [
-        { at: 0.00, rgb: OSCAR_CALM_COLOR },
-        { at: 0.06, rgb: [18, 61, 138] },
-        { at: 0.32, rgb: [0, 150, 136] },
-        { at: 0.43, rgb: [90, 190, 100] },
-        { at: 0.55, rgb: [205, 220, 57] },
-        { at: 0.65, rgb: [230, 190, 30] },
-        { at: 0.76, rgb: [245, 158, 11] },
-        { at: 1.00, rgb: [220, 38, 38] },
+        { at: 0.0000, rgb: OSCAR_CALM_COLOR },  // 0.00 nd — ancrage calme
+        { at: 0.0352, rgb: [20, 60, 130] },     // 0.15 nd
+        { at: 0.0704, rgb: [20, 110, 175] },    // 0.30 nd
+        { at: 0.1056, rgb: [15, 140, 130] },    // 0.45 nd
+        { at: 0.1408, rgb: [40, 165, 90] },     // 0.60 nd
+        { at: 0.1878, rgb: [120, 190, 60] },    // 0.80 nd
+        { at: 0.2347, rgb: [190, 205, 40] },    // 1.00 nd
+        { at: 0.2934, rgb: [230, 210, 30] },    // 1.25 nd
+        { at: 0.3521, rgb: [240, 175, 20] },    // 1.50 nd
+        { at: 0.4108, rgb: [240, 145, 15] },    // 1.75 nd
+        { at: 0.4930, rgb: [230, 110, 10] },    // 2.10 nd
+        { at: 0.5869, rgb: [220, 80, 15] },     // 2.50 nd
+        { at: 0.6808, rgb: [215, 60, 20] },     // 2.90 nd
+        { at: 0.8333, rgb: [225, 35, 20] },     // 3.55 nd
+        { at: 1.0000, rgb: [235, 15, 15] },     // 4.26 nd (plafond réel)
       ];
       const t = Math.max(0, Math.min(1, speed / oscarSpeedColorCap));
       for (let i = 1; i < stops.length; i++) {
@@ -2425,6 +2483,22 @@
       return stops[stops.length - 1].rgb;
     }
 
+    // Couleur de l'égaliseur : isole visuellement une bande de vitesse.
+    // d=0 (au centre de la cible) -> rose vif ; d=1 (au bord de la bande et
+    // au-delà) -> bleu nuit (OSCAR_CALM_COLOR), par interpolation continue
+    // via un palier intermédiaire mauve/violet à mi-bande. Le nombre de
+    // teintes perceptibles suit naturellement la largeur de bande choisie,
+    // sans logique conditionnelle supplémentaire.
+    const OSCAR_EQ_PINK = [255, 20, 147];
+    const OSCAR_EQ_PURPLE = [140, 40, 200];
+    function oscarEqColor(speed) {
+      if (!(oceanEqBandwidth > 0)) return OSCAR_CALM_COLOR;
+      const d = Math.max(0, Math.min(1, Math.abs(speed - oceanEqTargetSpeed) / oceanEqBandwidth));
+      return d <= 0.5
+        ? interpolateRgb(OSCAR_EQ_PINK, OSCAR_EQ_PURPLE, d / 0.5)
+        : interpolateRgb(OSCAR_EQ_PURPLE, OSCAR_CALM_COLOR, (d - 0.5) / 0.5);
+    }
+
     // Rendu unifié : la couleur ne dépend que de la vitesse (oscarSpeedColor),
     // jamais de l'origine de la cellule. Une cellule calme générée et une
     // cellule Copernicus à 0.00 nd doivent rendre exactement la même teinte —
@@ -2432,7 +2506,7 @@
     // qu'une. Le filtre "Calmes non éditées" reste le moyen de les isoler.
     function oscarCellStyle(cell) {
       const speed = oscarCellSpeed(cell);
-      const [r, g, b] = oscarSpeedColor(speed);
+      const [r, g, b] = oceanEqActive ? oscarEqColor(speed) : oscarSpeedColor(speed);
       const intensity = Math.max(0.3, Math.min(1, speed / oscarSpeedColorCap));
       return {
         pane: 'oscarGridPane',
@@ -2625,6 +2699,9 @@
       const manualCount = entries.filter(([, cell]) => isOscarManualCell(cell)).length;
       const coastalCount = entries.filter(([, cell]) => hasOscarCoastalCurrent(cell)).length;
       const calmCount = entries.filter(([, cell]) => isOscarCalmUneditedCell(cell)).length;
+      const avgSpeed = entries.length
+        ? entries.reduce((sum, [, cell]) => sum + oscarCellSpeed(cell), 0) / entries.length
+        : 0;
       const actionHtml = oceanCellEditing
         ? formatOscarCellEditForm(entries[0]?.[1])
         : [
@@ -2634,6 +2711,7 @@
         '<div class="ocean-cell-detail">',
         `<div class="ocean-cell-title">Sélection multiple (${entries.length} cellules)<span class="ocean-cell-badge">édition commune</span></div>`,
         `<div class="sea-prop"><span>Contenu :</span> ${manualCount} manuelle(s), ${coastalCount} avec courant côtier, ${calmCount} calme(s) non éditée(s)</div>`,
+        `<div class="sea-prop"><span>Vitesse moyenne :</span> ${avgSpeed.toFixed(2)} nd</div>`,
         '<div class="sea-prop"><span>Application :</span> les valeurs saisies seront appliquées à toutes les cellules sélectionnées.</div>',
         actionHtml,
         '</div>',
@@ -4231,7 +4309,13 @@
       const grid = getOscarGrid();
       if (!targetKeys.length || !grid) return;
       const attenuate = oceanAdjustAttenuate;
-      const factor = OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] ?? OSCAR_ADJUST_FACTORS[1];
+      // Le % personnalisé (sans plafond à 15%) prévaut sur le curseur 5/10/15%
+      // s'il est renseigné. En mode Atténuer, plafonné à 100% : au-delà,
+      // (1 - facteur) deviendrait négatif et donnerait une vitesse négative.
+      const rawFactor = (Number.isFinite(oceanAdjustCustomFactor) && oceanAdjustCustomFactor > 0)
+        ? oceanAdjustCustomFactor / 100
+        : (OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] ?? OSCAR_ADJUST_FACTORS[1]);
+      const factor = attenuate ? Math.min(rawFactor, 1) : rawFactor;
       const halo = oceanAdjustHalo;
 
       // Validation : en mode Amplifier, toute cible sans vecteur ni direction
@@ -4280,21 +4364,18 @@
             (neighborBorders[nKey] ??= []).push(key);
           });
         });
+        // Une voisine à la frontière de plusieurs cibles ne reçoit le
+        // facteur halo qu'une seule fois, quel que soit le nombre de cibles
+        // qui la bordent — sinon un cumul la ferait dépasser l'amplification
+        // du cœur de la zone sélectionnée. Référence unique : la cible
+        // bordante la plus rapide (déjà le critère retenu pour établir la
+        // direction/le plancher d'une voisine sans vecteur propre).
         Object.entries(neighborBorders).forEach(([nKey, borderingKeys]) => {
           const neighbor = grid.cells[nKey];
-          const hasOwnVector = oscarCellSpeed(neighbor) > 0 || Number.isFinite(Number(neighbor.dirToDeg));
-          if (hasOwnVector) {
-            // Vecteur propre : chaque cible bordante contribue (effet cumulatif),
-            // cohérent avec le comportement d'une cellule bordée par une seule cible.
-            borderingKeys.forEach(key => oscarApplyAdjustFactor(neighbor, haloFactor, attenuate, targetResults[key]));
-          } else {
-            // Pas de vecteur propre : une seule référence, la cible bordante
-            // la plus rapide — pas de cumul arbitraire dépendant de l'ordre.
-            const bestKey = borderingKeys.reduce((best, key) =>
-              targetResults[key].speed > targetResults[best].speed ? key : best
-            , borderingKeys[0]);
-            oscarApplyAdjustFactor(neighbor, haloFactor, attenuate, targetResults[bestKey]);
-          }
+          const bestKey = borderingKeys.reduce((best, key) =>
+            targetResults[key].speed > targetResults[best].speed ? key : best
+          , borderingKeys[0]);
+          oscarApplyAdjustFactor(neighbor, haloFactor, attenuate, targetResults[bestKey]);
           neighbor.source = 'manual';
           sessionEditedOceanCellKeys.add(nKey);
         });
@@ -4425,6 +4506,33 @@
       refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
     }
 
+    // Sélectionne toutes les cellules dont la vitesse principale tombe dans
+    // la bande de l'égaliseur (remplace la sélection courante, comme le
+    // Lasso ou un clic simple) — pour enchaîner avec Accentuer/Estomper sur
+    // exactement le courant isolé visuellement.
+    function oscarSelectByEqBand() {
+      const grid = getOscarGrid();
+      if (!grid?.cells) return;
+      const matches = Object.entries(grid.cells)
+        .filter(([, cell]) => Math.abs(oscarCellSpeed(cell) - oceanEqTargetSpeed) <= oceanEqBandwidth)
+        .map(([key]) => key);
+      selectedOceanCellKeys = new Set(matches);
+      selectedSeaCellKey = matches[0] || null;
+      oceanCellEditing = false;
+      refresh(R.OSCAR_SELECTION | R.SEA_PANEL);
+    }
+
+    // Nudge précis des curseurs de l'égaliseur — un curseur seul ne permet
+    // pas d'atteindre une valeur exacte sous 1 nd (zone d'intérêt typique).
+    function oscarNudgeEqValue(which, delta) {
+      if (which === 'target') {
+        oceanEqTargetSpeed = Math.max(0, Math.min(oscarSpeedColorCap, Math.round((oceanEqTargetSpeed + delta) * 100) / 100));
+      } else {
+        oceanEqBandwidth = Math.max(0.01, Math.min(2, Math.round((oceanEqBandwidth + delta) * 100) / 100));
+      }
+      refresh(R.TOOLS | (oceanEqActive ? R.OSCAR_HEX_GRID : 0));
+    }
+
     function handleOceanCellAction(action) {
       if (action === 'edit') setOceanCellEditing(true);
       else if (action === 'cancel') setOceanCellEditing(false);
@@ -4433,6 +4541,15 @@
       else if (action === 'copy') copyOceanCells();
       else if (action === 'paste') pasteOceanCells();
       else if (action === 'delete') deleteOceanCells();
+      else if (action === 'eq-toggle') {
+        oceanEqActive = !oceanEqActive;
+        refresh(R.TOOLS | R.OSCAR_HEX_GRID);
+      }
+      else if (action === 'eq-select') oscarSelectByEqBand();
+      else if (action === 'eq-target-minus') oscarNudgeEqValue('target', -0.01);
+      else if (action === 'eq-target-plus') oscarNudgeEqValue('target', 0.01);
+      else if (action === 'eq-band-minus') oscarNudgeEqValue('bandwidth', -0.01);
+      else if (action === 'eq-band-plus') oscarNudgeEqValue('bandwidth', 0.01);
       else if (action === 'clear-selection') {
         selectedOceanCellKeys.clear();
         oceanCellEditing = false;
@@ -5232,7 +5349,8 @@
         if (fields) fields.style.display = e.target.checked ? 'contents' : 'none';
       });
     }
-    // Réglages inline de l'outil Amplifier/Atténuer : vivent dans #tool-group
+    // Réglages inline de l'outil Accentuer/Estomper et de l'égaliseur :
+    // vivent dans #tool-group
     // (barre supérieure), reconstruits à chaque refresh(R.TOOLS) — délégation
     // sur le conteneur stable plutôt que sur les contrôles, mêmes principes
     // que la délégation #sea-oscar ci-dessus. Mettent à jour l'état persistant
@@ -5244,11 +5362,35 @@
         else if (e.target?.id === 'ocean-adjust-halo') oceanAdjustHalo = e.target.checked;
       });
       toolGroupPanel.addEventListener('input', (e) => {
-        if (e.target?.id !== 'ocean-adjust-factor') return;
-        oceanAdjustFactorIdx = Number(e.target.value);
-        const label = document.getElementById('ocean-adjust-factor-label');
-        const factor = OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] ?? OSCAR_ADJUST_FACTORS[1];
-        if (label) label.textContent = `${Math.round(factor * 100)} %`;
+        if (e.target?.id === 'ocean-adjust-factor') {
+          oceanAdjustFactorIdx = Number(e.target.value);
+          oceanAdjustCustomFactor = null; // le curseur reprend la main
+          const customInput = document.getElementById('ocean-adjust-custom-factor');
+          if (customInput) customInput.value = '';
+          const label = document.getElementById('ocean-adjust-factor-label');
+          const factor = OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] ?? OSCAR_ADJUST_FACTORS[1];
+          if (label) label.textContent = `${Math.round(factor * 100)} %`;
+          return;
+        }
+        if (e.target?.id === 'ocean-adjust-custom-factor') {
+          const val = Number(e.target.value);
+          oceanAdjustCustomFactor = (e.target.value !== '' && Number.isFinite(val) && val > 0) ? val : null;
+          return;
+        }
+        if (e.target?.id === 'ocean-eq-target') {
+          oceanEqTargetSpeed = Number(e.target.value);
+          const label = document.getElementById('ocean-eq-target-label');
+          if (label) label.textContent = `${oceanEqTargetSpeed.toFixed(2)} nd`;
+          if (oceanEqActive) refresh(R.OSCAR_HEX_GRID);
+          return;
+        }
+        if (e.target?.id === 'ocean-eq-bandwidth') {
+          oceanEqBandwidth = Number(e.target.value);
+          const label = document.getElementById('ocean-eq-band-label');
+          if (label) label.textContent = `${oceanEqBandwidth.toFixed(2)} nd`;
+          if (oceanEqActive) refresh(R.OSCAR_HEX_GRID);
+          return;
+        }
       });
     }
     document.getElementById('btn-copy').addEventListener('click', function () {
