@@ -57,7 +57,6 @@
  *                                (Nav 0 = pas de catalogue ; navire des PJ toujours actif)
  *   regionRestriction {string[]} restrictions techniques — [] · ['cotiere'] · ['fluviale'] · ['riviere']
  *                                Les indications géographiques et rareté → champ notes
- *   malusHauturier    {boolean}  true si malus de manœuvrabilité en navigation hauturière
  *   etatNavigation    {object?}  état initial optionnel : encombrementPct, carenage
  *   notes             {string}   contexte géographique/historique (Nav 5) ou note technique
  *
@@ -121,7 +120,6 @@ const SHIPS_DATA = [
     equipage: { max: 30, min: 10, standard: 16, fourchette: false },
     niveauNav: 0,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Europe.',
   },
 
@@ -144,7 +142,6 @@ const SHIPS_DATA = [
     equipage: { max: 22, min: 2, standard: 2, fourchette: true }, // TSV : 15~30
     niveauNav: 1,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -165,7 +162,6 @@ const SHIPS_DATA = [
     equipage: { max: 5, min: 2, standard: 2, fourchette: false },
     niveauNav: 4,
     regionRestriction: [],
-    malusHauturier: true,
     notes: 'Europe.',
   },
 
@@ -187,7 +183,6 @@ const SHIPS_DATA = [
     equipage: { max: 9, min: 2, standard: 2, fourchette: false },
     niveauNav: 5,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Méditerranée.',
   },
 
@@ -209,7 +204,6 @@ const SHIPS_DATA = [
     equipage: { max: 4, min: 1, standard: 1, fourchette: false },
     niveauNav: 5,
     regionRestriction: ['cotiere'],
-    malusHauturier: false,
     notes: 'Indonésie. Navigation côtière exclusivement.',
   },
 
@@ -230,7 +224,6 @@ const SHIPS_DATA = [
     equipage: { max: 40, min: 1, standard: 20, fourchette: true }, // TSV : 2~40 max
     niveauNav: 2,
     regionRestriction: ['cotiere'],
-    malusHauturier: false,
     notes: 'Grande variété de formes selon l\'origine. Dimensions, tonnage et équipage très variables (fourchette). Navigation hauturière interdite.',
   },
 
@@ -253,7 +246,6 @@ const SHIPS_DATA = [
     equipage: { max: 50, min: 6, standard: 12, fourchette: false },
     niveauNav: 1,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Tonnage très variable selon l\'armement.',
   },
 
@@ -274,7 +266,6 @@ const SHIPS_DATA = [
     equipage: { max: 60, min: 10, standard: 16, fourchette: false },
     niveauNav: 1,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -295,7 +286,6 @@ const SHIPS_DATA = [
     equipage: { max: 60, min: 12, standard: 16, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -316,7 +306,6 @@ const SHIPS_DATA = [
     equipage: { max: 30, min: 10, standard: 16, fourchette: false },
     niveauNav: 5,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Europe.',
   },
 
@@ -338,7 +327,6 @@ const SHIPS_DATA = [
     equipage: { max: 35, min: 11, standard: 14, fourchette: false },
     niveauNav: 5,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Méditerranée et Indes orientales.',
   },
 
@@ -358,7 +346,6 @@ const SHIPS_DATA = [
     equipage: { max: 60, min: 8, standard: 8, fourchette: false },
     niveauNav: 1,
     regionRestriction: [],
-    malusHauturier: true,
     notes: 'Cabotage et rivière. Malus en navigation hauturière.',
   },
 
@@ -378,7 +365,6 @@ const SHIPS_DATA = [
     equipage: { max: 80, min: 10, standard: 16, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -399,7 +385,6 @@ const SHIPS_DATA = [
     equipage: { max: 30, min: 14, standard: 23, fourchette: false },
     niveauNav: 2,
     regionRestriction: [],
-    malusHauturier: true,
     notes: 'Prévue pour canaux et navigation fluviale. Malus de manœuvrabilité en navigation hauturière.',
   },
 
@@ -419,7 +404,6 @@ const SHIPS_DATA = [
     equipage: { max: 20, min: 5, standard: 11, fourchette: false },
     niveauNav: 5,
     regionRestriction: [],
-    malusHauturier: false,
     restrictionNav: { hauturiere: -1 },
     notes: 'Europe. Double dérive latérale relevable : tirant d\'eau 3 m en configuration '
       + 'normale (dérives baissées), ramené à 1,5 m dérives relevées pour l\'accès aux zones '
@@ -446,7 +430,6 @@ const SHIPS_DATA = [
     equipage: { max: 40, min: 4, standard: 4, fourchette: false },
     niveauNav: 2,
     regionRestriction: ['cotiere'],
-    malusHauturier: false,
     notes: 'Navigation hauturière interdite.',
   },
 
@@ -467,7 +450,6 @@ const SHIPS_DATA = [
     equipage: { max: 60, min: 8, standard: 14, fourchette: false },
     niveauNav: 4,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -488,7 +470,6 @@ const SHIPS_DATA = [
     equipage: { max: 20, min: 7, standard: 7, fourchette: false },
     niveauNav: 5,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Europe.',
   },
 
@@ -509,7 +490,6 @@ const SHIPS_DATA = [
     equipage: { max: 30, min: 9, standard: 9, fourchette: false },
     niveauNav: 4,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Europe.',
   },
 
@@ -530,7 +510,6 @@ const SHIPS_DATA = [
     equipage: { max: 50, min: 10, standard: 16, fourchette: false },
     niveauNav: 5,
     regionRestriction: ['riviere'],
-    malusHauturier: false,
     notes: 'Europe. Rare pour la période.',
   },
 
@@ -554,7 +533,6 @@ const SHIPS_DATA = [
     equipage: { max: 30, min: 5, standard: 11, fourchette: false },
     niveauNav: 3,
     regionRestriction: ['fluviale', 'cotiere'],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -574,7 +552,6 @@ const SHIPS_DATA = [
     equipage: { max: 60, min: 20, standard: 26, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -594,7 +571,6 @@ const SHIPS_DATA = [
     equipage: { max: 60, min: 20, standard: 26, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -617,7 +593,6 @@ const SHIPS_DATA = [
     equipage: { max: 220, min: 20, standard: 97, fourchette: false },
     niveauNav: 4,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Méditerranée et Indes orientales.',
   },
 
@@ -638,7 +613,6 @@ const SHIPS_DATA = [
     equipage: { max: 180, min: 20, standard: 26, fourchette: false },
     niveauNav: 4,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -659,7 +633,6 @@ const SHIPS_DATA = [
     equipage: { max: 150, min: 22, standard: 34, fourchette: false },
     niveauNav: 2,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -680,7 +653,6 @@ const SHIPS_DATA = [
     equipage: { max: 90, min: 18, standard: 48, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -701,7 +673,6 @@ const SHIPS_DATA = [
     equipage: { max: 150, min: 40, standard: 104, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -722,7 +693,6 @@ const SHIPS_DATA = [
     equipage: { max: 120, min: 15, standard: 24, fourchette: false },
     niveauNav: 1,
     regionRestriction: [],
-    malusHauturier: true,
     notes: 'Cabotage et rivière profonde. Malus en navigation hauturière.',
   },
 
@@ -743,7 +713,6 @@ const SHIPS_DATA = [
     equipage: { max: 120, min: 19, standard: 28, fourchette: false },
     niveauNav: 2,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -763,7 +732,6 @@ const SHIPS_DATA = [
     equipage: { max: 50, min: 14, standard: 14, fourchette: false },
     niveauNav: 5,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Rare pour la période.',
   },
 
@@ -784,7 +752,6 @@ const SHIPS_DATA = [
     equipage: { max: 140, min: 22, standard: 78, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -805,7 +772,6 @@ const SHIPS_DATA = [
     equipage: { max: 60, min: 12, standard: 18, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -825,7 +791,6 @@ const SHIPS_DATA = [
     equipage: { max: 150, min: 60, standard: 104, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -846,7 +811,6 @@ const SHIPS_DATA = [
     equipage: { max: 90, min: 30, standard: 42, fourchette: false },
     niveauNav: 4,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -869,7 +833,6 @@ const SHIPS_DATA = [
     equipage: { max: 200, min: 25, standard: 51, fourchette: false },
     niveauNav: 1,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Tonnage très variable selon la configuration.',
   },
 
@@ -890,7 +853,6 @@ const SHIPS_DATA = [
     equipage: { max: 250, min: 50, standard: 65, fourchette: false },
     niveauNav: 4,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -911,7 +873,6 @@ const SHIPS_DATA = [
     equipage: { max: 350, min: 60, standard: 202, fourchette: false },
     niveauNav: 4,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -934,7 +895,6 @@ const SHIPS_DATA = [
     equipage: { max: 260, min: 150, standard: 193, fourchette: false },
     niveauNav: 4,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Méditerranée.',
   },
 
@@ -955,7 +915,6 @@ const SHIPS_DATA = [
     equipage: { max: 170, min: 21, standard: 37, fourchette: false },
     niveauNav: 2,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -976,7 +935,6 @@ const SHIPS_DATA = [
     equipage: { max: 170, min: 21, standard: 26, fourchette: false },
     niveauNav: 2,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Coque surtoilée, fortement allégée sur le lest pour maximiser la vitesse. Performances remarquables au portant.',
   },
 
@@ -999,7 +957,6 @@ const SHIPS_DATA = [
     equipage: { max: 550, min: 75, standard: 351, fourchette: false },
     niveauNav: 2,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -1020,7 +977,6 @@ const SHIPS_DATA = [
     equipage: { max: 650, min: 80, standard: 488, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -1043,7 +999,6 @@ const SHIPS_DATA = [
     equipage: { max: 600, min: 250, standard: 445, fourchette: false },
     niveauNav: 5,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Méditerranée.',
   },
 
@@ -1064,7 +1019,6 @@ const SHIPS_DATA = [
     equipage: { max: 700, min: 90, standard: 130, fourchette: false },
     niveauNav: 3,
     regionRestriction: [],
-    malusHauturier: false,
     notes: 'Rare pour la période : le galion de flotte est en voie de disparition entre 1713 et 1720, remplacé par les navires de ligne.',
   },
 
@@ -1085,7 +1039,6 @@ const SHIPS_DATA = [
     equipage: { max: 170, min: 21, standard: 97, fourchette: false },
     niveauNav: 1,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 
@@ -1106,7 +1059,6 @@ const SHIPS_DATA = [
     equipage: { max: 1200, min: 100, standard: 785, fourchette: true }, // TSV : 635~934
     niveauNav: 5,
     regionRestriction: [],
-    malusHauturier: false,
     notes: '',
   },
 

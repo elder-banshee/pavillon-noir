@@ -769,9 +769,7 @@
         return `${label} : malus ${Number.isFinite(malus) ? malus : valeur}`;
       }).join(' · ');
     }
-    // Repli sur l'ancien modèle (regionRestriction/malusHauturier) tant que tous
-    // les navires n'ont pas été migrés vers restrictionNav.
-    return navire?.malusHauturier ? 'Malus en haute mer' : 'Aucune';
+    return 'Aucune';
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -4224,7 +4222,6 @@
         carenageApplicable: carenageApplicableNavire(navire),
         carenage: etat.carenage || null,
         modificateurVitesseNoeuds: modificateurVitesseActuelNoeuds(navire, etat),
-        malusHauturier: !!navire.malusHauturier,
       },
       zoneNavigation: zoneNavigationEnPoint(p),
       dansOceanBounds: pointDansOceanBounds(p),
