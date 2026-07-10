@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chantier naval — Pavillon Noir</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="chantier-naval.css">
+</head>
+
+<body>
+  <header class="shipyard-topbar">
+    <a class="shipyard-link" href="tools-index.html">Atelier</a>
+    <div class="shipyard-title">
+      <span>Pavillon Noir</span>
+      <h1>Chantier naval</h1>
+    </div>
+    <div class="shipyard-actions">
+      <div class="action-group">
+        <button id="btn-new" type="button">Nouveau</button>
+        <button id="btn-duplicate" type="button">Dupliquer</button>
+      </div>
+      <div class="action-group">
+        <button id="btn-open-export" type="button" disabled>Export</button>
+        <button id="btn-apply" type="button" class="btn-primary">Appliquer</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shipyard-shell">
+    <aside class="shipyard-sidebar">
+      <label class="field">
+        <span>Navire</span>
+        <select id="ship-select" aria-label="Navire"></select>
+      </label>
+
+      <section class="diagnostics-panel">
+        <button id="diagnostics-toggle" class="diagnostics-status" type="button" aria-expanded="false">
+          <span id="diagnostics-summary">Chargement…</span>
+        </button>
+        <div id="diagnostics" class="diagnostics" hidden></div>
+      </section>
+    </aside>
+
+    <section class="shipyard-editor" aria-label="Fiche navire">
+      <form id="ship-form" class="ship-form">
+        <section class="panel panel-active-ship">
+          <div id="active-ship-label" class="active-ship"></div>
+          <span id="dirty-state" class="dirty-state">En session</span>
+        </section>
+
+        <section class="panel panel-main panel-identity">
+          <div class="grid identity-row">
+            <label class="field">
+              <span>Identifiant</span>
+              <input id="field-id" data-path="id" required>
+            </label>
+            <label class="field">
+              <span>Nom</span>
+              <input id="field-nom" data-path="nom" required>
+            </label>
+            <label class="check">
+              <input id="toggle-extra-options" type="checkbox"> Options supplémentaires
+            </label>
+          </div>
+          <div id="extra-options-fields" class="grid two extra-options-fields" hidden>
+            <label class="field">
+              <span>Désignation</span>
+              <input id="field-designation" data-path="designation">
+            </label>
+            <label class="field">
+              <span>Type modèle</span>
+              <input id="field-type" data-path="type">
+            </label>
+          </div>
+          <div class="grid compact">
+            <label class="field">
+              <span>Catégorie</span>
+              <input id="field-categorie" data-path="categorieTaille" type="number" min="1" max="5" step="1">
+            </label>
+            <label class="field">
+              <span>Nav min.</span>
+              <input id="field-niveau-nav" data-path="niveauNav" type="number" min="0" max="5" step="1">
+            </label>
+          </div>
+        </section>
+
+        <section class="panel ship-tabs-panel">
+          <div class="ship-tabs" role="tablist" aria-label="Sections de la fiche">
+            <button class="ship-tab active" type="button" role="tab" aria-selected="true" data-tab="navigation">Navigation</button>
+            <button class="ship-tab" type="button" role="tab" aria-selected="false" data-tab="capacites">Capacités</button>
+            <button class="ship-tab" type="button" role="tab" aria-selected="false" data-tab="dimensions">Dimensions</button>
+            <button class="ship-tab" type="button" role="tab" aria-selected="false" data-tab="restrictions">Restrictions</button>
+            <button class="ship-tab" type="button" role="tab" aria-selected="false" data-tab="special">Spécial</button>
+          </div>
+
+          <div class="tab-pane active panel-navigation" data-tab-panel="navigation" role="tabpanel">
+            <div class="grid numeric">
+              <label class="field"><span>Gréement</span>
+                <select id="field-greement" data-path="greement">
+                  <option value="">Non défini</option>
+                  <option value="aurique">Aurique</option>
+                  <option value="latine">Latine</option>
+                  <option value="tierce">Tiers</option>
+                  <option value="carree">Carrée</option>
+                  <option value="livarde">Livarde</option>
+                  <option value="mixte">Mixte</option>
+                </select>
+              </label>
+              <label class="field"><span>Moyenne milles/jours</span><input data-path="navigation.vitesse_naive" type="number" step="0.01"></label>
+              <label class="check avirons-check" title="Navire à avirons">
+                <input id="toggle-avirons" type="checkbox" aria-label="Navire à avirons">
+              </label>
+              <label class="field"><span>Avirons</span><input id="field-avirons" data-path="navigation.avirons" type="number" step="0.01" disabled></label>
+            </div>
+            <div class="grid numeric">
+              <label class="field"><span>Près</span><input data-path="navigation.pres" type="number" step="0.01"></label>
+              <label class="field"><span>Largue</span><input data-path="navigation.largue" type="number" step="0.01"></label>
+              <label class="field"><span>Grand largue</span><input data-path="navigation.grand_largue" type="number" step="0.01"></label>
+              <label class="field"><span>Vent arrière</span><input data-path="navigation.vent_arriere" type="number" step="0.01"></label>
+            </div>
+          </div>
+
+          <div class="tab-pane panel-capacities" data-tab-panel="capacites" role="tabpanel" hidden>
+            <div class="grid numeric">
+              <label class="field"><span>Manœuvrabilité</span><input data-path="manoeuvrabilite" type="number" step="1"></label>
+              <label class="field"><span>Tonnage total</span><input data-path="tonnage.total" type="number" min="0" step="1"></label>
+              <label class="field"><span>Tonnage utile</span><input data-path="tonnage.utile" type="number" min="0" step="1"></label>
+              <label class="check"><input data-path="tonnage.fourchette" type="checkbox"> Fourchette tonnage</label>
+            </div>
+            <div class="grid numeric">
+              <label class="field"><span>Équipage max</span><input data-path="equipage.max" type="number" min="0" step="1"></label>
+              <label class="field"><span>Équipage min</span><input data-path="equipage.min" type="number" min="0" step="1"></label>
+              <label class="field"><span>Équipage standard</span><input data-path="equipage.standard" type="number" min="0" step="1"></label>
+              <label class="check"><input data-path="equipage.fourchette" type="checkbox"> Fourchette équipage</label>
+            </div>
+          </div>
+
+          <div class="tab-pane panel-dimensions" data-tab-panel="dimensions" role="tabpanel" hidden>
+            <div class="grid numeric">
+              <label class="field"><span>Tirant d'eau</span><input id="field-tirant" data-path="tirantEau" type="number" min="0" step="0.1"></label>
+              <label id="derive-draft-field" class="field" hidden><span>Tirant d'eau (dérive relevée)</span><input id="field-tirant-derive" type="number" min="0" step="0.1"></label>
+              <label class="field"><span>Hors-tout</span><input data-path="dimensions.horsTout" type="number" min="0" step="0.1"></label>
+              <label class="field"><span>Immergée</span><input data-path="dimensions.immergee" type="number" min="0" step="0.1"></label>
+            </div>
+          </div>
+
+          <div class="tab-pane panel-restrictions" data-tab-panel="restrictions" role="tabpanel" hidden>
+            <div class="grid compact">
+              <label class="field field-wide">
+                <span>Périmètre naturel</span>
+                <select data-path="perimetreNaturel">
+                  <option value="" disabled hidden></option>
+                  <option value="illimitee">Navigation illimitée</option>
+                  <option value="fluviale">Fluviale</option>
+                  <option value="cotiere">Côtière</option>
+                  <option value="hauturiere">Hauturière</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Fluviale</span>
+                <select data-restriction="fluviale">
+                  <option value="" disabled hidden></option>
+                  <option value="libre">Libre</option>
+                  <option value="-1">Malus -1</option>
+                  <option value="-2">Malus -2</option>
+                  <option value="-3">Malus -3</option>
+                  <option value="interdit">Interdite</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Côtière</span>
+                <select data-restriction="cotiere">
+                  <option value="" disabled hidden></option>
+                  <option value="libre">Libre</option>
+                  <option value="-1">Malus -1</option>
+                  <option value="-2">Malus -2</option>
+                  <option value="-3">Malus -3</option>
+                  <option value="interdit">Interdite</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Hauturière</span>
+                <select data-restriction="hauturiere">
+                  <option value="" disabled hidden></option>
+                  <option value="libre">Libre</option>
+                  <option value="-1">Malus -1</option>
+                  <option value="-2">Malus -2</option>
+                  <option value="-3">Malus -3</option>
+                  <option value="interdit">Interdite</option>
+                </select>
+              </label>
+            </div>
+            <label class="field">
+              <span>Région / usage</span>
+              <input data-list-path="regionRestriction" placeholder="cotiere, fluviale, riviere">
+            </label>
+          </div>
+
+          <div class="tab-pane panel-special" data-tab-panel="special" role="tabpanel" hidden>
+            <div class="grid compact">
+              <label class="check"><input id="toggle-derive" type="checkbox"> Dérive</label>
+              <label class="check"><input data-path="origineExotique" type="checkbox"> Exotique</label>
+              <label class="check"><input data-path="lestInverse" type="checkbox"> Lest inverse</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel notes-panel">
+          <h2>Notes</h2>
+          <textarea data-path="notes" rows="3"></textarea>
+        </section>
+      </form>
+    </section>
+
+  </main>
+
+  <div id="export-overlay" class="modal-overlay" hidden>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="export-title">
+      <div class="modal-heading">
+        <h2 id="export-title">Export</h2>
+        <div class="modal-actions">
+          <button id="btn-copy-export" type="button">Copier export</button>
+          <button id="btn-close-export" type="button">Fermer</button>
+        </div>
+      </div>
+      <pre id="ship-export"></pre>
+    </section>
+  </div>
+
+  <div id="issues-overlay" class="modal-overlay" hidden>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="issues-title">
+      <div class="modal-heading">
+        <h2 id="issues-title">Fiche incomplète</h2>
+        <div class="modal-actions">
+          <button id="btn-close-issues" type="button">Fermer</button>
+        </div>
+      </div>
+      <div id="issues-body" class="issues-body"></div>
+    </section>
+  </div>
+
+  <script src="../js/ships-data.js"></script>
+  <script src="chantier-naval.js"></script>
+</body>
+
+</html>

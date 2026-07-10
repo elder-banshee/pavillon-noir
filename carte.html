@@ -350,6 +350,7 @@
           <span class="navire-modale-chevron" aria-hidden="true">⌄</span>
           <select class="navire-modale-titre-select" id="navire-modele-select" aria-label="Choisir le navire"></select>
         </div>
+        <span class="navire-modale-badge-zone" id="navire-modale-badge-zone" hidden></span>
       </div>
       <div class="navire-modale-corps">
         <div class="navire-modale-fiche" id="navire-modale-fiche"></div>
@@ -368,16 +369,16 @@
   <script src="js/chroniques-data.js"></script>
   <script src="js/pnj-data.js"></script>
   <script src="js/zones-data.js"></script>
-  <script src="js/sea-data.js"></script>
   <script src="js/carte-data.js"></script>
   <script src="js/villes-data.js"></script>
   <script src="js/ships-data.js"></script>
   <script src="js/recherche-commune.js"></script>
-  <script src="js/oscar-grid.js"></script>
+  <script src="js/oscar-hex-grid.js"></script>
   <script src="js/navigation-jaillot.js"></script>
   <script src="js/audio.js"></script>
   <script>audioInit(null);</script>
   <script src="js/mobile-nav.js"></script>
+  <script src="js/carte-core.js"></script>
   <script>window._MOBILE = window.matchMedia('(max-width: 768px)').matches;</script>
   <script>if (window._MOBILE) document.write('<scr' + 'ipt src="js/carte-mobile.js"><\/scr' + 'ipt>');</script>
   <script>if (!window._MOBILE) document.write('<scr' + 'ipt src="js/carte.js"><\/scr' + 'ipt>');</script>
