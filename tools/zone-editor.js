@@ -993,11 +993,18 @@
       const speed = oscarCellSpeed(cell);
       const [r, g, b] = oceanEqActive ? oscarEqColor(speed) : oscarSpeedColor(speed);
       const intensity = Math.max(0.3, Math.min(1, speed / oscarSpeedColorCap));
+      // Bordure distincte pour les cellules taguées fluviale/côtière (REPRISE_74) :
+      // la teinte de remplissage reste celle de la vitesse de courant, seule la
+      // bordure signale la classification de navigation, pour ne pas se
+      // substituer visuellement au dégradé de vitesse déjà en place.
+      const natureBordure = cell.natureNav === 'fluviale' ? '#8fd0a6'
+        : cell.natureNav === 'cotiere' ? '#7db8e8'
+        : null;
       return {
         pane: 'oscarGridPane',
         className: 'oscar-grid-cell',
-        color: `rgba(${r}, ${g}, ${b}, ${0.55 + intensity * 0.35})`,
-        weight: speed >= 1.25 ? 1.25 : 0.75,
+        color: natureBordure || `rgba(${r}, ${g}, ${b}, ${0.55 + intensity * 0.35})`,
+        weight: natureBordure ? 2 : (speed >= 1.25 ? 1.25 : 0.75),
         fillColor: `rgba(${r}, ${g}, ${b}, ${0.42 + intensity * 0.38})`,
         fillOpacity: 1,
         interactive: false,
@@ -1013,6 +1020,7 @@
           if (oscarGridTypeFilter === 'manual') return isOscarManualCell(cell);
           if (oscarGridTypeFilter === 'coastal') return hasOscarCoastalCurrent(cell);
           if (oscarGridTypeFilter === 'calm') return isOscarCalmUneditedCell(cell);
+          if (oscarGridTypeFilter === 'zonee') return cell.natureNav === 'fluviale' || cell.natureNav === 'cotiere';
           return true;
         });
     }
@@ -1238,6 +1246,13 @@
         `<input id="ocean-coastal-dir" type="number" min="0" max="359.9" step="0.1" value="${escapeAttr(coastalDir.toFixed(1))}" data-initial="${escapeAttr(coastalDir.toFixed(1))}">`,
         '</label>',
         '</div>',
+        '<label>Nature de navigation',
+        `<select id="ocean-nature-nav" data-initial="${escapeAttr(cell.natureNav || '')}">`,
+        `<option value=""${!cell.natureNav ? ' selected' : ''}>Haute mer (défaut)</option>`,
+        `<option value="cotiere"${cell.natureNav === 'cotiere' ? ' selected' : ''}>Côtière</option>`,
+        `<option value="fluviale"${cell.natureNav === 'fluviale' ? ' selected' : ''}>Fluviale</option>`,
+        '</select>',
+        '</label>',
         '</div>',
         '<div class="ocean-cell-actions">',
         '<button type="button" class="tool-btn" data-ocean-action="apply">Appliquer</button>',
@@ -2877,6 +2892,7 @@
       const hasCoastalInput = document.getElementById('ocean-has-coastal');
       const speedInput = document.getElementById('ocean-coastal-speed');
       const dirInput = document.getElementById('ocean-coastal-dir');
+      const natureNavInput = document.getElementById('ocean-nature-nav');
       const mainSpeed = Number(mainSpeedInput?.value);
       const mainDir = Number(mainDirInput?.value);
       if (!Number.isFinite(mainSpeed) || mainSpeed < 0) {
@@ -2921,8 +2937,11 @@
         && String(hasCoastal) !== hasCoastalInput.dataset.initial;
       const coastalSpeedTouched = isTouched(speedInput);
       const coastalDirTouched = isTouched(dirInput);
+      const natureNavTouched = !!natureNavInput && natureNavInput.dataset.initial !== undefined
+        && natureNavInput.value !== natureNavInput.dataset.initial;
 
-      if (!speedTouched && !dirTouched && !hasCoastalTouched && !coastalSpeedTouched && !coastalDirTouched) {
+      if (!speedTouched && !dirTouched && !hasCoastalTouched && !coastalSpeedTouched && !coastalDirTouched
+        && !natureNavTouched) {
         oceanCellEditing = false;
         refresh(R.SEA_PANEL);
         return; // rien à appliquer
@@ -2968,6 +2987,17 @@
         if (touchedSomething) {
           cell.source = 'manual';
           if (targetKeys[idx]) sessionEditedOceanCellKeys.add(targetKeys[idx]);
+        }
+
+        // Nature de navigation : indépendante du vecteur de courant, ne marque
+        // pas la cellule "manual" (le bouton Rétablir Copernicus ne doit pas
+        // apparaître pour un simple tag de zone — voir REPRISE_74).
+        if (natureNavTouched) {
+          if (natureNavInput.value === 'cotiere' || natureNavInput.value === 'fluviale') {
+            cell.natureNav = natureNavInput.value;
+          } else {
+            delete cell.natureNav;
+          }
         }
       });
       oceanCellEditing = false;

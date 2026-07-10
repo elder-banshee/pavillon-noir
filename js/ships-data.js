@@ -19,6 +19,22 @@
  *   restrictionNav    {object?}  malus/interdiction par type de zone, ex. { hauturiere: -1 }
  *                                valeur -1..-3 = malus Manœuvrabilité ; 'interdit' = accès refusé
  *                                Zones : 'fluviale' · 'cotiere' · 'hauturiere' (absente = libre)
+ *   perimetreNaturel  {string?}  zone où le navire est chez lui, à trancher au cas par cas depuis
+ *                                le livre de règles (Pavillon Noir 2 : À feu et à sang) — 'fluviale' ·
+ *                                'cotiere' · 'hauturiere' · 'illimitee' (navire à l'aise partout,
+ *                                mention Bureau Veritas "navigation illimitée"). Un calcul
+ *                                automatique depuis restrictionNav a été tenté (session 74) puis
+ *                                abandonné : trop d'exceptions pour être fiable sans lecture humaine.
+ *                                Absent (navire pas encore relu) : repli neutre sur 'illimitee' côté
+ *                                affichage, voir perimetreNaturelNavire() dans navigation-jaillot.js.
+ *                                Pilote l'affichage de la fiche (bandeau-titre, sélecteur de
+ *                                conditions, puce de sélection).
+ *   origineExotique   {boolean?} true si le navire est d'un type inhabituel pour les Caraïbes
+ *                                (Méditerranée, Indes orientales...) — n'affecte aucun calcul,
+ *                                remplace le badge de zone par "Exotique" dans la modale et la
+ *                                puce du menu de sélection (préséance sur perimetreNaturel,
+ *                                voir REPRISE_74 : la puce doit filtrer avant tout par
+ *                                accessibilité réelle, pas par type d'eau).
  *   lestInverse       {boolean?} true si le lest inverse la règle d'encombrement (Nav ≥ 2) :
  *                                < 25 % → -1 nœud, > 75 % → +1 nœud (ex. Chébec, Tartane)
  *   navigation        {object}
@@ -161,6 +177,7 @@ const SHIPS_DATA = [
     greement: 'latine',
     manoeuvrabilite: 1,
     restrictionNav: { hauturiere: -1 },
+    origineExotique: true,
     navigation: {
       vitesse_naive: 3.125,
       pres: 4, largue: 7.5, grand_largue: 6.5, vent_arriere: 3.5,
@@ -182,6 +199,7 @@ const SHIPS_DATA = [
     greement: 'latine',
     manoeuvrabilite: 2,
     restrictionNav: { hauturiere: 'interdit' },
+    origineExotique: true,
     navigation: {
       vitesse_naive: 5,
       pres: 7, largue: 12, grand_largue: 10, vent_arriere: 6.5,
@@ -310,6 +328,7 @@ const SHIPS_DATA = [
     greement: 'latine',
     manoeuvrabilite: 0,
     restrictionNav: { hauturiere: 'interdit' },
+    origineExotique: true,
     navigation: {
       vitesse_naive: 4.15,
       pres: 5, largue: 10, grand_largue: 8, vent_arriere: 4.5,
@@ -587,6 +606,7 @@ const SHIPS_DATA = [
     greement: 'latine',
     manoeuvrabilite: -1,
     restrictionNav: { hauturiere: -1 },
+    origineExotique: true,
     lestInverse: true,
     navigation: {
       vitesse_naive: 5,
@@ -903,6 +923,8 @@ const SHIPS_DATA = [
     greement: 'tierce',
     manoeuvrabilite: -2,
     restrictionNav: { fluviale: -2 },
+    perimetreNaturel: 'cotiere', // navire à rame, mauvais en haute mer
+    origineExotique: true,
     navigation: {
       vitesse_naive: 5.8,
       pres: 2, largue: 4.5, grand_largue: 4.5, vent_arriere: 3,
@@ -1010,6 +1032,8 @@ const SHIPS_DATA = [
     greement: 'tierce',
     manoeuvrabilite: -3,
     restrictionNav: { fluviale: 'interdit' },
+    perimetreNaturel: 'cotiere', // navire à rame, même raison que la Galère royale
+    origineExotique: true,
     navigation: {
       vitesse_naive: 4,
       pres: 1, largue: 3.5, grand_largue: 3.5, vent_arriere: 2.5,

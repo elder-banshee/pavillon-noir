@@ -658,15 +658,70 @@
   }
 
   // ── Restrictions de navigation par type de zone (fluviale/côtière/hauturière) ──
-  // TODO PN-NAVZONE: classification géographique pas encore construite (chantier
-  // séparé des courants OSCAR et des hauts-fonds conservés dans sea-data.js).
-  // Tant qu'elle n'existe pas, cette fonction renvoie systématiquement null : les
-  // interdictions et malus de restrictionNav restent inertes mais déjà câblés.
+  // Classification géographique par cellule OSCAR (natureNav, éditable en
+  // OCÉANOGRAPHIE — voir tools/zone-editor.js). Une cellule non taguée est
+  // considérée hauturière par défaut : c'est le cas de l'immense majorité
+  // d'entre elles, seules les zones fluviales et côtières sont marquées
+  // explicitement (session 74, REPRISE_74).
   function typeZoneNavigationEnPoint(point) {
-    return null;
+    if (!point) return null;
+    const grid = sourceOscarGrid();
+    const cellKey = grid ? oscarCellKey(point) : null;
+    const cell = cellKey ? grid.cells[cellKey] : null;
+    const nature = cell?.natureNav;
+    return (nature === 'fluviale' || nature === 'cotiere') ? nature : 'hauturiere';
   }
 
   const LABELS_ZONE_NAV = { fluviale: 'fluviale', cotiere: 'côtière', hauturiere: 'hauturière' };
+  // Labels de la caractéristique "périmètre naturel" affichée sur la fiche navire
+  // (distincts des labels ci-dessus, pensés pour être lus en un coup d'œil).
+  // "Navigation illimitée" reprend la mention réelle du Bureau Veritas
+  // (unrestricted navigation) pour les navires sans aucune restriction de zone.
+  const LABELS_PERIMETRE_NATUREL = {
+    fluviale: 'Fleuve', cotiere: 'Cabotage', hauturiere: 'Haute-mer', illimitee: 'Navigation illimitée',
+  };
+  // Marqueurs couleur du menu de sélection des navires : un <option> natif ne peut
+  // porter ni classe CSS ni couleur de fond, un préfixe emoji est donc la seule
+  // puce possible à cet endroit précis. Exotique a préséance (voir REPRISE_74) :
+  // ouvrir la fiche d'un navire qu'on croyait accessible pour découvrir qu'il ne
+  // l'est pas est justement ce que la puce doit permettre d'éviter en amont.
+  const MARQUEURS_ZONE_SELECT = {
+    fluviale: '🟢', cotiere: '🔵', hauturiere: '🟣', illimitee: '⚪',
+  };
+  const MARQUEUR_EXOTIQUE_SELECT = '🟠';
+
+  function marqueurZoneNavireSelect(navire) {
+    if (navire.origineExotique) return MARQUEUR_EXOTIQUE_SELECT;
+    return MARQUEURS_ZONE_SELECT[perimetreNaturelNavire(navire)];
+  }
+
+  // Périmètre naturel d'un navire, pour l'affichage (badge, puce) : 'fluviale',
+  // 'cotiere', 'hauturiere', ou 'illimitee' (mention réelle du Bureau Veritas,
+  // "unrestricted navigation", pour les navires à l'aise partout). Champ
+  // ships-data.js à renseigner par Ronan depuis le livre de règles (Pavillon
+  // Noir 2 : À feu et à sang) — un calcul automatique depuis restrictionNav a
+  // été tenté (session 74) puis abandonné : trop d'exceptions et de cas
+  // particuliers pour être fiable sans jugement humain (26 navires sur 47
+  // n'avaient qu'un motif de restriction ambigu à trancher au cas par cas).
+  // Absent (navire pas encore relu) : repli neutre sur 'illimitee' — pas une
+  // valeur "correcte", juste un signal "pas encore traité" en attendant le
+  // garde-fou de validation à la création d'un navire (prévu par Ronan, session
+  // ultérieure).
+  function perimetreNaturelNavire(navire) {
+    const valeur = navire?.perimetreNaturel;
+    return (valeur === 'fluviale' || valeur === 'cotiere' || valeur === 'hauturiere' || valeur === 'illimitee')
+      ? valeur
+      : 'illimitee';
+  }
+
+  // Zone de référence pour l'évaluation des malus (restrictionNavPourZone,
+  // sélecteur de conditions) : toujours l'une des trois zones réelles, jamais
+  // 'illimitee' — un navire à navigation illimitée s'évalue en Haute-mer par
+  // défaut (sans incidence, puisqu'aucune zone n'est malussée pour lui).
+  function zoneEvaluationNavire(navire) {
+    const zone = perimetreNaturelNavire(navire);
+    return zone === 'illimitee' ? 'hauturiere' : zone;
+  }
 
   // Valeur de restrictionNav pour une zone donnée : 0/absent = libre, nombre négatif
   // = malus Manœuvrabilité, 'interdit' = accès refusé. typeZone=null (zone inconnue,
@@ -949,6 +1004,10 @@
       carenage: normaliserCarenage(defaults.carenage),
       toilage: normaliserToilage(defaults.toilage),
       deriveLevee: !!defaults.deriveLevee,
+      // Conditions de navigation affichées sur la fiche : par défaut le périmètre
+      // naturel du navire (aucune surprise à l'ouverture), modifiable via le
+      // sélecteur de la section Caractéristiques (voir appliquerConditionsDepuisControle).
+      conditionsZone: zoneEvaluationNavire(navire),
     };
   }
 
@@ -1123,16 +1182,36 @@
 
   function majTitreModaleNavire(navire = navireActif()) {
     const titre = document.getElementById('navire-modale-titre');
-    if (!titre) return;
-    const type = libelleModeleNavire(navire);
-    if (navire.type || navire.designation) {
-      titre.innerHTML = `
-        <span class="navire-modale-titre-nom">${escapeHtml(designationNavire(navire))}</span>
-        ${type ? `<span class="navire-modale-titre-type"> - ${escapeHtml(type)}</span>` : ''}
-      `;
+    if (titre) {
+      const type = libelleModeleNavire(navire);
+      if (navire.type || navire.designation) {
+        titre.innerHTML = `
+          <span class="navire-modale-titre-nom">${escapeHtml(designationNavire(navire))}</span>
+          ${type ? `<span class="navire-modale-titre-type"> - ${escapeHtml(type)}</span>` : ''}
+        `;
+      } else {
+        titre.innerHTML = `<span class="navire-modale-titre-type">${escapeHtml(type)}</span>`;
+      }
+    }
+    majBadgeZoneNavire(navire);
+  }
+
+  // Badge de la bannière : périmètre naturel (Fleuve/Cabotage/Haute-mer), sauf pour
+  // les navires exotiques où "Exotique" a préséance — un seul badge à la fois, pas
+  // de cumul (voir REPRISE_74, discussion avec Ronan sur la puce de sélection).
+  function majBadgeZoneNavire(navire) {
+    const badge = document.getElementById('navire-modale-badge-zone');
+    if (!badge) return;
+    if (navire.origineExotique) {
+      badge.textContent = 'Exotique';
+      badge.className = 'navire-modale-badge-zone navire-modale-badge-zone--exotique';
+      badge.hidden = false;
       return;
     }
-    titre.innerHTML = `<span class="navire-modale-titre-type">${escapeHtml(type)}</span>`;
+    const zone = perimetreNaturelNavire(navire);
+    badge.textContent = LABELS_PERIMETRE_NATUREL[zone];
+    badge.className = `navire-modale-badge-zone navire-modale-badge-zone--${zone}`;
+    badge.hidden = false;
   }
 
   function naviresAccessiblesCatalogue() {
@@ -1177,7 +1256,7 @@
     const optionPJ = pj ? `<option value="${escapeHtml(pj.id)}">${escapeHtml(designationNavire(pj))}</option>` : '';
     select.innerHTML = optionPJ + [...parCategorie.entries()].map(([cat, navires]) => `
       <optgroup label="${escapeHtml(libelleCategorieNavire(cat))}">
-        ${navires.map(navire => `<option value="${escapeHtml(navire.id)}">${escapeHtml(navire.nom || navire.id)}</option>`).join('')}
+        ${navires.map(navire => `<option value="${escapeHtml(navire.id)}">${marqueurZoneNavireSelect(navire)} ${escapeHtml(navire.nom || navire.id)}</option>`).join('')}
       </optgroup>
     `).join('');
     select.value = courant.id;
@@ -1222,7 +1301,7 @@
       sectionEquipageNavire(navire, { niveau, equipage, min, max, equipageAlerte }),
       sectionCarenageNavire(navire, etat, niveau),
       sectionToilageNavire(navire, etat, niveau),
-      sectionCaracteristiquesNavire(navire, { niveau, restrictions, etatDeriveLevee: !!etat.deriveLevee }),
+      sectionCaracteristiquesNavire(navire, { niveau, restrictions, etatDeriveLevee: !!etat.deriveLevee, conditionsZone: etat.conditionsZone }),
     ].filter(Boolean).join('');
     const colonneDroite = [
       sectionTonnageNavire(navire, { niveau, tonnageTotal, tonnageUtile, tonnageLimite, tonnageOccupe, encombrement, encombrementClasse }),
@@ -1315,13 +1394,36 @@
     `;
   }
 
+  // Sélecteur de conditions de navigation affichées sur la fiche (Fleuve/Cabotage/
+  // Haute-mer) : par défaut le périmètre naturel du navire, modifiable pour
+  // consulter ses aptitudes dans d'autres conditions. Le texte à droite reflète
+  // immédiatement la conséquence (aucun malus / malus / interdite) sans avoir à
+  // chercher la ligne Manœuvrabilité.
+  function selecteurConditionsNavire(navire, conditionsZone) {
+    const zone = conditionsZone || zoneEvaluationNavire(navire);
+    const valeur = restrictionNavPourZone(navire, zone);
+    const consequence = texteConsequenceRestriction(valeur);
+    const options = ['fluviale', 'cotiere', 'hauturiere'].map(z => `
+      <option value="${z}" ${z === zone ? 'selected' : ''}>${escapeHtml(LABELS_PERIMETRE_NATUREL[z])}</option>
+    `).join('');
+    return `
+      <div class="navire-modale-donnee navire-modale-donnee--champ">
+        <label class="navire-modale-donnee-label" for="navire-conditions-zone">Conditions affichées</label>
+        <span class="navire-conditions-controle">
+          <select id="navire-conditions-zone">${options}</select>
+          <span class="navire-conditions-consequence ${valeur === 'interdit' || Number(valeur) < 0 ? 'navire-alerte' : ''}">${consequence}</span>
+        </span>
+      </div>
+    `;
+  }
+
   function sectionCaracteristiquesNavire(navire, ctx) {
     const lignes = [];
     if (accesChampNavire('tirantEau', ctx.niveau)) lignes.push(donneeTirantEauNavire(navire, ctx.etatDeriveLevee));
     if (accesChampNavire('greement', ctx.niveau)) lignes.push(donneeNavire('Gréement', navire.greement || '—'));
     if (accesChampNavire('regionRestriction', ctx.niveau)) lignes.push(donneeNavire('Restrictions', ctx.restrictions));
     if (accesChampNavire('malus_navigation', ctx.niveau)) {
-      lignes.push(donneeNavire('Restrictions de zone', libelleRestrictionNav(navire)));
+      lignes.push(selecteurConditionsNavire(navire, ctx.conditionsZone));
     }
     if (!lignes.length && !accesChampNavire('tirantEau', ctx.niveau)) return '';
     const deriveLevee = accesChampNavire('tirantEau', ctx.niveau) && tirantEauDeriveLevee(navire) !== null
@@ -1454,9 +1556,10 @@
       if (toilage) score += toilage.manoeuvre;
     }
     if (accesChampNavire('malus_navigation', niveau)) {
-      // typeZoneNavigationEnPoint() renvoie null tant que la classification
-      // géographique fluviale/côtière/hauturière n'existe pas : contribution nulle.
-      const typeZone = typeZoneNavigationEnPoint(null);
+      // La fiche n'est pas liée à une position réelle sur la carte : on évalue les
+      // conditions choisies par l'utilisateur (etat.conditionsZone, sélecteur de la
+      // section Caractéristiques), pas typeZoneNavigationEnPoint() qui suppose un point.
+      const typeZone = etat.conditionsZone || zoneEvaluationNavire(navire);
       const valeur = Number(restrictionNavPourZone(navire, typeZone));
       if (Number.isFinite(valeur)) score += valeur;
     }
@@ -1638,6 +1741,26 @@
     majAffichageVitessesModifiees(navire, etat);
     majAffichageManoeuvrabilite(navire, etat);
     invaliderCacheHautsFonds();
+  }
+
+  // Court texte de conséquence pour une valeur de restrictionNav, partagé entre le
+  // rendu initial (selecteurConditionsNavire) et la mise à jour live au changement.
+  function texteConsequenceRestriction(valeur) {
+    return valeur === 'interdit' ? 'Interdite' : (Number(valeur) < 0 ? `Malus ${valeur}` : 'Aucun malus');
+  }
+
+  function appliquerConditionsDepuisControle(target) {
+    if (!target || target.id !== 'navire-conditions-zone') return;
+    const navire = navireActif();
+    const etat = etatNavireActif(navire);
+    etat.conditionsZone = target.value;
+    const valeur = restrictionNavPourZone(navire, etat.conditionsZone);
+    const consequence = document.querySelector('.navire-conditions-consequence');
+    if (consequence) {
+      consequence.textContent = texteConsequenceRestriction(valeur);
+      consequence.classList.toggle('navire-alerte', valeur === 'interdit' || Number(valeur) < 0);
+    }
+    majAffichageManoeuvrabilite(navire, etat);
   }
 
   function initControleToilageNavire() {
@@ -1852,11 +1975,13 @@
       appliquerCarenageDepuisControle(e.target);
       appliquerToilageDepuisControle(e.target);
       appliquerDeriveLeveeDepuisControle(e.target);
+      appliquerConditionsDepuisControle(e.target);
     });
     overlay.addEventListener('change', e => {
       appliquerCarenageDepuisControle(e.target);
       appliquerToilageDepuisControle(e.target);
       appliquerDeriveLeveeDepuisControle(e.target);
+      appliquerConditionsDepuisControle(e.target);
     });
     overlay.addEventListener('click', e => {
       const target = e.target;

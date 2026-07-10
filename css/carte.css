@@ -2086,6 +2086,50 @@ path.leaflet-interactive:focus-visible {
   color: var(--parchment);
 }
 
+/* Badge de zone/exotique dans le bandeau-titre (REPRISE_74) : un seul badge à la
+   fois, jamais de cumul — Exotique remplace le label de zone plutôt que s'y
+   ajouter (voir doc perimetreNaturel/origineExotique dans ships-data.js). */
+.navire-modale-badge-zone {
+  flex-shrink: 0;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.navire-modale-badge-zone--fluviale {
+  color: #8fd0a6;
+  border-color: rgba(143, 208, 166, 0.5);
+  background: rgba(143, 208, 166, 0.1);
+}
+
+.navire-modale-badge-zone--cotiere {
+  color: #7db8e8;
+  border-color: rgba(125, 184, 232, 0.5);
+  background: rgba(125, 184, 232, 0.1);
+}
+
+.navire-modale-badge-zone--hauturiere {
+  color: #9aa3e8;
+  border-color: rgba(154, 163, 232, 0.5);
+  background: rgba(154, 163, 232, 0.1);
+}
+
+.navire-modale-badge-zone--exotique {
+  color: #e0a34e;
+  border-color: rgba(224, 163, 78, 0.55);
+  background: rgba(224, 163, 78, 0.12);
+}
+
+.navire-modale-badge-zone--illimitee {
+  color: var(--parchment);
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .navire-modale-corps {
   flex: 1;
   overflow-y: auto;
@@ -2239,6 +2283,31 @@ path.leaflet-interactive:focus-visible {
 .navire-modale-input-compact {
   width: min(4.6rem, 100%);
   text-align: center;
+}
+
+.navire-conditions-controle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.navire-conditions-controle select {
+  background: var(--ink);
+  color: var(--parchment);
+  border: 1px solid var(--border);
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.35rem;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.86rem;
+}
+
+.navire-conditions-consequence {
+  font-size: 0.8rem;
+  color: var(--mist-light);
+}
+
+.navire-conditions-consequence.navire-alerte {
+  color: #f08a78;
 }
 
 .navire-modale-donnee-valeur.navire-override {
