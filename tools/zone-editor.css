@@ -92,6 +92,29 @@
       margin-right: 10px;
     }
 
+    .tb-home-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      margin-right: 10px;
+      padding: 0 9px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tb-home-link:hover {
+      background: rgba(200, 151, 58, 0.12);
+      border-color: var(--border-hover);
+    }
+
     /* Sélecteur de mode (dropdown) */
     .editor-switch {
       position: relative;

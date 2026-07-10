@@ -119,7 +119,7 @@ const SHIPS_DATA = [
     },
     tonnage:  { total: 55, utile: 45, fourchette: false },
     equipage: { max: 30, min: 10, standard: 16, fourchette: false },
-    niveauNav: 5,
+    niveauNav: 0,
     regionRestriction: [],
     malusHauturier: false,
     notes: 'Europe.',

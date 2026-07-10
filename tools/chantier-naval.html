@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chantier naval — Pavillon Noir</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="chantier-naval.css">
+</head>
+
+<body>
+  <header class="shipyard-topbar">
+    <a class="shipyard-link" href="tools-index.html">Atelier</a>
+    <div class="shipyard-title">
+      <span>Pavillon Noir</span>
+      <h1>Chantier naval</h1>
+    </div>
+    <div class="shipyard-actions">
+      <button id="btn-apply" type="button">Appliquer</button>
+      <button id="btn-duplicate" type="button">Dupliquer</button>
+      <button id="btn-new" type="button">Nouveau</button>
+      <button id="btn-copy-export" type="button">Copier export</button>
+    </div>
+  </header>
+
+  <main class="shipyard-shell">
+    <aside class="shipyard-sidebar">
+      <label class="field search-field">
+        <span>Recherche</span>
+        <input id="ship-search" type="search" autocomplete="off" placeholder="Nom, id, note">
+      </label>
+      <div class="sidebar-filters">
+        <label class="field">
+          <span>Catégorie</span>
+          <select id="filter-category">
+            <option value="">Toutes</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Nav</span>
+          <select id="filter-nav">
+            <option value="">Tous</option>
+          </select>
+        </label>
+      </div>
+      <div id="ship-count" class="ship-count"></div>
+      <label class="field">
+        <span>Navire</span>
+        <select id="ship-select" aria-label="Navire"></select>
+      </label>
+    </aside>
+
+    <section class="shipyard-editor" aria-label="Fiche navire">
+      <form id="ship-form" class="ship-form">
+        <section class="panel panel-main panel-identity">
+          <div class="panel-heading">
+            <h2>Identité</h2>
+            <span id="dirty-state">En session</span>
+          </div>
+          <div class="grid two">
+            <label class="field">
+              <span>Identifiant</span>
+              <input id="field-id" data-path="id" required>
+            </label>
+            <label class="field">
+              <span>Nom</span>
+              <input id="field-nom" data-path="nom" required>
+            </label>
+            <label class="field">
+              <span>Désignation</span>
+              <input id="field-designation" data-path="designation">
+            </label>
+            <label class="field">
+              <span>Type modèle</span>
+              <input id="field-type" data-path="type">
+            </label>
+          </div>
+          <div class="grid compact">
+            <label class="field">
+              <span>Catégorie</span>
+              <input id="field-categorie" data-path="categorieTaille" type="number" min="1" max="5" step="1">
+            </label>
+            <label class="field">
+              <span>Nav min.</span>
+              <input id="field-niveau-nav" data-path="niveauNav" type="number" min="0" max="5" step="1">
+            </label>
+            <label class="field">
+              <span>Tirant d'eau</span>
+              <input id="field-tirant" data-path="tirantEau" type="number" min="0" step="0.1">
+            </label>
+            <label class="field">
+              <span>Gréement</span>
+              <select id="field-greement" data-path="greement">
+                <option value="">Non défini</option>
+                <option value="aurique">Aurique</option>
+                <option value="latine">Latine</option>
+                <option value="tierce">Tiers</option>
+                <option value="carree">Carrée</option>
+                <option value="livarde">Livarde</option>
+                <option value="mixte">Mixte</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="panel panel-navigation">
+          <h2>Navigation</h2>
+          <div class="grid numeric">
+            <label class="field"><span>Naïve</span><input data-path="navigation.vitesse_naive" type="number" step="0.01"></label>
+            <label class="field"><span>Près</span><input data-path="navigation.pres" type="number" step="0.01"></label>
+            <label class="field"><span>Largue</span><input data-path="navigation.largue" type="number" step="0.01"></label>
+            <label class="field"><span>Grand largue</span><input data-path="navigation.grand_largue" type="number" step="0.01"></label>
+            <label class="field"><span>Vent arrière</span><input data-path="navigation.vent_arriere" type="number" step="0.01"></label>
+            <label class="field"><span>Avirons</span><input data-path="navigation.avirons" type="number" step="0.01"></label>
+          </div>
+        </section>
+
+        <section class="panel panel-capacities">
+          <h2>Capacités</h2>
+          <div class="grid numeric">
+            <label class="field"><span>Manœuvrabilité</span><input data-path="manoeuvrabilite" type="number" step="1"></label>
+            <label class="field"><span>Tonnage total</span><input data-path="tonnage.total" type="number" min="0" step="1"></label>
+            <label class="field"><span>Tonnage utile</span><input data-path="tonnage.utile" type="number" min="0" step="1"></label>
+            <label class="check"><input data-path="tonnage.fourchette" type="checkbox"> Fourchette tonnage</label>
+          </div>
+          <div class="grid numeric">
+            <label class="field"><span>Équipage max</span><input data-path="equipage.max" type="number" min="0" step="1"></label>
+            <label class="field"><span>Équipage min</span><input data-path="equipage.min" type="number" min="0" step="1"></label>
+            <label class="field"><span>Équipage standard</span><input data-path="equipage.standard" type="number" min="0" step="1"></label>
+            <label class="check"><input data-path="equipage.fourchette" type="checkbox"> Fourchette équipage</label>
+          </div>
+        </section>
+
+        <section class="panel panel-restrictions">
+          <h2>Restrictions</h2>
+          <div class="grid mixed">
+            <label class="field">
+              <span>Périmètre naturel</span>
+              <select data-path="perimetreNaturel">
+                <option value="">Non relu</option>
+                <option value="illimitee">Navigation illimitée</option>
+                <option value="fluviale">Fluviale</option>
+                <option value="cotiere">Côtière</option>
+                <option value="hauturiere">Hauturière</option>
+              </select>
+            </label>
+            <label class="check"><input data-path="origineExotique" type="checkbox"> Exotique</label>
+            <label class="check"><input data-path="lestInverse" type="checkbox"> Lest inverse</label>
+            <label class="check"><input data-path="malusHauturier" type="checkbox"> Malus hauturier legacy</label>
+          </div>
+          <div class="grid compact">
+            <label class="field">
+              <span>Fluviale</span>
+              <select data-restriction="fluviale">
+                <option value="">Libre</option>
+                <option value="-1">Malus -1</option>
+                <option value="-2">Malus -2</option>
+                <option value="-3">Malus -3</option>
+                <option value="interdit">Interdite</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Côtière</span>
+              <select data-restriction="cotiere">
+                <option value="">Libre</option>
+                <option value="-1">Malus -1</option>
+                <option value="-2">Malus -2</option>
+                <option value="-3">Malus -3</option>
+                <option value="interdit">Interdite</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Hauturière</span>
+              <select data-restriction="hauturiere">
+                <option value="">Libre</option>
+                <option value="-1">Malus -1</option>
+                <option value="-2">Malus -2</option>
+                <option value="-3">Malus -3</option>
+                <option value="interdit">Interdite</option>
+              </select>
+            </label>
+          </div>
+          <label class="field">
+            <span>Région / usage</span>
+            <input data-list-path="regionRestriction" placeholder="cotiere, fluviale, riviere">
+          </label>
+        </section>
+
+        <section class="panel notes-panel">
+          <h2>Notes</h2>
+          <textarea data-path="notes" rows="5"></textarea>
+        </section>
+      </form>
+    </section>
+
+    <aside class="shipyard-output">
+      <section class="panel diagnostics-panel">
+        <h2>Diagnostics</h2>
+        <div id="diagnostics" class="diagnostics"></div>
+      </section>
+      <section class="panel export-panel">
+        <div class="panel-heading">
+          <h2>Export</h2>
+          <button id="btn-toggle-export" type="button" aria-expanded="false">Afficher export</button>
+        </div>
+        <pre id="ship-export" hidden></pre>
+      </section>
+    </aside>
+  </main>
+
+  <script src="../js/ships-data.js"></script>
+  <script src="chantier-naval.js"></script>
+</body>
+
+</html>

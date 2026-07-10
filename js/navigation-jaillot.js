@@ -59,6 +59,10 @@
     equipage: null,
   };
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Socle géométrique et conversions
+  // ═══════════════════════════════════════════════════════════════════════════
+
   function pointCle(point) {
     return `${Math.round(point.x)},${Math.round(point.y)}`;
   }
@@ -169,6 +173,10 @@
     return !Number.isFinite(a?.gx) || !Number.isFinite(a?.gy)
       || !Number.isFinite(b?.gx) || !Number.isFinite(b?.gy);
   }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Physique de navigation : vent, courant, allure et temps de segment
+  // ═══════════════════════════════════════════════════════════════════════════
 
   // Retourne true si un modificateur de routage de niveau donné est actif.
   // En mode MJ sans test : toujours true. En mode joueur/test : niveauNavigation >= niveau requis.
@@ -432,6 +440,10 @@
     }
     return dedans;
   }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Zones maritimes, oceanBounds et types fluvial/côtier/hauturier
+  // ═══════════════════════════════════════════════════════════════════════════
 
   function pointDansAnneauSea(point, ring) {
     let dedans = false;
@@ -762,6 +774,10 @@
     return navire?.malusHauturier ? 'Malus en haute mer' : 'Aucune';
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Sources environnementales : courant OSCAR, vent dominant et déventement
+  // ═══════════════════════════════════════════════════════════════════════════
+
   function directionVersVecteur(direction, force = 1) {
     const index = DIRECTIONS_COURANT.indexOf(direction);
     if (index < 0) return null;
@@ -942,6 +958,10 @@
     courantPointCache.set(cacheKey, resultat);
     return resultat;
   }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Modèle navire et fiche navire
+  // ═══════════════════════════════════════════════════════════════════════════
 
   function navireActif() {
     if (typeof CARTE_NAVIRE === 'undefined')
@@ -2002,6 +2022,10 @@
     });
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Index spatiaux, terres, hauts-fonds et distance à la côte
+  // ═══════════════════════════════════════════════════════════════════════════
+
   function bboxCroise(a, b, bbox, marge) {
     const minX = Math.min(a.x, b.x) - marge;
     const maxX = Math.max(a.x, b.x) + marge;
@@ -2380,6 +2404,10 @@
     distanceCoteCache.set(cacheKey, meilleure);
     return meilleure;
   }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Pathfinding et calcul de route
+  // ═══════════════════════════════════════════════════════════════════════════
 
   function getGrille() {
     if (grilleCache) return grilleCache;
@@ -2989,6 +3017,10 @@
     return candidats.slice(0, 5);
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Ports, recherche et formatage public
+  // ═══════════════════════════════════════════════════════════════════════════
+
   function portsDisponibles() {
     if (typeof VILLES === 'undefined') return [];
     const annee = typeof anneeActive !== 'undefined'
@@ -3179,6 +3211,10 @@
     ]).addTo(carte);
     routeLayer.eachLayer(layer => layer.bringToFront?.());
   }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Panneau calculateur et outils MJ
+  // ═══════════════════════════════════════════════════════════════════════════
 
   function pointRoutePort(port) {
     const coords = coordsValides(port.rade) ? port.rade : port.coords;
@@ -3552,7 +3588,9 @@
     });
   }
 
-  // ── Modale Options avancées ──────────────────────────────────────────────
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Modale Options avancées et itinéraires multi-étapes
+  // ═══════════════════════════════════════════════════════════════════════════
 
   // Lettres assignées aux étapes dans l'ordre
   const LETTRES = 'ABCDEFGHIJ';
@@ -4145,6 +4183,10 @@
       majBoutonsNavire();
     });
   }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // API publique et inspection Zone Editor
+  // ═══════════════════════════════════════════════════════════════════════════
 
   function inspecterPointNavigation(point) {
     const p = { x: Number(point?.x), y: Number(point?.y) };

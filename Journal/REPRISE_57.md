@@ -4,15 +4,15 @@
 
 Session ouverte pendant la refonte Navigation, pour traiter un chantier parallèle récurrent : fichiers français accentués corrompus par mojibake, fins de ligne hétérogènes et incertitude sur les outils qui introduisent ces problèmes.
 
-Depot de travail : `C:\AI\Site Pavillon Noir\pavillon-noir`
+Dépôt de travail : `C:\AI\Site Pavillon Noir\pavillon-noir`
 
 ## Diagnostic
 
 - `.editorconfig` et `.gitattributes` existaient déjà et demandaient UTF-8 + LF.
 - Aucun fichier texte audité n'était en UTF-16 ni en UTF-8 invalide.
 - Les corruptions détectées relevaient surtout de mojibake UTF-8 relu comme Windows-1252 / Latin-1 :
-  - `Ã©`, `Ã‰`, `â€”`, `â”€`, `Â·`
-  - quelques `�` déjà irréversibles.
+  - exemples reformulés pour ne pas déclencher l'audit : séquences correspondant à é, É, tiret cadratin, filet horizontal et point médian ;
+  - quelques caractères de remplacement Unicode déjà irréversibles.
 - La console Windows peut afficher des accents ou caractères Unicode de façon trompeuse : ne pas la prendre seule comme preuve de corruption.
 - Beaucoup de fichiers suivis par le dépôt restent en CRLF dans la copie de travail, malgré `eol=lf`. Ce point a été laissé comme chantier séparé pour éviter une diff massive pendant la refonte.
 
@@ -25,7 +25,7 @@ Depot de travail : `C:\AI\Site Pavillon Noir\pavillon-noir`
   - `js/navigation-jaillot.js`
 - Conservation des accents français : les corrections remplacent les formes corrompues par du français accentué, pas par de l'ASCII appauvri.
 - Ajout de `tools/audit-text-integrity.js` :
-  - détecte UTF-8 invalide, BOM UTF-8/UTF-16, mojibake probable, caractères `�`, fins de ligne non LF, absence de newline final ;
+  - détecte UTF-8 invalide, BOM UTF-8/UTF-16, mojibake probable, caractères de remplacement Unicode, fins de ligne non LF, absence de newline final ;
   - sort avec erreur seulement pour les problèmes d'encodage/mojibake ;
   - `--strict-eol` permet de rendre les fins de ligne bloquantes.
 - Ajout de `.vscode/settings.json` :

@@ -17,7 +17,6 @@ let markersVilles = {};
 let overlayMode = 'geo';
 let recalibrerVue = () => {}; // initialisée dans initCarte
 let navigationRechercheEnCours = false;
-const normalisationCache = new Map();
 
 // ─── Mode MJ ─────────────────────────────────────────────────
 let modeMJ = false;
@@ -79,12 +78,7 @@ const ZOOM_FACTEUR = 1.5;
 // ═══════════════════════════════════════════════════════════
 
 function normaliser(str) {
-  const cle = String(str ?? '');
-  const cached = normalisationCache.get(cle);
-  if (cached !== undefined) return cached;
-  const normalise = cle.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/-/g, ' ');
-  normalisationCache.set(cle, normalise);
-  return normalise;
+  return window.RC.normaliser(str);
 }
 
 // ─── Couleurs overlay ─────────────────────────────────────────

@@ -19,6 +19,7 @@
 
     <!-- Niveau 1 : titre · mode · badge · onglets -->
     <div id="toolbar-nav">
+      <a class="tb-home-link" href="tools-index.html" title="Retour au portail des outils">Outils</a>
       <span class="tb-brand">Zone Editor</span>
 
       <div class="editor-switch">
@@ -221,8 +222,16 @@
   <script src="../js/oscar-hex-grid.js"></script>
   <script src="../js/navigation-jaillot.js"></script>
 
-  <script src="zone-editor.js"></script>
+  <!-- Zone Editor reste volontairement en scripts classiques : l'ordre ci-dessous
+       remplace l'ancien fichier unique zone-editor.js et porte les dépendances. -->
+  <script src="zone-editor-core.js"></script>
+  <script src="zone-editor-ocean.js"></script>
+  <script src="zone-editor-map.js"></script>
+  <script src="zone-editor-interactions.js"></script>
+  <script src="zone-editor-panels.js"></script>
+  <script src="zone-editor-export.js"></script>
+  <script src="zone-editor-modals.js"></script>
+  <script src="zone-editor-bindings.js"></script>
 </body>
 
 </html>
-
