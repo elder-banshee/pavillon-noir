@@ -114,6 +114,7 @@ const SHIPS_DATA = [
     navigation: {
       vitesse_naive: 3.54,
       pres: 3.5, largue: 9.5, grand_largue: 7, vent_arriere: 4,
+
       avirons: null,
     },
     tonnage:  { total: 55, utile: 45, fourchette: false },
@@ -330,7 +331,7 @@ const SHIPS_DATA = [
     notes: 'Méditerranée et Indes orientales.',
   },
 
-  {
+{
     id: 'flibot_petit',
     nom: 'Flibot (petit)',
     categorieTaille: 2,
@@ -340,13 +341,14 @@ const SHIPS_DATA = [
     navigation: {
       vitesse_naive: 3.5,
       pres: 3, largue: 8.5, grand_largue: 7.5, vent_arriere: 4.5,
-      avirons: 1.5,
+      avirons: 1.5
     },
-    tonnage:  { total: 80, utile: 70, fourchette: false },
+    tonnage: { total: 80, utile: 70, fourchette: false },
     equipage: { max: 60, min: 8, standard: 8, fourchette: false },
     niveauNav: 1,
     regionRestriction: [],
-    notes: 'Cabotage et rivière. Malus en navigation hauturière.',
+    restrictionNav: { hauturiere: -1 },
+    perimetreNaturel: 'fluviale'
   },
 
   {
