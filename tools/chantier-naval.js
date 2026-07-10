@@ -1,40 +1,39 @@
-/* global SHIPS_DATA, SHIP_CATEGORIES */
+/* global SHIPS_DATA */
 'use strict';
 
 const shipsOriginal = Array.isArray(window.SHIPS_DATA)
   ? window.SHIPS_DATA
   : (typeof SHIPS_DATA !== 'undefined' && Array.isArray(SHIPS_DATA) ? SHIPS_DATA : []);
-const shipCategories = window.SHIP_CATEGORIES
-  || (typeof SHIP_CATEGORIES !== 'undefined' ? SHIP_CATEGORIES : {});
 const state = {
   ships: shipsOriginal.map(cloneShip),
   selectedId: shipsOriginal[0]?.id || '',
   draft: null,
   dirty: false,
+  showFieldErrors: false,
 };
+let diagnosticsExpanded = false;
 
 const form = document.getElementById('ship-form');
 const shipSelectEl = document.getElementById('ship-select');
-const countEl = document.getElementById('ship-count');
 const exportEl = document.getElementById('ship-export');
 const diagnosticsEl = document.getElementById('diagnostics');
+const diagnosticsToggleEl = document.getElementById('diagnostics-toggle');
+const diagnosticsSummaryEl = document.getElementById('diagnostics-summary');
 const dirtyEl = document.getElementById('dirty-state');
 const exportOverlayEl = document.getElementById('export-overlay');
+const issuesOverlayEl = document.getElementById('issues-overlay');
+const btnOpenExport = document.getElementById('btn-open-export');
 const extraOptionsToggle = document.getElementById('toggle-extra-options');
 const extraOptionsFields = document.getElementById('extra-options-fields');
 const deriveToggle = document.getElementById('toggle-derive');
 const deriveDraftField = document.getElementById('derive-draft-field');
 const deriveDraftInput = document.getElementById('field-tirant-derive');
+const avironsToggle = document.getElementById('toggle-avirons');
+const avironsInput = document.getElementById('field-avirons');
+const activeShipLabelEl = document.getElementById('active-ship-label');
 
 function cloneShip(ship) {
   return JSON.parse(JSON.stringify(ship ?? {}));
-}
-
-function normaliserTexte(value) {
-  return String(value ?? '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '');
 }
 
 function selectedShip() {
@@ -92,38 +91,10 @@ function setInputValue(input, value) {
 }
 
 function restrictionFromSelectValue(value) {
-  if (!value) return null;
+  if (!value || value === 'libre') return null;
   if (value === 'interdit') return 'interdit';
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
-}
-
-function refreshFilters() {
-  const category = document.getElementById('filter-category');
-  const nav = document.getElementById('filter-nav');
-  if (!category.dataset.ready) {
-    Object.entries(shipCategories).forEach(([value, label]) => {
-      category.insertAdjacentHTML('beforeend', `<option value="${value}">${label}</option>`);
-    });
-    for (let i = 0; i <= 5; i += 1) nav.insertAdjacentHTML('beforeend', `<option value="${i}">Nav ${i}</option>`);
-    category.dataset.ready = '1';
-  }
-}
-
-function filteredShips() {
-  const q = normaliserTexte(document.getElementById('ship-search').value);
-  const category = document.getElementById('filter-category').value;
-  const nav = document.getElementById('filter-nav').value;
-  return sortedShips(state.ships.filter(ship => {
-    if (q) return shipMatchesSearch(ship, q);
-    if (category && String(ship.categorieTaille) !== category) return false;
-    if (nav && String(ship.niveauNav) !== nav) return false;
-    return true;
-  }));
-}
-
-function shipMatchesSearch(ship, q) {
-  return normaliserTexte([ship.nom, ship.id, ship.notes, ship.designation, ship.type].filter(Boolean).join(' ')).includes(q);
 }
 
 function sortedShips(ships) {
@@ -135,24 +106,21 @@ function sortedShips(ships) {
   });
 }
 
+function shipLabel(ship) {
+  return `Cat. ${ship.categorieTaille ?? '?'} · ${ship.nom || ship.id} · Nav ${ship.niveauNav ?? '?'}`;
+}
+
 function renderList() {
-  const ships = filteredShips();
-  countEl.textContent = `${ships.length} navire${ships.length > 1 ? 's' : ''}`;
-  shipSelectEl.innerHTML = ships.length
-    ? ships.map(ship => `
-      <option value="${escapeHtml(ship.id)}">${escapeHtml(shipLabel(ship))}</option>
-    `).join('')
-    : '<option value="">Aucun navire</option>';
+  const ships = sortedShips(state.ships);
   if (ships.length && !ships.some(ship => ship.id === state.selectedId)) {
     state.selectedId = ships[0].id;
     renderForm();
   }
+  shipSelectEl.innerHTML = ships.length
+    ? ships.map(ship => `<option value="${escapeHtml(ship.id)}">${escapeHtml(shipLabel(ship))}</option>`).join('')
+    : '<option value="">Aucun navire</option>';
   shipSelectEl.value = state.selectedId;
   shipSelectEl.disabled = !ships.length;
-}
-
-function shipLabel(ship) {
-  return `Cat. ${ship.categorieTaille ?? '?'} · ${ship.nom || ship.id} · Nav ${ship.niveauNav ?? '?'}`;
 }
 
 function renderForm() {
@@ -163,29 +131,46 @@ function renderForm() {
     input.value = Array.isArray(values) ? values.join(', ') : '';
   });
   form.querySelectorAll('[data-restriction]').forEach(select => {
-    const value = state.draft.restrictionNav?.[select.dataset.restriction];
-    select.value = value === undefined ? '' : String(value);
+    const zone = select.dataset.restriction;
+    const value = state.draft.restrictionNav?.[zone];
+    if (value !== undefined) {
+      select.value = String(value);
+    } else if (state.draft.__isNew) {
+      select.value = state.draft.__reviewedZones?.[zone] ? 'libre' : '';
+    } else {
+      select.value = 'libre';
+    }
   });
   const draftValue = state.draft.tirantEau;
   deriveToggle.checked = !!(draftValue && typeof draftValue === 'object');
   deriveDraftInput.value = draftValue && typeof draftValue === 'object' ? draftValue.deriveLevee ?? '' : '';
   updateDeriveDraftField();
+  const hasAvirons = state.draft.navigation?.avirons !== undefined && state.draft.navigation?.avirons !== null;
+  avironsToggle.checked = hasAvirons;
+  avironsInput.disabled = !hasAvirons;
   setExtraOptionsOpen(!!(state.draft.designation || state.draft.type));
   state.dirty = false;
+  state.showFieldErrors = false;
+  diagnosticsExpanded = false;
   renderOutput();
 }
 
 function readFormIntoDraft() {
   const draft = state.draft || {};
-  form.querySelectorAll('[data-path]').forEach(input => setByPath(draft, input.dataset.path, inputValue(input)));
+  form.querySelectorAll('[data-path]:not(:disabled)').forEach(input => setByPath(draft, input.dataset.path, inputValue(input)));
   form.querySelectorAll('[data-list-path]').forEach(input => {
     const values = input.value.split(',').map(part => part.trim()).filter(Boolean);
     setByPath(draft, input.dataset.listPath, values.length ? values : []);
   });
   const restrictions = {};
   form.querySelectorAll('[data-restriction]').forEach(select => {
+    const zone = select.dataset.restriction;
+    if (select.value !== '') {
+      draft.__reviewedZones = draft.__reviewedZones || {};
+      draft.__reviewedZones[zone] = true;
+    }
     const value = restrictionFromSelectValue(select.value);
-    if (value !== null) restrictions[select.dataset.restriction] = value;
+    if (value !== null) restrictions[zone] = value;
   });
   if (Object.keys(restrictions).length) draft.restrictionNav = restrictions;
   else delete draft.restrictionNav;
@@ -245,36 +230,135 @@ function activateTab(tabId) {
 }
 
 function validateShip(ship) {
-  const diagnostics = [];
+  const errors = [];
+  const warns = [];
+  const recommended = [];
+  const err = (selector, text) => errors.push({ selector, text });
+  const rec = (selector, text) => recommended.push({ selector, text });
+
   const ids = state.ships.filter(s => s.id !== state.selectedId).map(s => s.id);
-  if (!ship.id) diagnostics.push(['error', 'Identifiant manquant.']);
-  if (ids.includes(ship.id)) diagnostics.push(['error', `Identifiant déjà utilisé : ${ship.id}.`]);
-  if (!ship.nom) diagnostics.push(['error', 'Nom manquant.']);
-  if (!Number.isFinite(Number(ship.categorieTaille))) diagnostics.push(['error', 'Catégorie de taille manquante ou invalide.']);
-  if (!Number.isFinite(Number(ship.niveauNav))) diagnostics.push(['error', 'Niveau Navigation manquant ou invalide.']);
-  if (!Number.isFinite(Number(ship.manoeuvrabilite))) diagnostics.push(['error', 'Manœuvrabilité manquante ou invalide.']);
+  if (!ship.id) err('[data-path="id"]', 'Identifiant manquant.');
+  if (ids.includes(ship.id)) err('[data-path="id"]', `Identifiant déjà utilisé : ${ship.id}.`);
+  if (ship.id === 'nouveau_navire') err('[data-path="id"]', 'Identifiant à personnaliser (encore la valeur par défaut).');
+  if (!ship.nom) err('[data-path="nom"]', 'Nom manquant.');
+  if (ship.nom === 'Nouveau navire') err('[data-path="nom"]', 'Nom à personnaliser (encore la valeur par défaut).');
+  if (!Number.isFinite(Number(ship.categorieTaille))) err('[data-path="categorieTaille"]', 'Catégorie de taille manquante ou invalide.');
+  if (!Number.isFinite(Number(ship.niveauNav))) err('[data-path="niveauNav"]', 'Niveau Navigation manquant ou invalide.');
+  if (!Number.isFinite(Number(ship.manoeuvrabilite))) err('[data-path="manoeuvrabilite"]', 'Manœuvrabilité manquante ou invalide.');
+
+  const tirantEauObj = ship.tirantEau && typeof ship.tirantEau === 'object';
+  const tirantStandard = tirantEauObj ? ship.tirantEau.standard : ship.tirantEau;
+  if (!Number.isFinite(Number(tirantStandard))) err('#field-tirant', "Tirant d'eau manquant ou invalide.");
+  if (tirantEauObj) {
+    const derive = Number(ship.tirantEau.deriveLevee);
+    if (!Number.isFinite(derive)) {
+      err('#field-tirant-derive', "Tirant d'eau (dérive relevée) manquant ou invalide.");
+    } else if (Number.isFinite(Number(tirantStandard)) && derive >= Number(tirantStandard)) {
+      err('#field-tirant-derive', "Tirant d'eau (dérive relevée) doit être strictement inférieur au tirant d'eau standard.");
+    }
+  }
+
+  if (!ship.greement) err('[data-path="greement"]', 'Gréement non défini.');
+
   ['vitesse_naive', 'pres', 'largue', 'grand_largue', 'vent_arriere'].forEach(key => {
-    if (ship.navigation?.[key] === undefined || ship.navigation?.[key] === null) diagnostics.push(['error', `Vitesse manquante : ${key}.`]);
+    if (ship.navigation?.[key] === undefined || ship.navigation?.[key] === null) {
+      err(`[data-path="navigation.${key}"]`, `Vitesse manquante : ${key}.`);
+    }
   });
-  if (!Number.isFinite(Number(ship.tonnage?.total)) || !Number.isFinite(Number(ship.tonnage?.utile))) diagnostics.push(['error', 'Tonnage total/utile incomplet.']);
-  if (!Number.isFinite(Number(ship.equipage?.max)) || !Number.isFinite(Number(ship.equipage?.min))) diagnostics.push(['error', 'Équipage max/min incomplet.']);
-  if (!ship.perimetreNaturel) diagnostics.push(['warn', 'Périmètre naturel non relu : affichage en navigation illimitée par défaut.']);
-  if (!diagnostics.length) diagnostics.push(['ok', 'Fiche cohérente pour les champs contrôlés.']);
-  return diagnostics;
+  if (!Number.isFinite(Number(ship.tonnage?.total))) err('[data-path="tonnage.total"]', 'Tonnage total manquant ou invalide.');
+  if (!Number.isFinite(Number(ship.tonnage?.utile))) err('[data-path="tonnage.utile"]', 'Tonnage utile manquant ou invalide.');
+  if (!Number.isFinite(Number(ship.equipage?.max))) err('[data-path="equipage.max"]', 'Équipage max manquant ou invalide.');
+  if (!Number.isFinite(Number(ship.equipage?.min))) err('[data-path="equipage.min"]', 'Équipage min manquant ou invalide.');
+  if (!Number.isFinite(Number(ship.equipage?.standard))) err('[data-path="equipage.standard"]', 'Équipage standard manquant ou invalide.');
+  if (!ship.perimetreNaturel) err('[data-path="perimetreNaturel"]', 'Périmètre naturel non défini.');
+  if (ship.__isNew) {
+    ['fluviale', 'cotiere', 'hauturiere'].forEach(zone => {
+      const hasValue = ship.restrictionNav?.[zone] !== undefined;
+      const reviewed = hasValue || !!ship.__reviewedZones?.[zone];
+      if (!reviewed) err(`[data-restriction="${zone}"]`, `Restriction ${zone} non définie par l'utilisateur.`);
+    });
+  }
+  if (ship.dimensions?.horsTout === undefined || ship.dimensions?.horsTout === null) rec('[data-path="dimensions.horsTout"]', 'Hors-tout non renseigné.');
+  if (ship.dimensions?.immergee === undefined || ship.dimensions?.immergee === null) rec('[data-path="dimensions.immergee"]', 'Immergée non renseignée.');
+  return { errors, warns, recommended };
+}
+
+function renderDiagnostics(validation) {
+  const { errors, warns, recommended } = validation;
+  const parts = [];
+  if (errors.length) parts.push(`${errors.length} erreur${errors.length > 1 ? 's' : ''}`);
+  if (warns.length) parts.push(`${warns.length} avertissement${warns.length > 1 ? 's' : ''}`);
+  if (recommended.length) parts.push(`${recommended.length} recommandation${recommended.length > 1 ? 's' : ''}`);
+  diagnosticsSummaryEl.textContent = parts.length ? parts.join(' · ') : 'Fiche cohérente';
+
+  diagnosticsToggleEl.classList.toggle('has-error', !!errors.length);
+  diagnosticsToggleEl.classList.toggle('has-warn', !errors.length && !!(warns.length || recommended.length));
+  diagnosticsToggleEl.classList.toggle('ok', !errors.length && !warns.length && !recommended.length);
+
+  diagnosticsToggleEl.setAttribute('aria-expanded', String(diagnosticsExpanded));
+  diagnosticsEl.hidden = !diagnosticsExpanded;
+
+  const rows = [
+    ...errors.map(({ text }) => ['error', text]),
+    ...warns.map(({ text }) => ['warn', text]),
+    ...recommended.map(({ text }) => ['recommended', text]),
+  ];
+  diagnosticsEl.innerHTML = rows.length
+    ? rows.map(([type, text]) => `<div class="diagnostic ${type}">${escapeHtml(text)}</div>`).join('')
+    : '<div class="diagnostic ok">Fiche cohérente pour les champs contrôlés.</div>';
+}
+
+function clearFieldHighlights() {
+  form.querySelectorAll('.field-invalid').forEach(el => el.classList.remove('field-invalid'));
+  document.querySelectorAll('.ship-tab.has-error').forEach(tab => tab.classList.remove('has-error'));
+}
+
+function highlightInvalidFields(errors) {
+  clearFieldHighlights();
+  const invalidTabs = new Set();
+  errors.forEach(({ selector }) => {
+    if (!selector) return;
+    document.querySelectorAll(selector).forEach(el => {
+      el.classList.add('field-invalid');
+      const pane = el.closest('[data-tab-panel]');
+      if (pane) invalidTabs.add(pane.dataset.tabPanel);
+    });
+  });
+  document.querySelectorAll('.ship-tab').forEach(tab => {
+    tab.classList.toggle('has-error', invalidTabs.has(tab.dataset.tab));
+  });
+}
+
+function renderActiveShipLabel(validation) {
+  if (!activeShipLabelEl) return;
+  const ship = state.draft || selectedShip() || {};
+  const nom = ship.nom || '(sans nom)';
+  const cat = ship.categorieTaille ?? '?';
+  const nav = ship.niveauNav ?? '?';
+  activeShipLabelEl.textContent = `${nom} (Cat ${cat} - Nav ${nav})`;
+  activeShipLabelEl.classList.toggle('dirty', state.dirty);
+  activeShipLabelEl.classList.toggle('has-error', !!validation.errors.length);
+  activeShipLabelEl.classList.toggle('has-warn', !validation.errors.length && !!(validation.warns.length || validation.recommended.length));
+  activeShipLabelEl.classList.toggle('ok', !validation.errors.length && !validation.warns.length && !validation.recommended.length);
 }
 
 function renderOutput() {
   const ship = state.draft || cloneShip(selectedShip());
   dirtyEl.textContent = state.dirty ? 'Modifié' : 'En session';
-  const diagnostics = validateShip(ship);
-  diagnosticsEl.innerHTML = diagnostics.map(([type, text]) =>
-    `<div class="diagnostic ${type}">${escapeHtml(text)}</div>`
-  ).join('');
+  const validation = validateShip(ship);
+  renderDiagnostics(validation);
+  renderActiveShipLabel(validation);
+  if (state.showFieldErrors) highlightInvalidFields(validation.errors);
+  else clearFieldHighlights();
   exportEl.textContent = formatShipObject(ship);
+  btnOpenExport.disabled = state.dirty;
 }
 
 function formatShipObject(ship) {
-  return stringifyJs(ship, 1) + ',';
+  const exportShip = cloneShip(ship);
+  delete exportShip.__isNew;
+  delete exportShip.__reviewedZones;
+  return stringifyJs(exportShip, 1) + ',';
 }
 
 function stringifyJs(value, level = 0) {
@@ -294,9 +378,9 @@ function duplicateShip() {
   const copy = cloneShip(source);
   copy.id = `${copy.id || 'navire'}_copie`;
   copy.nom = `${copy.nom || 'Nouveau navire'} (copie)`;
+  copy.__isNew = true;
   state.ships.push(copy);
   state.selectedId = copy.id;
-  document.getElementById('ship-search').value = '';
   renderList();
   renderForm();
   state.dirty = true;
@@ -305,11 +389,13 @@ function duplicateShip() {
 
 function applyDraftToSession() {
   const ship = cleanupShip(state.draft || selectedShip());
-  const hasBlockingError = validateShip(ship).some(([type]) => type === 'error');
+  const validation = validateShip(ship);
   state.draft = ship;
-  if (hasBlockingError) {
+  if (validation.errors.length) {
     state.dirty = true;
+    state.showFieldErrors = true;
     renderOutput();
+    openIssuesModal(validation);
     return;
   }
   const index = state.ships.findIndex(item => item.id === state.selectedId);
@@ -318,28 +404,42 @@ function applyDraftToSession() {
   state.selectedId = ship.id;
   state.draft = cloneShip(ship);
   state.dirty = false;
+  state.showFieldErrors = false;
   renderList();
   renderOutput();
 }
 
+function openIssuesModal(validation) {
+  const body = document.getElementById('issues-body');
+  const groups = [];
+  if (validation.errors.length) {
+    groups.push(`<div class="issues-group required"><h3>Champs requis manquants</h3><ul>${validation.errors.map(({ text }) => `<li>${escapeHtml(text)}</li>`).join('')}</ul></div>`);
+  }
+  if (validation.recommended.length) {
+    groups.push(`<div class="issues-group recommended"><h3>Champs recommandés vides</h3><ul>${validation.recommended.map(({ text }) => `<li>${escapeHtml(text)}</li>`).join('')}</ul></div>`);
+  }
+  body.innerHTML = groups.join('');
+  issuesOverlayEl.hidden = false;
+}
+
 function newShip() {
+  // Aucune valeur numérique par défaut : categorieTaille, niveauNav,
+  // manoeuvrabilite, tirantEau, vitesses, tonnage et équipage doivent
+  // rester absents pour que validateShip() les signale comme manquants.
+  // Seuls les conteneurs vides sont fournis pour que le formulaire
+  // n'échoue pas en lisant navigation.*/tonnage.*/equipage.*.
   const ship = {
     id: 'nouveau_navire',
     nom: 'Nouveau navire',
-    categorieTaille: 1,
-    tirantEau: 1,
-    greement: 'mixte',
-    manoeuvrabilite: 0,
-    navigation: { vitesse_naive: 0, pres: 0, largue: 0, grand_largue: 0, vent_arriere: 0, avirons: null },
-    tonnage: { total: 0, utile: 0, fourchette: false },
-    equipage: { max: 0, min: 0, standard: 0, fourchette: false },
-    niveauNav: 1,
+    navigation: {},
+    tonnage: {},
+    equipage: {},
     regionRestriction: [],
     notes: '',
+    __isNew: true,
   };
   state.ships.push(ship);
   state.selectedId = ship.id;
-  document.getElementById('ship-search').value = '';
   renderList();
   renderForm();
   state.dirty = true;
@@ -354,8 +454,12 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;');
 }
 
+function closeModals() {
+  exportOverlayEl.hidden = true;
+  issuesOverlayEl.hidden = true;
+}
+
 function init() {
-  refreshFilters();
   renderList();
   renderForm();
 
@@ -365,17 +469,23 @@ function init() {
     renderList();
     renderForm();
   });
-  document.getElementById('ship-search').addEventListener('input', renderList);
-  document.getElementById('filter-category').addEventListener('change', renderList);
-  document.getElementById('filter-nav').addEventListener('change', renderList);
   extraOptionsToggle.addEventListener('change', () => setExtraOptionsOpen(extraOptionsToggle.checked));
   deriveToggle.addEventListener('change', () => {
     updateDeriveDraftField();
     readFormIntoDraft();
   });
   deriveDraftInput.addEventListener('input', readFormIntoDraft);
+  avironsToggle.addEventListener('change', () => {
+    avironsInput.disabled = !avironsToggle.checked;
+    if (!avironsToggle.checked) avironsInput.value = '';
+    readFormIntoDraft();
+  });
   document.querySelectorAll('.ship-tab').forEach(tab => {
     tab.addEventListener('click', () => activateTab(tab.dataset.tab));
+  });
+  diagnosticsToggleEl.addEventListener('click', () => {
+    diagnosticsExpanded = !diagnosticsExpanded;
+    renderOutput();
   });
   form.addEventListener('input', readFormIntoDraft);
   form.addEventListener('change', readFormIntoDraft);
@@ -389,11 +499,17 @@ function init() {
   document.getElementById('btn-close-export').addEventListener('click', () => {
     exportOverlayEl.hidden = true;
   });
+  document.getElementById('btn-close-issues').addEventListener('click', () => {
+    issuesOverlayEl.hidden = true;
+  });
   exportOverlayEl.addEventListener('click', event => {
     if (event.target === exportOverlayEl) exportOverlayEl.hidden = true;
   });
+  issuesOverlayEl.addEventListener('click', event => {
+    if (event.target === issuesOverlayEl) issuesOverlayEl.hidden = true;
+  });
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') exportOverlayEl.hidden = true;
+    if (event.key === 'Escape') closeModals();
   });
   document.getElementById('btn-copy-export').addEventListener('click', () => {
     navigator.clipboard?.writeText(exportEl.textContent);

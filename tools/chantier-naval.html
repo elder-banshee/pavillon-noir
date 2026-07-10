@@ -19,53 +19,41 @@
       <h1>Chantier naval</h1>
     </div>
     <div class="shipyard-actions">
-      <button id="btn-apply" type="button">Appliquer</button>
-      <button id="btn-duplicate" type="button">Dupliquer</button>
-      <button id="btn-new" type="button">Nouveau</button>
-      <button id="btn-open-export" type="button">Export</button>
+      <div class="action-group">
+        <button id="btn-new" type="button">Nouveau</button>
+        <button id="btn-duplicate" type="button">Dupliquer</button>
+      </div>
+      <div class="action-group">
+        <button id="btn-open-export" type="button" disabled>Export</button>
+        <button id="btn-apply" type="button" class="btn-primary">Appliquer</button>
+      </div>
     </div>
   </header>
 
   <main class="shipyard-shell">
     <aside class="shipyard-sidebar">
-      <label class="field search-field">
-        <span>Recherche</span>
-        <input id="ship-search" type="search" autocomplete="off" placeholder="Nom, id, note">
-      </label>
-      <div class="sidebar-filters">
-        <label class="field">
-          <span>Catégorie</span>
-          <select id="filter-category">
-            <option value="">Toutes</option>
-          </select>
-        </label>
-        <label class="field">
-          <span>Nav</span>
-          <select id="filter-nav">
-            <option value="">Tous</option>
-          </select>
-        </label>
-      </div>
-      <div id="ship-count" class="ship-count"></div>
       <label class="field">
         <span>Navire</span>
         <select id="ship-select" aria-label="Navire"></select>
       </label>
 
       <section class="diagnostics-panel">
-        <h2>Diagnostics</h2>
-        <div id="diagnostics" class="diagnostics"></div>
+        <button id="diagnostics-toggle" class="diagnostics-status" type="button" aria-expanded="false">
+          <span id="diagnostics-summary">Chargement…</span>
+        </button>
+        <div id="diagnostics" class="diagnostics" hidden></div>
       </section>
     </aside>
 
     <section class="shipyard-editor" aria-label="Fiche navire">
       <form id="ship-form" class="ship-form">
+        <section class="panel panel-active-ship">
+          <div id="active-ship-label" class="active-ship"></div>
+          <span id="dirty-state" class="dirty-state">En session</span>
+        </section>
+
         <section class="panel panel-main panel-identity">
-          <div class="panel-heading">
-            <h2>Identité</h2>
-            <span id="dirty-state">En session</span>
-          </div>
-          <div class="grid two">
+          <div class="grid identity-row">
             <label class="field">
               <span>Identifiant</span>
               <input id="field-id" data-path="id" required>
@@ -74,7 +62,7 @@
               <span>Nom</span>
               <input id="field-nom" data-path="nom" required>
             </label>
-            <label class="check extra-options-toggle">
+            <label class="check">
               <input id="toggle-extra-options" type="checkbox"> Options supplémentaires
             </label>
           </div>
@@ -122,12 +110,17 @@
                   <option value="mixte">Mixte</option>
                 </select>
               </label>
-              <label class="field"><span>Naïve</span><input data-path="navigation.vitesse_naive" type="number" step="0.01"></label>
+              <label class="field"><span>Moyenne milles/jours</span><input data-path="navigation.vitesse_naive" type="number" step="0.01"></label>
+              <label class="check avirons-check" title="Navire à avirons">
+                <input id="toggle-avirons" type="checkbox" aria-label="Navire à avirons">
+              </label>
+              <label class="field"><span>Avirons</span><input id="field-avirons" data-path="navigation.avirons" type="number" step="0.01" disabled></label>
+            </div>
+            <div class="grid numeric">
               <label class="field"><span>Près</span><input data-path="navigation.pres" type="number" step="0.01"></label>
               <label class="field"><span>Largue</span><input data-path="navigation.largue" type="number" step="0.01"></label>
               <label class="field"><span>Grand largue</span><input data-path="navigation.grand_largue" type="number" step="0.01"></label>
               <label class="field"><span>Vent arrière</span><input data-path="navigation.vent_arriere" type="number" step="0.01"></label>
-              <label class="field"><span>Avirons</span><input data-path="navigation.avirons" type="number" step="0.01"></label>
             </div>
           </div>
 
@@ -157,10 +150,10 @@
 
           <div class="tab-pane panel-restrictions" data-tab-panel="restrictions" role="tabpanel" hidden>
             <div class="grid compact">
-              <label class="field">
+              <label class="field field-wide">
                 <span>Périmètre naturel</span>
                 <select data-path="perimetreNaturel">
-                  <option value="">Non relu</option>
+                  <option value="" disabled hidden></option>
                   <option value="illimitee">Navigation illimitée</option>
                   <option value="fluviale">Fluviale</option>
                   <option value="cotiere">Côtière</option>
@@ -170,7 +163,8 @@
               <label class="field">
                 <span>Fluviale</span>
                 <select data-restriction="fluviale">
-                  <option value="">Libre</option>
+                  <option value="" disabled hidden></option>
+                  <option value="libre">Libre</option>
                   <option value="-1">Malus -1</option>
                   <option value="-2">Malus -2</option>
                   <option value="-3">Malus -3</option>
@@ -180,7 +174,8 @@
               <label class="field">
                 <span>Côtière</span>
                 <select data-restriction="cotiere">
-                  <option value="">Libre</option>
+                  <option value="" disabled hidden></option>
+                  <option value="libre">Libre</option>
                   <option value="-1">Malus -1</option>
                   <option value="-2">Malus -2</option>
                   <option value="-3">Malus -3</option>
@@ -190,7 +185,8 @@
               <label class="field">
                 <span>Hauturière</span>
                 <select data-restriction="hauturiere">
-                  <option value="">Libre</option>
+                  <option value="" disabled hidden></option>
+                  <option value="libre">Libre</option>
                   <option value="-1">Malus -1</option>
                   <option value="-2">Malus -2</option>
                   <option value="-3">Malus -3</option>
@@ -215,23 +211,35 @@
 
         <section class="panel notes-panel">
           <h2>Notes</h2>
-          <textarea data-path="notes" rows="5"></textarea>
+          <textarea data-path="notes" rows="3"></textarea>
         </section>
       </form>
     </section>
 
   </main>
 
-  <div id="export-overlay" class="export-overlay" hidden>
-    <section class="export-panel" role="dialog" aria-modal="true" aria-labelledby="export-title">
-      <div class="export-heading">
+  <div id="export-overlay" class="modal-overlay" hidden>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="export-title">
+      <div class="modal-heading">
         <h2 id="export-title">Export</h2>
-        <div class="export-actions">
+        <div class="modal-actions">
           <button id="btn-copy-export" type="button">Copier export</button>
           <button id="btn-close-export" type="button">Fermer</button>
         </div>
       </div>
       <pre id="ship-export"></pre>
+    </section>
+  </div>
+
+  <div id="issues-overlay" class="modal-overlay" hidden>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="issues-title">
+      <div class="modal-heading">
+        <h2 id="issues-title">Fiche incomplète</h2>
+        <div class="modal-actions">
+          <button id="btn-close-issues" type="button">Fermer</button>
+        </div>
+      </div>
+      <div id="issues-body" class="issues-body"></div>
     </section>
   </div>
 
