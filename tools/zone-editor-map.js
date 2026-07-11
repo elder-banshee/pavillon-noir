@@ -62,6 +62,22 @@
       map.on('mousedown', onMapMouseDown);
       map.on('mouseup', onMapMouseUp);
       map.on('mouseup', onDragEnd);      // relâchement drag poignées
+
+      // Tactile : Leaflet ne traduit touchstart/touchmove/touchend en
+      // mousedown/mousemove/mouseup ni pour l'interactivité des calques ni
+      // pour les événements globaux de la carte — seul le tap (touchstart+
+      // touchend sans mouvement) est traduit en 'click'. Sans ce
+      // raccordement dédié, un doigt posé sur une poignée ne déclenche
+      // jamais startDrag() : le geste est alors récupéré tel quel par le
+      // panoramique interne de la carte (confirmé en reproduisant avec des
+      // événements tactiles bruts, pas supposé). touchstart→startDrag est
+      // câblé poignée par poignée dans renderPointHandlesForRing ; move/end
+      // sont globaux ici, symétriques à mousemove/mouseup, et réutilisent
+      // onDragMove/onDragEnd tels quels via un pseudo-événement {latlng}.
+      // { passive: false } : nécessaire pour pouvoir appeler preventDefault
+      // (sinon le navigateur scrolle/panote pendant le drag).
+      document.addEventListener('touchmove', onTouchDragMove, { passive: false });
+      document.addEventListener('touchend', onTouchDragEnd);
       map.on('zoomend', () => {
         if (ctx.isSemaphore || ctx.isOcean) {
           renderSeaCells();
@@ -234,7 +250,12 @@
       }
       zoneLayers = {};
 
+      // Onglet dédié, pas de fusion : sur Ocean Bounds on n'affiche que les
+      // deux entités oceanBounds (sinon leur contour extérieur double le
+      // tracé des juridictions/hauts-fonds le long de la côte) ; partout
+      // ailleurs, l'inverse — oceanBounds ne s'affiche que sur son onglet.
       for (const id in zonesEdit) {
+        if (isOceanBoundsId(id) !== ctx.isTopoOceanBounds) continue;
         renderZone(id);
       }
     }
@@ -424,6 +445,16 @@
           handlers.click?.(this, ptIdx, e);
         });
         circle.addTo(map);
+        // Tactile : voir le commentaire sur onTouchDragMove/onTouchDragEnd —
+        // touchstart n'est pas traduit en 'mousedown' par Leaflet pour un
+        // calque, câblage direct sur l'élément DOM nécessaire.
+        const el = circle.getElement();
+        if (el) {
+          L.DomEvent.on(el, 'touchstart', function (e) {
+            e.preventDefault();
+            handlers.mousedown?.(circle, ptIdx, e);
+          });
+        }
         targetLayers.push(circle);
       });
     }
@@ -523,6 +554,37 @@
         draggingHandle = null;
         return;
       }
+    }
+
+    // ─── Drag & Drop d'un point — tactile ──────────────────────────
+    // Convertit le point de contact en {latlng} et délègue à onDragMove/
+    // onDragEnd : même logique que la souris, seule l'extraction des
+    // coordonnées de l'événement diffère (touches[]/changedTouches[] au
+    // lieu de clientX/clientY directs sur l'événement).
+    function touchEventToLatLng(touch) {
+      return map.mouseEventToLatLng({ clientX: touch.clientX, clientY: touch.clientY });
+    }
+
+    function onTouchDragMove(e) {
+      if (!draggingHandle) return;
+      e.preventDefault();
+      const touch = e.touches[0];
+      if (!touch) return;
+      onDragMove({ latlng: touchEventToLatLng(touch) });
+    }
+
+    function onTouchDragEnd(e) {
+      if (!draggingHandle) return;
+      e.preventDefault();
+      const touch = e.changedTouches[0];
+      if (!touch) {
+        // Filet de sécurité : pas de point de contact final rapporté,
+        // annuler proprement plutôt que bloquer draggingHandle indéfiniment.
+        map.dragging.enable();
+        draggingHandle = null;
+        return;
+      }
+      onDragEnd({ latlng: touchEventToLatLng(touch) });
     }
 
     function updatePolyLatLngs(zoneId, contourIdx) {
