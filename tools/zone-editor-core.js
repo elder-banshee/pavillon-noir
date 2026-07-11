@@ -157,6 +157,24 @@
       return !!(zonesWorkingCopy.SHOAL_META && zonesWorkingCopy.SHOAL_META[zoneId]);
     }
 
+    // oceanBounds (Atlantique/Pacifique) suit le même principe : géométrie
+    // dans zonesEdit, distinguée par isOceanBoundsId(zoneId). Contrairement
+    // aux hauts-fonds, chaque contour porte en plus un rôle explicite
+    // (zonesMeta[id][idx].role : 'exterior' | 'hole') posé au chargement —
+    // voir loadOceanBoundsWorkingCopy() dans zone-editor-map.js — pour que
+    // rendu et export sachent distinguer l'anneau extérieur des trous
+    // (îles) sans dépendre d'une convention d'index implicite.
+    function isOceanBoundsId(zoneId) {
+      return !!(zonesWorkingCopy.OCEAN_BOUNDS && zonesWorkingCopy.OCEAN_BOUNDS[zoneId]);
+    }
+
+    // Rôle d'un contour au sein d'une entité oceanBounds ('exterior' | 'hole'
+    // | null). Toujours null pour territoire/haut-fond (pas de notion de trou
+    // dans ce pipeline-là).
+    function contourRole(zoneId, contourIdx) {
+      return zonesMeta[zoneId]?.[contourIdx]?.role || null;
+    }
+
     function selectEntity(type, id, extra = {}) {
       if (type === 'zone') {
         const prevZone = selectedZoneId;
@@ -180,14 +198,17 @@
     // Initialisées au boot depuis les globales JS ; jamais rechargées au
     // changement de mode ou d'onglet.
 
-    // zones-data.js — source unique pour tout polygone (territoire ou haut-fond).
-    // Un polygone est un polygone : la géométrie vit dans DATA quel que soit son
-    // type. SHOAL_META distingue les ids haut-fonds pour les métadonnées
-    // (TOPOGRAPHIE — Info) et l'export (règles de visibilité différentes).
+    // zones-data.js — source unique pour tout polygone (territoire, haut-fond
+    // ou oceanBounds). Un polygone est un polygone : la géométrie vit dans
+    // DATA quel que soit son type. SHOAL_META distingue les ids haut-fonds
+    // pour les métadonnées (TOPOGRAPHIE — Info) et l'export (règles de
+    // visibilité différentes). OCEAN_BOUNDS distingue de la même façon les
+    // deux entités oceanBounds (Atlantique/Pacifique) — voir isOceanBoundsId.
     let zonesWorkingCopy = {
-      DATA: null,        // clone profond de ZONES_DATA  (géométrie, territoires + hauts-fonds)
-      DEMO: null,        // clone profond de ZONES_DEMO  (métadonnées démographie territoires)
-      SHOAL_META: null,  // clone profond de ZONES_SHOAL (métadonnées hauts-fonds)
+      DATA: null,          // clone profond de ZONES_DATA  (géométrie, territoires + hauts-fonds)
+      DEMO: null,          // clone profond de ZONES_DEMO  (métadonnées démographie territoires)
+      SHOAL_META: null,    // clone profond de ZONES_SHOAL (métadonnées hauts-fonds)
+      OCEAN_BOUNDS: null,  // clone profond de ZONES_OCEAN_BOUNDS (masque navigable Atlantique/Pacifique)
     };
 
     // Alias de commodité — zonesEdit pointe sur zonesWorkingCopy.DATA après init

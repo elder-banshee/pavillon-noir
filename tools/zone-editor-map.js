@@ -96,12 +96,53 @@
       zonesWorkingCopy.SHOAL_META = (typeof ZONES_SHOAL !== 'undefined')
         ? cloneJSON(ZONES_SHOAL) : {};
 
+      // zones-data.js — ZONES_OCEAN_BOUNDS (masque navigable Atlantique/
+      // Pacifique). Même pipeline zonesEdit/zonesMeta que territoires et
+      // hauts-fonds ("un polygone est un polygone"), mais chaque entité a un
+      // contour extérieur unique + une série de trous (îles) — voir
+      // loadOceanBoundsWorkingCopy() ci-dessous pour le détail du tag de rôle.
+      zonesWorkingCopy.OCEAN_BOUNDS = loadOceanBoundsWorkingCopy();
+
       // ─── Map couleur géopolitique par zone ───────────────────
       // Construite depuis JURIDICTIONS + PUISSANCES à l'année de référence.
       // Clé : zone id  Valeur : couleur hex de la puissance coloniale
       buildZoneCouleurMap();
 
       refresh(R.ZONES | R.TOOLS | R.EDITOR | R.UNDO);
+    }
+
+    // Charge ZONES_OCEAN_BOUNDS dans zonesEdit/zonesMeta comme deux entités
+    // supplémentaires ('ocean-bounds-atlantique', 'ocean-bounds-pacifique'),
+    // aux côtés des territoires et hauts-fonds déjà chargés. Le contour 0
+    // porte toujours le rôle explicite 'exterior' ; chaque trou suivant porte
+    // 'hole' — tag posé en dur dans zonesMeta plutôt que déduit d'une
+    // convention d'index, pour rester correct même si un split/réordonnancement
+    // vient un jour mélanger l'ordre des contours pendant l'édition (cf.
+    // discussion de session sur ce point précis). Le rendu en tant que masque
+    // à trous réel (au lieu de contours pleins superposés) et l'export dédié
+    // sont volontairement laissés à une étape ultérieure — ce chargement seul
+    // n'a aucun effet visible tant que rien ne lit ces ids dans l'UI.
+    function loadOceanBoundsWorkingCopy() {
+      const working = {};
+      if (typeof ZONES_OCEAN_BOUNDS === 'undefined') return working;
+      for (const id in ZONES_OCEAN_BOUNDS) {
+        const zone = ZONES_OCEAN_BOUNDS[id]?.zone;
+        const exterior = Array.isArray(zone?.exterior) ? zone.exterior : null;
+        if (!exterior || exterior.length < 3) continue;
+
+        zonesEdit[id] = [exterior.map(pt => [...pt])];
+        zonesMeta[id] = [{ role: 'exterior' }];
+
+        const holes = Array.isArray(zone.holes) ? zone.holes : [];
+        holes.forEach(hole => {
+          if (!Array.isArray(hole) || hole.length < 3) return;
+          zonesEdit[id].push(hole.map(pt => [...pt]));
+          zonesMeta[id].push({ role: 'hole' });
+        });
+
+        working[id] = zonesEdit[id]; // alias : même référence, comme zonesWorkingCopy.DATA
+      }
+      return working;
     }
 
     // ═══════════════════════════════════════════════════════════
