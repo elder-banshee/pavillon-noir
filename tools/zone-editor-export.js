@@ -60,6 +60,11 @@
       if (!box) return;
       const contours = zonesEdit[zoneId];
 
+      if (isOceanBoundsId(zoneId)) {
+        renderOceanBoundsExportBlocks(zoneId, contours, box);
+        return;
+      }
+
       // Ligne d'en-tête (non cliquable)
       let html = `<span class="contour-block" style="color:#6a8060;">${escapeHtml(formatZoneHeader(zoneId, contours))}</span>`;
 
@@ -74,6 +79,47 @@
       box.innerHTML = html;
 
       // Scroll vers le contour actif — différé pour que le DOM soit peint
+      requestAnimationFrame(() => {
+        const activeSpan = box.querySelector('.contour-block.active');
+        if (activeSpan) activeSpan.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      });
+    }
+
+    // oceanBounds ne suit pas le format plat des territoires : le rôle
+    // interne de chaque contour devient la structure { exterior, holes }
+    // attendue dans zones-data.js. Ainsi, le bouton Copier donne directement
+    // un bloc remplaçable, sans exposer { role, points }.
+    function renderOceanBoundsExportBlocks(zoneId, contours, box) {
+      const meta = zonesMeta[zoneId] || [];
+      const exteriorIdx = meta.findIndex(item => item?.role === 'exterior');
+      if (exteriorIdx < 0) {
+        box.textContent = 'Contour extérieur introuvable : copie impossible.';
+        return;
+      }
+
+      const formatRing = (contour, indent) => {
+        let out = '';
+        for (let i = 0; i < contour.length; i += 6) {
+          out += indent + contour.slice(i, i + 6).map(([x, y]) => `[${x}, ${y}]`).join(', ') + ',\n';
+        }
+        return out;
+      };
+      const contourSpan = (idx, prefix, suffix, indent) => {
+        const isActive = idx === selectedContourIdx;
+        return `${escapeHtml(prefix)}<span class="contour-block${isActive ? ' active' : ''}" data-contour="${idx}">${escapeHtml(formatRing(contours[idx], indent))}</span>${escapeHtml(suffix)}`;
+      };
+
+      let html = `<span class="contour-block" style="color:#6a8060;">${escapeHtml(`  '${zoneId}': {\n    zoneSource: 'svg',\n    zone: {\n      exterior: [\n`)}</span>`;
+      html += contourSpan(exteriorIdx, '', '      ],\n      holes: [\n', '        ');
+
+      meta.forEach((item, idx) => {
+        if (item?.role !== 'hole') return;
+        html += contourSpan(idx, '        [\n', '        ],\n', '          ');
+      });
+
+      html += `<span class="contour-block" style="color:#6a8060;">${escapeHtml('      ],\n    },\n  },')}</span>`;
+      box.innerHTML = html;
+
       requestAnimationFrame(() => {
         const activeSpan = box.querySelector('.contour-block.active');
         if (activeSpan) activeSpan.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -258,7 +304,6 @@
     function exportOceanBounds() {
       let out = '// ZONES_OCEAN_BOUNDS — emprise maritime globale (filet de sécurité calme)\n';
       out += '// Généré par Zone Editor — Pavillon Noir\n';
-      out += '// À coller dans js/zones-data.js, en remplacement du bloc ZONES_OCEAN_BOUNDS existant.\n';
       out += '// ═══════════════════════════════════════════════════════════\n\n';
       out += 'const ZONES_OCEAN_BOUNDS = {\n';
 
@@ -288,7 +333,6 @@
         out += `  },\n\n`;
       }
       out += '};\n';
-
       downloadBlob('zones-ocean-bounds.js', out);
     }
 

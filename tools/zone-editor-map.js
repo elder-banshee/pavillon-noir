@@ -395,6 +395,39 @@
 
       poly.addTo(map);
       zoneLayers[zoneId].push(poly);
+
+      // Le masque est rendu comme un unique polygone multi-anneaux : Leaflet
+      // sait alors creuser les îles, mais ne peut pas identifier l'anneau
+      // touché. Une ligne transparente élargie par contour rétablit ce clic
+      // précis sans altérer le rendu du masque.
+      contours.forEach((contour, contourIdx) => {
+        const hitArea = L.polyline(contourToLatLngs(contour), {
+          color: '#000',
+          opacity: 0.001,
+          weight: 14,
+          interactive: zonesInteractive,
+          bubblingMouseEvents: false,
+          className: 'ocean-bounds-contour-hit-area',
+        });
+        hitArea._zoneId = zoneId;
+        hitArea._contourIdx = contourIdx;
+        hitArea.on('click', function (e) {
+          if (!zonesInteractive) return;
+          L.DomEvent.stopPropagation(e);
+          selectZone(this._zoneId, this._contourIdx);
+        });
+        hitArea.on('mouseover', function () {
+          if (!zonesInteractive || draggingHandle) return;
+          const role = contourRole(this._zoneId, this._contourIdx);
+          const label = role === 'hole' ? 'trou' : 'contour extérieur';
+          this.bindTooltip(`${this._zoneId} — ${label} ${this._contourIdx + 1}/${contours.length}`, {
+            permanent: false, className: 'ed-tooltip', direction: 'top', sticky: true
+          }).openTooltip();
+        });
+        hitArea.on('mouseout', function () { this.unbindTooltip(); });
+        hitArea.addTo(map);
+        zoneLayers[zoneId].push(hitArea);
+      });
     }
 
     // ═══════════════════════════════════════════════════════════
