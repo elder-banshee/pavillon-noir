@@ -237,7 +237,7 @@
       }
       // Clic dans le vide — désélectionner selon le mode actif
       if (currentTool === 'select') {
-        if (ctx.isTopoGeo) {
+        if (ctx.isZoneEditTab) {
           clearSelection();
         } else if (ctx.isTopoInfo) {
           clearTopoInfoSelection();
@@ -302,14 +302,14 @@
       }
 
       // Mode insert : afficher les marqueurs de segments si zone sélectionnée
-      if (ctx.isTopoGeo && tool === 'insert' && selectedZoneId) {
+      if (ctx.isZoneEditTab && tool === 'insert' && selectedZoneId) {
         renderSegmentMarkers();
       } else {
         clearSegmentMarkers();
       }
 
       // Mode split : afficher les poignées de découpe
-      if (ctx.isTopoGeo && tool === 'split' && selectedZoneId) {
+      if (ctx.isZoneEditTab && tool === 'split' && selectedZoneId) {
         clearHandles();
         renderSplitHandles();
       } else if (tool !== 'split') {
@@ -317,7 +317,7 @@
       }
 
       // Rafraîchir les poignées si select/erase/insert (et pas split)
-      if (ctx.isTopoGeo && (tool === 'select' || tool === 'erase') && selectedZoneId) {
+      if (ctx.isZoneEditTab && (tool === 'select' || tool === 'erase') && selectedZoneId) {
         renderHandles();
       }
     }

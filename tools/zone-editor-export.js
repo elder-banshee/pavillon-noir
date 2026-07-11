@@ -9,7 +9,7 @@
       const box = document.getElementById('export-box');
       const hint = document.getElementById('export-hint');
 
-      if (!ctx.isTopoGeo) {
+      if (!ctx.isZoneEditTab) {
         box.textContent = '';
         hint.style.display = 'none';
         return;

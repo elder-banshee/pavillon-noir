@@ -340,7 +340,9 @@
     // export, pas à la construction géométrique elle-même.
     function renderOceanBoundsZone(zoneId) {
       const contours = zonesEdit[zoneId];
-      const zonesInteractive = ctx.isTopoGeo || ctx.isTopoInfo || ctx.isTopoOceanBounds;
+      // Onglet dédié, pas de fusion avec Géo/Info : oceanBounds n'est
+      // cliquable/survolable que sur l'onglet Ocean Bounds lui-même.
+      const zonesInteractive = ctx.isTopoOceanBounds;
       const isSelected = zoneId === selectedZoneId;
 
       const style = zoneStyle(zoneId, isSelected);
@@ -364,7 +366,7 @@
         this.unbindTooltip();
       });
       poly.on('click', function (e) {
-        if (!zonesInteractive || !ctx.isTopoOceanBounds) return;
+        if (!zonesInteractive) return;
         L.DomEvent.stopPropagation(e);
         const contourIdx = (this._zoneId === selectedZoneId) ? selectedContourIdx : 0;
         selectZone(this._zoneId, contourIdx);
@@ -654,7 +656,10 @@
       pushUndo('Ajouter contour');
       zonesEdit[selectedZoneId].push(drawPoints.map(p => [...p]));
       zonesMeta[selectedZoneId] ??= [];
-      zonesMeta[selectedZoneId].push(null);
+      // oceanBounds : un nouveau contour tracé est nécessairement un trou (île) —
+      // l'unique extérieur est déjà en place à l'index 0. Rôle posé en dur tout
+      // de suite, pas laissé null (voir contourRole()).
+      zonesMeta[selectedZoneId].push(isOceanBoundsId(selectedZoneId) ? { role: 'hole' } : null);
       cancelDraw(true);
       selectedContourIdx = zonesEdit[selectedZoneId].length - 1;
       refreshAfterZoneEdit();

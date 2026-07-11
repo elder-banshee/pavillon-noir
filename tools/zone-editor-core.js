@@ -63,7 +63,7 @@
     // ═══════════════════════════════════════════════════════════
     let map = null;
     let activeMode = 'topo'; // 'semaphore' | 'topo' | 'ocean'
-    let activeTab = 'geo'; // 'geo' | 'info'  (actif seulement en mode topo)
+    let activeTab = 'geo'; // 'geo' | 'info' | 'ocean-bounds'  (actif seulement en mode topo)
     let currentTool = 'select'; // topo: select/draw/erase/insert/split ; ocean: select/ocean-lasso
     let undoStack = [];
 
@@ -71,6 +71,8 @@
       modeKey: 'topo-geo',
       isTopoGeo: true,
       isTopoInfo: false,
+      isTopoOceanBounds: false,
+      isZoneEditTab: true,
       isOcean: false,
       isSemaphore: false,
     };
@@ -78,15 +80,23 @@
     function refreshCtx() {
       ctx.isTopoGeo = activeMode === 'topo' && activeTab === 'geo';
       ctx.isTopoInfo = activeMode === 'topo' && activeTab === 'info';
+      ctx.isTopoOceanBounds = activeMode === 'topo' && activeTab === 'ocean-bounds';
       ctx.isOcean = activeMode === 'ocean';
       ctx.isSemaphore = activeMode === 'semaphore';
+      // Onglets où le pipeline générique de zones (drag/insert/erase/split,
+      // panneau #section-topo-geo) est actif — Géo (territoires/hauts-fonds)
+      // et Ocean Bounds (extérieur/trous) partagent le même pipeline
+      // ("un polygone est un polygone"), Info n'édite que des métadonnées.
+      ctx.isZoneEditTab = ctx.isTopoGeo || ctx.isTopoOceanBounds;
       ctx.modeKey = ctx.isSemaphore
         ? 'semaphore'
         : ctx.isOcean
           ? 'ocean'
           : ctx.isTopoGeo
             ? 'topo-geo'
-            : 'topo-info';
+            : ctx.isTopoOceanBounds
+              ? 'topo-ocean-bounds'
+              : 'topo-info';
       if (ctx.isOcean && (currentTool === 'draw' || currentTool === 'split' || currentTool === 'insert' || currentTool === 'erase')) {
         currentTool = 'select';
       }
@@ -109,14 +119,14 @@
     };
 
     function refreshPanel() {
-      if (ctx.isTopoGeo) updatePanel();
+      if (ctx.isZoneEditTab) updatePanel();
       else if (ctx.isTopoInfo) updateTopoInfoDetail();
       else if (ctx.isSemaphore) updateSeaPanel();
       if (ctx.isOcean) updateInfosMersOscarPanel();
     }
 
     function refreshHandles() {
-      if (ctx.isTopoGeo) renderHandles();
+      if (ctx.isZoneEditTab) renderHandles();
     }
 
     function refresh(flags = 0, options = {}) {
@@ -509,19 +519,19 @@
 
     function updateTabChrome() {
       const tabGroup = document.getElementById('tab-group');
-      tabGroup.style.display = ctx.isTopoGeo || ctx.isTopoInfo ? 'flex' : 'none';
+      tabGroup.style.display = ctx.isZoneEditTab || ctx.isTopoInfo ? 'flex' : 'none';
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === activeTab);
       });
     }
 
     function updateSidePanelsVisibility() {
-      document.getElementById('section-topo-geo').style.display = ctx.isTopoGeo ? 'block' : 'none';
+      document.getElementById('section-topo-geo').style.display = ctx.isZoneEditTab ? 'block' : 'none';
       document.getElementById('section-topo-info').style.display = ctx.isTopoInfo ? 'block' : 'none';
       document.getElementById('section-ocean').style.display = ctx.isOcean ? 'block' : 'none';
       document.getElementById('section-sea').style.display = ctx.isSemaphore ? 'block' : 'none';
 
-      document.getElementById('export-area').style.display = ctx.isTopoGeo ? 'block' : 'none';
+      document.getElementById('export-area').style.display = ctx.isZoneEditTab ? 'block' : 'none';
 
       const exportFileArea = document.getElementById('export-file-area');
       exportFileArea.style.display = ctx.isSemaphore ? 'none' : 'block';
@@ -532,7 +542,7 @@
       document.getElementById('btn-undo').style.display = ctx.isSemaphore ? 'none' : '';
       document.getElementById('tb-coords').style.display = ctx.isSemaphore ? 'none' : '';
 
-      const inDraw = currentTool === 'draw' && ctx.isTopoGeo;
+      const inDraw = currentTool === 'draw' && ctx.isZoneEditTab;
       document.getElementById('draw-controls').style.display = inDraw ? 'block' : 'none';
       document.getElementById('draw-badge').style.display = inDraw ? 'block' : 'none';
     }

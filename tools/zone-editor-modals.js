@@ -82,10 +82,16 @@
         return;
       }
       pushUndo('Scinder contour');
-      // Remplacer le contour actif par loopA, insérer loopB juste après
+      // Remplacer le contour actif par loopA, insérer loopB juste après.
+      // Le rôle ('exterior' | 'hole') du contour scindé est préservé sur les
+      // deux moitiés — c'est justement pour survivre à ce genre de
+      // réordonnancement qu'il est posé en dur plutôt que déduit de l'index.
+      const splitRole = contourRole(selectedZoneId, selectedContourIdx);
       zonesEdit[selectedZoneId].splice(selectedContourIdx, 1, loopA, loopB);
       zonesMeta[selectedZoneId] ??= [];
-      zonesMeta[selectedZoneId].splice(selectedContourIdx, 1, null, null);
+      zonesMeta[selectedZoneId].splice(selectedContourIdx, 1,
+        splitRole ? { role: splitRole } : null,
+        splitRole ? { role: splitRole } : null);
       clearSplitHandles();
       selectedContourIdx = Math.min(selectedContourIdx, zonesEdit[selectedZoneId].length - 1);
       refresh(R.SELECTED_ZONE | R.PANEL | R.EXPORT);
@@ -237,7 +243,7 @@
       pushUndo('Ajouter contour');
       zonesEdit[zoneId].push(_pendingDrawPoints.map(p => [...p]));
       zonesMeta[zoneId] ??= [];
-      zonesMeta[zoneId].push(null);
+      zonesMeta[zoneId].push(isOceanBoundsId(zoneId) ? { role: 'hole' } : null);
       _pendingDrawPoints = null;
       setTool('select');
       selectEntity('zone', zoneId, { contourIdx: zonesEdit[zoneId].length - 1 });
