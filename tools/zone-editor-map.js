@@ -191,8 +191,9 @@
         }
         // Avertissement uniquement si les champs sont null (pas encore saisis),
         // pas si l'utilisateur a explicitement renseigné 0 (territoire désert légitime).
+        // oceanBounds exclu : ce n'est pas un territoire, pas de démographie à saisir.
         const demo = zonesWorkingCopy.DEMO?.[zoneId];
-        const estVide = !demo || demo.colons === null;
+        const estVide = !isOceanBoundsId(zoneId) && (!demo || demo.colons === null);
         if (estVide) {
           // Orange-rouge vif — territoire sans données
           return { color: 'rgba(255,90,30,0.95)', weight: 2, fillColor: 'rgba(255,90,30,0.18)', fillOpacity: 1 };
@@ -243,6 +244,11 @@
         zoneLayers[zoneId].forEach(l => map.removeLayer(l));
       }
       zoneLayers[zoneId] = [];
+
+      if (isOceanBoundsId(zoneId)) {
+        renderOceanBoundsZone(zoneId);
+        return;
+      }
 
       const contours = zonesEdit[zoneId];
       const zonesInteractive = ctx.isTopoGeo || ctx.isTopoInfo;
@@ -321,6 +327,51 @@
         poly.addTo(map);
         zoneLayers[zoneId].push(poly);
       });
+    }
+
+    // Rendu dédié oceanBounds (Atlantique/Pacifique) : contour extérieur unique
+    // + trous (îles). Contrairement à renderZone() ci-dessus, qui crée un
+    // L.polygon indépendant et rempli par contour (correct pour territoire/
+    // haut-fond, mais afficherait les trous comme des taches pleines
+    // superposées), on construit ici un seul L.polygon avec tous les anneaux
+    // d'un coup — Leaflet applique nativement la règle pair-impair et découpe
+    // les trous. L'ordre des anneaux suit zonesEdit tel quel ; le rôle
+    // ('exterior' | 'hole') vit dans zonesMeta et ne sert qu'aux métadonnées/
+    // export, pas à la construction géométrique elle-même.
+    function renderOceanBoundsZone(zoneId) {
+      const contours = zonesEdit[zoneId];
+      const zonesInteractive = ctx.isTopoGeo || ctx.isTopoInfo || ctx.isTopoOceanBounds;
+      const isSelected = zoneId === selectedZoneId;
+
+      const style = zoneStyle(zoneId, isSelected);
+      const rings = contours.map(contourToLatLngs);
+
+      const poly = L.polygon(rings, { ...style, interactive: zonesInteractive });
+      poly._zoneId = zoneId;
+      poly._contourIdx = null; // entité multi-anneaux : pas de contour unique associé au clic
+
+      poly.on('mouseover', function () {
+        if (!zonesInteractive) return;
+        if (draggingHandle) return;
+        if (this._zoneId !== selectedZoneId) this.setStyle(zoneStyleHover(this._zoneId));
+        this.bindTooltip(this._zoneId, {
+          permanent: false, className: 'ed-tooltip', direction: 'top', sticky: true
+        }).openTooltip();
+      });
+      poly.on('mouseout', function () {
+        if (!zonesInteractive) return;
+        if (this._zoneId !== selectedZoneId) this.setStyle(zoneStyle(this._zoneId, false));
+        this.unbindTooltip();
+      });
+      poly.on('click', function (e) {
+        if (!zonesInteractive || !ctx.isTopoOceanBounds) return;
+        L.DomEvent.stopPropagation(e);
+        const contourIdx = (this._zoneId === selectedZoneId) ? selectedContourIdx : 0;
+        selectZone(this._zoneId, contourIdx);
+      });
+
+      poly.addTo(map);
+      zoneLayers[zoneId].push(poly);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -473,6 +524,16 @@
     }
 
     function updatePolyLatLngs(zoneId, contourIdx) {
+      // oceanBounds : un seul L.polygon pour tous les anneaux de l'entité
+      // (voir renderOceanBoundsZone) — reconstruire l'ensemble des anneaux,
+      // pas seulement celui en cours d'édition.
+      if (isOceanBoundsId(zoneId)) {
+        if (zoneLayers[zoneId] && zoneLayers[zoneId][0]) {
+          zoneLayers[zoneId][0].setLatLngs(zonesEdit[zoneId].map(contourToLatLngs));
+        }
+        return;
+      }
+
       const contour = zonesEdit[zoneId][contourIdx];
       const polyIdx = contourIdx; // 1:1
       if (zoneLayers[zoneId] && zoneLayers[zoneId][polyIdx]) {
