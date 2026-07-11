@@ -590,6 +590,8 @@
       if (!hint) return;
       if (ctx.isTopoGeo || ctx.isTopoInfo) {
         hint.innerHTML = 'Génère <code>zones-data.js</code> complet (géométrie + métadonnées territoires et hauts-fonds). Remplacer dans le dépôt.';
+      } else if (ctx.isTopoOceanBounds) {
+        hint.innerHTML = 'Génère <code>zones-ocean-bounds.js</code> (extérieur + trous, séparé). À coller dans le bloc <code>ZONES_OCEAN_BOUNDS</code> de <code>zones-data.js</code>.';
       } else if (ctx.isOcean) {
         hint.innerHTML = 'Génère <code>oscar-hex-grid.js</code> (cellules éditées manuellement). Remplacer dans le dépôt.';
       }

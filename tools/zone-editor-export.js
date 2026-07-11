@@ -104,6 +104,8 @@
     function exportCurrentFile() {
       if (ctx.isTopoGeo || ctx.isTopoInfo) {
         exportZonesData();
+      } else if (ctx.isTopoOceanBounds) {
+        exportOceanBounds();
       } else if (ctx.isOcean) {
         exportOscarGrid();
       }
@@ -151,6 +153,9 @@
       out += 'const ZONES_DATA = {\n\n';
 
       for (const id in data) {
+        // oceanBounds n'est pas un territoire : géométrie et export séparés
+        // (voir exportOceanBounds), pas de sérialisation à plat ici.
+        if (isOceanBoundsId(id)) continue;
         const contours = data[id];
         out += formatZoneHeader(id, contours);
         contours.forEach((contour, ci) => {
@@ -208,6 +213,83 @@
       out += '};\n';
 
       downloadBlob('zones-data.js', out);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // EXPORT FICHIER — oceanBounds (masque navigable Atlantique/Pacifique)
+    // ═══════════════════════════════════════════════════════════
+    // Reconstruit explicitement {exterior, holes} à partir du tag role posé
+    // dans zonesMeta — pas de la sérialisation à plat (formatContourBlock)
+    // utilisée pour territoires/hauts-fonds, qui perdrait la distinction
+    // extérieur/trou. Bouton distinct de l'export zones-data.js existant :
+    // fichier séparé, à coller dans le bloc ZONES_OCEAN_BOUNDS de
+    // js/zones-data.js (ce dernier n'est pas régénéré ici).
+    function formatOceanBoundsRing(points) {
+      let block = '';
+      for (let i = 0; i < points.length; i += 6) {
+        block += '    ' + points.slice(i, i + 6).map(([x, y]) => `[${x},${y}]`).join(', ') + ',\n';
+      }
+      return block;
+    }
+
+    // Fail fast : un contour sans rôle explicite, ou une entité sans
+    // extérieur unique, indique un bug ailleurs dans le pipeline (drag/
+    // insert/split) — pas de repli silencieux sur une convention d'index.
+    function buildOceanBoundsZone(zoneId) {
+      const contours = zonesEdit[zoneId];
+      const meta = zonesMeta[zoneId] || [];
+      let exterior = null;
+      const holes = [];
+      contours.forEach((contour, idx) => {
+        const role = meta[idx]?.role;
+        if (role === 'exterior') {
+          if (exterior) throw new Error(`${zoneId} : plusieurs contours "exterior" (contour ${idx}) — un seul attendu.`);
+          exterior = contour;
+        } else if (role === 'hole') {
+          holes.push(contour);
+        } else {
+          throw new Error(`${zoneId} : contour ${idx} sans rôle exterior/hole — export impossible.`);
+        }
+      });
+      if (!exterior) throw new Error(`${zoneId} : aucun contour "exterior" — export impossible.`);
+      return { exterior, holes };
+    }
+
+    function exportOceanBounds() {
+      let out = '// ZONES_OCEAN_BOUNDS — emprise maritime globale (filet de sécurité calme)\n';
+      out += '// Généré par Zone Editor — Pavillon Noir\n';
+      out += '// À coller dans js/zones-data.js, en remplacement du bloc ZONES_OCEAN_BOUNDS existant.\n';
+      out += '// ═══════════════════════════════════════════════════════════\n\n';
+      out += 'const ZONES_OCEAN_BOUNDS = {\n';
+
+      const oceanBoundsIds = zonesWorkingCopy.OCEAN_BOUNDS ? Object.keys(zonesWorkingCopy.OCEAN_BOUNDS) : [];
+      for (const id of oceanBoundsIds) {
+        let zone;
+        try {
+          zone = buildOceanBoundsZone(id);
+        } catch (e) {
+          alert(e.message);
+          return;
+        }
+        out += `  '${id}': {\n`;
+        out += `    zoneSource: 'svg',\n`;
+        out += `    zone: {\n`;
+        out += `      exterior: [\n`;
+        out += formatOceanBoundsRing(zone.exterior);
+        out += `      ],\n`;
+        out += `      holes: [\n`;
+        zone.holes.forEach(hole => {
+          out += `      [\n`;
+          out += formatOceanBoundsRing(hole);
+          out += `      ],\n`;
+        });
+        out += `      ],\n`;
+        out += `    },\n`;
+        out += `  },\n\n`;
+      }
+      out += '};\n';
+
+      downloadBlob('zones-ocean-bounds.js', out);
     }
 
     function calcSuperficie(contours) {
