@@ -148,7 +148,15 @@ Les outils clairement obsolètes ont été sortis de la racine
 outils désignent désormais `gen_sea_data.py` et `sea-data-generated.js` comme
 pipeline actif.
 
-La prochaine étape reste la création d’un synchroniseur non destructif
-`ZONES_OCEAN_BOUNDS → OSCAR_HEX_GRID` : supprimer seulement les hexagones
+## Prochaine étape : vérification manuelle obligatoire
+
+Avant toute actualisation de `OSCAR_HEX_GRID`, ouvrir le nouvel
+`ZONES_OCEAN_BOUNDS` dans Zone Editor et mener une vérification visuelle
+complète : continuité des fleuves, finesse des bras, fermeture de l’Atlantique,
+îles et côtes. Les retouches nécessaires doivent être effectuées et exportées
+depuis Zone Editor vers `js/zones-data.js`.
+
+Créer ensuite seulement le synchroniseur non destructif
+`ZONES_OCEAN_BOUNDS → OSCAR_HEX_GRID` : supprimer les seuls hexagones
 totalement hors emprise, préserver toutes les données des autres cellules et
-ajouter les cellules calmes manquantes dans les nouveaux fleuves.
+ajouter les cellules calmes manquantes dans les fleuves validés.

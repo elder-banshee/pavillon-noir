@@ -139,6 +139,7 @@
       if (idx < 0 || idx >= contours.length) return;
 
       selectedContourIdx = idx;
+      clearHandleSelection();
       clearHandles();
       refresh(R.SELECTED_ZONE | R.HANDLES | R.PANEL | R.EXPORT);
       if (currentTool === 'insert') renderSegmentMarkers();

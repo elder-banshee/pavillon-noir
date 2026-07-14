@@ -39,10 +39,13 @@
       document.addEventListener('keyup', (e) => {
         if (e.key === 'Shift' && map && !oceanPaintSelecting && !oceanLassoSelecting) map.dragging.enable();
       });
+      document.addEventListener('keydown', onHandleKeyboardMove);
+      document.addEventListener('keyup', onHandleKeyboardMoveEnd);
       // Capture-phase, avant que Leaflet ne voie l'événement (cf. commentaire
       // sur oceanPaintOnDown).
       map.getContainer().addEventListener('mousedown', oceanPaintOnDown, true);
       map.getContainer().addEventListener('mousedown', oceanLassoOnDown, true);
+      map.getContainer().addEventListener('mousedown', handleLassoOnDown, true);
       map.createPane('oscarGridPane');
       map.getPane('oscarGridPane').style.zIndex = 435;
       map.createPane('oscarArrowPane');
@@ -441,6 +444,7 @@
       const prev = selectedZoneId;
       selectedZoneId = null;
       selectedContourIdx = 0;
+      clearHandleSelection();
       clearHandles();
       clearSegmentMarkers();
       if (prev) renderZone(prev);
@@ -458,6 +462,31 @@
     function clearHandles() {
       handleLayers.forEach(h => map.removeLayer(h));
       handleLayers = [];
+    }
+
+    function clearHandleSelection() {
+      selectedHandleIndices.clear();
+      handleKeyboardUndoActive = false;
+    }
+
+    function isHandleSelected(ptIdx) {
+      return selectedHandleIndices.has(ptIdx);
+    }
+
+    function handleStyle(ptIdx, hover = false) {
+      if (isHandleSelected(ptIdx)) return hover ? { ...HANDLE_SELECTED, radius: 8 } : HANDLE_SELECTED;
+      return hover ? HANDLE_HOVER : HANDLE_NORMAL;
+    }
+
+    function selectHandle(ptIdx, extend) {
+      if (extend) {
+        if (selectedHandleIndices.has(ptIdx)) selectedHandleIndices.delete(ptIdx);
+        else selectedHandleIndices.add(ptIdx);
+      } else {
+        selectedHandleIndices.clear();
+        selectedHandleIndices.add(ptIdx);
+      }
+      renderHandles();
     }
 
     function renderPointHandlesForRing(pts, targetLayers, handlers = {}) {
@@ -517,25 +546,30 @@
       if (!contour) return;
 
       renderPointHandlesForRing(contour, handleLayers, {
+        style(marker, ptIdx) {
+          marker.setStyle(handleStyle(ptIdx));
+        },
         mouseover(marker, ptIdx) {
-          if (!draggingHandle) marker.setStyle(HANDLE_HOVER);
+          if (!draggingHandle) marker.setStyle(handleStyle(ptIdx, true));
           updatePtInfo(ptIdx);
         },
         mouseout(marker, ptIdx) {
           if (!draggingHandle || draggingHandle.ptIdx !== ptIdx) {
-            marker.setStyle(HANDLE_NORMAL);
+            marker.setStyle(handleStyle(ptIdx));
           }
           clearPtInfo();
         },
         mousedown(marker, ptIdx, e) {
           if (currentTool !== 'select') return;
           L.DomEvent.stopPropagation(e);
-          startDrag(ptIdx, marker);
+          startDrag(ptIdx, marker, e.latlng);
         },
         click(marker, ptIdx, e) {
           L.DomEvent.stopPropagation(e);
           if (currentTool === 'erase') {
             erasePoint(ptIdx);
+          } else if (currentTool === 'select') {
+            selectHandle(ptIdx, !!e.originalEvent?.shiftKey);
           }
         },
       });
@@ -555,9 +589,8 @@
     }
 
     // ─── Drag & Drop d'un point ───────────────────────────────────
-    function startDrag(ptIdx, marker) {
-      pushUndo('Deplacer point');
-      draggingHandle = { ptIdx, marker };
+    function startDrag(ptIdx, marker, startLatLng = marker.getLatLng()) {
+      draggingHandle = { ptIdx, marker, startLatLng, didMove: false };
       map.dragging.disable();
     }
 
@@ -566,6 +599,13 @@
       if (draggingHandle) {
         const [nx, ny] = latLngToPx(e.latlng);
         const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+        if (!draggingHandle.didMove) {
+          const start = map.latLngToContainerPoint(draggingHandle.startLatLng);
+          const now = map.latLngToContainerPoint(e.latlng);
+          if (Math.hypot(now.x - start.x, now.y - start.y) < 3) return;
+          draggingHandle.didMove = true;
+          pushUndo('Déplacer point');
+        }
         contour[draggingHandle.ptIdx] = [nx, ny];
         draggingHandle.marker.setLatLng(pxToLatLng(nx, ny));
         updatePolyLatLngs(selectedZoneId, selectedContourIdx);
@@ -579,6 +619,10 @@
       // TOPOGRAPHIE — Géo (territoire ou haut-fond, pipeline unifié)
       if (draggingHandle) {
         map.dragging.enable();
+        if (!draggingHandle.didMove) {
+          draggingHandle = null;
+          return;
+        }
         const [nx, ny] = latLngToPx(e.latlng);
         const contour = zonesEdit[selectedZoneId][selectedContourIdx];
         contour[draggingHandle.ptIdx] = [nx, ny];
@@ -587,6 +631,39 @@
         draggingHandle = null;
         return;
       }
+    }
+
+    function selectedHandleIndicesForActiveContour() {
+      const contour = selectedZoneId && zonesEdit[selectedZoneId]?.[selectedContourIdx];
+      if (!contour) return [];
+      return [...selectedHandleIndices].filter(idx => idx >= 0 && idx < contour.length);
+    }
+
+    function onHandleKeyboardMove(e) {
+      if (!ctx.isZoneEditTab || !selectedZoneId || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (e.target?.closest?.('input, textarea, select, button, [contenteditable="true"]')) return;
+      const increments = {
+        ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0],
+      };
+      const increment = increments[e.key];
+      const indices = selectedHandleIndicesForActiveContour();
+      if (!increment || !indices.length) return;
+      e.preventDefault();
+      const step = e.shiftKey ? 5 : 1;
+      if (!handleKeyboardUndoActive) {
+        pushUndo(`Déplacer ${indices.length} poignée(s)`);
+        handleKeyboardUndoActive = true;
+      }
+      const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+      indices.forEach(idx => {
+        contour[idx] = [contour[idx][0] + increment[0] * step, contour[idx][1] + increment[1] * step];
+      });
+      updatePolyLatLngs(selectedZoneId, selectedContourIdx);
+      refresh(R.HANDLES | R.PANEL | R.EXPORT);
+    }
+
+    function onHandleKeyboardMoveEnd(e) {
+      if (e.key.startsWith('Arrow')) handleKeyboardUndoActive = false;
     }
 
     // ─── Drag & Drop d'un point — tactile ──────────────────────────
@@ -698,6 +775,7 @@
       contours.splice(selectedContourIdx, 1);
       zonesMeta[selectedZoneId]?.splice(selectedContourIdx, 1);
       selectedContourIdx = Math.min(selectedContourIdx, contours.length - 1);
+      clearHandleSelection();
       clearHandles();
       refreshAfterZoneEdit();
     }
@@ -757,6 +835,7 @@
       zonesMeta[selectedZoneId].push(isOceanBoundsId(selectedZoneId) ? { role: 'hole' } : null);
       cancelDraw(true);
       selectedContourIdx = zonesEdit[selectedZoneId].length - 1;
+      clearHandleSelection();
       refreshAfterZoneEdit();
     }
 

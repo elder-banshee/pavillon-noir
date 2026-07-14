@@ -1,0 +1,38 @@
+{
+  "grid": "js/oscar-hex-grid.js",
+  "zones": "js/zones-data.js",
+  "mode": "dry-run",
+  "cellsBefore": 14045,
+  "cellsAfter": 14061,
+  "preserved": 14045,
+  "removed": [],
+  "added": [
+    "20_30",
+    "21_29",
+    "28_25",
+    "28_26",
+    "82_38",
+    "92_123",
+    "94_144",
+    "95_97",
+    "95_137",
+    "98_79",
+    "100_155",
+    "102_151",
+    "109_149",
+    "110_168",
+    "113_85"
+  ],
+  "forcedIncluded": [
+    {
+      "key": "64_123",
+      "domain": "caribbean",
+      "reason": "Chenal maritime très fin, important pour la continuité locale.",
+      "action": "added"
+    }
+  ],
+  "addedByDomain": {
+    "atlantic": 13,
+    "pacific": 2
+  }
+}

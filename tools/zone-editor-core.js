@@ -10,6 +10,7 @@
     const SEA_CELL_SIZE = 50;
     const ZONE_TOOLS = [
       { id: 'select', label: 'Sélection', icon: '◈', title: 'Sélectionner une zone / déplacer un point' },
+      { id: 'handle-lasso', label: 'Lasso poignées', icon: '⌁', title: 'Ajouter à la sélection les poignées entourées' },
       { id: 'draw', label: 'Nouveau contour', icon: '✦', title: 'Tracer un nouveau contour' },
       { id: 'insert', label: 'Insérer point', icon: '⊕', title: 'Insérer un point sur un segment existant' },
       { id: 'erase', label: 'Supprimer point', icon: '⊗', title: 'Supprimer un point en cliquant dessus' },
@@ -56,6 +57,7 @@
     // ─── Styles des poignées ──────────────────────────────────────
     const HANDLE_NORMAL = { radius: 5, color: 'rgba(226,185,106,0.9)', weight: 1.5, fillColor: 'rgba(14,12,9,0.9)', fillOpacity: 1 };
     const HANDLE_HOVER = { radius: 7, color: '#e2b96a', weight: 2, fillColor: 'rgba(200,151,58,0.3)', fillOpacity: 1 };
+    const HANDLE_SELECTED = { radius: 6, color: '#76d7c4', weight: 2.5, fillColor: 'rgba(24,109,100,0.85)', fillOpacity: 1 };
     const HANDLE_SEGMENT = { radius: 4, color: 'rgba(80,140,220,0.8)', weight: 1.5, fillColor: 'rgba(80,140,220,0.15)', fillOpacity: 1, dashArray: '2 2' };
 
     // ═══════════════════════════════════════════════════════════
@@ -64,7 +66,7 @@
     let map = null;
     let activeMode = 'topo'; // 'semaphore' | 'topo' | 'ocean'
     let activeTab = 'geo'; // 'geo' | 'info' | 'ocean-bounds'  (actif seulement en mode topo)
-    let currentTool = 'select'; // topo: select/draw/erase/insert/split ; ocean: select/ocean-lasso
+    let currentTool = 'select'; // topo: select/handle-lasso/draw/erase/insert/split ; ocean: select/ocean-lasso
     let undoStack = [];
 
     const ctx = {
@@ -190,6 +192,7 @@
         const prevZone = selectedZoneId;
         selectedZoneId = id;
         selectedContourIdx = extra.contourIdx ?? 0;
+        clearHandleSelection();
         if (prevZone && prevZone !== id) renderZone(prevZone);
         if (id) renderZone(id);
         refresh(R.HANDLES | R.PANEL | R.EXPORT);
@@ -228,6 +231,11 @@
     // Layers Leaflet
     let zoneLayers = {}; // zoneId → [L.Polygon, ...]  (un par contour)
     let handleLayers = []; // cercles de poignées du contour sélectionné
+    let selectedHandleIndices = new Set(); // indices du contour actif, pour déplacement groupé
+    let handleKeyboardUndoActive = false;
+    let handleLassoSelecting = false;
+    let handleLassoPoints = [];
+    let handleLassoLayer = null;
     let segmentMarkers = []; // milieux de segments (mode insert)
     let drawLayer = null; // L.Polyline preview du tracé en cours
     let drawMarkers = [];   // marqueurs des points posés
@@ -476,6 +484,7 @@
       }
       if (currentTool === 'draw') cancelDraw(true);
       if (currentTool === 'ocean-lasso') cancelOceanLasso();
+      if (currentTool === 'handle-lasso') cancelHandleLasso();
       clearHandles();
       clearSegmentMarkers();
       activeMode = mode;
