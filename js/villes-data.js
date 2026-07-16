@@ -2389,7 +2389,7 @@ L'échec financier de la Compagnie d'Écosse a précipité l'<strong>Acte d'Unio
 🎲 Un PJ écossais, un PJ qui a perdu de la famille dans l'expédition, ou simplement un navigateur qui aborde cette côte et reconnaît les noms sur sa carte — chacun a une raison différente d'être ému ou intrigué par ces ruines.`,
     },
 
-    // ── CARET BAY (DARIÉN) ──────────────────────────────────────────────────
+    // ── GOLFE D'URABÁ (DARIÉN) ──────────────────────────────────────────────────
 
     {
         id: 'golfe-uraba',
