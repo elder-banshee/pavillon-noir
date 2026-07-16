@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "dataset": "GEBCO_2026",
+  "resolutionArcSeconds": 15,
+  "acquisition": {
+    "west": -100.0,
+    "south": 5.0,
+    "east": -55.0,
+    "north": 35.0,
+    "expectedWidth": 10800,
+    "expectedHeight": 7200,
+    "expectedCells": 77760000,
+    "format": "Data GeoTIFF",
+    "sourceDirectory": "C:/AI/Site Pavillon Noir/Accessoires site pavillon noir/Outils generation/Bathymétrie/Sources/GEBCO_2026_Jaillot",
+    "bathymetryFilename": "gebco_2026_n35.0_s5.0_w-100.0_e-55.0_geotiff.tif",
+    "tidFilename": "gebco_2026_tid_n35.0_s5.0_w-100.0_e-55.0_geotiff.tif"
+  },
+  "generatedDirectory": "C:/AI/Site Pavillon Noir/Accessoires site pavillon noir/Outils generation/Bathymétrie/Générés/GEBCO_2026_Jaillot",
+  "safeDepthThresholdsM": [1.8, 3.6, 6.0, 8.4, 12.0],
+  "warpFamilies": {
+    "atlantic": ["gulf_mexico", "caribbean", "bahamas", "florida", "atlantic"],
+    "pacific": ["pacific"]
+  },
+  "logicalRegions": {
+    "gulf_mexico": {"west": -97.6542, "south": 18.3083, "east": -83.3032, "north": 30.3383},
+    "caribbean": {"west": -88.5468, "south": 8.6842, "east": -60.6728, "north": 22.5188},
+    "bahamas": {"west": -81.0953, "south": 18.9098, "east": -67.0203, "north": 29.7368},
+    "florida": {"west": -83.3032, "south": 23.1203, "east": -74.1958, "north": 34.2481},
+    "atlantic": {"west": -77.5076, "south": 5.9774, "east": -55.4292, "north": 34.2481},
+    "pacific": {"west": -99.0341, "south": 5.9774, "east": -78.3355, "north": 16.203}
+  },
+  "rules": {
+    "canonicalReference": "WGS84",
+    "globalConnectedComponentsBeforeRegionalAssignment": true,
+    "preserveRawTidCodes": true,
+    "landMask": "elevation >= 0",
+    "manualEditsOnlyAfterJaillotWarp": true,
+    "mainSimplificationAfterJaillotWarp": true,
+    "pacificNeverConnectsToAtlanticFamily": true
+  }
+}

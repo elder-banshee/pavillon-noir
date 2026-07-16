@@ -1,0 +1,4641 @@
+{
+  "version": 1,
+  "levels": {
+    "1": {
+      "thresholdM": 1.8,
+      "components": 23936,
+      "cells": 181691
+    },
+    "2": {
+      "thresholdM": 3.6,
+      "components": 22788,
+      "cells": 595819
+    },
+    "3": {
+      "thresholdM": 6.0,
+      "components": 21234,
+      "cells": 965789
+    },
+    "4": {
+      "thresholdM": 8.4,
+      "components": 19973,
+      "cells": 1396983
+    },
+    "5": {
+      "thresholdM": 12.0,
+      "components": 18488,
+      "cells": 1787343
+    }
+  },
+  "candidates12m": 18488,
+  "highDocumentaryPriority": 523,
+  "highScientificConfidence": 1456,
+  "topCandidates": [
+    {
+      "id": "GLOBAL-T5-006811",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 22578,
+      "areaApproxKm2": 4507.7510518783465,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 21.550878067145,
+        "lon": -71.94199829480024
+      },
+      "bbox": {
+        "west": -72.47916666666667,
+        "east": -71.44166666666666,
+        "north": 21.974999999999994,
+        "south": 21.170833333333327
+      },
+      "meanDepthM": 3.5339268314288246,
+      "nearRingMeanDepthM": 41.39266615737204,
+      "nearContrastM": 37.85873932594322,
+      "wideDirectionalMeanDepthM": 523.4326248347402,
+      "wideContrastM": 519.8986980033113,
+      "directMeasurementPercent": 99.59252369563292,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006811",
+      "nestedComponents": {
+        "1": 150,
+        "2": 117,
+        "3": 61,
+        "4": 42,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 4234,
+        "2": 13675,
+        "3": 18517,
+        "4": 21353,
+        "5": 22578
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 96.93,
+      "documentaryPriorityScore": 92.62
+    },
+    {
+      "id": "GLOBAL-T5-006120",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 9069,
+      "areaApproxKm2": 1798.3794036140766,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 22.513401192707754,
+        "lon": -74.12158061344508
+      },
+      "bbox": {
+        "west": -74.38333333333333,
+        "east": -73.77916666666667,
+        "north": 22.862499999999997,
+        "south": 22.11666666666666
+      },
+      "meanDepthM": 3.094387473811887,
+      "nearRingMeanDepthM": 53.91752577319588,
+      "nearContrastM": 50.82313829938399,
+      "wideDirectionalMeanDepthM": 603.9844352208717,
+      "wideContrastM": 600.8900477470597,
+      "directMeasurementPercent": 96.69202778696659,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006120",
+      "nestedComponents": {
+        "1": 134,
+        "2": 68,
+        "3": 47,
+        "4": 31,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 2808,
+        "2": 6777,
+        "3": 7667,
+        "4": 8385,
+        "5": 9069
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 96.4,
+      "documentaryPriorityScore": 91.4
+    },
+    {
+      "id": "GLOBAL-T5-006171",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 106909,
+      "areaApproxKm2": 21266.964525668827,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 22.072776360424903,
+        "lon": -82.39534341121889
+      },
+      "bbox": {
+        "west": -84.04583333333333,
+        "east": -80.9875,
+        "north": 22.70833333333333,
+        "south": 21.441666666666663
+      },
+      "meanDepthM": 3.1686387488424734,
+      "nearRingMeanDepthM": 26.56656184486373,
+      "nearContrastM": 23.39792309602126,
+      "wideDirectionalMeanDepthM": 458.81732823933174,
+      "wideContrastM": 455.6486894904893,
+      "directMeasurementPercent": 95.88902711651966,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006171",
+      "nestedComponents": {
+        "1": 613,
+        "2": 316,
+        "3": 140,
+        "4": 34,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 19308,
+        "2": 64569,
+        "3": 100934,
+        "4": 105673,
+        "5": 106909
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 93.73,
+      "documentaryPriorityScore": 90.94
+    },
+    {
+      "id": "GLOBAL-T5-007207",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 161,
+      "areaApproxKm2": 32.11363644807783,
+      "classification": "detache",
+      "centroid": {
+        "lat": 21.68764233954451,
+        "lon": -73.80736283643893
+      },
+      "bbox": {
+        "west": -73.85,
+        "east": -73.7625,
+        "north": 21.70833333333333,
+        "south": 21.662499999999994
+      },
+      "meanDepthM": 7.329192546583851,
+      "nearRingMeanDepthM": 169.75757575757575,
+      "nearContrastM": 162.4283832109919,
+      "wideDirectionalMeanDepthM": 1134.7327272727273,
+      "wideContrastM": 1127.4035347261433,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007207",
+      "nestedComponents": {
+        "1": 0,
+        "2": 3,
+        "3": 8,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 4,
+        "3": 30,
+        "4": 119,
+        "5": 161
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 89.94,
+      "documentaryPriorityScore": 90.55
+    },
+    {
+      "id": "GLOBAL-T5-005232",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 12264,
+      "areaApproxKm2": 2408.7560395502783,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.796989834746682,
+        "lon": -80.04297027886497
+      },
+      "bbox": {
+        "west": -80.475,
+        "east": -79.73333333333333,
+        "north": 24.09166666666666,
+        "south": 23.55833333333333
+      },
+      "meanDepthM": 8.886986301369863,
+      "nearRingMeanDepthM": 12.168302945301543,
+      "nearContrastM": 3.28131664393168,
+      "wideDirectionalMeanDepthM": 33.49815592013226,
+      "wideContrastM": 24.6111696187624,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005232",
+      "nestedComponents": {
+        "1": 2,
+        "2": 2,
+        "3": 7,
+        "4": 69,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 5,
+        "2": 17,
+        "3": 41,
+        "4": 5460,
+        "5": 12264
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 82.76,
+      "documentaryPriorityScore": 90.12
+    },
+    {
+      "id": "GLOBAL-T5-003274",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 73854,
+      "areaApproxKm2": 14150.52096710342,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 26.800061890125562,
+        "lon": -78.1108380498461
+      },
+      "bbox": {
+        "west": -79.18333333333334,
+        "east": -76.93333333333334,
+        "north": 27.387499999999996,
+        "south": 25.866666666666664
+      },
+      "meanDepthM": 4.354009261515964,
+      "nearRingMeanDepthM": 29.524517557734892,
+      "nearContrastM": 25.170508296218927,
+      "wideDirectionalMeanDepthM": 238.56290240163514,
+      "wideContrastM": 234.2088931401192,
+      "directMeasurementPercent": 99.65472418555528,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-003274",
+      "nestedComponents": {
+        "1": 678,
+        "2": 360,
+        "3": 230,
+        "4": 89,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 9901,
+        "2": 29645,
+        "3": 51102,
+        "4": 69870,
+        "5": 73854
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 93.81,
+      "documentaryPriorityScore": 89.27
+    },
+    {
+      "id": "GLOBAL-T5-005817",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 52264,
+      "areaApproxKm2": 10358.668457629261,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 22.583504898209085,
+        "lon": -79.15516887022297
+      },
+      "bbox": {
+        "west": -81.34583333333333,
+        "east": -77.09166666666667,
+        "north": 23.299999999999997,
+        "south": 21.608333333333327
+      },
+      "meanDepthM": 2.5394918108066737,
+      "nearRingMeanDepthM": 21.48858204992034,
+      "nearContrastM": 18.949090239113666,
+      "wideDirectionalMeanDepthM": 257.5725418569254,
+      "wideContrastM": 255.03305004611872,
+      "directMeasurementPercent": 95.77912138374407,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005817",
+      "nestedComponents": {
+        "1": 694,
+        "2": 148,
+        "3": 71,
+        "4": 39,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 17938,
+        "2": 43141,
+        "3": 47366,
+        "4": 50644,
+        "5": 52264
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 91.58,
+      "documentaryPriorityScore": 88.48
+    },
+    {
+      "id": "GLOBAL-T5-003729",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 440681,
+      "areaApproxKm2": 86492.76960931667,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 23.888097593081312,
+        "lon": -77.5238959653733
+      },
+      "bbox": {
+        "west": -79.31666666666666,
+        "east": -74.85416666666667,
+        "north": 26.049999999999997,
+        "south": 22.062499999999993
+      },
+      "meanDepthM": 6.366466900093265,
+      "nearRingMeanDepthM": 19.1788415339443,
+      "nearContrastM": 12.812374633851036,
+      "wideDirectionalMeanDepthM": 222.39946741092575,
+      "wideContrastM": 216.0330005108325,
+      "directMeasurementPercent": 99.6970597779346,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-003729",
+      "nestedComponents": {
+        "1": 1321,
+        "2": 1258,
+        "3": 877,
+        "4": 854,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 13326,
+        "2": 59491,
+        "3": 180833,
+        "4": 330071,
+        "5": 440681
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 91.68,
+      "documentaryPriorityScore": 88.1
+    },
+    {
+      "id": "GLOBAL-T5-006599",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 126,
+      "areaApproxKm2": 25.05745847632533,
+      "classification": "detache",
+      "centroid": {
+        "lat": 22.113326719576712,
+        "lon": -74.50939153439154
+      },
+      "bbox": {
+        "west": -74.53333333333333,
+        "east": -74.475,
+        "north": 22.158333333333328,
+        "south": 22.070833333333326
+      },
+      "meanDepthM": 9.412698412698413,
+      "nearRingMeanDepthM": 31.013157894736842,
+      "nearContrastM": 21.60045948203843,
+      "wideDirectionalMeanDepthM": 758.6475,
+      "wideContrastM": 749.2348015873016,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006599",
+      "nestedComponents": {
+        "1": 0,
+        "2": 2,
+        "3": 2,
+        "4": 4,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 2,
+        "3": 8,
+        "4": 27,
+        "5": 126
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 84.93,
+      "documentaryPriorityScore": 87.88
+    },
+    {
+      "id": "GLOBAL-T5-004786",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 26,
+      "areaApproxKm2": 5.073991412958973,
+      "classification": "detache",
+      "centroid": {
+        "lat": 24.61410256410256,
+        "lon": -75.99615384615385
+      },
+      "bbox": {
+        "west": -76.03333333333333,
+        "east": -75.95833333333333,
+        "north": 24.62083333333333,
+        "south": 24.608333333333327
+      },
+      "meanDepthM": 2.8846153846153846,
+      "nearRingMeanDepthM": 61.93181818181818,
+      "nearContrastM": 59.04720279720279,
+      "wideDirectionalMeanDepthM": 730.8888888888889,
+      "wideContrastM": 728.0042735042736,
+      "directMeasurementPercent": 92.3076923076923,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-004786",
+      "nestedComponents": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 19,
+        "3": 24,
+        "4": 26,
+        "5": 26
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 83.63,
+      "documentaryPriorityScore": 87.77
+    },
+    {
+      "id": "GLOBAL-T5-013817",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 788,
+      "areaApproxKm2": 163.9051641460702,
+      "classification": "detache",
+      "centroid": {
+        "lat": 14.306762901861244,
+        "lon": -81.15567893401015
+      },
+      "bbox": {
+        "west": -81.225,
+        "east": -81.10833333333333,
+        "north": 14.49166666666666,
+        "south": 14.124999999999993
+      },
+      "meanDepthM": 8.134517766497462,
+      "nearRingMeanDepthM": 13.498220640569395,
+      "nearContrastM": 5.363702874071933,
+      "wideDirectionalMeanDepthM": 75.49875930521092,
+      "wideContrastM": 67.36424153871346,
+      "directMeasurementPercent": 99.11167512690355,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-013817",
+      "nestedComponents": {
+        "1": 1,
+        "2": 19,
+        "3": 40,
+        "4": 32,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 30,
+        "3": 137,
+        "4": 386,
+        "5": 788
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 81.15,
+      "documentaryPriorityScore": 87.26
+    },
+    {
+      "id": "GLOBAL-T5-014525",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 196,
+      "areaApproxKm2": 41.08805457984696,
+      "classification": "detache",
+      "centroid": {
+        "lat": 12.42278911564625,
+        "lon": -81.4734906462585
+      },
+      "bbox": {
+        "west": -81.50416666666666,
+        "east": -81.4375,
+        "north": 12.470833333333324,
+        "south": 12.37499999999999
+      },
+      "meanDepthM": 5.8520408163265305,
+      "nearRingMeanDepthM": 47.2906976744186,
+      "nearContrastM": 41.438656858092074,
+      "wideDirectionalMeanDepthM": 477.16496350364963,
+      "wideContrastM": 471.3129226873231,
+      "directMeasurementPercent": 63.775510204081634,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-014525",
+      "nestedComponents": {
+        "1": 2,
+        "2": 6,
+        "3": 3,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 2,
+        "2": 34,
+        "3": 96,
+        "4": 163,
+        "5": 196
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 74.33,
+      "documentaryPriorityScore": 86.79
+    },
+    {
+      "id": "GLOBAL-T5-004616",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 5648,
+      "areaApproxKm2": 1103.8864887420168,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 24.42513574126534,
+        "lon": -75.60749158994334
+      },
+      "bbox": {
+        "west": -75.97083333333333,
+        "east": -75.28333333333333,
+        "north": 24.712499999999995,
+        "south": 24.099999999999994
+      },
+      "meanDepthM": 6.95449716713881,
+      "nearRingMeanDepthM": 19.194228634850166,
+      "nearContrastM": 12.239731467711355,
+      "wideDirectionalMeanDepthM": 316.3329826407154,
+      "wideContrastM": 309.3784854735766,
+      "directMeasurementPercent": 95.91005665722379,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-004616",
+      "nestedComponents": {
+        "1": 61,
+        "2": 96,
+        "3": 37,
+        "4": 40,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 118,
+        "2": 779,
+        "3": 1724,
+        "4": 3695,
+        "5": 5648
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 89.77,
+      "documentaryPriorityScore": 86.34
+    },
+    {
+      "id": "GLOBAL-T5-008119",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 3,
+      "areaApproxKm2": 0.6016584729603931,
+      "classification": "detache",
+      "centroid": {
+        "lat": 20.88680555555555,
+        "lon": -69.74652777777777
+      },
+      "bbox": {
+        "west": -69.75,
+        "east": -69.74166666666667,
+        "north": 20.89166666666666,
+        "south": 20.883333333333326
+      },
+      "meanDepthM": 4.666666666666667,
+      "nearRingMeanDepthM": 1473.5,
+      "nearContrastM": 1468.8333333333333,
+      "wideDirectionalMeanDepthM": 658.25,
+      "wideContrastM": 653.5833333333334,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-008119",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 3
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 84.71,
+      "documentaryPriorityScore": 85.94
+    },
+    {
+      "id": "GLOBAL-T5-007802",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 57,
+      "areaApproxKm2": 11.40705749202944,
+      "classification": "detache",
+      "centroid": {
+        "lat": 21.205665204678358,
+        "lon": -71.24974415204679
+      },
+      "bbox": {
+        "west": -71.26666666666667,
+        "east": -71.2375,
+        "north": 21.233333333333327,
+        "south": 21.174999999999994
+      },
+      "meanDepthM": 8.0,
+      "nearRingMeanDepthM": 27.5,
+      "nearContrastM": 19.5,
+      "wideDirectionalMeanDepthM": 555.7545454545455,
+      "wideContrastM": 547.7545454545455,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007802",
+      "nestedComponents": {
+        "1": 0,
+        "2": 3,
+        "3": 3,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 3,
+        "3": 14,
+        "4": 29,
+        "5": 57
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 83.1,
+      "documentaryPriorityScore": 85.77
+    },
+    {
+      "id": "GLOBAL-T5-012772",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 3,
+      "areaApproxKm2": 0.6181597729856972,
+      "classification": "detache",
+      "centroid": {
+        "lat": 16.278472222222213,
+        "lon": -86.57847222222222
+      },
+      "bbox": {
+        "west": -86.58333333333333,
+        "east": -86.575,
+        "north": 16.283333333333324,
+        "south": 16.27499999999999
+      },
+      "meanDepthM": 1.6666666666666667,
+      "nearRingMeanDepthM": 307.375,
+      "nearContrastM": 305.7083333333333,
+      "wideDirectionalMeanDepthM": 449.3333333333333,
+      "wideContrastM": 447.66666666666663,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012772",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 3,
+        "3": 3,
+        "4": 3,
+        "5": 3
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 84.43,
+      "documentaryPriorityScore": 85.54
+    },
+    {
+      "id": "GLOBAL-T5-006043",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 15400,
+      "areaApproxKm2": 3057.203862216293,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 22.359476190476187,
+        "lon": -84.34077976190477
+      },
+      "bbox": {
+        "west": -84.95833333333333,
+        "east": -83.0125,
+        "north": 23.02083333333333,
+        "south": 21.887499999999996
+      },
+      "meanDepthM": 5.674155844155844,
+      "nearRingMeanDepthM": 18.20263157894737,
+      "nearContrastM": 12.528475734791524,
+      "wideDirectionalMeanDepthM": 239.0029949086553,
+      "wideContrastM": 233.32883906449945,
+      "directMeasurementPercent": 84.37012987012987,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006043",
+      "nestedComponents": {
+        "1": 227,
+        "2": 174,
+        "3": 110,
+        "4": 69,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 820,
+        "2": 3817,
+        "3": 7471,
+        "4": 12673,
+        "5": 15400
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 85.38,
+      "documentaryPriorityScore": 85.41
+    },
+    {
+      "id": "GLOBAL-T5-010111",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 42732,
+      "areaApproxKm2": 8760.47761246796,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 17.244279560204678,
+        "lon": -88.22257500234016
+      },
+      "bbox": {
+        "west": -88.93333333333334,
+        "east": -87.8375,
+        "north": 18.862499999999994,
+        "south": 15.69166666666666
+      },
+      "meanDepthM": 3.1925723111485538,
+      "nearRingMeanDepthM": 18.261088467993286,
+      "nearContrastM": 15.068516156844732,
+      "wideDirectionalMeanDepthM": 150.61655332965753,
+      "wideContrastM": 147.42398101850898,
+      "directMeasurementPercent": 90.58316952166994,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-010111",
+      "nestedComponents": {
+        "1": 668,
+        "2": 509,
+        "3": 226,
+        "4": 97,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 5417,
+        "2": 32293,
+        "3": 38709,
+        "4": 41167,
+        "5": 42732
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 87.34,
+      "documentaryPriorityScore": 85.17
+    },
+    {
+      "id": "GLOBAL-T5-006298",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 608,
+      "areaApproxKm2": 120.684365175803,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 22.377508223684202,
+        "lon": -72.87247807017543
+      },
+      "bbox": {
+        "west": -73.1375,
+        "east": -72.65416666666667,
+        "north": 22.474999999999994,
+        "south": 22.274999999999995
+      },
+      "meanDepthM": 4.146381578947368,
+      "nearRingMeanDepthM": 76.85654008438819,
+      "nearContrastM": 72.71015850544082,
+      "wideDirectionalMeanDepthM": 1042.6685552407932,
+      "wideContrastM": 1038.522173661846,
+      "directMeasurementPercent": 98.19078947368422,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006298",
+      "nestedComponents": {
+        "1": 20,
+        "2": 16,
+        "3": 8,
+        "4": 7,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 106,
+        "2": 339,
+        "3": 455,
+        "4": 529,
+        "5": 608
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 92.82,
+      "documentaryPriorityScore": 85.11
+    },
+    {
+      "id": "GLOBAL-T5-007440",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 708,
+      "areaApproxKm2": 141.49056231131703,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 21.410151836158185,
+        "lon": -71.13555202448211
+      },
+      "bbox": {
+        "west": -71.225,
+        "east": -71.075,
+        "north": 21.54166666666666,
+        "south": 21.29166666666666
+      },
+      "meanDepthM": 6.887005649717514,
+      "nearRingMeanDepthM": 70.19202898550725,
+      "nearContrastM": 63.305023335789734,
+      "wideDirectionalMeanDepthM": 514.6751269035533,
+      "wideContrastM": 507.78812125383575,
+      "directMeasurementPercent": 96.1864406779661,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007440",
+      "nestedComponents": {
+        "1": 14,
+        "2": 22,
+        "3": 12,
+        "4": 7,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 22,
+        "2": 142,
+        "3": 243,
+        "4": 430,
+        "5": 708
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 91.86,
+      "documentaryPriorityScore": 84.95
+    },
+    {
+      "id": "GLOBAL-T5-007672",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 926,
+      "areaApproxKm2": 185.53648106630513,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 21.028185745140384,
+        "lon": -73.16167656587473
+      },
+      "bbox": {
+        "west": -73.40833333333333,
+        "east": -72.9875,
+        "north": 21.337499999999995,
+        "south": 20.87083333333333
+      },
+      "meanDepthM": 6.169546436285097,
+      "nearRingMeanDepthM": 46.886861313868614,
+      "nearContrastM": 40.71731487758352,
+      "wideDirectionalMeanDepthM": 510.0990566037736,
+      "wideContrastM": 503.9295101674885,
+      "directMeasurementPercent": 93.19654427645789,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007672",
+      "nestedComponents": {
+        "1": 46,
+        "2": 13,
+        "3": 12,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 117,
+        "2": 326,
+        "3": 429,
+        "4": 584,
+        "5": 926
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 89.81,
+      "documentaryPriorityScore": 84.5
+    },
+    {
+      "id": "GLOBAL-T5-012757",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 4,
+      "areaApproxKm2": 0.8241575832935388,
+      "classification": "detache",
+      "centroid": {
+        "lat": 16.29166666666666,
+        "lon": -86.56458333333333
+      },
+      "bbox": {
+        "west": -86.57083333333333,
+        "east": -86.55833333333334,
+        "north": 16.295833333333327,
+        "south": 16.28749999999999
+      },
+      "meanDepthM": 1.5,
+      "nearRingMeanDepthM": 264.5,
+      "nearContrastM": 263.0,
+      "wideDirectionalMeanDepthM": 301.5625,
+      "wideContrastM": 300.0625,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012757",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 2,
+        "2": 4,
+        "3": 4,
+        "4": 4,
+        "5": 4
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 83.83,
+      "documentaryPriorityScore": 84.46
+    },
+    {
+      "id": "GLOBAL-T5-013139",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 53,
+      "areaApproxKm2": 10.941540521220087,
+      "classification": "detache",
+      "centroid": {
+        "lat": 15.902004716981125,
+        "lon": -78.57000786163522
+      },
+      "bbox": {
+        "west": -78.6,
+        "east": -78.54583333333333,
+        "north": 15.920833333333327,
+        "south": 15.874999999999993
+      },
+      "meanDepthM": 7.150943396226415,
+      "nearRingMeanDepthM": 15.067567567567568,
+      "nearContrastM": 7.916624171341153,
+      "wideDirectionalMeanDepthM": 498.11557788944725,
+      "wideContrastM": 490.96463449322084,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-013139",
+      "nestedComponents": {
+        "1": 0,
+        "2": 3,
+        "3": 3,
+        "4": 5,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 5,
+        "3": 15,
+        "4": 35,
+        "5": 53
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 80.39,
+      "documentaryPriorityScore": 84.44
+    },
+    {
+      "id": "GLOBAL-T5-012230",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1598,
+      "areaApproxKm2": 327.47820734567193,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 17.315923550271165,
+        "lon": -87.54200041718815
+      },
+      "bbox": {
+        "west": -87.64583333333333,
+        "east": -87.44583333333333,
+        "north": 17.483333333333327,
+        "south": 17.120833333333326
+      },
+      "meanDepthM": 3.3961201501877345,
+      "nearRingMeanDepthM": 18.96742671009772,
+      "nearContrastM": 15.571306559909985,
+      "wideDirectionalMeanDepthM": 635.9807692307693,
+      "wideContrastM": 632.5846490805816,
+      "directMeasurementPercent": 91.67709637046308,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012230",
+      "nestedComponents": {
+        "1": 69,
+        "2": 32,
+        "3": 10,
+        "4": 7,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 199,
+        "2": 959,
+        "3": 1453,
+        "4": 1525,
+        "5": 1598
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 87.44,
+      "documentaryPriorityScore": 84.41
+    },
+    {
+      "id": "GLOBAL-T5-012254",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 86,
+      "areaApproxKm2": 17.61543021997776,
+      "classification": "detache",
+      "centroid": {
+        "lat": 17.404893410852704,
+        "lon": -75.9796511627907
+      },
+      "bbox": {
+        "west": -76.00416666666666,
+        "east": -75.95416666666667,
+        "north": 17.42916666666666,
+        "south": 17.37916666666666
+      },
+      "meanDepthM": 7.5813953488372094,
+      "nearRingMeanDepthM": 14.14,
+      "nearContrastM": 6.558604651162791,
+      "wideDirectionalMeanDepthM": 379.70623145400594,
+      "wideContrastM": 372.12483610516875,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012254",
+      "nestedComponents": {
+        "1": 0,
+        "2": 2,
+        "3": 1,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 6,
+        "3": 19,
+        "4": 50,
+        "5": 86
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 80.11,
+      "documentaryPriorityScore": 84.37
+    },
+    {
+      "id": "GLOBAL-T5-005966",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 371,
+      "areaApproxKm2": 73.25990116381506,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 23.087561769991012,
+        "lon": -73.7097765049416
+      },
+      "bbox": {
+        "west": -73.85416666666667,
+        "east": -73.57916666666667,
+        "north": 23.112499999999997,
+        "south": 23.05416666666666
+      },
+      "meanDepthM": 5.886792452830188,
+      "nearRingMeanDepthM": 128.10050251256283,
+      "nearContrastM": 122.21371005973263,
+      "wideDirectionalMeanDepthM": 1215.4941060903732,
+      "wideContrastM": 1209.607313637543,
+      "directMeasurementPercent": 98.11320754716981,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005966",
+      "nestedComponents": {
+        "1": 8,
+        "2": 17,
+        "3": 11,
+        "4": 5,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 14,
+        "2": 90,
+        "3": 182,
+        "4": 282,
+        "5": 371
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 92.77,
+      "documentaryPriorityScore": 84.23
+    },
+    {
+      "id": "GLOBAL-T5-012615",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 17,
+      "areaApproxKm2": 3.5009547854668077,
+      "classification": "detache",
+      "centroid": {
+        "lat": 16.387377450980384,
+        "lon": -86.34620098039215
+      },
+      "bbox": {
+        "west": -86.37083333333334,
+        "east": -86.31666666666666,
+        "north": 16.395833333333325,
+        "south": 16.37916666666666
+      },
+      "meanDepthM": 3.0588235294117645,
+      "nearRingMeanDepthM": 200.76470588235293,
+      "nearContrastM": 197.70588235294116,
+      "wideDirectionalMeanDepthM": 610.1428571428571,
+      "wideContrastM": 607.0840336134454,
+      "directMeasurementPercent": 94.11764705882352,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012615",
+      "nestedComponents": {
+        "1": 0,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 12,
+        "3": 17,
+        "4": 17,
+        "5": 17
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 83.18,
+      "documentaryPriorityScore": 84.04
+    },
+    {
+      "id": "GLOBAL-T5-005784",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 10,
+      "areaApproxKm2": 1.9695197672308837,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.434999999999995,
+        "lon": -78.95875000000001
+      },
+      "bbox": {
+        "west": -78.96666666666667,
+        "east": -78.95,
+        "north": 23.449999999999996,
+        "south": 23.420833333333327
+      },
+      "meanDepthM": 1.9,
+      "nearRingMeanDepthM": 21.681818181818183,
+      "nearContrastM": 19.781818181818185,
+      "wideDirectionalMeanDepthM": 304.2,
+      "wideContrastM": 302.3,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005784",
+      "nestedComponents": {
+        "1": 4,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 6,
+        "2": 9,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 80.6,
+      "documentaryPriorityScore": 83.87
+    },
+    {
+      "id": "GLOBAL-T5-012749",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.20603282587557112,
+      "classification": "detache",
+      "centroid": {
+        "lat": 16.29791666666666,
+        "lon": -86.55625
+      },
+      "bbox": {
+        "west": -86.55833333333334,
+        "east": -86.55416666666667,
+        "north": 16.299999999999994,
+        "south": 16.295833333333327
+      },
+      "meanDepthM": 1.0,
+      "nearRingMeanDepthM": 135.75,
+      "nearContrastM": 134.75,
+      "wideDirectionalMeanDepthM": 368.75,
+      "wideContrastM": 367.75,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012749",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 82.57,
+      "documentaryPriorityScore": 83.69
+    },
+    {
+      "id": "GLOBAL-T5-012728",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 3,
+      "areaApproxKm2": 0.6180634197451251,
+      "classification": "detache",
+      "centroid": {
+        "lat": 16.30902777777777,
+        "lon": -86.54652777777778
+      },
+      "bbox": {
+        "west": -86.55,
+        "east": -86.54166666666667,
+        "north": 16.312499999999993,
+        "south": 16.30416666666666
+      },
+      "meanDepthM": 2.6666666666666665,
+      "nearRingMeanDepthM": 56.375,
+      "nearContrastM": 53.708333333333336,
+      "wideDirectionalMeanDepthM": 328.75,
+      "wideContrastM": 326.0833333333333,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012728",
+      "nestedComponents": {
+        "1": 1,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 3,
+        "5": 3
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 81.75,
+      "documentaryPriorityScore": 83.53
+    },
+    {
+      "id": "GLOBAL-T5-012393",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1427,
+      "areaApproxKm2": 293.2096102225021,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 16.82241736743751,
+        "lon": -87.79405658724598
+      },
+      "bbox": {
+        "west": -87.90416666666667,
+        "east": -87.68333333333334,
+        "north": 16.937499999999993,
+        "south": 16.70416666666666
+      },
+      "meanDepthM": 3.7505255781359494,
+      "nearRingMeanDepthM": 22.723484848484848,
+      "nearContrastM": 18.9729592703489,
+      "wideDirectionalMeanDepthM": 377.79695431472084,
+      "wideContrastM": 374.04642873658486,
+      "directMeasurementPercent": 92.78206026629292,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012393",
+      "nestedComponents": {
+        "1": 63,
+        "2": 59,
+        "3": 11,
+        "4": 7,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 154,
+        "2": 601,
+        "3": 1261,
+        "4": 1358,
+        "5": 1427
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 87.5,
+      "documentaryPriorityScore": 83.51
+    },
+    {
+      "id": "GLOBAL-T5-006648",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 237,
+      "areaApproxKm2": 47.15407613931476,
+      "classification": "detache",
+      "centroid": {
+        "lat": 22.046844233473976,
+        "lon": -74.46472398030943
+      },
+      "bbox": {
+        "west": -74.51666666666667,
+        "east": -74.425,
+        "north": 22.12083333333333,
+        "south": 21.97916666666666
+      },
+      "meanDepthM": 10.535864978902953,
+      "nearRingMeanDepthM": 134.72307692307692,
+      "nearContrastM": 124.18721194417397,
+      "wideDirectionalMeanDepthM": 826.5284015852047,
+      "wideContrastM": 815.9925366063018,
+      "directMeasurementPercent": 97.8902953586498,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006648",
+      "nestedComponents": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1,
+        "5": 237
+      },
+      "shallowestThresholdM": 8.4,
+      "persistenceLevels": 2,
+      "affectedCategories": 2,
+      "scientificConfidenceScore": 85.81,
+      "documentaryPriorityScore": 83.34
+    },
+    {
+      "id": "GLOBAL-T5-005744",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.1968394341239417,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.510416666666664,
+        "lon": -75.62291666666667
+      },
+      "bbox": {
+        "west": -75.625,
+        "east": -75.62083333333334,
+        "north": 23.512499999999996,
+        "south": 23.50833333333333
+      },
+      "meanDepthM": 1.0,
+      "nearRingMeanDepthM": 68.25,
+      "nearContrastM": 67.25,
+      "wideDirectionalMeanDepthM": 374.0,
+      "wideContrastM": 373.0,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005744",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 81.41,
+      "documentaryPriorityScore": 83.2
+    },
+    {
+      "id": "GLOBAL-T5-004748",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 57,
+      "areaApproxKm2": 11.122231237638665,
+      "classification": "detache",
+      "centroid": {
+        "lat": 24.63117690058479,
+        "lon": -75.84791666666666
+      },
+      "bbox": {
+        "west": -75.90833333333333,
+        "east": -75.7875,
+        "north": 24.641666666666662,
+        "south": 24.624999999999996
+      },
+      "meanDepthM": 4.912280701754386,
+      "nearRingMeanDepthM": 51.9078947368421,
+      "nearContrastM": 46.99561403508772,
+      "wideDirectionalMeanDepthM": 981.7894736842105,
+      "wideContrastM": 976.8771929824561,
+      "directMeasurementPercent": 78.94736842105263,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-004748",
+      "nestedComponents": {
+        "1": 0,
+        "2": 2,
+        "3": 4,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 22,
+        "3": 39,
+        "4": 50,
+        "5": 57
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 76.84,
+      "documentaryPriorityScore": 82.91
+    },
+    {
+      "id": "GLOBAL-T5-012175",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 2941,
+      "areaApproxKm2": 602.4899282523286,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 17.379637736597523,
+        "lon": -87.85665944123315
+      },
+      "bbox": {
+        "west": -87.97083333333333,
+        "east": -87.7375,
+        "north": 17.637499999999992,
+        "south": 17.145833333333325
+      },
+      "meanDepthM": 3.1128867732063923,
+      "nearRingMeanDepthM": 21.89873417721519,
+      "nearContrastM": 18.7858474040088,
+      "wideDirectionalMeanDepthM": 232.0846694796062,
+      "wideContrastM": 228.9717827063998,
+      "directMeasurementPercent": 88.98333900034002,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012175",
+      "nestedComponents": {
+        "1": 150,
+        "2": 43,
+        "3": 19,
+        "4": 12,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 401,
+        "2": 2346,
+        "3": 2693,
+        "4": 2814,
+        "5": 2941
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 86.03,
+      "documentaryPriorityScore": 82.83
+    },
+    {
+      "id": "GLOBAL-T5-007411",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.1996449693111255,
+      "classification": "detache",
+      "centroid": {
+        "lat": 21.556249999999995,
+        "lon": -80.97708333333333
+      },
+      "bbox": {
+        "west": -80.97916666666667,
+        "east": -80.975,
+        "north": 21.55833333333333,
+        "south": 21.55416666666666
+      },
+      "meanDepthM": 1.0,
+      "nearRingMeanDepthM": 23.25,
+      "nearContrastM": 22.25,
+      "wideDirectionalMeanDepthM": 800.5,
+      "wideContrastM": 799.5,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007411",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 78.9,
+      "documentaryPriorityScore": 82.82
+    },
+    {
+      "id": "GLOBAL-T5-009196",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 553,
+      "areaApproxKm2": 111.72791422681698,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 19.74373493068113,
+        "lon": -72.06948839662448
+      },
+      "bbox": {
+        "west": -72.2,
+        "east": -71.9,
+        "north": 19.787499999999994,
+        "south": 19.695833333333326
+      },
+      "meanDepthM": 4.996383363471971,
+      "nearRingMeanDepthM": 57.61585365853659,
+      "nearContrastM": 52.619470295064616,
+      "wideDirectionalMeanDepthM": 423.15725806451616,
+      "wideContrastM": 418.1608747010442,
+      "directMeasurementPercent": 92.94755877034359,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-009196",
+      "nestedComponents": {
+        "1": 18,
+        "2": 13,
+        "3": 10,
+        "4": 3,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 28,
+        "2": 204,
+        "3": 348,
+        "4": 480,
+        "5": 553
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 89.0,
+      "documentaryPriorityScore": 82.8
+    },
+    {
+      "id": "GLOBAL-T5-005803",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 3,
+      "areaApproxKm2": 0.5909595620095714,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.411805555555553,
+        "lon": -78.94236111111111
+      },
+      "bbox": {
+        "west": -78.94583333333333,
+        "east": -78.9375,
+        "north": 23.416666666666664,
+        "south": 23.408333333333328
+      },
+      "meanDepthM": 2.6666666666666665,
+      "nearRingMeanDepthM": 39.5,
+      "nearContrastM": 36.833333333333336,
+      "wideDirectionalMeanDepthM": 304.5,
+      "wideContrastM": 301.8333333333333,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005803",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 3,
+        "5": 3
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 80.43,
+      "documentaryPriorityScore": 82.71
+    },
+    {
+      "id": "GLOBAL-T5-008113",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 4,
+      "areaApproxKm2": 0.8021519171397684,
+      "classification": "detache",
+      "centroid": {
+        "lat": 20.89791666666666,
+        "lon": -69.73333333333333
+      },
+      "bbox": {
+        "west": -69.74166666666667,
+        "east": -69.725,
+        "north": 20.899999999999995,
+        "south": 20.89583333333333
+      },
+      "meanDepthM": 5.5,
+      "nearRingMeanDepthM": 1819.9,
+      "nearContrastM": 1814.4,
+      "wideDirectionalMeanDepthM": 1306.75,
+      "wideContrastM": 1301.25,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-008113",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 2,
+        "3": 3,
+        "4": 3,
+        "5": 4
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 83.15,
+      "documentaryPriorityScore": 82.44
+    },
+    {
+      "id": "GLOBAL-T5-008215",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1014,
+      "areaApproxKm2": 203.64957320422823,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 20.6723701512163,
+        "lon": -74.9290885930309
+      },
+      "bbox": {
+        "west": -75.2625,
+        "east": -74.64166666666667,
+        "north": 20.733333333333327,
+        "south": 20.508333333333326
+      },
+      "meanDepthM": 2.7435897435897436,
+      "nearRingMeanDepthM": 39.83018867924528,
+      "nearContrastM": 37.08659893565554,
+      "wideDirectionalMeanDepthM": 553.6442432082795,
+      "wideContrastM": 550.9006534646898,
+      "directMeasurementPercent": 81.65680473372781,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-008215",
+      "nestedComponents": {
+        "1": 39,
+        "2": 11,
+        "3": 8,
+        "4": 5,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 208,
+        "2": 802,
+        "3": 931,
+        "4": 987,
+        "5": 1014
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 84.87,
+      "documentaryPriorityScore": 82.43
+    },
+    {
+      "id": "GLOBAL-T5-005636",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 8,
+      "areaApproxKm2": 1.5736737088302604,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.59739583333333,
+        "lon": -79.0171875
+      },
+      "bbox": {
+        "west": -79.02083333333333,
+        "east": -79.0125,
+        "north": 23.612499999999997,
+        "south": 23.58333333333333
+      },
+      "meanDepthM": 1.625,
+      "nearRingMeanDepthM": 21.72222222222222,
+      "nearContrastM": 20.09722222222222,
+      "wideDirectionalMeanDepthM": 230.8125,
+      "wideContrastM": 229.1875,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005636",
+      "nestedComponents": {
+        "1": 2,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 6,
+        "2": 7,
+        "3": 8,
+        "4": 8,
+        "5": 8
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 79.54,
+      "documentaryPriorityScore": 82.43
+    },
+    {
+      "id": "GLOBAL-T5-005763",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 7,
+      "areaApproxKm2": 1.3783861729967697,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.46160714285714,
+        "lon": -78.97172619047619
+      },
+      "bbox": {
+        "west": -78.975,
+        "east": -78.96666666666667,
+        "north": 23.474999999999994,
+        "south": 23.449999999999996
+      },
+      "meanDepthM": 1.7142857142857142,
+      "nearRingMeanDepthM": 16.5,
+      "nearContrastM": 14.785714285714286,
+      "wideDirectionalMeanDepthM": 270.0,
+      "wideContrastM": 268.2857142857143,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005763",
+      "nestedComponents": {
+        "1": 2,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 5,
+        "2": 6,
+        "3": 7,
+        "4": 7,
+        "5": 7
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 78.84,
+      "documentaryPriorityScore": 82.38
+    },
+    {
+      "id": "GLOBAL-T5-009546",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 430,
+      "areaApproxKm2": 87.09119838234892,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 19.34637596899224,
+        "lon": -81.32203488372093
+      },
+      "bbox": {
+        "west": -81.3875,
+        "east": -81.25833333333333,
+        "north": 19.40416666666666,
+        "south": 19.29166666666666
+      },
+      "meanDepthM": 2.727906976744186,
+      "nearRingMeanDepthM": 15.954545454545455,
+      "nearContrastM": 13.22663847780127,
+      "wideDirectionalMeanDepthM": 590.5037593984962,
+      "wideContrastM": 587.775852421752,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-009546",
+      "nestedComponents": {
+        "1": 22,
+        "2": 2,
+        "3": 3,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 56,
+        "2": 371,
+        "3": 413,
+        "4": 420,
+        "5": 430
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 87.91,
+      "documentaryPriorityScore": 82.34
+    },
+    {
+      "id": "GLOBAL-T5-005142",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 685,
+      "areaApproxKm2": 134.27624033872272,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 24.050380170316295,
+        "lon": -74.48306265206813
+      },
+      "bbox": {
+        "west": -74.575,
+        "east": -74.40416666666667,
+        "north": 24.174999999999997,
+        "south": 23.924999999999997
+      },
+      "meanDepthM": 5.786861313868613,
+      "nearRingMeanDepthM": 30.846743295019156,
+      "nearContrastM": 25.059881981150543,
+      "wideDirectionalMeanDepthM": 686.3178348369188,
+      "wideContrastM": 680.5309735230502,
+      "directMeasurementPercent": 88.46715328467153,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005142",
+      "nestedComponents": {
+        "1": 16,
+        "2": 30,
+        "3": 32,
+        "4": 10,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 37,
+        "2": 166,
+        "3": 353,
+        "4": 540,
+        "5": 685
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 85.81,
+      "documentaryPriorityScore": 82.14
+    },
+    {
+      "id": "GLOBAL-T5-012580",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 601,
+      "areaApproxKm2": 123.75600352786097,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 16.40790002773155,
+        "lon": -86.2901379645036
+      },
+      "bbox": {
+        "west": -86.58333333333333,
+        "east": -86.08333333333333,
+        "north": 16.458333333333325,
+        "south": 16.312499999999993
+      },
+      "meanDepthM": 5.076539101497504,
+      "nearRingMeanDepthM": 88.66494845360825,
+      "nearContrastM": 83.58840935211074,
+      "wideDirectionalMeanDepthM": 628.0534642662302,
+      "wideContrastM": 622.9769251647327,
+      "directMeasurementPercent": 81.03161397670549,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012580",
+      "nestedComponents": {
+        "1": 7,
+        "2": 52,
+        "3": 21,
+        "4": 5,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 9,
+        "2": 171,
+        "3": 394,
+        "4": 528,
+        "5": 601
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 86.0,
+      "documentaryPriorityScore": 82.09
+    },
+    {
+      "id": "GLOBAL-T5-006223",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 159,
+      "areaApproxKm2": 31.51043267467013,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 22.597471174004188,
+        "lon": -73.4892426624738
+      },
+      "bbox": {
+        "west": -73.5625,
+        "east": -73.425,
+        "north": 22.62083333333333,
+        "south": 22.570833333333326
+      },
+      "meanDepthM": 6.528301886792453,
+      "nearRingMeanDepthM": 129.7659574468085,
+      "nearContrastM": 123.23765556001605,
+      "wideDirectionalMeanDepthM": 1002.5296442687747,
+      "wideContrastM": 996.0013423819823,
+      "directMeasurementPercent": 98.11320754716981,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006223",
+      "nestedComponents": {
+        "1": 4,
+        "2": 7,
+        "3": 4,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 9,
+        "2": 39,
+        "3": 68,
+        "4": 108,
+        "5": 159
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 91.13,
+      "documentaryPriorityScore": 82.05
+    },
+    {
+      "id": "GLOBAL-T5-012702",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 5,
+      "areaApproxKm2": 1.0300545417195046,
+      "classification": "detache",
+      "centroid": {
+        "lat": 16.31874999999999,
+        "lon": -86.50041666666667
+      },
+      "bbox": {
+        "west": -86.50833333333333,
+        "east": -86.49583333333334,
+        "north": 16.324999999999992,
+        "south": 16.312499999999993
+      },
+      "meanDepthM": 5.2,
+      "nearRingMeanDepthM": 60.916666666666664,
+      "nearContrastM": 55.71666666666666,
+      "wideDirectionalMeanDepthM": 736.9285714285714,
+      "wideContrastM": 731.7285714285714,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012702",
+      "nestedComponents": {
+        "1": 0,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 2,
+        "3": 4,
+        "4": 4,
+        "5": 5
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 81.75,
+      "documentaryPriorityScore": 82.02
+    },
+    {
+      "id": "GLOBAL-T5-006362",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 178,
+      "areaApproxKm2": 35.34021557437505,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 22.34487359550561,
+        "lon": -73.00737359550561
+      },
+      "bbox": {
+        "west": -73.0625,
+        "east": -72.9375,
+        "north": 22.374999999999993,
+        "south": 22.312499999999993
+      },
+      "meanDepthM": 3.4101123595505616,
+      "nearRingMeanDepthM": 153.46938775510205,
+      "nearContrastM": 150.05927539555148,
+      "wideDirectionalMeanDepthM": 1074.4397759103642,
+      "wideContrastM": 1071.0296635508137,
+      "directMeasurementPercent": 95.50561797752809,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006362",
+      "nestedComponents": {
+        "1": 9,
+        "2": 3,
+        "3": 2,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 31,
+        "2": 108,
+        "3": 155,
+        "4": 168,
+        "5": 178
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 90.25,
+      "documentaryPriorityScore": 81.85
+    },
+    {
+      "id": "GLOBAL-T5-008357",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 8946,
+      "areaApproxKm2": 1809.9770396494985,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 19.51900570087189,
+        "lon": -87.54339183247635
+      },
+      "bbox": {
+        "west": -87.84166666666667,
+        "east": -87.125,
+        "north": 20.566666666666663,
+        "south": 18.11666666666666
+      },
+      "meanDepthM": 3.2937625754527162,
+      "nearRingMeanDepthM": 15.775762572135202,
+      "nearContrastM": 12.481999996682486,
+      "wideDirectionalMeanDepthM": 167.1357698032082,
+      "wideContrastM": 163.8420072277555,
+      "directMeasurementPercent": 77.72188687681646,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-008357",
+      "nestedComponents": {
+        "1": 170,
+        "2": 97,
+        "3": 69,
+        "4": 29,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 2480,
+        "2": 6341,
+        "3": 7315,
+        "4": 8235,
+        "5": 8946
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 81.46,
+      "documentaryPriorityScore": 81.83
+    },
+    {
+      "id": "GLOBAL-T5-012113",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 205,
+      "areaApproxKm2": 41.904798787873105,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 17.773160569105684,
+        "lon": -64.63486788617885
+      },
+      "bbox": {
+        "west": -64.725,
+        "east": -64.5625,
+        "north": 17.80416666666666,
+        "south": 17.745833333333326
+      },
+      "meanDepthM": 6.317073170731708,
+      "nearRingMeanDepthM": 41.990566037735846,
+      "nearContrastM": 35.673492867004136,
+      "wideDirectionalMeanDepthM": 628.6032719836401,
+      "wideContrastM": 622.2861988129083,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012113",
+      "nestedComponents": {
+        "1": 11,
+        "2": 9,
+        "3": 5,
+        "4": 4,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 11,
+        "2": 42,
+        "3": 86,
+        "4": 147,
+        "5": 205
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 89.34,
+      "documentaryPriorityScore": 81.73
+    },
+    {
+      "id": "GLOBAL-T5-014906",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 3103,
+      "areaApproxKm2": 651.9173939515686,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 11.838915968417648,
+        "lon": -66.73679302288107
+      },
+      "bbox": {
+        "west": -66.95833333333334,
+        "east": -66.55416666666667,
+        "north": 11.983333333333324,
+        "south": 11.733333333333324
+      },
+      "meanDepthM": 5.175636480825008,
+      "nearRingMeanDepthM": 18.208012326656394,
+      "nearContrastM": 13.032375845831385,
+      "wideDirectionalMeanDepthM": 160.45932661587614,
+      "wideContrastM": 155.28369013505113,
+      "directMeasurementPercent": 91.49210441508218,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-014906",
+      "nestedComponents": {
+        "1": 41,
+        "2": 65,
+        "3": 52,
+        "4": 24,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 289,
+        "2": 1025,
+        "3": 1892,
+        "4": 2554,
+        "5": 3103
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 85.15,
+      "documentaryPriorityScore": 81.58
+    },
+    {
+      "id": "GLOBAL-T5-012629",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 2,
+      "areaApproxKm2": 0.4118987887251591,
+      "classification": "detache",
+      "centroid": {
+        "lat": 16.377083333333324,
+        "lon": -86.375
+      },
+      "bbox": {
+        "west": -86.37916666666666,
+        "east": -86.37083333333334,
+        "north": 16.37916666666666,
+        "south": 16.374999999999993
+      },
+      "meanDepthM": 4.0,
+      "nearRingMeanDepthM": 262.0,
+      "nearContrastM": 258.0,
+      "wideDirectionalMeanDepthM": 780.1666666666666,
+      "wideContrastM": 776.1666666666666,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012629",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 2
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 82.15,
+      "documentaryPriorityScore": 81.57
+    },
+    {
+      "id": "GLOBAL-T5-013827",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 891,
+      "areaApproxKm2": 185.26759917461933,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 14.381390291806952,
+        "lon": -80.23810091657313
+      },
+      "bbox": {
+        "west": -80.37083333333334,
+        "east": -80.1,
+        "north": 14.479166666666657,
+        "south": 14.279166666666658
+      },
+      "meanDepthM": 7.31986531986532,
+      "nearRingMeanDepthM": 17.966740576496672,
+      "nearContrastM": 10.646875256631352,
+      "wideDirectionalMeanDepthM": 304.6823642479577,
+      "wideContrastM": 297.3624989280924,
+      "directMeasurementPercent": 96.74523007856341,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-013827",
+      "nestedComponents": {
+        "1": 2,
+        "2": 25,
+        "3": 30,
+        "4": 20,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 2,
+        "2": 46,
+        "3": 234,
+        "4": 561,
+        "5": 891
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 86.02,
+      "documentaryPriorityScore": 81.46
+    },
+    {
+      "id": "GLOBAL-T5-009008",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 4,
+      "areaApproxKm2": 0.8073165858819193,
+      "classification": "detache",
+      "centroid": {
+        "lat": 19.909374999999994,
+        "lon": -71.08645833333333
+      },
+      "bbox": {
+        "west": -71.09166666666667,
+        "east": -71.08333333333333,
+        "north": 19.91666666666666,
+        "south": 19.90416666666666
+      },
+      "meanDepthM": 6.25,
+      "nearRingMeanDepthM": 18.6,
+      "nearContrastM": 12.350000000000001,
+      "wideDirectionalMeanDepthM": 286.0,
+      "wideContrastM": 279.75,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-009008",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 4
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 77.52,
+      "documentaryPriorityScore": 81.42
+    },
+    {
+      "id": "GLOBAL-T5-007875",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 181,
+      "areaApproxKm2": 36.24223674562084,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 21.12468922651933,
+        "lon": -73.6019682320442
+      },
+      "bbox": {
+        "west": -73.66666666666667,
+        "east": -73.5125,
+        "north": 21.17916666666666,
+        "south": 21.095833333333328
+      },
+      "meanDepthM": 3.6298342541436464,
+      "nearRingMeanDepthM": 56.10769230769231,
+      "nearContrastM": 52.477858053548665,
+      "wideDirectionalMeanDepthM": 870.2023121387283,
+      "wideContrastM": 866.5724778845846,
+      "directMeasurementPercent": 96.13259668508287,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007875",
+      "nestedComponents": {
+        "1": 3,
+        "2": 3,
+        "3": 5,
+        "4": 4,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 50,
+        "2": 120,
+        "3": 139,
+        "4": 158,
+        "5": 181
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 88.62,
+      "documentaryPriorityScore": 81.16
+    },
+    {
+      "id": "GLOBAL-T5-012068",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 840,
+      "areaApproxKm2": 171.78290014037287,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 17.69446924603174,
+        "lon": -71.44329365079365
+      },
+      "bbox": {
+        "west": -71.6375,
+        "east": -71.24583333333334,
+        "north": 17.883333333333326,
+        "south": 17.57916666666666
+      },
+      "meanDepthM": 5.751190476190477,
+      "nearRingMeanDepthM": 14.341232227488153,
+      "nearContrastM": 8.590041751297676,
+      "wideDirectionalMeanDepthM": 300.8482922954726,
+      "wideContrastM": 295.09710181928216,
+      "directMeasurementPercent": 97.38095238095238,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012068",
+      "nestedComponents": {
+        "1": 13,
+        "2": 37,
+        "3": 19,
+        "4": 5,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 31,
+        "2": 160,
+        "3": 415,
+        "4": 692,
+        "5": 840
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 85.57,
+      "documentaryPriorityScore": 81.1
+    },
+    {
+      "id": "GLOBAL-T5-011503",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 351,
+      "areaApproxKm2": 71.57562874374666,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 18.200575735992395,
+        "lon": -73.19409425451092
+      },
+      "bbox": {
+        "west": -73.3625,
+        "east": -72.92916666666667,
+        "north": 18.233333333333327,
+        "south": 18.158333333333328
+      },
+      "meanDepthM": 6.011396011396012,
+      "nearRingMeanDepthM": 28.976923076923075,
+      "nearContrastM": 22.965527065527063,
+      "wideDirectionalMeanDepthM": 503.35353535353534,
+      "wideContrastM": 497.3421393421393,
+      "directMeasurementPercent": 92.02279202279202,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-011503",
+      "nestedComponents": {
+        "1": 6,
+        "2": 17,
+        "3": 13,
+        "4": 4,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 6,
+        "2": 88,
+        "3": 164,
+        "4": 270,
+        "5": 351
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 85.73,
+      "documentaryPriorityScore": 81.01
+    },
+    {
+      "id": "GLOBAL-T5-005606",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 3,
+      "areaApproxKm2": 0.5899752191813368,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.631249999999994,
+        "lon": -79.02708333333334
+      },
+      "bbox": {
+        "west": -79.02916666666667,
+        "east": -79.025,
+        "north": 23.637499999999996,
+        "south": 23.624999999999993
+      },
+      "meanDepthM": 2.0,
+      "nearRingMeanDepthM": 24.0,
+      "nearContrastM": 22.0,
+      "wideDirectionalMeanDepthM": 225.33333333333334,
+      "wideContrastM": 223.33333333333334,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005606",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 2,
+        "2": 2,
+        "3": 3,
+        "4": 3,
+        "5": 3
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 78.15,
+      "documentaryPriorityScore": 80.91
+    },
+    {
+      "id": "GLOBAL-T5-014713",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 208,
+      "areaApproxKm2": 43.646091119822884,
+      "classification": "detache",
+      "centroid": {
+        "lat": 12.167027243589732,
+        "lon": -81.85064102564102
+      },
+      "bbox": {
+        "west": -81.89166666666667,
+        "east": -81.81666666666666,
+        "north": 12.212499999999991,
+        "south": 12.12499999999999
+      },
+      "meanDepthM": 7.086538461538462,
+      "nearRingMeanDepthM": 19.06451612903226,
+      "nearContrastM": 11.977977667493798,
+      "wideDirectionalMeanDepthM": 170.70724191063175,
+      "wideContrastM": 163.6207034490933,
+      "directMeasurementPercent": 81.73076923076923,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-014713",
+      "nestedComponents": {
+        "1": 0,
+        "2": 4,
+        "3": 7,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 27,
+        "3": 63,
+        "4": 134,
+        "5": 208
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 73.68,
+      "documentaryPriorityScore": 80.89
+    },
+    {
+      "id": "GLOBAL-T5-014708",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.20979604964730325,
+      "classification": "detache",
+      "centroid": {
+        "lat": 12.21874999999999,
+        "lon": -68.38125
+      },
+      "bbox": {
+        "west": -68.38333333333333,
+        "east": -68.37916666666666,
+        "north": 12.220833333333324,
+        "south": 12.216666666666658
+      },
+      "meanDepthM": 3.0,
+      "nearRingMeanDepthM": 93.5,
+      "nearContrastM": 90.5,
+      "wideDirectionalMeanDepthM": 854.0,
+      "wideContrastM": 851.0,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-014708",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 81.05,
+      "documentaryPriorityScore": 80.81
+    },
+    {
+      "id": "GLOBAL-T5-006213",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 142,
+      "areaApproxKm2": 28.138793618952445,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 22.610181924882625,
+        "lon": -73.60337441314554
+      },
+      "bbox": {
+        "west": -73.62916666666666,
+        "east": -73.57083333333333,
+        "north": 22.64583333333333,
+        "south": 22.566666666666663
+      },
+      "meanDepthM": 7.323943661971831,
+      "nearRingMeanDepthM": 86.89411764705882,
+      "nearContrastM": 79.570173985087,
+      "wideDirectionalMeanDepthM": 899.7866379310345,
+      "wideContrastM": 892.4626942690627,
+      "directMeasurementPercent": 94.36619718309859,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-006213",
+      "nestedComponents": {
+        "1": 3,
+        "2": 9,
+        "3": 8,
+        "4": 10,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 5,
+        "2": 21,
+        "3": 38,
+        "4": 74,
+        "5": 142
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 88.65,
+      "documentaryPriorityScore": 80.75
+    },
+    {
+      "id": "GLOBAL-T5-012634",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 7,
+      "areaApproxKm2": 1.4417293605861172,
+      "classification": "detache",
+      "centroid": {
+        "lat": 16.365773809523805,
+        "lon": -86.39613095238096
+      },
+      "bbox": {
+        "west": -86.40833333333333,
+        "east": -86.3875,
+        "north": 16.370833333333326,
+        "south": 16.362499999999994
+      },
+      "meanDepthM": 2.7142857142857144,
+      "nearRingMeanDepthM": 266.85714285714283,
+      "nearContrastM": 264.1428571428571,
+      "wideDirectionalMeanDepthM": 795.4782608695652,
+      "wideContrastM": 792.7639751552796,
+      "directMeasurementPercent": 85.71428571428571,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012634",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 7,
+        "3": 7,
+        "4": 7,
+        "5": 7
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 78.06,
+      "documentaryPriorityScore": 80.68
+    },
+    {
+      "id": "GLOBAL-T5-005725",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 3,
+      "areaApproxKm2": 0.5904622431061826,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.52291666666666,
+        "lon": -78.98958333333333
+      },
+      "bbox": {
+        "west": -78.99166666666667,
+        "east": -78.9875,
+        "north": 23.52916666666666,
+        "south": 23.516666666666662
+      },
+      "meanDepthM": 2.6666666666666665,
+      "nearRingMeanDepthM": 23.625,
+      "nearContrastM": 20.958333333333332,
+      "wideDirectionalMeanDepthM": 206.16666666666666,
+      "wideContrastM": 203.5,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005725",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 3,
+        "5": 3
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 77.77,
+      "documentaryPriorityScore": 80.5
+    },
+    {
+      "id": "GLOBAL-T5-005758",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 2,
+      "areaApproxKm2": 0.3937722183758513,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.479166666666664,
+        "lon": -78.97708333333333
+      },
+      "bbox": {
+        "west": -78.97916666666667,
+        "east": -78.975,
+        "north": 23.483333333333327,
+        "south": 23.474999999999994
+      },
+      "meanDepthM": 2.5,
+      "nearRingMeanDepthM": 19.5,
+      "nearContrastM": 17.0,
+      "wideDirectionalMeanDepthM": 240.25,
+      "wideContrastM": 237.75,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005758",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 2
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 77.01,
+      "documentaryPriorityScore": 80.32
+    },
+    {
+      "id": "GLOBAL-T5-004773",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.19513975973587824,
+      "classification": "detache",
+      "centroid": {
+        "lat": 24.62291666666666,
+        "lon": -76.03541666666666
+      },
+      "bbox": {
+        "west": -76.0375,
+        "east": -76.03333333333333,
+        "north": 24.624999999999996,
+        "south": 24.62083333333333
+      },
+      "meanDepthM": 2.0,
+      "nearRingMeanDepthM": 61.0,
+      "nearContrastM": 59.0,
+      "wideDirectionalMeanDepthM": 855.25,
+      "wideContrastM": 853.25,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-004773",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 79.77,
+      "documentaryPriorityScore": 80.21
+    },
+    {
+      "id": "GLOBAL-T5-010231",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 3290,
+      "areaApproxKm2": 669.4231545422386,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 18.57884118541033,
+        "lon": -87.34922745694023
+      },
+      "bbox": {
+        "west": -87.475,
+        "east": -87.22083333333333,
+        "north": 18.774999999999995,
+        "south": 18.36666666666666
+      },
+      "meanDepthM": 3.9361702127659575,
+      "nearRingMeanDepthM": 17.510166358595193,
+      "nearContrastM": 13.573996145829234,
+      "wideDirectionalMeanDepthM": 135.35661259279627,
+      "wideContrastM": 131.42044238003032,
+      "directMeasurementPercent": 86.47416413373861,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-010231",
+      "nestedComponents": {
+        "1": 44,
+        "2": 41,
+        "3": 25,
+        "4": 15,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 140,
+        "2": 1769,
+        "3": 2701,
+        "4": 3091,
+        "5": 3290
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 82.85,
+      "documentaryPriorityScore": 80.16
+    },
+    {
+      "id": "GLOBAL-T5-014860",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.20992731638886836,
+      "classification": "detache",
+      "centroid": {
+        "lat": 12.052083333333325,
+        "lon": -68.27291666666667
+      },
+      "bbox": {
+        "west": -68.275,
+        "east": -68.27083333333333,
+        "north": 12.054166666666656,
+        "south": 12.04999999999999
+      },
+      "meanDepthM": 3.0,
+      "nearRingMeanDepthM": 95.0,
+      "nearContrastM": 92.0,
+      "wideDirectionalMeanDepthM": 421.3333333333333,
+      "wideContrastM": 418.3333333333333,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-014860",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 80.65,
+      "documentaryPriorityScore": 80.16
+    },
+    {
+      "id": "GLOBAL-T5-005618",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 2,
+      "areaApproxKm2": 0.3933606019906174,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.61666666666666,
+        "lon": -79.02291666666667
+      },
+      "bbox": {
+        "west": -79.025,
+        "east": -79.02083333333333,
+        "north": 23.62083333333333,
+        "south": 23.612499999999997
+      },
+      "meanDepthM": 3.0,
+      "nearRingMeanDepthM": 21.333333333333332,
+      "nearContrastM": 18.333333333333332,
+      "wideDirectionalMeanDepthM": 223.75,
+      "wideContrastM": 220.75,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005618",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 2
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 77.03,
+      "documentaryPriorityScore": 80.14
+    },
+    {
+      "id": "GLOBAL-T5-005701",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 3,
+      "areaApproxKm2": 0.590331328864611,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.55208333333333,
+        "lon": -78.99791666666667
+      },
+      "bbox": {
+        "west": -79.0,
+        "east": -78.99583333333334,
+        "north": 23.55833333333333,
+        "south": 23.545833333333327
+      },
+      "meanDepthM": 4.333333333333333,
+      "nearRingMeanDepthM": 20.625,
+      "nearContrastM": 16.291666666666668,
+      "wideDirectionalMeanDepthM": 197.83333333333334,
+      "wideContrastM": 193.5,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005701",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 3
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 76.92,
+      "documentaryPriorityScore": 79.98
+    },
+    {
+      "id": "GLOBAL-T5-011288",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 281,
+      "areaApproxKm2": 57.29218344794562,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 18.22823991696322,
+        "lon": -71.0762677935943
+      },
+      "bbox": {
+        "west": -71.10833333333333,
+        "east": -71.03333333333333,
+        "north": 18.31666666666666,
+        "south": 18.05416666666666
+      },
+      "meanDepthM": 5.3487544483985765,
+      "nearRingMeanDepthM": 17.088495575221238,
+      "nearContrastM": 11.739741126822661,
+      "wideDirectionalMeanDepthM": 439.3766233766234,
+      "wideContrastM": 434.02786892822485,
+      "directMeasurementPercent": 96.79715302491103,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-011288",
+      "nestedComponents": {
+        "1": 5,
+        "2": 18,
+        "3": 12,
+        "4": 6,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 5,
+        "2": 94,
+        "3": 166,
+        "4": 228,
+        "5": 281
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 85.04,
+      "documentaryPriorityScore": 79.97
+    },
+    {
+      "id": "GLOBAL-T5-007320",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 390,
+      "areaApproxKm2": 77.87818249865154,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 21.525224358974356,
+        "lon": -76.98755341880342
+      },
+      "bbox": {
+        "west": -77.10833333333333,
+        "east": -76.82083333333333,
+        "north": 21.62083333333333,
+        "south": 21.387499999999996
+      },
+      "meanDepthM": 3.958974358974359,
+      "nearRingMeanDepthM": 24.979310344827585,
+      "nearContrastM": 21.020335985853226,
+      "wideDirectionalMeanDepthM": 638.3400537634409,
+      "wideContrastM": 634.3810794044665,
+      "directMeasurementPercent": 85.64102564102564,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007320",
+      "nestedComponents": {
+        "1": 22,
+        "2": 16,
+        "3": 13,
+        "4": 9,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 45,
+        "2": 235,
+        "3": 299,
+        "4": 352,
+        "5": 390
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 83.01,
+      "documentaryPriorityScore": 79.94
+    },
+    {
+      "id": "GLOBAL-T5-005690",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 2,
+      "areaApproxKm2": 0.393523024468823,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.562499999999993,
+        "lon": -79.00208333333333
+      },
+      "bbox": {
+        "west": -79.00416666666666,
+        "east": -79.0,
+        "north": 23.566666666666663,
+        "south": 23.55833333333333
+      },
+      "meanDepthM": 2.5,
+      "nearRingMeanDepthM": 21.666666666666668,
+      "nearContrastM": 19.166666666666668,
+      "wideDirectionalMeanDepthM": 206.0,
+      "wideContrastM": 203.5,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005690",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 2
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 76.95,
+      "documentaryPriorityScore": 79.9
+    },
+    {
+      "id": "GLOBAL-T5-011557",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 14,
+      "areaApproxKm2": 2.8547119972656447,
+      "classification": "detache",
+      "centroid": {
+        "lat": 18.21011904761904,
+        "lon": -63.123511904761905
+      },
+      "bbox": {
+        "west": -63.1375,
+        "east": -63.1125,
+        "north": 18.21666666666666,
+        "south": 18.20416666666666
+      },
+      "meanDepthM": 6.714285714285714,
+      "nearRingMeanDepthM": 15.85,
+      "nearContrastM": 9.135714285714286,
+      "wideDirectionalMeanDepthM": 116.09677419354838,
+      "wideContrastM": 109.38248847926268,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-011557",
+      "nestedComponents": {
+        "1": 1,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 3,
+        "3": 4,
+        "4": 9,
+        "5": 14
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 76.43,
+      "documentaryPriorityScore": 79.84
+    },
+    {
+      "id": "GLOBAL-T5-004943",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 68,
+      "areaApproxKm2": 13.28887628353693,
+      "classification": "detache",
+      "centroid": {
+        "lat": 24.439767156862743,
+        "lon": -81.64607843137254
+      },
+      "bbox": {
+        "west": -81.68333333333334,
+        "east": -81.6125,
+        "north": 24.454166666666662,
+        "south": 24.424999999999997
+      },
+      "meanDepthM": 6.852941176470588,
+      "nearRingMeanDepthM": 24.774193548387096,
+      "nearContrastM": 17.92125237191651,
+      "wideDirectionalMeanDepthM": 81.11363636363636,
+      "wideContrastM": 74.26069518716577,
+      "directMeasurementPercent": 83.82352941176471,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-004943",
+      "nestedComponents": {
+        "1": 2,
+        "2": 4,
+        "3": 9,
+        "4": 8,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 2,
+        "2": 11,
+        "3": 24,
+        "4": 44,
+        "5": 68
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 73.52,
+      "documentaryPriorityScore": 79.83
+    },
+    {
+      "id": "GLOBAL-T5-011505",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 63,
+      "areaApproxKm2": 12.84503514383282,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 18.225958994708986,
+        "lon": -72.37159391534391
+      },
+      "bbox": {
+        "west": -72.4375,
+        "east": -72.29166666666667,
+        "north": 18.233333333333327,
+        "south": 18.21666666666666
+      },
+      "meanDepthM": 4.571428571428571,
+      "nearRingMeanDepthM": 101.72340425531915,
+      "nearContrastM": 97.15197568389058,
+      "wideDirectionalMeanDepthM": 1388.6129032258063,
+      "wideContrastM": 1384.0414746543777,
+      "directMeasurementPercent": 98.4126984126984,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-011505",
+      "nestedComponents": {
+        "1": 1,
+        "2": 6,
+        "3": 2,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 22,
+        "3": 46,
+        "4": 60,
+        "5": 63
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 89.37,
+      "documentaryPriorityScore": 79.78
+    },
+    {
+      "id": "GLOBAL-T5-014840",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 384,
+      "areaApproxKm2": 80.62297299256159,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 12.015798611111101,
+        "lon": -67.65649956597221
+      },
+      "bbox": {
+        "west": -67.70416666666667,
+        "east": -67.6125,
+        "north": 12.079166666666659,
+        "south": 11.966666666666658
+      },
+      "meanDepthM": 5.7734375,
+      "nearRingMeanDepthM": 39.40594059405941,
+      "nearContrastM": 33.63250309405941,
+      "wideDirectionalMeanDepthM": 383.31262729124234,
+      "wideContrastM": 377.53918979124234,
+      "directMeasurementPercent": 86.71875,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-014840",
+      "nestedComponents": {
+        "1": 5,
+        "2": 17,
+        "3": 14,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 7,
+        "2": 56,
+        "3": 189,
+        "4": 335,
+        "5": 384
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 84.09,
+      "documentaryPriorityScore": 79.77
+    },
+    {
+      "id": "GLOBAL-T5-003753",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 169,
+      "areaApproxKm2": 32.617985704828364,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 25.956249999999997,
+        "lon": -77.31071252465483
+      },
+      "bbox": {
+        "west": -77.375,
+        "east": -77.27083333333333,
+        "north": 25.99583333333333,
+        "south": 25.912499999999994
+      },
+      "meanDepthM": 3.6272189349112427,
+      "nearRingMeanDepthM": 19.604166666666668,
+      "nearContrastM": 15.976947731755425,
+      "wideDirectionalMeanDepthM": 618.8451612903226,
+      "wideContrastM": 615.2179423554113,
+      "directMeasurementPercent": 98.22485207100591,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-003753",
+      "nestedComponents": {
+        "1": 10,
+        "2": 7,
+        "3": 4,
+        "4": 4,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 50,
+        "2": 99,
+        "3": 135,
+        "4": 153,
+        "5": 169
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 85.88,
+      "documentaryPriorityScore": 79.75
+    },
+    {
+      "id": "GLOBAL-T5-011552",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 494,
+      "areaApproxKm2": 100.74741149343427,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 18.180946356275296,
+        "lon": -78.12292510121458
+      },
+      "bbox": {
+        "west": -78.24583333333334,
+        "east": -77.95833333333333,
+        "north": 18.21666666666666,
+        "south": 18.074999999999992
+      },
+      "meanDepthM": 5.421052631578948,
+      "nearRingMeanDepthM": 18.008474576271187,
+      "nearContrastM": 12.587421944692238,
+      "wideDirectionalMeanDepthM": 245.20413436692508,
+      "wideContrastM": 239.78308173534612,
+      "directMeasurementPercent": 98.582995951417,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-011552",
+      "nestedComponents": {
+        "1": 14,
+        "2": 17,
+        "3": 9,
+        "4": 4,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 29,
+        "2": 134,
+        "3": 272,
+        "4": 416,
+        "5": 494
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 85.56,
+      "documentaryPriorityScore": 79.65
+    },
+    {
+      "id": "GLOBAL-T5-007090",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 63174,
+      "areaApproxKm2": 12670.498068548315,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 20.877631752514215,
+        "lon": -78.44011058082967
+      },
+      "bbox": {
+        "west": -80.01666666666667,
+        "east": -77.07916666666667,
+        "north": 21.758333333333326,
+        "south": 19.820833333333326
+      },
+      "meanDepthM": 6.550637920663564,
+      "nearRingMeanDepthM": 14.939637826961771,
+      "nearContrastM": 8.388999906298206,
+      "wideDirectionalMeanDepthM": 90.3103632219582,
+      "wideContrastM": 83.75972530129464,
+      "directMeasurementPercent": 76.29246208883401,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007090",
+      "nestedComponents": {
+        "1": 412,
+        "2": 453,
+        "3": 387,
+        "4": 325,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1849,
+        "2": 12217,
+        "3": 24192,
+        "4": 43707,
+        "5": 63174
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 78.26,
+      "documentaryPriorityScore": 79.65
+    },
+    {
+      "id": "GLOBAL-T5-005718",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 2,
+      "areaApproxKm2": 0.3935978700730371,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.537499999999994,
+        "lon": -78.99375
+      },
+      "bbox": {
+        "west": -78.99583333333334,
+        "east": -78.99166666666667,
+        "north": 23.541666666666664,
+        "south": 23.533333333333328
+      },
+      "meanDepthM": 3.0,
+      "nearRingMeanDepthM": 19.166666666666668,
+      "nearContrastM": 16.166666666666668,
+      "wideDirectionalMeanDepthM": 202.75,
+      "wideContrastM": 199.75,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005718",
+      "nestedComponents": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 2
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 76.42,
+      "documentaryPriorityScore": 79.61
+    },
+    {
+      "id": "GLOBAL-T5-004468",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 176,
+      "areaApproxKm2": 34.31559035382288,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 24.728290719696965,
+        "lon": -76.25146780303031
+      },
+      "bbox": {
+        "west": -76.32916666666667,
+        "east": -76.18333333333334,
+        "north": 24.787499999999994,
+        "south": 24.65416666666666
+      },
+      "meanDepthM": 5.125,
+      "nearRingMeanDepthM": 15.73913043478261,
+      "nearContrastM": 10.61413043478261,
+      "wideDirectionalMeanDepthM": 683.4957264957264,
+      "wideContrastM": 678.3707264957264,
+      "directMeasurementPercent": 99.43181818181817,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-004468",
+      "nestedComponents": {
+        "1": 20,
+        "2": 10,
+        "3": 3,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 23,
+        "2": 68,
+        "3": 106,
+        "4": 139,
+        "5": 176
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 85.32,
+      "documentaryPriorityScore": 79.58
+    },
+    {
+      "id": "GLOBAL-T5-008077",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 229,
+      "areaApproxKm2": 45.91408131642293,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 20.92768377001455,
+        "lon": -73.58170487627365
+      },
+      "bbox": {
+        "west": -73.65,
+        "east": -73.4875,
+        "north": 20.949999999999996,
+        "south": 20.90416666666666
+      },
+      "meanDepthM": 5.384279475982533,
+      "nearRingMeanDepthM": 82.74,
+      "nearContrastM": 77.35572052401746,
+      "wideDirectionalMeanDepthM": 214.2621951219512,
+      "wideContrastM": 208.87791564596867,
+      "directMeasurementPercent": 98.68995633187772,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-008077",
+      "nestedComponents": {
+        "1": 12,
+        "2": 6,
+        "3": 4,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 47,
+        "2": 102,
+        "3": 120,
+        "4": 163,
+        "5": 229
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 89.07,
+      "documentaryPriorityScore": 79.53
+    },
+    {
+      "id": "GLOBAL-T5-007635",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 264,
+      "areaApproxKm2": 52.79347720315832,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 21.314993686868682,
+        "lon": -76.60291982323233
+      },
+      "bbox": {
+        "west": -76.77916666666667,
+        "east": -76.45416666666667,
+        "north": 21.374999999999993,
+        "south": 21.26666666666666
+      },
+      "meanDepthM": 4.636363636363637,
+      "nearRingMeanDepthM": 37.54477611940298,
+      "nearContrastM": 32.90841248303934,
+      "wideDirectionalMeanDepthM": 844.8758620689655,
+      "wideContrastM": 840.2394984326019,
+      "directMeasurementPercent": 85.22727272727273,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007635",
+      "nestedComponents": {
+        "1": 13,
+        "2": 12,
+        "3": 13,
+        "4": 9,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 30,
+        "2": 114,
+        "3": 174,
+        "4": 233,
+        "5": 264
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 83.39,
+      "documentaryPriorityScore": 79.45
+    },
+    {
+      "id": "GLOBAL-T5-009098",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.2018650042878733,
+      "classification": "detache",
+      "centroid": {
+        "lat": 19.881249999999994,
+        "lon": -68.72291666666666
+      },
+      "bbox": {
+        "west": -68.725,
+        "east": -68.72083333333333,
+        "north": 19.883333333333326,
+        "south": 19.879166666666663
+      },
+      "meanDepthM": 3.0,
+      "nearRingMeanDepthM": 35.5,
+      "nearContrastM": 32.5,
+      "wideDirectionalMeanDepthM": 917.0,
+      "wideContrastM": 914.0,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-009098",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 78.01,
+      "documentaryPriorityScore": 79.42
+    },
+    {
+      "id": "GLOBAL-T5-012210",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 2,
+      "areaApproxKm2": 0.40938166777439655,
+      "classification": "detache",
+      "centroid": {
+        "lat": 17.529166666666658,
+        "lon": -76.95208333333333
+      },
+      "bbox": {
+        "west": -76.95416666666667,
+        "east": -76.95,
+        "north": 17.533333333333328,
+        "south": 17.52499999999999
+      },
+      "meanDepthM": 5.5,
+      "nearRingMeanDepthM": 25.5,
+      "nearContrastM": 20.0,
+      "wideDirectionalMeanDepthM": 726.875,
+      "wideContrastM": 721.375,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012210",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 2
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 77.38,
+      "documentaryPriorityScore": 79.42
+    },
+    {
+      "id": "GLOBAL-T5-011692",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 268,
+      "areaApproxKm2": 54.67628334075396,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 18.11766169154228,
+        "lon": -65.37834266169155
+      },
+      "bbox": {
+        "west": -65.525,
+        "east": -65.2625,
+        "north": 18.162499999999994,
+        "south": 18.07916666666666
+      },
+      "meanDepthM": 5.623134328358209,
+      "nearRingMeanDepthM": 29.61904761904762,
+      "nearContrastM": 23.995913290689412,
+      "wideDirectionalMeanDepthM": 302.32835820895525,
+      "wideContrastM": 296.70522388059703,
+      "directMeasurementPercent": 97.01492537313433,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-011692",
+      "nestedComponents": {
+        "1": 14,
+        "2": 17,
+        "3": 10,
+        "4": 4,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 25,
+        "2": 69,
+        "3": 162,
+        "4": 201,
+        "5": 268
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 86.1,
+      "documentaryPriorityScore": 79.39
+    },
+    {
+      "id": "GLOBAL-T5-012160",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 388,
+      "areaApproxKm2": 79.35167966398556,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 17.68464347079037,
+        "lon": -64.77988616838488
+      },
+      "bbox": {
+        "west": -64.90416666666667,
+        "east": -64.60833333333333,
+        "north": 17.733333333333327,
+        "south": 17.65416666666666
+      },
+      "meanDepthM": 4.81701030927835,
+      "nearRingMeanDepthM": 15.626262626262626,
+      "nearContrastM": 10.809252316984276,
+      "wideDirectionalMeanDepthM": 327.89158345221114,
+      "wideContrastM": 323.07457314293276,
+      "directMeasurementPercent": 95.61855670103093,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012160",
+      "nestedComponents": {
+        "1": 15,
+        "2": 10,
+        "3": 2,
+        "4": 3,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 27,
+        "2": 149,
+        "3": 261,
+        "4": 334,
+        "5": 388
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 84.18,
+      "documentaryPriorityScore": 79.38
+    },
+    {
+      "id": "GLOBAL-T5-004905",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 2,
+      "areaApproxKm2": 0.39068177522680547,
+      "classification": "detache",
+      "centroid": {
+        "lat": 24.493749999999995,
+        "lon": -75.8
+      },
+      "bbox": {
+        "west": -75.80416666666667,
+        "east": -75.79583333333333,
+        "north": 24.49583333333333,
+        "south": 24.49166666666666
+      },
+      "meanDepthM": 5.5,
+      "nearRingMeanDepthM": 81.5,
+      "nearContrastM": 76.0,
+      "wideDirectionalMeanDepthM": 304.6666666666667,
+      "wideContrastM": 299.1666666666667,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-004905",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 2
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 80.01,
+      "documentaryPriorityScore": 79.26
+    },
+    {
+      "id": "GLOBAL-T5-008997",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 234,
+      "areaApproxKm2": 47.25135270883313,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 19.83107193732193,
+        "lon": -70.73222934472935
+      },
+      "bbox": {
+        "west": -70.90833333333333,
+        "east": -70.55416666666667,
+        "north": 19.920833333333327,
+        "south": 19.754166666666663
+      },
+      "meanDepthM": 5.260683760683761,
+      "nearRingMeanDepthM": 17.429577464788732,
+      "nearContrastM": 12.16889370410497,
+      "wideDirectionalMeanDepthM": 429.1191011235955,
+      "wideContrastM": 423.8584173629117,
+      "directMeasurementPercent": 95.72649572649573,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-008997",
+      "nestedComponents": {
+        "1": 8,
+        "2": 28,
+        "3": 16,
+        "4": 6,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 9,
+        "2": 80,
+        "3": 139,
+        "4": 193,
+        "5": 234
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 84.27,
+      "documentaryPriorityScore": 79.23
+    },
+    {
+      "id": "GLOBAL-T5-009488",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 618,
+      "areaApproxKm2": 125.16211743492148,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 19.354409385113264,
+        "lon": -72.75129449838188
+      },
+      "bbox": {
+        "west": -72.80416666666667,
+        "east": -72.67916666666667,
+        "north": 19.495833333333326,
+        "south": 19.174999999999994
+      },
+      "meanDepthM": 5.399676375404531,
+      "nearRingMeanDepthM": 26.555555555555557,
+      "nearContrastM": 21.155879180151025,
+      "wideDirectionalMeanDepthM": 204.9529702970297,
+      "wideContrastM": 199.55329392162517,
+      "directMeasurementPercent": 93.20388349514563,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-009488",
+      "nestedComponents": {
+        "1": 12,
+        "2": 20,
+        "3": 19,
+        "4": 5,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 23,
+        "2": 182,
+        "3": 340,
+        "4": 512,
+        "5": 618
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 84.75,
+      "documentaryPriorityScore": 79.18
+    },
+    {
+      "id": "GLOBAL-T5-011919",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 248,
+      "areaApproxKm2": 50.63819199549768,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 17.97093413978494,
+        "lon": -66.74501008064516
+      },
+      "bbox": {
+        "west": -66.84583333333333,
+        "east": -66.6375,
+        "north": 18.008333333333326,
+        "south": 17.94166666666666
+      },
+      "meanDepthM": 5.568548387096774,
+      "nearRingMeanDepthM": 21.752,
+      "nearContrastM": 16.183451612903227,
+      "wideDirectionalMeanDepthM": 353.57462686567163,
+      "wideContrastM": 348.00607847857486,
+      "directMeasurementPercent": 96.37096774193549,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-011919",
+      "nestedComponents": {
+        "1": 8,
+        "2": 13,
+        "3": 10,
+        "4": 6,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 18,
+        "2": 88,
+        "3": 133,
+        "4": 193,
+        "5": 248
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 84.96,
+      "documentaryPriorityScore": 79.15
+    },
+    {
+      "id": "GLOBAL-T5-004793",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.19515276566681974,
+      "classification": "detache",
+      "centroid": {
+        "lat": 24.61458333333333,
+        "lon": -75.94791666666667
+      },
+      "bbox": {
+        "west": -75.95,
+        "east": -75.94583333333333,
+        "north": 24.61666666666666,
+        "south": 24.612499999999997
+      },
+      "meanDepthM": 3.0,
+      "nearRingMeanDepthM": 29.25,
+      "nearContrastM": 26.25,
+      "wideDirectionalMeanDepthM": 531.3333333333334,
+      "wideContrastM": 528.3333333333334,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-004793",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 77.38,
+      "documentaryPriorityScore": 79.13
+    },
+    {
+      "id": "GLOBAL-T5-012550",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 407,
+      "areaApproxKm2": 83.7849958091512,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 16.461553030303023,
+        "lon": -85.87955057330058
+      },
+      "bbox": {
+        "west": -85.96666666666667,
+        "east": -85.80833333333334,
+        "north": 16.529166666666658,
+        "south": 16.39166666666666
+      },
+      "meanDepthM": 6.611793611793612,
+      "nearRingMeanDepthM": 29.577142857142857,
+      "nearContrastM": 22.965349245349245,
+      "wideDirectionalMeanDepthM": 410.313986679353,
+      "wideContrastM": 403.7021930675594,
+      "directMeasurementPercent": 83.78378378378379,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012550",
+      "nestedComponents": {
+        "1": 5,
+        "2": 16,
+        "3": 17,
+        "4": 9,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 9,
+        "2": 59,
+        "3": 165,
+        "4": 280,
+        "5": 407
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 82.02,
+      "documentaryPriorityScore": 79.07
+    },
+    {
+      "id": "GLOBAL-T5-010078",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 214,
+      "areaApproxKm2": 43.480650640780446,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 18.8214953271028,
+        "lon": -73.16446651090342
+      },
+      "bbox": {
+        "west": -73.2875,
+        "east": -73.0125,
+        "north": 18.899999999999995,
+        "south": 18.749999999999993
+      },
+      "meanDepthM": 5.845794392523365,
+      "nearRingMeanDepthM": 34.17796610169491,
+      "nearContrastM": 28.332171709171547,
+      "wideDirectionalMeanDepthM": 548.0220048899755,
+      "wideContrastM": 542.1762104974522,
+      "directMeasurementPercent": 86.91588785046729,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-010078",
+      "nestedComponents": {
+        "1": 4,
+        "2": 18,
+        "3": 15,
+        "4": 9,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 8,
+        "2": 57,
+        "3": 101,
+        "4": 172,
+        "5": 214
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 83.25,
+      "documentaryPriorityScore": 79.06
+    },
+    {
+      "id": "GLOBAL-T5-012765",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.20604596331951125,
+      "classification": "detache",
+      "centroid": {
+        "lat": 16.28541666666666,
+        "lon": -86.57291666666667
+      },
+      "bbox": {
+        "west": -86.575,
+        "east": -86.57083333333333,
+        "north": 16.28749999999999,
+        "south": 16.283333333333324
+      },
+      "meanDepthM": 3.0,
+      "nearRingMeanDepthM": 245.5,
+      "nearContrastM": 242.5,
+      "wideDirectionalMeanDepthM": 296.75,
+      "wideContrastM": 293.75,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-012765",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 79.99,
+      "documentaryPriorityScore": 78.96
+    },
+    {
+      "id": "GLOBAL-T5-000480",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 16,
+      "areaApproxKm2": 2.8972071535087998,
+      "classification": "detache",
+      "centroid": {
+        "lat": 32.483072916666664,
+        "lon": -64.73671875
+      },
+      "bbox": {
+        "west": -64.75416666666666,
+        "east": -64.71666666666667,
+        "north": 32.4875,
+        "south": 32.475
+      },
+      "meanDepthM": 8.6875,
+      "nearRingMeanDepthM": 15.615384615384615,
+      "nearContrastM": 6.927884615384615,
+      "wideDirectionalMeanDepthM": 262.1666666666667,
+      "wideContrastM": 253.47916666666669,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-000480",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 16
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 76.07,
+      "documentaryPriorityScore": 78.85
+    },
+    {
+      "id": "GLOBAL-T5-007333",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 1,
+      "areaApproxKm2": 0.1995818149729244,
+      "classification": "detache",
+      "centroid": {
+        "lat": 21.602083333333326,
+        "lon": -81.40208333333334
+      },
+      "bbox": {
+        "west": -81.40416666666667,
+        "east": -81.4,
+        "north": 21.60416666666666,
+        "south": 21.599999999999994
+      },
+      "meanDepthM": 2.0,
+      "nearRingMeanDepthM": 22.75,
+      "nearContrastM": 20.75,
+      "wideDirectionalMeanDepthM": 755.5,
+      "wideContrastM": 753.5,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-007333",
+      "nestedComponents": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "shallowestThresholdM": 3.6,
+      "persistenceLevels": 4,
+      "affectedCategories": 4,
+      "scientificConfidenceScore": 76.7,
+      "documentaryPriorityScore": 78.83
+    },
+    {
+      "id": "GLOBAL-T5-009197",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 444,
+      "areaApproxKm2": 89.74566312882436,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 19.672306681681675,
+        "lon": -70.25863363363364
+      },
+      "bbox": {
+        "west": -70.50833333333333,
+        "east": -70.06666666666666,
+        "north": 19.787499999999994,
+        "south": 19.61666666666666
+      },
+      "meanDepthM": 6.641891891891892,
+      "nearRingMeanDepthM": 15.495238095238095,
+      "nearContrastM": 8.853346203346202,
+      "wideDirectionalMeanDepthM": 229.5,
+      "wideContrastM": 222.8581081081081,
+      "directMeasurementPercent": 99.32432432432432,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-009197",
+      "nestedComponents": {
+        "1": 4,
+        "2": 35,
+        "3": 22,
+        "4": 5,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 4,
+        "2": 79,
+        "3": 185,
+        "4": 292,
+        "5": 444
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 84.5,
+      "documentaryPriorityScore": 78.78
+    },
+    {
+      "id": "GLOBAL-T5-005357",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 16,
+      "areaApproxKm2": 3.139744933836456,
+      "classification": "detache",
+      "centroid": {
+        "lat": 23.91223958333333,
+        "lon": -75.11432291666667
+      },
+      "bbox": {
+        "west": -75.125,
+        "east": -75.10416666666667,
+        "north": 23.924999999999997,
+        "south": 23.89583333333333
+      },
+      "meanDepthM": 9.0,
+      "nearRingMeanDepthM": 26.576923076923077,
+      "nearContrastM": 17.576923076923077,
+      "wideDirectionalMeanDepthM": 669.2222222222222,
+      "wideContrastM": 660.2222222222222,
+      "directMeasurementPercent": 100.0,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-005357",
+      "nestedComponents": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 2,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 5,
+        "5": 16
+      },
+      "shallowestThresholdM": 6.0,
+      "persistenceLevels": 3,
+      "affectedCategories": 3,
+      "scientificConfidenceScore": 78.4,
+      "documentaryPriorityScore": 78.75
+    },
+    {
+      "id": "GLOBAL-T5-014154",
+      "level": 5,
+      "thresholdM": 12.0,
+      "cells": 649,
+      "areaApproxKm2": 135.5182718639334,
+      "classification": "cotier",
+      "centroid": {
+        "lat": 13.404593605546985,
+        "lon": -81.35610233692861
+      },
+      "bbox": {
+        "west": -81.42083333333333,
+        "east": -81.3,
+        "north": 13.529166666666658,
+        "south": 13.295833333333324
+      },
+      "meanDepthM": 6.610169491525424,
+      "nearRingMeanDepthM": 15.544444444444444,
+      "nearContrastM": 8.93427495291902,
+      "wideDirectionalMeanDepthM": 201.24710424710426,
+      "wideContrastM": 194.63693475557884,
+      "directMeasurementPercent": 95.68567026194145,
+      "mixedSourceTidPercent": 0.0,
+      "parentId": null,
+      "rootId": "GLOBAL-T5-014154",
+      "nestedComponents": {
+        "1": 4,
+        "2": 22,
+        "3": 23,
+        "4": 5,
+        "5": 1
+      },
+      "nestedCells": {
+        "1": 4,
+        "2": 73,
+        "3": 234,
+        "4": 491,
+        "5": 649
+      },
+      "shallowestThresholdM": 1.8,
+      "persistenceLevels": 5,
+      "affectedCategories": 5,
+      "scientificConfidenceScore": 83.39,
+      "documentaryPriorityScore": 78.65
+    }
+  ],
+  "artifacts": {
+    "json": "C:\\AI\\Site Pavillon Noir\\Accessoires site pavillon noir\\Outils generation\\Bathymétrie\\Générés\\GEBCO_2026_Jaillot\\bathymetrie-04-candidats-wgs84.json",
+    "csv": "C:\\AI\\Site Pavillon Noir\\Accessoires site pavillon noir\\Outils generation\\Bathymétrie\\Générés\\GEBCO_2026_Jaillot\\bathymetrie-04-candidats-wgs84.csv"
+  },
+  "scoreNotice": "Scores heuristiques destinés au tri humain, jamais à la suppression automatique.",
+  "recoveredFromCandidates": true
+}

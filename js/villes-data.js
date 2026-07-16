@@ -133,7 +133,7 @@ Absent de la carte Jaillot 1708 — l'établissement existait mais n'a pas été
     },
 
     // ═══════════════════════════════════════════════════════════
-    // SÉRIE LOUISIANE  
+    // SÉRIE LOUISIANE
     // ═══════════════════════════════════════════════════════════
 
     // ── MOBILE ─────────────────────────────────────────────────────────────
@@ -2392,8 +2392,8 @@ L'échec financier de la Compagnie d'Écosse a précipité l'<strong>Acte d'Unio
     // ── CARET BAY (DARIÉN) ──────────────────────────────────────────────────
 
     {
-        id: 'caret-bay',
-        nom: 'Caret Bay',
+        id: 'golfe-uraba',
+        nom: "golfe d'Urabá",
         type: 'site_geo',
         rang: '2',
         territoire: 'darien',
@@ -4285,7 +4285,7 @@ Deux fortifications commandent l'entrée du port : le <strong>Castillo de los Tr
         id: 'spanish-town',
         nom: 'Spanish Town',
         capitale: true,
-        type: 'ville',        
+        type: 'ville',
         territoire: 'jamaique',
         coords: [4795, 2882],
 
