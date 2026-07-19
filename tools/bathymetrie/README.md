@@ -162,3 +162,75 @@ contexte modéré 25–50 km demandé dans l'addendum.
 Les signatures `plateau_structurant`, `bord_de_plateau`,
 `atoll_ou_banc_detache`, `pinnacle_isole` et `indetermine` sont heuristiques et
 doivent être calibrées sur des références connues. Elles ne filtrent rien.
+
+### Atlas sectoriel et décisions humaines
+
+```powershell
+python .\tools\bathymetrie\render_sector_atlas.py
+```
+
+Le script génère neuf planches WGS84 qui se chevauchent volontairement, une
+page `atlas-index.html` et `decisions-structures.csv` dans le dossier global
+`bathymetrie-06-atlas-secteurs` hors dépôt.
+
+Chaque planche montre le fond `0–50 m`, les classes `0–12 m`, les cœurs
+colorés par signature, les emprises/identifiants des structures principales et
+des toponymes de référence. La table contient une ligne par plateau portant un
+cœur dangereux, soit 5 494 lignes.
+
+Pour rester compatible avec Illustrator, le raster bathymétrique n'est pas
+encodé en URI `data:` dans le SVG : chaque planche référence un PNG compagnon
+`*-fond.png` par un lien relatif `xlink:href`. Le SVG et son PNG doivent donc
+rester dans le même dossier. Les groupes principaux portent des noms de calques
+explicites (fond, bathymétrie, emprises, signatures, étiquettes, toponymes et
+légende) pour faciliter le contrôle et les retouches.
+
+Le profil Illustrator matérialise un PNG RGBA de la taille de la planche entière
+(`1900 × 1200 px`, 96 ppp), lié à l'origine `(0,0)`. Sa zone opaque est déjà
+placée dans le rectangle cartographique `(55,80)–(1505,1140)`. Ne pas
+réintroduire de placement ou d'étirement sur l'élément `<image>` : Chrome le
+gère, mais Illustrator peut désaligner le raster des calques vectoriels.
+
+Le SVG ne contient ni feuille `<style>` ni attribut `class`. Les couleurs,
+polices, tailles et contours sont portés directement par chaque texte, ce qui
+évite le remplacement en texte noir lors de l'import Illustrator.
+
+L'affectation Atlantique/Pacifique utilise le nœud Copernicus source le plus
+proche, puis choisit la plus petite planche pertinente. `secteursAtlas` conserve
+toutes les planches recouvrant le centroïde.
+
+### Polygones généraux par seuil et transposition Jaillot
+
+```powershell
+python .\tools\bathymetrie\generate_bathymetry_threshold_maps.py
+```
+
+Cette passe revient au besoin de gameplay : produire des enveloppes grossières
+de profondeur sûre insuffisante pour `1,8 / 3,6 / 6 / 8,4 / 12 m`. Elle ne
+réutilise pas les signatures expérimentales de l'atlas structurel.
+
+Traitement par défaut :
+
+- agrégation conservatrice de la grille GEBCO par blocs `2 × 2` ;
+- exclusion des eaux intérieures non reliées à un bord océanique du raster ;
+- fermeture morphologique d'une cellule pour lisser les petites lacunes ;
+- suppression des composantes de moins de trois cellules agrégées ;
+- simplification des contours en WGS84 ;
+- densification puis transposition par les maillages Copernicus homologues ;
+- interpolation IDW locale dans les trous côtiers du maillage, en maintenant
+  une séparation absolue entre les familles Atlantique et Pacifique ;
+- simplification finale à `1,5 px` dans le repère Jaillot.
+
+Sorties hors dépôt dans `bathymetrie-07-seuils-lisses` :
+
+- `bathymetrie-07-seuils-lisses-wgs84.svg` ;
+- `bathymetrie-08-seuils-lisses-jaillot.svg` ;
+- deux PNG d'aperçu ;
+- les images de référence liées, aux dimensions exactes de chaque SVG ;
+- `bathymetrie-07-08-rapport.json`.
+
+Les SVG sont compatibles Illustrator : aucun CSS, attributs graphiques en ligne
+et un calque nommé par seuil. Les parents `0–50 m` ne servent plus à la règle
+générale ; ils restent disponibles pour quelques enveloppes historiques
+exceptionnelles, comme Pedro Bank, si les seuils absolus sous-représentent un
+danger documenté.

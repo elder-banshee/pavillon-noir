@@ -394,6 +394,118 @@ bathymetrie-05-candidats-structures-wgs84.csv/json
 bathymetrie-05-structures-50m.svg
 ```
 
+## Atlas sectoriel de décision
+
+Outil ajouté : `tools/bathymetrie/render_sector_atlas.py`.
+
+Neuf planches WGS84 sont produites :
+
+```text
+01-golfe-floride-atlantique.svg
+02-yucatan-campeche.svg
+03-honduras-nicaragua.svg
+04-bahamas.svg
+05-cuba-jamaique-caimans.svg
+06-porto-rico-vierges.svg
+07-petites-antilles-grenadines.svg
+08-caraibes-sud.svg
+09-pacifique.svg
+```
+
+Elles superposent le contexte `0–50 m`, les classes de navigation `0–12 m`,
+les cœurs par signature, les bboxes/identifiants des structures importantes et
+des toponymes WGS84. Les chevauchements entre planches sont volontaires.
+
+Une page `atlas-index.html` permet de parcourir l'ensemble. La table
+`decisions-structures.csv` contient les 5 494 structures et les champs de
+décision documentaire. Les valeurs prévues sont : `zone_principale`,
+`rattacher`, `sous_zone`, `pinnacle`, `conserver_physique`, `suspect` et
+`hors_scope`.
+
+Pour éviter une affectation erronée autour de l'isthme, la famille de warp de
+chaque plateau est déduite du nœud source Copernicus le plus proche : 5 279
+structures Atlantique et 215 Pacifique. Toutes les structures ont au moins un
+secteur principal ; aucun `hors-atlas` technique ne subsiste.
+
+Emplacement hors dépôt :
+
+```text
+Accessoires site pavillon noir/Outils generation/Bathymétrie/Générés/
+GEBCO_2026_Jaillot/bathymetrie-06-atlas-secteurs
+```
+
+### Compatibilité Illustrator des planches
+
+La première version encodait le fond raster avec `href="data:image/png;base64,…"`.
+Chrome l'affichait correctement, mais Illustrator tentait de résoudre une image
+liée sans chemin et signalait `Impossible de trouver le fichier lié ""`.
+
+Le générateur produit désormais un PNG compagnon `*-fond.png` pour chaque SVG
+et le référence par un chemin relatif `xlink:href`. Il déclare aussi les groupes
+principaux comme calques nommés : fond de planche, titre, bathymétrie, emprises,
+cinq signatures structurelles, étiquettes, toponymes et légende. Le SVG et son
+PNG doivent rester côte à côte.
+
+Contrôle après régénération : 9 SVG valides, 9 liens PNG résolus, aucun URI
+`data:` restant et au moins 12 calques nommés par planche.
+
+Un second défaut a été observé dans Illustrator : les PNG liés conservaient
+leurs dimensions natives variables (de `1 140 × 1 080` à `5 400 × 1 440`) alors
+que leur cadre SVG mesurait toujours `1 450 × 1 060`. Une correction
+intermédiaire a aligné ces dimensions, mais Illustrator décalait encore les
+images et ignorait partiellement la feuille CSS, rendant certains textes noirs.
+
+Le rendu a donc été reconstruit avec un profil Illustrator sans transformations
+ambiguës : chaque PNG RGBA mesure toute la planche (`1 900 × 1 200 px` à
+96 ppp), est lié en `(0,0)` et contient déjà la carte dans sa position finale
+`(55,80)–(1505,1140)`. Le SVG ne contient plus de feuille `<style>` ni de
+classes ; chaque texte porte directement sa police, sa taille, son fond et son
+contour. Les libellés superposent un texte de contour sombre et un texte clair,
+ce qui ne dépend pas de la propriété CSS `paint-order`.
+
+Contrôle structurel final : les neuf PNG sont RGBA `1 900 × 1 200`, leur boîte
+opaque est exactement `(55,80,1505,1140)`, et l'image liée occupe tout le
+canevas SVG depuis l'origine.
+
+## Recentrage sur les enveloppes de navigation
+
+Après examen de l'atlas, la taxonomie exhaustive des cœurs (`plateau`, `bord`,
+`atoll`, `pinnacle`, `indéterminé`) a été jugée disproportionnée par rapport au
+besoin du simulateur. La règle générale revient aux cinq seuils bathymétriques
+absolus. Les parents `0–50 m` ne seront utilisés que pour quelques exceptions
+historiques documentées lorsque les cœurs isolés sous-représentent le danger,
+Pedro Bank constituant le cas de référence.
+
+Outil ajouté :
+
+```text
+tools/bathymetrie/generate_bathymetry_threshold_maps.py
+```
+
+Il agrège la grille par blocs `2 × 2`, retire les eaux intérieures sans connexion
+océanique, lisse d'une cellule, écarte les composantes inférieures à trois
+cellules agrégées et simplifie les contours. La déformation réutilise les
+maillages Copernicus par familles séparées. Dans les trous côtiers du maillage,
+une interpolation locale des contrôles voisins permet de conserver les contours
+sans jamais relier Atlantique et Pacifique.
+
+Sorties hors dépôt :
+
+```text
+Bathymétrie/Générés/GEBCO_2026_Jaillot/bathymetrie-07-seuils-lisses/
+bathymetrie-07-seuils-lisses-wgs84.svg
+bathymetrie-08-seuils-lisses-jaillot.svg
+bathymetrie-07-apercu-wgs84.png
+bathymetrie-08-apercu-jaillot.png
+bathymetrie-07-08-rapport.json
+```
+
+Les cinq niveaux WGS84 contiennent respectivement `1 777 / 2 002 / 1 928 /
+1 753 / 1 525` anneaux après lissage et filtrage. La passe de connexion océanique
+a exclu `13 115` cellules agrégées d'eaux intérieures. Les SVG sont organisés en
+calques Illustrator sans CSS et conservent leurs références raster dans le même
+dossier.
+
 ## Documentation
 
 - `tools/bathymetrie/README.md` décrit l'audit et ses sorties.
