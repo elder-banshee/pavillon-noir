@@ -50,10 +50,28 @@
       if (start < 0) throw new Error('Fichier invalide : "const OSCAR_HEX_GRID = " introuvable.');
       const braceStart = text.indexOf('{', start);
       if (braceStart < 0) throw new Error('Fichier invalide : objet OSCAR_HEX_GRID introuvable.');
+<<<<<<< Updated upstream
       let depth = 0, i = braceStart;
       for (; i < text.length; i++) {
         if (text[i] === '{') depth++;
         else if (text[i] === '}') { depth--; if (depth === 0) { i++; break; } }
+=======
+      let depth = 0, i = braceStart, quote = null, escaped = false;
+      for (; i < text.length; i++) {
+        const char = text[i];
+        if (quote) {
+          if (escaped) escaped = false;
+          else if (char === '\\') escaped = true;
+          else if (char === quote) quote = null;
+          continue;
+        }
+        if (char === '"' || char === "'" || char === '`') {
+          quote = char;
+          continue;
+        }
+        if (char === '{') depth++;
+        else if (char === '}') { depth--; if (depth === 0) { i++; break; } }
+>>>>>>> Stashed changes
       }
       if (depth !== 0) throw new Error('Fichier invalide : accolades non équilibrées.');
       const json = text.slice(braceStart, i);

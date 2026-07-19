@@ -39,10 +39,19 @@
       document.addEventListener('keyup', (e) => {
         if (e.key === 'Shift' && map && !oceanPaintSelecting && !oceanLassoSelecting) map.dragging.enable();
       });
+<<<<<<< Updated upstream
+=======
+      document.addEventListener('keydown', onHandleKeyboardMove);
+      document.addEventListener('keyup', onHandleKeyboardMoveEnd);
+>>>>>>> Stashed changes
       // Capture-phase, avant que Leaflet ne voie l'événement (cf. commentaire
       // sur oceanPaintOnDown).
       map.getContainer().addEventListener('mousedown', oceanPaintOnDown, true);
       map.getContainer().addEventListener('mousedown', oceanLassoOnDown, true);
+<<<<<<< Updated upstream
+=======
+      map.getContainer().addEventListener('mousedown', handleLassoOnDown, true);
+>>>>>>> Stashed changes
       map.createPane('oscarGridPane');
       map.getPane('oscarGridPane').style.zIndex = 435;
       map.createPane('oscarArrowPane');
@@ -62,6 +71,25 @@
       map.on('mousedown', onMapMouseDown);
       map.on('mouseup', onMapMouseUp);
       map.on('mouseup', onDragEnd);      // relâchement drag poignées
+<<<<<<< Updated upstream
+=======
+
+      // Tactile : Leaflet ne traduit touchstart/touchmove/touchend en
+      // mousedown/mousemove/mouseup ni pour l'interactivité des calques ni
+      // pour les événements globaux de la carte — seul le tap (touchstart+
+      // touchend sans mouvement) est traduit en 'click'. Sans ce
+      // raccordement dédié, un doigt posé sur une poignée ne déclenche
+      // jamais startDrag() : le geste est alors récupéré tel quel par le
+      // panoramique interne de la carte (confirmé en reproduisant avec des
+      // événements tactiles bruts, pas supposé). touchstart→startDrag est
+      // câblé poignée par poignée dans renderPointHandlesForRing ; move/end
+      // sont globaux ici, symétriques à mousemove/mouseup, et réutilisent
+      // onDragMove/onDragEnd tels quels via un pseudo-événement {latlng}.
+      // { passive: false } : nécessaire pour pouvoir appeler preventDefault
+      // (sinon le navigateur scrolle/panote pendant le drag).
+      document.addEventListener('touchmove', onTouchDragMove, { passive: false });
+      document.addEventListener('touchend', onTouchDragEnd);
+>>>>>>> Stashed changes
       map.on('zoomend', () => {
         if (ctx.isSemaphore || ctx.isOcean) {
           renderSeaCells();
@@ -96,6 +124,16 @@
       zonesWorkingCopy.SHOAL_META = (typeof ZONES_SHOAL !== 'undefined')
         ? cloneJSON(ZONES_SHOAL) : {};
 
+<<<<<<< Updated upstream
+=======
+      // zones-data.js — ZONES_OCEAN_BOUNDS (masque navigable Atlantique/
+      // Pacifique). Même pipeline zonesEdit/zonesMeta que territoires et
+      // hauts-fonds ("un polygone est un polygone"), mais chaque entité a un
+      // contour extérieur unique + une série de trous (îles) — voir
+      // loadOceanBoundsWorkingCopy() ci-dessous pour le détail du tag de rôle.
+      zonesWorkingCopy.OCEAN_BOUNDS = loadOceanBoundsWorkingCopy();
+
+>>>>>>> Stashed changes
       // ─── Map couleur géopolitique par zone ───────────────────
       // Construite depuis JURIDICTIONS + PUISSANCES à l'année de référence.
       // Clé : zone id  Valeur : couleur hex de la puissance coloniale
@@ -104,6 +142,43 @@
       refresh(R.ZONES | R.TOOLS | R.EDITOR | R.UNDO);
     }
 
+<<<<<<< Updated upstream
+=======
+    // Charge ZONES_OCEAN_BOUNDS dans zonesEdit/zonesMeta comme deux entités
+    // supplémentaires ('ocean-bounds-atlantique', 'ocean-bounds-pacifique'),
+    // aux côtés des territoires et hauts-fonds déjà chargés. Le contour 0
+    // porte toujours le rôle explicite 'exterior' ; chaque trou suivant porte
+    // 'hole' — tag posé en dur dans zonesMeta plutôt que déduit d'une
+    // convention d'index, pour rester correct même si un split/réordonnancement
+    // vient un jour mélanger l'ordre des contours pendant l'édition (cf.
+    // discussion de session sur ce point précis). Le rendu en tant que masque
+    // à trous réel (au lieu de contours pleins superposés) et l'export dédié
+    // sont volontairement laissés à une étape ultérieure — ce chargement seul
+    // n'a aucun effet visible tant que rien ne lit ces ids dans l'UI.
+    function loadOceanBoundsWorkingCopy() {
+      const working = {};
+      if (typeof ZONES_OCEAN_BOUNDS === 'undefined') return working;
+      for (const id in ZONES_OCEAN_BOUNDS) {
+        const zone = ZONES_OCEAN_BOUNDS[id]?.zone;
+        const exterior = Array.isArray(zone?.exterior) ? zone.exterior : null;
+        if (!exterior || exterior.length < 3) continue;
+
+        zonesEdit[id] = [exterior.map(pt => [...pt])];
+        zonesMeta[id] = [{ role: 'exterior' }];
+
+        const holes = Array.isArray(zone.holes) ? zone.holes : [];
+        holes.forEach(hole => {
+          if (!Array.isArray(hole) || hole.length < 3) return;
+          zonesEdit[id].push(hole.map(pt => [...pt]));
+          zonesMeta[id].push({ role: 'hole' });
+        });
+
+        working[id] = zonesEdit[id]; // alias : même référence, comme zonesWorkingCopy.DATA
+      }
+      return working;
+    }
+
+>>>>>>> Stashed changes
     // ═══════════════════════════════════════════════════════════
     // COULEURS GÉOPOLITIQUES
     // ═══════════════════════════════════════════════════════════
@@ -150,8 +225,14 @@
         }
         // Avertissement uniquement si les champs sont null (pas encore saisis),
         // pas si l'utilisateur a explicitement renseigné 0 (territoire désert légitime).
+<<<<<<< Updated upstream
         const demo = zonesWorkingCopy.DEMO?.[zoneId];
         const estVide = !demo || demo.colons === null;
+=======
+        // oceanBounds exclu : ce n'est pas un territoire, pas de démographie à saisir.
+        const demo = zonesWorkingCopy.DEMO?.[zoneId];
+        const estVide = !isOceanBoundsId(zoneId) && (!demo || demo.colons === null);
+>>>>>>> Stashed changes
         if (estVide) {
           // Orange-rouge vif — territoire sans données
           return { color: 'rgba(255,90,30,0.95)', weight: 2, fillColor: 'rgba(255,90,30,0.18)', fillOpacity: 1 };
@@ -192,7 +273,16 @@
       }
       zoneLayers = {};
 
+<<<<<<< Updated upstream
       for (const id in zonesEdit) {
+=======
+      // Onglet dédié, pas de fusion : sur Ocean Bounds on n'affiche que les
+      // deux entités oceanBounds (sinon leur contour extérieur double le
+      // tracé des juridictions/hauts-fonds le long de la côte) ; partout
+      // ailleurs, l'inverse — oceanBounds ne s'affiche que sur son onglet.
+      for (const id in zonesEdit) {
+        if (isOceanBoundsId(id) !== ctx.isTopoOceanBounds) continue;
+>>>>>>> Stashed changes
         renderZone(id);
       }
     }
@@ -203,6 +293,14 @@
       }
       zoneLayers[zoneId] = [];
 
+<<<<<<< Updated upstream
+=======
+      if (isOceanBoundsId(zoneId)) {
+        renderOceanBoundsZone(zoneId);
+        return;
+      }
+
+>>>>>>> Stashed changes
       const contours = zonesEdit[zoneId];
       const zonesInteractive = ctx.isTopoGeo || ctx.isTopoInfo;
 
@@ -282,6 +380,89 @@
       });
     }
 
+<<<<<<< Updated upstream
+=======
+    // Rendu dédié oceanBounds (Atlantique/Pacifique) : contour extérieur unique
+    // + trous (îles). Contrairement à renderZone() ci-dessus, qui crée un
+    // L.polygon indépendant et rempli par contour (correct pour territoire/
+    // haut-fond, mais afficherait les trous comme des taches pleines
+    // superposées), on construit ici un seul L.polygon avec tous les anneaux
+    // d'un coup — Leaflet applique nativement la règle pair-impair et découpe
+    // les trous. L'ordre des anneaux suit zonesEdit tel quel ; le rôle
+    // ('exterior' | 'hole') vit dans zonesMeta et ne sert qu'aux métadonnées/
+    // export, pas à la construction géométrique elle-même.
+    function renderOceanBoundsZone(zoneId) {
+      const contours = zonesEdit[zoneId];
+      // Onglet dédié, pas de fusion avec Géo/Info : oceanBounds n'est
+      // cliquable/survolable que sur l'onglet Ocean Bounds lui-même.
+      const zonesInteractive = ctx.isTopoOceanBounds;
+      const isSelected = zoneId === selectedZoneId;
+
+      const style = zoneStyle(zoneId, isSelected);
+      const rings = contours.map(contourToLatLngs);
+
+      const poly = L.polygon(rings, { ...style, interactive: zonesInteractive });
+      poly._zoneId = zoneId;
+      poly._contourIdx = null; // entité multi-anneaux : pas de contour unique associé au clic
+
+      poly.on('mouseover', function () {
+        if (!zonesInteractive) return;
+        if (draggingHandle) return;
+        if (this._zoneId !== selectedZoneId) this.setStyle(zoneStyleHover(this._zoneId));
+        this.bindTooltip(this._zoneId, {
+          permanent: false, className: 'ed-tooltip', direction: 'top', sticky: true
+        }).openTooltip();
+      });
+      poly.on('mouseout', function () {
+        if (!zonesInteractive) return;
+        if (this._zoneId !== selectedZoneId) this.setStyle(zoneStyle(this._zoneId, false));
+        this.unbindTooltip();
+      });
+      poly.on('click', function (e) {
+        if (!zonesInteractive) return;
+        L.DomEvent.stopPropagation(e);
+        const contourIdx = (this._zoneId === selectedZoneId) ? selectedContourIdx : 0;
+        selectZone(this._zoneId, contourIdx);
+      });
+
+      poly.addTo(map);
+      zoneLayers[zoneId].push(poly);
+
+      // Le masque est rendu comme un unique polygone multi-anneaux : Leaflet
+      // sait alors creuser les îles, mais ne peut pas identifier l'anneau
+      // touché. Une ligne transparente élargie par contour rétablit ce clic
+      // précis sans altérer le rendu du masque.
+      contours.forEach((contour, contourIdx) => {
+        const hitArea = L.polyline(contourToLatLngs(contour), {
+          color: '#000',
+          opacity: 0.001,
+          weight: 14,
+          interactive: zonesInteractive,
+          bubblingMouseEvents: false,
+          className: 'ocean-bounds-contour-hit-area',
+        });
+        hitArea._zoneId = zoneId;
+        hitArea._contourIdx = contourIdx;
+        hitArea.on('click', function (e) {
+          if (!zonesInteractive) return;
+          L.DomEvent.stopPropagation(e);
+          selectZone(this._zoneId, this._contourIdx);
+        });
+        hitArea.on('mouseover', function () {
+          if (!zonesInteractive || draggingHandle) return;
+          const role = contourRole(this._zoneId, this._contourIdx);
+          const label = role === 'hole' ? 'trou' : 'contour extérieur';
+          this.bindTooltip(`${this._zoneId} — ${label} ${this._contourIdx + 1}/${contours.length}`, {
+            permanent: false, className: 'ed-tooltip', direction: 'top', sticky: true
+          }).openTooltip();
+        });
+        hitArea.on('mouseout', function () { this.unbindTooltip(); });
+        hitArea.addTo(map);
+        zoneLayers[zoneId].push(hitArea);
+      });
+    }
+
+>>>>>>> Stashed changes
     // ═══════════════════════════════════════════════════════════
     // SÉLECTION D'UNE ZONE / CONTOUR
     // ═══════════════════════════════════════════════════════════
@@ -293,6 +474,10 @@
       const prev = selectedZoneId;
       selectedZoneId = null;
       selectedContourIdx = 0;
+<<<<<<< Updated upstream
+=======
+      clearHandleSelection();
+>>>>>>> Stashed changes
       clearHandles();
       clearSegmentMarkers();
       if (prev) renderZone(prev);
@@ -312,6 +497,34 @@
       handleLayers = [];
     }
 
+<<<<<<< Updated upstream
+=======
+    function clearHandleSelection() {
+      selectedHandleIndices.clear();
+      handleKeyboardUndoActive = false;
+    }
+
+    function isHandleSelected(ptIdx) {
+      return selectedHandleIndices.has(ptIdx);
+    }
+
+    function handleStyle(ptIdx, hover = false) {
+      if (isHandleSelected(ptIdx)) return hover ? { ...HANDLE_SELECTED, radius: 8 } : HANDLE_SELECTED;
+      return hover ? HANDLE_HOVER : HANDLE_NORMAL;
+    }
+
+    function selectHandle(ptIdx, extend) {
+      if (extend) {
+        if (selectedHandleIndices.has(ptIdx)) selectedHandleIndices.delete(ptIdx);
+        else selectedHandleIndices.add(ptIdx);
+      } else {
+        selectedHandleIndices.clear();
+        selectedHandleIndices.add(ptIdx);
+      }
+      renderHandles();
+    }
+
+>>>>>>> Stashed changes
     function renderPointHandlesForRing(pts, targetLayers, handlers = {}) {
       pts.forEach((pt, ptIdx) => {
         const circle = L.circleMarker(pxToLatLng(pt[0], pt[1]), { ...HANDLE_NORMAL, interactive: true });
@@ -330,6 +543,19 @@
           handlers.click?.(this, ptIdx, e);
         });
         circle.addTo(map);
+<<<<<<< Updated upstream
+=======
+        // Tactile : voir le commentaire sur onTouchDragMove/onTouchDragEnd —
+        // touchstart n'est pas traduit en 'mousedown' par Leaflet pour un
+        // calque, câblage direct sur l'élément DOM nécessaire.
+        const el = circle.getElement();
+        if (el) {
+          L.DomEvent.on(el, 'touchstart', function (e) {
+            e.preventDefault();
+            handlers.mousedown?.(circle, ptIdx, e);
+          });
+        }
+>>>>>>> Stashed changes
         targetLayers.push(circle);
       });
     }
@@ -359,25 +585,46 @@
       if (!contour) return;
 
       renderPointHandlesForRing(contour, handleLayers, {
+<<<<<<< Updated upstream
         mouseover(marker, ptIdx) {
           if (!draggingHandle) marker.setStyle(HANDLE_HOVER);
+=======
+        style(marker, ptIdx) {
+          marker.setStyle(handleStyle(ptIdx));
+        },
+        mouseover(marker, ptIdx) {
+          if (!draggingHandle) marker.setStyle(handleStyle(ptIdx, true));
+>>>>>>> Stashed changes
           updatePtInfo(ptIdx);
         },
         mouseout(marker, ptIdx) {
           if (!draggingHandle || draggingHandle.ptIdx !== ptIdx) {
+<<<<<<< Updated upstream
             marker.setStyle(HANDLE_NORMAL);
+=======
+            marker.setStyle(handleStyle(ptIdx));
+>>>>>>> Stashed changes
           }
           clearPtInfo();
         },
         mousedown(marker, ptIdx, e) {
           if (currentTool !== 'select') return;
           L.DomEvent.stopPropagation(e);
+<<<<<<< Updated upstream
           startDrag(ptIdx, marker);
+=======
+          startDrag(ptIdx, marker, e.latlng);
+>>>>>>> Stashed changes
         },
         click(marker, ptIdx, e) {
           L.DomEvent.stopPropagation(e);
           if (currentTool === 'erase') {
             erasePoint(ptIdx);
+<<<<<<< Updated upstream
+=======
+          } else if (currentTool === 'select') {
+            selectHandle(ptIdx, !!e.originalEvent?.shiftKey);
+>>>>>>> Stashed changes
           }
         },
       });
@@ -397,9 +644,14 @@
     }
 
     // ─── Drag & Drop d'un point ───────────────────────────────────
+<<<<<<< Updated upstream
     function startDrag(ptIdx, marker) {
       pushUndo('Deplacer point');
       draggingHandle = { ptIdx, marker };
+=======
+    function startDrag(ptIdx, marker, startLatLng = marker.getLatLng()) {
+      draggingHandle = { ptIdx, marker, startLatLng, didMove: false };
+>>>>>>> Stashed changes
       map.dragging.disable();
     }
 
@@ -408,6 +660,16 @@
       if (draggingHandle) {
         const [nx, ny] = latLngToPx(e.latlng);
         const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+<<<<<<< Updated upstream
+=======
+        if (!draggingHandle.didMove) {
+          const start = map.latLngToContainerPoint(draggingHandle.startLatLng);
+          const now = map.latLngToContainerPoint(e.latlng);
+          if (Math.hypot(now.x - start.x, now.y - start.y) < 3) return;
+          draggingHandle.didMove = true;
+          pushUndo('Déplacer point');
+        }
+>>>>>>> Stashed changes
         contour[draggingHandle.ptIdx] = [nx, ny];
         draggingHandle.marker.setLatLng(pxToLatLng(nx, ny));
         updatePolyLatLngs(selectedZoneId, selectedContourIdx);
@@ -421,6 +683,13 @@
       // TOPOGRAPHIE — Géo (territoire ou haut-fond, pipeline unifié)
       if (draggingHandle) {
         map.dragging.enable();
+<<<<<<< Updated upstream
+=======
+        if (!draggingHandle.didMove) {
+          draggingHandle = null;
+          return;
+        }
+>>>>>>> Stashed changes
         const [nx, ny] = latLngToPx(e.latlng);
         const contour = zonesEdit[selectedZoneId][selectedContourIdx];
         contour[draggingHandle.ptIdx] = [nx, ny];
@@ -431,7 +700,85 @@
       }
     }
 
+<<<<<<< Updated upstream
     function updatePolyLatLngs(zoneId, contourIdx) {
+=======
+    function selectedHandleIndicesForActiveContour() {
+      const contour = selectedZoneId && zonesEdit[selectedZoneId]?.[selectedContourIdx];
+      if (!contour) return [];
+      return [...selectedHandleIndices].filter(idx => idx >= 0 && idx < contour.length);
+    }
+
+    function onHandleKeyboardMove(e) {
+      if (!ctx.isZoneEditTab || !selectedZoneId || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (e.target?.closest?.('input, textarea, select, button, [contenteditable="true"]')) return;
+      const increments = {
+        ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0],
+      };
+      const increment = increments[e.key];
+      const indices = selectedHandleIndicesForActiveContour();
+      if (!increment || !indices.length) return;
+      e.preventDefault();
+      const step = e.shiftKey ? 5 : 1;
+      if (!handleKeyboardUndoActive) {
+        pushUndo(`Déplacer ${indices.length} poignée(s)`);
+        handleKeyboardUndoActive = true;
+      }
+      const contour = zonesEdit[selectedZoneId][selectedContourIdx];
+      indices.forEach(idx => {
+        contour[idx] = [contour[idx][0] + increment[0] * step, contour[idx][1] + increment[1] * step];
+      });
+      updatePolyLatLngs(selectedZoneId, selectedContourIdx);
+      refresh(R.HANDLES | R.PANEL | R.EXPORT);
+    }
+
+    function onHandleKeyboardMoveEnd(e) {
+      if (e.key.startsWith('Arrow')) handleKeyboardUndoActive = false;
+    }
+
+    // ─── Drag & Drop d'un point — tactile ──────────────────────────
+    // Convertit le point de contact en {latlng} et délègue à onDragMove/
+    // onDragEnd : même logique que la souris, seule l'extraction des
+    // coordonnées de l'événement diffère (touches[]/changedTouches[] au
+    // lieu de clientX/clientY directs sur l'événement).
+    function touchEventToLatLng(touch) {
+      return map.mouseEventToLatLng({ clientX: touch.clientX, clientY: touch.clientY });
+    }
+
+    function onTouchDragMove(e) {
+      if (!draggingHandle) return;
+      e.preventDefault();
+      const touch = e.touches[0];
+      if (!touch) return;
+      onDragMove({ latlng: touchEventToLatLng(touch) });
+    }
+
+    function onTouchDragEnd(e) {
+      if (!draggingHandle) return;
+      e.preventDefault();
+      const touch = e.changedTouches[0];
+      if (!touch) {
+        // Filet de sécurité : pas de point de contact final rapporté,
+        // annuler proprement plutôt que bloquer draggingHandle indéfiniment.
+        map.dragging.enable();
+        draggingHandle = null;
+        return;
+      }
+      onDragEnd({ latlng: touchEventToLatLng(touch) });
+    }
+
+    function updatePolyLatLngs(zoneId, contourIdx) {
+      // oceanBounds : un seul L.polygon pour tous les anneaux de l'entité
+      // (voir renderOceanBoundsZone) — reconstruire l'ensemble des anneaux,
+      // pas seulement celui en cours d'édition.
+      if (isOceanBoundsId(zoneId)) {
+        if (zoneLayers[zoneId] && zoneLayers[zoneId][0]) {
+          zoneLayers[zoneId][0].setLatLngs(zonesEdit[zoneId].map(contourToLatLngs));
+        }
+        return;
+      }
+
+>>>>>>> Stashed changes
       const contour = zonesEdit[zoneId][contourIdx];
       const polyIdx = contourIdx; // 1:1
       if (zoneLayers[zoneId] && zoneLayers[zoneId][polyIdx]) {
@@ -499,6 +846,10 @@
       contours.splice(selectedContourIdx, 1);
       zonesMeta[selectedZoneId]?.splice(selectedContourIdx, 1);
       selectedContourIdx = Math.min(selectedContourIdx, contours.length - 1);
+<<<<<<< Updated upstream
+=======
+      clearHandleSelection();
+>>>>>>> Stashed changes
       clearHandles();
       refreshAfterZoneEdit();
     }
@@ -552,9 +903,19 @@
       pushUndo('Ajouter contour');
       zonesEdit[selectedZoneId].push(drawPoints.map(p => [...p]));
       zonesMeta[selectedZoneId] ??= [];
+<<<<<<< Updated upstream
       zonesMeta[selectedZoneId].push(null);
       cancelDraw(true);
       selectedContourIdx = zonesEdit[selectedZoneId].length - 1;
+=======
+      // oceanBounds : un nouveau contour tracé est nécessairement un trou (île) —
+      // l'unique extérieur est déjà en place à l'index 0. Rôle posé en dur tout
+      // de suite, pas laissé null (voir contourRole()).
+      zonesMeta[selectedZoneId].push(isOceanBoundsId(selectedZoneId) ? { role: 'hole' } : null);
+      cancelDraw(true);
+      selectedContourIdx = zonesEdit[selectedZoneId].length - 1;
+      clearHandleSelection();
+>>>>>>> Stashed changes
       refreshAfterZoneEdit();
     }
 

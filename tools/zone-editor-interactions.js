@@ -165,6 +165,81 @@
       document.addEventListener('mouseup', oceanLassoOnUp, true);
     }
 
+<<<<<<< Updated upstream
+=======
+    // ─── Lasso de poignées (Topographie — Géo et Ocean Bounds) ─────────────
+    // Ce lasso ne retire jamais une poignée : il complète la sélection active.
+    function clearHandleLassoLayer() {
+      if (!handleLassoLayer) return;
+      map.removeLayer(handleLassoLayer);
+      handleLassoLayer = null;
+    }
+
+    function cancelHandleLasso() {
+      handleLassoSelecting = false;
+      handleLassoPoints = [];
+      clearHandleLassoLayer();
+      document.removeEventListener('mousemove', handleLassoOnMove, true);
+      document.removeEventListener('mouseup', handleLassoOnUp, true);
+      if (map) map.dragging.enable();
+    }
+
+    function renderHandleLassoPreview() {
+      clearHandleLassoLayer();
+      if (handleLassoPoints.length < 2) return;
+      handleLassoLayer = L.polyline(handleLassoPoints.map(point => pxToLatLng(point.x, point.y)), {
+        color: 'rgba(118, 215, 196, 0.95)', weight: 2, opacity: 0.95, dashArray: '6 4', interactive: false,
+      }).addTo(map);
+    }
+
+    function applyHandleLassoSelection() {
+      if (handleLassoPoints.length < 3 || !selectedZoneId) return;
+      const contour = zonesEdit[selectedZoneId]?.[selectedContourIdx];
+      if (!contour) return;
+      contour.forEach((point, idx) => {
+        if (pointInPolygon({ x: point[0], y: point[1] }, handleLassoPoints)) selectedHandleIndices.add(idx);
+      });
+      renderHandles();
+    }
+
+    function handleLassoOnMove(nativeEvent) {
+      if (!handleLassoSelecting) return;
+      const { x, y } = oceanPointFromNativeEvent(nativeEvent);
+      if (!isPxInsideImage([x, y])) return;
+      const last = handleLassoPoints[handleLassoPoints.length - 1];
+      if (last && Math.hypot(last.x - x, last.y - y) < 8) return;
+      handleLassoPoints.push({ x, y });
+      renderHandleLassoPreview();
+    }
+
+    function handleLassoOnUp() {
+      if (!handleLassoSelecting) return;
+      handleLassoSelecting = false;
+      document.removeEventListener('mousemove', handleLassoOnMove, true);
+      document.removeEventListener('mouseup', handleLassoOnUp, true);
+      map.dragging.enable();
+      applyHandleLassoSelection();
+      clearHandleLassoLayer();
+      handleLassoPoints = [];
+    }
+
+    function handleLassoOnDown(nativeEvent) {
+      if (!ctx.isZoneEditTab || currentTool !== 'handle-lasso' || nativeEvent.button !== 0 || !selectedZoneId) return;
+      // La poignée doit rester cliquable : le lasso peut débuter sur tout autre
+      // calque, mais jamais sur son cercle SVG interactif.
+      if (handleLayers.some(handle => handle.getElement()?.contains(nativeEvent.target))) return;
+      const { x, y } = oceanPointFromNativeEvent(nativeEvent);
+      if (!isPxInsideImage([x, y])) return;
+      nativeEvent.preventDefault();
+      nativeEvent.stopPropagation();
+      handleLassoSelecting = true;
+      handleLassoPoints = [{ x, y }];
+      map.dragging.disable();
+      document.addEventListener('mousemove', handleLassoOnMove, true);
+      document.addEventListener('mouseup', handleLassoOnUp, true);
+    }
+
+>>>>>>> Stashed changes
     function onMapClick(e) {
       if (ctx.isSemaphore) {
         const pt = latLngToPx(e.latlng);
@@ -237,7 +312,11 @@
       }
       // Clic dans le vide — désélectionner selon le mode actif
       if (currentTool === 'select') {
+<<<<<<< Updated upstream
         if (ctx.isTopoGeo) {
+=======
+        if (ctx.isZoneEditTab) {
+>>>>>>> Stashed changes
           clearSelection();
         } else if (ctx.isTopoInfo) {
           clearTopoInfoSelection();
@@ -267,6 +346,12 @@
       if (currentTool === 'ocean-lasso' && tool !== 'ocean-lasso') {
         cancelOceanLasso();
       }
+<<<<<<< Updated upstream
+=======
+      if (currentTool === 'handle-lasso' && tool !== 'handle-lasso') {
+        cancelHandleLasso();
+      }
+>>>>>>> Stashed changes
 
       // Quitter le mode split proprement
       if (currentTool === 'split' && tool !== 'split') {
@@ -302,14 +387,22 @@
       }
 
       // Mode insert : afficher les marqueurs de segments si zone sélectionnée
+<<<<<<< Updated upstream
       if (ctx.isTopoGeo && tool === 'insert' && selectedZoneId) {
+=======
+      if (ctx.isZoneEditTab && tool === 'insert' && selectedZoneId) {
+>>>>>>> Stashed changes
         renderSegmentMarkers();
       } else {
         clearSegmentMarkers();
       }
 
       // Mode split : afficher les poignées de découpe
+<<<<<<< Updated upstream
       if (ctx.isTopoGeo && tool === 'split' && selectedZoneId) {
+=======
+      if (ctx.isZoneEditTab && tool === 'split' && selectedZoneId) {
+>>>>>>> Stashed changes
         clearHandles();
         renderSplitHandles();
       } else if (tool !== 'split') {
@@ -317,7 +410,11 @@
       }
 
       // Rafraîchir les poignées si select/erase/insert (et pas split)
+<<<<<<< Updated upstream
       if (ctx.isTopoGeo && (tool === 'select' || tool === 'erase') && selectedZoneId) {
+=======
+      if (ctx.isZoneEditTab && (tool === 'select' || tool === 'erase') && selectedZoneId) {
+>>>>>>> Stashed changes
         renderHandles();
       }
     }

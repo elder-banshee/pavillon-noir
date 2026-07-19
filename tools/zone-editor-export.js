@@ -9,7 +9,11 @@
       const box = document.getElementById('export-box');
       const hint = document.getElementById('export-hint');
 
+<<<<<<< Updated upstream
       if (!ctx.isTopoGeo) {
+=======
+      if (!ctx.isZoneEditTab) {
+>>>>>>> Stashed changes
         box.textContent = '';
         hint.style.display = 'none';
         return;
@@ -60,6 +64,14 @@
       if (!box) return;
       const contours = zonesEdit[zoneId];
 
+<<<<<<< Updated upstream
+=======
+      if (isOceanBoundsId(zoneId)) {
+        renderOceanBoundsExportBlocks(zoneId, contours, box);
+        return;
+      }
+
+>>>>>>> Stashed changes
       // Ligne d'en-tête (non cliquable)
       let html = `<span class="contour-block" style="color:#6a8060;">${escapeHtml(formatZoneHeader(zoneId, contours))}</span>`;
 
@@ -80,6 +92,50 @@
       });
     }
 
+<<<<<<< Updated upstream
+=======
+    // oceanBounds ne suit pas le format plat des territoires : le rôle
+    // interne de chaque contour devient la structure { exterior, holes }
+    // attendue dans zones-data.js. Ainsi, le bouton Copier donne directement
+    // un bloc remplaçable, sans exposer { role, points }.
+    function renderOceanBoundsExportBlocks(zoneId, contours, box) {
+      const meta = zonesMeta[zoneId] || [];
+      const exteriorIdx = meta.findIndex(item => item?.role === 'exterior');
+      if (exteriorIdx < 0) {
+        box.textContent = 'Contour extérieur introuvable : copie impossible.';
+        return;
+      }
+
+      const formatRing = (contour, indent) => {
+        let out = '';
+        for (let i = 0; i < contour.length; i += 6) {
+          out += indent + contour.slice(i, i + 6).map(([x, y]) => `[${x}, ${y}]`).join(', ') + ',\n';
+        }
+        return out;
+      };
+      const contourSpan = (idx, prefix, suffix, indent) => {
+        const isActive = idx === selectedContourIdx;
+        return `${escapeHtml(prefix)}<span class="contour-block${isActive ? ' active' : ''}" data-contour="${idx}">${escapeHtml(formatRing(contours[idx], indent))}</span>${escapeHtml(suffix)}`;
+      };
+
+      let html = `<span class="contour-block" style="color:#6a8060;">${escapeHtml(`  '${zoneId}': {\n    zoneSource: 'svg',\n    zone: {\n      exterior: [\n`)}</span>`;
+      html += contourSpan(exteriorIdx, '', '      ],\n      holes: [\n', '        ');
+
+      meta.forEach((item, idx) => {
+        if (item?.role !== 'hole') return;
+        html += contourSpan(idx, '        [\n', '        ],\n', '          ');
+      });
+
+      html += `<span class="contour-block" style="color:#6a8060;">${escapeHtml('      ],\n    },\n  },')}</span>`;
+      box.innerHTML = html;
+
+      requestAnimationFrame(() => {
+        const activeSpan = box.querySelector('.contour-block.active');
+        if (activeSpan) activeSpan.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      });
+    }
+
+>>>>>>> Stashed changes
     function escapeHtml(s) {
       return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
@@ -93,6 +149,10 @@
       if (idx < 0 || idx >= contours.length) return;
 
       selectedContourIdx = idx;
+<<<<<<< Updated upstream
+=======
+      clearHandleSelection();
+>>>>>>> Stashed changes
       clearHandles();
       refresh(R.SELECTED_ZONE | R.HANDLES | R.PANEL | R.EXPORT);
       if (currentTool === 'insert') renderSegmentMarkers();
@@ -104,6 +164,11 @@
     function exportCurrentFile() {
       if (ctx.isTopoGeo || ctx.isTopoInfo) {
         exportZonesData();
+<<<<<<< Updated upstream
+=======
+      } else if (ctx.isTopoOceanBounds) {
+        exportOceanBounds();
+>>>>>>> Stashed changes
       } else if (ctx.isOcean) {
         exportOscarGrid();
       }
@@ -151,6 +216,12 @@
       out += 'const ZONES_DATA = {\n\n';
 
       for (const id in data) {
+<<<<<<< Updated upstream
+=======
+        // oceanBounds n'est pas un territoire : géométrie et export séparés
+        // (voir exportOceanBounds), pas de sérialisation à plat ici.
+        if (isOceanBoundsId(id)) continue;
+>>>>>>> Stashed changes
         const contours = data[id];
         out += formatZoneHeader(id, contours);
         contours.forEach((contour, ci) => {
@@ -210,6 +281,84 @@
       downloadBlob('zones-data.js', out);
     }
 
+<<<<<<< Updated upstream
+=======
+    // ═══════════════════════════════════════════════════════════
+    // EXPORT FICHIER — oceanBounds (masque navigable Atlantique/Pacifique)
+    // ═══════════════════════════════════════════════════════════
+    // Reconstruit explicitement {exterior, holes} à partir du tag role posé
+    // dans zonesMeta — pas de la sérialisation à plat (formatContourBlock)
+    // utilisée pour territoires/hauts-fonds, qui perdrait la distinction
+    // extérieur/trou. Bouton distinct de l'export zones-data.js existant :
+    // fichier séparé, à coller dans le bloc ZONES_OCEAN_BOUNDS de
+    // js/zones-data.js (ce dernier n'est pas régénéré ici).
+    function formatOceanBoundsRing(points) {
+      let block = '';
+      for (let i = 0; i < points.length; i += 6) {
+        block += '    ' + points.slice(i, i + 6).map(([x, y]) => `[${x},${y}]`).join(', ') + ',\n';
+      }
+      return block;
+    }
+
+    // Fail fast : un contour sans rôle explicite, ou une entité sans
+    // extérieur unique, indique un bug ailleurs dans le pipeline (drag/
+    // insert/split) — pas de repli silencieux sur une convention d'index.
+    function buildOceanBoundsZone(zoneId) {
+      const contours = zonesEdit[zoneId];
+      const meta = zonesMeta[zoneId] || [];
+      let exterior = null;
+      const holes = [];
+      contours.forEach((contour, idx) => {
+        const role = meta[idx]?.role;
+        if (role === 'exterior') {
+          if (exterior) throw new Error(`${zoneId} : plusieurs contours "exterior" (contour ${idx}) — un seul attendu.`);
+          exterior = contour;
+        } else if (role === 'hole') {
+          holes.push(contour);
+        } else {
+          throw new Error(`${zoneId} : contour ${idx} sans rôle exterior/hole — export impossible.`);
+        }
+      });
+      if (!exterior) throw new Error(`${zoneId} : aucun contour "exterior" — export impossible.`);
+      return { exterior, holes };
+    }
+
+    function exportOceanBounds() {
+      let out = '// ZONES_OCEAN_BOUNDS — emprise maritime globale (filet de sécurité calme)\n';
+      out += '// Généré par Zone Editor — Pavillon Noir\n';
+      out += '// ═══════════════════════════════════════════════════════════\n\n';
+      out += 'const ZONES_OCEAN_BOUNDS = {\n';
+
+      const oceanBoundsIds = zonesWorkingCopy.OCEAN_BOUNDS ? Object.keys(zonesWorkingCopy.OCEAN_BOUNDS) : [];
+      for (const id of oceanBoundsIds) {
+        let zone;
+        try {
+          zone = buildOceanBoundsZone(id);
+        } catch (e) {
+          alert(e.message);
+          return;
+        }
+        out += `  '${id}': {\n`;
+        out += `    zoneSource: 'svg',\n`;
+        out += `    zone: {\n`;
+        out += `      exterior: [\n`;
+        out += formatOceanBoundsRing(zone.exterior);
+        out += `      ],\n`;
+        out += `      holes: [\n`;
+        zone.holes.forEach(hole => {
+          out += `      [\n`;
+          out += formatOceanBoundsRing(hole);
+          out += `      ],\n`;
+        });
+        out += `      ],\n`;
+        out += `    },\n`;
+        out += `  },\n\n`;
+      }
+      out += '};\n';
+      downloadBlob('zones-ocean-bounds.js', out);
+    }
+
+>>>>>>> Stashed changes
     function calcSuperficie(contours) {
       // Shoelace sur le premier contour (contour principal) de chaque zone
       let total = 0;
