@@ -38,3 +38,47 @@ Les contrôles suivants sont passés sur l'état fusionné :
 - `node --check` sur les sept modules JavaScript Zone Editor réparés
 - `node tools/audit-text-integrity.js --strict-eol`
 - recherche globale de marqueurs de conflit dans les fichiers texte du dépôt
+
+## Suite — Dernière actualisation d’oceanBounds
+
+Le nouveau SVG source
+`Accessoires site pavillon noir/Sources SVG/oceanBounds.svg` a été audité :
+`8500 × 5320`, `viewBox="0 0 8500 5320"`, XML et paths valides, tous les
+sous-contours fermés, aucune coordonnée non finie ni hors canevas. SVGOMG
+avait supprimé les IDs et fusionné le fleuve Bariana avec le Pacifique.
+
+Une sauvegarde hors dépôt, `oceanBounds.before-bariana-split.svg`, conserve
+la version optimisée reçue. Le sous-contour Bariana a été séparé sans
+rééchantillonnage et les trois formes portent désormais les IDs :
+
+- `fleuve-bariana` ;
+- `ocean-bounds-pacifique` ;
+- `ocean-bounds-atlantique`.
+
+Le générateur `Accessoires site pavillon noir/Outils generation/gen_sea_data.py`
+a été adapté hors dépôt pour reconnaître ces trois emprises. Le bloc
+`ZONES_OCEAN_BOUNDS` de `js/zones-data.js` a ensuite été remplacé par sa
+sortie contrôlée, sans rognage : Bariana compte 407 points, l’extérieur
+Atlantique 14 179 points et l’extérieur Pacifique 2 605 points.
+
+Le synchroniseur `tools/sync-oscar-hex-grid-ocean-bounds.js` reconnaît
+maintenant Bariana comme domaine Pacifique et valide explicitement les trois
+IDs. Un mode `--preserve-existing` a été ajouté afin de satisfaire la règle
+de conservation stricte : les cellules historiques hors nouvelle emprise
+sont consignées dans le rapport, jamais supprimées.
+
+La synchronisation finale a conservé sans aucune modification les 14 061
+cellules existantes et ajouté 667 cellules calmes (491 Atlantique, 176
+Pacifique), pour un total de 14 728. Les 24 cellules que le mode historique
+aurait supprimées sont conservées et signalées dans le rapport.
+
+Validation complémentaire :
+
+- `node --check js/zones-data.js`
+- `node --check js/oscar-hex-grid.js`
+- `node --check js/navigation-jaillot.js`
+- `node --check tools/sync-oscar-hex-grid-ocean-bounds.js`
+- comparaison exhaustive avant/après des 14 061 cellules historiques
+- contrôle des 667 ajouts (`calme: true`, `source: 'calm'`, vitesse nulle)
+- `node tools/audit-text-integrity.js --strict-eol`
+- `git diff --check`

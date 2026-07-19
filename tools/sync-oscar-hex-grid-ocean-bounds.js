@@ -11,6 +11,11 @@ const vm = require('vm');
 const ROOT = path.resolve(__dirname, '..');
 const MAP_WIDTH = 8500;
 const MAP_HEIGHT = 5320;
+const EXPECTED_OCEAN_IDS = new Set([
+  'fleuve-bariana',
+  'ocean-bounds-atlantique',
+  'ocean-bounds-pacifique',
+]);
 
 // Exceptions topologiques vérifiées visuellement. Elles restent nécessaires
 // lorsque le chenal maritime est plus fin que les critères géométriques
@@ -32,6 +37,7 @@ function option(name, fallback = null) {
 }
 
 const write = process.argv.includes('--write');
+const preserveExisting = process.argv.includes('--preserve-existing');
 const gridPath = path.resolve(option('--grid', path.join(ROOT, 'js', 'oscar-hex-grid.js')));
 const zonesPath = path.resolve(option('--zones', path.join(ROOT, 'js', 'zones-data.js')));
 const reportPath = path.resolve(option('--report', path.join(ROOT, 'tools', 'oscar-hex-grid-ocean-bounds-report.json')));
@@ -189,7 +195,7 @@ function oscarHexVertices(q, r, grid) {
 }
 
 function oceanDomain(id) {
-  return /pacifique|pacific/i.test(id) ? 'pacific' : 'atlantic';
+  return /pacifique|pacific|bariana/i.test(id) ? 'pacific' : 'atlantic';
 }
 
 function hexOceanIntersection(q, r, grid, oceans) {
@@ -237,17 +243,32 @@ function main() {
   if (grid.topology !== 'hex') throw new Error('La grille active n’est pas hexagonale.');
   const oceans = Object.entries(bounds).map(([id, entry]) => ({ id, domain: oceanDomain(id), polygons: zonePolygons(entry?.zone) }))
     .filter(ocean => ocean.polygons.length);
-  if (oceans.length !== 2) throw new Error(`Deux oceanBounds exploitables sont attendus ; ${oceans.length} trouvé(s).`);
+  const oceanIds = new Set(oceans.map(ocean => ocean.id));
+  const missingIds = [...EXPECTED_OCEAN_IDS].filter(id => !oceanIds.has(id));
+  const unexpectedIds = [...oceanIds].filter(id => !EXPECTED_OCEAN_IDS.has(id));
+  if (missingIds.length || unexpectedIds.length) {
+    throw new Error(
+      `Emprises navigables inattendues — manquantes : ${missingIds.join(', ') || 'aucune'} ; `
+      + `inattendues : ${unexpectedIds.join(', ') || 'aucune'}.`,
+    );
+  }
 
   const existing = grid.cells || {};
   const nextCells = {};
   const removed = [];
+  const preservedOutsideBounds = [];
   for (const [key, cell] of Object.entries(existing)) {
     const q = Number(cell.q ?? key.split('_')[1]);
     const r = Number(cell.r ?? key.split('_')[0]);
     if (!Number.isInteger(q) || !Number.isInteger(r)) throw new Error(`Clé de cellule OSCAR invalide : ${key}`);
-    if (FORCE_INCLUDED_CELLS[key] || hexOceanIntersection(q, r, grid, oceans)) nextCells[key] = cell;
-    else removed.push(key);
+    if (FORCE_INCLUDED_CELLS[key] || hexOceanIntersection(q, r, grid, oceans)) {
+      nextCells[key] = cell;
+    } else if (preserveExisting) {
+      nextCells[key] = cell;
+      preservedOutsideBounds.push(key);
+    } else {
+      removed.push(key);
+    }
   }
 
   const added = [];
@@ -281,6 +302,7 @@ function main() {
     source: 'ZONES_OCEAN_BOUNDS',
     method: 'exact hex/polygon intersection; exceptions topologiques explicites; preserved cells unchanged; missing cells calm',
     updatedAt: new Date().toISOString(),
+    preserveExisting,
     removed: removed.length,
     added: added.length,
     forcedIncluded: forcedIncluded.map(entry => entry.key),
@@ -292,6 +314,7 @@ function main() {
     cellsBefore: Object.keys(existing).length,
     cellsAfter: Object.keys(nextCells).length,
     preserved: Object.keys(existing).length - removed.length,
+    preservedOutsideBounds,
     removed,
     added,
     forcedIncluded,
@@ -306,6 +329,7 @@ function main() {
     cellsAfter: report.cellsAfter,
     preserved: report.preserved,
     removed: report.removed.length,
+    preservedOutsideBounds: report.preservedOutsideBounds.length,
     added: report.added.length,
     forcedIncluded: report.forcedIncluded,
     addedByDomain: report.addedByDomain,
