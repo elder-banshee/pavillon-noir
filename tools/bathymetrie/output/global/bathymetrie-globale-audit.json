@@ -1,0 +1,583 @@
+{
+  "version": 1,
+  "dataset": "GEBCO_2026",
+  "metadata": {
+    "width": 10800,
+    "height": 7200,
+    "pixelSizeLonDeg": 0.004166666666666667,
+    "pixelSizeLatDeg": 0.004166666666666668,
+    "intervalArcSeconds": 15.0,
+    "west": -100.0,
+    "south": 4.999999999999989,
+    "east": -55.0,
+    "north": 35.0,
+    "firstPixelCenterLon": -99.99791666666667,
+    "firstPixelCenterLat": 34.99791666666667,
+    "epsg": 4326,
+    "nodata": -32767
+  },
+  "bathymetry": {
+    "minM": -8824,
+    "maxM": 5611,
+    "nodataCells": 0,
+    "seaCells": 57751855,
+    "landCells": 20008145
+  },
+  "tid": [
+    {
+      "code": 0,
+      "label": "Terre",
+      "cells": 19962839,
+      "percent": 25.672375257201647
+    },
+    {
+      "code": 10,
+      "label": "Monofaisceau",
+      "cells": 92062,
+      "percent": 0.11839248971193415
+    },
+    {
+      "code": 11,
+      "label": "Multifaisceau",
+      "cells": 18142587,
+      "percent": 23.331516203703703
+    },
+    {
+      "code": 12,
+      "label": "Sismique",
+      "cells": 1094542,
+      "percent": 1.4075900205761316
+    },
+    {
+      "code": 14,
+      "label": "Sonde ENC",
+      "cells": 2770,
+      "percent": 0.0035622427983539096
+    },
+    {
+      "code": 15,
+      "label": "Lidar",
+      "cells": 41284,
+      "percent": 0.05309156378600823
+    },
+    {
+      "code": 16,
+      "label": "Profondeur mesurée par capteur optique",
+      "cells": 2658852,
+      "percent": 3.4193055555555554
+    },
+    {
+      "code": 17,
+      "label": "Combinaison de méthodes de mesure directes",
+      "cells": 1729587,
+      "percent": 2.2242631172839507
+    },
+    {
+      "code": 40,
+      "label": "Prédiction guidée par gravimétrie satellitaire",
+      "cells": 31467064,
+      "percent": 40.46690329218107
+    },
+    {
+      "code": 44,
+      "label": "Grille multi-sources interpolée",
+      "cells": 2510157,
+      "percent": 3.228082561728395
+    },
+    {
+      "code": 70,
+      "label": "Grille pré-générée à sources mixtes",
+      "cells": 58256,
+      "percent": 0.07491769547325103
+    }
+  ],
+  "classes": [
+    {
+      "id": 0,
+      "key": "terre",
+      "label": "Terre",
+      "color": [
+        128,
+        112,
+        82
+      ],
+      "cells": 20008145,
+      "percentOfRaster": 25.730639146090535,
+      "areaApproxKm2": 3981237.566506657,
+      "directMeasurementCells": 45145,
+      "directMeasurementPercent": 0.22563311091557964,
+      "observedIncludingSatelliteCells": 45145,
+      "observedIncludingSatellitePercent": 0.22563311091557964,
+      "tid": [
+        {
+          "code": 0,
+          "label": "Terre",
+          "cells": 19962839,
+          "percent": 99.77356221678721
+        },
+        {
+          "code": 10,
+          "label": "Monofaisceau",
+          "cells": 1,
+          "percent": 4.997964578925233e-06
+        },
+        {
+          "code": 11,
+          "label": "Multifaisceau",
+          "cells": 339,
+          "percent": 0.0016943099922556541
+        },
+        {
+          "code": 14,
+          "label": "Sonde ENC",
+          "cells": 9,
+          "percent": 4.4981681210327095e-05
+        },
+        {
+          "code": 15,
+          "label": "Lidar",
+          "cells": 6525,
+          "percent": 0.03261171887748714
+        },
+        {
+          "code": 16,
+          "label": "Profondeur mesurée par capteur optique",
+          "cells": 35624,
+          "percent": 0.1780474901596325
+        },
+        {
+          "code": 17,
+          "label": "Combinaison de méthodes de mesure directes",
+          "cells": 2647,
+          "percent": 0.013229612240415089
+        },
+        {
+          "code": 70,
+          "label": "Grille pré-générée à sources mixtes",
+          "cells": 161,
+          "percent": 0.0008046722972069624
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "key": "moins_1_8",
+      "label": "0–1,8 m",
+      "color": [
+        255,
+        238,
+        124
+      ],
+      "cells": 181691,
+      "percentOfRaster": 0.23365612139917696,
+      "areaApproxKm2": 35962.71356897037,
+      "directMeasurementCells": 135100,
+      "directMeasurementPercent": 74.35701273040492,
+      "observedIncludingSatelliteCells": 135100,
+      "observedIncludingSatellitePercent": 74.35701273040492,
+      "tid": [
+        {
+          "code": 11,
+          "label": "Multifaisceau",
+          "cells": 488,
+          "percent": 0.26858787722011546
+        },
+        {
+          "code": 14,
+          "label": "Sonde ENC",
+          "cells": 30,
+          "percent": 0.016511549829105458
+        },
+        {
+          "code": 15,
+          "label": "Lidar",
+          "cells": 1123,
+          "percent": 0.6180823486028477
+        },
+        {
+          "code": 16,
+          "label": "Profondeur mesurée par capteur optique",
+          "cells": 132682,
+          "percent": 73.02618181417901
+        },
+        {
+          "code": 17,
+          "label": "Combinaison de méthodes de mesure directes",
+          "cells": 777,
+          "percent": 0.4276491405738314
+        },
+        {
+          "code": 40,
+          "label": "Prédiction guidée par gravimétrie satellitaire",
+          "cells": 40596,
+          "percent": 22.343429228745507
+        },
+        {
+          "code": 44,
+          "label": "Grille multi-sources interpolée",
+          "cells": 5983,
+          "percent": 3.2929534209179323
+        },
+        {
+          "code": 70,
+          "label": "Grille pré-générée à sources mixtes",
+          "cells": 12,
+          "percent": 0.0066046199316421835
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "key": "1_8_3_6",
+      "label": "1,8–3,6 m",
+      "color": [
+        253,
+        186,
+        90
+      ],
+      "cells": 414128,
+      "percentOfRaster": 0.5325720164609054,
+      "areaApproxKm2": 81947.80061482904,
+      "directMeasurementCells": 301113,
+      "directMeasurementPercent": 72.71012826952054,
+      "observedIncludingSatelliteCells": 301113,
+      "observedIncludingSatellitePercent": 72.71012826952054,
+      "tid": [
+        {
+          "code": 11,
+          "label": "Multifaisceau",
+          "cells": 8705,
+          "percent": 2.1020071089131864
+        },
+        {
+          "code": 14,
+          "label": "Sonde ENC",
+          "cells": 83,
+          "percent": 0.02004211258354905
+        },
+        {
+          "code": 15,
+          "label": "Lidar",
+          "cells": 1806,
+          "percent": 0.43609705211915156
+        },
+        {
+          "code": 16,
+          "label": "Profondeur mesurée par capteur optique",
+          "cells": 288665,
+          "percent": 69.70429432446007
+        },
+        {
+          "code": 17,
+          "label": "Combinaison de méthodes de mesure directes",
+          "cells": 1854,
+          "percent": 0.44768767144457755
+        },
+        {
+          "code": 40,
+          "label": "Prédiction guidée par gravimétrie satellitaire",
+          "cells": 92938,
+          "percent": 22.441853726384114
+        },
+        {
+          "code": 44,
+          "label": "Grille multi-sources interpolée",
+          "cells": 20003,
+          "percent": 4.83014913263532
+        },
+        {
+          "code": 70,
+          "label": "Grille pré-générée à sources mixtes",
+          "cells": 74,
+          "percent": 0.01786887146003168
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "key": "3_6_6",
+      "label": "3,6–6 m",
+      "color": [
+        251,
+        128,
+        114
+      ],
+      "cells": 369970,
+      "percentOfRaster": 0.47578446502057614,
+      "areaApproxKm2": 72925.22276469442,
+      "directMeasurementCells": 286263,
+      "directMeasurementPercent": 77.37465199881072,
+      "observedIncludingSatelliteCells": 286263,
+      "observedIncludingSatellitePercent": 77.37465199881072,
+      "tid": [
+        {
+          "code": 11,
+          "label": "Multifaisceau",
+          "cells": 10024,
+          "percent": 2.70940887098954
+        },
+        {
+          "code": 14,
+          "label": "Sonde ENC",
+          "cells": 67,
+          "percent": 0.01810957645214477
+        },
+        {
+          "code": 15,
+          "label": "Lidar",
+          "cells": 1014,
+          "percent": 0.27407627645484767
+        },
+        {
+          "code": 16,
+          "label": "Profondeur mesurée par capteur optique",
+          "cells": 272694,
+          "percent": 73.70705732897261
+        },
+        {
+          "code": 17,
+          "label": "Combinaison de méthodes de mesure directes",
+          "cells": 2464,
+          "percent": 0.6659999459415629
+        },
+        {
+          "code": 40,
+          "label": "Prédiction guidée par gravimétrie satellitaire",
+          "cells": 70682,
+          "percent": 19.10479228045517
+        },
+        {
+          "code": 44,
+          "label": "Grille multi-sources interpolée",
+          "cells": 12914,
+          "percent": 3.4905532881044405
+        },
+        {
+          "code": 70,
+          "label": "Grille pré-générée à sources mixtes",
+          "cells": 111,
+          "percent": 0.030002432629672674
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "key": "6_8_4",
+      "label": "6–8,4 m",
+      "color": [
+        244,
+        100,
+        158
+      ],
+      "cells": 431194,
+      "percentOfRaster": 0.5545190329218107,
+      "areaApproxKm2": 85334.39859438766,
+      "directMeasurementCells": 338994,
+      "directMeasurementPercent": 78.61751323070358,
+      "observedIncludingSatelliteCells": 338994,
+      "observedIncludingSatellitePercent": 78.61751323070358,
+      "tid": [
+        {
+          "code": 11,
+          "label": "Multifaisceau",
+          "cells": 17266,
+          "percent": 4.004230114519219
+        },
+        {
+          "code": 14,
+          "label": "Sonde ENC",
+          "cells": 114,
+          "percent": 0.026438215745117045
+        },
+        {
+          "code": 15,
+          "label": "Lidar",
+          "cells": 1256,
+          "percent": 0.2912842015426931
+        },
+        {
+          "code": 16,
+          "label": "Profondeur mesurée par capteur optique",
+          "cells": 316340,
+          "percent": 73.36372955096778
+        },
+        {
+          "code": 17,
+          "label": "Combinaison de méthodes de mesure directes",
+          "cells": 4018,
+          "percent": 0.9318311479287746
+        },
+        {
+          "code": 40,
+          "label": "Prédiction guidée par gravimétrie satellitaire",
+          "cells": 80212,
+          "percent": 18.60229966094148
+        },
+        {
+          "code": 44,
+          "label": "Grille multi-sources interpolée",
+          "cells": 11842,
+          "percent": 2.746327639067334
+        },
+        {
+          "code": 70,
+          "label": "Grille pré-générée à sources mixtes",
+          "cells": 146,
+          "percent": 0.03385946928760604
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "key": "8_4_12",
+      "label": "8,4–12 m",
+      "color": [
+        167,
+        139,
+        250
+      ],
+      "cells": 390360,
+      "percentOfRaster": 0.5020061728395061,
+      "areaApproxKm2": 77711.25599956646,
+      "directMeasurementCells": 303828,
+      "directMeasurementPercent": 77.83276975099908,
+      "observedIncludingSatelliteCells": 303828,
+      "observedIncludingSatellitePercent": 77.83276975099908,
+      "tid": [
+        {
+          "code": 11,
+          "label": "Multifaisceau",
+          "cells": 13349,
+          "percent": 3.419663899989753
+        },
+        {
+          "code": 14,
+          "label": "Sonde ENC",
+          "cells": 133,
+          "percent": 0.03407111384363152
+        },
+        {
+          "code": 15,
+          "label": "Lidar",
+          "cells": 1310,
+          "percent": 0.33558766267035556
+        },
+        {
+          "code": 16,
+          "label": "Profondeur mesurée par capteur optique",
+          "cells": 285255,
+          "percent": 73.07485398094067
+        },
+        {
+          "code": 17,
+          "label": "Combinaison de méthodes de mesure directes",
+          "cells": 3781,
+          "percent": 0.9685930935546675
+        },
+        {
+          "code": 40,
+          "label": "Prédiction guidée par gravimétrie satellitaire",
+          "cells": 78920,
+          "percent": 20.21723537247669
+        },
+        {
+          "code": 44,
+          "label": "Grille multi-sources interpolée",
+          "cells": 7460,
+          "percent": 1.911056460702941
+        },
+        {
+          "code": 70,
+          "label": "Grille pré-générée à sources mixtes",
+          "cells": 152,
+          "percent": 0.03893841582129316
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "key": "12_plus",
+      "label": "12 m et plus",
+      "color": [
+        30,
+        64,
+        175
+      ],
+      "cells": 55964512,
+      "percentOfRaster": 71.97082304526748,
+      "areaApproxKm2": 11171543.520758316,
+      "directMeasurementCells": 22351241,
+      "directMeasurementPercent": 39.93823979024422,
+      "observedIncludingSatelliteCells": 22351241,
+      "observedIncludingSatellitePercent": 39.93823979024422,
+      "tid": [
+        {
+          "code": 10,
+          "label": "Monofaisceau",
+          "cells": 92061,
+          "percent": 0.16449888815254923
+        },
+        {
+          "code": 11,
+          "label": "Multifaisceau",
+          "cells": 18092416,
+          "percent": 32.32837266587797
+        },
+        {
+          "code": 12,
+          "label": "Sismique",
+          "cells": 1094542,
+          "percent": 1.955778690610221
+        },
+        {
+          "code": 14,
+          "label": "Sonde ENC",
+          "cells": 2334,
+          "percent": 0.004170500048316333
+        },
+        {
+          "code": 15,
+          "label": "Lidar",
+          "cells": 28250,
+          "percent": 0.05047841746569683
+        },
+        {
+          "code": 16,
+          "label": "Profondeur mesurée par capteur optique",
+          "cells": 1327592,
+          "percent": 2.3722032991192705
+        },
+        {
+          "code": 17,
+          "label": "Combinaison de méthodes de mesure directes",
+          "cells": 1714046,
+          "percent": 3.0627373289701874
+        },
+        {
+          "code": 40,
+          "label": "Prédiction guidée par gravimétrie satellitaire",
+          "cells": 31103716,
+          "percent": 55.57757030026457
+        },
+        {
+          "code": 44,
+          "label": "Grille multi-sources interpolée",
+          "cells": 2451955,
+          "percent": 4.381267543260272
+        },
+        {
+          "code": 70,
+          "label": "Grille pré-générée à sources mixtes",
+          "cells": 57600,
+          "percent": 0.10292236623094292
+        }
+      ]
+    }
+  ],
+  "artifacts": {
+    "classesRaster": "C:\\AI\\Site Pavillon Noir\\Accessoires site pavillon noir\\Outils generation\\Bathymétrie\\Générés\\GEBCO_2026_Jaillot\\gebco-2026-jaillot-classes.u8",
+    "sourceSvg": "C:\\AI\\Site Pavillon Noir\\Accessoires site pavillon noir\\Outils generation\\Bathymétrie\\Générés\\GEBCO_2026_Jaillot\\bathymetrie-01-source-globale.svg",
+    "classesSvg": "C:\\AI\\Site Pavillon Noir\\Accessoires site pavillon noir\\Outils generation\\Bathymétrie\\Générés\\GEBCO_2026_Jaillot\\bathymetrie-02-classes-globales.svg",
+    "classesRasterFormat": "uint8 row-major"
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "bathymetryFile": "C:\\AI\\Site Pavillon Noir\\Accessoires site pavillon noir\\Outils generation\\Bathymétrie\\Sources\\GEBCO_2026_Bahamas\\gebco_2026_n28.0_s20.0_w-81.0_e-72.0_geotiff.tif",
+  "tidFile": "C:\\AI\\Site Pavillon Noir\\Accessoires site pavillon noir\\Outils generation\\Bathymétrie\\Sources\\GEBCO_2026_Bahamas\\gebco_2026_tid_n28.0_s20.0_w-81.0_e-72.0_geotiff.tif",
+  "bathymetry": {
+    "width": 2160,
+    "height": 1920,
+    "pixelSizeLonDeg": 0.004166666666666668,
+    "pixelSizeLatDeg": 0.004166666666666667,
+    "intervalArcSeconds": 15.000000000000005,
+    "west": -81.0,
+    "south": 20.000000000000004,
+    "east": -72.0,
+    "north": 28.000000000000004,
+    "firstPixelCenterLon": -80.99791666666667,
+    "firstPixelCenterLat": 27.99791666666667,
+    "epsg": 4326,
+    "nodata": -32767,
+    "dtype": "int32",
+    "shape": [
+      1920,
+      2160
+    ],
+    "minM": -5714,
+    "maxM": 1653,
+    "nodataCells": 0,
+    "seaCells": 3569973,
+    "landCells": 577227
+  },
+  "tid": {
+    "width": 2160,
+    "height": 1920,
+    "pixelSizeLonDeg": 0.004166666666666668,
+    "pixelSizeLatDeg": 0.004166666666666667,
+    "intervalArcSeconds": 15.000000000000005,
+    "west": -81.0,
+    "south": 20.000000000000004,
+    "east": -72.0,
+    "north": 28.000000000000004,
+    "firstPixelCenterLon": -80.99791666666667,
+    "firstPixelCenterLat": 27.99791666666667,
+    "epsg": 4326,
+    "nodata": 127,
+    "dtype": "uint8",
+    "shape": [
+      1920,
+      2160
+    ],
+    "nodataCells": 0,
+    "codes": [
+      {
+        "code": 0,
+        "label": "Terre",
+        "cells": 565049,
+        "percent": 13.624831211419753
+      },
+      {
+        "code": 10,
+        "label": "Monofaisceau",
+        "cells": 4620,
+        "percent": 0.11140046296296297
+      },
+      {
+        "code": 11,
+        "label": "Multifaisceau",
+        "cells": 517008,
+        "percent": 12.466435185185185
+      },
+      {
+        "code": 15,
+        "label": "Lidar",
+        "cells": 445,
+        "percent": 0.010730131172839505
+      },
+      {
+        "code": 16,
+        "label": "Profondeur mesurée par capteur optique",
+        "cells": 772534,
+        "percent": 18.627845293209877
+      },
+      {
+        "code": 17,
+        "label": "Combinaison de méthodes de mesure directes",
+        "cells": 84409,
+        "percent": 2.035325038580247
+      },
+      {
+        "code": 40,
+        "label": "Prédiction guidée par gravimétrie satellitaire",
+        "cells": 2051370,
+        "percent": 49.46397569444444
+      },
+      {
+        "code": 44,
+        "label": "Grille multi-sources interpolée",
+        "cells": 151765,
+        "percent": 3.6594569830246915
+      }
+    ]
+  },
+  "alignment": {
+    "ok": true,
+    "mismatches": []
+  },
+  "coastlineCrosscheck": {
+    "tidLandWithNegativeBathymetry": 0,
+    "tidLandWithZeroBathymetry": 2394,
+    "tidLandWithPositiveBathymetry": 562655,
+    "nonLandTidWithNonNegativeBathymetry": 12178,
+    "interpretation": "Le masque terre fonctionnel est défini par elevation >= 0. Les cellules TID non nulles à faible altitude positive sont conservées comme information de provenance, sans redéfinir le littoral."
+  },
+  "safeDepthThresholdsM": {
+    "1.8": {
+      "cells": 55713,
+      "percentOfRaster": 1.3433883101851851
+    },
+    "3.6": {
+      "cells": 183704,
+      "percentOfRaster": 4.429591049382716
+    },
+    "6.0": {
+      "cells": 356268,
+      "percentOfRaster": 8.59056712962963
+    },
+    "8.4": {
+      "cells": 562694,
+      "percentOfRaster": 13.568045910493828
+    },
+    "12.0": {
+      "cells": 716251,
+      "percentOfRaster": 17.270712770061728
+    }
+  }
+}

@@ -11,16 +11,10 @@
       selectEntity('topoInfo', id);
     }
 
-<<<<<<< Updated upstream
-    // Panneau TOPOGRAPHIE - Geo.
-    function updatePanel() {
-      if (!ctx.isTopoGeo) return;
-=======
     // Panneau TOPOGRAPHIE - Geo (réutilisé tel quel par l'onglet Ocean Bounds :
     // même pipeline générique de zones, voir ctx.isZoneEditTab).
     function updatePanel() {
       if (!ctx.isZoneEditTab) return;
->>>>>>> Stashed changes
       const idEl = document.getElementById('info-zone-id');
       const statsEl = document.getElementById('info-stats');
       const navEl = document.getElementById('contour-nav');

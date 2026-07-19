@@ -10,10 +10,7 @@
     const SEA_CELL_SIZE = 50;
     const ZONE_TOOLS = [
       { id: 'select', label: 'Sélection', icon: '◈', title: 'Sélectionner une zone / déplacer un point' },
-<<<<<<< Updated upstream
-=======
       { id: 'handle-lasso', label: 'Lasso poignées', icon: '⌁', title: 'Ajouter à la sélection les poignées entourées' },
->>>>>>> Stashed changes
       { id: 'draw', label: 'Nouveau contour', icon: '✦', title: 'Tracer un nouveau contour' },
       { id: 'insert', label: 'Insérer point', icon: '⊕', title: 'Insérer un point sur un segment existant' },
       { id: 'erase', label: 'Supprimer point', icon: '⊗', title: 'Supprimer un point en cliquant dessus' },
@@ -60,10 +57,7 @@
     // ─── Styles des poignées ──────────────────────────────────────
     const HANDLE_NORMAL = { radius: 5, color: 'rgba(226,185,106,0.9)', weight: 1.5, fillColor: 'rgba(14,12,9,0.9)', fillOpacity: 1 };
     const HANDLE_HOVER = { radius: 7, color: '#e2b96a', weight: 2, fillColor: 'rgba(200,151,58,0.3)', fillOpacity: 1 };
-<<<<<<< Updated upstream
-=======
     const HANDLE_SELECTED = { radius: 6, color: '#76d7c4', weight: 2.5, fillColor: 'rgba(24,109,100,0.85)', fillOpacity: 1 };
->>>>>>> Stashed changes
     const HANDLE_SEGMENT = { radius: 4, color: 'rgba(80,140,220,0.8)', weight: 1.5, fillColor: 'rgba(80,140,220,0.15)', fillOpacity: 1, dashArray: '2 2' };
 
     // ═══════════════════════════════════════════════════════════
@@ -71,24 +65,16 @@
     // ═══════════════════════════════════════════════════════════
     let map = null;
     let activeMode = 'topo'; // 'semaphore' | 'topo' | 'ocean'
-<<<<<<< Updated upstream
-    let activeTab = 'geo'; // 'geo' | 'info'  (actif seulement en mode topo)
-    let currentTool = 'select'; // topo: select/draw/erase/insert/split ; ocean: select/ocean-lasso
-=======
     let activeTab = 'geo'; // 'geo' | 'info' | 'ocean-bounds'  (actif seulement en mode topo)
     let currentTool = 'select'; // topo: select/handle-lasso/draw/erase/insert/split ; ocean: select/ocean-lasso
->>>>>>> Stashed changes
     let undoStack = [];
 
     const ctx = {
       modeKey: 'topo-geo',
       isTopoGeo: true,
       isTopoInfo: false,
-<<<<<<< Updated upstream
-=======
       isTopoOceanBounds: false,
       isZoneEditTab: true,
->>>>>>> Stashed changes
       isOcean: false,
       isSemaphore: false,
     };
@@ -96,10 +82,6 @@
     function refreshCtx() {
       ctx.isTopoGeo = activeMode === 'topo' && activeTab === 'geo';
       ctx.isTopoInfo = activeMode === 'topo' && activeTab === 'info';
-<<<<<<< Updated upstream
-      ctx.isOcean = activeMode === 'ocean';
-      ctx.isSemaphore = activeMode === 'semaphore';
-=======
       ctx.isTopoOceanBounds = activeMode === 'topo' && activeTab === 'ocean-bounds';
       ctx.isOcean = activeMode === 'ocean';
       ctx.isSemaphore = activeMode === 'semaphore';
@@ -108,20 +90,15 @@
       // et Ocean Bounds (extérieur/trous) partagent le même pipeline
       // ("un polygone est un polygone"), Info n'édite que des métadonnées.
       ctx.isZoneEditTab = ctx.isTopoGeo || ctx.isTopoOceanBounds;
->>>>>>> Stashed changes
       ctx.modeKey = ctx.isSemaphore
         ? 'semaphore'
         : ctx.isOcean
           ? 'ocean'
           : ctx.isTopoGeo
             ? 'topo-geo'
-<<<<<<< Updated upstream
-            : 'topo-info';
-=======
             : ctx.isTopoOceanBounds
               ? 'topo-ocean-bounds'
               : 'topo-info';
->>>>>>> Stashed changes
       if (ctx.isOcean && (currentTool === 'draw' || currentTool === 'split' || currentTool === 'insert' || currentTool === 'erase')) {
         currentTool = 'select';
       }
@@ -144,22 +121,14 @@
     };
 
     function refreshPanel() {
-<<<<<<< Updated upstream
-      if (ctx.isTopoGeo) updatePanel();
-=======
       if (ctx.isZoneEditTab) updatePanel();
->>>>>>> Stashed changes
       else if (ctx.isTopoInfo) updateTopoInfoDetail();
       else if (ctx.isSemaphore) updateSeaPanel();
       if (ctx.isOcean) updateInfosMersOscarPanel();
     }
 
     function refreshHandles() {
-<<<<<<< Updated upstream
-      if (ctx.isTopoGeo) renderHandles();
-=======
       if (ctx.isZoneEditTab) renderHandles();
->>>>>>> Stashed changes
     }
 
     function refresh(flags = 0, options = {}) {
@@ -200,8 +169,6 @@
       return !!(zonesWorkingCopy.SHOAL_META && zonesWorkingCopy.SHOAL_META[zoneId]);
     }
 
-<<<<<<< Updated upstream
-=======
     // oceanBounds (Atlantique/Pacifique) suit le même principe : géométrie
     // dans zonesEdit, distinguée par isOceanBoundsId(zoneId). Contrairement
     // aux hauts-fonds, chaque contour porte en plus un rôle explicite
@@ -220,16 +187,12 @@
       return zonesMeta[zoneId]?.[contourIdx]?.role || null;
     }
 
->>>>>>> Stashed changes
     function selectEntity(type, id, extra = {}) {
       if (type === 'zone') {
         const prevZone = selectedZoneId;
         selectedZoneId = id;
         selectedContourIdx = extra.contourIdx ?? 0;
-<<<<<<< Updated upstream
-=======
         clearHandleSelection();
->>>>>>> Stashed changes
         if (prevZone && prevZone !== id) renderZone(prevZone);
         if (id) renderZone(id);
         refresh(R.HANDLES | R.PANEL | R.EXPORT);
@@ -248,16 +211,6 @@
     // Initialisées au boot depuis les globales JS ; jamais rechargées au
     // changement de mode ou d'onglet.
 
-<<<<<<< Updated upstream
-    // zones-data.js — source unique pour tout polygone (territoire ou haut-fond).
-    // Un polygone est un polygone : la géométrie vit dans DATA quel que soit son
-    // type. SHOAL_META distingue les ids haut-fonds pour les métadonnées
-    // (TOPOGRAPHIE — Info) et l'export (règles de visibilité différentes).
-    let zonesWorkingCopy = {
-      DATA: null,        // clone profond de ZONES_DATA  (géométrie, territoires + hauts-fonds)
-      DEMO: null,        // clone profond de ZONES_DEMO  (métadonnées démographie territoires)
-      SHOAL_META: null,  // clone profond de ZONES_SHOAL (métadonnées hauts-fonds)
-=======
     // zones-data.js — source unique pour tout polygone (territoire, haut-fond
     // ou oceanBounds). Un polygone est un polygone : la géométrie vit dans
     // DATA quel que soit son type. SHOAL_META distingue les ids haut-fonds
@@ -269,7 +222,6 @@
       DEMO: null,          // clone profond de ZONES_DEMO  (métadonnées démographie territoires)
       SHOAL_META: null,    // clone profond de ZONES_SHOAL (métadonnées hauts-fonds)
       OCEAN_BOUNDS: null,  // clone profond de ZONES_OCEAN_BOUNDS (masque navigable Atlantique/Pacifique)
->>>>>>> Stashed changes
     };
 
     // Alias de commodité — zonesEdit pointe sur zonesWorkingCopy.DATA après init
@@ -279,14 +231,11 @@
     // Layers Leaflet
     let zoneLayers = {}; // zoneId → [L.Polygon, ...]  (un par contour)
     let handleLayers = []; // cercles de poignées du contour sélectionné
-<<<<<<< Updated upstream
-=======
     let selectedHandleIndices = new Set(); // indices du contour actif, pour déplacement groupé
     let handleKeyboardUndoActive = false;
     let handleLassoSelecting = false;
     let handleLassoPoints = [];
     let handleLassoLayer = null;
->>>>>>> Stashed changes
     let segmentMarkers = []; // milieux de segments (mode insert)
     let drawLayer = null; // L.Polyline preview du tracé en cours
     let drawMarkers = [];   // marqueurs des points posés
@@ -535,10 +484,7 @@
       }
       if (currentTool === 'draw') cancelDraw(true);
       if (currentTool === 'ocean-lasso') cancelOceanLasso();
-<<<<<<< Updated upstream
-=======
       if (currentTool === 'handle-lasso') cancelHandleLasso();
->>>>>>> Stashed changes
       clearHandles();
       clearSegmentMarkers();
       activeMode = mode;
@@ -582,31 +528,19 @@
 
     function updateTabChrome() {
       const tabGroup = document.getElementById('tab-group');
-<<<<<<< Updated upstream
-      tabGroup.style.display = ctx.isTopoGeo || ctx.isTopoInfo ? 'flex' : 'none';
-=======
       tabGroup.style.display = ctx.isZoneEditTab || ctx.isTopoInfo ? 'flex' : 'none';
->>>>>>> Stashed changes
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === activeTab);
       });
     }
 
     function updateSidePanelsVisibility() {
-<<<<<<< Updated upstream
-      document.getElementById('section-topo-geo').style.display = ctx.isTopoGeo ? 'block' : 'none';
-=======
       document.getElementById('section-topo-geo').style.display = ctx.isZoneEditTab ? 'block' : 'none';
->>>>>>> Stashed changes
       document.getElementById('section-topo-info').style.display = ctx.isTopoInfo ? 'block' : 'none';
       document.getElementById('section-ocean').style.display = ctx.isOcean ? 'block' : 'none';
       document.getElementById('section-sea').style.display = ctx.isSemaphore ? 'block' : 'none';
 
-<<<<<<< Updated upstream
-      document.getElementById('export-area').style.display = ctx.isTopoGeo ? 'block' : 'none';
-=======
       document.getElementById('export-area').style.display = ctx.isZoneEditTab ? 'block' : 'none';
->>>>>>> Stashed changes
 
       const exportFileArea = document.getElementById('export-file-area');
       exportFileArea.style.display = ctx.isSemaphore ? 'none' : 'block';
@@ -617,11 +551,7 @@
       document.getElementById('btn-undo').style.display = ctx.isSemaphore ? 'none' : '';
       document.getElementById('tb-coords').style.display = ctx.isSemaphore ? 'none' : '';
 
-<<<<<<< Updated upstream
-      const inDraw = currentTool === 'draw' && ctx.isTopoGeo;
-=======
       const inDraw = currentTool === 'draw' && ctx.isZoneEditTab;
->>>>>>> Stashed changes
       document.getElementById('draw-controls').style.display = inDraw ? 'block' : 'none';
       document.getElementById('draw-badge').style.display = inDraw ? 'block' : 'none';
     }
@@ -669,11 +599,8 @@
       if (!hint) return;
       if (ctx.isTopoGeo || ctx.isTopoInfo) {
         hint.innerHTML = 'Génère <code>zones-data.js</code> complet (géométrie + métadonnées territoires et hauts-fonds). Remplacer dans le dépôt.';
-<<<<<<< Updated upstream
-=======
       } else if (ctx.isTopoOceanBounds) {
         hint.innerHTML = 'Génère <code>zones-ocean-bounds.js</code> (extérieur + trous, séparé). À coller dans le bloc <code>ZONES_OCEAN_BOUNDS</code> de <code>zones-data.js</code>.';
->>>>>>> Stashed changes
       } else if (ctx.isOcean) {
         hint.innerHTML = 'Génère <code>oscar-hex-grid.js</code> (cellules éditées manuellement). Remplacer dans le dépôt.';
       }

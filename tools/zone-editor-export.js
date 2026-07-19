@@ -9,11 +9,7 @@
       const box = document.getElementById('export-box');
       const hint = document.getElementById('export-hint');
 
-<<<<<<< Updated upstream
-      if (!ctx.isTopoGeo) {
-=======
       if (!ctx.isZoneEditTab) {
->>>>>>> Stashed changes
         box.textContent = '';
         hint.style.display = 'none';
         return;
@@ -64,14 +60,11 @@
       if (!box) return;
       const contours = zonesEdit[zoneId];
 
-<<<<<<< Updated upstream
-=======
       if (isOceanBoundsId(zoneId)) {
         renderOceanBoundsExportBlocks(zoneId, contours, box);
         return;
       }
 
->>>>>>> Stashed changes
       // Ligne d'en-tête (non cliquable)
       let html = `<span class="contour-block" style="color:#6a8060;">${escapeHtml(formatZoneHeader(zoneId, contours))}</span>`;
 
@@ -92,8 +85,6 @@
       });
     }
 
-<<<<<<< Updated upstream
-=======
     // oceanBounds ne suit pas le format plat des territoires : le rôle
     // interne de chaque contour devient la structure { exterior, holes }
     // attendue dans zones-data.js. Ainsi, le bouton Copier donne directement
@@ -135,7 +126,6 @@
       });
     }
 
->>>>>>> Stashed changes
     function escapeHtml(s) {
       return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
@@ -149,10 +139,7 @@
       if (idx < 0 || idx >= contours.length) return;
 
       selectedContourIdx = idx;
-<<<<<<< Updated upstream
-=======
       clearHandleSelection();
->>>>>>> Stashed changes
       clearHandles();
       refresh(R.SELECTED_ZONE | R.HANDLES | R.PANEL | R.EXPORT);
       if (currentTool === 'insert') renderSegmentMarkers();
@@ -164,11 +151,8 @@
     function exportCurrentFile() {
       if (ctx.isTopoGeo || ctx.isTopoInfo) {
         exportZonesData();
-<<<<<<< Updated upstream
-=======
       } else if (ctx.isTopoOceanBounds) {
         exportOceanBounds();
->>>>>>> Stashed changes
       } else if (ctx.isOcean) {
         exportOscarGrid();
       }
@@ -216,12 +200,9 @@
       out += 'const ZONES_DATA = {\n\n';
 
       for (const id in data) {
-<<<<<<< Updated upstream
-=======
         // oceanBounds n'est pas un territoire : géométrie et export séparés
         // (voir exportOceanBounds), pas de sérialisation à plat ici.
         if (isOceanBoundsId(id)) continue;
->>>>>>> Stashed changes
         const contours = data[id];
         out += formatZoneHeader(id, contours);
         contours.forEach((contour, ci) => {
@@ -281,8 +262,6 @@
       downloadBlob('zones-data.js', out);
     }
 
-<<<<<<< Updated upstream
-=======
     // ═══════════════════════════════════════════════════════════
     // EXPORT FICHIER — oceanBounds (masque navigable Atlantique/Pacifique)
     // ═══════════════════════════════════════════════════════════
@@ -358,7 +337,6 @@
       downloadBlob('zones-ocean-bounds.js', out);
     }
 
->>>>>>> Stashed changes
     function calcSuperficie(contours) {
       // Shoelace sur le premier contour (contour principal) de chaque zone
       let total = 0;
