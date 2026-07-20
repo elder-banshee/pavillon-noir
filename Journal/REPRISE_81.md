@@ -82,3 +82,31 @@ Validation complémentaire :
 - contrôle des 667 ajouts (`calme: true`, `source: 'calm'`, vitesse nulle)
 - `node tools/audit-text-integrity.js --strict-eol`
 - `git diff --check`
+
+## Suite — Actualisation du masque visuel oceanBounds
+
+`tools/assets/oceanbounds-mask.svg`, utilisé comme fond visuel dans Zone
+Editor, a été mis en conformité avec la dernière version d’oceanBounds et ses
+fleuves.
+
+Le masque historique à deux paths a été remplacé par un dérivé direct du SVG
+source actualisé. Il contient désormais les trois emprises :
+
+- `fleuve-bariana` ;
+- `ocean-bounds-pacifique` ;
+- `ocean-bounds-atlantique`.
+
+Les attributs `d` sont strictement identiques à ceux du SVG source : aucune
+simplification, conversion en coordonnées discrètes ou perte de courbes. Seul
+le rendu propre au masque a été normalisé en bleu `#55c3ec` avec
+`fill-opacity="1"`, conformément au comportement historique de l’overlay dans
+Zone Editor.
+
+Validation du masque :
+
+- dimensions et `viewBox` conservés à `8500 × 5320` ;
+- trois paths et IDs attendus présents ;
+- 28 345 segments et 895 sous-contours analysables ;
+- tous les sous-contours fermés ;
+- égalité SHA-256 de chaque attribut `d` entre la source et le masque ;
+- audit texte strict et `git diff --check` réussis.
