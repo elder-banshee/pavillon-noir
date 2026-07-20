@@ -675,13 +675,21 @@
   // considérée hauturière par défaut : c'est le cas de l'immense majorité
   // d'entre elles, seules les zones fluviales et côtières sont marquées
   // explicitement (session 74, REPRISE_74).
-  function typeZoneNavigationEnPoint(point) {
+  function typesZoneNavigationEnPoint(point) {
     if (!point) return null;
     const grid = sourceOscarGrid();
     const cellKey = grid ? oscarCellKey(point) : null;
     const cell = cellKey ? grid.cells[cellKey] : null;
+    const multiples = Array.isArray(cell?.naturesNav)
+      ? [...new Set(cell.naturesNav.filter(type => type === 'fluviale' || type === 'cotiere' || type === 'hauturiere'))]
+      : [];
+    if (multiples.length) return multiples;
     const nature = cell?.natureNav;
-    return (nature === 'fluviale' || nature === 'cotiere') ? nature : 'hauturiere';
+    return [(nature === 'fluviale' || nature === 'cotiere') ? nature : 'hauturiere'];
+  }
+
+  function typeZoneNavigationEnPoint(point) {
+    return typesZoneNavigationEnPoint(point)?.[0] || null;
   }
 
   const LABELS_ZONE_NAV = { fluviale: 'fluviale', cotiere: 'côtière', hauturiere: 'hauturière' };
@@ -751,8 +759,9 @@
     for (let i = 0; i <= parts; i++) {
       const t = parts ? i / parts : 0;
       const point = { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
-      const typeZone = typeZoneNavigationEnPoint(point);
-      if (restrictionNavPourZone(navire, typeZone) === 'interdit') return true;
+      const typesZone = typesZoneNavigationEnPoint(point) || [];
+      if (typesZone.length
+        && typesZone.every(typeZone => restrictionNavPourZone(navire, typeZone) === 'interdit')) return true;
     }
     return false;
   }

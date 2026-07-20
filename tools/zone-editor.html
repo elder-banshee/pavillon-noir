@@ -159,21 +159,29 @@
             <input id="oscar-session-edits-visible" type="checkbox" checked>
           </label>
           <label>
-            <span>Domaine</span>
+            <span>Région</span>
             <select id="oscar-grid-domain">
               <option value="">Tous</option>
             </select>
           </label>
-          <label>
-            <span>Filtre</span>
-            <select id="oscar-grid-filter">
-              <option value="">Toutes</option>
-              <option value="manual">Modifiées manuellement</option>
-              <option value="coastal">Courant côtier / double</option>
-              <option value="calm">Calmes non éditées</option>
-              <option value="zonee">Fluviale / côtière taguée</option>
-            </select>
-          </label>
+          <details class="oscar-filter-panel" open>
+            <summary>Filtres d’affichage</summary>
+            <fieldset>
+              <legend>1 — Nature</legend>
+              <label><input type="checkbox" data-oscar-filter-group="nature" value="hauturiere" checked>Haute-mer</label>
+              <label><input type="checkbox" data-oscar-filter-group="nature" value="fluviale" checked>Fluviale</label>
+              <label><input type="checkbox" data-oscar-filter-group="nature" value="cotiere" checked>Côtière</label>
+              <label><input type="checkbox" data-oscar-filter-group="nature" value="multiple" checked>Multiple</label>
+              <label><input type="checkbox" data-oscar-filter-group="nature" value="non-renseigne" checked>Non renseignée</label>
+            </fieldset>
+            <fieldset>
+              <legend>2 — Courants</legend>
+              <label><input type="checkbox" data-oscar-filter-group="current" value="renseigne" checked>Renseigné</label>
+              <label><input type="checkbox" data-oscar-filter-group="current" value="double" checked>Double</label>
+              <label><input type="checkbox" data-oscar-filter-group="current" value="non-renseigne" checked>Non renseigné</label>
+            </fieldset>
+            <button type="button" id="oscar-filter-reset" class="tool-btn">Tout afficher</button>
+          </details>
           <div id="oscar-grid-summary" class="sea-prop"><span>OSCAR :</span> grille indisponible</div>
         </div>
         <div id="sea-oscar" class="sea-prop"><span>Cellule OSCAR :</span> non sélectionnée</div>

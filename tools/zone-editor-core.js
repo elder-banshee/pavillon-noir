@@ -33,8 +33,8 @@
       gulf_mexico: 'Golfe du Mexique',
       bahamas: 'Bahamas',
       florida: 'Floride',
+      bariana: 'Fleuve Bariana',
     };
-    const OSCAR_CALM_SPEED_MAX = 0.10;
     // Outil Amplifier/Atténuer (OCÉANOGRAPHIE) : paliers du curseur linéaire,
     // ratio appliqué aux 6 voisines en mode Halo (facteur réduit + base du
     // plancher d'une voisine sans vecteur), plancher fixe pour une cible
@@ -43,8 +43,8 @@
     const OSCAR_ADJUST_HALO_RATIO = 0.5;
     const OSCAR_ADJUST_TARGET_FLOOR = 0.01;
     // Couleur plancher du dégradé de vitesse (t=0), également utilisée comme
-    // teinte de filtre pour "Calmes non éditées". Ce n'est plus une couleur
-    // dédiée aux cellules calmes : oscarSpeedColor s'y ancre pour toute
+    // teinte plancher du dégradé. Ce n'est plus une couleur dédiée aux cellules
+    // sans donnée : oscarSpeedColor s'y ancre pour toute
     // cellule à vitesse nulle, quelle que soit son origine (cf. session 72).
     const OSCAR_CALM_COLOR = [10, 16, 30];
 
@@ -264,7 +264,10 @@
     let oscarGridArrowsVisible = true;
     let oscarSessionEditsVisible = true;
     let oscarGridDomainFilter = '';
-    let oscarGridTypeFilter = '';
+    const oscarGridFilters = {
+      nature: new Set(['hauturiere', 'fluviale', 'cotiere', 'multiple', 'non-renseigne']),
+      current: new Set(['renseigne', 'double', 'non-renseigne']),
+    };
     let oceanCellEditing = false;
     // Réglages de l'outil Accentuer/Estomper — état persistant (pas relu
     // depuis un formulaire recréé à chaque ouverture), pour permettre une

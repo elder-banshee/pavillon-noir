@@ -162,13 +162,23 @@
         refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
       });
     }
-    const oscarGridFilterSelect = document.getElementById('oscar-grid-filter');
-    if (oscarGridFilterSelect) {
-      oscarGridFilterSelect.addEventListener('change', (e) => {
-        oscarGridTypeFilter = e.target.value || '';
+    document.querySelectorAll('[data-oscar-filter-group]').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const group = e.target.dataset.oscarFilterGroup;
+        const values = oscarGridFilters[group];
+        if (!values) return;
+        if (e.target.checked) values.add(e.target.value);
+        else values.delete(e.target.value);
         refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
       });
-    }
+    });
+    document.getElementById('oscar-filter-reset')?.addEventListener('click', () => {
+      document.querySelectorAll('[data-oscar-filter-group]').forEach(input => {
+        input.checked = true;
+        oscarGridFilters[input.dataset.oscarFilterGroup]?.add(input.value);
+      });
+      refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+    });
     const seaOscarPanel = document.getElementById('sea-oscar');
     if (seaOscarPanel) {
       seaOscarPanel.addEventListener('click', (e) => {
@@ -177,9 +187,15 @@
         handleOceanCellAction(btn.dataset.oceanAction);
       });
       seaOscarPanel.addEventListener('change', (e) => {
-        if (e.target?.id !== 'ocean-has-coastal') return;
-        const fields = document.getElementById('ocean-coastal-fields');
-        if (fields) fields.style.display = e.target.checked ? 'contents' : 'none';
+        if (e.target?.id === 'ocean-has-coastal') {
+          const fields = document.getElementById('ocean-coastal-fields');
+          if (fields) fields.style.display = e.target.checked ? 'contents' : 'none';
+        } else if (e.target?.id === 'ocean-main-calm') {
+          const speed = document.getElementById('ocean-main-speed');
+          const direction = document.getElementById('ocean-main-dir');
+          if (speed) speed.disabled = e.target.checked;
+          if (direction) direction.disabled = e.target.checked;
+        }
       });
     }
     // Réglages inline de l'outil Accentuer/Estomper et de l'égaliseur :

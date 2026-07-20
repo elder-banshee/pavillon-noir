@@ -83,6 +83,7 @@
       document.addEventListener('touchend', onTouchDragEnd);
       map.on('zoomend', () => {
         if (ctx.isSemaphore || ctx.isOcean) {
+          updateOscarGridZoomStyles();
           renderSeaCells();
         }
       });

@@ -2,6 +2,69 @@
 
     // OCÉANOGRAPHIE — grille OSCAR, cellules, vecteurs et édition par lots.
 
+    function oscarNavigationTypes(cell) {
+      const valid = new Set(['fluviale', 'cotiere', 'hauturiere']);
+      const types = Array.isArray(cell?.naturesNav)
+        ? cell.naturesNav.filter(type => valid.has(type))
+        : (valid.has(cell?.natureNav) ? [cell.natureNav] : ['hauturiere']);
+      return [...new Set(types)];
+    }
+
+    function oscarNavigationValue(cell) {
+      if (!cell?.natureNav && !Array.isArray(cell?.naturesNav)) return '';
+      return oscarNavigationTypes(cell).sort().join('+');
+    }
+
+    function oscarNavigationCategory(cell) {
+      if (!cell?.natureNav && !Array.isArray(cell?.naturesNav)) return 'non-renseigne';
+      const types = oscarNavigationTypes(cell);
+      return types.length > 1 ? 'multiple' : (types[0] || 'non-renseigne');
+    }
+
+    const OSCAR_NAVIGATION_LABELS = {
+      hauturiere: 'Haute-mer',
+      cotiere: 'Côtière',
+      fluviale: 'Fluviale',
+      multiple: 'Multiple',
+      'non-renseigne': 'Non renseignée',
+    };
+
+    function oscarNatureFilterMatches(cell) {
+      const selected = oscarGridFilters.nature;
+      if (!selected.size) return true;
+      const category = oscarNavigationCategory(cell);
+      if (category === 'non-renseigne') return selected.has(category);
+      const types = oscarNavigationTypes(cell);
+      return (types.length > 1 && selected.has('multiple'))
+        || types.some(type => selected.has(type));
+    }
+
+    function oscarDisplayedNatureCategory(cell) {
+      const category = oscarNavigationCategory(cell);
+      if (category !== 'multiple') return category;
+      const selected = oscarGridFilters.nature;
+      if (!selected.size || selected.has('multiple')) return 'multiple';
+      const displayedTypes = oscarNavigationTypes(cell).filter(type => selected.has(type));
+      return displayedTypes.length > 1 ? 'multiple' : (displayedTypes[0] || 'multiple');
+    }
+
+    function hasOscarMainCurrentData(cell) {
+      if (!cell) return false;
+      if (cell.source === 'calm' && oscarCellSpeed(cell) === 0
+        && !(Number(cell.sources) > 0) && !(Number(cell.sourceCells) > 0)) return false;
+      return cell.source === 'manual'
+        || cell.calmeRenseigne === true
+        || Number(cell.sources) > 0
+        || Number(cell.sourceCells) > 0
+        || oscarCellSpeed(cell) > 0
+        || (cell.source && cell.source !== 'calm');
+    }
+
+    function oscarCurrentCategory(cell) {
+      if (hasOscarCoastalCurrent(cell)) return 'double';
+      return hasOscarMainCurrentData(cell) ? 'renseigne' : 'non-renseigne';
+    }
+
     function seaCellStyle(key) {
       const selected = key === selectedSeaCellKey;
       const inBatch = selectedOceanCellKeys.has(key);
@@ -31,7 +94,7 @@
       if (oceanMaskLayer) return;
       const bounds = L.latLngBounds(pxToLatLng(0, IMG_H), pxToLatLng(IMG_W, 0));
       oceanMaskLayer = L.imageOverlay(OCEAN_MASK_SRC, bounds, {
-        opacity: 1,
+        opacity: 0.78,
         interactive: false,
       }).addTo(map);
     }
@@ -127,11 +190,11 @@
       return center;
     }
 
-    function oscarCellLatLngsFromKey(key, cell = null) {
+    function oscarCellLatLngsFromKey(key, cell = null, radiusScale = 1) {
       const grid = getOscarGrid();
       if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
       const center = oscarCellCenterFromKey(key, cell);
-      const radius = Number(grid.radiusPx) || SEA_CELL_SIZE / 2;
+      const radius = (Number(grid.radiusPx) || SEA_CELL_SIZE / 2) * radiusScale;
       return Array.from({ length: 6 }, (_, i) => {
         const angle = (-90 + i * 60) * Math.PI / 180;
         return pxToLatLng(center.x + Math.cos(angle) * radius, center.y + Math.sin(angle) * radius);
@@ -153,12 +216,6 @@
 
     function hasOscarCoastalCurrent(cell) {
       return !!cell?.coastal;
-    }
-
-    function isOscarCalmUneditedCell(cell) {
-      return !isOscarManualCell(cell)
-        && !hasOscarCoastalCurrent(cell)
-        && oscarCellSpeed(cell) <= OSCAR_CALM_SPEED_MAX;
     }
 
     function oscarCellSourceLabel(cell) {
@@ -415,8 +472,11 @@
     // jamais de l'origine de la cellule. Une cellule calme générée et une
     // cellule Copernicus à 0.00 nd doivent rendre exactement la même teinte —
     // sinon on lit visuellement deux vitesses différentes là où il n'y en a
-    // qu'une. Le filtre "Calmes non éditées" reste le moyen de les isoler.
+    // qu'une. La section de filtres « Courants » permet d'isoler séparément
+    // les données renseignées, doubles et absentes.
     function oscarCellStyle(cell) {
+      const showNature = oscarGridFilters.nature.size > 0;
+      const showCurrent = oscarGridFilters.current.size > 0;
       const speed = oscarCellSpeed(cell);
       const [r, g, b] = oceanEqActive ? oscarEqColor(speed) : oscarSpeedColor(speed);
       const intensity = Math.max(0.3, Math.min(1, speed / oscarSpeedColorCap));
@@ -424,16 +484,25 @@
       // la teinte de remplissage reste celle de la vitesse de courant, seule la
       // bordure signale la classification de navigation, pour ne pas se
       // substituer visuellement au dégradé de vitesse déjà en place.
-      const natureBordure = cell.natureNav === 'fluviale' ? '#8fd0a6'
-        : cell.natureNav === 'cotiere' ? '#7db8e8'
-        : null;
+      const natureCategory = oscarDisplayedNatureCategory(cell);
+      const zoom = Number(map?.getZoom()) || 0;
+      const natureWeight = Math.max(1.1, Math.min(5.2, 1.1 + (zoom + 2) * 0.68));
+      const natureBordure = natureCategory === 'multiple' ? '#c79cf2'
+        : natureCategory === 'fluviale' ? '#8fd0a6'
+        : natureCategory === 'cotiere' ? '#7db8e8'
+        : natureCategory === 'hauturiere' ? '#24558f'
+        : 'rgba(118, 126, 140, 0.58)';
       return {
         pane: 'oscarGridPane',
         className: 'oscar-grid-cell',
-        color: natureBordure || `rgba(${r}, ${g}, ${b}, ${0.55 + intensity * 0.35})`,
-        weight: natureBordure ? 2 : (speed >= 1.25 ? 1.25 : 0.75),
+        color: showNature ? natureBordure : 'transparent',
+        weight: showNature
+          ? (natureCategory === 'non-renseigne' ? natureWeight * 0.45
+            : (natureCategory === 'multiple' ? natureWeight * 1.2 : natureWeight))
+          : 0,
         fillColor: `rgba(${r}, ${g}, ${b}, ${0.42 + intensity * 0.38})`,
-        fillOpacity: 1,
+        fill: showCurrent,
+        fillOpacity: showCurrent ? 1 : 0,
         interactive: false,
       };
     }
@@ -443,13 +512,9 @@
       if (!grid) return [];
       return Object.entries(grid.cells)
         .filter(([, cell]) => !oscarGridDomainFilter || cell.domain === oscarGridDomainFilter)
-        .filter(([, cell]) => {
-          if (oscarGridTypeFilter === 'manual') return isOscarManualCell(cell);
-          if (oscarGridTypeFilter === 'coastal') return hasOscarCoastalCurrent(cell);
-          if (oscarGridTypeFilter === 'calm') return isOscarCalmUneditedCell(cell);
-          if (oscarGridTypeFilter === 'zonee') return cell.natureNav === 'fluviale' || cell.natureNav === 'cotiere';
-          return true;
-        });
+        .filter(([, cell]) => oscarNatureFilterMatches(cell))
+        .filter(([, cell]) => !oscarGridFilters.current.size
+          || oscarGridFilters.current.has(oscarCurrentCategory(cell)));
     }
 
     function clearOscarGridLayer() {
@@ -470,7 +535,7 @@
     }
 
     function renderOscarArrowLayer(entries) {
-      if (!oscarGridArrowsVisible) return;
+      if (!oscarGridArrowsVisible || !oscarGridFilters.current.size) return;
       const grid = getOscarGrid();
       const radius = Number(grid.radiusPx) || SEA_CELL_SIZE / 2;
       const size = Math.max(16, Math.min(30, radius * 0.42));
@@ -512,9 +577,36 @@
       if (!entries.length) return;
       oscarGridLayer = L.layerGroup([], { pane: 'oscarGridPane' }).addTo(map);
       entries.forEach(([key, cell]) => {
-        L.polygon(oscarCellLatLngsFromKey(key, cell), oscarCellStyle(cell)).addTo(oscarGridLayer);
+        const latLngs = oscarCellLatLngsFromKey(key, cell);
+        const mainShape = L.polygon(latLngs, oscarCellStyle(cell));
+        mainShape._oscarCell = cell;
+        mainShape.addTo(oscarGridLayer);
+        if (oscarGridFilters.current.size && hasOscarCoastalCurrent(cell)) {
+          const zoom = Number(map?.getZoom()) || 0;
+          const doubleWeight = Math.max(0.35, Math.min(1.8, 0.4 + (zoom + 2) * 0.22));
+          const doubleShape = L.polygon(oscarCellLatLngsFromKey(key, cell, 0.7), {
+            pane: 'oscarGridPane',
+            className: 'oscar-grid-cell oscar-grid-cell--double-current',
+            color: '#55dff2',
+            weight: doubleWeight,
+            fill: false,
+            interactive: false,
+          });
+          doubleShape._oscarDoubleCurrent = true;
+          doubleShape.addTo(oscarGridLayer);
+        }
       });
       renderOscarArrowLayer(entries);
+    }
+
+    function updateOscarGridZoomStyles() {
+      if (!oscarGridLayer) return;
+      const zoom = Number(map?.getZoom()) || 0;
+      const doubleWeight = Math.max(0.35, Math.min(1.8, 0.4 + (zoom + 2) * 0.22));
+      oscarGridLayer.eachLayer(layer => {
+        if (layer._oscarDoubleCurrent) layer.setStyle({ weight: doubleWeight });
+        else if (layer._oscarCell) layer.setStyle(oscarCellStyle(layer._oscarCell));
+      });
     }
 
     function populateOscarDomainSelect() {
@@ -541,12 +633,12 @@
       const manualCount = entries.filter(([, cell]) => isOscarManualCell(cell)).length;
       const sessionEditedCount = entries.filter(([key]) => sessionEditedOceanCellKeys.has(key)).length;
       const coastalCount = entries.filter(([, cell]) => hasOscarCoastalCurrent(cell)).length;
-      const calmCount = entries.filter(([, cell]) => isOscarCalmUneditedCell(cell)).length;
+      const missingCurrentCount = entries.filter(([, cell]) => oscarCurrentCategory(cell) === 'non-renseigne').length;
       const domainLabel = oscarGridDomainFilter
         ? (OSCAR_DOMAIN_LABELS[oscarGridDomainFilter] || oscarGridDomainFilter)
         : 'tous domaines';
       if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
-      el.innerHTML = `<span>OSCAR :</span> ${entries.length} cellules hex - ${escapeHtmlText(domainLabel)} - max ${max.toFixed(2)} nd - manuel ${manualCount} - session ${sessionEditedCount} - côtier ${coastalCount} - calmes ${calmCount}`;
+      el.innerHTML = `<span>OSCAR :</span> ${entries.length} cellules hex - ${escapeHtmlText(domainLabel)} - max ${max.toFixed(2)} nd - manuel ${manualCount} - session ${sessionEditedCount} - doubles ${coastalCount} - courant absent ${missingCurrentCount}`;
     }
 
     function formatOscarCellForPanel(seaKey) {
@@ -556,6 +648,9 @@
       if (!cell) return formatMissingOscarCellForPanel(oscarKey);
       const speed = oscarCellSpeed(cell);
       const domain = OSCAR_DOMAIN_LABELS[cell.domain] || cell.domain || 'domaine n/a';
+      const nature = oscarNavigationValue(cell)
+        ? oscarNavigationTypes(cell).map(type => OSCAR_NAVIGATION_LABELS[type] || type).join(' + ')
+        : OSCAR_NAVIGATION_LABELS['non-renseigne'];
       const max = Number.isFinite(Number(cell.maxSpeedKnot)) ? Number(cell.maxSpeedKnot).toFixed(2) : 'n/a';
       const sources = Number.isFinite(Number(cell.sources)) ? Number(cell.sources) : 'n/a';
       const sourceCells = Number.isFinite(Number(cell.sourceCells)) ? ` - cases source ${Number(cell.sourceCells)}` : '';
@@ -573,6 +668,7 @@
         '<div class="ocean-cell-detail">',
         `<div class="ocean-cell-title">${escapeHtmlText(oscarKey)}${badges}</div>`,
         `<div class="sea-prop"><span>Domaine :</span> ${escapeHtmlText(domain)}</div>`,
+        `<div class="sea-prop"><span>Nature :</span> ${escapeHtmlText(nature)}</div>`,
         `<div class="sea-prop"><span>Courant principal :</span> ${speed.toFixed(2)} nd (${(speed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h), direction ${formatMaybeNumber(cell.dirToDeg, 1, '°')}</div>`,
         coastal
           ? `<div class="sea-prop"><span>Courant côtier :</span> ${coastalSpeed.toFixed(2)} nd (${(coastalSpeed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h), direction ${formatMaybeNumber(coastal.dirToDeg, 1, '°')}</div>`
@@ -618,7 +714,7 @@
       const entries = selectedOceanEntries();
       const manualCount = entries.filter(([, cell]) => isOscarManualCell(cell)).length;
       const coastalCount = entries.filter(([, cell]) => hasOscarCoastalCurrent(cell)).length;
-      const calmCount = entries.filter(([, cell]) => isOscarCalmUneditedCell(cell)).length;
+      const missingCurrentCount = entries.filter(([, cell]) => oscarCurrentCategory(cell) === 'non-renseigne').length;
       const avgSpeed = entries.length
         ? entries.reduce((sum, [, cell]) => sum + oscarCellSpeed(cell), 0) / entries.length
         : 0;
@@ -630,7 +726,7 @@
       return [
         '<div class="ocean-cell-detail">',
         `<div class="ocean-cell-title">Sélection multiple (${entries.length} cellules)<span class="ocean-cell-badge">édition commune</span></div>`,
-        `<div class="sea-prop"><span>Contenu :</span> ${manualCount} manuelle(s), ${coastalCount} avec courant côtier, ${calmCount} calme(s) non éditée(s)</div>`,
+        `<div class="sea-prop"><span>Contenu :</span> ${manualCount} manuelle(s), ${coastalCount} courant(s) double(s), ${missingCurrentCount} courant(s) non renseigné(s)</div>`,
         `<div class="sea-prop"><span>Vitesse moyenne :</span> ${avgSpeed.toFixed(2)} nd</div>`,
         '<div class="sea-prop"><span>Application :</span> les valeurs saisies seront appliquées à toutes les cellules sélectionnées.</div>',
         actionHtml,
@@ -640,7 +736,12 @@
 
     function formatOscarCellEditForm(cell) {
       if (!cell) return '';
+      const domainOptions = [...new Set([
+        ...Object.values(getOscarGrid()?.cells || {}).map(item => item.domain).filter(Boolean),
+        'bariana',
+      ])].sort();
       const mainSpeed = oscarCellSpeed(cell);
+      const explicitCalm = cell.calmeRenseigne === true && mainSpeed === 0;
       const mainDir = Number.isFinite(Number(cell.dirToDeg))
         ? normalizeAngle(Number(cell.dirToDeg))
         : normalizeAngle(Math.atan2(Number(cell.yKnot) || 0, Number(cell.xKnot) || 0) * 180 / Math.PI);
@@ -656,10 +757,14 @@
       return [
         '<div class="ocean-cell-form">',
         '<label>Vitesse (nd)',
-        `<input id="ocean-main-speed" type="number" min="0" step="0.01" value="${escapeAttr(mainSpeed.toFixed(2))}" data-initial="${escapeAttr(mainSpeed.toFixed(2))}">`,
+        `<input id="ocean-main-speed" type="number" min="0" step="0.01" value="${escapeAttr(mainSpeed.toFixed(2))}" data-initial="${escapeAttr(mainSpeed.toFixed(2))}"${explicitCalm ? ' disabled' : ''}>`,
         '</label>',
         '<label>Direction (°)',
-        `<input id="ocean-main-dir" type="number" min="0" max="359.9" step="0.1" value="${escapeAttr(mainDir.toFixed(1))}" data-initial="${escapeAttr(mainDir.toFixed(1))}">`,
+        `<input id="ocean-main-dir" type="number" min="0" max="359.9" step="0.1" value="${escapeAttr(mainDir.toFixed(1))}" data-initial="${escapeAttr(mainDir.toFixed(1))}"${explicitCalm ? ' disabled' : ''}>`,
+        '</label>',
+        '<label class="ocean-cell-toggle">',
+        `<input id="ocean-main-calm" type="checkbox"${explicitCalm ? ' checked' : ''} data-initial="${explicitCalm}">`,
+        'Courant nul renseigné (calme)',
         '</label>',
         '<label class="ocean-cell-toggle">',
         `<input id="ocean-has-coastal" type="checkbox"${hasCoastal ? ' checked' : ''} data-initial="${hasCoastal}">`,
@@ -674,10 +779,21 @@
         '</label>',
         '</div>',
         '<label>Nature de navigation',
-        `<select id="ocean-nature-nav" data-initial="${escapeAttr(cell.natureNav || '')}">`,
-        `<option value=""${!cell.natureNav ? ' selected' : ''}>Haute mer (défaut)</option>`,
-        `<option value="cotiere"${cell.natureNav === 'cotiere' ? ' selected' : ''}>Côtière</option>`,
-        `<option value="fluviale"${cell.natureNav === 'fluviale' ? ' selected' : ''}>Fluviale</option>`,
+        `<select id="ocean-nature-nav" data-initial="${escapeAttr(oscarNavigationValue(cell))}">`,
+        `<option value=""${oscarNavigationValue(cell) === '' ? ' selected' : ''}>Non renseignée</option>`,
+        `<option value="hauturiere"${oscarNavigationValue(cell) === 'hauturiere' ? ' selected' : ''}>Haute mer</option>`,
+        `<option value="cotiere"${oscarNavigationValue(cell) === 'cotiere' ? ' selected' : ''}>Côtière</option>`,
+        `<option value="fluviale"${oscarNavigationValue(cell) === 'fluviale' ? ' selected' : ''}>Fluviale</option>`,
+        `<option value="cotiere+hauturiere"${oscarNavigationValue(cell) === 'cotiere+hauturiere' ? ' selected' : ''}>Côtière + haute mer</option>`,
+        `<option value="cotiere+fluviale"${oscarNavigationValue(cell) === 'cotiere+fluviale' ? ' selected' : ''}>Côtière + fluviale</option>`,
+        `<option value="fluviale+hauturiere"${oscarNavigationValue(cell) === 'fluviale+hauturiere' ? ' selected' : ''}>Fluviale + haute mer</option>`,
+        `<option value="cotiere+fluviale+hauturiere"${oscarNavigationValue(cell) === 'cotiere+fluviale+hauturiere' ? ' selected' : ''}>Les trois régimes</option>`,
+        '</select>',
+        '</label>',
+        '<label>Région de travail',
+        `<select id="ocean-domain" data-initial="${escapeAttr(cell.domain || '')}">`,
+        `<option value=""${!cell.domain ? ' selected' : ''}>Non renseignée</option>`,
+        ...domainOptions.map(domain => `<option value="${escapeAttr(domain)}"${cell.domain === domain ? ' selected' : ''}>${escapeHtmlText(OSCAR_DOMAIN_LABELS[domain] || domain)}</option>`),
         '</select>',
         '</label>',
         '</div>',
@@ -928,7 +1044,7 @@
       const grid = getOscarGrid();
       const diagnosticKeys = ctx.isOcean
         ? filteredOscarEntries()
-          .filter(([key, cell]) => (oscarSessionEditsVisible && sessionEditedOceanCellKeys.has(key)) || hasOscarCoastalCurrent(cell))
+          .filter(([key]) => oscarSessionEditsVisible && sessionEditedOceanCellKeys.has(key))
           .map(([key]) => key)
         : [];
       const keys = ctx.isOcean
@@ -1116,10 +1232,12 @@
       if (!targets.length) return;
       const mainSpeedInput = document.getElementById('ocean-main-speed');
       const mainDirInput = document.getElementById('ocean-main-dir');
+      const mainCalmInput = document.getElementById('ocean-main-calm');
       const hasCoastalInput = document.getElementById('ocean-has-coastal');
       const speedInput = document.getElementById('ocean-coastal-speed');
       const dirInput = document.getElementById('ocean-coastal-dir');
       const natureNavInput = document.getElementById('ocean-nature-nav');
+      const domainInput = document.getElementById('ocean-domain');
       const mainSpeed = Number(mainSpeedInput?.value);
       const mainDir = Number(mainDirInput?.value);
       if (!Number.isFinite(mainSpeed) || mainSpeed < 0) {
@@ -1133,6 +1251,7 @@
         return;
       }
       const hasCoastal = !!hasCoastalInput?.checked;
+      const mainCalm = !!mainCalmInput?.checked;
       let coastalSpeed = 0;
       let coastalDir = 0;
       if (hasCoastal) {
@@ -1160,15 +1279,19 @@
         && Number(input.value) !== Number(input.dataset.initial);
       const speedTouched = isTouched(mainSpeedInput);
       const dirTouched = isTouched(mainDirInput);
+      const mainCalmTouched = !!mainCalmInput && mainCalmInput.dataset.initial !== undefined
+        && String(mainCalm) !== mainCalmInput.dataset.initial;
       const hasCoastalTouched = !!hasCoastalInput && hasCoastalInput.dataset.initial !== undefined
         && String(hasCoastal) !== hasCoastalInput.dataset.initial;
       const coastalSpeedTouched = isTouched(speedInput);
       const coastalDirTouched = isTouched(dirInput);
       const natureNavTouched = !!natureNavInput && natureNavInput.dataset.initial !== undefined
         && natureNavInput.value !== natureNavInput.dataset.initial;
+      const domainTouched = !!domainInput && domainInput.dataset.initial !== undefined
+        && domainInput.value !== domainInput.dataset.initial;
 
-      if (!speedTouched && !dirTouched && !hasCoastalTouched && !coastalSpeedTouched && !coastalDirTouched
-        && !natureNavTouched) {
+      if (!speedTouched && !dirTouched && !mainCalmTouched && !hasCoastalTouched && !coastalSpeedTouched && !coastalDirTouched
+        && !natureNavTouched && !domainTouched) {
         oceanCellEditing = false;
         refresh(R.SEA_PANEL);
         return; // rien à appliquer
@@ -1180,7 +1303,7 @@
         rememberOriginalOscarCell(cell);
         let touchedSomething = false;
 
-        if (speedTouched || dirTouched) {
+        if ((speedTouched || dirTouched) && !mainCalm) {
           const currentSpeed = oscarCellSpeed(cell);
           const currentDir = Number.isFinite(Number(cell.dirToDeg))
             ? normalizeAngle(Number(cell.dirToDeg))
@@ -1190,6 +1313,19 @@
             dirTouched ? mainDir : currentDir,
           ));
           touchedSomething = true;
+        }
+
+        if (mainCalmTouched) {
+          if (mainCalm) {
+            Object.assign(cell, { xKnot: 0, yKnot: 0, speedKnot: 0, dirToDeg: null });
+            cell.calme = true;
+            cell.calmeRenseigne = true;
+          } else {
+            delete cell.calmeRenseigne;
+          }
+          touchedSomething = true;
+        } else if ((speedTouched || dirTouched) && oscarCellSpeed(cell) > 0) {
+          delete cell.calme;
         }
 
         if (hasCoastalTouched) {
@@ -1212,7 +1348,9 @@
         }
 
         if (touchedSomething) {
-          cell.source = 'manual';
+          const clearedGeneratedCalm = mainCalmTouched && !mainCalm && oscarCellSpeed(cell) === 0
+            && !(Number(cell.sources) > 0) && !(Number(cell.sourceCells) > 0);
+          cell.source = clearedGeneratedCalm ? 'calm' : 'manual';
           if (targetKeys[idx]) sessionEditedOceanCellKeys.add(targetKeys[idx]);
         }
 
@@ -1220,11 +1358,26 @@
         // pas la cellule "manual" (le bouton Rétablir Copernicus ne doit pas
         // apparaître pour un simple tag de zone — voir REPRISE_74).
         if (natureNavTouched) {
-          if (natureNavInput.value === 'cotiere' || natureNavInput.value === 'fluviale') {
-            cell.natureNav = natureNavInput.value;
+          const types = natureNavInput.value.split('+').filter(Boolean);
+          if (types.length === 1) {
+            cell.natureNav = types[0];
+            delete cell.naturesNav;
+            cell.natureNavSource = 'manual';
+          } else if (types.length > 1) {
+            cell.naturesNav = types;
+            delete cell.natureNav;
+            cell.natureNavSource = 'manual';
           } else {
             delete cell.natureNav;
+            delete cell.naturesNav;
+            delete cell.natureNavSource;
           }
+        }
+        // Région technique utilisée pour filtrer et travailler par lots. Elle
+        // ne détermine ni la connexité maritime ni la nature de navigation.
+        if (domainTouched) {
+          if (domainInput.value) cell.domain = domainInput.value;
+          else delete cell.domain;
         }
       });
       oceanCellEditing = false;
