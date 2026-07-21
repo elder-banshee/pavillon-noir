@@ -1,0 +1,4236 @@
+{
+  "generatedAt": "2026-07-20T21:51:56.027Z",
+  "source": "js/oscar-hex-grid.js",
+  "method": "Composantes connexes par voisinage hexagonal odd-r ; embouchures proposées par ouverture maritime locale.",
+  "counts": {
+    "gridCells": 14728,
+    "fluvialCells": 1399,
+    "components": 44,
+    "compoundComponents": 9,
+    "namedComponents": 0,
+    "singleCellComponents": 4,
+    "configuredMouths": 0
+  },
+  "components": [
+    {
+      "id": "F-7_23",
+      "kind": "simple",
+      "anchorCellKey": "7_23",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 113,
+      "cellKeys": [
+        "7_23",
+        "7_24",
+        "7_25",
+        "8_23",
+        "8_24",
+        "8_25",
+        "8_39",
+        "9_21",
+        "9_22",
+        "9_23",
+        "9_24",
+        "9_25",
+        "9_36",
+        "9_38",
+        "9_39",
+        "10_22",
+        "10_23",
+        "10_24",
+        "10_26",
+        "10_27",
+        "10_28",
+        "10_29",
+        "10_30",
+        "10_33",
+        "10_34",
+        "10_35",
+        "10_36",
+        "10_37",
+        "10_38",
+        "10_39",
+        "11_21",
+        "11_22",
+        "11_23",
+        "11_24",
+        "11_25",
+        "11_26",
+        "11_27",
+        "11_28",
+        "11_29",
+        "11_30",
+        "11_31",
+        "11_32",
+        "11_33",
+        "11_34",
+        "12_21",
+        "12_25",
+        "12_26",
+        "12_27",
+        "12_28",
+        "12_29",
+        "12_31",
+        "12_32",
+        "13_20",
+        "13_21",
+        "14_21",
+        "14_22",
+        "15_21",
+        "15_22",
+        "16_22",
+        "17_13",
+        "17_22",
+        "18_14",
+        "18_15",
+        "18_22",
+        "19_15",
+        "19_16",
+        "19_21",
+        "19_22",
+        "20_16",
+        "20_17",
+        "20_21",
+        "20_22",
+        "21_16",
+        "21_17",
+        "21_20",
+        "21_21",
+        "22_17",
+        "22_21",
+        "23_16",
+        "23_17",
+        "23_20",
+        "23_21",
+        "24_17",
+        "24_18",
+        "24_21",
+        "25_17",
+        "25_18",
+        "25_20",
+        "25_21",
+        "26_18",
+        "26_19",
+        "26_20",
+        "26_21",
+        "27_19",
+        "27_20",
+        "27_21",
+        "27_22",
+        "27_23",
+        "28_21",
+        "28_22",
+        "28_23",
+        "28_24",
+        "28_25",
+        "29_21",
+        "29_23",
+        "29_24",
+        "29_25",
+        "30_21",
+        "30_22",
+        "30_24",
+        "30_25",
+        "31_21",
+        "32_22"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 3,
+        "explicit-calm": 2,
+        "generated-calm": 106,
+        "undocumented": 2
+      },
+      "mixedCoastalCellCount": 6,
+      "mixedCoastalCellKeys": [
+        "28_24",
+        "29_23",
+        "29_24",
+        "29_25",
+        "30_24",
+        "30_25"
+      ],
+      "bounds": {
+        "xMin": 693.49,
+        "xMax": 1981.41,
+        "yMin": 328.89,
+        "yMax": 1401.36
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "29_25",
+          "score": 0.9078787878787878,
+          "openness": 0.7878787878787878,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 4,
+      "anomalies": []
+    },
+    {
+      "id": "F-8_54",
+      "kind": "simple",
+      "anchorCellKey": "8_54",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 18,
+      "cellKeys": [
+        "8_54",
+        "9_54",
+        "10_54",
+        "10_55",
+        "11_54",
+        "11_55",
+        "12_55",
+        "12_56",
+        "13_55",
+        "13_56",
+        "14_56",
+        "14_57",
+        "15_56",
+        "15_57",
+        "16_57",
+        "16_58",
+        "17_57",
+        "18_58"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 17,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "18_58"
+      ],
+      "bounds": {
+        "xMin": 2699.67,
+        "xMax": 2897.81,
+        "yMin": 371.79,
+        "yMax": 800.78
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "18_58",
+          "score": 0.9909677419354839,
+          "openness": 0.8709677419354839,
+          "externalNeighbours": 4
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-8_72",
+      "kind": "simple",
+      "anchorCellKey": "8_72",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 12,
+      "cellKeys": [
+        "8_72",
+        "9_71",
+        "10_72",
+        "11_71",
+        "12_72",
+        "13_71",
+        "14_72",
+        "15_71",
+        "16_71",
+        "16_72",
+        "17_71",
+        "18_71"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 0,
+        "generated-calm": 12,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 3541.77,
+        "xMax": 3591.3,
+        "yMin": 371.79,
+        "yMax": 800.78
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "18_71",
+          "score": 0.8260869565217391,
+          "openness": 0.8260869565217391,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 3,
+      "anomalies": []
+    },
+    {
+      "id": "F-8_87",
+      "kind": "compound",
+      "anchorCellKey": "8_87",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 14,
+      "cellKeys": [
+        "8_87",
+        "8_88",
+        "9_86",
+        "9_88",
+        "9_89",
+        "10_87",
+        "10_88",
+        "10_89",
+        "10_90",
+        "11_86",
+        "11_87",
+        "11_88",
+        "12_87",
+        "12_88"
+      ],
+      "domains": [
+        "atlantic",
+        "florida"
+      ],
+      "currentStates": {
+        "informed": 5,
+        "explicit-calm": 0,
+        "generated-calm": 9,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 5,
+      "mixedCoastalCellKeys": [
+        "10_89",
+        "10_90",
+        "11_88",
+        "12_87",
+        "12_88"
+      ],
+      "bounds": {
+        "xMin": 4309.56,
+        "xMax": 4482.94,
+        "yMin": 371.79,
+        "yMax": 543.38
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [],
+      "outletCandidates": [
+        {
+          "key": "10_90",
+          "score": 0.9264516129032258,
+          "openness": 0.8064516129032258,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "12_87",
+          "score": 0.87,
+          "openness": 0.75,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "12_88",
+          "score": 0.87,
+          "openness": 0.75,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "11_88",
+          "score": 0.8057142857142857,
+          "openness": 0.6857142857142857,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "10_89",
+          "score": 0.7670588235294118,
+          "openness": 0.6470588235294118,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "9_89",
+          "score": 0.72,
+          "openness": 0.72,
+          "externalNeighbours": 1
+        }
+      ],
+      "mouthCandidateCount": 6,
+      "anomalies": [
+        "compound-component-needs-river-traces"
+      ]
+    },
+    {
+      "id": "F-10_46",
+      "kind": "simple",
+      "anchorCellKey": "10_46",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 12,
+      "cellKeys": [
+        "10_46",
+        "10_47",
+        "11_46",
+        "11_47",
+        "12_47",
+        "12_48",
+        "13_47",
+        "13_48",
+        "14_49",
+        "15_49",
+        "16_50",
+        "17_50"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 11,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "17_50"
+      ],
+      "bounds": {
+        "xMin": 2303.39,
+        "xMax": 2526.3,
+        "yMin": 457.59,
+        "yMax": 757.88
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "17_50",
+          "score": 0.9587096774193549,
+          "openness": 0.8387096774193549,
+          "externalNeighbours": 4
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-10_49",
+      "kind": "simple",
+      "anchorCellKey": "10_49",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 9,
+      "cellKeys": [
+        "10_49",
+        "11_49",
+        "12_50",
+        "13_50",
+        "14_51",
+        "15_51",
+        "15_52",
+        "16_52",
+        "17_52"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 8,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "17_52"
+      ],
+      "bounds": {
+        "xMin": 2451.99,
+        "xMax": 2625.37,
+        "yMin": 457.59,
+        "yMax": 757.88
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "17_52",
+          "score": 0.9276923076923077,
+          "openness": 0.8076923076923077,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-10_62",
+      "kind": "simple",
+      "anchorCellKey": "10_62",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 10,
+      "cellKeys": [
+        "10_62",
+        "11_62",
+        "12_63",
+        "13_63",
+        "13_64",
+        "14_64",
+        "14_65",
+        "15_65",
+        "16_66",
+        "17_66"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 9,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "17_66"
+      ],
+      "bounds": {
+        "xMin": 3095.95,
+        "xMax": 3318.86,
+        "yMin": 457.59,
+        "yMax": 757.88
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "17_66",
+          "score": 0.995,
+          "openness": 0.875,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 1,
+      "anomalies": []
+    },
+    {
+      "id": "F-11_59",
+      "kind": "simple",
+      "anchorCellKey": "11_59",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 12,
+      "cellKeys": [
+        "11_59",
+        "11_60",
+        "12_60",
+        "13_60",
+        "13_61",
+        "14_61",
+        "14_62",
+        "15_62",
+        "16_63",
+        "17_62",
+        "17_63",
+        "18_64"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 0,
+        "generated-calm": 12,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 2972.11,
+        "xMax": 3195.02,
+        "yMin": 500.49,
+        "yMax": 800.78
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "18_64",
+          "score": 0.8709677419354839,
+          "openness": 0.8709677419354839,
+          "externalNeighbours": 4
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 3,
+      "anomalies": []
+    },
+    {
+      "id": "F-12_4",
+      "kind": "compound",
+      "anchorCellKey": "12_4",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 119,
+      "cellKeys": [
+        "12_4",
+        "13_4",
+        "13_5",
+        "14_6",
+        "15_5",
+        "15_6",
+        "16_6",
+        "16_7",
+        "17_7",
+        "18_8",
+        "18_9",
+        "19_8",
+        "20_9",
+        "20_10",
+        "21_9",
+        "22_10",
+        "22_11",
+        "23_10",
+        "24_11",
+        "24_12",
+        "25_12",
+        "25_13",
+        "26_13",
+        "26_14",
+        "26_16",
+        "27_13",
+        "27_14",
+        "27_16",
+        "28_15",
+        "28_16",
+        "28_17",
+        "29_14",
+        "29_15",
+        "29_17",
+        "30_15",
+        "30_16",
+        "30_17",
+        "30_18",
+        "31_11",
+        "31_12",
+        "31_15",
+        "31_16",
+        "31_17",
+        "31_18",
+        "31_19",
+        "32_13",
+        "32_16",
+        "32_17",
+        "32_18",
+        "32_20",
+        "33_13",
+        "33_14",
+        "33_17",
+        "33_18",
+        "33_20",
+        "34_14",
+        "34_15",
+        "34_19",
+        "34_21",
+        "34_22",
+        "35_15",
+        "35_18",
+        "35_19",
+        "35_21",
+        "35_22",
+        "35_23",
+        "36_15",
+        "36_16",
+        "36_18",
+        "36_19",
+        "36_20",
+        "36_21",
+        "37_15",
+        "37_18",
+        "37_20",
+        "37_21",
+        "38_16",
+        "38_19",
+        "38_20",
+        "38_22",
+        "38_23",
+        "39_15",
+        "39_16",
+        "39_19",
+        "39_20",
+        "40_17",
+        "40_18",
+        "40_20",
+        "40_21",
+        "41_17",
+        "41_18",
+        "41_20",
+        "41_21",
+        "42_18",
+        "42_19",
+        "42_21",
+        "42_22",
+        "43_19",
+        "43_21",
+        "43_23",
+        "44_20",
+        "44_22",
+        "44_23",
+        "44_24",
+        "45_20",
+        "45_21",
+        "45_22",
+        "45_24",
+        "46_22",
+        "46_23",
+        "46_24",
+        "47_22",
+        "47_23",
+        "48_23",
+        "49_22",
+        "49_23",
+        "50_21",
+        "50_22",
+        "50_23"
+      ],
+      "domains": [
+        "atlantic",
+        "gulf_mexico"
+      ],
+      "currentStates": {
+        "informed": 8,
+        "explicit-calm": 1,
+        "generated-calm": 109,
+        "undocumented": 1
+      },
+      "mixedCoastalCellCount": 10,
+      "mixedCoastalCellKeys": [
+        "38_23",
+        "43_23",
+        "44_23",
+        "44_24",
+        "45_24",
+        "46_23",
+        "46_24",
+        "47_23",
+        "49_23",
+        "50_23"
+      ],
+      "bounds": {
+        "xMin": 222.91,
+        "xMax": 1238.38,
+        "yMin": 543.38,
+        "yMax": 2173.54
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [],
+      "outletCandidates": [
+        {
+          "key": "38_23",
+          "score": 0.995,
+          "openness": 0.875,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "43_23",
+          "score": 0.9057142857142857,
+          "openness": 0.7857142857142857,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "45_24",
+          "score": 0.9037837837837838,
+          "openness": 0.7837837837837838,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "44_24",
+          "score": 0.87,
+          "openness": 0.75,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "35_23",
+          "score": 0.84,
+          "openness": 0.84,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "49_23",
+          "score": 0.8258823529411765,
+          "openness": 0.7058823529411765,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "46_24",
+          "score": 0.7956756756756757,
+          "openness": 0.6756756756756757,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "50_23",
+          "score": 0.7866666666666666,
+          "openness": 0.6666666666666666,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "47_23",
+          "score": 0.7485714285714286,
+          "openness": 0.6285714285714286,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "48_23",
+          "score": 0.625,
+          "openness": 0.625,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "44_23",
+          "score": 0.62,
+          "openness": 0.5,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "46_23",
+          "score": 0.62,
+          "openness": 0.5,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "45_22",
+          "score": 0.5,
+          "openness": 0.5,
+          "externalNeighbours": 1
+        }
+      ],
+      "mouthCandidateCount": 13,
+      "anomalies": [
+        "compound-component-needs-river-traces"
+      ]
+    },
+    {
+      "id": "F-13_37",
+      "kind": "simple",
+      "anchorCellKey": "13_37",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 5,
+      "cellKeys": [
+        "13_37",
+        "14_38",
+        "15_38",
+        "16_39",
+        "16_40"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 4,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "16_40"
+      ],
+      "bounds": {
+        "xMin": 1882.34,
+        "xMax": 2006.18,
+        "yMin": 586.28,
+        "yMax": 714.98
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "16_40",
+          "score": 1.008888888888889,
+          "openness": 0.8888888888888888,
+          "externalNeighbours": 4
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-13_43",
+      "kind": "simple",
+      "anchorCellKey": "13_43",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 5,
+      "cellKeys": [
+        "13_43",
+        "13_44",
+        "14_43",
+        "14_44",
+        "15_43"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 2,
+        "generated-calm": 3,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 2,
+      "mixedCoastalCellKeys": [
+        "14_43",
+        "15_43"
+      ],
+      "bounds": {
+        "xMin": 2154.78,
+        "xMax": 2229.09,
+        "yMin": 586.28,
+        "yMax": 672.08
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "15_43",
+          "score": 0.9276923076923077,
+          "openness": 0.8076923076923077,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-17_35",
+      "kind": "compound",
+      "anchorCellKey": "17_35",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 7,
+      "cellKeys": [
+        "17_35",
+        "18_33",
+        "18_34",
+        "18_35",
+        "19_33",
+        "19_35",
+        "20_34"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 2,
+        "generated-calm": 5,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 2,
+      "mixedCoastalCellKeys": [
+        "19_35",
+        "20_34"
+      ],
+      "bounds": {
+        "xMin": 1659.43,
+        "xMax": 1783.27,
+        "yMin": 757.88,
+        "yMax": 886.57
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [],
+      "outletCandidates": [
+        {
+          "key": "19_35",
+          "score": 0.9131034482758621,
+          "openness": 0.7931034482758621,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "20_34",
+          "score": 0.83875,
+          "openness": 0.71875,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "18_34",
+          "score": 0.5909090909090909,
+          "openness": 0.5909090909090909,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "18_35",
+          "score": 0.5909090909090909,
+          "openness": 0.5909090909090909,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "19_33",
+          "score": 0.5909090909090909,
+          "openness": 0.5909090909090909,
+          "externalNeighbours": 1
+        }
+      ],
+      "mouthCandidateCount": 5,
+      "anomalies": [
+        "compound-component-needs-river-traces"
+      ]
+    },
+    {
+      "id": "F-19_31",
+      "kind": "simple",
+      "anchorCellKey": "19_31",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 4,
+      "cellKeys": [
+        "19_31",
+        "20_32",
+        "21_32",
+        "22_33"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 3,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "22_33"
+      ],
+      "bounds": {
+        "xMin": 1585.13,
+        "xMax": 1659.43,
+        "yMin": 843.68,
+        "yMax": 972.37
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "22_33",
+          "score": 1.0023529411764707,
+          "openness": 0.8823529411764706,
+          "externalNeighbours": 4
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-20_81",
+      "kind": "simple",
+      "anchorCellKey": "20_81",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 1,
+      "cellKeys": [
+        "20_81"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 0,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 4037.12,
+        "xMax": 4037.12,
+        "yMin": 886.57,
+        "yMax": 886.57
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "20_81",
+          "score": 0.9615384615384616,
+          "openness": 0.9615384615384616,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 1,
+      "anomalies": [
+        "single-cell-component"
+      ]
+    },
+    {
+      "id": "F-28_79",
+      "kind": "simple",
+      "anchorCellKey": "28_79",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 1,
+      "cellKeys": [
+        "28_79"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 0,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 3938.05,
+        "xMax": 3938.05,
+        "yMin": 1229.76,
+        "yMax": 1229.76
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "28_79",
+          "score": 0.96,
+          "openness": 0.96,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 1,
+      "anomalies": [
+        "single-cell-component"
+      ]
+    },
+    {
+      "id": "F-42_14",
+      "kind": "compound",
+      "anchorCellKey": "42_14",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 144,
+      "cellKeys": [
+        "42_14",
+        "43_13",
+        "44_13",
+        "45_3",
+        "45_4",
+        "45_12",
+        "46_5",
+        "46_12",
+        "46_13",
+        "47_3",
+        "47_4",
+        "47_5",
+        "47_12",
+        "48_3",
+        "48_4",
+        "48_5",
+        "48_12",
+        "48_13",
+        "49_3",
+        "49_4",
+        "49_5",
+        "49_7",
+        "49_8",
+        "49_9",
+        "49_10",
+        "49_11",
+        "49_12",
+        "49_13",
+        "49_14",
+        "50_6",
+        "50_7",
+        "50_8",
+        "50_9",
+        "50_10",
+        "50_12",
+        "50_14",
+        "51_14",
+        "52_15",
+        "52_16",
+        "52_17",
+        "52_19",
+        "52_20",
+        "52_21",
+        "52_22",
+        "52_23",
+        "53_10",
+        "53_16",
+        "53_17",
+        "53_18",
+        "53_19",
+        "53_21",
+        "53_22",
+        "54_11",
+        "54_16",
+        "54_21",
+        "54_22",
+        "55_7",
+        "55_10",
+        "55_15",
+        "55_21",
+        "55_22",
+        "56_7",
+        "56_8",
+        "56_11",
+        "56_15",
+        "56_16",
+        "56_22",
+        "56_23",
+        "57_7",
+        "57_8",
+        "57_10",
+        "57_15",
+        "57_16",
+        "57_21",
+        "57_22",
+        "57_23",
+        "58_9",
+        "58_11",
+        "58_15",
+        "58_16",
+        "58_17",
+        "58_19",
+        "58_20",
+        "58_21",
+        "59_8",
+        "59_9",
+        "59_10",
+        "59_13",
+        "59_14",
+        "59_15",
+        "59_16",
+        "59_17",
+        "59_18",
+        "59_22",
+        "59_23",
+        "60_8",
+        "60_10",
+        "60_11",
+        "60_12",
+        "60_13",
+        "60_14",
+        "60_15",
+        "60_17",
+        "60_18",
+        "60_19",
+        "60_20",
+        "60_21",
+        "60_22",
+        "60_23",
+        "61_9",
+        "61_10",
+        "61_11",
+        "61_12",
+        "61_14",
+        "61_15",
+        "61_18",
+        "61_22",
+        "61_23",
+        "62_10",
+        "62_11",
+        "62_12",
+        "62_15",
+        "62_18",
+        "62_21",
+        "62_22",
+        "62_23",
+        "62_26",
+        "63_14",
+        "63_17",
+        "63_18",
+        "63_21",
+        "63_23",
+        "63_24",
+        "63_25",
+        "64_14",
+        "64_15",
+        "64_18",
+        "65_14",
+        "65_17",
+        "65_18",
+        "66_18",
+        "67_17",
+        "68_17",
+        "69_16"
+      ],
+      "domains": [
+        "atlantic",
+        "gulf_mexico",
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 11,
+        "explicit-calm": 2,
+        "generated-calm": 131,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 11,
+      "mixedCoastalCellKeys": [
+        "52_22",
+        "52_23",
+        "53_22",
+        "56_23",
+        "57_23",
+        "59_23",
+        "60_23",
+        "61_23",
+        "62_10",
+        "62_11",
+        "62_26"
+      ],
+      "bounds": {
+        "xMin": 173.37,
+        "xMax": 1312.68,
+        "yMin": 1830.35,
+        "yMax": 2988.61
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [],
+      "outletCandidates": [
+        {
+          "key": "62_26",
+          "score": 0.9381818181818182,
+          "openness": 0.8181818181818182,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "69_16",
+          "score": 0.8928571428571429,
+          "openness": 0.8928571428571429,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "57_23",
+          "score": 0.8628571428571429,
+          "openness": 0.7428571428571429,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "62_10",
+          "score": 0.8628571428571429,
+          "openness": 0.7428571428571429,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "65_14",
+          "score": 0.84,
+          "openness": 0.84,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "56_23",
+          "score": 0.816969696969697,
+          "openness": 0.696969696969697,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "62_11",
+          "score": 0.816969696969697,
+          "openness": 0.696969696969697,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "52_23",
+          "score": 0.8057142857142857,
+          "openness": 0.6857142857142857,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "64_14",
+          "score": 0.8,
+          "openness": 0.8,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "59_23",
+          "score": 0.7964705882352942,
+          "openness": 0.6764705882352942,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "53_22",
+          "score": 0.7563636363636363,
+          "openness": 0.6363636363636364,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "60_8",
+          "score": 0.7096774193548387,
+          "openness": 0.7096774193548387,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "61_23",
+          "score": 0.7062068965517241,
+          "openness": 0.5862068965517241,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "60_23",
+          "score": 0.6683870967741935,
+          "openness": 0.5483870967741935,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "61_9",
+          "score": 0.6571428571428571,
+          "openness": 0.6571428571428571,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "62_12",
+          "score": 0.6129032258064516,
+          "openness": 0.6129032258064516,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "55_22",
+          "score": 0.6060606060606061,
+          "openness": 0.6060606060606061,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "63_24",
+          "score": 0.5769230769230769,
+          "openness": 0.5769230769230769,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "63_25",
+          "score": 0.5769230769230769,
+          "openness": 0.5769230769230769,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "54_22",
+          "score": 0.5483870967741935,
+          "openness": 0.5483870967741935,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "62_23",
+          "score": 0.44,
+          "openness": 0.44,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "63_23",
+          "score": 0.44,
+          "openness": 0.44,
+          "externalNeighbours": 1
+        }
+      ],
+      "mouthCandidateCount": 22,
+      "anomalies": [
+        "compound-component-needs-river-traces"
+      ]
+    },
+    {
+      "id": "F-55_5",
+      "kind": "simple",
+      "anchorCellKey": "55_5",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 9,
+      "cellKeys": [
+        "55_5",
+        "56_5",
+        "57_4",
+        "57_5",
+        "58_4",
+        "58_5",
+        "58_6",
+        "59_4",
+        "59_5"
+      ],
+      "domains": [
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 2,
+        "generated-calm": 7,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 2,
+      "mixedCoastalCellKeys": [
+        "59_4",
+        "59_5"
+      ],
+      "bounds": {
+        "xMin": 222.91,
+        "xMax": 321.98,
+        "yMin": 2388.03,
+        "yMax": 2559.63
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "59_4",
+          "score": 0.8342857142857143,
+          "openness": 0.7142857142857143,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 3,
+      "anomalies": []
+    },
+    {
+      "id": "F-59_55",
+      "kind": "simple",
+      "anchorCellKey": "59_55",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 3,
+      "cellKeys": [
+        "59_55",
+        "59_56",
+        "60_56"
+      ],
+      "domains": [
+        "atlantic",
+        "caribbean"
+      ],
+      "currentStates": {
+        "informed": 2,
+        "explicit-calm": 0,
+        "generated-calm": 1,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 2,
+      "mixedCoastalCellKeys": [
+        "59_56",
+        "60_56"
+      ],
+      "bounds": {
+        "xMin": 2773.97,
+        "xMax": 2823.51,
+        "yMin": 2559.63,
+        "yMax": 2602.53
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "59_56",
+          "score": 1.02,
+          "openness": 0.9,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-63_27",
+      "kind": "simple",
+      "anchorCellKey": "63_27",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 7,
+      "cellKeys": [
+        "63_27",
+        "64_28",
+        "64_29",
+        "64_30",
+        "65_26",
+        "65_27",
+        "66_27"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 1,
+        "explicit-calm": 0,
+        "generated-calm": 6,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "63_27"
+      ],
+      "bounds": {
+        "xMin": 1337.45,
+        "xMax": 1510.82,
+        "yMin": 2731.22,
+        "yMax": 2859.92
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "63_27",
+          "score": 0.8941935483870967,
+          "openness": 0.7741935483870968,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 4,
+      "anomalies": []
+    },
+    {
+      "id": "F-66_32",
+      "kind": "compound",
+      "anchorCellKey": "66_32",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 97,
+      "cellKeys": [
+        "66_32",
+        "66_33",
+        "66_34",
+        "66_35",
+        "66_36",
+        "66_37",
+        "66_39",
+        "66_40",
+        "67_31",
+        "67_32",
+        "67_33",
+        "67_34",
+        "67_35",
+        "67_36",
+        "67_37",
+        "67_38",
+        "67_39",
+        "67_40",
+        "67_41",
+        "68_33",
+        "68_37",
+        "68_38",
+        "68_39",
+        "68_40",
+        "68_41",
+        "68_42",
+        "69_32",
+        "69_35",
+        "69_36",
+        "69_37",
+        "69_38",
+        "69_39",
+        "70_32",
+        "70_33",
+        "70_36",
+        "70_37",
+        "70_38",
+        "70_39",
+        "71_31",
+        "71_32",
+        "71_33",
+        "71_34",
+        "71_35",
+        "71_36",
+        "71_37",
+        "71_40",
+        "71_41",
+        "72_31",
+        "72_34",
+        "72_35",
+        "72_36",
+        "72_38",
+        "72_40",
+        "72_41",
+        "72_42",
+        "73_29",
+        "73_30",
+        "73_36",
+        "73_37",
+        "73_38",
+        "73_39",
+        "73_42",
+        "73_43",
+        "74_30",
+        "74_35",
+        "74_36",
+        "74_37",
+        "74_38",
+        "74_39",
+        "74_40",
+        "74_41",
+        "74_42",
+        "74_43",
+        "74_44",
+        "74_45",
+        "75_29",
+        "75_37",
+        "75_38",
+        "75_39",
+        "75_40",
+        "75_41",
+        "75_45",
+        "76_36",
+        "76_37",
+        "76_38",
+        "76_39",
+        "76_40",
+        "76_45",
+        "77_43",
+        "77_44",
+        "78_42",
+        "78_43",
+        "78_44",
+        "79_41",
+        "79_42",
+        "79_44",
+        "80_44"
+      ],
+      "domains": [
+        "atlantic",
+        "gulf_mexico",
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 8,
+        "explicit-calm": 6,
+        "generated-calm": 83,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 13,
+      "mixedCoastalCellKeys": [
+        "66_33",
+        "66_34",
+        "66_35",
+        "66_36",
+        "66_37",
+        "66_39",
+        "66_40",
+        "67_40",
+        "67_41",
+        "71_41",
+        "72_42",
+        "74_45",
+        "75_45"
+      ],
+      "bounds": {
+        "xMin": 1486.06,
+        "xMax": 2278.62,
+        "yMin": 2859.92,
+        "yMax": 3460.5
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [],
+      "outletCandidates": [
+        {
+          "key": "75_45",
+          "score": 0.9116666666666666,
+          "openness": 0.7916666666666666,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "74_45",
+          "score": 0.90125,
+          "openness": 0.78125,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "66_40",
+          "score": 0.8497297297297297,
+          "openness": 0.7297297297297297,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "67_41",
+          "score": 0.8123076923076923,
+          "openness": 0.6923076923076923,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "66_35",
+          "score": 0.7964705882352942,
+          "openness": 0.6764705882352942,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "66_36",
+          "score": 0.7964705882352942,
+          "openness": 0.6764705882352942,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "66_39",
+          "score": 0.7956756756756757,
+          "openness": 0.6756756756756757,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "75_29",
+          "score": 0.7777777777777778,
+          "openness": 0.7777777777777778,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "66_37",
+          "score": 0.7771428571428571,
+          "openness": 0.6571428571428571,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "66_33",
+          "score": 0.77625,
+          "openness": 0.65625,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "66_34",
+          "score": 0.77625,
+          "openness": 0.65625,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "67_40",
+          "score": 0.7651612903225806,
+          "openness": 0.6451612903225806,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "73_43",
+          "score": 0.7,
+          "openness": 0.7,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "74_44",
+          "score": 0.7,
+          "openness": 0.7,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "66_32",
+          "score": 0.6551724137931034,
+          "openness": 0.6551724137931034,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "71_41",
+          "score": 0.6438095238095238,
+          "openness": 0.5238095238095238,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "72_42",
+          "score": 0.6438095238095238,
+          "openness": 0.5238095238095238,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "68_42",
+          "score": 0.631578947368421,
+          "openness": 0.631578947368421,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "73_42",
+          "score": 0.5,
+          "openness": 0.5,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "67_37",
+          "score": 0.4722222222222222,
+          "openness": 0.4722222222222222,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "67_38",
+          "score": 0.4722222222222222,
+          "openness": 0.4722222222222222,
+          "externalNeighbours": 1
+        }
+      ],
+      "mouthCandidateCount": 21,
+      "anomalies": [
+        "compound-component-needs-river-traces"
+      ]
+    },
+    {
+      "id": "F-67_21",
+      "kind": "simple",
+      "anchorCellKey": "67_21",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 16,
+      "cellKeys": [
+        "67_21",
+        "67_22",
+        "67_23",
+        "67_24",
+        "68_21",
+        "68_22",
+        "68_23",
+        "68_24",
+        "69_19",
+        "69_20",
+        "69_22",
+        "69_23",
+        "70_19",
+        "70_20",
+        "70_22",
+        "70_23"
+      ],
+      "domains": [
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 3,
+        "explicit-calm": 0,
+        "generated-calm": 13,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 3,
+      "mixedCoastalCellKeys": [
+        "70_19",
+        "70_20",
+        "70_22"
+      ],
+      "bounds": {
+        "xMin": 965.94,
+        "xMax": 1238.38,
+        "yMin": 2902.82,
+        "yMax": 3031.51
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "70_19",
+          "score": 0.9587096774193549,
+          "openness": 0.8387096774193549,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "70_23",
+          "score": 0.7142857142857143,
+          "openness": 0.7142857142857143,
+          "externalNeighbours": 2
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 5,
+      "anomalies": [
+        "mouth-review-required"
+      ]
+    },
+    {
+      "id": "F-71_26",
+      "kind": "simple",
+      "anchorCellKey": "71_26",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 5,
+      "cellKeys": [
+        "71_26",
+        "72_26",
+        "72_27",
+        "73_27",
+        "74_28"
+      ],
+      "domains": [
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 4,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "72_26"
+      ],
+      "bounds": {
+        "xMin": 1312.68,
+        "xMax": 1411.75,
+        "yMin": 3074.41,
+        "yMax": 3203.11
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "72_26",
+          "score": 0.9475862068965517,
+          "openness": 0.8275862068965517,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 4,
+      "anomalies": []
+    },
+    {
+      "id": "F-74_62",
+      "kind": "simple",
+      "anchorCellKey": "74_62",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 11,
+      "cellKeys": [
+        "74_62",
+        "75_61",
+        "75_62",
+        "76_62",
+        "77_61",
+        "77_62",
+        "78_61",
+        "78_62",
+        "79_60",
+        "79_61",
+        "80_60"
+      ],
+      "domains": [
+        "atlantic",
+        "caribbean"
+      ],
+      "currentStates": {
+        "informed": 1,
+        "explicit-calm": 0,
+        "generated-calm": 10,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "74_62"
+      ],
+      "bounds": {
+        "xMin": 2996.88,
+        "xMax": 3120.72,
+        "yMin": 3203.11,
+        "yMax": 3460.5
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "74_62",
+          "score": 1.0057142857142858,
+          "openness": 0.8857142857142857,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "78_62",
+          "score": 0.625,
+          "openness": 0.625,
+          "externalNeighbours": 1
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 6,
+      "anomalies": [
+        "mouth-review-required"
+      ]
+    },
+    {
+      "id": "F-76_34",
+      "kind": "simple",
+      "anchorCellKey": "76_34",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 5,
+      "cellKeys": [
+        "76_34",
+        "77_33",
+        "78_34",
+        "79_33",
+        "79_34"
+      ],
+      "domains": [
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 0,
+        "generated-calm": 5,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 1684.2,
+        "xMax": 1733.73,
+        "yMin": 3288.91,
+        "yMax": 3417.6
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "79_33",
+          "score": 0.8518518518518519,
+          "openness": 0.8518518518518519,
+          "externalNeighbours": 2
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-76_50",
+      "kind": "simple",
+      "anchorCellKey": "76_50",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 16,
+      "cellKeys": [
+        "76_50",
+        "77_49",
+        "77_50",
+        "78_50",
+        "79_49",
+        "79_50",
+        "80_50",
+        "80_51",
+        "81_47",
+        "81_48",
+        "81_49",
+        "81_50",
+        "81_51",
+        "82_52",
+        "82_53",
+        "83_53"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 15,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "76_50"
+      ],
+      "bounds": {
+        "xMin": 2377.69,
+        "xMax": 2674.9,
+        "yMin": 3288.91,
+        "yMax": 3589.2
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "76_50",
+          "score": 0.9909677419354839,
+          "openness": 0.8709677419354839,
+          "externalNeighbours": 4
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 3,
+      "anomalies": []
+    },
+    {
+      "id": "F-77_56",
+      "kind": "compound",
+      "anchorCellKey": "77_56",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 148,
+      "cellKeys": [
+        "77_56",
+        "78_56",
+        "78_57",
+        "79_55",
+        "79_56",
+        "80_55",
+        "80_56",
+        "80_57",
+        "81_54",
+        "81_56",
+        "81_57",
+        "81_58",
+        "82_57",
+        "82_58",
+        "82_59",
+        "82_60",
+        "83_60",
+        "83_61",
+        "83_62",
+        "83_63",
+        "83_64",
+        "83_65",
+        "83_66",
+        "84_62",
+        "84_63",
+        "84_64",
+        "84_65",
+        "84_66",
+        "84_67",
+        "84_68",
+        "85_56",
+        "85_57",
+        "85_58",
+        "85_59",
+        "85_60",
+        "85_61",
+        "85_62",
+        "85_63",
+        "85_64",
+        "85_67",
+        "85_68",
+        "85_69",
+        "86_56",
+        "86_61",
+        "86_62",
+        "86_63",
+        "86_64",
+        "87_56",
+        "87_58",
+        "87_59",
+        "87_60",
+        "87_61",
+        "87_62",
+        "87_67",
+        "87_68",
+        "88_56",
+        "88_57",
+        "88_59",
+        "88_60",
+        "88_66",
+        "88_67",
+        "89_50",
+        "89_51",
+        "89_52",
+        "89_56",
+        "89_57",
+        "89_58",
+        "89_59",
+        "89_60",
+        "89_61",
+        "89_65",
+        "89_66",
+        "89_67",
+        "89_68",
+        "90_51",
+        "90_52",
+        "90_53",
+        "90_55",
+        "90_56",
+        "90_57",
+        "90_58",
+        "90_59",
+        "90_60",
+        "90_61",
+        "90_62",
+        "90_63",
+        "90_66",
+        "90_67",
+        "90_68",
+        "90_69",
+        "91_51",
+        "91_52",
+        "91_53",
+        "91_54",
+        "91_55",
+        "91_56",
+        "91_57",
+        "91_58",
+        "91_59",
+        "91_60",
+        "91_61",
+        "91_62",
+        "91_65",
+        "91_66",
+        "91_67",
+        "91_68",
+        "92_54",
+        "92_55",
+        "92_56",
+        "92_57",
+        "92_58",
+        "92_59",
+        "92_60",
+        "92_61",
+        "92_62",
+        "92_63",
+        "92_64",
+        "92_65",
+        "92_66",
+        "92_67",
+        "92_68",
+        "92_69",
+        "93_54",
+        "93_55",
+        "93_56",
+        "93_57",
+        "93_58",
+        "93_59",
+        "93_60",
+        "93_61",
+        "93_62",
+        "93_63",
+        "93_64",
+        "93_65",
+        "93_66",
+        "94_54",
+        "94_55",
+        "94_57",
+        "94_59",
+        "94_60",
+        "94_65",
+        "94_66",
+        "94_67",
+        "95_64",
+        "95_65",
+        "95_66",
+        "96_65",
+        "96_67"
+      ],
+      "domains": [
+        "atlantic",
+        "caribbean"
+      ],
+      "currentStates": {
+        "informed": 6,
+        "explicit-calm": 41,
+        "generated-calm": 101,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 6,
+      "mixedCoastalCellKeys": [
+        "85_69",
+        "87_68",
+        "89_68",
+        "90_69",
+        "91_68",
+        "92_69"
+      ],
+      "bounds": {
+        "xMin": 2526.3,
+        "xMax": 3467.47,
+        "yMin": 3331.8,
+        "yMax": 4146.88
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [],
+      "outletCandidates": [
+        {
+          "key": "85_69",
+          "score": 0.9587096774193549,
+          "openness": 0.8387096774193549,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "90_69",
+          "score": 0.8342857142857143,
+          "openness": 0.7142857142857143,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "77_56",
+          "score": 0.8214285714285714,
+          "openness": 0.8214285714285714,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "87_68",
+          "score": 0.77625,
+          "openness": 0.65625,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "94_54",
+          "score": 0.75,
+          "openness": 0.75,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "89_68",
+          "score": 0.7485714285714286,
+          "openness": 0.6285714285714286,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "91_68",
+          "score": 0.7260606060606061,
+          "openness": 0.6060606060606061,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "92_69",
+          "score": 0.7260606060606061,
+          "openness": 0.6060606060606061,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "85_68",
+          "score": 0.6538461538461539,
+          "openness": 0.6538461538461539,
+          "externalNeighbours": 1
+        }
+      ],
+      "mouthCandidateCount": 9,
+      "anomalies": [
+        "compound-component-needs-river-traces"
+      ]
+    },
+    {
+      "id": "F-82_39",
+      "kind": "simple",
+      "anchorCellKey": "82_39",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 5,
+      "cellKeys": [
+        "82_39",
+        "82_40",
+        "83_38",
+        "83_39",
+        "84_39"
+      ],
+      "domains": [
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 4,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "84_39"
+      ],
+      "bounds": {
+        "xMin": 1931.87,
+        "xMax": 2006.18,
+        "yMin": 3546.3,
+        "yMax": 3632.1
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "84_39",
+          "score": 0.9684848484848485,
+          "openness": 0.8484848484848485,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 3,
+      "anomalies": []
+    },
+    {
+      "id": "F-84_42",
+      "kind": "simple",
+      "anchorCellKey": "84_42",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 3,
+      "cellKeys": [
+        "84_42",
+        "84_43",
+        "85_42"
+      ],
+      "domains": [
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 0,
+        "generated-calm": 3,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 2105.25,
+        "xMax": 2154.78,
+        "yMin": 3632.1,
+        "yMax": 3674.99
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "85_42",
+          "score": 0.88,
+          "openness": 0.88,
+          "externalNeighbours": 1
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 1,
+      "anomalies": []
+    },
+    {
+      "id": "F-91_110",
+      "kind": "simple",
+      "anchorCellKey": "91_110",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 4,
+      "cellKeys": [
+        "91_110",
+        "92_111",
+        "93_111",
+        "94_112"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 0,
+        "generated-calm": 4,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 5498.41,
+        "xMax": 5572.71,
+        "yMin": 3932.39,
+        "yMax": 4061.08
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "91_110",
+          "score": 0.8846153846153846,
+          "openness": 0.8846153846153846,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 1,
+      "anomalies": []
+    },
+    {
+      "id": "F-92_50",
+      "kind": "simple",
+      "anchorCellKey": "92_50",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 1,
+      "cellKeys": [
+        "92_50"
+      ],
+      "domains": [
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 0,
+        "generated-calm": 1,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 2501.53,
+        "xMax": 2501.53,
+        "yMin": 3975.29,
+        "yMax": 3975.29
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "92_50",
+          "score": 0.96,
+          "openness": 0.96,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 1,
+      "anomalies": [
+        "single-cell-component"
+      ]
+    },
+    {
+      "id": "F-92_100",
+      "kind": "simple",
+      "anchorCellKey": "92_100",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 141,
+      "cellKeys": [
+        "92_100",
+        "92_103",
+        "92_104",
+        "93_99",
+        "93_100",
+        "93_102",
+        "94_99",
+        "94_100",
+        "94_101",
+        "94_102",
+        "95_99",
+        "95_100",
+        "95_106",
+        "95_110",
+        "96_99",
+        "96_100",
+        "96_107",
+        "96_108",
+        "96_109",
+        "96_110",
+        "96_111",
+        "97_98",
+        "97_99",
+        "97_107",
+        "97_108",
+        "97_109",
+        "98_98",
+        "98_99",
+        "98_108",
+        "99_97",
+        "99_98",
+        "99_99",
+        "99_108",
+        "100_97",
+        "100_98",
+        "100_99",
+        "100_100",
+        "100_108",
+        "100_109",
+        "101_96",
+        "101_98",
+        "101_100",
+        "101_108",
+        "102_96",
+        "102_98",
+        "102_100",
+        "102_101",
+        "102_109",
+        "103_97",
+        "103_98",
+        "103_100",
+        "103_101",
+        "103_108",
+        "103_109",
+        "103_110",
+        "103_111",
+        "103_112",
+        "103_113",
+        "103_114",
+        "104_97",
+        "104_98",
+        "104_101",
+        "104_109",
+        "104_110",
+        "104_111",
+        "105_96",
+        "105_97",
+        "105_101",
+        "105_107",
+        "105_108",
+        "105_109",
+        "106_96",
+        "106_97",
+        "106_102",
+        "106_103",
+        "106_104",
+        "106_105",
+        "106_106",
+        "106_107",
+        "106_108",
+        "107_95",
+        "107_96",
+        "107_101",
+        "107_102",
+        "108_96",
+        "108_102",
+        "109_96",
+        "109_101",
+        "109_102",
+        "110_96",
+        "110_97",
+        "110_102",
+        "110_103",
+        "110_104",
+        "111_96",
+        "111_101",
+        "111_102",
+        "111_103",
+        "111_104",
+        "111_105",
+        "111_106",
+        "111_107",
+        "111_108",
+        "112_96",
+        "112_102",
+        "112_103",
+        "112_104",
+        "112_105",
+        "112_108",
+        "112_109",
+        "112_110",
+        "113_96",
+        "113_102",
+        "113_103",
+        "113_104",
+        "113_108",
+        "113_109",
+        "113_110",
+        "114_96",
+        "114_102",
+        "114_103",
+        "114_109",
+        "114_110",
+        "114_111",
+        "115_96",
+        "115_102",
+        "115_103",
+        "115_104",
+        "115_108",
+        "115_110",
+        "115_111",
+        "116_96",
+        "116_102",
+        "116_104",
+        "116_105",
+        "116_109",
+        "116_111",
+        "116_112",
+        "117_101",
+        "117_103",
+        "117_104"
+      ],
+      "domains": [
+        "atlantic",
+        "caribbean"
+      ],
+      "currentStates": {
+        "informed": 1,
+        "explicit-calm": 0,
+        "generated-calm": 140,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "92_100"
+      ],
+      "bounds": {
+        "xMin": 4755.38,
+        "xMax": 5696.55,
+        "yMin": 3975.29,
+        "yMax": 5047.75
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "92_100",
+          "score": 0.9485714285714286,
+          "openness": 0.8285714285714286,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "92_104",
+          "score": 0.8928571428571429,
+          "openness": 0.8928571428571429,
+          "externalNeighbours": 2
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 7,
+      "anomalies": [
+        "mouth-review-required"
+      ]
+    },
+    {
+      "id": "F-93_119",
+      "kind": "simple",
+      "anchorCellKey": "93_119",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 32,
+      "cellKeys": [
+        "93_119",
+        "93_120",
+        "94_119",
+        "94_120",
+        "94_121",
+        "95_119",
+        "95_120",
+        "95_121",
+        "96_119",
+        "96_120",
+        "96_121",
+        "97_119",
+        "97_120",
+        "97_121",
+        "98_119",
+        "98_120",
+        "98_121",
+        "98_122",
+        "99_118",
+        "99_119",
+        "99_120",
+        "99_121",
+        "100_117",
+        "100_118",
+        "100_121",
+        "100_122",
+        "101_116",
+        "101_119",
+        "101_120",
+        "101_121",
+        "102_119",
+        "102_120"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 2,
+        "explicit-calm": 16,
+        "generated-calm": 14,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 16,
+      "mixedCoastalCellKeys": [
+        "93_119",
+        "93_120",
+        "94_119",
+        "94_120",
+        "94_121",
+        "95_119",
+        "95_120",
+        "95_121",
+        "96_120",
+        "96_121",
+        "97_119",
+        "97_120",
+        "97_121",
+        "98_121",
+        "98_122",
+        "99_121"
+      ],
+      "bounds": {
+        "xMin": 5795.62,
+        "xMax": 6068.07,
+        "yMin": 4018.18,
+        "yMax": 4404.27
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "93_119",
+          "score": 0.84,
+          "openness": 0.72,
+          "externalNeighbours": 2
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-94_69",
+      "kind": "simple",
+      "anchorCellKey": "94_69",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 13,
+      "cellKeys": [
+        "94_69",
+        "94_70",
+        "95_69",
+        "95_70",
+        "95_71",
+        "95_72",
+        "96_69",
+        "96_70",
+        "96_71",
+        "96_72",
+        "96_73",
+        "97_68",
+        "97_69"
+      ],
+      "domains": [
+        "atlantic",
+        "caribbean"
+      ],
+      "currentStates": {
+        "informed": 4,
+        "explicit-calm": 0,
+        "generated-calm": 9,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 4,
+      "mixedCoastalCellKeys": [
+        "94_70",
+        "95_71",
+        "95_72",
+        "96_73"
+      ],
+      "bounds": {
+        "xMin": 3417.93,
+        "xMax": 3640.84,
+        "yMin": 4061.08,
+        "yMax": 4189.78
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "95_72",
+          "score": 0.92,
+          "openness": 0.8,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "94_69",
+          "score": 0.4827586206896552,
+          "openness": 0.4827586206896552,
+          "externalNeighbours": 1
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 6,
+      "anomalies": [
+        "mouth-review-required"
+      ]
+    },
+    {
+      "id": "F-95_143",
+      "kind": "compound",
+      "anchorCellKey": "95_143",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 209,
+      "cellKeys": [
+        "95_143",
+        "95_144",
+        "96_142",
+        "96_143",
+        "96_144",
+        "97_139",
+        "97_140",
+        "97_141",
+        "97_142",
+        "97_143",
+        "98_138",
+        "98_139",
+        "98_140",
+        "98_143",
+        "98_144",
+        "98_145",
+        "98_147",
+        "99_145",
+        "99_146",
+        "99_147",
+        "100_140",
+        "100_145",
+        "100_146",
+        "100_149",
+        "100_150",
+        "100_151",
+        "100_152",
+        "100_153",
+        "100_154",
+        "101_139",
+        "101_140",
+        "101_141",
+        "101_142",
+        "101_143",
+        "101_144",
+        "101_145",
+        "101_146",
+        "101_147",
+        "101_148",
+        "101_149",
+        "102_127",
+        "102_128",
+        "102_142",
+        "102_144",
+        "102_145",
+        "102_146",
+        "102_147",
+        "102_148",
+        "102_149",
+        "102_150",
+        "103_124",
+        "103_125",
+        "103_127",
+        "103_128",
+        "103_143",
+        "103_144",
+        "103_145",
+        "103_146",
+        "103_148",
+        "103_150",
+        "104_125",
+        "104_126",
+        "104_129",
+        "104_143",
+        "104_144",
+        "104_145",
+        "104_149",
+        "104_150",
+        "104_151",
+        "105_125",
+        "105_126",
+        "105_127",
+        "105_128",
+        "105_129",
+        "105_130",
+        "105_139",
+        "105_140",
+        "105_141",
+        "105_142",
+        "105_143",
+        "105_144",
+        "105_145",
+        "105_148",
+        "105_149",
+        "106_125",
+        "106_126",
+        "106_127",
+        "106_128",
+        "106_129",
+        "106_130",
+        "106_131",
+        "106_140",
+        "106_141",
+        "106_142",
+        "106_143",
+        "106_144",
+        "106_146",
+        "106_149",
+        "107_129",
+        "107_130",
+        "107_131",
+        "107_132",
+        "107_138",
+        "107_139",
+        "107_140",
+        "107_141",
+        "107_142",
+        "107_143",
+        "107_144",
+        "107_145",
+        "107_146",
+        "107_147",
+        "108_131",
+        "108_132",
+        "108_133",
+        "108_142",
+        "108_143",
+        "108_144",
+        "108_145",
+        "108_146",
+        "108_147",
+        "108_148",
+        "109_132",
+        "109_140",
+        "109_141",
+        "109_142",
+        "109_143",
+        "109_144",
+        "109_145",
+        "109_146",
+        "109_148",
+        "109_149",
+        "110_132",
+        "110_133",
+        "110_140",
+        "110_141",
+        "110_143",
+        "110_144",
+        "110_145",
+        "110_146",
+        "110_147",
+        "110_149",
+        "111_125",
+        "111_132",
+        "111_133",
+        "111_134",
+        "111_139",
+        "111_140",
+        "111_142",
+        "111_143",
+        "111_144",
+        "111_145",
+        "111_146",
+        "111_147",
+        "112_126",
+        "112_127",
+        "112_134",
+        "112_135",
+        "112_140",
+        "112_143",
+        "112_145",
+        "113_126",
+        "113_127",
+        "113_135",
+        "113_136",
+        "113_137",
+        "113_138",
+        "113_139",
+        "113_140",
+        "113_142",
+        "113_143",
+        "114_127",
+        "114_128",
+        "114_129",
+        "114_130",
+        "114_131",
+        "114_132",
+        "114_133",
+        "114_134",
+        "114_135",
+        "114_136",
+        "114_137",
+        "114_138",
+        "114_139",
+        "114_140",
+        "114_141",
+        "114_142",
+        "114_143",
+        "114_144",
+        "115_125",
+        "115_126",
+        "115_127",
+        "115_128",
+        "115_129",
+        "115_130",
+        "115_131",
+        "115_132",
+        "115_133",
+        "115_134",
+        "115_138",
+        "115_139",
+        "115_140",
+        "115_141",
+        "115_143",
+        "115_144",
+        "116_138",
+        "116_139",
+        "116_144",
+        "117_144"
+      ],
+      "domains": [
+        "atlantic",
+        "caribbean"
+      ],
+      "currentStates": {
+        "informed": 8,
+        "explicit-calm": 0,
+        "generated-calm": 201,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 8,
+      "mixedCoastalCellKeys": [
+        "95_144",
+        "98_145",
+        "98_147",
+        "100_150",
+        "100_151",
+        "100_152",
+        "100_153",
+        "100_154"
+      ],
+      "bounds": {
+        "xMin": 6191.9,
+        "xMax": 7653.19,
+        "yMin": 4103.98,
+        "yMax": 5047.75
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [],
+      "outletCandidates": [
+        {
+          "key": "95_144",
+          "score": 0.9729411764705882,
+          "openness": 0.8529411764705882,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "100_152",
+          "score": 0.9684848484848485,
+          "openness": 0.8484848484848485,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "100_153",
+          "score": 0.9684848484848485,
+          "openness": 0.8484848484848485,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "100_154",
+          "score": 0.9325,
+          "openness": 0.8125,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "98_147",
+          "score": 0.92,
+          "openness": 0.8,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "100_151",
+          "score": 0.8914285714285715,
+          "openness": 0.7714285714285715,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "100_150",
+          "score": 0.8422222222222222,
+          "openness": 0.7222222222222222,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "95_143",
+          "score": 0.78125,
+          "openness": 0.78125,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "99_147",
+          "score": 0.696969696969697,
+          "openness": 0.696969696969697,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "98_145",
+          "score": 0.6654545454545454,
+          "openness": 0.5454545454545454,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "100_149",
+          "score": 0.6285714285714286,
+          "openness": 0.6285714285714286,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "96_142",
+          "score": 0.6086956521739131,
+          "openness": 0.6086956521739131,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "96_144",
+          "score": 0.6060606060606061,
+          "openness": 0.6060606060606061,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "99_145",
+          "score": 0.5161290322580645,
+          "openness": 0.5161290322580645,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "99_146",
+          "score": 0.5161290322580645,
+          "openness": 0.5161290322580645,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "101_149",
+          "score": 0.4827586206896552,
+          "openness": 0.4827586206896552,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "102_150",
+          "score": 0.4827586206896552,
+          "openness": 0.4827586206896552,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "97_143",
+          "score": 0.4482758620689655,
+          "openness": 0.4482758620689655,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "98_144",
+          "score": 0.4482758620689655,
+          "openness": 0.4482758620689655,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "103_150",
+          "score": 0.36,
+          "openness": 0.36,
+          "externalNeighbours": 1
+        }
+      ],
+      "mouthCandidateCount": 20,
+      "anomalies": [
+        "compound-component-needs-river-traces"
+      ]
+    },
+    {
+      "id": "F-98_73",
+      "kind": "compound",
+      "anchorCellKey": "98_73",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 71,
+      "cellKeys": [
+        "98_73",
+        "98_74",
+        "98_75",
+        "98_78",
+        "98_81",
+        "99_73",
+        "99_74",
+        "99_75",
+        "99_76",
+        "99_77",
+        "99_78",
+        "99_80",
+        "99_81",
+        "99_83",
+        "99_84",
+        "100_73",
+        "100_75",
+        "100_76",
+        "100_78",
+        "100_79",
+        "100_80",
+        "100_81",
+        "100_82",
+        "100_83",
+        "100_84",
+        "100_85",
+        "101_76",
+        "101_77",
+        "101_78",
+        "101_79",
+        "101_80",
+        "101_81",
+        "101_82",
+        "101_84",
+        "101_85",
+        "101_86",
+        "102_76",
+        "102_77",
+        "102_78",
+        "102_80",
+        "102_86",
+        "103_76",
+        "103_77",
+        "103_84",
+        "103_85",
+        "103_86",
+        "103_87",
+        "104_78",
+        "104_85",
+        "104_87",
+        "104_88",
+        "105_85",
+        "105_87",
+        "105_88",
+        "106_85",
+        "106_86",
+        "106_87",
+        "106_88",
+        "107_84",
+        "107_85",
+        "107_86",
+        "107_87",
+        "108_85",
+        "108_86",
+        "108_87",
+        "109_85",
+        "109_86",
+        "110_86",
+        "110_87",
+        "111_86",
+        "111_87"
+      ],
+      "domains": [
+        "atlantic",
+        "caribbean",
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 9,
+        "explicit-calm": 0,
+        "generated-calm": 60,
+        "undocumented": 2
+      },
+      "mixedCoastalCellCount": 10,
+      "mixedCoastalCellKeys": [
+        "98_73",
+        "98_74",
+        "98_75",
+        "98_78",
+        "101_80",
+        "101_81",
+        "101_82",
+        "102_80",
+        "104_78",
+        "107_84"
+      ],
+      "bounds": {
+        "xMin": 3640.84,
+        "xMax": 4408.64,
+        "yMin": 4232.68,
+        "yMax": 4790.36
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [],
+      "outletCandidates": [
+        {
+          "key": "104_78",
+          "score": 0.92,
+          "openness": 0.8,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "98_78",
+          "score": 0.8847058823529411,
+          "openness": 0.7647058823529411,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "107_84",
+          "score": 0.8497297297297297,
+          "openness": 0.7297297297297297,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "98_81",
+          "score": 0.7878787878787878,
+          "openness": 0.7878787878787878,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "102_80",
+          "score": 0.7866666666666666,
+          "openness": 0.6666666666666666,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "98_75",
+          "score": 0.7670588235294118,
+          "openness": 0.6470588235294118,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "99_84",
+          "score": 0.7647058823529411,
+          "openness": 0.7647058823529411,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "100_85",
+          "score": 0.7272727272727273,
+          "openness": 0.7272727272727273,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "99_83",
+          "score": 0.71875,
+          "openness": 0.71875,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "101_86",
+          "score": 0.7142857142857143,
+          "openness": 0.7142857142857143,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "98_74",
+          "score": 0.71375,
+          "openness": 0.59375,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "101_80",
+          "score": 0.7006451612903226,
+          "openness": 0.5806451612903226,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "101_81",
+          "score": 0.7006451612903226,
+          "openness": 0.5806451612903226,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "108_85",
+          "score": 0.6666666666666666,
+          "openness": 0.6666666666666666,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "101_82",
+          "score": 0.6654545454545454,
+          "openness": 0.5454545454545454,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "101_85",
+          "score": 0.65625,
+          "openness": 0.65625,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "103_87",
+          "score": 0.65625,
+          "openness": 0.65625,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "98_73",
+          "score": 0.6557142857142857,
+          "openness": 0.5357142857142857,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "106_85",
+          "score": 0.6285714285714286,
+          "openness": 0.6285714285714286,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "109_85",
+          "score": 0.6176470588235294,
+          "openness": 0.6176470588235294,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "103_84",
+          "score": 0.6129032258064516,
+          "openness": 0.6129032258064516,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "104_85",
+          "score": 0.6129032258064516,
+          "openness": 0.6129032258064516,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "110_86",
+          "score": 0.6129032258064516,
+          "openness": 0.6129032258064516,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "99_78",
+          "score": 0.5757575757575758,
+          "openness": 0.5757575757575758,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "103_76",
+          "score": 0.5714285714285714,
+          "openness": 0.5714285714285714,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "103_77",
+          "score": 0.5714285714285714,
+          "openness": 0.5714285714285714,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "99_75",
+          "score": 0.5625,
+          "openness": 0.5625,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "99_76",
+          "score": 0.5625,
+          "openness": 0.5625,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "99_80",
+          "score": 0.5625,
+          "openness": 0.5625,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "105_85",
+          "score": 0.5625,
+          "openness": 0.5625,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "99_77",
+          "score": 0.5588235294117647,
+          "openness": 0.5588235294117647,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "104_88",
+          "score": 0.5483870967741935,
+          "openness": 0.5483870967741935,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "105_88",
+          "score": 0.4838709677419355,
+          "openness": 0.4838709677419355,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "101_84",
+          "score": 0.46875,
+          "openness": 0.46875,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "106_88",
+          "score": 0.25,
+          "openness": 0.25,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "107_87",
+          "score": 0.19230769230769232,
+          "openness": 0.19230769230769232,
+          "externalNeighbours": 1
+        }
+      ],
+      "mouthCandidateCount": 36,
+      "anomalies": [
+        "compound-component-needs-river-traces"
+      ]
+    },
+    {
+      "id": "F-98_94",
+      "kind": "simple",
+      "anchorCellKey": "98_94",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 3,
+      "cellKeys": [
+        "98_94",
+        "99_94",
+        "100_95"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 0,
+        "generated-calm": 3,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 4681.08,
+        "xMax": 4730.61,
+        "yMin": 4232.68,
+        "yMax": 4318.48
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "98_94",
+          "score": 0.9032258064516129,
+          "openness": 0.9032258064516129,
+          "externalNeighbours": 4
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-100_156",
+      "kind": "simple",
+      "anchorCellKey": "100_156",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 6,
+      "cellKeys": [
+        "100_156",
+        "101_155",
+        "101_156",
+        "102_155",
+        "102_156",
+        "103_155"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 2,
+        "explicit-calm": 0,
+        "generated-calm": 4,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 2,
+      "mixedCoastalCellKeys": [
+        "100_156",
+        "101_156"
+      ],
+      "bounds": {
+        "xMin": 7702.73,
+        "xMax": 7777.03,
+        "yMin": 4318.48,
+        "yMax": 4447.17
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "100_156",
+          "score": 0.9533333333333334,
+          "openness": 0.8333333333333334,
+          "externalNeighbours": 4
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 4,
+      "anomalies": []
+    },
+    {
+      "id": "F-102_68",
+      "kind": "simple",
+      "anchorCellKey": "102_68",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 4,
+      "cellKeys": [
+        "102_68",
+        "102_69",
+        "102_70",
+        "102_71"
+      ],
+      "domains": [
+        "pacific"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 4,
+        "generated-calm": 0,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 3393.16,
+        "xMax": 3541.77,
+        "yMin": 4404.27,
+        "yMax": 4404.27
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "102_68",
+          "score": 0.8928571428571429,
+          "openness": 0.8928571428571429,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "102_71",
+          "score": 0.8571428571428571,
+          "openness": 0.8571428571428571,
+          "externalNeighbours": 2
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 4,
+      "anomalies": [
+        "mouth-review-required"
+      ]
+    },
+    {
+      "id": "F-103_91",
+      "kind": "simple",
+      "anchorCellKey": "103_91",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 6,
+      "cellKeys": [
+        "103_91",
+        "104_90",
+        "104_91",
+        "104_92",
+        "104_93",
+        "104_94"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 5,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "104_90"
+      ],
+      "bounds": {
+        "xMin": 4482.94,
+        "xMax": 4681.08,
+        "yMin": 4447.17,
+        "yMax": 4490.07
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "103_91",
+          "score": 0.8,
+          "openness": 0.8,
+          "externalNeighbours": 1
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 2,
+      "anomalies": []
+    },
+    {
+      "id": "F-104_157",
+      "kind": "simple",
+      "anchorCellKey": "104_157",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 20,
+      "cellKeys": [
+        "104_157",
+        "105_156",
+        "105_157",
+        "105_158",
+        "106_156",
+        "106_157",
+        "107_157",
+        "108_157",
+        "109_156",
+        "110_156",
+        "111_155",
+        "111_156",
+        "112_156",
+        "112_157",
+        "113_156",
+        "114_156",
+        "114_157",
+        "115_156",
+        "116_156",
+        "117_156"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 1,
+        "explicit-calm": 0,
+        "generated-calm": 19,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "105_158"
+      ],
+      "bounds": {
+        "xMin": 7727.5,
+        "xMax": 7876.1,
+        "yMin": 4490.07,
+        "yMax": 5047.75
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "105_158",
+          "score": 0.9078787878787878,
+          "openness": 0.7878787878787878,
+          "externalNeighbours": 5
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 5,
+      "anomalies": []
+    },
+    {
+      "id": "F-106_90",
+      "kind": "simple",
+      "anchorCellKey": "106_90",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 17,
+      "cellKeys": [
+        "106_90",
+        "106_91",
+        "106_92",
+        "107_90",
+        "107_91",
+        "108_90",
+        "108_92",
+        "109_89",
+        "109_90",
+        "109_92",
+        "110_90",
+        "111_90",
+        "112_91",
+        "113_90",
+        "114_91",
+        "115_90",
+        "116_91"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 3,
+        "generated-calm": 14,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 3,
+      "mixedCoastalCellKeys": [
+        "106_90",
+        "107_90",
+        "108_90"
+      ],
+      "bounds": {
+        "xMin": 4458.17,
+        "xMax": 4606.78,
+        "yMin": 4575.87,
+        "yMax": 5004.86
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "106_90",
+          "score": 0.47714285714285715,
+          "openness": 0.35714285714285715,
+          "externalNeighbours": 3
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 3,
+      "anomalies": []
+    },
+    {
+      "id": "F-106_164",
+      "kind": "compound",
+      "anchorCellKey": "106_164",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 46,
+      "cellKeys": [
+        "106_164",
+        "106_165",
+        "106_166",
+        "107_160",
+        "107_161",
+        "107_162",
+        "107_163",
+        "108_160",
+        "108_162",
+        "108_163",
+        "108_164",
+        "108_165",
+        "108_166",
+        "109_159",
+        "109_160",
+        "109_161",
+        "109_162",
+        "109_163",
+        "109_164",
+        "109_165",
+        "110_159",
+        "110_160",
+        "110_161",
+        "110_162",
+        "110_163",
+        "110_164",
+        "110_165",
+        "111_159",
+        "111_160",
+        "111_161",
+        "111_162",
+        "111_163",
+        "111_164",
+        "112_159",
+        "112_160",
+        "112_161",
+        "112_163",
+        "112_164",
+        "113_159",
+        "113_160",
+        "113_161",
+        "113_162",
+        "114_161",
+        "114_162",
+        "114_163",
+        "115_161"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 8,
+        "explicit-calm": 0,
+        "generated-calm": 38,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 6,
+      "mixedCoastalCellKeys": [
+        "106_164",
+        "106_165",
+        "106_166",
+        "107_160",
+        "107_161",
+        "107_162"
+      ],
+      "bounds": {
+        "xMin": 7900.87,
+        "xMax": 8247.62,
+        "yMin": 4575.87,
+        "yMax": 4961.96
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [],
+      "outletCandidates": [
+        {
+          "key": "106_165",
+          "score": 0.9308108108108109,
+          "openness": 0.8108108108108109,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "106_166",
+          "score": 0.9308108108108109,
+          "openness": 0.8108108108108109,
+          "externalNeighbours": 5
+        },
+        {
+          "key": "106_164",
+          "score": 0.8767567567567568,
+          "openness": 0.7567567567567568,
+          "externalNeighbours": 4
+        },
+        {
+          "key": "107_160",
+          "score": 0.745,
+          "openness": 0.625,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "107_161",
+          "score": 0.7376470588235294,
+          "openness": 0.6176470588235294,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "107_162",
+          "score": 0.7311111111111112,
+          "openness": 0.6111111111111112,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "107_163",
+          "score": 0.5945945945945946,
+          "openness": 0.5945945945945946,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "108_165",
+          "score": 0.5294117647058824,
+          "openness": 0.5294117647058824,
+          "externalNeighbours": 2
+        },
+        {
+          "key": "108_166",
+          "score": 0.5294117647058824,
+          "openness": 0.5294117647058824,
+          "externalNeighbours": 3
+        },
+        {
+          "key": "108_164",
+          "score": 0.4857142857142857,
+          "openness": 0.4857142857142857,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "108_160",
+          "score": 0.3125,
+          "openness": 0.3125,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "108_162",
+          "score": 0.3125,
+          "openness": 0.3125,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "109_160",
+          "score": 0.3125,
+          "openness": 0.3125,
+          "externalNeighbours": 1
+        },
+        {
+          "key": "109_161",
+          "score": 0.3125,
+          "openness": 0.3125,
+          "externalNeighbours": 1
+        }
+      ],
+      "mouthCandidateCount": 14,
+      "anomalies": [
+        "compound-component-needs-river-traces"
+      ]
+    },
+    {
+      "id": "F-106_169",
+      "kind": "simple",
+      "anchorCellKey": "106_169",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 1,
+      "cellKeys": [
+        "106_169"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 1,
+        "generated-calm": 0,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 1,
+      "mixedCoastalCellKeys": [
+        "106_169"
+      ],
+      "bounds": {
+        "xMin": 8396.22,
+        "xMax": 8396.22,
+        "yMin": 4575.87,
+        "yMax": 4575.87
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "106_169",
+          "score": 0.9460869565217391,
+          "openness": 0.8260869565217391,
+          "externalNeighbours": 4
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 1,
+      "anomalies": [
+        "single-cell-component"
+      ]
+    },
+    {
+      "id": "F-108_168",
+      "kind": "simple",
+      "anchorCellKey": "108_168",
+      "name": null,
+      "mapName": null,
+      "profile": "generic",
+      "cellCount": 14,
+      "cellKeys": [
+        "108_168",
+        "108_169",
+        "109_167",
+        "110_167",
+        "110_168",
+        "111_166",
+        "111_167",
+        "112_166",
+        "112_167",
+        "113_166",
+        "113_167",
+        "114_167",
+        "115_166",
+        "116_167"
+      ],
+      "domains": [
+        "atlantic"
+      ],
+      "currentStates": {
+        "informed": 0,
+        "explicit-calm": 0,
+        "generated-calm": 14,
+        "undocumented": 0
+      },
+      "mixedCoastalCellCount": 0,
+      "mixedCoastalCellKeys": [],
+      "bounds": {
+        "xMin": 8247.62,
+        "xMax": 8396.22,
+        "yMin": 4661.67,
+        "yMax": 5004.86
+      },
+      "configuredMouthCellKeys": [],
+      "proposedMouths": [
+        {
+          "key": "108_169",
+          "score": 0.7142857142857143,
+          "openness": 0.7142857142857143,
+          "externalNeighbours": 2
+        }
+      ],
+      "outletCandidates": [],
+      "mouthCandidateCount": 3,
+      "anomalies": []
+    }
+  ]
+}

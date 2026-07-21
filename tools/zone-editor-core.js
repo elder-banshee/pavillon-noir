@@ -266,7 +266,7 @@
     let oscarGridDomainFilter = '';
     const oscarGridFilters = {
       nature: new Set(['hauturiere', 'fluviale', 'cotiere', 'multiple', 'non-renseigne']),
-      current: new Set(['renseigne', 'double', 'non-renseigne']),
+      current: new Set(['renseigne', 'double', 'fluvial', 'non-renseigne']),
     };
     let oceanCellEditing = false;
     // Réglages de l'outil Accentuer/Estomper — état persistant (pas relu

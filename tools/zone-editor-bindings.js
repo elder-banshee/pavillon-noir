@@ -195,6 +195,11 @@
           const direction = document.getElementById('ocean-main-dir');
           if (speed) speed.disabled = e.target.checked;
           if (direction) direction.disabled = e.target.checked;
+        } else if (e.target?.matches?.('[data-fluvial-field="enabled"]')) {
+          const row = e.target.closest('.ocean-fluvial-current');
+          row?.querySelectorAll('[data-fluvial-field]:not([data-fluvial-field="enabled"])').forEach(input => {
+            input.disabled = !e.target.checked;
+          });
         }
       });
     }
