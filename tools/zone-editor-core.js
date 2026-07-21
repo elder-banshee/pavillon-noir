@@ -267,6 +267,7 @@
     const oscarGridFilters = {
       nature: new Set(['hauturiere', 'fluviale', 'cotiere', 'multiple', 'non-renseigne']),
       current: new Set(['renseigne', 'double', 'fluvial', 'non-renseigne']),
+      fluvialStatus: new Set(['standard', 'multiple', 'valid', 'invalid']),
     };
     let oceanCellEditing = false;
     // Réglages de l'outil Accentuer/Estomper — état persistant (pas relu

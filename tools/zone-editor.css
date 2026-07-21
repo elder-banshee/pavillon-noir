@@ -1238,6 +1238,16 @@
       color: #34d399;
     }
 
+    .ocean-cell-badge.fluvial-invalid {
+      color: #fecdd3;
+      border-color: rgba(251, 113, 133, 0.68);
+      background: rgba(159, 18, 57, 0.32);
+    }
+
+    .ocean-fluvial-issues {
+      color: #fecdd3;
+    }
+
     .ocean-cell-actions {
       display: flex;
       gap: 6px;
@@ -1316,6 +1326,29 @@
 
     .ocean-fluvial-current .ocean-fluvial-enable {
       grid-column: 1 / -1;
+    }
+
+    .ocean-fluvial-outlet {
+      grid-column: 1 / -1;
+    }
+
+    .ocean-fluvial-topology {
+      margin-top: 8px;
+    }
+
+    .ocean-fluvial-relation {
+      display: grid;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+
+    .ocean-fluvial-relation > span {
+      color: var(--mist);
+      font-size: 0.72rem;
+    }
+
+    .ocean-fluvial-topology-hint {
+      margin-top: 7px;
     }
 
     /* ─── Badge nouveau contour ──────────────────────────────── */

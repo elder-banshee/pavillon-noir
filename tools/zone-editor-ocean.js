@@ -75,6 +75,150 @@
       return oscarFluvialCurrents(cell).length > 0;
     }
 
+    function oscarFluvialOutlets(cell) {
+      return Array.isArray(cell?.fluvialOutlets)
+        ? cell.fluvialOutlets.filter(outlet => outlet && typeof outlet === 'object')
+        : [];
+    }
+
+    function oscarFluvialRelations(cell) {
+      return Array.isArray(cell?.fluvialRelations)
+        ? cell.fluvialRelations.filter(relation => relation && typeof relation === 'object')
+        : [];
+    }
+
+    function oscarFluvialPairKey(firstRiverId, secondRiverId) {
+      return [String(firstRiverId || ''), String(secondRiverId || '')]
+        .sort((a, b) => a.localeCompare(b, 'fr'))
+        .join('\u0000');
+    }
+
+    function oscarFluvialCurrentPairs(cell) {
+      const ids = oscarFluvialCurrents(cell).map(current => String(current.riverId || '')).filter(Boolean);
+      const pairs = [];
+      for (let i = 0; i < ids.length; i++) {
+        for (let j = i + 1; j < ids.length; j++) pairs.push([ids[i], ids[j]]);
+      }
+      return pairs;
+    }
+
+    function oscarHexNeighbourKeys(key, cell) {
+      const q = Number(cell?.q);
+      const r = Number(cell?.r);
+      if (!Number.isFinite(q) || !Number.isFinite(r)) return [];
+      const diagonals = r & 1 ? [q, q + 1] : [q - 1, q];
+      return [
+        `${r}_${q - 1}`, `${r}_${q + 1}`,
+        `${r - 1}_${diagonals[0]}`, `${r - 1}_${diagonals[1]}`,
+        `${r + 1}_${diagonals[0]}`, `${r + 1}_${diagonals[1]}`,
+      ];
+    }
+
+    function buildOscarFluvialDiagnostics() {
+      const cells = getOscarGrid()?.cells || {};
+      const occurrences = new Map();
+      const invalidCellReasons = new Map();
+      const addReason = (key, reason) => {
+        if (!invalidCellReasons.has(key)) invalidCellReasons.set(key, []);
+        if (!invalidCellReasons.get(key).includes(reason)) invalidCellReasons.get(key).push(reason);
+      };
+      Object.entries(cells).forEach(([key, cell]) => {
+        oscarFluvialCurrents(cell).forEach(current => {
+          const riverId = String(current.riverId || '').trim();
+          if (!riverId) {
+            addReason(key, 'courant sans identifiant');
+            return;
+          }
+          if (!occurrences.has(riverId)) occurrences.set(riverId, []);
+          occurrences.get(riverId).push(key);
+        });
+      });
+
+      const disconnectedRiverIds = new Set();
+      occurrences.forEach((keys, riverId) => {
+        const remaining = new Set(keys);
+        let components = 0;
+        while (remaining.size) {
+          components++;
+          const seed = remaining.values().next().value;
+          const queue = [seed];
+          remaining.delete(seed);
+          while (queue.length) {
+            const key = queue.shift();
+            oscarHexNeighbourKeys(key, cells[key]).forEach(nextKey => {
+              if (!remaining.has(nextKey)) return;
+              const present = oscarFluvialCurrents(cells[nextKey])
+                .some(current => current.riverId === riverId);
+              if (!present) return;
+              remaining.delete(nextKey);
+              queue.push(nextKey);
+            });
+          }
+        }
+        if (components > 1) {
+          disconnectedRiverIds.add(riverId);
+          keys.forEach(key => addReason(key, `« ${riverId} » discontinu`));
+        }
+      });
+
+      const outletCounts = new Map();
+      Object.entries(cells).forEach(([key, cell]) => {
+        const ids = new Set(oscarFluvialCurrents(cell).map(current => String(current.riverId || '')));
+        const pairRelations = new Map();
+        oscarFluvialRelations(cell).forEach(relation => {
+          const type = relation.type;
+          const from = String(relation.fromRiverId || relation.riverIds?.[0] || '');
+          const to = String(relation.toRiverId || relation.riverIds?.[1] || '');
+          if (!['separate', 'fork'].includes(type) || !from || !to || from === to || !ids.has(from) || !ids.has(to)) {
+            addReason(key, 'relation fluviale invalide');
+            return;
+          }
+          pairRelations.set(oscarFluvialPairKey(from, to), type);
+        });
+        oscarFluvialOutlets(cell).forEach(outlet => {
+          const riverId = String(outlet.riverId || '');
+          const type = String(outlet.type || '');
+          const targetRiverId = String(outlet.targetRiverId || '');
+          if (!ids.has(riverId) || !['sea', 'junction'].includes(type)) {
+            addReason(key, 'débouché fluvial invalide');
+            return;
+          }
+          if (type === 'sea' && !oscarNavigationTypes(cell).includes('cotiere')) {
+            addReason(key, `embouchure de « ${riverId} » hors cellule côtière`);
+          }
+          if (type === 'junction') {
+            if (!targetRiverId || targetRiverId === riverId || !ids.has(targetRiverId)) {
+              addReason(key, `jonction invalide pour « ${riverId} »`);
+            } else {
+              pairRelations.set(oscarFluvialPairKey(riverId, targetRiverId), 'junction');
+            }
+          }
+          outletCounts.set(riverId, (outletCounts.get(riverId) || 0) + 1);
+        });
+        oscarFluvialCurrentPairs(cell).forEach(([first, second]) => {
+          if (!pairRelations.has(oscarFluvialPairKey(first, second))) {
+            addReason(key, `relation non renseignée : « ${first} » / « ${second} »`);
+          }
+        });
+      });
+
+      occurrences.forEach((keys, riverId) => {
+        const count = outletCounts.get(riverId) || 0;
+        if (count === 0) keys.forEach(key => addReason(key, `« ${riverId} » sans débouché`));
+        else if (count > 1) keys.forEach(key => addReason(key, `« ${riverId} » possède ${count} débouchés`));
+      });
+      return { invalidCellReasons, disconnectedRiverIds, outletCounts };
+    }
+
+    function oscarFluvialStatusFilterMatches(key, cell, diagnostics) {
+      const selected = oscarGridFilters.fluvialStatus;
+      if (!selected?.size) return true;
+      const multiple = oscarFluvialCurrents(cell).length > 1;
+      const invalid = diagnostics.invalidCellReasons.has(key);
+      return selected.has(multiple ? 'multiple' : 'standard')
+        && selected.has(invalid ? 'invalid' : 'valid');
+    }
+
     function oscarCurrentFilterMatches(cell) {
       const selected = oscarGridFilters.current;
       if (!selected.size) return true;
@@ -540,10 +684,12 @@
     function filteredOscarEntries() {
       const grid = getOscarGrid();
       if (!grid) return [];
+      const diagnostics = buildOscarFluvialDiagnostics();
       return Object.entries(grid.cells)
         .filter(([, cell]) => !oscarGridDomainFilter || cell.domain === oscarGridDomainFilter)
         .filter(([, cell]) => oscarNatureFilterMatches(cell))
-        .filter(([, cell]) => oscarCurrentFilterMatches(cell));
+        .filter(([, cell]) => oscarCurrentFilterMatches(cell))
+        .filter(([key, cell]) => oscarFluvialStatusFilterMatches(key, cell, diagnostics));
     }
 
     function clearOscarGridLayer() {
@@ -612,6 +758,7 @@
       if (!map || !(ctx.isSemaphore || ctx.isOcean) || !oscarGridVisible) return;
       const entries = filteredOscarEntries();
       if (!entries.length) return;
+      const fluvialDiagnostics = buildOscarFluvialDiagnostics();
       oscarGridLayer = L.layerGroup([], { pane: 'oscarGridPane' }).addTo(map);
       entries.forEach(([key, cell]) => {
         const latLngs = oscarCellLatLngsFromKey(key, cell);
@@ -638,7 +785,7 @@
           const fluvialShape = L.polygon(oscarCellLatLngsFromKey(key, cell, 0.55), {
             pane: 'oscarGridPane',
             className: 'oscar-grid-cell oscar-grid-cell--fluvial-current',
-            color: '#34d399',
+            color: fluvialDiagnostics.invalidCellReasons.has(key) ? '#fb7185' : '#34d399',
             weight: fluvialWeight,
             fill: false,
             interactive: false,
@@ -687,12 +834,15 @@
       const sessionEditedCount = entries.filter(([key]) => sessionEditedOceanCellKeys.has(key)).length;
       const coastalCount = entries.filter(([, cell]) => hasOscarCoastalCurrent(cell)).length;
       const fluvialCount = entries.filter(([, cell]) => hasOscarFluvialCurrent(cell)).length;
+      const fluvialDiagnostics = buildOscarFluvialDiagnostics();
+      const multipleFluvialCount = entries.filter(([, cell]) => oscarFluvialCurrents(cell).length > 1).length;
+      const invalidFluvialCount = entries.filter(([key]) => fluvialDiagnostics.invalidCellReasons.has(key)).length;
       const missingCurrentCount = entries.filter(([, cell]) => oscarCurrentCategory(cell) === 'non-renseigne').length;
       const domainLabel = oscarGridDomainFilter
         ? (OSCAR_DOMAIN_LABELS[oscarGridDomainFilter] || oscarGridDomainFilter)
         : 'tous domaines';
       if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
-      el.innerHTML = `<span>OSCAR :</span> ${entries.length} cellules hex - ${escapeHtmlText(domainLabel)} - max ${max.toFixed(2)} nd - manuel ${manualCount} - session ${sessionEditedCount} - doubles ${coastalCount} - fluviaux ${fluvialCount} - courant principal absent ${missingCurrentCount}`;
+      el.innerHTML = `<span>OSCAR :</span> ${entries.length} cellules hex - ${escapeHtmlText(domainLabel)} - max ${max.toFixed(2)} nd - manuel ${manualCount} - session ${sessionEditedCount} - doubles ${coastalCount} - fluviaux ${fluvialCount} - fluviaux multiples ${multipleFluvialCount} - topologie invalide ${invalidFluvialCount} - courant principal absent ${missingCurrentCount}`;
     }
 
     function formatOscarCellForPanel(seaKey) {
@@ -711,6 +861,8 @@
       const coastal = cell.coastal || null;
       const coastalSpeed = oscarCellSpeed(coastal);
       const fluvialCurrents = oscarFluvialCurrents(cell);
+      const fluvialDiagnostics = buildOscarFluvialDiagnostics();
+      const fluvialIssues = fluvialDiagnostics.invalidCellReasons.get(oscarKey) || [];
       const fluvialDetails = fluvialCurrents.length
         ? fluvialCurrents.map(current => {
           const currentSpeed = oscarCellSpeed(current);
@@ -718,11 +870,20 @@
           return `<div class="sea-prop"><span>Courant fluvial — ${escapeHtmlText(riverId)} :</span> ${currentSpeed.toFixed(2)} nd (${(currentSpeed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h), direction ${formatMaybeNumber(current.dirToDeg, 1, '°')}</div>`;
         }).join('')
         : '<div class="sea-prop"><span>Courant fluvial :</span> aucun</div>';
+      const fluvialTopologyDetails = [
+        ...oscarFluvialOutlets(cell).map(outlet => outlet.type === 'sea'
+          ? `<div class="sea-prop"><span>Débouché :</span> ${escapeHtmlText(outlet.riverId)} → mer</div>`
+          : `<div class="sea-prop"><span>Jonction :</span> ${escapeHtmlText(outlet.riverId)} → ${escapeHtmlText(outlet.targetRiverId)}</div>`),
+        ...oscarFluvialRelations(cell).map(relation => relation.type === 'separate'
+          ? `<div class="sea-prop"><span>Cours séparés :</span> ${escapeHtmlText(relation.riverIds?.[0])} / ${escapeHtmlText(relation.riverIds?.[1])}</div>`
+          : `<div class="sea-prop"><span>Fourche :</span> ${escapeHtmlText(relation.fromRiverId)} → ${escapeHtmlText(relation.toRiverId)}</div>`),
+      ].join('');
       const badges = [
         `<span class="ocean-cell-badge${isOscarManualCell(cell) ? ' manual' : ''}">${oscarCellSourceLabel(cell)}</span>`,
         hasOscarCoastalCurrent(cell) ? '<span class="ocean-cell-badge coastal">courant côtier</span>' : '',
         hasOscarCoastalCurrent(cell) ? '<span class="ocean-cell-badge coastal">courant double</span>' : '',
         hasOscarFluvialCurrent(cell) ? `<span class="ocean-cell-badge fluvial">${fluvialCurrents.length} ${fluvialCurrents.length > 1 ? 'courants fluviaux' : 'courant fluvial'}</span>` : '',
+        fluvialIssues.length ? `<span class="ocean-cell-badge fluvial-invalid">topologie invalide</span>` : '',
       ].filter(Boolean).join('');
       const actionHtml = oceanCellEditing
         ? formatOscarCellEditForm(cell)
@@ -737,6 +898,10 @@
           ? `<div class="sea-prop"><span>Courant côtier :</span> ${coastalSpeed.toFixed(2)} nd (${(coastalSpeed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h), direction ${formatMaybeNumber(coastal.dirToDeg, 1, '°')}</div>`
           : '<div class="sea-prop"><span>Courant côtier :</span> aucun</div>',
         fluvialDetails,
+        fluvialTopologyDetails,
+        fluvialIssues.length
+          ? `<div class="sea-prop ocean-fluvial-issues"><span>Topologie :</span> ${fluvialIssues.map(escapeHtmlText).join(' ; ')}</div>`
+          : (hasOscarFluvialCurrent(cell) ? '<div class="sea-prop"><span>Topologie :</span> valide</div>' : ''),
         `<div class="sea-prop"><span>Données source :</span> max observé ${escapeHtmlText(max)} nd - ${escapeHtmlText(sources)} mesure(s)${escapeHtmlText(sourceCells)}</div>`,
         actionHtml,
         '</div>',
@@ -809,6 +974,9 @@
 
     function formatFluvialCurrentRows(cell) {
       const currents = oscarFluvialCurrents(cell);
+      const seaOutletIds = new Set(oscarFluvialOutlets(cell)
+        .filter(outlet => outlet.type === 'sea')
+        .map(outlet => outlet.riverId));
       const rows = [...currents, null].map((current, index) => {
         const enabled = !!current;
         const speed = enabled ? oscarCellSpeed(current) : 0.8;
@@ -830,12 +998,65 @@
           '<label>Direction fluviale (°)',
           `<input type="number" min="0" max="359.9" step="0.1" data-fluvial-field="direction" data-initial="${escapeAttr(direction.toFixed(1))}" value="${escapeAttr(direction.toFixed(1))}"${enabled ? '' : ' disabled'}>`,
           '</label>',
+          oceanTargetKeys().length === 1 ? [
+            '<label class="ocean-cell-toggle ocean-fluvial-outlet">',
+            `<input type="checkbox" data-fluvial-field="seaOutlet" data-initial="${seaOutletIds.has(current?.riverId)}"${seaOutletIds.has(current?.riverId) ? ' checked' : ''}${enabled ? '' : ' disabled'}>`,
+            'Embouchure en mer dans cette cellule',
+            '</label>',
+          ].join('') : '',
           '</div>',
         ].join('');
       }).join('');
       return [
         `<fieldset id="ocean-fluvial-currents" class="ocean-fluvial-currents" data-initial="${escapeAttr(JSON.stringify(fluvialCurrentFormState(cell)))}">`,
         '<legend>Courants fluviaux</legend>',
+        rows,
+        '</fieldset>',
+      ].join('');
+    }
+
+    function fluvialPairRelationValue(cell, firstRiverId, secondRiverId) {
+      const junction = oscarFluvialOutlets(cell).find(outlet => outlet.type === 'junction'
+        && ((outlet.riverId === firstRiverId && outlet.targetRiverId === secondRiverId)
+          || (outlet.riverId === secondRiverId && outlet.targetRiverId === firstRiverId)));
+      if (junction) return `junction:${junction.riverId}>${junction.targetRiverId}`;
+      const relation = oscarFluvialRelations(cell).find(item => {
+        const from = item.fromRiverId || item.riverIds?.[0];
+        const to = item.toRiverId || item.riverIds?.[1];
+        return oscarFluvialPairKey(from, to) === oscarFluvialPairKey(firstRiverId, secondRiverId);
+      });
+      if (!relation) return '';
+      if (relation.type === 'separate') return 'separate';
+      if (relation.type === 'fork') return `fork:${relation.fromRiverId}>${relation.toRiverId}`;
+      return '';
+    }
+
+    function formatFluvialTopologyControls(cell) {
+      if (oceanTargetKeys().length !== 1) {
+        return '<div class="sea-prop ocean-fluvial-topology-hint"><span>Topologie :</span> sélectionner une seule cellule pour renseigner embouchures, fourches et jonctions.</div>';
+      }
+      const pairs = oscarFluvialCurrentPairs(cell);
+      if (!pairs.length) return '';
+      const rows = pairs.map(([first, second], index) => {
+        const value = fluvialPairRelationValue(cell, first, second);
+        const option = (optionValue, label) => `<option value="${escapeAttr(optionValue)}"${value === optionValue ? ' selected' : ''}>${escapeHtmlText(label)}</option>`;
+        return [
+          `<label class="ocean-fluvial-relation" data-fluvial-pair-index="${index}" data-first-river-id="${escapeAttr(first)}" data-second-river-id="${escapeAttr(second)}">`,
+          `<span>${escapeHtmlText(first)} / ${escapeHtmlText(second)}</span>`,
+          `<select data-fluvial-relation data-initial="${escapeAttr(value)}">`,
+          option('', 'Relation non renseignée'),
+          option('separate', 'Cours strictement séparés'),
+          option(`fork:${first}>${second}`, `Fourche : ${first} → ${second}`),
+          option(`fork:${second}>${first}`, `Fourche : ${second} → ${first}`),
+          option(`junction:${first}>${second}`, `Jonction : ${first} se termine dans ${second}`),
+          option(`junction:${second}>${first}`, `Jonction : ${second} se termine dans ${first}`),
+          '</select>',
+          '</label>',
+        ].join('');
+      }).join('');
+      return [
+        '<fieldset id="ocean-fluvial-topology" class="ocean-fluvial-currents ocean-fluvial-topology">',
+        '<legend>Relations entre cours</legend>',
         rows,
         '</fieldset>',
       ].join('');
@@ -886,6 +1107,7 @@
         '</label>',
         '</div>',
         formatFluvialCurrentRows(cell),
+        formatFluvialTopologyControls(cell),
         '<label>Nature de navigation',
         `<select id="ocean-nature-nav" data-initial="${escapeAttr(oscarNavigationValue(cell))}">`,
         `<option value=""${oscarNavigationValue(cell) === '' ? ' selected' : ''}>Non renseignée</option>`,
@@ -1380,6 +1602,7 @@
 
       const fluvialRows = [...document.querySelectorAll('.ocean-fluvial-current')];
       const fluvialOperations = [];
+      const fluvialSeaOutletEdits = [];
       for (const row of fluvialRows) {
         const enabledInput = row.querySelector('[data-fluvial-field="enabled"]');
         const enabled = enabledInput?.checked === true;
@@ -1388,6 +1611,7 @@
         const riverIdInput = row.querySelector('[data-fluvial-field="riverId"]');
         const speedField = row.querySelector('[data-fluvial-field="speed"]');
         const directionField = row.querySelector('[data-fluvial-field="direction"]');
+        const seaOutletField = row.querySelector('[data-fluvial-field="seaOutlet"]');
         if (initiallyEnabled && !enabled) {
           fluvialOperations.push({ type: 'remove', originalRiverId });
           continue;
@@ -1411,6 +1635,9 @@
           directionField?.focus();
           return;
         }
+        if (seaOutletField && String(seaOutletField.checked) !== seaOutletField.dataset.initial) {
+          fluvialSeaOutletEdits.push({ originalRiverId, riverId, enabled: seaOutletField.checked });
+        }
         if (!initiallyEnabled) {
           fluvialOperations.push({ type: 'add', riverId, speedKnot, dirToDeg });
           continue;
@@ -1428,6 +1655,17 @@
           });
         }
       }
+
+      const fluvialRelationEdits = [...document.querySelectorAll('[data-fluvial-relation]')]
+        .filter(select => select.value !== select.dataset.initial)
+        .map(select => {
+          const row = select.closest('.ocean-fluvial-relation');
+          return {
+            firstRiverId: String(row?.dataset.firstRiverId || ''),
+            secondRiverId: String(row?.dataset.secondRiverId || ''),
+            value: select.value,
+          };
+        });
 
       const applyFluvialOperations = (cell) => {
         let currents = oscarFluvialCurrents(cell).map(current => ({ ...current }));
@@ -1467,6 +1705,69 @@
         return currents;
       };
 
+      const applyFluvialTopology = (cell, resultingCurrents) => {
+        const renameMap = new Map();
+        const removed = new Set();
+        fluvialOperations.forEach(operation => {
+          if (operation.type === 'remove') removed.add(operation.originalRiverId);
+          else if (operation.type === 'update' && operation.riverId) renameMap.set(operation.originalRiverId, operation.riverId);
+        });
+        const renamed = riverId => renameMap.get(riverId) || riverId;
+        const resultingIds = new Set(resultingCurrents.map(current => current.riverId));
+        let outlets = oscarFluvialOutlets(cell).map(outlet => ({
+          ...outlet,
+          riverId: renamed(outlet.riverId),
+          ...(outlet.targetRiverId ? { targetRiverId: renamed(outlet.targetRiverId) } : {}),
+        })).filter(outlet => !removed.has(outlet.riverId)
+          && resultingIds.has(outlet.riverId)
+          && (outlet.type !== 'junction' || resultingIds.has(outlet.targetRiverId)));
+        let relations = oscarFluvialRelations(cell).map(relation => ({
+          ...relation,
+          ...(relation.fromRiverId ? { fromRiverId: renamed(relation.fromRiverId) } : {}),
+          ...(relation.toRiverId ? { toRiverId: renamed(relation.toRiverId) } : {}),
+          ...(Array.isArray(relation.riverIds) ? { riverIds: relation.riverIds.map(renamed) } : {}),
+        })).filter(relation => {
+          const from = relation.fromRiverId || relation.riverIds?.[0];
+          const to = relation.toRiverId || relation.riverIds?.[1];
+          return resultingIds.has(from) && resultingIds.has(to);
+        });
+        fluvialSeaOutletEdits.forEach(edit => {
+          const riverId = renamed(edit.originalRiverId) || edit.riverId;
+          outlets = outlets.filter(outlet => !(outlet.riverId === riverId && outlet.type === 'sea'));
+          if (edit.enabled && resultingIds.has(riverId)) outlets.push({ riverId, type: 'sea' });
+        });
+        fluvialRelationEdits.forEach(edit => {
+          const first = renamed(edit.firstRiverId);
+          const second = renamed(edit.secondRiverId);
+          const pairKey = oscarFluvialPairKey(first, second);
+          relations = relations.filter(relation => oscarFluvialPairKey(
+            relation.fromRiverId || relation.riverIds?.[0],
+            relation.toRiverId || relation.riverIds?.[1],
+          ) !== pairKey);
+          outlets = outlets.filter(outlet => !(outlet.type === 'junction'
+            && oscarFluvialPairKey(outlet.riverId, outlet.targetRiverId) === pairKey));
+          if (!edit.value) return;
+          if (edit.value === 'separate') {
+            relations.push({ type: 'separate', riverIds: [first, second] });
+            return;
+          }
+          const [type, direction] = edit.value.split(':');
+          const [rawFrom, rawTo] = String(direction || '').split('>');
+          const fromRiverId = renamed(rawFrom);
+          const toRiverId = renamed(rawTo);
+          if (type === 'fork') relations.push({ type: 'fork', fromRiverId, toRiverId });
+          else if (type === 'junction') outlets.push({ riverId: fromRiverId, type: 'junction', targetRiverId: toRiverId });
+        });
+        const outletSeen = new Set();
+        outlets = outlets.filter(outlet => {
+          const signature = `${outlet.riverId}\u0000${outlet.type}\u0000${outlet.targetRiverId || ''}`;
+          if (outletSeen.has(signature)) return false;
+          outletSeen.add(signature);
+          return true;
+        });
+        return { outlets, relations };
+      };
+
       // Un champ n'est appliqué que s'il a réellement été modifié par
       // rapport à sa valeur d'ouverture (data-initial). Sur une sélection
       // multiple, appliquer un champ non touché homogénéiserait toutes les
@@ -1488,9 +1789,13 @@
       const domainTouched = !!domainInput && domainInput.dataset.initial !== undefined
         && domainInput.value !== domainInput.dataset.initial;
       const fluvialTouched = fluvialOperations.length > 0;
+      const fluvialTopologyTouched = fluvialSeaOutletEdits.length > 0
+        || fluvialRelationEdits.length > 0
+        || fluvialOperations.some(operation => operation.type === 'remove'
+          || (operation.type === 'update' && operation.riverId));
 
       if (!speedTouched && !dirTouched && !mainCalmTouched && !hasCoastalTouched && !coastalSpeedTouched && !coastalDirTouched
-        && !fluvialTouched && !natureNavTouched && !domainTouched) {
+        && !fluvialTouched && !fluvialTopologyTouched && !natureNavTouched && !domainTouched) {
         oceanCellEditing = false;
         refresh(R.SEA_PANEL);
         return; // rien à appliquer
@@ -1571,6 +1876,16 @@
           const updatedFluvialCurrents = applyFluvialOperations(cell);
           if (updatedFluvialCurrents.length) cell.fluvialCurrents = updatedFluvialCurrents;
           else delete cell.fluvialCurrents;
+          if (targetKeys[idx]) sessionEditedOceanCellKeys.add(targetKeys[idx]);
+        }
+
+        if (fluvialTopologyTouched) {
+          const resultingCurrents = oscarFluvialCurrents(cell);
+          const topology = applyFluvialTopology(cell, resultingCurrents);
+          if (topology.outlets.length) cell.fluvialOutlets = topology.outlets;
+          else delete cell.fluvialOutlets;
+          if (topology.relations.length) cell.fluvialRelations = topology.relations;
+          else delete cell.fluvialRelations;
           if (targetKeys[idx]) sessionEditedOceanCellKeys.add(targetKeys[idx]);
         }
 

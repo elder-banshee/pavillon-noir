@@ -156,3 +156,83 @@ Audit de l’isthme après correction manuelle : `R. Quemades` et `Pacific_1` so
 confirmés comme petites rivières d’un seul hexagone ; la rupture angulaire du
 lac Nicaragua entre `92_62` et `93_61` suit bien la rive ; le coude entre
 `89_59` et `89_60` a été légèrement lissé.
+
+## Topologie fluviale et débouchés explicites
+
+La nature `côtière+fluviale` ne doit pas permettre de déduire automatiquement
+une embouchure. Une rivière peut traverser une telle cellule parallèlement à la
+côte, comme en `99_84`, sans y rejoindre la mer. Chaque fleuve ou bras devra
+donc désigner explicitement la cellule où il achève sa course : soit une
+embouchure en mer, soit une jonction avec un autre cours d’eau. La source en
+amont n’a pas besoin d’être renseignée.
+
+Dans une cellule contenant plusieurs courants fluviaux, Zone Editor devra
+permettre de qualifier chaque paire comme `cours séparés` ou comme `jonction`.
+Une jonction devra préciser le cours affluent et le cours récepteur ; elle
+constituera en même temps le débouché de l’affluent. Une simple cohabitation
+dans un hexagone ne donnera aucun droit de passage entre les deux cours au
+Pilote automatique.
+
+L’éditeur devra également proposer des filtres dédiés aux cellules à courants
+multiples et aux composantes invalides. La validation devra au minimum détecter
+les identifiants discontinus, les cours sans débouché explicite, les débouchés
+multiples ou incompatibles, les jonctions dont un cours est absent de la
+cellule et les cohabitations dont la relation reste non renseignée.
+
+### Fourches et bras secondaires
+
+Une connexion entre deux cours ne signifie pas toujours que l’un se termine
+dans l’autre. La relation `fourche` ou `embranchement` représentera le point où
+un cours donne accès à un bras qui poursuit ensuite son propre lit, sans faire
+du bras un cours récepteur et sans terminer le cours d’origine. Elle couvrira
+notamment :
+
+- les deltas où le cours principal conserve son débouché et engendre plusieurs
+  bras secondaires possédant leurs propres embouchures ;
+- les séparations temporaires où deux bras contournent un relief avant de se
+  rejoindre plus loin.
+
+Dans le second cas, le bras secondaire pourra commencer par une `fourche` et
+s’achever par une `jonction` avec le cours principal. Les trois relations entre
+courants cohabitant dans une cellule seront donc `cours séparés`, `fourche` et
+`jonction`. `Jonction` reste strictement terminale pour le cours affluent ;
+`fourche` autorise le passage entre les lits sans constituer un débouché.
+
+La règle sur les débouchés multiples doit en conséquence être affinée : ils ne
+sont invalides que lorsqu’ils sont contradictoires et ne sont pas expliqués par
+une topologie de bras déclarée. Plusieurs embouchures appartenant à des bras
+distincts issus de fourches constituent un delta valide.
+
+## Édition de la topologie fluviale
+
+Zone Editor prend désormais en charge deux propriétés cellulaires :
+
+- `fluvialOutlets` pour une embouchure en mer ou une jonction terminale vers un
+  cours récepteur ;
+- `fluvialRelations` pour une fourche dirigée ou deux cours explicitement
+  séparés.
+
+Dans l’édition d’une cellule unique, chaque courant peut être marqué comme
+atteignant la mer. Pour chaque paire de courants cohabitant dans la cellule,
+l’éditeur propose : relation non renseignée, cours séparés, fourche dans l’un
+ou l’autre sens, ou jonction terminale dans l’un ou l’autre sens. Ces contrôles
+sont volontairement indisponibles en édition par lot, car la topologie dépend
+de la cellule précise. Un renommage de `riverId` répercute automatiquement le
+nouvel identifiant dans les débouchés et relations existants.
+
+Le panneau d’affichage détaille les embouchures, jonctions, fourches et cours
+séparés. Une bordure intérieure rose et un badge signalent les cellules dont la
+topologie est invalide. Le diagnostic global détecte :
+
+- les identifiants discontinus ;
+- les cours sans débouché ou avec plusieurs débouchés contradictoires ;
+- une embouchure déclarée hors nature côtière ;
+- les jonctions ou relations référençant un cours absent de la cellule ;
+- les paires de courants cohabitants dont la relation reste non renseignée.
+
+Un troisième groupe de filtres permet de combiner `0–1 courant fluvial` ou
+`plusieurs courants` avec `valide` ou `invalide`. Test navigateur sur la grille
+courante : 80 cellules à plusieurs courants isolées exactement ; une cellule de
+test est passée d’invalide à valide après déclaration d’une embouchure et d’une
+jonction, sans erreur console. Le rechargement a ensuite abandonné ces données
+de test sans modifier la grille canonique.
