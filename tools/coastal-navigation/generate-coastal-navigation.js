@@ -12,6 +12,7 @@ const GRID_PATH = path.join(ROOT, 'js', 'oscar-hex-grid.js');
 const REPORT_PATH = path.join(__dirname, 'coastal-navigation-report.json');
 const PREVIEW_PATH = path.join(__dirname, 'coastal-navigation-preview.svg');
 const write = process.argv.includes('--write');
+const writeForcedCellsOnly = process.argv.includes('--write-forced-cells-only');
 
 function loadConst(filePath, name) {
   const source = fs.readFileSync(filePath, 'utf8');
@@ -137,14 +138,14 @@ Object.entries(grid.cells).forEach(([key, cell]) => {
   const nearCoast = coastalLand.some(land => distanceToRing(point, land.ring, distancePx) <= distancePx);
   if (!nearCoast) return;
   generated.push(key);
-  if (write && Array.isArray(cell.naturesNav)) {
+  if (write && !writeForcedCellsOnly && Array.isArray(cell.naturesNav)) {
     if (!cell.naturesNav.includes('cotiere')) cell.naturesNav.push('cotiere');
     cell.natureNavSource ||= 'coastal-generator';
-  } else if (write && cell.natureNav === 'hauturiere') {
+  } else if (write && !writeForcedCellsOnly && cell.natureNav === 'hauturiere') {
     cell.naturesNav = ['hauturiere', 'cotiere'];
     delete cell.natureNav;
     cell.natureNavSource ||= 'coastal-generator';
-  } else if (write && cell.natureNav !== 'cotiere') {
+  } else if (write && !writeForcedCellsOnly && cell.natureNav !== 'cotiere') {
     cell.natureNav = 'cotiere';
     cell.natureNavSource ||= 'coastal-generator';
   }
@@ -175,7 +176,7 @@ const circles = generated.map(key => {
 const landPaths = coastalLand.map(land => `<path d="${svgPath(land.ring)}"/>`).join('');
 fs.writeFileSync(PREVIEW_PATH, `<svg xmlns="http://www.w3.org/2000/svg" width="8500" height="5320" viewBox="0 0 8500 5320"><rect width="8500" height="5320" fill="#07111f"/><g fill="#b79b62" opacity=".7">${landPaths}</g><g fill="#3cc8ff" opacity=".75">${circles}</g></svg>\n`, 'utf8');
 
-if (write) {
+if (write || writeForcedCellsOnly) {
   for (const key of forcedFluvial) {
     const cell = grid.cells[key];
     if (!cell) throw new Error(`Cellule fluviale forcée absente : ${key}`);

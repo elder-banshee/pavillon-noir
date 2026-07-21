@@ -134,3 +134,25 @@ cellule.
 Test local sur `10_89` et `10_90` : renommage commun de `F-8_87-A` sans modifier
 leurs valeurs respectives, restées à `0,82 nd / 0°` et `0,90 nd / 30°`. Aucune
 erreur console.
+
+## Convention provisoire pour les noms et les jonctions
+
+Pendant l’identification des emprises fluviales, les noms visibles sur la carte
+doivent être conservés tels quels. Il ne faut donc pas uniformiser pour le
+moment les variantes `R`, `R.`, `R nom-du-fleuve` ou `nom-du-fleuve R`. Elles
+peuvent refléter la langue du territoire — notamment *Rio* ou *River* — et
+constituent une information cartographique à préserver. La rationalisation des
+noms et la séparation éventuelle entre identifiant technique et libellé
+historique seront traitées dans un second temps.
+
+Deux courants présents dans un même hexagone ne sont pas nécessairement
+connectés. Une fois toutes les emprises identifiées et les cours distingués,
+Zone Editor devra proposer une information explicite par paire de cours :
+`jonction` ou `cours séparés`. En cas de jonction, la relation devra aussi
+indiquer le cours affluent et le cours récepteur. Cette topologie ne doit pas
+être encodée dans le nom du cours d’eau.
+
+Audit de l’isthme après correction manuelle : `R. Quemades` et `Pacific_1` sont
+confirmés comme petites rivières d’un seul hexagone ; la rupture angulaire du
+lac Nicaragua entre `92_62` et `93_61` suit bien la rive ; le coude entre
+`89_59` et `89_60` a été légèrement lissé.
