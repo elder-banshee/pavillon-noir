@@ -236,3 +236,64 @@ courante : 80 cellules à plusieurs courants isolées exactement ; une cellule d
 test est passée d’invalide à valide après déclaration d’une embouchure et d’une
 jonction, sans erreur console. Le rechargement a ensuite abandonné ces données
 de test sans modifier la grille canonique.
+
+### Sorties hors carte et premier audit complet
+
+Un cours peut désormais terminer sa représentation par un débouché de type
+`map-edge`, affiché « sortie hors des limites de la carte ». Ce terme est valide
+sans nature côtière et couvre notamment `Barania R.`, qui quitte la carte avant
+d’atteindre son embouchure. Il s’agit d’un type générique et non d’une exception
+codée sur le nom du fleuve. L’éditeur le propose dans la liste « Fin du cours
+dans cette cellule », à côté de l’embouchure maritime.
+
+Après renseignement manuel des débouchés et interactions, l’audit global compte
+191 identifiants, 1 574 vecteurs, 190 débouchés, 86 relations et 133 cellules à
+courants multiples. Aucun identifiant n’est discontinu, aucun débouché n’est
+dupliqué ou invalide et aucune cellule fluviale n’est dépourvue de courant.
+Avant ajout du terme hors carte, `Barania R.` est le seul cours sans débouché.
+Une seule paire reste non qualifiée : `Congo R.` / `S. Maria River` en `107_84`.
+
+### Combinaisons de natures autorisées
+
+Zone Editor ne propose plus `Fluviale + haute mer` ni `Les trois régimes`.
+Dans le modèle de la carte, un cours exploitable rejoint nécessairement une
+zone côtière avant la haute mer : les seules combinaisons mixtes utiles sont
+donc `Côtière + fluviale` et `Côtière + haute mer`. Un garde-fou refuse toute
+combinaison contenant simultanément `fluviale` et `hauturiere`. Si une ancienne
+grille chargée manuellement en contient une, le formulaire la signale comme
+héritée et invalide jusqu’à sélection d’une nature autorisée. La grille
+canonique ne contenait aucune cellule de ce type au moment de la modification.
+
+## Corpus pour la recherche des noms fluviaux
+
+Le dossier `tools/fluvial-research` fournit désormais un paquet reproductible à
+transmettre au projet Claude « Recherche historique ». Le générateur relit la
+grille canonique, les territoires et les villes sans modifier ces sources :
+
+```powershell
+node .\tools\fluvial-research\generate-fluvial-research.js
+```
+
+Il produit trois livrables synchronisés :
+
+- `fluvial-research-inventory.json`, inventaire structuré de tous les cours et
+  bras avec cellules, tracé, emprise, débouchés, topologie, voisins, villes et
+  territoires proches ;
+- `fluvial-research-dossier.md`, consignes et fiches détaillées des seuls cours
+  restant à identifier ;
+- `fluvial-research-map.svg`, carte autonome dont le fond Jaillot est incorporé
+  et dont les repères `R001…` correspondent aux fiches du dossier.
+
+L’inventaire actuel regroupe 194 `riverId` techniques en 134 cours d’eau, dont
+29 sans nom relevé sur la carte. Il distingue explicitement le `riverId`
+existant, un futur `courseId` unique par bras, un `watercourseId` commun aux
+bras d’un même cours, le `name` d’affichage et la transcription `mapLabel`.
+Les suffixes de bras des cours nommés sont regroupés automatiquement. En
+revanche, les suffixes alphabétiques des identifiants génériques `F-*` restent
+des cours distincts, sauf familles de sous-bras explicites comme
+`F-8_87-A/A2/A3` ou `F-42_14-D1/D2/D3`.
+
+Les fichiers générés sont déterministes par rapport aux trois sources. Les
+contrôles vérifient 194 identifiants présents une seule fois, des `courseId` et
+`watercourseId` uniques, 29 repères de recherche uniques, des cellules et un
+débouché pour chaque cours, ainsi que la présence des 29 repères dans le SVG.

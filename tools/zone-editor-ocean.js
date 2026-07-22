@@ -15,6 +15,11 @@
       return oscarNavigationTypes(cell).sort().join('+');
     }
 
+    function oscarNavigationCombinationAllowed(types) {
+      const selected = new Set(types || []);
+      return !(selected.has('fluviale') && selected.has('hauturiere'));
+    }
+
     function oscarNavigationCategory(cell) {
       if (!cell?.natureNav && !Array.isArray(cell?.naturesNav)) return 'non-renseigne';
       const types = oscarNavigationTypes(cell);
@@ -179,7 +184,7 @@
           const riverId = String(outlet.riverId || '');
           const type = String(outlet.type || '');
           const targetRiverId = String(outlet.targetRiverId || '');
-          if (!ids.has(riverId) || !['sea', 'junction'].includes(type)) {
+          if (!ids.has(riverId) || !['sea', 'junction', 'map-edge'].includes(type)) {
             addReason(key, 'débouché fluvial invalide');
             return;
           }
@@ -873,7 +878,9 @@
       const fluvialTopologyDetails = [
         ...oscarFluvialOutlets(cell).map(outlet => outlet.type === 'sea'
           ? `<div class="sea-prop"><span>Débouché :</span> ${escapeHtmlText(outlet.riverId)} → mer</div>`
-          : `<div class="sea-prop"><span>Jonction :</span> ${escapeHtmlText(outlet.riverId)} → ${escapeHtmlText(outlet.targetRiverId)}</div>`),
+          : outlet.type === 'map-edge'
+            ? `<div class="sea-prop"><span>Débouché :</span> ${escapeHtmlText(outlet.riverId)} → hors carte</div>`
+            : `<div class="sea-prop"><span>Jonction :</span> ${escapeHtmlText(outlet.riverId)} → ${escapeHtmlText(outlet.targetRiverId)}</div>`),
         ...oscarFluvialRelations(cell).map(relation => relation.type === 'separate'
           ? `<div class="sea-prop"><span>Cours séparés :</span> ${escapeHtmlText(relation.riverIds?.[0])} / ${escapeHtmlText(relation.riverIds?.[1])}</div>`
           : `<div class="sea-prop"><span>Fourche :</span> ${escapeHtmlText(relation.fromRiverId)} → ${escapeHtmlText(relation.toRiverId)}</div>`),
@@ -974,9 +981,9 @@
 
     function formatFluvialCurrentRows(cell) {
       const currents = oscarFluvialCurrents(cell);
-      const seaOutletIds = new Set(oscarFluvialOutlets(cell)
-        .filter(outlet => outlet.type === 'sea')
-        .map(outlet => outlet.riverId));
+      const terminalOutletTypes = new Map(oscarFluvialOutlets(cell)
+        .filter(outlet => outlet.type === 'sea' || outlet.type === 'map-edge')
+        .map(outlet => [outlet.riverId, outlet.type]));
       const rows = [...currents, null].map((current, index) => {
         const enabled = !!current;
         const speed = enabled ? oscarCellSpeed(current) : 0.8;
@@ -999,9 +1006,13 @@
           `<input type="number" min="0" max="359.9" step="0.1" data-fluvial-field="direction" data-initial="${escapeAttr(direction.toFixed(1))}" value="${escapeAttr(direction.toFixed(1))}"${enabled ? '' : ' disabled'}>`,
           '</label>',
           oceanTargetKeys().length === 1 ? [
-            '<label class="ocean-cell-toggle ocean-fluvial-outlet">',
-            `<input type="checkbox" data-fluvial-field="seaOutlet" data-initial="${seaOutletIds.has(current?.riverId)}"${seaOutletIds.has(current?.riverId) ? ' checked' : ''}${enabled ? '' : ' disabled'}>`,
-            'Embouchure en mer dans cette cellule',
+            '<label class="ocean-fluvial-outlet">',
+            '<span>Fin du cours dans cette cellule</span>',
+            `<select data-fluvial-field="terminalOutlet" data-initial="${escapeAttr(terminalOutletTypes.get(current?.riverId) || '')}"${enabled ? '' : ' disabled'}>`,
+            `<option value=""${!terminalOutletTypes.get(current?.riverId) ? ' selected' : ''}>Aucune fin déclarée</option>`,
+            `<option value="sea"${terminalOutletTypes.get(current?.riverId) === 'sea' ? ' selected' : ''}>Embouchure en mer</option>`,
+            `<option value="map-edge"${terminalOutletTypes.get(current?.riverId) === 'map-edge' ? ' selected' : ''}>Sortie hors des limites de la carte</option>`,
+            '</select>',
             '</label>',
           ].join('') : '',
           '</div>',
@@ -1069,6 +1080,10 @@
         'bariana',
       ])].sort();
       const mainSpeed = oscarCellSpeed(cell);
+      const navigationValue = oscarNavigationValue(cell);
+      const legacyNavigationValue = oscarNavigationCombinationAllowed(oscarNavigationTypes(cell))
+        ? ''
+        : navigationValue;
       const explicitCalm = cell.calmeRenseigne === true && mainSpeed === 0;
       const mainDir = Number.isFinite(Number(cell.dirToDeg))
         ? normalizeAngle(Number(cell.dirToDeg))
@@ -1109,15 +1124,16 @@
         formatFluvialCurrentRows(cell),
         formatFluvialTopologyControls(cell),
         '<label>Nature de navigation',
-        `<select id="ocean-nature-nav" data-initial="${escapeAttr(oscarNavigationValue(cell))}">`,
+        `<select id="ocean-nature-nav" data-initial="${escapeAttr(navigationValue)}">`,
+        legacyNavigationValue
+          ? `<option value="${escapeAttr(legacyNavigationValue)}" selected disabled>Combinaison héritée invalide — choisir une nature valide</option>`
+          : '',
         `<option value=""${oscarNavigationValue(cell) === '' ? ' selected' : ''}>Non renseignée</option>`,
         `<option value="hauturiere"${oscarNavigationValue(cell) === 'hauturiere' ? ' selected' : ''}>Haute mer</option>`,
         `<option value="cotiere"${oscarNavigationValue(cell) === 'cotiere' ? ' selected' : ''}>Côtière</option>`,
         `<option value="fluviale"${oscarNavigationValue(cell) === 'fluviale' ? ' selected' : ''}>Fluviale</option>`,
         `<option value="cotiere+hauturiere"${oscarNavigationValue(cell) === 'cotiere+hauturiere' ? ' selected' : ''}>Côtière + haute mer</option>`,
         `<option value="cotiere+fluviale"${oscarNavigationValue(cell) === 'cotiere+fluviale' ? ' selected' : ''}>Côtière + fluviale</option>`,
-        `<option value="fluviale+hauturiere"${oscarNavigationValue(cell) === 'fluviale+hauturiere' ? ' selected' : ''}>Fluviale + haute mer</option>`,
-        `<option value="cotiere+fluviale+hauturiere"${oscarNavigationValue(cell) === 'cotiere+fluviale+hauturiere' ? ' selected' : ''}>Les trois régimes</option>`,
         '</select>',
         '</label>',
         '<label>Région de travail',
@@ -1611,7 +1627,7 @@
         const riverIdInput = row.querySelector('[data-fluvial-field="riverId"]');
         const speedField = row.querySelector('[data-fluvial-field="speed"]');
         const directionField = row.querySelector('[data-fluvial-field="direction"]');
-        const seaOutletField = row.querySelector('[data-fluvial-field="seaOutlet"]');
+        const terminalOutletField = row.querySelector('[data-fluvial-field="terminalOutlet"]');
         if (initiallyEnabled && !enabled) {
           fluvialOperations.push({ type: 'remove', originalRiverId });
           continue;
@@ -1635,8 +1651,8 @@
           directionField?.focus();
           return;
         }
-        if (seaOutletField && String(seaOutletField.checked) !== seaOutletField.dataset.initial) {
-          fluvialSeaOutletEdits.push({ originalRiverId, riverId, enabled: seaOutletField.checked });
+        if (terminalOutletField && terminalOutletField.value !== terminalOutletField.dataset.initial) {
+          fluvialSeaOutletEdits.push({ originalRiverId, riverId, type: terminalOutletField.value });
         }
         if (!initiallyEnabled) {
           fluvialOperations.push({ type: 'add', riverId, speedKnot, dirToDeg });
@@ -1733,8 +1749,9 @@
         });
         fluvialSeaOutletEdits.forEach(edit => {
           const riverId = renamed(edit.originalRiverId) || edit.riverId;
-          outlets = outlets.filter(outlet => !(outlet.riverId === riverId && outlet.type === 'sea'));
-          if (edit.enabled && resultingIds.has(riverId)) outlets.push({ riverId, type: 'sea' });
+          outlets = outlets.filter(outlet => !(outlet.riverId === riverId
+            && (outlet.type === 'sea' || outlet.type === 'map-edge')));
+          if (edit.type && resultingIds.has(riverId)) outlets.push({ riverId, type: edit.type });
         });
         fluvialRelationEdits.forEach(edit => {
           const first = renamed(edit.firstRiverId);
@@ -1805,6 +1822,10 @@
       const requestedNavigationTypes = natureNavTouched
         ? natureNavInput.value.split('+').filter(Boolean)
         : null;
+      if (requestedNavigationTypes && !oscarNavigationCombinationAllowed(requestedNavigationTypes)) {
+        alert('Une cellule fluviale ne peut pas être simultanément de haute mer. Utiliser « Côtière + fluviale » pour une embouchure.');
+        return;
+      }
       const incompatibleFluvialTarget = targets.some(cell => {
         const resultingCurrents = fluvialTouched ? applyFluvialOperations(cell) : oscarFluvialCurrents(cell);
         const resultingTypes = requestedNavigationTypes || oscarNavigationTypes(cell);
