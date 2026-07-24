@@ -1,0 +1,109 @@
+[BROUILLON INTERMÉDIAIRE OBSOLÈTE — voir fluvial-identification-complete.md pour la version corrigée. Entrées dépassées : N001, N052, N054, N072, N074, N082, N083, N089, N093, N096. Conservé uniquement à titre d'archive de travail.]
+
+| ID | watercourseId | Toponyme Jaillot | Identification proposée | Confiance |
+|---|---|---|---|---|
+| N001 | almaria | Almaria | Non déterminé (hypothèse : Río Actopan, au nord de La Antigua) | ⚠️ faible |
+| N002 | arba-de-canaveral | Arba de Canaveral | Probable « Barra de Cañaveral » — inlet/passe sableuse au droit du Cap Canaveral (pas un vrai fleuve) | ⚠️ faible |
+| N003 | atoyac-r | Atoyac R. | **Río Balsas** (embouchure à Zacatula ; « Atoyac » = ancien nom du cours amont/moyen du Balsas) | ✅ fort |
+| N004 | auyamas | Auyamas | Non déterminé (tributaire mineur andin, bassin Táchira/Cesar) | ⚠️ faible |
+| N005 | barania-r | Barania R. | Système Cuautitlán–Tula, en amont du Moctezuma/Pánuco, via le **Desagüe de Huehuetoca** | ✅ fort |
+| N006 | bariquicometo-r | Bariquicometo R. | Non déterminé (bras du delta sud de l'Orénoque, près de Porto Morequito) | ⚠️ faible |
+| N007 | boccades-r | Boccades R. | Une des bouches du delta du Río San Juan (non tranché laquelle) | ⚠️ faible |
+| N008 | brave-north-river | Brave (North) River | **Rio Bravo del Norte / Rio Grande** | ✅ fort |
+| N009 | buria-o-de-san-pedro | Buria o de San Pedro | **Río Buría** (Yaracuy, région de Barquisimeto) | ✅ fort |
+| N010 | capuri-river | Capuri River | Non déterminé (bras/affluent du delta sud, lié à Bariquicometo) | ⚠️ faible |
+| N011 | caturi-voari-river | Caturi Voari River | Non déterminé (bras du delta sud, près d'Ariacoa/Macurevoari) | ⚠️ faible |
+| N012 | cempel-r | Cempel R. | Non déterminé (petit cours/lagune entre La Antigua et Veracruz) | ⚠️ faible |
+| N013 | cenu | Cenu | **Río Sinú** | ✅ fort |
+| N014 | cesar-pompatao | Cesar Pompatao | **Río Cesar** (Pompatao = nom chimila du fleuve) | ✅ fort |
+| N015 | chagre-r | Chagre R. | **Río Chagres** | ✅ fort |
+| N016 | cheapo-r | Cheapo R. | **Río Chepo** (= Río Bayano moderne) | ✅ fort |
+| N017 | chequapeque | Chequapeque | Non déterminé (petit cours côtier Tabasco/Chiapas, secteur delta Grijalva) | ⚠️ faible |
+| N018 | congo-r | Congo R. | Petit cours côtier du Darién près de Santa María la Antigua (identité moderne incertaine) | ⚠️ faible |
+| N019 | coyrama-r | Coyrama R. | Non déterminé (petit affluent au nord d'Aromaia) | ⚠️ faible |
+| N020 | escambia-r | Escambia R. | **Escambia River** (toponyme inchangé) | ✅ fort |
+| N021 | europa-river | Europa River | Non déterminé (cours côtier, péninsule de Paria) | ⚠️ faible |
+| N022 | gold-river | Gold River | Cours aurifère côtier près de Santa María la Antigua del Darién (hyp. — distinct des mines de Cana/Tuira) | ⚠️ faible |
+| N023 | lac-de-caslipa | Lac de Caslipa | **Lac Cassipa** — lac légendaire de la cartographie de Guiane post-Ralegh/Hondius (voisin du mythe du Lac Parime/Manoa-El Dorado) | 🎲 convention cartographique |
+| N024 | lac-de-mexico | Lac de Mexico | Lacs de la vallée de Mexico (Texcoco/Zumpango), drainés vers le Pánuco par le Desagüe de Huehuetoca | ✅ fort |
+| N025 | lac-maracaibo | Lac Maracaibo | **Lac de Maracaibo** (lui-même) | ✅ fort |
+| N026 | lac-nicaragua | Lac Nicaragua | **Lac Nicaragua (Cocibolca)** | ✅ fort |
+| N027 | logwood-creek | Logwood Creek | Site anglais de coupe du bois de Campêche, rive est de la **Laguna de Términos** (zone Sabancuy/Isla Aguada) | ✅ fort |
+| N028 | marpequeue | Marpequeue | Non déterminé (piste faible : baie type « Mar Pequeño », St. Andrew Bay ?) | Non déterminé |
+| N029 | matapec-r | Matapec R. | **Río Verde** (Oaxaca), entre Pinotepa et Puerto Escondido — hypothèse | ⚠️ moyen |
+| N030 | may-r | May R. | **St. Johns River** (« River of May » français, Fort Caroline 1564) | ✅ fort |
+| N031 | meracaybo-river | Meracaybo River | Non déterminé précisément — tributaire sud du lac (Chama/Escalante/Motatán ?), distinct du lac | ⚠️ moyen/faible |
+| N032 | mississippi | Mississippi | **Fleuve Mississippi** | ✅ fort |
+| N033 | n-segovia-river | N. Segovia River | **Río Segovia**, cours supérieur du Río Coco/Wangki | ✅ fort |
+| N034 | nieves-r | Nieves R. | Non déterminé (toponyme sanctoral espagnol transposé, pas de piste fiable) | Non déterminé |
+| N035 | ochio-ou-belle-riviere | Ochio ou Belle Rivière | **Ohio River** (« la Belle Rivière » = nom français historique de l'Ohio) | ✅ fort |
+| N036 | orenoque | Orénoque | **Fleuve Orénoque** | ✅ fort |
+| N037 | ostras | Ostras | Non déterminé (piste faible : baie ostréicole, Choctawhatchee/St. Andrew Bay) | ⚠️ faible |
+| N038 | ovarabiche-r | Ovarabiche R. | Non déterminé (cours côtier, péninsule de Paria/Golfe de Paria) | ⚠️ faible |
+| N039 | panuco | Panuco | **Río Pánuco** (embouchure à Tampico) | ✅ fort |
+| N040 | pato-r | Pato R. | Non déterminé — secteur Llanos de Barinas (hyp. Caño/Río El Pato) | ⚠️ faible |
+| N041 | perdido | Perdido | **Perdido River** (toponyme inchangé) | ✅ fort |
+| N042 | r-amacuro | R. Amacuro | **Río/Rivière Amacuro** (frontière Venezuela–Guyana) | ✅ fort |
+| N043 | r-auzuelos | R. Auzuelos | Río Colorado (distributaire méridional du San Juan, Costa Rica) — hypothèse | ⚠️ moyen |
+| N044 | r-belem | R. Belem | **Río Belén** (Veraguas/Colón, site de la colonie de Colomb 1503) | ⚠️ moyen/fort |
+| N045 | r-berbice | R. Berbice | **Rivière Berbice** (Guyana) | ✅ fort |
+| N046 | r-buchia | R. Buchia | **Río Ranchería** (« Río de la Hacha », embouchure à Riohacha) | ⚠️ moyen/fort |
+| N047 | r-caranaco | R. Caranaco | Cours de la région Talamanca/Bocas del Toro (Río Changuinola ou San San — hyp.) | ⚠️ faible |
+| N048 | r-copanama | R. Copanama | Non déterminé (complexe deltaïque à l'est de Paramaribo — Commewijne/Cottica ?) | ⚠️ faible |
+| N049 | r-coqueto | R. Coqueto | Petit cours côtier entre Chagres et R. Belém (Río Indio ou Río Miguel de la Borda — hyp.) | ⚠️ faible |
+| N050 | r-corretine | R. Corretine | **Corantijn / Courantyne** (frontière Suriname–Guyana) | ✅ fort |
+| N051 | r-de-costaricha | R. de Costaricha | Río Frío (affluent sud du San Juan, frontière CR/Nicaragua) — hypothèse | ⚠️ moyen |
+| N052 | r-de-los-yopes | R de los Yopes | **Río Papagayo** (territoire historique de Yopitzinco, Costa Chica) — hypothèse | ⚠️ moyen |
+| N053 | r-de-medelin | R. de Medelin | **Río Jamapa** (passe par Medellín de Bravo) | ✅ fort |
+| N054 | r-de-vera-cruz | R. de Vera Cruz | Possible alias du système Huitzilapan/La Antigua (historiquement aussi nommé « de la Vera Cruz ») ou petit cours côtier au sud du port | ⚠️ moyen |
+| N055 | r-dulce | R. Dulce | **Río Dulce** (Guatemala), exutoire du lac Izabal | ✅ fort |
+| N056 | r-essequebe | R. Essequebe | **Rivière Essequibo** (Guyana) | ✅ fort |
+| N057 | r-flores | R. Flores | Non déterminé | Non déterminé |
+| N058 | r-galer | R. Galer | Non déterminé (côte oaxaquenne entre Puerto Escondido et Tehuantepec) | ⚠️ faible |
+| N059 | r-granda | R. Granda | Río Sico/Tinto (Black River), Honduras — hypothèse | ⚠️ moyen/faible |
+| N060 | r-guaiapo | R. Guaiapo | Affluent du précédent, peut-être Río Paulaya — hypothèse | ⚠️ faible |
+| N061 | r-guazacoalco-ou-guashigwalp | R. Guazacoalco - ou Guashigwalp | **Río Coatzacoalcos** (toponyme direct), mais position cartographique douteuse (placé près de Villahermosa/Tabasco plutôt qu'à l'isthme) | ⚠️ moyen |
+| N062 | r-lempa | R. Lempa | **Río Lempa** (Salvador) | ✅ fort |
+| N063 | r-marateka | R. Marateka | Non déterminé (complexe deltaïque à l'est de Paramaribo — Commewijne/Cottica ?) | ⚠️ faible |
+| N064 | r-marrawini | R. Marrawini | **Commewijne** (hypothèse ; forme historique « Camaiwini/Cammawini » très proche) — Marowijne/Maroni écarté en 1er choix malgré la ressemblance phonétique, la topologie (affluent direct du Suriname) ne collant pas | ⚠️ moyen |
+| N065 | r-maryowapaneko | R. Maryowapaneko | Non déterminé (bras du delta de l'Orénoque, embouchure ouest) | ⚠️ faible |
+| N066 | r-michataya | R Michataya | **Río Michatoya** (exutoire du lac Amatitlán, Guatemala) | ✅ fort |
+| N067 | r-pech | R. Pech | Río Patuca (Honduras) — identification reprise de `villes-data.js`, avec réserve de position | ⚠️ moyen/faible |
+| N068 | r-poumaron | R. Poumaron | **Rivière Pomeroon** (Guyana) | ✅ fort |
+| N069 | r-quemades | R. Quemades | Non déterminé (secteur Bocas del Toro) | ⚠️ faible |
+| N070 | r-serapique | R. Serapique | **Río Sarapiquí** (Costa Rica), affluent du San Juan | ✅ fort |
+| N071 | r-snelo | R. Snelo | Non déterminé | Non déterminé |
+| N072 | r-st-pedro | R. St Pedro | Non déterminé (affluent probable de la Sierra Norte de Puebla vers le Golfe) | ⚠️ faible |
+| N073 | r-talamanca | R. Talamanca | Cours de la région Talamanca (Río Sixaola ou Río Telire — hyp.) | ⚠️ moyen |
+| N074 | r-tispe | R Tispe | **Río Tuxpan** — hypothèse phonétique et positionnelle | ⚠️ faible |
+| N075 | r-waymy | R. Waymy | **Rivière Waini** (Guyana) | ✅ fort |
+| N076 | r-yayrepo | R Yayrepo | Une des bouches du delta du Río San Juan (non tranché laquelle) | ⚠️ faible |
+| N077 | rio-de-aluerado | Rio de Aluerado | **Río Papaloapan** (embouchure à Alvarado — « Aluerado » = Alvarado) | ✅ fort |
+| N078 | rio-de-carare | Rio de Carare | **Río Carare** | ✅ fort |
+| N079 | rio-de-los-redes | Rio de los Redes | Cours de la rive orientale du golfe d'Urabá, secteur frontalier Darién/Nouvelle-Grenade (Río León — hyp.) | ⚠️ faible |
+| N080 | rio-del-canaveral | Rio del Canaveral | Non déterminé (probablement sans lien avec le Cap Canaveral réel — « cañaveral » = roselière générique) | Non déterminé |
+| N081 | rio-del-spirito-sancto | Rio del Spirito Sancto | Hypothèse : écho de « Bahía del Espíritu Santo » = **Tampa Bay** historique, conflation baie/embouchure | ⚠️ moyen |
+| N082 | rio-grande-de-la-madalena | Rio Grande de la Madalena | **Río Magdalena** | ✅ fort |
+| N083 | rio-grande-de-santa-martha | Rio Grande de Santa Martha | **Río Cauca** (toponyme colonial hérité de la province de Santa Marta — pas un fleuve de la Sierra Nevada) | ⚠️ moyen/fort |
+| N084 | rio-grande-del-darien | Rio Grande del Darién | **Río Atrato** (nom historique alternatif « Río Grande del Darién ») | ✅ fort |
+| N085 | rio-negro | Rio Negro | Non déterminé (petit cours/distributaire près du delta de l'Atrato, secteur Antioquia/Sinú) | ⚠️ faible |
+| N086 | rio-palmas-dos-bogas | Rio Palmas dos Bogas | **Río Palizada** (distributaire de l'Usumacinta) — hypothèse | ⚠️ faible |
+| N087 | rio-san-juan | Rio San Juan | **Río San Juan** (Nicaragua/Costa Rica) | ✅ fort |
+| N088 | riviere-aux-vaches | Rivière aux Vaches | **Lavaca River** (Texas), déformation de « Rivière des Vaches » (La Salle) | ✅ fort |
+| N089 | riviere-sablomuere | Rivière Sablomuere | **Red River** (Rivière Rouge) — repris tel quel de R006 (session précédente) | ✅ fort |
+| N090 | s-maria-river | S. Maria River | **Río Tanela** (rivière de Santa María la Antigua del Darién) | ✅ fort |
+| N091 | sal-r | Sal R | Río Cangrejal (La Ceiba, Honduras) — identification reprise de `villes-data.js` | ⚠️ moyen |
+| N092 | salinas | Salinas | Non déterminé (cours côtier du Soconusco, Chiapas) | ⚠️ faible |
+| N093 | sampoval-r | Sampoval R | **Río Actopan / Chachalacas** (« Sampoval » ~ corruption de Cempoala/Zempoala, ville riveraine) | ✅ fort |
+| N094 | sholes | Sholes | Non déterminé (petit cours côtier près de New Edinburgh/Caledonia) | ⚠️ faible |
+| N095 | st-anns | St Anns | Non déterminé (petit cours/lagune côtière à l'est de Villahermosa) | ⚠️ faible |
+| N096 | subutla | Subutla | Non déterminé (côte Michoacán/Colima, entre Manzanillo et Zacatula) | ⚠️ faible |
+| N097 | suere-ou-blewfield-river | Suere ou Blewfield River | Ancienne province/rivière de Suerre (Parismina/Tortuguero, Costa Rica) — PAS le Bluefields moderne | ⚠️ moyen |
+| N098 | suriname | Suriname | **Fleuve Suriname** (Paramaribo) | ✅ fort |
+| N099 | tabasco-r | Tabasco R. | **Système Grijalva/Usumacinta** (delta de Villahermosa) — malgré l'étiquette « guatemala » | ✅ fort |
+| N100 | tondelo | Tondelo | Non déterminé (petit cours côtier à l'est de Villahermosa, delta Usumacinta/Grijalva) | ⚠️ faible |
+| N101 | trigu-r | Trigu R. | Une des bouches du delta du Río San Juan, peut-être la branche « Taura » historique | ⚠️ faible |
+| N102 | varacoyari-river | Varacoyari River | Non déterminé (bras du delta sud, près de Macurevoari) | ⚠️ faible |
+| N103 | veragua-r | Veragua R. | **Río Santa María** (Veraguas, à proximité de Santa Fe de Veraguas) — hyp. | ⚠️ moyen |
+| N104 | xagua-r | Xagua R. | **Río Aguán** (Honduras) | ✅ fort |
+| N105 | yare-r | Yare R. | **« Yara/Cape River »**, cours inférieur historique du Río Coco/Wangki | ✅ fort |

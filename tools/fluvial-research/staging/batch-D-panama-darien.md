@@ -1,0 +1,389 @@
+# Batch D — Panama / Darién (isthme), 15 cours d'eau nommés sur Jaillot 1708
+
+Méthode identique à la session précédente (29 cours sans nom, cf.
+`fluvial-identification-synthese.md`). Référentiel `[x, y]` = CRS Leaflet
+Simple sur image 8500×5320 px, **sans correspondance GPS réelle** ;
+`distanceNm` = échelle interne à la carte (0.310282 NM/px), utilisée
+uniquement pour la position relative. Ancrages repris tels quels de la
+session précédente (secteur Panama/Chiriquí/Chagre/Capira, R015-R020) :
+Río Chiriquí Viejo, Río Chiriquí, Río David (hyp.), Río Grande de Coclé,
+Río Cirí Grande/Trinidad (hyp.), Río Caimito (hyp.) — non retraités ici.
+
+Convention de confiance : ✅ fort · ⚠️ moyen · ⚠️ faible · 🎲 convention
+cartographique · Non déterminé.
+
+## Tableau récapitulatif
+
+| ID | watercourseId | Toponyme Jaillot | Identification proposée | Confiance |
+|---|---|---|---|---|
+| N015 | chagre-r | Chagre R. | **Río Chagres** | ✅ fort |
+| N016 | cheapo-r | Cheapo R. | **Río Chepo** (= Río Bayano moderne) | ✅ fort |
+| N018 | congo-r | Congo R. | Petit cours côtier du Darién près de Santa María la Antigua (identité moderne incertaine) | ⚠️ faible |
+| N022 | gold-river | Gold River | Cours aurifère côtier près de Santa María la Antigua del Darién (hyp. — distinct des mines de Cana/Tuira) | ⚠️ faible |
+| N044 | r-belem | R. Belem | **Río Belén** (Veraguas/Colón, site de la colonie de Colomb 1503) | ⚠️ moyen/fort |
+| N047 | r-caranaco | R. Caranaco | Cours de la région Talamanca/Bocas del Toro (Río Changuinola ou San San — hyp.) | ⚠️ faible |
+| N049 | r-coqueto | R. Coqueto | Petit cours côtier entre Chagres et R. Belém (Río Indio ou Río Miguel de la Borda — hyp.) | ⚠️ faible |
+| N069 | r-quemades | R. Quemades | Non déterminé (secteur Bocas del Toro) | ⚠️ faible |
+| N073 | r-talamanca | R. Talamanca | Cours de la région Talamanca (Río Sixaola ou Río Telire — hyp.) | ⚠️ moyen |
+| N079 | rio-de-los-redes | Rio de los Redes | Cours de la rive orientale du golfe d'Urabá, secteur frontalier Darién/Nouvelle-Grenade (Río León — hyp.) | ⚠️ faible |
+| N084 | rio-grande-del-darien | Rio Grande del Darién | **Río Atrato** (nom historique alternatif « Río Grande del Darién ») | ✅ fort |
+| N085 | rio-negro | Rio Negro | Non déterminé (petit cours/distributaire près du delta de l'Atrato, secteur Antioquia/Sinú) | ⚠️ faible |
+| N090 | s-maria-river | S. Maria River | **Río Tanela** (rivière de Santa María la Antigua del Darién) | ✅ fort |
+| N094 | sholes | Sholes | Non déterminé (petit cours côtier près de New Edinburgh/Caledonia) | ⚠️ faible |
+| N103 | veragua-r | Veragua R. | **Río Santa María** (Veraguas, à proximité de Santa Fe de Veraguas) — hyp. | ⚠️ moyen |
+
+## Fiches détaillées
+
+### N015 — chagre-r
+
+- **Toponyme Jaillot :** Chagre R.
+- **Territoire :** panama
+- **Repères proches :** Portobelo (1,2 NM), Castillo de San Lorenzo el Real
+  de Chagres (6,6 NM), Venta de Cruces (8,1 NM), Capira (10,7 NM), Panama
+  City (16,8 NM). Séparé de « Cheapo R. » à la cellule 100_82 et de « R.
+  Coqueto » à la cellule 98_78 (embouchure).
+- **Identification proposée / nom moderne :** Río Chagres.
+- **Confiance :** ✅ fort
+- **Raisonnement :** Toponyme quasi identique au nom moderne, tracé
+  s'étendant de l'embouchure caraïbe (près de Portobelo/fort San Lorenzo)
+  vers l'intérieur jusqu'à Venta de Cruces et Capira — c'est exactement
+  l'axe historique de la route transisthmique de Panama (Camino Real puis
+  Camino de Cruces), remonté par Henry Morgan en 1671 après la prise du
+  fort San Lorenzo pour marcher sur Panama. Aucun doute raisonnable
+  possible sur l'identité de ce cours.
+- **Sources :** Toponymie directe ; géographie historique de la route
+  transisthmique (prise de San Lorenzo 1671, campagne de Morgan) ;
+  position relative cohérente avec Delisle 1718 qui porte également
+  « Chagre R. » au même emplacement.
+
+### N016 — cheapo-r
+
+- **Toponyme Jaillot :** Cheapo R.
+- **Territoire :** darien
+- **Repères proches :** New Edinburg (12,2 NM), Panama City (13,3 NM),
+  Venta de Cruces (18,5 NM), Nombre de Dios (24,1 NM), Capira (38,5 NM).
+  Voisin direct de Chagre R. (à l'ouest) et de Sholes (à l'est).
+- **Identification proposée / nom moderne :** Río Chepo — correspond au
+  Río Bayano moderne.
+- **Confiance :** ✅ fort
+- **Raisonnement :** « Cheapo » est une graphie anglicisée évidente de
+  « Chepo », toponyme espagnol conservé jusqu'à aujourd'hui (ville d'El
+  Chepo, province de Panamá). Le fleuve principal de cette région, appelé
+  historiquement Río Chepo, correspond au Río Bayano moderne, qui se jette
+  dans le golfe de Panama à l'est de la capitale — cohérent avec la
+  position entre Panama City et New Edinburg (colonie écossaise du Darién)
+  relevée dans le dossier.
+- **Sources :** Toponymie directe (Chepo/Cheapo) ; géographie régionale
+  (province de Panamá, bassin du Bayano).
+
+### N018 — congo-r
+
+- **Toponyme Jaillot :** Congo R.
+- **Territoire :** darien
+- **Repères proches :** Santa María la Antigua del Darién (19,5 NM), New
+  Edinburg (51,3 NM), golfe d'Urabá (70,4 NM), San Sebastián de Buena
+  Vista (72 NM). Voisins directs : Gold River et S. Maria River (relation
+  « separate » à l'embouchure, cellule 107_84), et Sholes.
+- **Identification proposée / nom moderne :** Non déterminé avec
+  certitude — petit cours côtier du Darién caraïbe, dans le même
+  ensemble de rivières groupées autour de Santa María la Antigua del
+  Darién (rive occidentale/darienne du golfe d'Urabá).
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Le nom « Congo » ne correspond à aucun grand cours
+  d'eau moderne connu de ce secteur, mais pourrait renvoyer aux
+  communautés marronnes/cimarronnes d'origine africaine (« Congos »)
+  bien attestées sur la côte caraïbe du Panama et du Darién au XVIIe-XVIIIe
+  siècle — hypothèse plausible mais non vérifiable sur la seule base de la
+  carte. Position cohérente avec un petit cours secondaire du complexe
+  hydrographique proche de Santa María la Antigua, plutôt que du bassin
+  Tuira-Chucunaque (qui débouche plus au sud, dans le golfe de San
+  Miguel, coté Pacifique).
+- **Sources :** Position relative (inventaire Jaillot) ; histoire des
+  communautés Congo/cimarronnes du Panama caraïbe (à titre d'hypothèse
+  culturelle, non cartographique).
+
+### N022 — gold-river
+
+- **Toponyme Jaillot :** Gold River
+- **Territoire :** darien
+- **Repères proches :** Santa María la Antigua del Darién (13,6 NM),
+  golfe d'Urabá (45,2 NM), San Sebastián de Buena Vista (84,2 NM), New
+  Edinburg (90,9 NM). Voisins directs : Congo R. et S. Maria River.
+- **Identification proposée / nom moderne :** Cours aurifère côtier
+  proche de Santa María la Antigua del Darién — identité moderne non
+  déterminée avec certitude.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Le nom anglais « Gold River » suggère une traduction
+  littérale d'un hydronyme espagnol du type « Río de Oro », évoquant
+  l'exploitation aurifère. Toutefois, sa position sur la carte (très
+  proche de Santa María la Antigua del Darién, sur la côte caraïbe, à
+  bonne distance du golfe d'Urabá) l'associe plus probablement aux
+  légendes d'or ayant motivé la fondation de Santa María la Antigua par
+  Balboa et ses hommes (relations avec le cacique Comagre, quête d'or dès
+  1510-1513) qu'aux mines de Cana/Real de Santa María du bassin du Tuira,
+  qui se trouvent beaucoup plus au sud, côté Pacifique, et bien plus loin
+  sur la carte (hors de portée cohérente avec les distances internes
+  relevées ici). L'hypothèse d'un lien avec Cana, suggérée initialement,
+  n'est donc pas retenue au vu des coordonnées.
+- **Sources :** Position relative (inventaire Jaillot) ; histoire de la
+  fondation de Santa María la Antigua del Darién et des premières quêtes
+  d'or de Balboa (1510-1513) — à titre d'hypothèse, non confirmée par un
+  hydronyme moderne précis.
+
+### N044 — r-belem
+
+- **Toponyme Jaillot :** R. Belem
+- **Territoire :** panama
+- **Repères proches :** Trinidad (10,8 NM), Santa Fe de Veraguas
+  (16,3 NM), Concepción/Bocas del Toro (25,3 NM), Castillo de San Lorenzo
+  el Real de Chagres (50,3 NM). Voisins directs : R. Coqueto et Veragua R.
+- **Identification proposée / nom moderne :** Río Belén (province de
+  Colón/Veraguas, Panama).
+- **Confiance :** ⚠️ moyen/fort
+- **Raisonnement :** Correspondance toponymique directe et quasi
+  parfaite (Belem/Belén). Le Río Belén est un cours historiquement
+  célèbre : c'est à son embouchure que Christophe Colomb tenta d'établir
+  la colonie de Santa María de Belén en 1503 lors de son quatrième
+  voyage, avant d'être chassé par les populations locales (cacique
+  Quibián). Sa position sur la côte caraïbe panaméenne, entre Veraguas et
+  Chagres, est cohérente avec les repères relevés (Trinidad, Santa Fe de
+  Veraguas).
+- **Sources :** Toponymie directe ; épisode historique bien documenté de
+  la colonie de Belén (1503, quatrième voyage de Colomb).
+
+### N047 — r-caranaco
+
+- **Toponyme Jaillot :** R. Caranaco
+- **Territoire :** panama
+- **Repères proches :** Concepción/Bocas del Toro (41,8 NM), Castillo de
+  Austria — Costa Rica (51,7 NM), Trinidad (58,6 NM), Santa Fe de
+  Veraguas (61,3 NM), Puebla/Alanje — Costa Rica (67,9 NM). Voisins
+  directs : R. Talamanca et Suere ou Blewfield River.
+- **Identification proposée / nom moderne :** Cours de la région
+  Talamanca/Bocas del Toro (frontière Costa Rica-Panama) — candidats
+  possibles : Río Changuinola ou Río San San. Non tranché.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Aucune correspondance toponymique directe connue.
+  La position (entre Castillo de Austria côté Costa Rica et Trinidad côté
+  Panama, à proximité immédiate de R. Talamanca) place ce cours dans la
+  zone frontalière Costa Rica-Panama actuelle (région de Bocas del Toro /
+  Talamanca), riche en cours d'eau multiples et mal cartographiés par les
+  géographes du début du XVIIIe siècle — plusieurs candidats plausibles
+  sans élément décisif pour trancher.
+- **Sources :** Position relative (inventaire Jaillot) ; géographie
+  régionale de Bocas del Toro/Talamanca.
+
+### N049 — r-coqueto
+
+- **Toponyme Jaillot :** R. Coqueto
+- **Territoire :** panama
+- **Repères proches :** Castillo de San Lorenzo el Real de Chagres
+  (8,9 NM), Trinidad (21,3 NM), Santa Fe de Veraguas (23,1 NM), Portobelo
+  (29,9 NM), Capira (33,3 NM). Voisins directs : Chagre R. (à l'est) et R.
+  Belem (à l'ouest) — relation « separate » avec Chagre R. à l'embouchure
+  (cellule 98_78).
+- **Identification proposée / nom moderne :** Petit cours côtier de la
+  côte caraïbe de Colón, entre Chagres et Belén — candidats possibles :
+  Río Indio ou Río Miguel de la Borda. Non tranché.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Aucune correspondance toponymique directe. La
+  position, strictement intercalée entre l'embouchure du Chagres et celle
+  du Río Belén sur la côte caraïbe panaméenne, correspond à la zone où se
+  trouvent aujourd'hui plusieurs petits cours côtiers de la province de
+  Colón (Río Indio, Río Miguel de la Borda, Río Gatún/Coclé del Norte) —
+  sans élément suffisant pour identifier lequel spécifiquement.
+- **Sources :** Position relative (inventaire Jaillot) ; géographie
+  côtière de la province de Colón.
+
+### N069 — r-quemades
+
+- **Toponyme Jaillot :** R. Quemades
+- **Territoire :** panama
+- **Repères proches :** Concepción/Bocas del Toro (26,2 NM), Trinidad
+  (35,3 NM), Santa Fe de Veraguas (47,9 NM), Puebla/Alanje — Costa Rica
+  (76,8 NM), Castillo de Austria — Costa Rica (81,3 NM). Cours à une
+  seule cellule, voisin direct de R. Talamanca.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Cours très court (une seule cellule sur la carte),
+  sans traduction toponymique évidente (« Quemades » = « brûlées », nom
+  descriptif générique espagnol pouvant renvoyer à un incendie local ou
+  une pratique de brûlis, sans valeur d'identification géographique
+  précise). Situé dans le secteur de Bocas del Toro, entre Concepción et
+  la frontière costaricaine, sans élément suffisant pour proposer un
+  cours moderne précis.
+- **Sources :** Position relative (inventaire Jaillot) uniquement ;
+  aucune source complémentaire trouvée.
+
+### N073 — r-talamanca
+
+- **Toponyme Jaillot :** R. Talamanca
+- **Territoire :** panama
+- **Repères proches :** Concepción/Bocas del Toro (31,3 NM), Trinidad
+  (45,8 NM), Santa Fe de Veraguas (52,9 NM), Castillo de Austria — Costa
+  Rica (66,3 NM). Territoire limitrophe costaricain à 1,9 NM seulement.
+  Voisins directs : R. Caranaco et R. Quemades.
+- **Identification proposée / nom moderne :** Cours de la région
+  historique et ethnique de Talamanca (frontière Costa Rica/Panama) —
+  candidats possibles : Río Sixaola ou Río Telire.
+- **Confiance :** ⚠️ moyen
+- **Raisonnement :** Correspondance toponymique directe avec la région
+  Talamanca, zone habitée par les peuples indigènes du même nom
+  (Bribri, Cabécar) à cheval sur la frontière actuelle Costa Rica-Panama.
+  Le Río Sixaola, principal cours de cette région débouchant dans la mer
+  des Caraïbes, en constitue le candidat le plus probable, mais le tracé
+  précis ne permet pas de confirmer s'il s'agit de ce fleuve ou d'un
+  cours voisin (Río Telire, Río La Estrella). La position à la lisière
+  immédiate du territoire costaricain sur la carte est cohérente avec
+  cette hypothèse régionale.
+- **Sources :** Toponymie directe (région de Talamanca) ; géographie
+  historique et ethnique de la zone frontalière Costa Rica-Panama.
+
+### N079 — rio-de-los-redes
+
+- **Toponyme Jaillot :** Rio de los Redes
+- **Territoire :** darien
+- **Repères proches :** golfe d'Urabá (12,3 NM), San Sebastián de Buena
+  Vista (47,5 NM), Santa Fe de Antioquia — Nouvelle-Grenade (54 NM),
+  Santa María la Antigua del Darién (63,7 NM), New Edinburg (76,6 NM).
+  Territoire limitrophe de la Nouvelle-Grenade à seulement 10,3 NM.
+- **Identification proposée / nom moderne :** Cours de la rive
+  orientale du golfe d'Urabá, à la frontière Darién/Nouvelle-Grenade —
+  candidat possible : Río León (grand cours débouchant dans le
+  sud-ouest du golfe, réputé pour ses zones humides et sa pêche). Non
+  tranché.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Le nom « Rio de los Redes » (rivière des filets)
+  évoque une activité de pêche, cohérente avec un débouché deltaïque
+  poissonneux. La position très proche du golfe d'Urabá et de la
+  frontière avec la Nouvelle-Grenade (Santa Fe de Antioquia) situe ce
+  cours sur la rive orientale du golfe, secteur où débouche aujourd'hui
+  le Río León — hypothèse plausible mais non confirmée par le tracé.
+- **Sources :** Position relative (inventaire Jaillot) ; toponymie
+  descriptive (« Redes » = filets de pêche) ; géographie du golfe
+  d'Urabá.
+
+### N084 — rio-grande-del-darien
+
+- **Toponyme Jaillot :** Rio Grande del Darién
+- **Territoire :** darien
+- **Repères proches :** golfe d'Urabá (15,2 NM), Santa María la Antigua
+  del Darién (60,9 NM), San Sebastián de Buena Vista (74 NM), Santa Fe de
+  Antioquia — Nouvelle-Grenade (87,6 NM). Cours long (10 cellules)
+  s'étendant loin vers le sud depuis son embouchure au golfe d'Urabá ;
+  territoire à distance nulle des deux zones Darién et Nouvelle-Grenade
+  (fleuve-frontière).
+- **Identification proposée / nom moderne :** Río Atrato.
+- **Confiance :** ✅ fort
+- **Raisonnement :** « Rio Grande del Darién » est un nom historique
+  alternatif attesté pour le fleuve Atrato sur les cartes espagnoles et
+  françaises du XVIIe-XVIIIe siècle (parfois aussi « Río Darién » ou «
+  Río Grande de San Juan » selon les sources). Le tracé — long cours
+  débouchant au fond du golfe d'Urabá et servant de limite naturelle
+  entre le Darién et la Nouvelle-Grenade — correspond exactement à la
+  géographie réelle de l'Atrato, principal fleuve du Chocó colombien se
+  jetant dans le golfe d'Urabá.
+- **Sources :** Toponymie historique (« Río Grande del Darién » = nom
+  ancien de l'Atrato) ; géographie du golfe d'Urabá ; cohérence de
+  position frontalière Darién/Nouvelle-Grenade dans l'inventaire.
+
+### N085 — rio-negro
+
+- **Toponyme Jaillot :** Rio Negro
+- **Territoire :** darien
+- **Repères proches :** San Sebastián de Buena Vista (21,2 NM), Santa Fe
+  de Antioquia — Nouvelle-Grenade (34 NM), golfe d'Urabá (38,6 NM), New
+  Edinburg (56,3 NM), Sinú — Nouvelle-Grenade (62,4 NM). Territoire à
+  distance nulle des deux zones Darién et Nouvelle-Grenade.
+- **Identification proposée / nom moderne :** Non déterminé — probable
+  distributaire ou petit affluent du secteur du delta de l'Atrato / côte
+  du Sinú-Urabá.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Le nom « Rio Negro » (rivière noire, référence
+  fréquente à une eau teintée de tanins, typique des zones deltaïques
+  tropicales) est un hydronyme très courant en Amérique espagnole, sans
+  valeur discriminante en soi. La position, à la frontière Darién/Nouvelle
+  Grenade près de Santa Fe de Antioquia et du Sinú, l'inscrit dans le
+  complexe deltaïque de l'Atrato/golfe d'Urabá plutôt que dans le bassin
+  Tuira-Chucunaque panaméen (hors de portée cohérente sur la carte).
+  Aucun hydronyme moderne précis ne peut être proposé avec certitude.
+- **Sources :** Position relative (inventaire Jaillot) uniquement ;
+  géographie du delta de l'Atrato et de la côte du Sinú.
+
+### N090 — s-maria-river
+
+- **Toponyme Jaillot :** S. Maria River
+- **Territoire :** darien
+- **Repères proches :** Santa María la Antigua del Darién (6,8 NM —
+  distance la plus faible de tout le corpus), golfe d'Urabá (19,7 NM),
+  New Edinburg (24,5 NM), San Sebastián de Buena Vista (32,5 NM). Voisin
+  direct de Congo R. (relation « separate » à l'embouchure, cellule
+  107_84).
+- **Identification proposée / nom moderne :** Río Tanela — le cours sur
+  lequel fut fondée Santa María la Antigua del Darién en 1510.
+- **Confiance :** ✅ fort
+- **Raisonnement :** La proximité extrême avec le site de Santa María la
+  Antigua del Darién (6,8 NM, la plus courte distance relevée dans tout
+  le corpus des 15 cours traités) ne laisse guère de doute : ce cours
+  correspond à la rivière au bord de laquelle Vasco Núñez de Balboa et
+  Martín Fernández de Enciso fondèrent la première colonie espagnole
+  stable du continent en 1510, historiquement identifiée comme le Río
+  Tanela (affluent se jetant dans le golfe d'Urabá, rive Darién). À noter
+  que cette localisation caraïbe **ne correspond pas** au Real de Santa
+  María du bassin du Tuira (mine d'or pillée par les flibustiers dont
+  Bartholomew Sharp en 1680), qui se trouve beaucoup plus au sud, côté
+  Pacifique — l'hypothèse initiale envisageant ce lien est donc écartée
+  au vu des coordonnées de la carte.
+- **Sources :** Position relative (inventaire Jaillot, distance minimale
+  du corpus) ; histoire de la fondation de Santa María la Antigua del
+  Darién (1510, Balboa/Enciso) et identification historique du Río
+  Tanela comme site de la colonie.
+
+### N094 — sholes
+
+- **Toponyme Jaillot :** Sholes
+- **Territoire :** darien
+- **Repères proches :** New Edinburg (22,5 NM), San Sebastián de Buena
+  Vista (48,8 NM), Santa María la Antigua del Darién (53,4 NM), Panama
+  City (63,8 NM). Voisins directs : Cheapo R., Congo R. et S. Maria
+  River.
+- **Identification proposée / nom moderne :** Non déterminé — petit
+  cours côtier du Darién caraïbe, proche de la zone de la colonie
+  écossaise de Caledonia/New Edinburgh.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Le nom anglais « Sholes » (probablement apparenté à
+  « shoals », hauts-fonds/bancs de sable) et sa proximité relative avec
+  New Edinburg (colonie écossaise du Darién, 1698-1700) suggèrent une
+  origine anglo-écossaise du toponyme plutôt qu'espagnole, cohérente avec
+  la présence de cartographes/navigateurs anglais dans cette zone
+  spécifique à la fin du XVIIe siècle. Aucun hydronyme moderne ne peut
+  cependant être proposé avec confiance sur la seule base de la position.
+- **Sources :** Position relative (inventaire Jaillot) ; contexte
+  historique de la colonie écossaise de Darién (Caledonia/New Edinburgh,
+  1698-1700).
+
+### N103 — veragua-r
+
+- **Toponyme Jaillot :** Veragua R.
+- **Territoire :** panama
+- **Repères proches :** Trinidad (5,4 NM), Santa Fe de Veraguas
+  (7,3 NM — les deux distances les plus faibles du lot), Concepción/Bocas
+  del Toro (13,5 NM), Puebla/Alanje — Costa Rica (39 NM), Chiriquí —
+  Costa Rica (61,7 NM). Voisin direct de R. Belem.
+- **Identification proposée / nom moderne :** Río Santa María (province
+  de Veraguas) — hypothèse la plus probable, à défaut du Río San Pablo,
+  également candidat.
+- **Confiance :** ⚠️ moyen
+- **Raisonnement :** Le toponyme reprend directement le nom de la
+  province historique de Veraguas, dont Santa Fe de Veraguas était la
+  capitale — et le cours est justement le plus proche de cette ville
+  (7,3 NM) de tout le corpus. Le principal fleuve associé à cette région
+  côté Pacifique panaméen est le Río Santa María (parfois aussi le Río
+  San Pablo, qui conflue avec lui), mais la carte Jaillot représente ici
+  un cours débouchant côté caraïbe (proche de Trinidad, un port
+  caraïbe) — la correspondance avec le Río Santa María (bassin
+  pacifique) reste donc une hypothèse par défaut faute de meilleur
+  candidat identifié côté caraïbe de Veraguas ; elle n'est pas confirmée
+  par le tracé exact.
+- **Sources :** Toponymie directe (province de Veraguas, Santa Fe de
+  Veraguas) ; géographie historique de la province de Veraguas.

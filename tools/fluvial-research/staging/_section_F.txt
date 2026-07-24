@@ -1,0 +1,418 @@
+## Secteur F — Nouvelle-Andalousie / Suriname (delta de l'Orénoque -> Guyanes)
+
+### N006 — bariquicometo-r
+
+- **Toponyme Jaillot :** Bariquicometo R.
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Porto Morequito (2,1 NM carte), El Tocuyo (7 NM),
+  Barquisimeto/Nueva Segovia (9,6 NM), Tuteritona (33,1 NM). Se jette dans
+  l'Orénoque (`targetRiverId: "Orénoque"`) ; forme aussi une bifurcation
+  (`fork`) vers Capuri River.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Le cours se jette dans l'Orénoque tout près de Porto
+  Morequito, donc géographiquement un bras du delta sud/rive gauche. La
+  proximité (en pixels) avec El Tocuyo et Barquisimeto — deux villes
+  réelles de l'ouest du Venezuela, à des centaines de km de l'embouchure
+  de l'Orénoque — est un artefact de la déformation de la carte de
+  Jaillot, pas un indice géographique valide (cf. avertissement CRS). La
+  ressemblance phonétique frappante entre « Bariquicometo » et
+  « Barquisimeto » est probablement une coïncidence ou une contamination
+  de source cartographique, pas une preuve d'identité. Aucun bras moderne
+  documenté du delta ne porte de nom apparenté.
+- **Sources :** Analyse interne (inventaire + villes-data.js) ; aucune
+  source externe concluante trouvée.
+
+### N010 — capuri-river
+
+- **Toponyme Jaillot :** Capuri River
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Tuteritona (27,5 NM), Santo Tomé de Guayana
+  (29,4 NM), Macurevoari (36,9 NM), Porto Morequito (40 NM). Se jette
+  dans l'Orénoque ; reçoit une bifurcation depuis Bariquicometo R.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Cours secondaire directement lié à Bariquicometo R.
+  (fork) et débouchant dans l'Orénoque au niveau du même secteur delta
+  sud, à proximité de Santo Tomé de Guayana/Tuteritona. Fait partie du
+  cluster de toponymes issus de la tradition cartographique post-Ralegh/
+  Hondius (voir constat général) ; aucune correspondance fiable avec un
+  cours actuel n'a pu être établie.
+- **Sources :** Analyse interne. Recherche du toponyme « Capuri » dans le
+  texte de Ralegh (*The Discoverie of Guiana*, 1596) infructueuse.
+
+### N011 — caturi-voari-river
+
+- **Toponyme Jaillot :** Caturi Voari River
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Ariacoa (31,7 NM), Macurevoari (40,2 NM), Santo
+  Tomé de Guayana (45,8 NM). Se jette dans l'Orénoque ; relation
+  « separate » avec un cours non identifié (F-95_143-C).
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Le second élément du nom, « Voari », fait écho à
+  « Macurevoari » (le nom du site voisin, dérivé de « Macureguarai » chez
+  Ralegh) — signe supplémentaire que ce toponyme appartient à la couche
+  cartographique légendaire du delta sud plutôt qu'à un relevé
+  hydrographique indépendant. Pas de candidat moderne identifiable avec
+  les éléments disponibles.
+- **Sources :** Analyse interne ; comparaison avec *The Discoverie of
+  Guiana* (Ralegh, 1596), mention de « Macureguarai » confirmée
+  (archive.org, *discoveryofguian00rale*).
+
+### N019 — coyrama-r
+
+- **Toponyme Jaillot :** Coyrama R.
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Aromaia (17,6 NM), Macurevoari (57,9 NM), Santo
+  Tomé de Guayana (87,6 NM). Se jette directement dans l'Orénoque, sans
+  relation avec d'autres cours.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Petit affluent isolé au nord d'Aromaia (toponyme de
+  Ralegh, province du cacique du même nom dans *The Discoverie of
+  Guiana*). Aucun élément ne permet de le distinguer d'un simple caño
+  local du delta sud de l'Orénoque ; pas de trace dans les sources
+  modernes consultées.
+- **Sources :** Analyse interne.
+
+### N021 — europa-river
+
+- **Toponyme Jaillot :** Europa River
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Ariacoa (22,5 NM), Aromaia (49,4 NM), San José de
+  Macuro (67,7 NM), Verina/Cariaco (70,9 NM). Embouchure en mer
+  (`type: "sea"`), sans lien direct avec l'Orénoque dans les relations
+  topologiques (l'entrée « orenoque » dans `neighbouringWatercourses` a
+  une liste `riverIds` vide).
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Position distincte du cluster du delta sud
+  (Bariquicometo/Capuri/etc.) : ce cours débouche en mer sur la côte
+  entre Cumaná/Verina et San José de Macuro, donc plutôt sur le littoral
+  du golfe de Paria/péninsule de Paria que dans le delta lui-même. Cette
+  zone est drainée aujourd'hui par de petits cours côtiers (région
+  d'Irapa/Güiria) sans grand fleuve identifiable ; aucun candidat clair
+  ne s'impose. Le nom « Europa » n'a pas d'équivalent évident dans les
+  toponymies indigènes ou coloniales de la région.
+- **Sources :** Analyse interne.
+
+### N023 — lac-de-caslipa
+
+- **Toponyme Jaillot :** Lac de Caslipa
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Macurevoari (5,4 NM), Santo Tomé de Guayana
+  (5,9 NM), Tuteritona (13,3 NM). Bifurque depuis l'Orénoque
+  (`fork`, fromRiverId: "Orénoque") et s'y rejette (`junction`,
+  targetRiverId: "Orénoque") — donc un lac/bras traversé par le fleuve,
+  très proche de Santo Tomé de Guayana.
+- **Identification proposée / nom moderne :** **Lac Cassipa** — figure
+  légendaire de la cartographie de Guiane héritée de l'expédition de Sir
+  Walter Ralegh (1595-96) et de la carte de Jodocus Hondius (1598),
+  souvent représenté à proximité du Lac Parime et de « Manoa al Dorado »
+  sur les cartes du XVIIe-XVIIIe siècle (Hondius, Blaeu). Pas de plan
+  d'eau réel équivalent aujourd'hui.
+- **Confiance :** 🎲 convention cartographique
+- **Raisonnement :** La proximité immédiate avec Santo Tomé de Guayana et
+  le fait que ce soit un simple élargissement/détour de l'Orénoque
+  correspond bien à la position attribuée au Lac Cassipa sur les cartes
+  post-Hondius (au sud de l'Orénoque, dans la région aurifère légendaire
+  visitée par Ralegh). Les sources confirment l'existence cartographique
+  de ce lac (« mountains separate Lake Parime from Lake Cassipa » —
+  légendes sur cartes de 1621, Blaeu) et sa réputation aurifère (« much
+  gold » dans le sable des rivières autour du lac Cassipa). Il s'agit
+  d'un objet cartographique semi-légendaire plutôt que d'un plan d'eau
+  identifiable sur le terrain aujourd'hui — à traiter comme telle sur la
+  carte de jeu (au même titre que R012/Yucatán dans la session
+  précédente).
+- **Sources :** [Earth:Lake Parime - HandWiki](https://handwiki.org/wiki/Earth:Lake_Parime) ;
+  [Nieuwe Caerte van het wonderbaer ende goudrijcke landt Guiana (Hondius, 1598) — Barry Lawrence Ruderman Antique Maps](https://www.raremaps.com/gallery/detail/46151/nieuwe-caerte-van-het-wonderbaer-ende-goudrijcke-landt-guian-hondius) ;
+  archive.org, *The discovery of Guiana* (Ralegh, 1596, éd. ultérieure).
+
+### N036 — orenoque
+
+- **Toponyme Jaillot :** Orénoque
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Tuteritona (3,4 NM), Porto Morequito (13,3 NM),
+  Aromaia (14,5 NM), Santo Tomé de Guayana (15,8 NM), Ariacoa (20,8 NM).
+  Quatre embouchures en mer distinctes (Delta_Orénoque_1, 2, 3 et le
+  bras principal), plus des bras internes B/C/D et des jonctions vers
+  Bariquicometo, Capuri, Lac de Caslipa, Coyrama, Varacoyari,
+  R. Maryowapaneko.
+- **Identification proposée / nom moderne :** **Fleuve Orénoque**
+  (Venezuela) — un des plus grands fleuves d'Amérique du Sud, delta
+  multi-bras au débouché sur le golfe de Paria/l'Atlantique.
+- **Confiance :** ✅ fort
+- **Raisonnement :** Identification évidente, cas fort candidat pour la
+  hiérarchie de niveau 1 (fleuve principal du secteur). Jaillot relève un
+  delta à quatre bouches principales (les trois « Delta_Orénoque » plus
+  le bras « Orénoque » lui-même), simplification par rapport au delta
+  réel moderne qui compte une dizaine de distributaires actifs (Caño
+  Manamo à l'ouest, Boca Grande — la bouche principale et navigable —,
+  Macareo, Pedernales, Cocuina, Mariusa, etc., jusqu'à la Boca de
+  Serpiente/Serpent's Mouth face à Trinidad à l'est). Le tracé Jaillot,
+  avec ses multiples bras se rejoignant/bifurquant autour de Santo Tomé
+  de Guayana, correspond bien à la morphologie deltaïque réelle du bas
+  Orénoque, même si le nombre et la position exacte des bras ne
+  correspondent pas terme à terme aux caños modernes.
+- **Sources :** [Le delta de l'Orénoque - Persée](https://www.persee.fr/doc/globe_0398-3412_1913_sup_52_1_5308) ;
+  [Orinoco Delta - Wikipedia](https://en.wikipedia.org/wiki/Orinoco_Delta) ;
+  [carte du delta de l'Orénoque à Puerto Cabello - Gallica/BnF](https://gallica.bnf.fr/ark:/12148/btv1b53122172z).
+
+### N038 — ovarabiche-r
+
+- **Toponyme Jaillot :** Ovarabiche R.
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Verina/Cariaco (31,2 NM), San José de Macuro
+  (36,1 NM), Santiago de Araya (46,1 NM), Cumaná (49,5 NM), Barcelona
+  (62,5 NM). Deux embouchures en mer (branche principale et branche B),
+  aucun lien avec l'Orénoque.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Comme Europa River, ce cours est positionné sur la
+  côte du golfe de Paria entre Cumaná et San José de Macuro — donc sur la
+  péninsule de Paria ou son piémont, à l'écart du delta de l'Orénoque.
+  Cette portion de côte est aujourd'hui drainée par des cours modestes
+  sans grand fleuve repérable (bassin du Golfe de Paria, région
+  Sucre/Monagas). Aucun candidat identifiable avec certitude.
+- **Sources :** Analyse interne.
+
+### N042 — r-amacuro
+
+- **Toponyme Jaillot :** R. Amacuro
+- **Territoire :** suriname (à la limite nouvelle-andalousie/suriname,
+  distance 0 aux deux zones)
+- **Repères proches :** Nieuw Middelburg (48,9 NM), Fort Kyk-Over-Al
+  (72 NM), Aromaia (118,3 NM). Embouchure en mer, seul voisin
+  hydrographique listé : R. Waymy.
+- **Identification proposée / nom moderne :** **Río/Rivière Amacuro**,
+  actuel cours frontalier Venezuela–Guyana, à l'est immédiat du delta de
+  l'Orénoque (état vénézuélien de Delta Amacuro).
+- **Confiance :** ✅ fort
+- **Raisonnement :** Correspondance quasi directe du nom (aucune
+  déformation), et position cohérente : juste à l'est de l'Orénoque, à la
+  charnière entre les deux territoires (nouvelle-andalousie/suriname dans
+  le jeu), exactement comme la rivière Amacuro moderne sépare
+  aujourd'hui le Delta Amacuro vénézuélien du Guyana. Les sources
+  confirment une présence hollandaise dès 1637 dans le secteur
+  Amacuro-Essequibo-Berbice, cohérente avec la période de la campagne
+  (1713-1720).
+- **Sources :** [Amacuro River - Wikipedia](https://en.wikipedia.org/wiki/Amacuro_River) ;
+  [Delta Amacuro - Wikipedia](https://en.wikipedia.org/wiki/Delta_Amacuro) ;
+  [Guyana–Venezuela territorial dispute - Wikipedia](https://en.wikipedia.org/wiki/Guyana%E2%80%93Venezuela_territorial_dispute).
+
+### N045 — r-berbice
+
+- **Toponyme Jaillot :** R. Berbice
+- **Territoire :** suriname
+- **Repères proches :** Villages du delta du Suriname (4,2 NM), Fort
+  Kyk-Over-Al (43,4 NM), Nieuw Middelburg (59 NM), Paramaribo (75,4 NM).
+  Embouchure en mer ; voisin direct de R. Corretine (relations
+  « separate » à deux endroits).
+- **Identification proposée / nom moderne :** **Rivière Berbice**
+  (Guyana).
+- **Confiance :** ✅ fort
+- **Raisonnement :** Nom identique au toponyme moderne, position
+  cohérente entre l'Essequibo (à l'ouest) et le Corentyne (à l'est),
+  exactement l'ordre géographique réel des grands fleuves guyanais. La
+  colonie hollandaise de Berbice existait déjà avant 1713.
+- **Sources :** Analyse interne + cohérence positionnelle avec
+  R. Essequebe/R. Corretine.
+
+### N048 — r-copanama
+
+- **Toponyme Jaillot :** R. Copanama
+- **Territoire :** suriname
+- **Repères proches :** Paramaribo (13,9 NM), Villages du delta du
+  Suriname (54,6 NM). Embouchure en mer ; relations « separate » multiples
+  avec R. Marateka_C et Suriname_B — indique un secteur deltaïque
+  complexe, chenaux imbriqués, immédiatement à l'est de l'estuaire du
+  Suriname.
+- **Identification proposée / nom moderne :** Non déterminé (hypothèse
+  faible : partie du système Commewijne/Cottica, à l'est de Paramaribo).
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** La position (juste à l'est de l'estuaire du
+  Suriname, avant R. Marateka et R. Marrawini) correspond à la zone où se
+  trouvent aujourd'hui les rivières Commewijne et Cottica, mais rien dans
+  le nom « Copanama » ne permet de trancher lequel de ces cours (ou un
+  troisième, aujourd'hui disparu/comblé) il représente. Le fait que
+  Jaillot documente ici trois cours voisins (Copanama, Marateka,
+  Marrawini) pour un espace qui n'en compte que deux-trois aujourd'hui
+  (Commewijne, Cottica, Marowijne) suggère une possible sur-segmentation
+  ou un dédoublement cartographique d'un même système deltaïque plutôt
+  que trois fleuves indépendants clairement identifiables un à un.
+- **Sources :** [Commewijne River - Wikipedia](https://en.wikipedia.org/wiki/Commewijne_River) ;
+  [Cottica River - Wikipedia](https://en.wikipedia.org/wiki/Cottica_River).
+
+### N050 — r-corretine
+
+- **Toponyme Jaillot :** R. Corretine
+- **Territoire :** suriname
+- **Repères proches :** Villages du delta du Suriname, à l'est de
+  R. Berbice ; branche principale + deux bras secondaires (B et C) ;
+  relations « separate » avec R. Berbice à deux endroits, cohérent avec
+  deux fleuves parallèles proches de leur embouchure.
+- **Identification proposée / nom moderne :** **Corantijn / Courantyne**,
+  actuel fleuve-frontière Suriname–Guyana.
+- **Confiance :** ✅ fort
+- **Raisonnement :** Déformation phonétique mineure et classique
+  (Corretine → Corantijn/Courantyne, l'un des noms hollandais du fleuve
+  reste jusqu'à aujourd'hui « Corantijn »), position immédiatement à
+  l'est du Berbice — exactement la position réelle du Corentyne, qui
+  sert de frontière entre le Suriname et le Guyana actuels.
+- **Sources :** [Courantyne River - Wikipedia](https://en.wikipedia.org/wiki/Courantyne_River) ;
+  [Corantijn River - WorldAtlas](https://www.worldatlas.com/rivers/corantijn-river.html).
+
+### N056 — r-essequebe
+
+- **Toponyme Jaillot :** R. Essequebe
+- **Territoire :** suriname
+- **Repères proches :** Fort Kyk-Over-Al (5,3 NM — fort hollandais
+  historique situé précisément au confluent Essequibo/Mazaruni/Cuyuni),
+  Nieuw Middelburg (19,4 NM). Embouchure en mer ; voisin direct de
+  R. Poumaron.
+- **Identification proposée / nom moderne :** **Rivière Essequibo**
+  (Guyana).
+- **Confiance :** ✅ fort
+- **Raisonnement :** Correspondance de nom directe (Essequebe/Essequibo)
+  et confirmation topographique décisive : Fort Kyk-Over-Al, poste
+  hollandais historique bâti au confluent des rivières Essequibo,
+  Mazaruni et Cuyuni, se trouve à seulement 5,3 NM (carte) de
+  l'embouchure relevée par Jaillot — cohérence maximale.
+- **Sources :** Analyse interne (position de Fort Kyk-Over-Al dans
+  `villes-data.js`, recoupée avec l'inventaire).
+
+### N063 — r-marateka
+
+- **Toponyme Jaillot :** R. Marateka
+- **Territoire :** suriname
+- **Repères proches :** Paramaribo (proche, secteur est de l'estuaire du
+  Suriname). Quatre branches (main, B, C, D) ; relations « separate »
+  avec R. Copanama (branche C) ; se jette en mer par deux embouchures
+  distinctes.
+- **Identification proposée / nom moderne :** Non déterminé (même
+  hypothèse que R. Copanama : complexe Commewijne/Cottica).
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Cours le plus ramifié du secteur deltaïque est de
+  Paramaribo, imbriqué avec R. Copanama. Comme pour ce dernier, aucun
+  élément (phonétique ou positionnel) ne permet de l'assigner avec
+  confiance à un cours moderne précis (Commewijne ou Cottica) plutôt qu'à
+  l'autre.
+- **Sources :** Analyse interne ; cf. sources de N048.
+
+### N064 — r-marrawini
+
+- **Toponyme Jaillot :** R. Marrawini
+- **Territoire :** suriname
+- **Repères proches :** Paramaribo (42,4 NM). Se jette directement dans
+  le fleuve Suriname (`outlets` : `type: "junction", targetRiverId:
+  "Suriname"`), au point le plus proche de la mer du bras « Suriname »
+  principal — donc représenté comme un affluent, pas comme une embouchure
+  indépendante.
+- **Identification proposée / nom moderne :** **Commewijne** (hypothèse) —
+  écarté en première intention : Marowijne/Maroni (frontière
+  Suriname–Guyane française).
+- **Confiance :** ⚠️ moyen
+- **Raisonnement :** La ressemblance phonétique à « Marowijne/Maroni » est
+  frappante à première vue, mais la topologie du dossier (Marrawini
+  représenté comme un simple affluent qui rejoint le Suriname près de son
+  embouchure, et non comme un fleuve indépendant avec sa propre bouche à
+  la mer, comme l'est réellement le Marowijne) ne colle pas avec un
+  Marowijne réel — trop éloigné et sans lien hydrographique avec le
+  Suriname dans la réalité. En revanche, les sources indiquent que la
+  Commewijne portait aux XVIe-XVIIe siècles les formes « Camaiwini » et
+  « Cammawini » — très proches de « Marrawini » — et que cette rivière
+  rejoint précisément l'estuaire du Suriname près de Paramaribo, ce qui
+  correspond exactement à la relation topologique du dossier. Hypothèse
+  Commewijne retenue en confiance moyenne, sous réserve qu'il pourrait
+  aussi s'agir d'une confusion/fusion cartographique Commewijne-Marowijne
+  par Jaillot (zone la moins bien relevée du Suriname colonial à
+  l'époque).
+- **Sources :** [Commewijne River - Wikipedia](https://en.wikipedia.org/wiki/Commewijne_River) ;
+  [Marowijne River - Atlas of Mutual Heritage](https://www.atlasofmutualheritage.nl/page/10188/marowijne-river).
+
+### N065 — r-maryowapaneko
+
+- **Toponyme Jaillot :** R. Maryowapaneko
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Aromaia (41 NM), Macurevoari (84,5 NM), Nieuw
+  Middelburg (97,2 NM). Se jette dans l'Orénoque au niveau des deux
+  premières bouches du delta (Delta_Orénoque_1 et 2) — donc un bras de
+  l'embouchure occidentale du delta.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Toponyme composé très long et non attesté ailleurs,
+  cohérent avec la même couche cartographique légendaire/indigène que le
+  cluster Bariquicometo/Capuri/Caslipa. Sa position, au niveau des
+  bouches occidentales du delta, pourrait correspondre à l'un des
+  distributaires modernes (Manamo, Pedernales…), mais rien ne permet de
+  choisir un candidat précis avec un niveau de confiance acceptable.
+- **Sources :** Analyse interne.
+
+### N068 — r-poumaron
+
+- **Toponyme Jaillot :** R. Poumaron
+- **Territoire :** suriname
+- **Repères proches :** Nieuw Middelburg (6,9 NM), Fort Kyk-Over-Al
+  (10,6 NM). Embouchure en mer ; voisin direct de R. Essequebe.
+- **Identification proposée / nom moderne :** **Rivière Pomeroon**
+  (Guyana).
+- **Confiance :** ✅ fort
+- **Raisonnement :** Déformation phonétique légère et classique
+  (Poumaron → Pomeroon), position immédiatement à l'ouest de l'Essequibo
+  — exactement la position réelle de la Pomeroon, avec le site
+  hollandais historique de Nieuw Middelburg (colonie de Pomeroon, XVIIe
+  siècle) tout proche (6,9 NM sur la carte).
+- **Sources :** Analyse interne (position de Nieuw Middelburg dans
+  `villes-data.js`, colonie hollandaise historique de la Pomeroon).
+
+### N075 — r-waymy
+
+- **Toponyme Jaillot :** R. Waymy
+- **Territoire :** suriname
+- **Repères proches :** Nieuw Middelburg (34,5 NM), Fort Kyk-Over-Al
+  (56,6 NM), Aromaia (124,7 NM). Embouchure en mer ; seul voisin
+  hydrographique listé : R. Amacuro.
+- **Identification proposée / nom moderne :** **Rivière Waini** (Guyana).
+- **Confiance :** ✅ fort
+- **Raisonnement :** Correspondance phonétique solide (Waymy → Waini) et
+  position parfaitement cohérente : entre l'Amacuro (à l'ouest) et le
+  cluster Pomeroon/Essequibo (à l'est), exactement l'ordre géographique
+  réel des cours d'eau de l'ouest guyanais (Amacuro → Barima → Waini →
+  Pomeroon → Essequibo).
+- **Sources :** Analyse interne, cohérence positionnelle avec R. Amacuro
+  et R. Poumaron/R. Essequebe.
+
+### N098 — suriname
+
+- **Toponyme Jaillot :** Suriname
+- **Territoire :** suriname
+- **Repères proches :** Paramaribo (1,7 NM — quasiment superposé).
+  Deux bras (main + B) avec deux embouchures en mer ; voisin de
+  R. Copanama, R. Marateka et R. Marrawini (qui s'y jette).
+- **Identification proposée / nom moderne :** **Fleuve Suriname**, sur
+  lequel se trouve Paramaribo.
+- **Confiance :** ✅ fort
+- **Raisonnement :** Identification directe et évidente — nom identique,
+  distance à Paramaribo quasi nulle (1,7 NM sur la carte). Bon candidat
+  de niveau 1 pour la hiérarchie du secteur Guyanes, aux côtés de
+  l'Orénoque, de l'Essequibo, du Berbice et du Corentyne.
+- **Sources :** Analyse interne (position de Paramaribo dans
+  `villes-data.js`).
+
+### N102 — varacoyari-river
+
+- **Toponyme Jaillot :** Varacoyari River
+- **Territoire :** nouvelle-andalousie
+- **Repères proches :** Macurevoari (18,5 NM), Aromaia (36,5 NM), Santo
+  Tomé de Guayana (47,4 NM). Se jette dans l'Orénoque ; voisin direct du
+  Lac de Caslipa.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Appartient clairement au même cluster toponymique
+  que Bariquicometo/Capuri/Caturi Voari/Coyrama/Lac de Caslipa/
+  R. Maryowapaneko, autour de Macurevoari et Aromaia — couche
+  cartographique héritée de Ralegh/Hondius. Le suffixe « -coyari » fait
+  écho à « Coyrama » (N019) sans que cela permette d'en tirer une
+  identification fiable. Aucun candidat moderne retenu.
+- **Sources :** Analyse interne.

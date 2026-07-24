@@ -1,0 +1,163 @@
+[BROUILLON INTERMÉDIAIRE OBSOLÈTE — voir fluvial-identification-complete.md pour la version corrigée. Entrée dépassée : N089 (Rivière Sablomuere, faussement attribuée à R006). Conservé uniquement à titre d'archive de travail.]
+
+## Secteur B — Floride / Louisiane (golfe du Mexique, nord/est)
+
+### N002 — arba-de-canaveral
+
+- **Toponyme Jaillot :** Arba de Canaveral
+- **Territoire :** floride
+- **Repères proches :** San Agustín à 44,8 NM (carte) ; plus loin Nassau, Harbour Island, Santa Cruz del Norte (Cuba), Charles Town. Aucun cours voisin recensé. Tracé très court (2 cellules), embouchure directe en mer.
+- **Identification proposée / nom moderne :** Non un vrai fleuve — probablement la « Barra de Cañaveral », c'est-à-dire la passe/l'inlet sableux au droit du Cap Canaveral (système de lagune Banana River / Indian River Lagoon / Mosquito Lagoon, zone du Cap Canaveral moderne).
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** Le nom « Arba » ne correspond à aucun terme espagnol courant de fleuve ; il s'agit très probablement d'une déformation de « Barra » (banc de sable / passe), un terme employé pour les inlets de la côte est floridienne bien plus que pour un cours d'eau. La position (au sud de San Agustín, à une distance interne cohérente avec le Cap Canaveral réel) et le caractère très court du tracé (2 cellules, embouchure « sea » directe) appuient l'hypothèse d'une passe littorale plutôt que d'un fleuve. Cas à rapprocher des précédents Alimcingo/Cone I./I. Perica (repères qui ne sont pas des cours d'eau).
+- **Sources :** Aucune source cartographique indépendante confirmant le tracé ; hypothèse fondée sur la toponymie espagnole (barra) et la position relative dans l'inventaire.
+
+### N008 — brave-north-river
+
+- **Toponyme Jaillot :** Brave (North) River
+- **Territoire :** louisiane
+- **Repères proches :** La Nouvelle-Orléans (107,9 NM carte), Tampico, Mexico, Mobile, Puebla de los Ángeles. Territoires adjacents à distance 0 : louisiane, nouveau-mexique, nueva-galicia. Cours voisin direct : Rivière aux Vaches. Système fluvial majeur (47 cellules), embouchure en mer.
+- **Identification proposée / nom moderne :** **Rio Grande** (Río Bravo del Norte).
+- **Confiance :** ✅ fort
+- **Raisonnement :** « Brave (North) River » est la traduction anglaise quasi littérale de « Río Bravo del Norte », nom espagnol historique bien attesté du Rio Grande (« Bravo » → Brave, « del Norte » → North). La proximité immédiate avec le territoire Nouveau-Mexique (distance 0) et la position à l'ouest de la Rivière aux Vaches (identifiée ci-dessous comme la Lavaca River au Texas) sont cohérentes avec le tracé réel du Rio Grande, qui borde le Nouveau-Mexique avant de rejoindre le golfe du Mexique au Texas.
+- **Sources :** Río Bravo (disambiguation) — Wikipedia ; Britannica, « Rio Grande | Definition, Location, Length, Map, & Facts » (noms historiques Río Bravo del Norte / Río San Buenaventura).
+
+### N020 — escambia-r
+
+- **Toponyme Jaillot :** Escambia R.
+- **Territoire :** floride
+- **Repères proches :** Pensacola à seulement 21,2 NM (carte) — très proche, cohérent avec la géographie réelle. Cours voisin direct : Perdido.
+- **Identification proposée / nom moderne :** **Escambia River** (Floride/Alabama).
+- **Confiance :** ✅ fort
+- **Raisonnement :** Toponyme identique, sans déformation, et position immédiate au voisinage de Pensacola — exactement la position de l'Escambia River réelle, qui se jette dans la baie de Pensacola. Nom resté inchangé jusqu'à aujourd'hui.
+- **Sources :** Continuité toponymique directe (Escambia River, Florida/Alabama) ; cohérence de position avec Pensacola dans l'inventaire.
+
+### N028 — marpequeue
+
+- **Toponyme Jaillot :** Marpequeue
+- **Territoire :** floride
+- **Repères proches :** Pensacola (153,9 NM carte), Mobile, La Nouvelle-Orléans, Tampico — assez loin de tout, positionné entre Ostras (à l'ouest) et Rio del Canaveral (à l'est) dans la séquence de la côte du golfe/Big Bend. Aucun cours voisin recensé.
+- **Identification proposée / nom moderne :** Non déterminé. Piste faible et non retenue : le nom pourrait dériver de « Mar Pequeño » (« petite mer » en espagnol), un descriptif plausible pour une baie fermée par un cordon littoral (type St. Andrew Bay, Panama City) — mais aucune source indépendante ne permet de trancher.
+- **Confiance :** Non déterminé
+- **Raisonnement :** Aucune correspondance toponymique fiable trouvée. Le secteur du Big Bend/panhandle floridien est notoirement mal cartographié en 1708 ; ne pas forcer un rapprochement.
+- **Sources :** Aucune trouvée. Recherche effectuée sur Herman Moll (1715) et Delisle (1718) sans résultat exploitable pour ce toponyme précis.
+
+### N030 — may-r
+
+- **Toponyme Jaillot :** May R.
+- **Territoire :** floride
+- **Repères proches :** San Agustín à 65,9 NM (carte), au nord de celui-ci (comparaison des coordonnées y). Charles Town plus loin.
+- **Identification proposée / nom moderne :** **St. Johns River**.
+- **Confiance :** ✅ fort
+- **Raisonnement :** « May River » / « River of May » (Rivière de Mai) est le nom donné par les explorateurs français (Jean Ribault, 1562 ; fondation de Fort Caroline par Laudonnière en 1564) au fleuve aujourd'hui identifié sans ambiguïté comme le St. Johns River — l'identification historique est bien documentée et largement consensuelle. La position sur la carte Jaillot (au nord de San Agustín) correspond exactement à la position réelle de l'embouchure du St. Johns (Jacksonville), au nord de St. Augustine.
+- **Sources :** Florida Memory, « Jean Ribault Explores the St. Johns River » ; NPS, National Memorial Florida brochure ; Wikipedia, « St. Johns River ».
+
+### N032 — mississippi
+
+- **Toponyme Jaillot :** Mississippi
+- **Territoire :** louisiane
+- **Repères proches :** La Nouvelle-Orléans à seulement 10,5 NM (carte). Deux branches d'embouchure distinctes (« Mississippi » et « Mississippi_B », toutes deux en mer), avec une bifurcation (fork) repérée dans les relations internes.
+- **Identification proposée / nom moderne :** **Fleuve Mississippi**.
+- **Confiance :** ✅ fort
+- **Raisonnement :** Identification évidente et non contestée. Point de documentation demandé : le tracé Jaillot montre un delta simple à deux bras (bifurcation unique), reflet de l'état des connaissances de 1708 — bien avant les levés du Corps of Engineers américain du XIXe siècle qui ont documenté le delta en « patte d'oiseau » (birdfoot delta) à multiples passes (Southwest Pass, South Pass, Pass a Loutre, etc.) que l'on connaît aujourd'hui. La carte de Jaillot, comme la plupart des cartes de son époque, simplifie donc fortement la morphologie deltaïque réelle du Mississippi.
+- **Sources :** Identification directe (aucune ambiguïté) ; comparaison delta historique/moderne basée sur connaissance générale de l'évolution du delta du Mississippi (levés du XIXe siècle).
+
+### N034 — nieves-r
+
+- **Toponyme Jaillot :** Nieves R.
+- **Territoire :** floride
+- **Repères proches :** Très éloigné de tous les repères listés (Pensacola à 329,7 NM carte, San Agustín à 343,4 NM, Louisiane la zone la plus proche à 194,1 NM) — signe d'un cours isolé, probablement dans le Big Bend floridien, entre R. Flores/Rio del Canaveral (à l'ouest) et Rio del Spirito Sancto (à l'est) dans la séquence de la carte. 18 cellules, cours de taille moyenne.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** Non déterminé
+- **Raisonnement :** « Nieves » (« neiges » en espagnol) est un toponyme sanctoral courant (Nuestra Señora de las Nieves) sans lien descriptif réel avec le climat floridien — probablement un nom transplanté sans signification géographique locale, ce qui interdit toute déduction fiable à partir du nom lui-même. Aucun repère de proximité fiable ne permet de trancher entre les nombreux cours du Big Bend (Suwannee, Waccasassa, Withlacoochee, etc.).
+- **Sources :** Aucune trouvée permettant de trancher.
+
+### N035 — ochio-ou-belle-riviere
+
+- **Toponyme Jaillot :** Ochio ou Belle Rivière
+- **Territoire :** floride (mais rattachement fonctionnel Louisiane par la confluence)
+- **Repères proches :** Confluence directe avec le Mississippi (deux branches en jonction, `targetRiverId: "Mississippi"`), Pensacola (105 NM carte), Mobile, La Nouvelle-Orléans. Cours voisin direct : Mississippi.
+- **Identification proposée / nom moderne :** **Ohio River**.
+- **Confiance :** ✅ fort
+- **Raisonnement :** « Belle Rivière » est le nom français historique bien attesté de l'Ohio ; « Ochio » est une transcription phonétique déformée de « Ohio ». Le fait que ce cours se jette directement dans le Mississippi (deux embouchures de type jonction vers « Mississippi ») confirme sans ambiguïté qu'il s'agit d'un grand affluent du Mississippi correspondant à l'Ohio.
+- **Sources :** Toponymie historique bien connue (« La Belle Rivière » = nom français de l'Ohio aux XVIIe-XVIIIe siècles) ; cohérence structurelle de la confluence dans l'inventaire.
+
+### N037 — ostras
+
+- **Toponyme Jaillot :** Ostras
+- **Territoire :** floride
+- **Repères proches :** Pensacola (87,3 NM carte), Mobile, La Nouvelle-Orléans. Positionné entre Escambia (à l'ouest) et Marpequeue (à l'est) dans la séquence côtière du panhandle.
+- **Identification proposée / nom moderne :** Non déterminé avec certitude. Piste faible : une baie/lagune ostréicole du panhandle est de Pensacola — Choctawhatchee Bay ou St. Andrew Bay (Panama City), toutes deux historiquement réputées pour leurs bancs d'huîtres.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** « Ostras » (huîtres, en espagnol) est un toponyme descriptif générique très courant sur toute la côte du golfe — la position relative (juste à l'est de l'Escambia) rend plausible un rapprochement avec les baies à huîtres du panhandle est de Pensacola, mais rien ne permet de trancher entre les candidats.
+- **Sources :** Aucune source indépendante confirmant un tracé précis ; hypothèse fondée sur le sens descriptif du toponyme et la position relative.
+
+### N041 — perdido
+
+- **Toponyme Jaillot :** Perdido
+- **Territoire :** floride
+- **Repères proches :** Pensacola à seulement 7,5 NM (carte) — quasiment adjacent. Cours voisin direct : Escambia R.
+- **Identification proposée / nom moderne :** **Perdido River**.
+- **Confiance :** ✅ fort
+- **Raisonnement :** Toponyme identique, sans déformation. La Perdido River marque aujourd'hui encore la frontière Floride/Alabama, juste à l'ouest de Pensacola — position exactement cohérente avec l'inventaire (7,5 NM de Pensacola, cours voisin de l'Escambia).
+- **Sources :** Continuité toponymique directe (Perdido River, frontière Floride/Alabama).
+
+### N057 — r-flores
+
+- **Toponyme Jaillot :** R. Flores
+- **Territoire :** floride
+- **Repères proches :** Très éloigné de tous les repères (Pensacola à 260,3 NM carte) — signe d'un cours du Big Bend floridien, entre Rio del Canaveral (à l'ouest) et Nieves R. (à l'est) dans la séquence de la carte.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** Non déterminé
+- **Raisonnement :** « R. Flores » (rivière des fleurs) est un toponyme descriptif sans ancrage géographique permettant de le distinguer des nombreux petits cours du Big Bend (Aucilla, Econfina, Fenholloway, Steinhatchee, Suwannee). Aucun repère de proximité fiable dans l'inventaire ne permet de trancher.
+- **Sources :** Aucune trouvée.
+
+### N071 — r-snelo
+
+- **Toponyme Jaillot :** R. Snelo
+- **Territoire :** floride
+- **Repères proches :** Quasi équidistant de Pensacola (32,9 NM carte) et Mobile (38,7 NM) — positionné juste au sud-ouest de Perdido dans la séquence de la carte, donc probablement dans le secteur Perdido Bay / Mobile Bay.
+- **Identification proposée / nom moderne :** Non déterminé.
+- **Confiance :** Non déterminé
+- **Raisonnement :** Le toponyme « Snelo » n'a pas d'équivalent espagnol ou français reconnaissable — probablement une déformation forte d'un nom d'origine amérindienne ou d'un nom européen mal transcrit par le graveur. La position (entre Pensacola et Mobile) pourrait correspondre à un petit cours ou bayou côtier du secteur Perdido Bay/Ono Island, mais aucune source ne permet de l'affirmer.
+- **Sources :** Aucune trouvée.
+
+### N080 — rio-del-canaveral
+
+- **Toponyme Jaillot :** Rio del Canaveral
+- **Territoire :** floride
+- **Repères proches :** Très éloigné de tout repère listé (Pensacola à 220,4 NM carte) ; positionné dans le Big Bend floridien, entre Marpequeue (à l'ouest) et R. Flores/Nieves (à l'est) — donc **très éloigné du Cap Canaveral réel**, qui se trouve sur la côte atlantique (cf. N002 Arba de Canaveral, bien plus à l'est sur la carte, proche de San Agustín).
+- **Identification proposée / nom moderne :** Non déterminé. À noter : ce toponyme n'est très probablement **pas lié** au Cap Canaveral moderne malgré le nom partagé.
+- **Confiance :** Non déterminé (possible 🎲 doublon toponymique)
+- **Raisonnement :** « Cañaveral » signifie littéralement « roselière/cannaie » en espagnol — un descriptif de paysage extrêmement courant, appliqué à de multiples sites le long des côtes marécageuses de Floride, pas seulement au site qui a donné son nom au Cap Canaveral moderne. La position de ce cours (côte du golfe, Big Bend) très éloignée de celle d'Arba de Canaveral (côte atlantique, proche de San Agustín) confirme qu'il s'agit de deux toponymes distincts portant un nom similaire par pur hasard descriptif, et non du même site dédoublé par erreur de la carte.
+- **Sources :** Sens littéral du terme espagnol « cañaveral » ; comparaison de position interne avec N002 dans l'inventaire.
+
+### N081 — rio-del-spirito-sancto
+
+- **Toponyme Jaillot :** Rio del Spirito Sancto
+- **Territoire :** floride
+- **Repères proches :** San Agustín (158,7 NM carte), Charles Town, La Havane. Positionné entre Nieves R. (à l'ouest) et Arba de Canaveral/May R. (à l'est) dans la séquence de la carte — donc dans la portion centre-sud du golfe floridien, cohérente avec la position réelle de la baie de Tampa entre le Big Bend et la péninsule atlantique.
+- **Identification proposée / nom moderne :** Hypothèse : écho de la **Bahía del Espíritu Santo**, nom espagnol historique de **Tampa Bay** (attesté dès Pánfilo de Narváez, 1528, et Hernando de Soto, 1539), ici représenté par Jaillot comme une embouchure fluviale plutôt que comme une baie.
+- **Confiance :** ⚠️ moyen
+- **Raisonnement :** « Espíritu Santo » est un toponyme récurrent sur les côtes du golfe (voir aussi R008/Villahermosa-Tabasco, un toponyme homonyme mais totalement distinct au Mexique, déjà traité dans la session précédente — à ne pas confondre). En Floride spécifiquement, « Bahía del Espíritu Santo » est le nom espagnol bien documenté de Tampa Bay jusqu'à sa progressive « Tampanisation » à partir de 1576-1601. La conflation baie/rivière est un phénomène courant sur les cartes du XVIIe-XVIIIe siècle pour les grandes baies mal sondées, ce qui expliquerait que Jaillot représente ce site comme un « rio » plutôt qu'une baie — cohérent avec la mise en garde du dossier sur les repères qui sont en réalité des baies. Confiance modérée seulement : la position relative sur la carte de jeu est compatible mais ne prouve pas formellement le tracé.
+- **Sources :** HMDB, « Bahia Espiritu Santo Mission Historical Marker » ; USF FCIT, « The Bay of Espiritu Santo on the Western Coast of East Florida, 1777 » ; historique de la dénomination Tampa Bay / Bahía de Espíritu Santo (cartes espagnoles dès 1584).
+
+### N088 — riviere-aux-vaches
+
+- **Toponyme Jaillot :** Rivière aux Vaches
+- **Territoire :** louisiane
+- **Repères proches :** La Nouvelle-Orléans (69,5 NM carte), Tampico, Mobile, Mexico, Pensacola. Cours voisin direct : Brave (North) River (à l'ouest/sud, cf. N008).
+- **Identification proposée / nom moderne :** **Lavaca River** (Texas), affluent de la Matagorda Bay.
+- **Confiance :** ✅ fort
+- **Raisonnement :** Le nom moderne « Lavaca River » est directement issu, par déformation/contraction, du français « Rivière des Vaches », nom donné par René-Robert Cavelier de La Salle lors de son expédition au Texas (1685) — étymologie bien documentée. La position sur la carte Jaillot, à l'est/nord-est du Brave (North) River identifié comme le Rio Grande, est cohérente avec la position réelle de la Lavaca River au Texas, entre le delta du Mississippi et le Rio Grande — exactement la zone explorée et nommée par La Salle.
+- **Sources :** Wikipedia, « Lavaca River » (étymologie « Rivière des Vaches », La Salle) ; Texas State Historical Association, « French colonization of Texas ».
+
+### N089 — riviere-sablomuere
+
+- **Toponyme Jaillot :** Rivière Sablomuere
+- **Territoire :** louisiane
+- **Repères proches :** La Nouvelle-Orléans (88,9 NM carte), Mobile, Pensacola, Tampico, Mexico. Cours voisins directs : Mississippi (jonction confirmée), F-7_23.
+- **Identification proposée / nom moderne :** **Red River** (Rivière Rouge).
+- **Confiance :** ✅ fort
+- **Raisonnement :** Identification **reprise telle quelle** de la session précédente (fiche R006 du dossier `fluvial-identification-synthese.md`), où « la Sablomuere R. » avait été identifiée avec confiance forte comme le Red River, sur la base d'un recoupement avec Delisle 1718. Non retraité ici conformément à la consigne — l'entrée de l'inventaire confirme la cohérence structurelle (jonction directe avec le Mississippi, deux branches), en accord avec le tracé réel du Red River rejoignant le Mississippi (via l'Atchafalaya/Old River historique).
+- **Sources :** `tools/fluvial-research/fluvial-identification-synthese.md`, fiche R006 (« la Sablomuere R. » → Red River, ✅ fort, recoupement Delisle 1718).
