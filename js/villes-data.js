@@ -278,11 +278,16 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
 ⚠️ Population : estimation courante pour le début du XVIIIe siècle.`,
     },
 
-    // ── JALAPA ────────────────────────────────────────────────────────────────
+    // ── XALAPA ────────────────────────────────────────────────────────────────
+    // RÉVISION COLLABORATIVE (avec Ronan) : la Jaillot porte bien « Xalapa »
+    // (confirmé par lecture directe) — la graphie « Jalapa » retenue dans une
+    // version antérieure de cette fiche n'avait pas de fondement sur la carte
+    // elle-même ; la parenthèse historique X→J (XVIe-XXe s.) est réelle mais
+    // sans objet ici puisqu'aucune divergence carte/moderne n'existe.
 
     {
         id: 'xalapa',
-        nom: 'Jalapa',
+        nom: 'Xalapa',
         type: 'ville',
         rang: '2',
         territoire: 'nouvelle-espagne',
@@ -291,14 +296,14 @@ Loin des côtes, Mexico n'est pas une cible pirate directe. Mais tout ce qui arr
         contexte: [
             {
                 de: 1712,
-                texte: `Ville de montagne sur les contreforts de la Sierra Madre orientale, à mi-chemin entre Veracruz et Puebla. Jalapa doit sa notoriété commerciale à la <strong>Feria de Jalapa</strong> : lorsqu'une flotte espagnole arrive à Veracruz, les marchands de l'intérieur descendent à Jalapa pour y traiter avec les agents des négociants de Cadix, à l'abri de la fièvre jaune qui décime les Européens dans la chaleur côtière. La foire ne dure que quelques semaines mais brasse des millions de pesos — c'est ici que se fixent les prix de gros pour l'ensemble du marché intérieur. Entre les flottes, Jalapa retrouve sa tranquillité provinciale.`,
+                texte: `Ville de montagne sur les contreforts de la Sierra Madre orientale, à mi-chemin entre Veracruz et Puebla. Xalapa doit sa notoriété commerciale à la <strong>Feria de Xalapa</strong> : lorsqu'une flotte espagnole arrive à Veracruz, les marchands de l'intérieur descendent à Xalapa pour y traiter avec les agents des négociants de Cadix, à l'abri de la fièvre jaune qui décime les Européens dans la chaleur côtière. La foire ne dure que quelques semaines mais brasse des millions de pesos — c'est ici que se fixent les prix de gros pour l'ensemble du marché intérieur. Entre les flottes, Xalapa retrouve sa tranquillité provinciale.`,
             },
         ],
 
         population: `~8 000 habitants`,
 
-        note_mj: `✅ Feria de Jalapa, mécanisme de distribution des marchandises des flottes : établi (Walker, <em>Spanish Politics and Imperial Trade</em>, 1979).
-✅ Choix de Jalapa pour éviter la fièvre jaune de Veracruz : attesté dans les sources marchandes de l'époque.
+        note_mj: `✅ Feria de Xalapa, mécanisme de distribution des marchandises des flottes : établi (Walker, <em>Spanish Politics and Imperial Trade</em>, 1979).
+✅ Choix de Xalapa pour éviter la fièvre jaune de Veracruz : attesté dans les sources marchandes de l'époque.
 ⚠️ Population : estimation.`,
     },
 
@@ -360,31 +365,69 @@ La ville elle-même est modeste — une rade exceptionnelle dans un climat meurt
 Le Galion de Manille est hors de portée des pirates des Caraïbes — mais son calendrier structure les flux commerciaux qui transitent ensuite par Veracruz.`,
     },
 
-    // ── LA ANTIGUA (VILLA RICA) ───────────────────────────────────────────────
+    // ── VILLA RICA ───────────────────────────────────────────────────────────
+    // RÉVISION COLLABORATIVE (avec Ronan) : cette entrée s'appelait auparavant
+    // « La Antigua (Villa Rica de la Vera Cruz) », amalgamant deux sites
+    // coloniaux réels et distincts. La Jaillot porte ici « Villa Rica », et la
+    // position correspond au site de 1519-1525 (face à Quiahuiztlán, municipe
+    // d'Actopan) — pas à La Antigua sur le río Huitzilapan, occupée à partir de
+    // 1525 (voir entrée séparée ci-dessous, « La Antigua (Huitzilapan) »). Les
+    // coordonnées ne changent pas : c'est le nom/contenu qui était erroné.
 
     {
-        id: 'antigua-veracruz',
-        nom: 'La Antigua (Villa Rica de la Vera Cruz)',
-        label: 'La Antigua',
-        type: 'ville',
+        id: 'villa-rica',
+        nom: 'Villa Rica de la Vera Cruz',
+        label: 'Villa Rica',
+        type: 'site_hist',
         rang: '3',
         territoire: 'nouvelle-espagne',
         coords: [1166, 2436],
-        tags: ['Villa Rica'],
 
         contexte: [
             {
                 de: 1712,
-                texte: `Premier établissement permanent fondé par Hernán Cortés en 1519 sur la côte du Golfe — la <em>Villa Rica de la Vera Cruz</em> originelle, avant que la ville ne soit déplacée vers son emplacement définitif plus au sud. En 1712, La Antigua est un bourg résiduel de quelques centaines d'habitants, conservant la <strong>Casa de Cortés</strong> — une construction du XVIe siècle que la tradition locale attribue au conquistador — et une église coloniale ancienne. Le site n'a plus aucune fonction commerciale ou militaire : Veracruz a tout absorbé. Il subsiste comme lieu de mémoire et comme bourg agricole sur la rive du río Huitzilapan.`,
+                texte: `Premier établissement permanent fondé par Hernán Cortés, le 22 avril 1519, sur la plage de Chalchihuecan (près du site actuel de Veracruz) ; dès juin de la même année, la colonie se déplace ici, face au promontoire fortifié de <strong>Quiahuiztlán</strong>, sous le nom de <em>Villa Rica de la Vera Cruz</em> — c'est à cet endroit que Cortés scelle son alliance avec les Totonaques de Cempoala contre les Mexicas. Le site reste le siège de la colonie jusqu'en 1524-1525, date à laquelle celle-ci est de nouveau déplacée, vers l'embouchure du río Huitzilapan (aujourd'hui La Antigua). En 1712, il ne subsiste ici qu'un modeste hameau côtier, sans fonction commerciale ni militaire — un nom de mémoire plus qu'une étape utile.`,
             },
         ],
 
-        population: `~500 habitants`,
+        population: `Quelques dizaines d'habitants, probablement des pêcheurs — non documenté`,
 
-        note_mj: `✅ Fondation par Cortés en 1519, premier établissement permanent de la côte : établi.
-✅ Casa de Cortés : bâtiment du XVIe siècle encore debout, attribution précise incertaine mais ancienneté établie.
-⚠️ Population en 1712 : estimation.
-Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à La Antigua sait qu'il foule le premier sol espagnol de la Nouvelle-Espagne.`,
+        note_mj: `✅ Fondation par Cortés le 22 avril 1519 à Chalchihuecan, puis relocalisation en juin 1519 face à Quiahuiztlán sous le nom de Villa Rica de la Vera Cruz : établi.
+✅ Alliance avec les Totonaques de Cempoala/Quiahuiztlán contre les Mexicas : établi.
+✅ Siège de la colonie jusqu'en 1524-1525, puis déplacement vers le río Huitzilapan (La Antigua, voir entrée séparée) : établi.
+⚠️ État exact du site en 1712 : non documenté. Un hameau nommé Villa Rica existe toujours aujourd'hui dans la municipalité d'Actopan, mais rien ne permet d'affirmer une continuité d'occupation depuis le XVIe siècle — population estimée par analogie avec d'autres sites coloniaux tombés en désuétude (cf. Nombre de Dios).
+❌ La Casa de Cortés et l'église coloniale mentionnées dans une version antérieure de cette fiche appartiennent en réalité au site de La Antigua (voir entrée séparée), pas à Villa Rica.
+🎲 Intérêt de jeu : lieu symbolique — un PJ cultivé qui aborde à Villa Rica sait qu'il foule le tout premier sol espagnol du Mexique continental.`,
+    },
+
+    // ── LA ANTIGUA (HUITZILAPAN) ────────────────────────────────────────────
+    // RÉVISION COLLABORATIVE (avec Ronan) : entrée nouvellement créée pour
+    // séparer ce site (occupé 1525-1599, sur le río Huitzilapan) de Villa Rica
+    // (voir ci-dessus). Coordonnées positionnées par Ronan par lecture directe
+    // de la carte Jaillot. Rang 3 : n'apparaît qu'en mode MJ.
+
+    {
+        id: 'antigua-huitzilapan',
+        nom: 'La Antigua (Huitzilapan)',
+        label: 'La Antigua',
+        type: 'site_hist',
+        rang: '3',
+        territoire: 'nouvelle-espagne',
+        coords: [1157, 2564],
+
+        contexte: [
+            {
+                de: 1712,
+                texte: `Second emplacement de la colonie fondée par Cortés, occupé à partir de 1524-1525 après l'abandon de Villa Rica (voir entrée séparée) : la ville s'installe alors à l'embouchure du río Huitzilapan, sur un site qui prend le nom de <em>La Antigua</em> une fois le port définitivement transféré, en 1599, vers son emplacement actuel (face à San Juan de Ulúa). Le site conserve la <strong>« Casa de Cortés »</strong>, une construction en pierre de rivière et corail du XVIe siècle — très probablement un bâtiment de douane plutôt qu'une résidence du conquistador, mais l'une des plus anciennes structures espagnoles conservées au Mexique. En 1712, La Antigua est un bourg résiduel, agricole, sur la rive du fleuve.`,
+            },
+        ],
+
+        population: `~500 habitants — estimation à revérifier`,
+
+        note_mj: `✅ Second siège de la colonie de Veracruz, 1525-1599, sur le río Huitzilapan : établi.
+✅ « Casa de Cortés » : bâtiment du XVIe siècle encore debout à La Antigua actuelle, à ~60 m du fleuve, à côté de la paroisse — vraisemblablement un poste de douane plutôt qu'une résidence de Cortés lui-même.
+✅ Transfert définitif du port vers l'emplacement actuel de Veracruz en 1599/1600 : établi.
+🎲 Intérêt de jeu : lieu symbolique concurrent de Villa Rica — un PJ qui connaît son histoire coloniale saura que c'est ici, et non à Villa Rica, que se trouve la véritable relique du XVIe siècle.`,
     },
 
     // ── VILLAHERMOSA ──────────────────────────────────────────────────────────

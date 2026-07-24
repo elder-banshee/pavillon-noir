@@ -211,6 +211,36 @@ attestation indépendante qui étaye cette identification. Détail complet
 dans `fluvial-identification-complete.md` (section « Secteur Floride »,
 fiche N034) et `fluvial-identification-synthese.md` (R013/R014).
 
+**Révision collaborative (avec Ronan) — Villa Rica/La Antigua, cluster de
+Veracruz :** l'entrée `antigua-veracruz` de `js/villes-data.js` conflait
+deux sites coloniaux distincts sous un seul nom/position — **Villa Rica**
+(occupée 1519-1525, face à Quiahuiztlán, à côté de Cempoala) et
+**La Antigua** (occupée 1525-1599, sur le río Huitzilapan, plus au sud).
+Or Jaillot inscrit bien « Villa Rica » à cet emplacement, confirmé par
+lecture directe de la carte. Correction : l'entrée existante est
+renommée **Villa Rica de la Vera Cruz** (`villa-rica`, coordonnées
+inchangées) ; une entrée distincte **La Antigua (Huitzilapan)**
+(`antigua-huitzilapan`, coordonnées x:1157/y:2564) est créée séparément.
+Cette correction invalide et décale les identifications qui reposaient
+sur l'ancien repère fautif : **N093 (Sampoval R.) = Río Actopan/
+Chachalacas** (✅ fort, débouché quasi confondu avec Villa Rica,
+remplace l'hypothèse Huitzilapan) ; **N012 (Cempel R.) = Río La Antigua
+(Huitzilapan)** (⚠️ moyen, ERR-022 retiré, position désormais cohérente
+une fois Villa Rica correctement replacée) ; **N054 (R. de Vera Cruz)**
+reste non déterminé (⚠️ faible — le tableau indiquait par erreur
+« Río Jamapa », doublon de R. de Medelin/N053, corrigé) ; **N001
+(Almaria)** perd son identification Actopan/Chachalacas (désormais
+attribuée à N093) et repasse en ⚠️ faible, hypothèse ouverte non
+tranchée (système Bobos/Filobobos → Nautla, plus au nord). Deux
+questions annexes tranchées dans la foulée : la carte Jaillot porte bien
+« Xalapa » (la graphie « Jalapa » d'une session antérieure était une
+correction non fondée, sans objet ici, revenue à l'original) ; et
+« Huitzilapan » est confirmé comme la graphie de référence (variante
+moderne : Huixilapan). Détail complet dans
+`fluvial-identification-complete.md` (fiches N001, N012, N054, N093 et
+tableau récapitulatif) et `js/villes-data.js` (entrées `villa-rica`,
+`antigua-huitzilapan`, `xalapa`).
+
 Le détail complet (raisonnement, sources, table de correspondance des
 `ERR-0xx`) est dans `fluvial-identification-complete.md` (section
 « Session de clôture — dernière passe ») pour les cours N0xx, et dans

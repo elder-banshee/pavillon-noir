@@ -96,7 +96,7 @@ Ce dossier recense **29 cours ou familles de bras sans nom relevé sur la carte*
 - **Centre du tracé :** (749.78, 2719.52) dans le référentiel 8500 × 5320 px
 - **Emprise :** x 693.49–792.56, y 2559.63–2859.92
 - **Territoires proches :** nouvelle-espagne (0 NM carte), panuco (123.6 NM carte), nueva-galicia (237.2 NM carte)
-- **Établissements proches :** Zacatula [zacatula] — 50 NM carte ; Jalapa [xalapa] — 57.3 NM carte ; Puebla de los Ángeles [los-angeles] — 67.5 NM carte ; Acapulco [acapulco] — 83.7 NM carte ; Valladolid [villadolid-nouvelle-espagne] — 97.5 NM carte
+- **Établissements proches :** Zacatula [zacatula] — 50 NM carte ; Xalapa [xalapa] — 57.3 NM carte ; Puebla de los Ángeles [los-angeles] — 67.5 NM carte ; Acapulco [acapulco] — 83.7 NM carte ; Valladolid [villadolid-nouvelle-espagne] — 97.5 NM carte
 - **Cours voisins :** Atoyac R., R de los Yopes
 - **Cellules :** `59_15`, `60_15`, `61_14`, `61_15`, `62_15`, `63_14`, `64_14`, `64_15`, `65_13`, `65_14`, `66_14`
 
@@ -138,7 +138,7 @@ Ce dossier recense **29 cours ou familles de bras sans nom relevé sur la carte*
 - **Centre du tracé :** (1060.64, 1772.31) dans le référentiel 8500 × 5320 px
 - **Emprise :** x 916.4–1213.61, y 1572.95–1916.14
 - **Territoires proches :** nueva-galicia (0 NM carte), panuco (0 NM carte), louisiane (17.6 NM carte)
-- **Établissements proches :** Tampico [tampico] — 36.1 NM carte ; La Nouvelle-Orléans [la-nouvelle-orleans] — 138.1 NM carte ; Mexico (Ciudad de México) [mexico] — 154.2 NM carte ; La Antigua (Villa Rica de la Vera Cruz) [antigua-veracruz] — 161.3 NM carte ; Puebla de los Ángeles [los-angeles] — 166.1 NM carte
+- **Établissements proches :** Tampico [tampico] — 36.1 NM carte ; La Nouvelle-Orléans [la-nouvelle-orleans] — 138.1 NM carte ; Mexico (Ciudad de México) [mexico] — 154.2 NM carte ; Villa Rica de la Vera Cruz [villa-rica] — 161.3 NM carte ; Puebla de los Ángeles [los-angeles] — 166.1 NM carte
 - **Cours voisins :** Brave (North) River, Panuco
 - **Cellules :** `36_18`, `37_18`, `38_19`, `38_20`, `39_19`, `39_20`, `40_20`, `40_21`, `41_20`, `41_21`, `42_21`, `42_22`, `43_21`, `43_23`, `44_22`, `44_23`, `44_24`
 

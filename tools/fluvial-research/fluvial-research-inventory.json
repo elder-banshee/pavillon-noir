@@ -88,8 +88,8 @@
       "relations": [],
       "nearbySettlements": [
         {
-          "id": "antigua-veracruz",
-          "name": "La Antigua (Villa Rica de la Vera Cruz)",
+          "id": "villa-rica",
+          "name": "Villa Rica de la Vera Cruz",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -101,7 +101,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -466,7 +466,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -3228,7 +3228,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -3239,8 +3239,8 @@
           "distanceNm": 13.8
         },
         {
-          "id": "antigua-veracruz",
-          "name": "La Antigua (Villa Rica de la Vera Cruz)",
+          "id": "villa-rica",
+          "name": "Villa Rica de la Vera Cruz",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -6413,8 +6413,8 @@
           "distanceNm": 154.2
         },
         {
-          "id": "antigua-veracruz",
-          "name": "La Antigua (Villa Rica de la Vera Cruz)",
+          "id": "villa-rica",
+          "name": "Villa Rica de la Vera Cruz",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -6978,7 +6978,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -15843,8 +15843,8 @@
           "distanceNm": 5.8
         },
         {
-          "id": "antigua-veracruz",
-          "name": "La Antigua (Villa Rica de la Vera Cruz)",
+          "id": "villa-rica",
+          "name": "Villa Rica de la Vera Cruz",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -15880,7 +15880,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -18561,7 +18561,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -18757,8 +18757,8 @@
           "distanceNm": 46.5
         },
         {
-          "id": "antigua-veracruz",
-          "name": "La Antigua (Villa Rica de la Vera Cruz)",
+          "id": "villa-rica",
+          "name": "Villa Rica de la Vera Cruz",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -18917,7 +18917,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -22722,8 +22722,8 @@
           "distanceNm": 38.4
         },
         {
-          "id": "antigua-veracruz",
-          "name": "La Antigua (Villa Rica de la Vera Cruz)",
+          "id": "villa-rica",
+          "name": "Villa Rica de la Vera Cruz",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -22735,7 +22735,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -23002,8 +23002,8 @@
           "distanceNm": 44.1
         },
         {
-          "id": "antigua-veracruz",
-          "name": "La Antigua (Villa Rica de la Vera Cruz)",
+          "id": "villa-rica",
+          "name": "Villa Rica de la Vera Cruz",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -23027,7 +23027,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -27634,8 +27634,8 @@
       "relations": [],
       "nearbySettlements": [
         {
-          "id": "antigua-veracruz",
-          "name": "La Antigua (Villa Rica de la Vera Cruz)",
+          "id": "villa-rica",
+          "name": "Villa Rica de la Vera Cruz",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [
@@ -27647,7 +27647,7 @@
         },
         {
           "id": "xalapa",
-          "name": "Jalapa",
+          "name": "Xalapa",
           "territory": "nouvelle-espagne",
           "type": "ville",
           "coords": [

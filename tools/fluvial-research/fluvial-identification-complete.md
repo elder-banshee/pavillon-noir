@@ -79,7 +79,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 | ID | watercourseId | Toponyme Jaillot | Identification proposée | Confiance |
 |---|---|---|---|---|
-| N001 | almaria | Almaria | **Río Actopan / Chachalacas** (révisé — Sampoval R. réassigné à La Antigua/Huitzilapan, voir N093) | ⚠️ moyen |
+| N001 | almaria | Almaria | Non déterminé (révision collaborative — l'Actopan/Chachalacas est réassigné à Sampoval R., voir N093 ; hypothèse ouverte et non confirmée : système Bobos/Filobobos → Nautla, plus au nord) | ⚠️ faible |
 | N002 | arba-de-canaveral | Arba de Canaveral | **Barra de Cañaveral** — passe sableuse au droit du Cap Canaveral (Indian River Lagoon), pas un fleuve — confirmé par cartes espagnoles AGI 1605 et Arredondo 1737 | 🎲 convention cartographique |
 | N003 | atoyac-r | Atoyac R. | **Río Balsas** (embouchure à Zacatula ; « Atoyac » = ancien nom du cours amont/moyen du Balsas) | ✅ fort |
 | N004 | auyamas | Auyamas | **Quebrada La Ahuyamala / Río Torbes** (San Cristóbal, fondée dans le « Valle de las Auyamas ») — toponyme colonial attesté, survit dans l'hydronymie actuelle | ⚠️ moyen/fort |
@@ -90,7 +90,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 | N009 | buria-o-de-san-pedro | Buria o de San Pedro | **Río Buría**, aussi appelé **Río Nirgua** — rejoint le Río Turbio (N006) pour former le Río Cojedes | ✅ fort |
 | N010 | capuri-river | Capuri River | **Río Apurito** (révision collaborative — distributaire réel de l'Apure rejoignant l'Orénoque en aval des embouchures principales, exactement où la fourche Jaillot le place ; remplace l'hypothèse Ralegh/delta, puis l'hypothèse Apure lui-même désormais attribuée au tronc principal N006) | ⚠️ moyen |
 | N011 | caturi-voari-river | Caturi Voari River | **Río Espino** (révision collaborative — ERR-002 retiré ; rivière réelle des Llanos centraux, rive nord de l'Orénoque, identifiée par lecture directe de la carte, voisine immédiate de F-95_143-C/R028=Río Zuata) | ⚠️ moyen |
-| N012 | cempel-r | Cempel R. | **ERR-022 — vraisemblablement erroné** (hypothèse Cempoala/Actopan explorée mais position discordante non résolue) | ❌ erroné |
+| N012 | cempel-r | Cempel R. | **Río La Antigua (Huitzilapan)** (révision collaborative — ERR-022 retiré ; Villa Rica, mal identifiée comme « La Antigua » dans une version antérieure, invalidait tout le secteur — repositionnée, elle libère l'embouchure du Huitzilapan pour Cempel R., juste au sud) | ⚠️ moyen |
 | N013 | cenu | Cenu | **Río Sinú** | ✅ fort |
 | N014 | cesar-pompatao | Cesar Pompatao | **Río Cesar** (Pompatao = nom chimila du fleuve) | ✅ fort |
 | N015 | chagre-r | Chagre R. | **Río Chagres** | ✅ fort |
@@ -132,7 +132,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 | N051 | r-de-costaricha | R. de Costaricha | Río Frío (affluent sud du San Juan, frontière CR/Nicaragua) — hypothèse | ⚠️ moyen |
 | N052 | r-de-los-yopes | R de los Yopes | Probable erreur/conflation cartographique de Jaillot (écho déformé du Balsas — source réelle près de Puebla incompatible avec le Papagayo) — pas d'équivalent moderne unique fiable | ⚠️ faible |
 | N053 | r-de-medelin | R. de Medelin | **Río Jamapa** (passe par Medellín de Bravo) | ✅ fort |
-| N054 | r-de-vera-cruz | R. de Vera Cruz | **Río Jamapa** (cours le plus proche au sud du port de Veracruz, entre Veracruz et Medellín) — étiquette probablement générique (« la rivière de Veracruz ») plutôt que nom colonial propre ; l'alias Huitzilapan/La Antigua reste écarté (voir N093) | ⚠️ moyen |
+| N054 | r-de-vera-cruz | R. de Vera Cruz | Non déterminé — petit cours côtier immédiatement au sud de Veracruz (lagune de Mandinga) ; l'alias Huitzilapan/La Antigua est écarté, désormais attribué à Cempel R. (voir N012). *(Note : le tableau indiquait précédemment « Río Jamapa », en doublon erroné avec R. de Medelin/N053 — corrigé.)* | ⚠️ faible |
 | N055 | r-dulce | R. Dulce | **Río Dulce** (Guatemala), exutoire du lac Izabal | ✅ fort |
 | N056 | r-essequebe | R. Essequebe | **Rivière Essequibo** (Guyana) | ✅ fort |
 | N057 | r-flores | R. Flores | **ERR-012 — vraisemblablement erroné** (position confirmée dans le Big Bend, aucun candidat trouvé) | ❌ erroné |
@@ -171,7 +171,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 | N090 | s-maria-river | S. Maria River | **Río Tuira → Río Chucunaque** (révision collaborative — remplace Río Tanela/Santa María la Antigua, Golfo de San Miguel côté Pacifique) | ⚠️ moyen |
 | N091 | sal-r | Sal R | Río Cangrejal (La Ceiba, Honduras) — identification reprise de `villes-data.js` | ⚠️ moyen |
 | N092 | salinas | Salinas | Probable étiquette générique pour la zone salinière côtière du Soconusco oriental (esteros/manglares, secteur Mazatán–Puerto Madero) plutôt qu'un fleuve précis (Coatán/Cahoacán/Huixtla/Suchiate non tranchés) | 🎲 convention cartographique |
-| N093 | sampoval-r | Sampoval R | **Río La Antigua (Huitzilapan)** — révisé, confirmé positionnellement (débouché à Villa Rica/La Antigua) | ✅ fort |
+| N093 | sampoval-r | Sampoval R | **Río Actopan / Chachalacas** (révision collaborative — remplace l'hypothèse Huitzilapan/La Antigua ; débouché quasi confondu avec le repère Villa Rica, correctement identifié comme tel plutôt que « La Antigua », qui invalidait le secteur) | ✅ fort |
 | N094 | sholes | Sholes | **Río Chimán** (révision collaborative — ERR-020 retiré ; côte Pacifique, à mi-chemin entre Chepo/Bayano et le Golfo de San Miguel) — hyp. | ⚠️ moyen |
 | N095 | st-anns | St Anns | Non déterminé (petit cours/lagune côtière à l'est de Villahermosa) | ⚠️ faible |
 | N096 | subutla | Subutla | **Corrigé : Subutla est un village, pas un fleuve.** Cours associé (arrosant Cachan, entre Tlaconoa et Subutla, distinct de R001/R002) : Río Armería (Boca de Apiza) — hypothèse | ⚠️ faible |
@@ -195,17 +195,17 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 - **Toponyme Jaillot :** Almaria
 - **Territoire :** nouvelle-espagne
-- **Repères proches :** La Antigua (17 NM), Jalapa (56,9 NM), Veracruz (75,1 NM), Puebla de los Ángeles, Tampico. Cours voisins : R. St Pedro, Sampoval R.
-- **Identification proposée / nom moderne :** **Río Actopan / Chachalacas** (révisé). Sampoval R. (N093) est réassigné au Río La Antigua/Huitzilapan sur confirmation positionnelle directe (débouché à Villa Rica/La Antigua) — ce qui libère l'Actopan/Chachalacas pour Almaria, positionné juste au nord.
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** RÉVISION (remplace l'hypothèse précédente, qui reposait sur une identification erronée de Sampoval R.). Almaria est positionné au nord de Sampoval R./La Antigua, sur la même portion de côte — cohérent avec l'Actopan/Chachalacas, site du établissement de Cempoala, immédiatement au nord de La Antigua. Le nom « Almaria » lui-même reste un simple report de toponyme ibérique sans valeur identificatoire propre.
-- **Sources :** `fluvial-identification-synthese.md`, résolution du conflit 3 (Sampoval R./R. de Vera Cruz, session de vérification croisée) ; cf. sources Cempoala/Actopan citées en N093.
+- **Repères proches :** Villa Rica (17 NM), Xalapa (56,9 NM), Veracruz (75,1 NM), Puebla de los Ángeles, Tampico. Cours voisins : R. St Pedro, Sampoval R.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan) — Non déterminé.** Hypothèse ouverte, non confirmée : système **Bobos/Filobobos → Nautla**, plus au nord sur cette côte.
+- **Confiance :** ⚠️ faible
+- **Raisonnement :** RÉVISION. L'hypothèse précédente (Actopan/Chachalacas) reposait sur le repère « La Antigua », alors confondu avec le site de Villa Rica — or Jaillot écrit bien « Villa Rica » à cet emplacement (confirmé par lecture directe), et non « La Antigua » (site distinct, plus au sud, sur le río Huitzilapan, occupé seulement à partir de 1525 — voir N012). Sampoval R., dont le débouché est quasi confondu avec Villa Rica (1,7 NM), correspond donc à l'Actopan/Chachalacas, site historique de Cempoala tout proche de Villa Rica (voir N093) — ce qui retire ce candidat à Almaria. Almaria, à 17 NM au nord de Villa Rica, reste donc sans identification solide ; le système Bobos/Filobobos, qui rejoint l'Orénoque du Golfe via la Nautla plus au nord sur cette même côte, est une piste plausible mais non étayée par un ancrage toponymique ou positionnel précis.
+- **Sources :** `fluvial-identification-synthese.md`, résolution du conflit 3 (Sampoval R./R. de Vera Cruz, session de vérification croisée) ; `js/villes-data.js` (entrées `villa-rica`, `antigua-huitzilapan`, révision collaborative) ; [Río Filobobos — Wikipedia (es)](https://es.wikipedia.org/wiki/R%C3%ADo_Filobobos) ; [Bobos River (Mexico) — Wikipedia](https://en.wikipedia.org/wiki/Bobos_River_(Mexico)).
 
 ### N003 — atoyac-r
 
 - **Toponyme Jaillot :** Atoyac R.
 - **Territoire :** nouvelle-espagne
-- **Repères proches :** Zacatula (port, 8,6 NM — embouchure quasi confondue), Puebla de los Ángeles, Jalapa, Valladolid, Pátzcuaro. Cours voisin : R de los Yopes.
+- **Repères proches :** Zacatula (port, 8,6 NM — embouchure quasi confondue), Puebla de los Ángeles, Xalapa, Valladolid, Pátzcuaro. Cours voisin : R de los Yopes.
 - **Identification proposée / nom moderne :** **Río Balsas**, dont « Atoyac » est le nom historique du cours amont/moyen (le fleuve change de nom plusieurs fois entre sa source dans la région de Puebla-Tlaxcala et son embouchure à Zacatula : Atoyac → Mezcala → Balsas/Zacatula).
 - **Confiance :** ✅ fort
 - **Raisonnement :** L'embouchure du bras Jaillot tombe quasiment sur Zacatula (8,6 NM), qui est le port historique à l'embouchure du Río Balsas — déjà identifié comme tel (R003, confiance forte) dans la synthèse des 29 cours sans nom. « Atoyac » est un nom nahuatl très répandu (« lieu où il y a une rivière ») historiquement attaché à la portion amont du même système fluvial. Il s'agit vraisemblablement du même fleuve que R003, simplement étiqueté sous son nom amont par Jaillot plutôt que sous le nom d'embouchure.
@@ -225,11 +225,11 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 - **Toponyme Jaillot :** Cempel R.
 - **Territoire :** nouvelle-espagne
-- **Repères proches :** Veracruz (8,3 NM), Jalapa (13,8 NM), La Antigua (39 NM), Tehuacán, Antequera. Cours voisins : R de los Yopes, R. de Vera Cruz, Sampoval R.
-- **Identification proposée / nom moderne :** Non déterminé. Situé entre La Antigua/Sampoval (nord) et Veracruz (sud), sur un tronçon côtier sans grand fleuve réel documenté — peut-être un bras mineur ou une lagune du système Actopan (lagune de Mandinga).
-- **Confiance :** ⚠️ faible
-- **Raisonnement :** La proximité phonétique avec « Cempoala/Zempoala » est tentante (comme pour Sampoval R, cf. N093), mais la position ne correspond pas : le site archéologique et la rivière de Cempoala (Actopan/Chachalacas) sont au nord de La Antigua, alors que Cempel R. est positionné au sud de La Antigua, entre celle-ci et Veracruz — une zone côtière réelle sans cours d'eau majeur identifié (série de petites lagunes, dont Mandinga). Pas assez d'éléments pour trancher.
-- **Sources :** Recoupement positionnel interne à l'inventaire. Cf. sources Cempoala/Actopan citées en N093.
+- **Repères proches :** Veracruz (8,3 NM), Xalapa (13,8 NM), Villa Rica (39 NM), Tehuacán, Antequera. Cours voisins : R de los Yopes, R. de Vera Cruz, Sampoval R.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan) — Río La Antigua (Huitzilapan).**
+- **Confiance :** ⚠️ moyen
+- **Raisonnement :** RÉVISION intégrale. Le repère « La Antigua » utilisé dans la première passe désignait en réalité le site de **Villa Rica** (occupé 1519-1525, face à Quiahuiztlán) — Jaillot écrit bien « Villa Rica » à cet emplacement, confirmé par lecture directe de la carte ; la confusion des deux noms dans une fiche de `villes-data.js` avait invalidé tout le secteur (voir `js/villes-data.js`, entrées `villa-rica`/`antigua-huitzilapan`). Le véritable site de **La Antigua**, sur le río Huitzilapan, n'a été occupé qu'à partir de 1525, plus au sud de Villa Rica, entre celle-ci et Veracruz — exactement la position de Cempel R. (39 NM au sud de Villa Rica, 8,3 NM au nord de Veracruz). La proximité phonétique Cempel/Cempoala reste sans valeur (Cempoala est associée à l'Actopan/Chachalacas, désormais attribué à Sampoval R., voir N093), mais l'identification positionnelle avec le Huitzilapan est solide une fois le repère Villa Rica correctement replacé.
+- **Sources :** `js/villes-data.js` (entrées `villa-rica`, `antigua-huitzilapan`, révision collaborative) ; [La Antigua (Veracruz) — Wikipedia (es)](https://es.wikipedia.org/wiki/La_Antigua_(Veracruz)) ; [Huitzilapan — Diccionario Enciclopédico de la Universidad Veracruzana](https://diccionariover.uv.mx/egvadmin/bin/view/enciclopedia/Huitzilapan).
 
 ### N024 — lac-de-mexico
 
@@ -265,7 +265,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 - **Toponyme Jaillot :** Panuco
 - **Territoire :** panuco
-- **Repères proches :** Tampico (5,8 NM — quasi confondu avec l'embouchure), La Antigua, Mexico. Trois branches cartographiées (Panuco, Panuco_B, Panuco_C), 34 cellules au total — le plus grand système fluvial du secteur.
+- **Repères proches :** Tampico (5,8 NM — quasi confondu avec l'embouchure), Villa Rica, Mexico. Trois branches cartographiées (Panuco, Panuco_B, Panuco_C), 34 cellules au total — le plus grand système fluvial du secteur.
 - **Identification proposée / nom moderne :** **Río Pánuco**, frontière historique Tamaulipas/Veracruz, embouchure à Tampico.
 - **Confiance :** ✅ fort
 - **Raisonnement :** Correspondance directe et sans ambiguïté : le toponyme est identique au nom moderne, l'embouchure tombe quasiment sur Tampico (port historique du Pánuco, 5,8 NM), le territoire de la carte s'appelle lui-même « panuco », et l'ampleur du système cartographié (34 cellules, plusieurs branches) reflète bien l'importance réelle du plus grand fleuve du golfe côté Nouvelle-Espagne.
@@ -275,7 +275,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 - **Toponyme Jaillot :** R de los Yopes
 - **Territoire :** nouvelle-espagne
-- **Repères proches :** Puebla de los Ángeles (8,5 NM), Acapulco (19,6 NM), Jalapa (27,4 NM), Valladolid, Tehuacán. Cours voisins : Atoyac R., Cempel R., R. St Pedro.
+- **Repères proches :** Puebla de los Ángeles (8,5 NM), Acapulco (19,6 NM), Xalapa (27,4 NM), Valladolid, Tehuacán. Cours voisins : Atoyac R., Cempel R., R. St Pedro.
 - **Identification proposée / nom moderne :** **RÉVISÉ — probable erreur/conflation cartographique de Jaillot.** Pas d'équivalent moderne unique fiable.
 - **Confiance :** ⚠️ faible
 - **Raisonnement :** RÉVISION (l'hypothèse Río Papagayo est écartée). Sur capture directe de la carte, ce cours a une source positionnée près de Puebla de los Ángeles et un tracé traversant tout le corridor Chinanantla/Zumpango jusqu'à Pt Marques (Acapulco) — de très loin le plus long tracé débouchant sur la façade Pacifique de la carte. Or le Río Papagayo réel est un fleuve régional modeste (~200 km, bassin confiné au Guerrero), incompatible avec une source aussi éloignée que Puebla. La source près de Puebla correspond en réalité au bassin du Río Balsas (dont un affluent porte historiquement le nom Atoyac, cf. N003). Le tracé est donc très probablement une conflation de Jaillot — une source réelle du Balsas raccordée à une embouchure qui ne lui appartient pas — plutôt que le report fidèle d'un fleuve réel unique.
@@ -285,7 +285,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 - **Toponyme Jaillot :** R. de Medelin
 - **Territoire :** nouvelle-espagne
-- **Repères proches :** Tehuacán (10,7 NM), Antequera (19,9 NM), Veracruz (32,5 NM), Popocatépetl, La Antigua. Cours voisin : R. de Vera Cruz.
+- **Repères proches :** Tehuacán (10,7 NM), Antequera (19,9 NM), Veracruz (32,5 NM), Popocatépetl, Villa Rica. Cours voisin : R. de Vera Cruz.
 - **Identification proposée / nom moderne :** **Río Jamapa**, qui passe par la ville coloniale de **Medellín** (aujourd'hui Medellín de Bravo), sur le tronçon côtier au sud de Veracruz.
 - **Confiance :** ✅ fort
 - **Raisonnement :** Correspondance toponymique directe et non ambiguë : Medellín est une ville coloniale bien documentée, fondée sur les rives du Río Jamapa, immédiatement au sud de Veracruz (l'embouchure moderne du Jamapa se situe à Boca del Río). La position du cours Jaillot (au sud du port de Veracruz) est cohérente avec cette localisation réelle.
@@ -295,11 +295,11 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 - **Toponyme Jaillot :** R. de Vera Cruz
 - **Territoire :** nouvelle-espagne
-- **Repères proches :** Veracruz (7,5 NM), Tehuacán, Antequera, Jalapa, Popocatépetl. Cours voisins : Cempel R., R. de Medelin.
+- **Repères proches :** Veracruz (7,5 NM), Tehuacán, Antequera, Xalapa, Popocatépetl. Cours voisins : Cempel R., R. de Medelin.
 - **Identification proposée / nom moderne :** Petit cours côtier immédiatement au sud du port de Veracruz (zone de la lagune de Mandinga) — non déterminé.
 - **Confiance :** ⚠️ faible
-- **Raisonnement :** RÉVISION : l'hypothèse d'un alias Huitzilapan/La Antigua est écartée — cette identité est confirmée pour Sampoval R. (N093, position vérifiée : débouché à Villa Rica/La Antigua). La position de ce cours (au sud du port, entre Veracruz et Medellín) ne correspond de toute façon pas à l'embouchure réelle de la Antigua (au nord du port). Il s'agit donc plus probablement d'un petit cours côtier distinct, sans grand fleuve réel bien documenté à cet emplacement précis (secteur des lagunes de Mandinga).
-- **Sources :** `fluvial-identification-synthese.md`, résolution du conflit 3 (session de vérification croisée).
+- **Raisonnement :** RÉVISION : l'hypothèse d'un alias Huitzilapan/La Antigua est écartée — cette identité est désormais confirmée pour **Cempel R.** (N012, révision collaborative : le repère Villa Rica, correctement replacé, libère l'embouchure du Huitzilapan pour Cempel R., juste au sud). La position de R. de Vera Cruz (au sud du port, entre Veracruz et Medellín) ne correspond de toute façon pas à l'embouchure réelle du Huitzilapan (au nord du port, à Villa Rica/Cempel R.). Il s'agit donc plus probablement d'un petit cours côtier distinct, sans grand fleuve réel bien documenté à cet emplacement précis (secteur des lagunes de Mandinga).
+- **Sources :** `fluvial-identification-synthese.md`, résolution du conflit 3 (session de vérification croisée) ; `js/villes-data.js` (révision collaborative Villa Rica/La Antigua).
 
 ### N058 — r-galer
 
@@ -325,7 +325,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 - **Toponyme Jaillot :** R. St Pedro
 - **Territoire :** nouvelle-espagne
-- **Repères proches :** Puebla de los Ángeles (20,3 NM), Mexico (28,6 NM), Valladolid (38,4 NM), La Antigua (42,1 NM), Jalapa (64,1 NM). Cours voisins : Almaria, Lac de Mexico, R de los Yopes.
+- **Repères proches :** Puebla de los Ángeles (20,3 NM), Mexico (28,6 NM), Valladolid (38,4 NM), Villa Rica (42,1 NM), Xalapa (64,1 NM). Cours voisins : Almaria, Lac de Mexico, R de los Yopes.
 - **Identification proposée / nom moderne :** **Río Tecolutla** (révisé) — hypothèse.
 - **Confiance :** ⚠️ moyen
 - **Raisonnement :** RÉVISION, sur description positionnelle directe : R. St Pedro débouche dans la même baie qu'Almaria (repère : Isla St Paulo, sans établissement), mais est décrit comme nettement plus long. Le Tecolutla, qui prend sa source loin dans la Sierra Norte de Puebla, est le meilleur candidat réel pour un cours notablement plus long que l'Actopan (= Almaria, N001) sur ce tronçon de côte.
@@ -335,7 +335,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 - **Toponyme Jaillot :** R Tispe
 - **Territoire :** panuco
-- **Repères proches :** Tampico (44,1 NM), La Antigua, Puebla de los Ángeles, Jalapa, Mexico. Cours voisin unique : Panuco.
+- **Repères proches :** Tampico (44,1 NM), Villa Rica, Puebla de los Ángeles, Xalapa, Mexico. Cours voisin unique : Panuco.
 - **Identification proposée / nom moderne :** **Río Tuxpan** — hypothèse phonétique (Tuxpan → Tispan → Tispe) et positionnelle (au sud de l'embouchure du Pánuco, sur la même façade côtière).
 - **Confiance :** ⚠️ moyen
 - **Raisonnement :** RÉVISÉ : « Tispe » est très probablement le nom d'une localité (variante/déformation de Tuxpan) plutôt que celui du fleuve lui-même — confirmé positionnellement : la localité se trouve face à l'Isla de Lobos et au banc de sable de Tuxpan (Tuspa Sand), un repère qui ne peut désigner que Tuxpan. Le cours d'eau associé est très vraisemblablement le Río Tuxpan.
@@ -365,11 +365,11 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 - **Toponyme Jaillot :** Sampoval R
 - **Territoire :** nouvelle-espagne
-- **Repères proches :** La Antigua (1,7 NM — quasi confondu), Jalapa (5,2 NM), Veracruz (47,9 NM). Cours voisin : Almaria.
-- **Identification proposée / nom moderne :** **Río La Antigua (Huitzilapan)** — RÉVISÉ.
+- **Repères proches :** Villa Rica (1,7 NM — quasi confondu), Xalapa (5,2 NM), Veracruz (47,9 NM). Cours voisin : Almaria.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan) — Río Actopan / Chachalacas.**
 - **Confiance :** ✅ fort
-- **Raisonnement :** RÉVISION (remplace l'hypothèse Actopan/Chachalacas, désormais attribuée à Almaria, N001). Confirmé par description positionnelle directe de Ronan : Sampoval R. débouche précisément à Villa Rica/La Antigua. Le fleuve qui a donné son nom à la ville de La Antigua est historiquement le Huitzilapan — c'est donc lui, et non l'Actopan (plus au nord, près du site de Cempoala), qui correspond à ce débouché. L'hypothèse phonétique Sampoval/Cempoala reste possible comme origine du nom Jaillot, mais la position réelle du débouché prime sur la parenté toponymique.
-- **Sources :** `fluvial-identification-synthese.md`, résolution du conflit 3 (session de vérification croisée) ; [Huitzilapan — Diccionario Enciclopédico de la Universidad Veracruzana](https://diccionariover.uv.mx/egvadmin/bin/view/enciclopedia/Huitzilapan).
+- **Raisonnement :** SECONDE RÉVISION (remplace l'hypothèse Huitzilapan/La Antigua de la première révision). Le repère à 1,7 NM du débouché de Sampoval R. n'est pas « La Antigua » mais **Villa Rica** — Jaillot écrit bien ce nom à cet emplacement (confirmé par lecture directe de la carte), et il s'agit du site occupé par Cortés de 1519 à 1525, face à Quiahuiztlán, immédiatement voisin du site de Cempoala. Sampoval R., quasi confondu avec ce repère, correspond donc à l'**Actopan/Chachalacas**, la rivière historiquement associée à Cempoala — et non au Huitzilapan, dont le site (La Antigua) n'a été occupé qu'à partir de 1525, plus au sud (voir Cempel R., N012). L'hypothèse phonétique Sampoval/Cempoala, déjà notée dans la première révision, se trouve donc confirmée par la position une fois le repère correctement identifié.
+- **Sources :** `fluvial-identification-synthese.md`, résolution du conflit 3 (session de vérification croisée) ; `js/villes-data.js` (entrées `villa-rica`, `antigua-huitzilapan`, révision collaborative) ; [Quiahuiztlán — Wikipedia (es)](https://es.wikipedia.org/wiki/Quiahuiztl%C3%A1n).
 
 ### N095 — st-anns
 
@@ -2812,14 +2812,22 @@ Détail complet dans la fiche N021.
   Maracaibo ni à celui du Cesar/Magdalena — la confusion cartographique
   de 1708 est donc réelle mais plus complexe qu'un simple mélange
   est-ouest.
-- **N054 : identifié, ⚠️ moyen — Río Jamapa** (voir table).
-- **N012 (Cempel R.), N058 (R. Galer) : ERR-022, ERR-023,
-  vraisemblablement erronés.** Pour Cempel R., l'hypothèse
-  Cempoala/Actopan reste phonétiquement séduisante mais contredite par
-  la position (le fleuve de Cempoala débouche au nord de La Antigua, pas
-  entre La Antigua et Veracruz) — non tranché, donc non retenu comme
-  identification. Pour R. Galer, aucun candidat nommé n'a pu être
-  solidement établi malgré une recherche dédiée.
+- **N054 : RÉVISÉ depuis, voir le complément collaboratif Villa
+  Rica/La Antigua plus haut dans ce document — non déterminé, ⚠️ faible**
+  (le tableau indiquait précédemment « Río Jamapa » en doublon erroné
+  avec R. de Medelin/N053 — corrigé).
+- **N012 (Cempel R.) : RÉVISÉ depuis, voir le complément collaboratif
+  Villa Rica/La Antigua plus haut dans ce document — identifié
+  ⚠️ moyen, Río La Antigua (Huitzilapan), ERR-022 retiré.** L'ancienne
+  hypothèse Cempoala/Actopan (jugée alors contredite par la position du
+  repère « La Antigua ») reposait en fait sur une confusion de ce même
+  repère avec le site distinct de Villa Rica — une fois les deux sites
+  correctement replacés (Villa Rica au nord, La Antigua/Huitzilapan au
+  sud), Cempel R. correspond positionnellement au Huitzilapan et
+  Cempoala/Actopan revient à Sampoval R. (N093).
+- **N058 (R. Galer) : ERR-023, vraisemblablement erroné.** Aucun
+  candidat nommé n'a pu être solidement établi malgré une recherche
+  dédiée.
 - **N040 — Pato R. : RÉVISÉ depuis, voir le complément collaboratif
   plus haut dans ce document — identifié ⚠️ moyen, Río Pao, ERR-024
   retiré.**
@@ -2852,7 +2860,7 @@ Détail complet dans la fiche N021.
 | ERR-019 | *(retiré — N085 identifié Río Caimán Viejo, révision collaborative)* | — |
 | ERR-020 | *(retiré — N094 identifié Río Chimán, révision collaborative)* | — |
 | ERR-021 | *(retiré — N022 identifié Río Balsas, révision collaborative)* | — |
-| ERR-022 | N012 Cempel R. | Veracruz |
+| ERR-022 | *(retiré — N012 identifié Río La Antigua/Huitzilapan, révision collaborative)* | — |
 | ERR-023 | N058 R. Galer | Oaxaca |
 | ERR-024 | *(retiré — N040 identifié Río Pao, révision collaborative)* | — |
 
@@ -2866,33 +2874,35 @@ N047/N069/N073/N097/N103 — séquence côtière Bocas del Toro → delta ;
 N085/N079 — golfe d'Urabá, rive est ; N018/N022/N090/N094 — Golfo de San
 Miguel ; N021, N038, N102 — Orénoque/péninsule de Paria ; N011, N006/N010
 — Llanos centraux/Apure ; N028/N037/N080 — panhandle floridien (Delisle
-1718) ; N034 — panhandle floridien (Bowen 1747) — voir « Session de
-clôture — dernière passe » et les compléments collaboratifs ci-dessus)
+1718) ; N034 — panhandle floridien (Bowen 1747) ; N001/N012/N054/N093 —
+cluster Villa Rica/La Antigua, Veracruz — voir « Session de clôture —
+dernière passe » et les compléments collaboratifs ci-dessus)
 — colonne ❌ pour les tracés considérés vraisemblablement erronés (id
 arbitraire `ERR-0xx`).
 
 | Secteur | ✅ fort | ⚠️ moyen | ⚠️ faible | 🎲 convention | ❌ erroné | Total |
 |---|---|---|---|---|---|---|
-| A — Nouvelle-Espagne / Panuco / Yucatán | 9 | 5 | 5 | 0 | 2 | 21 |
+| A — Nouvelle-Espagne / Panuco / Yucatán | 8 | 5 | 7 | 0 | 1 | 21 |
 | B — Floride / Louisiane | 8 | 5 | 0 | 1 | 2 | 16 |
 | C — Amérique centrale | 10 | 7 | 4 | 1 | 0 | 22 |
 | D — Panama / Darién | 4 | 9 | 1 | 0 | 1 | 15 |
 | E — Nouvelle-Grenade / Venezuela | 6 | 4 | 1 | 0 | 0 | 11 |
 | F — Nouvelle-Andalousie / Suriname | 9 | 6 | 2 | 1 | 2 | 20 |
-| **Total** | **46** | **36** | **13** | **3** | **7** | **105** |
+| **Total** | **45** | **36** | **15** | **3** | **6** | **105** |
 
-Soit environ **44 % en confiance forte**, **34 % en confiance moyenne**,
-**12 % en confiance faible**, **3 %** en convention cartographique
+Soit environ **43 % en confiance forte**, **34 % en confiance moyenne**,
+**14 % en confiance faible**, **3 %** en convention cartographique
 assumée (Lac de Caslipa/Cassipa — désormais ancrée à un fait réel plutôt
 que pure fiction, cf. complément collaboratif —, Arba de Canaveral/Barra
-de Cañaveral, Salinas du Soconusco), et **7 %** (7 cours) classés
+de Cañaveral, Salinas du Soconusco), et **6 %** (6 cours) classés
 vraisemblablement erronés — voir la table de correspondance des
 identifiants `ERR-0xx` ci-dessus (ERR-001, ERR-002, ERR-005, ERR-008,
 ERR-009, ERR-010, ERR-011, ERR-015, ERR-016, ERR-018, ERR-019, ERR-020,
-ERR-021 et ERR-024 retirés suite aux révisions collaboratives de
+ERR-021, ERR-022 et ERR-024 retirés suite aux révisions collaboratives de
 N006/N040, du secteur Bocas del Toro → delta du Colorado, du golfe
 d'Urabá, du Golfo de San Miguel, du secteur Orénoque/péninsule de Paria,
-des Llanos centraux, et du panhandle floridien).
+des Llanos centraux, du panhandle floridien, et du cluster Villa
+Rica/La Antigua à Veracruz).
 
 À titre de comparaison, la session précédente sur les 29 cours **sans nom**
 avait donné une répartition plus favorable aux confiances fortes/moyennes
