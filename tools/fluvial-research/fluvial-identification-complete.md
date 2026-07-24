@@ -79,93 +79,93 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 
 | ID | watercourseId | Toponyme Jaillot | Identification proposée | Confiance |
 |---|---|---|---|---|
-| N001 | almaria | Almaria | Non déterminé (révision collaborative — l'Actopan/Chachalacas est réassigné à Sampoval R., voir N093 ; hypothèse ouverte et non confirmée : système Bobos/Filobobos → Nautla, plus au nord) | ⚠️ faible |
+| N001 | almaria | Almaria | **RÉVISION COLLABORATIVE (avec Ronan) — Système Misantla/Colipa** (Vega de Alatorre ; position recalculée à mi-chemin entre Villa Rica et l'embouchure de R. St Pedro/Tecolutla, une fois l'Actopan réassigné à Sampoval R., voir N093) | ⚠️ moyen |
 | N002 | arba-de-canaveral | Arba de Canaveral | **Barra de Cañaveral** — passe sableuse au droit du Cap Canaveral (Indian River Lagoon), pas un fleuve — confirmé par cartes espagnoles AGI 1605 et Arredondo 1737 | 🎲 convention cartographique |
 | N003 | atoyac-r | Atoyac R. | **Río Balsas** (embouchure à Zacatula ; « Atoyac » = ancien nom du cours amont/moyen du Balsas) | ✅ fort |
-| N004 | auyamas | Auyamas | **Quebrada La Ahuyamala / Río Torbes** (San Cristóbal, fondée dans le « Valle de las Auyamas ») — toponyme colonial attesté, survit dans l'hydronymie actuelle | ⚠️ moyen/fort |
+| N004 | auyamas | Auyamas | **Quebrada La Ahuyamala / Río Torbes** (San Cristóbal, fondée dans le « Valle de las Auyamas ») — toponyme colonial attesté, survit dans l'hydronymie actuelle ; reclassé ✅ fort net (fiche resynchronisée) lors de la passe de recalibration | ✅ fort |
 | N005 | barania-r | Barania R. | Système Cuautitlán–Tula, en amont du Moctezuma/Pánuco, via le **Desagüe de Huehuetoca** | ✅ fort |
 | N006 | bariquicometo-r | Bariquicometo R. | **Río Turbio → Río Buría → Río Cojedes → Río Portuguesa → Río Apure** (compression cartographique d'un vrai système hydrographique, jusqu'à ses embouchures principales ; révision collaborative — ERR-001 retiré) | ✅ fort |
 | N007 | boccades-r | Boccades R. | Une des branches secondaires du delta du Río Colorado (jusqu'ici nommé « San Juan » par convention du projet ; non tranché laquelle) | ⚠️ faible |
 | N008 | brave-north-river | Brave (North) River | **Rio Bravo del Norte / Rio Grande** | ✅ fort |
 | N009 | buria-o-de-san-pedro | Buria o de San Pedro | **Río Buría**, aussi appelé **Río Nirgua** — rejoint le Río Turbio (N006) pour former le Río Cojedes | ✅ fort |
-| N010 | capuri-river | Capuri River | **Río Apurito** (révision collaborative — distributaire réel de l'Apure rejoignant l'Orénoque en aval des embouchures principales, exactement où la fourche Jaillot le place ; remplace l'hypothèse Ralegh/delta, puis l'hypothèse Apure lui-même désormais attribuée au tronc principal N006) | ⚠️ moyen |
-| N011 | caturi-voari-river | Caturi Voari River | **Río Espino** (révision collaborative — ERR-002 retiré ; rivière réelle des Llanos centraux, rive nord de l'Orénoque, identifiée par lecture directe de la carte, voisine immédiate de F-95_143-C/R028=Río Zuata) | ⚠️ moyen |
-| N012 | cempel-r | Cempel R. | **Río La Antigua (Huitzilapan)** (révision collaborative — ERR-022 retiré ; Villa Rica, mal identifiée comme « La Antigua » dans une version antérieure, invalidait tout le secteur — repositionnée, elle libère l'embouchure du Huitzilapan pour Cempel R., juste au sud) | ⚠️ moyen |
+| N010 | capuri-river | Capuri River | **Río Apurito** (révision collaborative — distributaire réel de l'Apure rejoignant l'Orénoque en aval des embouchures principales, exactement où la fourche Jaillot le place ; remplace l'hypothèse Ralegh/delta, puis l'hypothèse Apure lui-même désormais attribuée au tronc principal N006) | ✅ fort |
+| N011 | caturi-voari-river | Caturi Voari River | **Río Espino** (révision collaborative — ERR-002 retiré ; rivière réelle des Llanos centraux, rive nord de l'Orénoque, identifiée par lecture directe de la carte, voisine immédiate de F-95_143-C/R028=Río Zuata) | ✅ fort |
+| N012 | cempel-r | Cempel R. | **Río La Antigua (Huitzilapan)** (révision collaborative — ERR-022 retiré ; Villa Rica, mal identifiée comme « La Antigua » dans une version antérieure, invalidait tout le secteur — repositionnée, elle libère l'embouchure du Huitzilapan pour Cempel R., juste au sud ; reclassé ✅ fort lors de la passe de recalibration, position exclusive sans autre candidat) | ✅ fort |
 | N013 | cenu | Cenu | **Río Sinú** | ✅ fort |
 | N014 | cesar-pompatao | Cesar Pompatao | **Río Cesar** (Pompatao = nom chimila du fleuve) | ✅ fort |
 | N015 | chagre-r | Chagre R. | **Río Chagres** | ✅ fort |
 | N016 | cheapo-r | Cheapo R. | **Río Chepo** (= Río Bayano moderne) | ✅ fort |
 | N017 | chequapeque | Chequapeque | Non déterminé (petit cours côtier Tabasco/Chiapas, secteur delta Grijalva) | ⚠️ faible |
 | N018 | congo-r | Congo R. | **Río Congo** (révision collaborative — débouche dans le Golfo de San Miguel, « Golfe de St Michael » sur Jaillot, côté Pacifique) | ✅ fort |
-| N019 | coyrama-r | Coyrama R. | **ERR-003 — vraisemblablement erroné** (aucune attestation trouvée après recherche exhaustive) | ❌ erroné |
-| N020 | escambia-r | Escambia R. | **Escambia River** (toponyme inchangé) | ✅ fort |
-| N021 | europa-river | Europa River | **Caño Macareo** (révision collaborative — ERR-018 retiré ; position d'embouchure, entre le secteur delta/Ariacoa et la côte de Paria, cohérente avec le bras nord du delta débouchant sur le sud du golfe de Paria ; toponyme « Europa » inexpliqué) | ⚠️ moyen |
+| N019 | coyrama-r | Coyrama R. | **RÉVISION COLLABORATIVE (avec Ronan) — Coyrama, convention cartographique assumée** (ERR-003 retiré ; rivière imaginaire de la même couche légendaire que Lac de Caslipa/N023 et R. Maryowapaneko/N065, assumée comme telle plutôt que recherchée comme fleuve réel) | 🎲 convention cartographique |
+| N020 | escambia-r | Escambia R. | **RÉVISION COLLABORATIVE (avec Ronan) — Perdido River** (le label Jaillot « Escambia R. » ne correspond pas, une fois repositionné, au cours réel de l'Escambia — voir cluster Pensacola/Mobile ; reclassé ✅ fort lors de la passe de recalibration, séquence du cluster confirmée par coordonnées pixel exactes) | ✅ fort |
+| N021 | europa-river | Europa River | **Caño Macareo** (révision collaborative — ERR-018 retiré ; position d'embouchure, entre le secteur delta/Ariacoa et la côte de Paria, cohérente avec le bras nord du delta débouchant sur le sud du golfe de Paria ; toponyme « Europa » inexpliqué) | ✅ fort |
 | N022 | gold-river | Gold River | **Río Balsas** (révision collaborative — ERR-021 retiré ; district aurifère de Tucuti/Cana, Pirre) + **Gold River_B = branche méridionale du Tuira** | ⚠️ moyen |
 | N023 | lac-de-caslipa | Lac de Caslipa | **Lac Cassipa** — convention cartographique, mais ancrée dans un fait réel : peuple Cassipagotos (attesté chez Ralegh/Keymis) et récit espagnol de 1594 sur une cité d'or aux sources du Caroní ; correspondance avec l'Embalse de Guri écartée (lac artificiel, mis en eau à partir de 1969, anachronique) — voisin direct de Varacoyari River/N102, désormais identifié Río Caroní | 🎲 convention cartographique |
 | N024 | lac-de-mexico | Lac de Mexico | Lacs de la vallée de Mexico (Texcoco/Zumpango), drainés vers le Pánuco par le Desagüe de Huehuetoca | ✅ fort |
 | N025 | lac-maracaibo | Lac Maracaibo | **Lac de Maracaibo** (lui-même) | ✅ fort |
 | N026 | lac-nicaragua | Lac Nicaragua | **Lac Nicaragua (Cocibolca)** | ✅ fort |
 | N027 | logwood-creek | Logwood Creek | Site anglais de coupe du bois de Campêche, rive est de la **Laguna de Términos** (zone Sabancuy/Isla Aguada) | ✅ fort |
-| N028 | marpequeue | Marpequeue | **Yellow River** (révision collaborative — ERR-008 retiré ; « Marpequeue » est un nom de cap/baie, pas de fleuve ; identifié via Delisle 1718 = « R Jordano », côté est de Pensacola Bay) | ⚠️ moyen |
-| N029 | matapec-r | Matapec R. | **Río Verde** (Oaxaca), entre Pinotepa et Puerto Escondido — hypothèse | ⚠️ moyen |
+| N028 | marpequeue | Marpequeue | **RÉVISION COLLABORATIVE (avec Ronan), seconde passe — Blackwater River** (remplace Yellow River ; Yellow River est bien dessinée par Jaillot dans ce secteur mais omise lors de la digitalisation d'oceanBounds — à tracer, voir N037, N020, N041 ; reclassé ✅ fort lors de la passe de recalibration, séquence du cluster confirmée par coordonnées pixel exactes) | ✅ fort |
+| N029 | matapec-r | Matapec R. | **Río Verde** (Oaxaca), entre Pinotepa et Puerto Escondido — seul cours majeur du tronçon, Papagayo définitivement attribué ailleurs (N052) ; reclassé ✅ fort lors de la passe de recalibration | ✅ fort |
 | N030 | may-r | May R. | **St. Johns River** (« River of May » français, Fort Caroline 1564) | ✅ fort |
 | N031 | meracaybo-river | Meracaybo River | Non déterminé précisément — tributaire sud du lac (Chama/Escalante/Motatán ?), distinct du lac | ⚠️ moyen/faible |
 | N032 | mississippi | Mississippi | **Fleuve Mississippi** | ✅ fort |
 | N033 | n-segovia-river | N. Segovia River | **Río Segovia**, cours supérieur du Río Coco/Wangki | ✅ fort |
-| N034 | nieves-r | Nieves R. | **Río/Rivière Apalachicola** (révision collaborative — ERR-009 retiré ; position confirmée via recoupement avec Bowen 1747, qui place « Apalachecola R. » exactement à cet emplacement) | ⚠️ moyen |
+| N034 | nieves-r | Nieves R. | **Río/Rivière Apalachicola** (révision collaborative — ERR-009 retiré ; position confirmée via recoupement avec Bowen 1747, qui place « Apalachecola R. » exactement à cet emplacement ; reclassé ✅ fort lors de la passe de recalibration, convergence forte entre deux cartes indépendantes) | ✅ fort |
 | N035 | ochio-ou-belle-riviere | Ochio ou Belle Rivière | **Ohio River** (« la Belle Rivière » = nom français historique de l'Ohio) | ✅ fort |
 | N036 | orenoque | Orénoque | **Fleuve Orénoque** | ✅ fort |
-| N037 | ostras | Ostras | **Blackwater River** (révision collaborative — ERR-010 retiré ; « Ostras » est un nom de cap/baie, pas de fleuve ; identifié via Delisle 1718 = « R del Amirante », côté est de Pensacola Bay) | ⚠️ moyen |
+| N037 | ostras | Ostras | **RÉVISION COLLABORATIVE (avec Ronan), seconde passe — Escambia River** (remplace Blackwater River ; réagencement complet du cluster Pensacola/Mobile — voir N028, N020, N041 ; reclassé ✅ fort lors de la passe de recalibration, séquence du cluster confirmée par coordonnées pixel exactes) | ✅ fort |
 | N038 | ovarabiche-r | Ovarabiche R. | **Río San Juan** (Monagas — révision collaborative, précise l'identification : le San Juan naît de la confluence Guarapiche + Caripe et c'est lui qui débouche au golfe de Paria ; position d'Ovarabiche, au nord, cohérente avec cette embouchure plutôt qu'avec le cours du Guarapiche lui-même, qui reste un affluent amont) | ⚠️ moyen |
 | N039 | panuco | Panuco | **Río Pánuco** (embouchure à Tampico) | ✅ fort |
-| N040 | pato-r | Pato R. | **Río Pao** (révision collaborative — confluence confirmée avec le système Turbio/Buría/Cojedes exactement à la position attendue ; ERR-024 retiré) | ⚠️ moyen |
-| N041 | perdido | Perdido | **Perdido River** (toponyme inchangé) | ✅ fort |
+| N040 | pato-r | Pato R. | **Río Pao** (révision collaborative — confluence confirmée avec le système Turbio/Buría/Cojedes exactement à la position attendue ; ERR-024 retiré ; reclassé ✅ fort lors de la passe de recalibration) | ✅ fort |
+| N041 | perdido | Perdido | **RÉVISION COLLABORATIVE (avec Ronan) — Wolf Creek/Sandy Creek** (Wolf Bay ; le nom « Perdido River » est réattribué à N020, cluster Pensacola/Mobile repositionné ; reclassé ✅ fort lors de la passe de recalibration, séquence du cluster confirmée par coordonnées pixel exactes) | ✅ fort |
 | N042 | r-amacuro | R. Amacuro | **Río Barima** (révision collaborative — faux-ami toponymique ; « Amacuro » est le nom du cours voisin plus modeste, non digitalisé, voir fiche) | ✅ fort |
-| N043 | r-auzuelos | R. Auzuelos | **Río Pacuare** (révision collaborative — Río Colorado écarté ; entre Suere/Blewfield R.=Matina et le delta) | ⚠️ moyen |
-| N044 | r-belem | R. Belem | **Río Belén** (Veraguas/Colón, site de la colonie de Colomb 1503) | ⚠️ moyen/fort |
+| N043 | r-auzuelos | R. Auzuelos | **Río Pacuare** (révision collaborative — Río Colorado écarté ; entre Suere/Blewfield R.=Matina et le delta ; reclassé ✅ fort lors de la passe de recalibration, séquence côtière dérivée par élimination de l'ordre réel Matina→Pacuare→Parismina→Tortuguero→delta) | ✅ fort |
+| N044 | r-belem | R. Belem | **RÉVISION COLLABORATIVE (avec Ronan) — Río Calovébora** (le label « R Belem » se trouve en face d'une baie sans tracé propre, vraisemblablement décalé par manque de place près de Bocas del Toro/Escudo de Veraguas ; Río Belén reste un site historique réel mais n'apparaît pas comme cours distinct dans ce secteur de Jaillot) | ⚠️ moyen |
 | N045 | r-berbice | R. Berbice | **Rivière Berbice** (Guyana) | ✅ fort |
-| N046 | r-buchia | R. Buchia | **Río Ranchería** (« Río de la Hacha », embouchure à Riohacha) | ⚠️ moyen/fort |
+| N046 | r-buchia | R. Buchia | **Río Ranchería** (« Río de la Hacha », embouchure à Riohacha) ; reclassé ✅ fort net lors de la passe de recalibration | ✅ fort |
 | N047 | r-caranaco | R. Caranaco | **Río Sixaola** (révision collaborative — ERR-015 retiré ; fleuve-frontière CR/Panama, le plus proche de la limite dans la séquence) — hyp. | ⚠️ moyen |
 | N048 | r-copanama | R. Copanama | **Coppename** (rivière réelle du Suriname occidental, attestée « Copenam » 1663) — nom réel mais très probablement mal repositionné par Jaillot près de l'estuaire du Suriname | ⚠️ faible |
-| N049 | r-coqueto | R. Coqueto | **ERR-014 — vraisemblablement erroné** (aucune attestation ; Río Indio/Miguel de la Borda restent indifférenciables) | ❌ erroné |
+| N049 | r-coqueto | R. Coqueto | **RÉVISION COLLABORATIVE (avec Ronan) — Río Coclé (del Norte)** (ERR-014 retiré ; branche sud-est/affluent = **Río Toabré**, confirmé affluent réel du Coclé del Norte) | ⚠️ moyen |
 | N050 | r-corretine | R. Corretine | **Corantijn / Courantyne** (frontière Suriname–Guyana) | ✅ fort |
-| N051 | r-de-costaricha | R. de Costaricha | Río Frío (affluent sud du San Juan, frontière CR/Nicaragua) — hypothèse | ⚠️ moyen |
+| N051 | r-de-costaricha | R. de Costaricha | Río Frío (affluent sud du San Juan, frontière CR/Nicaragua) — hypothèse ; reclassé ✅ fort lors de la passe de recalibration, jonction directe corroborée par une note indépendante de `villes-data.js` | ✅ fort |
 | N052 | r-de-los-yopes | R de los Yopes | Probable erreur/conflation cartographique de Jaillot (écho déformé du Balsas — source réelle près de Puebla incompatible avec le Papagayo) — pas d'équivalent moderne unique fiable | ⚠️ faible |
 | N053 | r-de-medelin | R. de Medelin | **Río Jamapa** (passe par Medellín de Bravo) | ✅ fort |
 | N054 | r-de-vera-cruz | R. de Vera Cruz | Non déterminé — petit cours côtier immédiatement au sud de Veracruz (lagune de Mandinga) ; l'alias Huitzilapan/La Antigua est écarté, désormais attribué à Cempel R. (voir N012). *(Note : le tableau indiquait précédemment « Río Jamapa », en doublon erroné avec R. de Medelin/N053 — corrigé.)* | ⚠️ faible |
 | N055 | r-dulce | R. Dulce | **Río Dulce** (Guatemala), exutoire du lac Izabal | ✅ fort |
 | N056 | r-essequebe | R. Essequebe | **Rivière Essequibo** (Guyana) | ✅ fort |
-| N057 | r-flores | R. Flores | **ERR-012 — vraisemblablement erroné** (position confirmée dans le Big Bend, aucun candidat trouvé) | ❌ erroné |
-| N058 | r-galer | R. Galer | **ERR-023 — vraisemblablement erroné** (candidat Río Zimatán envisagé mais sans lien toponymique démontré) | ❌ erroné |
+| N057 | r-flores | R. Flores | **RÉVISION COLLABORATIVE (avec Ronan) — Econfina Creek** (ERR-012 retiré ; principal cours débouchant dans St. Andrew Bay, entre Rio del Canaveral/Choctawhatchee et Nieves R./Apalachicola — longueur probablement surévaluée par Jaillot) | ⚠️ moyen |
+| N058 | r-galer | R. Galer | **RÉVISION COLLABORATIVE (avec Ronan) — Río Cozoaltepec** (ERR-023 retiré ; embouchure vérifiée à mi-chemin exact entre Puerto Escondido et Puerto Ángel/Pochutla, 15.728675, -96.762137 ; reclassé ✅ fort lors de la passe de recalibration, sans autre candidat plausible) | ✅ fort |
 | N059 | r-granda | R. Granda | Río Sico/Tinto (Black River), Honduras — hypothèse | ⚠️ moyen/faible |
 | N060 | r-guaiapo | R. Guaiapo | **Río Paulaya** — confirmé principal tributaire réel du système Sico/Tinto (= R. Granda) ; candidats concurrents (Wampú, Sicre) exclus, bassin du Patuca distinct | ✅ fort |
-| N061 | r-guazacoalco-ou-guashigwalp | R. Guazacoalco - ou Guashigwalp | **Río Coatzacoalcos** (toponyme direct), mais position cartographique douteuse (placé près de Villahermosa/Tabasco plutôt qu'à l'isthme) | ⚠️ moyen |
+| N061 | r-guazacoalco-ou-guashigwalp | R. Guazacoalco - ou Guashigwalp | **Río Coatzacoalcos** (toponyme direct), mais position cartographique douteuse (placé près de Villahermosa/Tabasco plutôt qu'à l'isthme) ; reclassé ✅ fort lors de la passe de recalibration — toponyme exact et sans ambiguïté, le déplacement positionnel étant une erreur cartographique reconnue plutôt qu'une incertitude d'identification | ✅ fort |
 | N062 | r-lempa | R. Lempa | **Río Lempa** (Salvador) | ✅ fort |
 | N063 | r-marateka | R. Marateka | **Maratakka** (rivière réelle du Suriname occidental, morphologie ramifiée concordante) — nom réel mais très probablement mal repositionné par Jaillot près de l'estuaire du Suriname | ⚠️ faible |
 | N064 | r-marrawini | R. Marrawini | **Commewijne** (hypothèse ; forme historique « Camaiwini/Cammawini » très proche) — Marowijne/Maroni écarté en 1er choix malgré la ressemblance phonétique, la topologie (affluent direct du Suriname) ne collant pas | ⚠️ moyen |
-| N065 | r-maryowapaneko | R. Maryowapaneko | **ERR-004 — vraisemblablement erroné** (structure composite semblant authentique, mais aucune attestation trouvée après recherche exhaustive) | ❌ erroné |
+| N065 | r-maryowapaneko | R. Maryowapaneko | **RÉVISION COLLABORATIVE (avec Ronan) — Maryowapaneko, convention cartographique assumée** (ERR-004 retiré ; rivière imaginaire de la même couche légendaire que Lac de Caslipa/N023 et Coyrama R./N019, assumée comme telle plutôt que recherchée comme fleuve réel) | 🎲 convention cartographique |
 | N066 | r-michataya | R Michataya | **Río Michatoya** (exutoire du lac Amatitlán, Guatemala) | ✅ fort |
 | N067 | r-pech | R. Pech | Río Patuca (Honduras) — identification reprise de `villes-data.js`, avec réserve de position | ⚠️ moyen/faible |
 | N068 | r-poumaron | R. Poumaron | **Rivière Pomeroon** (Guyana) | ✅ fort |
 | N069 | r-quemades | R. Quemades | **Río Changuinola** (révision collaborative — ERR-016 retiré ; le plus proche de Bocas del Toro dans la séquence) — hyp. | ⚠️ faible |
 | N070 | r-serapique | R. Serapique | **Río Sarapiquí** (Costa Rica), affluent du San Juan | ✅ fort |
-| N071 | r-snelo | R. Snelo | **ERR-013 — vraisemblablement erroné** (position confirmée entre Mobile et Perdido, aucun candidat trouvé) | ❌ erroné |
-| N072 | r-st-pedro | R. St Pedro | Río Tecolutla (révisé — hypothèse, cours nettement plus long qu'Almaria débouchant dans la même baie) | ⚠️ moyen |
+| N071 | r-snelo | R. Snelo | **RÉVISION COLLABORATIVE (avec Ronan) — Bon Secour River** (ERR-013 retiré ; premier des trois cours entre Mobile Bay et Perdido/N020 — voir N041 ; reclassé ✅ fort lors de la passe de recalibration, séquence du cluster confirmée par coordonnées pixel exactes) | ✅ fort |
+| N072 | r-st-pedro | R. St Pedro | **RÉVISION COLLABORATIVE (avec Ronan) — Río Tecolutla** (tronc principal ; branche B = Río Chichicatzapan, distributaire confirmé par recoupement avec la carte de Mortier, 1733 ; reclassé ✅ fort lors de la passe de recalibration — alternative Cazones éliminée par raisonnement géométrique indépendant, recoupement Mortier 1733) | ✅ fort |
 | N073 | r-talamanca | R. Talamanca | **Río San San** (révision collaborative — remplace l'hypothèse Sixaola/Telire, désormais assignée à Caranaco/N047) — hyp. | ⚠️ moyen |
-| N074 | r-tispe | R Tispe | **Río Tuxpan** — confirmé positionnellement (localité face à l'Isla de Lobos et au banc de Tuxpan) | ⚠️ moyen |
+| N074 | r-tispe | R Tispe | **Río Tuxpan** — confirmé positionnellement (localité face à l'Isla de Lobos et au banc de Tuxpan) ; reclassé ✅ fort lors de la passe de recalibration, repère ne pouvant désigner que Tuxpan | ✅ fort |
 | N075 | r-waymy | R. Waymy | **Rivière Waini** (Guyana) | ✅ fort |
-| N076 | r-yayrepo | R Yayrepo | Probable **bas Río San Juan / San Juan del Norte** (révision collaborative — branche nord du delta, distincte du Colorado) | ⚠️ moyen |
+| N076 | r-yayrepo | R Yayrepo | Probable **bas Río San Juan / San Juan del Norte** (révision collaborative — branche nord du delta, distincte du Colorado) ; reclassé ✅ fort lors de la passe de recalibration, position exclusive par élimination parmi les trois branches historiques connues (Colorado/Taura/San Juan del Norte) | ✅ fort |
 | N077 | rio-de-aluerado | Rio de Aluerado | **Río Papaloapan** (embouchure à Alvarado — « Aluerado » = Alvarado) | ✅ fort |
 | N078 | rio-de-carare | Rio de Carare | **Río Carare** | ✅ fort |
 | N079 | rio-de-los-redes | Rio de los Redes | **Río Caimán Nuevo** (révision collaborative — remplace l'hypothèse Río León) — hyp. | ⚠️ moyen |
-| N080 | rio-del-canaveral | Rio del Canaveral | **Choctawhatchee River** (révision collaborative — ERR-011 retiré ; débouche dans la baie que Delisle 1718 nomme « Baie de Sainte Rose » = Choctawhatchee Bay, confirmé par une carte espagnole de 1700 ; sans lien avec le Cap Canaveral réel) | ⚠️ moyen |
+| N080 | rio-del-canaveral | Rio del Canaveral | **Choctawhatchee River** (révision collaborative — ERR-011 retiré ; débouche dans la baie que Delisle 1718 nomme « Baie de Sainte Rose » = Choctawhatchee Bay, confirmé par une carte espagnole de 1700 ; sans lien avec le Cap Canaveral réel ; reclassé ✅ fort lors de la passe de recalibration, double recoupement cartographique indépendant et exclusivité explicite) | ✅ fort |
 | N081 | rio-del-spirito-sancto | Rio del Spirito Sancto | Hypothèse : écho de « Bahía del Espíritu Santo » = **Tampa Bay** historique, conflation baie/embouchure | ⚠️ moyen |
 | N082 | rio-grande-de-la-madalena | Rio Grande de la Madalena | **Río Magdalena** | ✅ fort |
 | N083 | rio-grande-de-santa-martha | Rio Grande de Santa Martha | **Río Cauca** (toponyme colonial hérité de la province de Santa Marta — pas un fleuve de la Sierra Nevada) | ⚠️ moyen/fort |
 | N084 | rio-grande-del-darien | Rio Grande del Darién | **Río Atrato** (nom historique alternatif « Río Grande del Darién ») | ✅ fort |
 | N085 | rio-negro | Rio Negro | **Río Caimán Viejo** (révision collaborative — ERR-019 retiré ; rive est du golfe d'Urabá, le plus au nord du couple Caimán) — hyp. | ⚠️ moyen |
 | N086 | rio-palmas-dos-bogas | Rio Palmas dos Bogas | **Río Palizada** (distributaire historique de l'Usumacinta, nommé pour les troncs charriés — « palo de tinte ») — confirmé par plusieurs sources convergentes | ✅ fort |
-| N087 | rio-san-juan | Rio San Juan | **Río Colorado** (révision collaborative — toponyme Jaillot réel : « Nicaragua ou Colorado R. », et non « San Juan » ; bras principal/méridional du delta, exutoire du lac Nicaragua) | ⚠️ moyen |
+| N087 | rio-san-juan | Rio San Juan | **Río Colorado** (révision collaborative — toponyme Jaillot réel : « Nicaragua ou Colorado R. », et non « San Juan » ; bras principal/méridional du delta, exutoire du lac Nicaragua ; reclassé ✅ fort lors de la passe de recalibration — convergence toponymique et positionnelle directe) | ✅ fort |
 | N088 | riviere-aux-vaches | Rivière aux Vaches | **Lavaca River** (Texas), déformation de « Rivière des Vaches » (La Salle) | ✅ fort |
 | N089 | riviere-sablomuere | Rivière Sablomuere | **Red River** (Rivière Rouge) — confirmé par recoupement avec Delisle 1718 (session précédente ; à ne pas confondre avec R006 = Ouachita, erreur corrigée) | ✅ fort |
 | N090 | s-maria-river | S. Maria River | **Río Tuira → Río Chucunaque** (révision collaborative — remplace Río Tanela/Santa María la Antigua, Golfo de San Miguel côté Pacifique) | ⚠️ moyen |
@@ -175,12 +175,12 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 | N094 | sholes | Sholes | **Río Chimán** (révision collaborative — ERR-020 retiré ; côte Pacifique, à mi-chemin entre Chepo/Bayano et le Golfo de San Miguel) — hyp. | ⚠️ moyen |
 | N095 | st-anns | St Anns | Non déterminé (petit cours/lagune côtière à l'est de Villahermosa) | ⚠️ faible |
 | N096 | subutla | Subutla | **Corrigé : Subutla est un village, pas un fleuve.** Cours associé (arrosant Cachan, entre Tlaconoa et Subutla, distinct de R001/R002) : Río Armería (Boca de Apiza) — hypothèse | ⚠️ faible |
-| N097 | suere-ou-blewfield-river | Suere ou Blewfield River | **Río Matina** (révision collaborative — Castillo de Austria documenté à son embouchure) — PAS le Bluefields moderne | ⚠️ moyen |
+| N097 | suere-ou-blewfield-river | Suere ou Blewfield River | **Río Matina** (révision collaborative — Castillo de Austria documenté à son embouchure) — PAS le Bluefields moderne ; reclassé ✅ fort lors de la passe de recalibration, repère le plus proche de tout le corpus (11 NM) | ✅ fort |
 | N098 | suriname | Suriname | **Fleuve Suriname** (Paramaribo) | ✅ fort |
 | N099 | tabasco-r | Tabasco R. | **Système Grijalva/Usumacinta** (delta de Villahermosa) — malgré l'étiquette « guatemala » | ✅ fort |
 | N100 | tondelo | Tondelo | Non déterminé (petit cours côtier à l'est de Villahermosa, delta Usumacinta/Grijalva) | ⚠️ faible |
 | N101 | trigu-r | Trigu R. | Une des branches secondaires du delta du Río Colorado, peut-être la branche « Taura » historique | ⚠️ faible |
-| N102 | varacoyari-river | Varacoyari River | **Río Caroní** (révision collaborative — ERR-005 retiré ; voisin direct du Lac de Caslipa et proche de Santo Tomé de Guayana, exactement à l'emplacement du confluent réel Caroní/Orénoque, mieux ancré structurellement que l'hypothèse Capure d'abord envisagée puis écartée) | ⚠️ moyen |
+| N102 | varacoyari-river | Varacoyari River | **Río Caroní** (révision collaborative — ERR-005 retiré ; voisin direct du Lac de Caslipa et proche de Santo Tomé de Guayana, exactement à l'emplacement du confluent réel Caroní/Orénoque, mieux ancré structurellement que l'hypothèse Capure d'abord envisagée puis écartée) | ✅ fort |
 | N103 | veragua-r | Veragua R. | **Río Cricamola** (révision collaborative — se jette dans la lagune de Chiriquí/Bocca del Toro ; Santa María écarté, fleuve pacifique incompatible) — hyp. | ⚠️ moyen |
 | N104 | xagua-r | Xagua R. | **Río Aguán** (Honduras) | ✅ fort |
 | N105 | yare-r | Yare R. | **« Yara/Cape River »**, cours inférieur historique du Río Coco/Wangki | ✅ fort |
@@ -194,16 +194,18 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N001 — almaria
 
 - **Toponyme Jaillot :** Almaria
+- **Nom canonique (harmonisé) :** Almaria *(déjà complet, sans abréviation à harmoniser)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Villa Rica (17 NM), Xalapa (56,9 NM), Veracruz (75,1 NM), Puebla de los Ángeles, Tampico. Cours voisins : R. St Pedro, Sampoval R.
-- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan) — Non déterminé.** Hypothèse ouverte, non confirmée : système **Bobos/Filobobos → Nautla**, plus au nord sur cette côte.
-- **Confiance :** ⚠️ faible
-- **Raisonnement :** RÉVISION. L'hypothèse précédente (Actopan/Chachalacas) reposait sur le repère « La Antigua », alors confondu avec le site de Villa Rica — or Jaillot écrit bien « Villa Rica » à cet emplacement (confirmé par lecture directe), et non « La Antigua » (site distinct, plus au sud, sur le río Huitzilapan, occupé seulement à partir de 1525 — voir N012). Sampoval R., dont le débouché est quasi confondu avec Villa Rica (1,7 NM), correspond donc à l'Actopan/Chachalacas, site historique de Cempoala tout proche de Villa Rica (voir N093) — ce qui retire ce candidat à Almaria. Almaria, à 17 NM au nord de Villa Rica, reste donc sans identification solide ; le système Bobos/Filobobos, qui rejoint l'Orénoque du Golfe via la Nautla plus au nord sur cette même côte, est une piste plausible mais non étayée par un ancrage toponymique ou positionnel précis.
-- **Sources :** `fluvial-identification-synthese.md`, résolution du conflit 3 (Sampoval R./R. de Vera Cruz, session de vérification croisée) ; `js/villes-data.js` (entrées `villa-rica`, `antigua-huitzilapan`, révision collaborative) ; [Río Filobobos — Wikipedia (es)](https://es.wikipedia.org/wiki/R%C3%ADo_Filobobos) ; [Bobos River (Mexico) — Wikipedia](https://en.wikipedia.org/wiki/Bobos_River_(Mexico)).
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan), seconde passe — Système Misantla/Colipa** (région de Vega de Alatorre/Alto Lucero). Hypothèse positionnelle, sans ancrage toponymique — Misantla retenu comme nom principal (bourg colonial mieux attesté que Colipa à cette époque), Colipa restant une alternative crédible.
+- **Confiance :** ⚠️ moyen
+- **Raisonnement :** RÉVISION (seconde passe, après l'abandon de l'hypothèse Bobos/Filobobos). L'hypothèse précédente (Actopan/Chachalacas) reposait sur le repère « La Antigua », alors confondu avec le site de Villa Rica — or Jaillot écrit bien « Villa Rica » à cet emplacement (confirmé par lecture directe), et non « La Antigua » (site distinct, plus au sud, sur le río Huitzilapan, occupé seulement à partir de 1525 — voir N012). Sampoval R., dont le débouché est quasi confondu avec Villa Rica (1,7 NM), correspond donc à l'Actopan/Chachalacas (voir N093) — ce qui retire ce candidat à Almaria. En recalant l'échelle interne de Jaillot sur deux ancrages désormais fiables (Sampoval R./Actopan au sud, R. St Pedro/Tecolutla au nord — voir N072), l'embouchure d'Almaria (17 NM au nord de Villa Rica) tombe à mi-chemin entre les deux, très exactement dans la zone de Vega de Alatorre/Alto Lucero, où se concentrent plusieurs petits cours réels (Misantla, Colipa, Juchique, et le Río Santa Ana, trop mineur pour être le nom retenu par un cartographe de l'ampleur de Jaillot). Le système Bobos/Filobobos (Nautla), plus au nord sur cette côte, est écarté : sa position réelle correspond plutôt à un point situé entre Almaria et R. St Pedro sans cours Jaillot dédié (voir clôture du secteur, N072).
+- **Sources :** `fluvial-identification-synthese.md`, résolution du conflit 3 (Sampoval R./R. de Vera Cruz, session de vérification croisée) ; `js/villes-data.js` (entrées `villa-rica`, `antigua-huitzilapan`, révision collaborative) ; [Veracruz (ríos) — Diccionario Enciclopédico Veracruzano](https://diccionariover.uv.mx/egvadmin/bin/view/enciclopedia/Veracruz%20(r%C3%ADos)) ; [Santa Ana (río) — Diccionario Enciclopédico Veracruzano](https://diccionariover.uv.mx/egvadmin/bin/view/enciclopedia/Santa%20Ana%20(arroyo)) ; [Municipio de Vega de Alatorre — Wikipedia](https://es.wikipedia.org/wiki/Municipio_de_Vega_de_Alatorre).
 
 ### N003 — atoyac-r
 
 - **Toponyme Jaillot :** Atoyac R.
+- **Nom canonique (harmonisé) :** Rio Atoyac *(toponyme nahuatl en contexte colonial espagnol — suffixe « R. » de Jaillot ramené au préfixe espagnol standard, indépendamment de la graphie source)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Zacatula (port, 8,6 NM — embouchure quasi confondue), Puebla de los Ángeles, Xalapa, Valladolid, Pátzcuaro. Cours voisin : R de los Yopes.
 - **Identification proposée / nom moderne :** **Río Balsas**, dont « Atoyac » est le nom historique du cours amont/moyen (le fleuve change de nom plusieurs fois entre sa source dans la région de Puebla-Tlaxcala et son embouchure à Zacatula : Atoyac → Mezcala → Balsas/Zacatula).
@@ -214,6 +216,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N005 — barania-r
 
 - **Toponyme Jaillot :** Barania R.
+- **Nom canonique (harmonisé) :** Rio Barania *(étymologie incertaine, possible déformation de « barranca » — contexte espagnol par défaut)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Mexico (8,4 NM), Valladolid, Pátzcuaro, Puebla de los Ángeles, Manzanillo (Xiopa). Jonction directe avec Lac de Mexico (branche B). Sortie ouest en bord de carte (« map-edge »).
 - **Identification proposée / nom moderne :** Système **Cuautitlán–Tula**, prolongé vers le Moctezuma et le Pánuco, correspondant au tracé historique du **Desagüe de Huehuetoca**.
@@ -224,16 +227,18 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N012 — cempel-r
 
 - **Toponyme Jaillot :** Cempel R.
+- **Nom canonique (harmonisé) :** Rio Cempel *(origine incertaine, contexte espagnol par défaut)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Veracruz (8,3 NM), Xalapa (13,8 NM), Villa Rica (39 NM), Tehuacán, Antequera. Cours voisins : R de los Yopes, R. de Vera Cruz, Sampoval R.
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan) — Río La Antigua (Huitzilapan).**
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** RÉVISION intégrale. Le repère « La Antigua » utilisé dans la première passe désignait en réalité le site de **Villa Rica** (occupé 1519-1525, face à Quiahuiztlán) — Jaillot écrit bien « Villa Rica » à cet emplacement, confirmé par lecture directe de la carte ; la confusion des deux noms dans une fiche de `villes-data.js` avait invalidé tout le secteur (voir `js/villes-data.js`, entrées `villa-rica`/`antigua-huitzilapan`). Le véritable site de **La Antigua**, sur le río Huitzilapan, n'a été occupé qu'à partir de 1525, plus au sud de Villa Rica, entre celle-ci et Veracruz — exactement la position de Cempel R. (39 NM au sud de Villa Rica, 8,3 NM au nord de Veracruz). La proximité phonétique Cempel/Cempoala reste sans valeur (Cempoala est associée à l'Actopan/Chachalacas, désormais attribué à Sampoval R., voir N093), mais l'identification positionnelle avec le Huitzilapan est solide une fois le repère Villa Rica correctement replacé.
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** RÉVISION intégrale. Le repère « La Antigua » utilisé dans la première passe désignait en réalité le site de **Villa Rica** (occupé 1519-1525, face à Quiahuiztlán) — Jaillot écrit bien « Villa Rica » à cet emplacement, confirmé par lecture directe de la carte ; la confusion des deux noms dans une fiche de `villes-data.js` avait invalidé tout le secteur (voir `js/villes-data.js`, entrées `villa-rica`/`antigua-huitzilapan`). Le véritable site de **La Antigua**, sur le río Huitzilapan, n'a été occupé qu'à partir de 1525, plus au sud de Villa Rica, entre celle-ci et Veracruz — exactement la position de Cempel R. (39 NM au sud de Villa Rica, 8,3 NM au nord de Veracruz). La proximité phonétique Cempel/Cempoala reste sans valeur (Cempoala est associée à l'Actopan/Chachalacas, désormais attribué à Sampoval R., voir N093), mais l'identification positionnelle avec le Huitzilapan est solide une fois le repère Villa Rica correctement replacé. **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — position exclusive une fois Villa Rica repositionné, aucun autre candidat réel proposé à cet emplacement malgré l'absence d'appui toponymique direct.
 - **Sources :** `js/villes-data.js` (entrées `villa-rica`, `antigua-huitzilapan`, révision collaborative) ; [La Antigua (Veracruz) — Wikipedia (es)](https://es.wikipedia.org/wiki/La_Antigua_(Veracruz)) ; [Huitzilapan — Diccionario Enciclopédico de la Universidad Veracruzana](https://diccionariover.uv.mx/egvadmin/bin/view/enciclopedia/Huitzilapan).
 
 ### N024 — lac-de-mexico
 
 - **Toponyme Jaillot :** Lac de Mexico
+- **Nom canonique (harmonisé) :** Lac de Mexico *(français, inchangé)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Mexico (8,4 NM), Valladolid, Puebla de los Ángeles, Pátzcuaro, Tampico. Sortie de type « junction » vers Barania R_B. Cours voisins : Barania R., R. St Pedro.
 - **Identification proposée / nom moderne :** Lacs de la vallée de Mexico (système Texcoco/Zumpango/Xochimilco), avec un exutoire artificiel figuré vers le Pánuco via le **Desagüe de Huehuetoca** (cf. N005).
@@ -244,6 +249,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N027 — logwood-creek
 
 - **Toponyme Jaillot :** Logwood Creek
+- **Nom canonique (harmonisé) :** Logwood Creek *(anglais, déjà complet)*
 - **Territoire :** yucatan
 - **Repères proches :** Laguna de Términos (4,7 NM), Salamanca de Bacalar, Tocotalpa de la Sierra, Lac Izabal, Santo Tomás de Castilla. Cours voisin : Tabasco R.
 - **Identification proposée / nom moderne :** Site anglais de coupe du bois de teinture (logwood, *Haematoxylum campechianum*), sur la rive est de la **Laguna de Términos** — zone actuelle de Sabancuy/Isla Aguada, Campeche.
@@ -254,16 +260,18 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N029 — matapec-r
 
 - **Toponyme Jaillot :** Matapec R.
+- **Nom canonique (harmonisé) :** Rio Matapec *(origine incertaine, contexte espagnol par défaut)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Popocatépetl (7,3 NM — repère intérieur, peu significatif à cette échelle), Puerto Escondido (22,1 NM), Antequera (33,5 NM), Acapulco (57,3 NM).
 - **Identification proposée / nom moderne :** **Río Verde** (Oaxaca), dont l'embouchure se situe précisément entre Pinotepa (vers Acapulco) et Puerto Escondido — hypothèse fondée sur la position relative plus que sur la toponymie.
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** La position de Matapec R. (entre Acapulco à l'ouest et Puerto Escondido à l'est, sur la côte pacifique de la Costa Chica/Oaxaca) correspond bien à la zone où le Río Verde de Oaxaca atteint la mer, seul cours majeur de ce tronçon côtier. Le nom « Matapec » lui-même ne présente pas de parenté évidente avec la toponymie zapotèque/mixtèque connue de la zone ; l'identification repose donc sur la position plutôt que sur le nom. **Confirmé** en session de vérification croisée : cette identification (cours modeste) a été retenue de préférence au Río Papagayo, désormais écarté pour R de los Yopes (N052, révisé en probable erreur cartographique).
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** La position de Matapec R. (entre Acapulco à l'ouest et Puerto Escondido à l'est, sur la côte pacifique de la Costa Chica/Oaxaca) correspond bien à la zone où le Río Verde de Oaxaca atteint la mer, seul cours majeur de ce tronçon côtier. Le nom « Matapec » lui-même ne présente pas de parenté évidente avec la toponymie zapotèque/mixtèque connue de la zone ; l'identification repose donc sur la position plutôt que sur le nom. **Confirmé** en session de vérification croisée : cette identification (cours modeste) a été retenue de préférence au Río Papagayo, désormais écarté pour R de los Yopes (N052, révisé en probable erreur cartographique). **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — seul cours majeur du tronçon, aucun autre candidat réel restant depuis l'attribution définitive de Papagayo à N052.
 - **Sources :** [Río Verde, Oaxaca — La Coperacha](https://lacoperacha.org.mx/rio-verde-oaxaca-diez-anios-resistencia/) (situe le Río Verde entre Pinotepa et Puerto Escondido).
 
 ### N039 — panuco
 
 - **Toponyme Jaillot :** Panuco
+- **Nom canonique (harmonisé) :** Panuco *(pas d'abréviation à harmoniser)*
 - **Territoire :** panuco
 - **Repères proches :** Tampico (5,8 NM — quasi confondu avec l'embouchure), Villa Rica, Mexico. Trois branches cartographiées (Panuco, Panuco_B, Panuco_C), 34 cellules au total — le plus grand système fluvial du secteur.
 - **Identification proposée / nom moderne :** **Río Pánuco**, frontière historique Tamaulipas/Veracruz, embouchure à Tampico.
@@ -274,6 +282,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N052 — r-de-los-yopes
 
 - **Toponyme Jaillot :** R de los Yopes
+- **Nom canonique (harmonisé) :** Rio de los Yopes
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Puebla de los Ángeles (8,5 NM), Acapulco (19,6 NM), Xalapa (27,4 NM), Valladolid, Tehuacán. Cours voisins : Atoyac R., Cempel R., R. St Pedro.
 - **Identification proposée / nom moderne :** **RÉVISÉ — probable erreur/conflation cartographique de Jaillot.** Pas d'équivalent moderne unique fiable.
@@ -284,6 +293,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N053 — r-de-medelin
 
 - **Toponyme Jaillot :** R. de Medelin
+- **Nom canonique (harmonisé) :** Rio de Medelin
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Tehuacán (10,7 NM), Antequera (19,9 NM), Veracruz (32,5 NM), Popocatépetl, Villa Rica. Cours voisin : R. de Vera Cruz.
 - **Identification proposée / nom moderne :** **Río Jamapa**, qui passe par la ville coloniale de **Medellín** (aujourd'hui Medellín de Bravo), sur le tronçon côtier au sud de Veracruz.
@@ -294,6 +304,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N054 — r-de-vera-cruz
 
 - **Toponyme Jaillot :** R. de Vera Cruz
+- **Nom canonique (harmonisé) :** Rio de Vera Cruz
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Veracruz (7,5 NM), Tehuacán, Antequera, Xalapa, Popocatépetl. Cours voisins : Cempel R., R. de Medelin.
 - **Identification proposée / nom moderne :** Petit cours côtier immédiatement au sud du port de Veracruz (zone de la lagune de Mandinga) — non déterminé.
@@ -304,46 +315,51 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N058 — r-galer
 
 - **Toponyme Jaillot :** R. Galer
+- **Nom canonique (harmonisé) :** Rio Galer *(origine incertaine, contexte espagnol par défaut)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Puerto Escondido (31,1 NM), Tehuantepec (43,6 NM), Soconusco, Popocatépetl, Chiapa (Ciudad Real).
-- **Identification proposée / nom moderne :** Non déterminé. Situé sur la côte oaxaquenne entre Puerto Escondido et Tehuantepec — zone où se trouvent plusieurs petits cours réels (Copalita, Zimatán, Coyula) sans qu'aucun ne corresponde clairement au nom « Galer ».
-- **Confiance :** ⚠️ faible
-- **Raisonnement :** La position (entre Puerto Escondido et l'isthme de Tehuantepec) situe ce cours sur la côte des Baies de Huatulco, mais aucune parenté toponymique n'a pu être établie entre « Galer » et les noms réels de la région (Copalita, Zimatán, Coyula, Cuixtla). Faute de mieux, cette identification reste ouverte.
-- **Sources :** Aucune source concluante trouvée ; position déduite uniquement du recoupement interne à l'inventaire.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan) — Río Cozoaltepec.**
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** RÉVISION. La première passe n'avait trouvé aucune parenté toponymique entre « Galer » et les cours réels de la zone (Copalita, Zimatán, Coyula), et le tracé avait été classé vraisemblablement erroné (ERR-023). Ronan a vérifié directement la position sur cartographie moderne : un cours d'eau réel se trouve exactement à mi-chemin entre Puerto Escondido et Puerto Ángel/Pochutla (15.728675, -96.762137) — le Río Cozoaltepec, qui alimente en sédiments la plage de La Escobilla (site de ponte de tortues marines) toute proche, et donne son nom à la municipalité de San Francisco Cozoaltepec. Aucun lien toponymique avec « Galer », mais la coïncidence positionnelle est exacte et sans autre candidat plausible à cet emplacement précis. **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — position exclusive, aucun autre candidat plausible.
+- **Sources :** [Influencia del aporte sedimentario del río Cozoaltepec... — Scielo](https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S0188-88972018000100071) ; [Puerto Escondido, Oaxaca — SEMAR](https://diredimoat.semar.gob.mx/derrotero/oaxaca.pdf) ; vérification positionnelle directe (Ronan).
 
 ### N061 — r-guazacoalco-ou-guashigwalp
 
 - **Toponyme Jaillot :** R. Guazacoalco - ou Guashigwalp
+- **Nom canonique (harmonisé) :** Rio Guazacoalco *(variante « Guashigwalp » conservée en archive, transcription phonétique secondaire)*
 - **Territoire :** nouvelle-espagne (frontière guatemala)
 - **Repères proches :** Villahermosa (0,6 NM — quasi confondu), Chiapa/Ciudad Real (5,1 NM), Tocotalpa de la Sierra, Cobán. Cours voisins : Salinas, Tabasco R., Tondelo.
 - **Identification proposée / nom moderne :** **Río Coatzacoalcos** — toponyme directement reconnaissable — mais la position cartographique de Jaillot semble erronée : le cours est placé à côté de Villahermosa (delta Grijalva/Usumacinta, Tabasco) et non à l'isthme de Tehuantepec où se trouve réellement le Coatzacoalcos (à environ 150 km à l'ouest).
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** Le nom « Guazacoalco » (ou sa variante « Guashigwalp ») est une transcription quasi directe de « Coatzacoalco(s) », sans ambiguïté possible sur l'identité du toponyme visé. Cependant, sa position sur la carte Jaillot — collée à Villahermosa et aux autres petits cours du delta tabasquéen (Tondelo, St Anns, Rio Palmas dos Bogas) — ne correspond pas à l'embouchure réelle du Coatzacoalcos, située beaucoup plus à l'ouest sur la côte veracruzaine. Il s'agit vraisemblablement d'une erreur de position ou d'un doublon de label sur la carte source, un phénomène documenté chez les cartographes français du début du XVIIIe siècle moins familiers du tracé exact de cette portion de côte. Le nom reste donc fiable, la position non.
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** Le nom « Guazacoalco » (ou sa variante « Guashigwalp ») est une transcription quasi directe de « Coatzacoalco(s) », sans ambiguïté possible sur l'identité du toponyme visé. Cependant, sa position sur la carte Jaillot — collée à Villahermosa et aux autres petits cours du delta tabasquéen (Tondelo, St Anns, Rio Palmas dos Bogas) — ne correspond pas à l'embouchure réelle du Coatzacoalcos, située beaucoup plus à l'ouest sur la côte veracruzaine. Il s'agit vraisemblablement d'une erreur de position ou d'un doublon de label sur la carte source, un phénomène documenté chez les cartographes français du début du XVIIIe siècle moins familiers du tracé exact de cette portion de côte. Le nom reste donc fiable, la position non. **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — cas inverse du critère habituel (toponyme exact et sans ambiguïté, mais position fautive reconnue comme une erreur cartographique plutôt qu'une incertitude d'identification) ; le nom exact l'emporte sur le déplacement positionnel documenté.
 - **Sources :** [Coatzacoalcos River — Wikipedia](https://en.wikipedia.org/wiki/Coatzacoalcos_River) ; recherche complémentaire sur les cartes Delisle contemporaines n'ayant pas permis de confirmer la position exacte du label sur cette carte précise.
 
 ### N072 — r-st-pedro
 
 - **Toponyme Jaillot :** R. St Pedro
+- **Nom canonique (harmonisé) :** Rio San Pedro *(« St » est l'abréviation de Jaillot pour un nom de saint espagnol — harmonisé en « San », pas « Saint »)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Puebla de los Ángeles (20,3 NM), Mexico (28,6 NM), Valladolid (38,4 NM), Villa Rica (42,1 NM), Xalapa (64,1 NM). Cours voisins : Almaria, Lac de Mexico, R de los Yopes.
-- **Identification proposée / nom moderne :** **Río Tecolutla** (révisé) — hypothèse.
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** RÉVISION, sur description positionnelle directe : R. St Pedro débouche dans la même baie qu'Almaria (repère : Isla St Paulo, sans établissement), mais est décrit comme nettement plus long. Le Tecolutla, qui prend sa source loin dans la Sierra Norte de Puebla, est le meilleur candidat réel pour un cours notablement plus long que l'Actopan (= Almaria, N001) sur ce tronçon de côte.
-- **Sources :** `fluvial-identification-synthese.md`, révision du cluster Veracruz-Tampico (session de vérification croisée).
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan), seconde passe — Río Tecolutla** (tronc principal, branche « main ») ; **branche B = Río Chichicatzapan** (distributaire réel du Tecolutla, rive sud, estuaire Ostiones, près de l'embouchure).
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** RÉVISION (seconde passe, après recalage complet du secteur). Le tronc principal de R. St Pedro (16 cellules, source à l'intérieur des terres) porte l'embouchure large, proche d'une lagune, décrite directement sur la carte — cohérent avec le Tecolutla réel (~375 km depuis la Sierra Norte de Puebla). Deux arguments renforcent l'identification : (1) le bassin du Tecolutla est celui de Papantla, siège de l'Alcaldía Mayor de Papantla, où démarre dès le milieu du XVIIe siècle le commerce d'exportation de la vanille totonaque — le fleuve le mieux documenté et le plus « connu » de ce tronçon de côte au moment de la campagne, contrairement au Cazones voisin, resté secondaire ; (2) un recoupement avec la carte de Mortier (1733, coauteur de Jaillot) complète le tracé en amont et relie R. St Pedro et sa branche B, confirmant que cette dernière est un **distributaire interne** du même système plutôt qu'un fleuve indépendant — configuration qui correspond exactement au Chichicatzapan, petit affluent réel du Tecolutla par la rive sud, via l'estuaire Ostiones, près de l'embouchure. Le Cazones, dont l'embouchure réelle se situe au nord du Tecolutla (donc dans une direction incompatible avec une branche sud rejoignant le tronc avant la côte), reste par conséquent **sans correspondant identifié** dans l'inventaire Jaillot sur ce tronçon — hypothèse explorée puis écartée pour raison géométrique, non par manque d'importance réelle du fleuve. D'autres cartes contemporaines consultées pour trancher (Delisle 1703, Chatelain 1719, Moll 1720) se sont révélées plus imprécises que Jaillot sur ce secteur et n'ont pas été retenues. **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — l'alternative sérieuse (Cazones) a été éliminée par un raisonnement géométrique indépendant, et le recoupement avec la carte de Mortier (1733) confirme la structure des branches, un niveau de corroboration externe jugé équivalent à un appui toponymique direct.
+- **Sources :** `fluvial-identification-synthese.md`, révision du cluster Veracruz-Tampico (session de vérification croisée) ; [Río Tecolutla — Wikipedia](https://es.wikipedia.org/wiki/R%C3%ADo_Tecolutla) (Chichicatzapan/estuaire Ostiones) ; [Papantla de Olarte — Wikipedia](https://es.wikipedia.org/wiki/Papantla_de_Olarte) (Alcaldía Mayor, commerce de la vanille) ; [El Río Cazones — La Opinión](https://laopinion.net/el-rio-cazones-impetuoso-corto-enigmatico-y-agonico/) ; carte de Mortier, 1733 (recoupement collaboratif).
 
 ### N074 — r-tispe
 
 - **Toponyme Jaillot :** R Tispe
+- **Nom canonique (harmonisé) :** Rio Tispe
 - **Territoire :** panuco
 - **Repères proches :** Tampico (44,1 NM), Villa Rica, Puebla de los Ángeles, Xalapa, Mexico. Cours voisin unique : Panuco.
 - **Identification proposée / nom moderne :** **Río Tuxpan** — hypothèse phonétique (Tuxpan → Tispan → Tispe) et positionnelle (au sud de l'embouchure du Pánuco, sur la même façade côtière).
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** RÉVISÉ : « Tispe » est très probablement le nom d'une localité (variante/déformation de Tuxpan) plutôt que celui du fleuve lui-même — confirmé positionnellement : la localité se trouve face à l'Isla de Lobos et au banc de sable de Tuxpan (Tuspa Sand), un repère qui ne peut désigner que Tuxpan. Le cours d'eau associé est très vraisemblablement le Río Tuxpan.
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** RÉVISÉ : « Tispe » est très probablement le nom d'une localité (variante/déformation de Tuxpan) plutôt que celui du fleuve lui-même — confirmé positionnellement : la localité se trouve face à l'Isla de Lobos et au banc de sable de Tuxpan (Tuspa Sand), un repère qui ne peut désigner que Tuxpan. Le cours d'eau associé est très vraisemblablement le Río Tuxpan. **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — repère ne pouvant désigner que Tuxpan, aucune autre lecture possible.
 - **Sources :** `fluvial-identification-synthese.md`, révision du cluster Veracruz-Tampico (session de vérification croisée).
 
 ### N077 — rio-de-aluerado
 
 - **Toponyme Jaillot :** Rio de Aluerado
+- **Nom canonique (harmonisé) :** Rio de Aluerado *(déjà au format, orthographe Jaillot conservée — u/v alternent couramment dans l'orthographe de l'époque)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Antequera (33,1 NM), Popocatépetl, Tehuacán, Veracruz, Puerto Escondido.
 - **Identification proposée / nom moderne :** **Río Papaloapan**, dont l'embouchure se situe à la ville coloniale d'**Alvarado** (Veracruz) — « Aluerado » est une transcription à peine déformée d'« Alvarado ».
@@ -354,6 +370,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N086 — rio-palmas-dos-bogas
 
 - **Toponyme Jaillot :** Rio Palmas dos Bogas
+- **Nom canonique (harmonisé) :** Rio Palmas dos Bogas *(déjà au format)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Villahermosa (45,9 NM), Tocotalpa de la Sierra, Laguna de Términos, Chiapa (Ciudad Real). Cours voisins : Chequapeque, St Anns.
 - **Identification proposée / nom moderne :** **Río Palizada**, distributaire de l'Usumacinta se jetant dans la Laguna de Términos — hypothèse phonétique.
@@ -364,6 +381,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N093 — sampoval-r
 
 - **Toponyme Jaillot :** Sampoval R
+- **Nom canonique (harmonisé) :** Rio Sampoval *(écho de Cempoala, contexte espagnol)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Villa Rica (1,7 NM — quasi confondu), Xalapa (5,2 NM), Veracruz (47,9 NM). Cours voisin : Almaria.
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan) — Río Actopan / Chachalacas.**
@@ -374,6 +392,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N095 — st-anns
 
 - **Toponyme Jaillot :** St Anns
+- **Nom canonique (harmonisé) :** St Anns *(anglais, inchangé)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Villahermosa (30,6 NM), Tocotalpa de la Sierra, Chiapa (Ciudad Real), Laguna de Términos, Cobán. Cours voisins : Chequapeque, Rio Palmas dos Bogas, Tondelo.
 - **Identification proposée / nom moderne :** Non déterminé. Petit cours ou lagune côtière à l'est de Villahermosa, dans le secteur du delta Usumacinta/Grijalva vers la Laguna de Términos.
@@ -384,6 +403,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N096 — subutla
 
 - **Toponyme Jaillot :** Subutla
+- **Nom canonique (harmonisé) :** Subutla *(pas d'abréviation ; label de village mal associé au fleuve, voir raisonnement)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Manzanillo/Xiopa (53,4 NM), Zacatula (57,6 NM), Pátzcuaro, Valladolid, Puebla de los Ángeles. Cours d'eau ponctuel (une seule cellule).
 - **Identification proposée / nom moderne :** **CORRIGÉ : Subutla est un village, pas un fleuve** (symbole de ville mal associé au label lors de la génération automatique). Le cours d'eau réel à documenter est distinct : il arrose Cachan, entre Tlaconoa et le village de Subutla — candidat Río Armería (Boca de Apiza).
@@ -394,6 +414,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N100 — tondelo
 
 - **Toponyme Jaillot :** Tondelo
+- **Nom canonique (harmonisé) :** Tondelo *(pas d'abréviation ; origine non déterminée)*
 - **Territoire :** nouvelle-espagne
 - **Repères proches :** Villahermosa (15,2 NM), Chiapa (Ciudad Real), Tocotalpa de la Sierra, Cobán, Laguna de Términos. Cours voisins : R. Guazacoalco - ou Guashigwalp, St Anns.
 - **Identification proposée / nom moderne :** Non déterminé. Petit cours côtier à l'est de Villahermosa, dans le delta Usumacinta/Grijalva.
@@ -409,16 +430,18 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N002 — arba-de-canaveral
 
 - **Toponyme Jaillot :** Arba de Canaveral
+- **Nom canonique (harmonisé) :** Arba de Canaveral *(pas un fleuve — voir raisonnement ; rien à harmoniser)*
 - **Territoire :** floride
 - **Repères proches :** San Agustín à 44,8 NM (carte) ; plus loin Nassau, Harbour Island, Santa Cruz del Norte (Cuba), Charles Town. Aucun cours voisin recensé. Tracé très court (2 cellules), embouchure directe en mer.
-- **Identification proposée / nom moderne :** Non un vrai fleuve — probablement la « Barra de Cañaveral », c'est-à-dire la passe/l'inlet sableux au droit du Cap Canaveral (système de lagune Banana River / Indian River Lagoon / Mosquito Lagoon, zone du Cap Canaveral moderne).
-- **Confiance :** ⚠️ faible
-- **Raisonnement :** Le nom « Arba » ne correspond à aucun terme espagnol courant de fleuve ; il s'agit très probablement d'une déformation de « Barra » (banc de sable / passe), un terme employé pour les inlets de la côte est floridienne bien plus que pour un cours d'eau. La position (au sud de San Agustín, à une distance interne cohérente avec le Cap Canaveral réel) et le caractère très court du tracé (2 cellules, embouchure « sea » directe) appuient l'hypothèse d'une passe littorale plutôt que d'un fleuve. Cas à rapprocher des précédents Alimcingo/Cone I./I. Perica (repères qui ne sont pas des cours d'eau).
-- **Sources :** Aucune source cartographique indépendante confirmant le tracé ; hypothèse fondée sur la toponymie espagnole (barra) et la position relative dans l'inventaire.
+- **Identification proposée / nom moderne :** **Barra de Cañaveral** — passe/inlet sableux au droit du Cap Canaveral (système de lagune Banana River / Indian River Lagoon / Mosquito Lagoon), pas un fleuve.
+- **Confiance :** 🎲 convention cartographique *(mise à jour — voir note ci-dessous ; la fiche n'avait pas été resynchronisée avec la table récapitulative lors du dernier passage)*
+- **Raisonnement :** Le nom « Arba » ne correspond à aucun terme espagnol courant de fleuve ; il s'agit très probablement d'une déformation de « Barra » (banc de sable / passe), un terme employé pour les inlets de la côte est floridienne bien plus que pour un cours d'eau. La position (au sud de San Agustín, à une distance interne cohérente avec le Cap Canaveral réel) et le caractère très court du tracé (2 cellules, embouchure « sea » directe) appuient l'hypothèse d'une passe littorale plutôt que d'un fleuve. Cas à rapprocher des précédents Alimcingo/Cone I./I. Perica (repères qui ne sont pas des cours d'eau). **Confirmé** par cartes espagnoles indépendantes (AGI 1605, Arredondo 1737), déjà reflété dans la table récapitulative mais pas encore dans cette fiche — synchronisation faite lors de la passe de recalibration secteur par secteur : classé convention cartographique (pas un fleuve réel, mais un repère de navigation assumé comme tel) plutôt que faible.
+- **Sources :** AGI (Archivo General de Indias) 1605 ; Arredondo 1737 ; hypothèse fondée sur la toponymie espagnole (barra) et la position relative dans l'inventaire.
 
 ### N008 — brave-north-river
 
 - **Toponyme Jaillot :** Brave (North) River
+- **Nom canonique (harmonisé) :** Brave (North) River *(anglais, déjà complet — traduction anglaise d'un nom espagnol, Jaillot n'a pas abrégé)*
 - **Territoire :** louisiane
 - **Repères proches :** La Nouvelle-Orléans (107,9 NM carte), Tampico, Mexico, Mobile, Puebla de los Ángeles. Territoires adjacents à distance 0 : louisiane, nouveau-mexique, nueva-galicia. Cours voisin direct : Rivière aux Vaches. Système fluvial majeur (47 cellules), embouchure en mer.
 - **Identification proposée / nom moderne :** **Rio Grande** (Río Bravo del Norte).
@@ -429,41 +452,71 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N020 — escambia-r
 
 - **Toponyme Jaillot :** Escambia R.
+- **Nom canonique (harmonisé) :** Rio Escambia *(toponyme Jaillot conservé pour archive ; l'identification réelle — Perdido River — figure séparément)*
 - **Territoire :** floride
 - **Repères proches :** Pensacola à seulement 21,2 NM (carte) — très proche, cohérent avec la géographie réelle. Cours voisin direct : Perdido.
-- **Identification proposée / nom moderne :** **Escambia River** (Floride/Alabama).
-- **Confiance :** ✅ fort
-- **Raisonnement :** Toponyme identique, sans déformation, et position immédiate au voisinage de Pensacola — exactement la position de l'Escambia River réelle, qui se jette dans la baie de Pensacola. Nom resté inchangé jusqu'à aujourd'hui.
-- **Sources :** Continuité toponymique directe (Escambia River, Florida/Alabama) ; cohérence de position avec Pensacola dans l'inventaire.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
+  (avec Ronan) — Perdido River.**
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** RÉVISION. La correspondance toponymique directe
+  (« Escambia R. ») restait tentante, mais en réexaminant l'ensemble du
+  cluster Pensacola/Mobile (Ostras, Marpequeue, Escambia R., Perdido,
+  Snelo), Ronan a identifié un décalage global des labels par rapport à
+  leur position réelle. Le cours ici recensé, plus éloigné de Pensacola
+  (21,2 NM) que celui étiqueté « Perdido » (7,5 NM, voir N041), colle en
+  réalité mieux à la position de la **Perdido River**, dont la baie est
+  géographiquement plus distincte et plus à l'ouest de Pensacola — alors
+  que l'Escambia réelle se jette directement dans la baie de Pensacola
+  elle-même, donc plus proche. Voir N041, N028, N037 pour le
+  réagencement complet du secteur. **Recalibration (avec Ronan) :**
+  reclassé de ⚠️ moyen à ✅ fort — l'ensemble du cluster Pensacola/Mobile
+  a été résolu par comparaison de coordonnées pixel exactes des
+  embouchures (ordre ouest-est confirmé sans ambiguïté), un niveau de
+  précision comparable à un appui toponymique direct.
+- **Sources :** Repositionnement du cluster Pensacola/Mobile (proposé
+  par Ronan) ; [Perdido Bay — Wikipedia](https://en.wikipedia.org/wiki/Perdido_Bay) ; [Perdido River — Wikipedia](https://en.wikipedia.org/wiki/Perdido_River).
 
 ### N028 — marpequeue
 
 - **Toponyme Jaillot :** Marpequeue
+- **Nom canonique (harmonisé) :** Marpequeue *(pas un nom de fleuve — descriptif de cap/baie, rien à harmoniser)*
 - **Territoire :** floride
 - **Repères proches :** Pensacola (153,9 NM carte), Mobile, La Nouvelle-Orléans, Tampico — assez loin de tout, positionné entre Ostras (à l'ouest) et Rio del Canaveral (à l'est) dans la séquence de la côte du golfe/Big Bend. Aucun cours voisin recensé.
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
-  (avec Ronan) — Yellow River.** Piste antérieure (« Mar Pequeño »,
-  descriptif de baie) abandonnée.
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** RÉVISION. « Marpequeue » n'est probablement pas un
-  nom de fleuve : ni « R. » dans la graphie, ni orientation de
-  l'étiquette suivant le cours — plutôt un nom de cap ou de baie bordant
-  la « Bay del Spirito Sancto » (Pensacola). Une relecture directe de
-  Delisle 1718 montre, du côté est de cette baie, les deux mêmes cours
-  que chez Jaillot, mais nommés « R del Amirante » (à l'ouest) et
-  « R Jordano » (à l'est, correspondant à ce tracé). Cette portion de
-  l'estuaire (East Bay, bras de Pensacola Bay) reçoit réellement deux
-  rivières d'ouest en est : la Blackwater River puis la Yellow River —
-  Marpequeue, positionné plus à l'est qu'Ostras dans l'inventaire, est
-  donc rattaché à la Yellow River.
+  (avec Ronan), seconde passe — Blackwater River** (remplace Yellow
+  River). Piste antérieure (« Mar Pequeño », descriptif de baie)
+  toujours abandonnée.
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** RÉVISION (seconde passe). « Marpequeue » n'est
+  probablement pas un nom de fleuve : ni « R. » dans la graphie, ni
+  orientation de l'étiquette suivant le cours — plutôt un nom de cap ou
+  de baie bordant la « Bay del Spirito Sancto » (Pensacola). La première
+  révision (Delisle 1718, « R Jordano » = Yellow River) supposait que les
+  deux cours dessinés dans la baie représentaient Blackwater puis Yellow
+  River d'ouest en est. Ronan a établi que le cours réellement parallèle
+  à Marpequeue à l'intérieur de la baie n'est en fait pas dessiné par
+  Jaillot — un des trois cours réels (Escambia, Blackwater, Yellow)
+  manque donc à l'appel. Réagencement complet : **Marpequeue = Blackwater
+  River** (ce cours-ci), **Ostras = Escambia River** (voir N037, plus
+  proche de Pensacola). **Précision (avec Ronan) :** Yellow River est
+  bien dessinée par Jaillot dans ce secteur — l'absence initialement
+  notée ici concerne uniquement la digitalisation dans l'inventaire/
+  oceanBounds (omission lors du relevé des tracés), pas le scan
+  original. Yellow River reste donc à tracer, comme R. Vergues (N043),
+  Río Chico/Tuquesa (N090) et le groupe delta-Orénoque (N042) — voir
+  `inventaire-cours-non-digitalises.md`. **Recalibration (avec Ronan) :**
+  reclassé de ⚠️ moyen à ✅ fort — cluster Pensacola/Mobile résolu par
+  coordonnées pixel exactes des embouchures, ordre ouest-est sans
+  ambiguïté.
 - **Sources :** Guillaume Delisle, *Carte de la Louisiane et du Cours du
-  Mississippi* (1718), lecture directe (crop haute résolution, proposée
-  par Ronan) ; Hamilton (1904, voir « Secteur Floride ») ;
-  [Yellow River (Pensacola Bay) — Wikipedia](https://en.wikipedia.org/wiki/Yellow_River_(Pensacola_Bay)).
+  Mississippi* (1718), lecture directe (crop haute résolution) ;
+  réagencement du cluster Pensacola/Mobile (proposé par Ronan) ;
+  [Blackwater River (Florida) — Wikipedia](https://en.wikipedia.org/wiki/Blackwater_River_(Florida)).
 
 ### N030 — may-r
 
 - **Toponyme Jaillot :** May R.
+- **Nom canonique (harmonisé) :** Rivière de May *(exemple concret de la nuance signalée avant la passe de recalibration : le suffixe « R. » imite la forme anglaise, mais l'origine réelle est française — « Rivière de Mai », nommée par Jean Ribault — donc classée French, pas « May River »)*
 - **Territoire :** floride
 - **Repères proches :** San Agustín à 65,9 NM (carte), au nord de celui-ci (comparaison des coordonnées y). Charles Town plus loin.
 - **Identification proposée / nom moderne :** **St. Johns River**.
@@ -474,6 +527,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N032 — mississippi
 
 - **Toponyme Jaillot :** Mississippi
+- **Nom canonique (harmonisé) :** Mississippi *(pas d'abréviation à harmoniser)*
 - **Territoire :** louisiane
 - **Repères proches :** La Nouvelle-Orléans à seulement 10,5 NM (carte). Deux branches d'embouchure distinctes (« Mississippi » et « Mississippi_B », toutes deux en mer), avec une bifurcation (fork) repérée dans les relations internes.
 - **Identification proposée / nom moderne :** **Fleuve Mississippi**.
@@ -484,11 +538,12 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N034 — nieves-r
 
 - **Toponyme Jaillot :** Nieves R.
+- **Nom canonique (harmonisé) :** Rio Nieves
 - **Territoire :** floride
 - **Repères proches :** Très éloigné de tous les repères listés (Pensacola à 329,7 NM carte, San Agustín à 343,4 NM, Louisiane la zone la plus proche à 194,1 NM) — signe d'un cours isolé, probablement dans le Big Bend floridien, entre R. Flores/Rio del Canaveral (à l'ouest) et Rio del Spirito Sancto (à l'est) dans la séquence de la carte. 18 cellules, cours de taille moyenne.
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
   (avec Ronan) — Río/Rivière Apalachicola.**
-- **Confiance :** ⚠️ moyen
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
 - **Raisonnement :** « Nieves » (« neiges » en espagnol) reste un
   toponyme sanctoral générique sans lien descriptif avec la Floride —
   aucune déduction fiable à partir du nom lui-même. L'identification
@@ -501,7 +556,10 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   géographie réelle (l'Apalachicola, la plus occidentale des rivières du
   Big Bend, à l'ouest de l'Ochlockonee et du St. Marks). Aucune
   attestation du nom « Nieves » pour ce fleuve, mais convergence
-  positionnelle forte entre deux cartes indépendantes.
+  positionnelle forte entre deux cartes indépendantes. **Recalibration
+  (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — convergence
+  positionnelle forte et indépendante (Bowen 1747), sans autre candidat
+  proposé malgré l'absence d'appui toponymique.
 - **Sources :** Emanuel Bowen (1747), lecture directe (crop haute
   résolution, proposée par Ronan) ; [Apalachicola River — Wikipedia](https://en.wikipedia.org/wiki/Apalachicola_River) ;
   [Apalachee Province — Wikipedia](https://en.wikipedia.org/wiki/Apalachee_Province) ;
@@ -510,6 +568,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N035 — ochio-ou-belle-riviere
 
 - **Toponyme Jaillot :** Ochio ou Belle Rivière
+- **Nom canonique (harmonisé) :** Belle Rivière *(français, « Ochio » écarté comme déformation phonétique secondaire ; inchangé)*
 - **Territoire :** floride (mais rattachement fonctionnel Louisiane par la confluence)
 - **Repères proches :** Confluence directe avec le Mississippi (deux branches en jonction, `targetRiverId: "Mississippi"`), Pensacola (105 NM carte), Mobile, La Nouvelle-Orléans. Cours voisin direct : Mississippi.
 - **Identification proposée / nom moderne :** **Ohio River**.
@@ -520,65 +579,121 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N037 — ostras
 
 - **Toponyme Jaillot :** Ostras
+- **Nom canonique (harmonisé) :** Ostras *(mot espagnol complet — « huîtres » — pas d'abréviation à harmoniser)*
 - **Territoire :** floride
 - **Repères proches :** Pensacola (87,3 NM carte), Mobile, La Nouvelle-Orléans. Positionné entre Escambia (à l'ouest) et Marpequeue (à l'est) dans la séquence côtière du panhandle.
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
-  (avec Ronan) — Blackwater River.**
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** RÉVISION. « Ostras » (huîtres) est vraisemblablement
-  un toponyme descriptif de baie/cap plutôt qu'un nom de fleuve (pas de
-  « R. » dans la graphie, étiquette ne suivant pas le cours) — comme
-  Marpequeue, son voisin. Delisle 1718 montre, au même endroit (côté est
-  de la « Bay del Spirito Sancto »/Pensacola Bay), deux cours nommés
-  « R del Amirante » (à l'ouest, correspondant à ce tracé) et
-  « R Jordano » (à l'est, voir Marpequeue/N028). Cette portion de
-  l'estuaire (East Bay) reçoit réellement la Blackwater River puis la
-  Yellow River d'ouest en est — Ostras, plus proche de Pensacola que
-  Marpequeue dans l'inventaire (87 contre 154 NM carte), est donc
-  rattaché à la Blackwater River.
+  (avec Ronan), seconde passe — Escambia River** (remplace Blackwater
+  River).
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** RÉVISION (seconde passe). La première révision
+  (Blackwater River, via recoupement Delisle 1718) reposait sur
+  l'hypothèse que les deux cours voisins dessinés dans la baie
+  correspondaient à Blackwater puis Yellow River d'ouest en est. Ronan a
+  établi que le cours d'eau réellement parallèle à Marpequeue à
+  l'intérieur de la baie n'est en fait pas digitalisé dans l'inventaire
+  — il manque un des trois cours réels de ce secteur (Escambia,
+  Blackwater, Yellow). Le réagencement complet donne : **Ostras =
+  Escambia River** (ce cours-ci, le plus proche de Pensacola des deux
+  dessinés dans la baie), **Marpequeue = Blackwater River** (voir N028,
+  remplace Yellow River). **Précision (avec Ronan) :** Yellow River est
+  bien dessinée par Jaillot — l'omission concerne la digitalisation
+  d'oceanBounds, pas le scan original ; voir N028 et
+  `inventaire-cours-non-digitalises.md`. **Recalibration (avec Ronan) :**
+  reclassé de ⚠️ moyen à ✅ fort — cluster Pensacola/Mobile résolu par
+  coordonnées pixel exactes des embouchures, ordre ouest-est sans
+  ambiguïté.
 - **Sources :** Guillaume Delisle, *Carte de la Louisiane et du Cours du
-  Mississippi* (1718), lecture directe (crop haute résolution, proposée
-  par Ronan) ; [Blackwater River (Florida) — Wikipedia](https://en.wikipedia.org/wiki/Blackwater_River_(Florida)).
+  Mississippi* (1718), lecture directe (crop haute résolution) ;
+  réagencement du cluster Pensacola/Mobile (proposé par Ronan) ;
+  [Escambia River — Wikipedia](https://en.wikipedia.org/wiki/Escambia_River).
 
 ### N041 — perdido
 
 - **Toponyme Jaillot :** Perdido
+- **Nom canonique (harmonisé) :** Perdido *(mot espagnol complet, pas d'abréviation — toponyme Jaillot conservé pour archive ; l'identification réelle — Wolf Bay — figure séparément)*
 - **Territoire :** floride
 - **Repères proches :** Pensacola à seulement 7,5 NM (carte) — quasiment adjacent. Cours voisin direct : Escambia R.
-- **Identification proposée / nom moderne :** **Perdido River**.
-- **Confiance :** ✅ fort
-- **Raisonnement :** Toponyme identique, sans déformation. La Perdido River marque aujourd'hui encore la frontière Floride/Alabama, juste à l'ouest de Pensacola — position exactement cohérente avec l'inventaire (7,5 NM de Pensacola, cours voisin de l'Escambia).
-- **Sources :** Continuité toponymique directe (Perdido River, frontière Floride/Alabama).
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
+  (avec Ronan) — Wolf Creek/Sandy Creek** (Wolf Bay).
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** RÉVISION. La correspondance toponymique directe
+  (« Perdido ») semblait acquise, mais le réagencement du cluster
+  Pensacola/Mobile (voir N020, N028, N037) a montré que ce nom colle en
+  réalité mieux au cours voisin (N020, plus à l'est), la Perdido River
+  réelle formant une baie distincte. Les coordonnées internes confirment
+  que ce cours-ci se situe entre R. Snelo (Bon Secour River, à l'ouest)
+  et N020 (Perdido River, à l'est) — position exactement cohérente avec
+  **Wolf Bay**, alimentée par Wolf Creek et Sandy Creek, entre Bon Secour
+  Bay et Perdido Bay sur la côte du Baldwin County, Alabama. **Recalibration
+  (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — cluster Pensacola/Mobile
+  résolu par coordonnées pixel exactes des embouchures, ordre ouest-est
+  sans ambiguïté.
+- **Sources :** Réagencement du cluster Pensacola/Mobile (proposé par
+  Ronan) ; [Mobile Bay NEP — Wolf Bay Watershed](https://www.mobilebaynep.com/watersheds/wolf-bay-watershed/the-landscape).
 
 ### N057 — r-flores
 
 - **Toponyme Jaillot :** R. Flores
+- **Nom canonique (harmonisé) :** Rio Flores
 - **Territoire :** floride
 - **Repères proches :** Très éloigné de tous les repères (Pensacola à 260,3 NM carte) — signe d'un cours du Big Bend floridien, entre Rio del Canaveral (à l'ouest) et Nieves R. (à l'est) dans la séquence de la carte.
-- **Identification proposée / nom moderne :** Non déterminé.
-- **Confiance :** Non déterminé
-- **Raisonnement :** « R. Flores » (rivière des fleurs) est un toponyme descriptif sans ancrage géographique permettant de le distinguer des nombreux petits cours du Big Bend (Aucilla, Econfina, Fenholloway, Steinhatchee, Suwannee). Aucun repère de proximité fiable dans l'inventaire ne permet de trancher.
-- **Sources :** Aucune trouvée.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
+  (avec Ronan) — Econfina Creek.**
+- **Confiance :** ⚠️ moyen *(passe de recalibration : examiné, non promu — voir note ci-dessous)*
+- **Raisonnement :** RÉVISION (ERR-012 retiré). « R. Flores » (rivière
+  des fleurs) reste un toponyme descriptif sans ancrage direct, mais sa
+  position dans la séquence de la carte — entre Rio del Canaveral/N080
+  (Choctawhatchee River) à l'ouest et Nieves R./N034 (Río/Rivière
+  Apalachicola) à l'est — situe ce cours très précisément dans la zone
+  de **St. Andrew Bay** (Panama City, Floride). Econfina Creek en est la
+  principale source d'eau douce, alimentant le réservoir de Deer Point
+  Lake (~58 % de l'apport annuel, avec Bear Creek en second contributeur
+  à ~36 %) — c'est le cours qui domine nettement ce secteur, malgré sa
+  modestie réelle (cours spring-fed, débit moyen de seulement 538 pi³/s).
+  Le tracé Jaillot, plus développé, correspond vraisemblablement à une
+  surévaluation de la longueur réelle plutôt qu'à un doute sur
+  l'identification elle-même — un biais déjà rencontré ailleurs sur
+  cette carte pour des cours secondaires. **Recalibration (avec Ronan) :**
+  examiné mais **non promu** — Bear Creek reste un contributeur réel non
+  négligeable (~36 %) de la même baie, ce qui empêche de parler de
+  position strictement exclusive ; reste ⚠️ moyen.
+- **Sources :** [St. Andrew Bay — USGS](https://pubs.usgs.gov/sir/2006/5287/pdf/St.AndrewBay.pdf) ; [Econfina Creek — Wikipedia](https://en.wikipedia.org/wiki/Econfina_Creek) ; position relative (inventaire Jaillot, séquence proposée par Ronan).
 
 ### N071 — r-snelo
 
 - **Toponyme Jaillot :** R. Snelo
+- **Nom canonique (harmonisé) :** Rio Snelo *(origine incertaine, contexte espagnol par défaut)*
 - **Territoire :** floride
 - **Repères proches :** Quasi équidistant de Pensacola (32,9 NM carte) et Mobile (38,7 NM) — positionné juste au sud-ouest de Perdido dans la séquence de la carte, donc probablement dans le secteur Perdido Bay / Mobile Bay.
-- **Identification proposée / nom moderne :** Non déterminé.
-- **Confiance :** Non déterminé
-- **Raisonnement :** Le toponyme « Snelo » n'a pas d'équivalent espagnol ou français reconnaissable — probablement une déformation forte d'un nom d'origine amérindienne ou d'un nom européen mal transcrit par le graveur. La position (entre Pensacola et Mobile) pourrait correspondre à un petit cours ou bayou côtier du secteur Perdido Bay/Ono Island, mais aucune source ne permet de l'affirmer.
-- **Sources :** Aucune trouvée.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
+  (avec Ronan) — Bon Secour River.**
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** RÉVISION (ERR-013 retiré). « Snelo » reste un
+  toponyme sans équivalent reconnaissable, probablement une déformation
+  forte. Mais le repositionnement complet du cluster Pensacola/Mobile
+  (voir N020, N028, N037, N041) confirme, coordonnées à l'appui, que
+  Snelo est le plus occidental des cours de cette séquence, immédiatement
+  à l'ouest de N041 (lui-même à l'ouest de Perdido/N020). Cette position
+  correspond exactement à celle de la **Bon Secour River**, qui se jette
+  dans Bon Secour Bay, le bras oriental de Mobile Bay — premier cours
+  substantiel à l'est de Mobile avant la séquence Wolf Bay/Perdido/
+  Escambia/Blackwater. **Recalibration (avec Ronan) :** reclassé de
+  ⚠️ moyen à ✅ fort — cluster Pensacola/Mobile résolu par coordonnées
+  pixel exactes des embouchures, ordre ouest-est sans ambiguïté.
+- **Sources :** Réagencement du cluster Pensacola/Mobile (proposé par
+  Ronan) ; [Bon Secour River — Wikipedia](https://en.wikipedia.org/wiki/Bon_Secour_River).
 
 ### N080 — rio-del-canaveral
 
 - **Toponyme Jaillot :** Rio del Canaveral
+- **Nom canonique (harmonisé) :** Rio del Canaveral *(déjà au format)*
 - **Territoire :** floride
 - **Repères proches :** Très éloigné de tout repère listé (Pensacola à 220,4 NM carte) ; positionné dans le Big Bend floridien, entre Marpequeue (à l'ouest) et R. Flores/Nieves (à l'est) — donc **très éloigné du Cap Canaveral réel**, qui se trouve sur la côte atlantique (cf. N002 Arba de Canaveral, bien plus à l'est sur la carte, proche de San Agustín).
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
   (avec Ronan) — Choctawhatchee River.** Confirmé sans lien avec le Cap
   Canaveral moderne malgré le nom partagé (voir raisonnement).
-- **Confiance :** ⚠️ moyen
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
 - **Raisonnement :** « Cañaveral » signifie littéralement « roselière/
   cannaie » en espagnol — descriptif de paysage générique, sans rapport
   avec Arba de Canaveral/N002 (côte atlantique, homonymie fortuite).
@@ -593,7 +708,10 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   del Canaveral est donc la Choctawhatchee Bay, et le cours lui-même ne
   peut guère être que la Choctawhatchee River, seul fleuve important du
   secteur — identification structurelle/positionnelle, sans attestation
-  directe du nom « Cañaveral » pour ce cours précis.
+  directe du nom « Cañaveral » pour ce cours précis. **Recalibration
+  (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — double recoupement
+  cartographique indépendant (Delisle 1718, carte espagnole de 1700) et
+  exclusivité explicite (« seul fleuve important du secteur »).
 - **Sources :** Guillaume Delisle, *Carte de la Louisiane et du Cours du
   Mississippi* (1718), lecture directe (crop haute résolution, proposée
   par Ronan) ; « Descripcion de la Bahia de Santa Maria de Galve... hasta
@@ -604,16 +722,18 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N081 — rio-del-spirito-sancto
 
 - **Toponyme Jaillot :** Rio del Spirito Sancto
+- **Nom canonique (harmonisé) :** Rio del Spirito Sancto *(déjà au format ; « Sancto » est la graphie Jaillot, conservée telle quelle plutôt que corrigée en « Santo »)*
 - **Territoire :** floride
 - **Repères proches :** San Agustín (158,7 NM carte), Charles Town, La Havane. Positionné entre Nieves R. (à l'ouest) et Arba de Canaveral/May R. (à l'est) dans la séquence de la carte — donc dans la portion centre-sud du golfe floridien, cohérente avec la position réelle de la baie de Tampa entre le Big Bend et la péninsule atlantique.
 - **Identification proposée / nom moderne :** Hypothèse : écho de la **Bahía del Espíritu Santo**, nom espagnol historique de **Tampa Bay** (attesté dès Pánfilo de Narváez, 1528, et Hernando de Soto, 1539), ici représenté par Jaillot comme une embouchure fluviale plutôt que comme une baie.
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** « Espíritu Santo » est un toponyme récurrent sur les côtes du golfe (voir aussi R008/Villahermosa-Tabasco, un toponyme homonyme mais totalement distinct au Mexique, déjà traité dans la session précédente — à ne pas confondre). En Floride spécifiquement, « Bahía del Espíritu Santo » est le nom espagnol bien documenté de Tampa Bay jusqu'à sa progressive « Tampanisation » à partir de 1576-1601. La conflation baie/rivière est un phénomène courant sur les cartes du XVIIe-XVIIIe siècle pour les grandes baies mal sondées, ce qui expliquerait que Jaillot représente ce site comme un « rio » plutôt qu'une baie — cohérent avec la mise en garde du dossier sur les repères qui sont en réalité des baies. Confiance modérée seulement : la position relative sur la carte de jeu est compatible mais ne prouve pas formellement le tracé.
+- **Confiance :** ⚠️ moyen *(passe de recalibration : examiné, non promu — voir note ci-dessous)*
+- **Raisonnement :** « Espíritu Santo » est un toponyme récurrent sur les côtes du golfe (voir aussi R008/Villahermosa-Tabasco, un toponyme homonyme mais totalement distinct au Mexique, déjà traité dans la session précédente — à ne pas confondre). En Floride spécifiquement, « Bahía del Espíritu Santo » est le nom espagnol bien documenté de Tampa Bay jusqu'à sa progressive « Tampanisation » à partir de 1576-1601. La conflation baie/rivière est un phénomène courant sur les cartes du XVIIe-XVIIIe siècle pour les grandes baies mal sondées, ce qui expliquerait que Jaillot représente ce site comme un « rio » plutôt qu'une baie — cohérent avec la mise en garde du dossier sur les repères qui sont en réalité des baies. Confiance modérée seulement : la position relative sur la carte de jeu est compatible mais ne prouve pas formellement le tracé. **Recalibration (avec Ronan) :** examiné mais **non promu** — l'auteur de la fiche note lui-même que la position ne prouve pas formellement le tracé ; pas de position exclusive établie. Reste ⚠️ moyen.
 - **Sources :** HMDB, « Bahia Espiritu Santo Mission Historical Marker » ; USF FCIT, « The Bay of Espiritu Santo on the Western Coast of East Florida, 1777 » ; historique de la dénomination Tampa Bay / Bahía de Espíritu Santo (cartes espagnoles dès 1584).
 
 ### N088 — riviere-aux-vaches
 
 - **Toponyme Jaillot :** Rivière aux Vaches
+- **Nom canonique (harmonisé) :** Rivière aux Vaches *(français, déjà complet)*
 - **Territoire :** louisiane
 - **Repères proches :** La Nouvelle-Orléans (69,5 NM carte), Tampico, Mobile, Mexico, Pensacola. Cours voisin direct : Brave (North) River (à l'ouest/sud, cf. N008).
 - **Identification proposée / nom moderne :** **Lavaca River** (Texas), affluent de la Matagorda Bay.
@@ -624,6 +744,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N089 — riviere-sablomuere
 
 - **Toponyme Jaillot :** Rivière Sablomuere
+- **Nom canonique (harmonisé) :** Rivière Sablomuere *(français, déjà complet)*
 - **Territoire :** louisiane
 - **Repères proches :** La Nouvelle-Orléans (88,9 NM carte), Mobile, Pensacola, Tampico, Mexico. Cours voisins directs : Mississippi (jonction confirmée), F-7_23.
 - **Identification proposée / nom moderne :** **Red River** (Rivière Rouge).
@@ -639,6 +760,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N007 — boccades-r
 
 - **Toponyme Jaillot :** Boccades R.
+- **Nom canonique (harmonisé) :** Rio Boccades
 - **Territoire :** nicaragua
 - **Repères proches :** Confluent du San Juan (14,7 NM), Gracias a Dios/Nicaragua (côte Miskito). Bouche « sea » directe, plus une branche B en jonction avec le même complexe ; `relations` la lient à « fork » depuis Rio San Juan (rebaptisé Río Colorado, voir N087), et en « separate » avec R Yayrepo et Trigu R. sur les mêmes cellules.
 - **Identification proposée / nom moderne :** Une des branches secondaires du delta du Río Colorado sur la côte Miskito, sans correspondance précise possible.
@@ -649,6 +771,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N017 — chequapeque
 
 - **Toponyme Jaillot :** Chequapeque
+- **Nom canonique (harmonisé) :** Chequapeque *(pas d'abréviation ; origine non déterminée)*
 - **Territoire :** guatemala (étiquette administrative de l'inventaire)
 - **Repères proches :** Tocotalpa de la Sierra (38,6 NM), Laguna de Términos (59,6 NM, territoire yucatan), Villahermosa (61,3 NM, territoire nouvelle-espagne), Cobán (72,9 NM), Chiapa/Ciudad Real (78,4 NM). Cours voisin direct dans l'inventaire : Tabasco R.
 - **Identification proposée / nom moderne :** Non déterminé — petit cours côtier du golfe du Mexique entre le delta du Tabasco/Grijalva et la Laguna de Términos.
@@ -659,6 +782,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N026 — lac-nicaragua
 
 - **Toponyme Jaillot :** Lac Nicaragua
+- **Nom canonique (harmonisé) :** Lac Nicaragua *(pas d'abréviation)*
 - **Territoire :** nicaragua
 - **Repères proches :** Lac Nicaragua/Cocibolca (1,3 NM — coïncidence quasi parfaite), Granada (2,9 NM), La Trinidad (5,1 NM), León (6,2 NM), Mena (6,2 NM). Cours voisins : N. Segovia River, Rio San Juan.
 - **Identification proposée / nom moderne :** Lac Nicaragua (Cocibolca).
@@ -669,6 +793,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N033 — n-segovia-river
 
 - **Toponyme Jaillot :** N. Segovia River
+- **Nom canonique (harmonisé) :** N. Segovia River *(déjà complet — mélange Jaillot d'un qualificatif espagnol « N. » = Nueva et d'un générique anglais « River », rien à abréger)*
 - **Territoire :** honduras
 - **Repères proches :** Nueva Segovia (4,7 NM), La Trinidad/Nicaragua (48,2 NM), Lac Nicaragua (proche). Outlet en jonction vers « Yare R. » ; `relations` la sépare de Yare R. sur une cellule commune.
 - **Identification proposée / nom moderne :** Río Segovia, cours supérieur historique du Río Coco (Wangki).
@@ -679,11 +804,12 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N043 — r-auzuelos
 
 - **Toponyme Jaillot :** R. Auzuelos
+- **Nom canonique (harmonisé) :** Rio Auzuelos
 - **Territoire :** costa-rica
 - **Repères proches :** Castillo de Austria (40 NM, fort espagnol probablement à l'embouchure du río Matina), Gracias a Dios/Nicaragua (58,2 NM), Confluent du San Juan (64 NM), Concepción/Panama-Bocas del Toro (68,2 NM). Cours voisin : Suere ou Blewfield River.
 - **Identification proposée / nom moderne :** **Río Pacuare** (révision
   collaborative — Río Colorado définitivement écarté).
-- **Confiance :** ⚠️ moyen
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
 - **Raisonnement :** *(RÉVISION COLLABORATIVE — avec Ronan, en deux
   temps)* L'hypothèse Río Colorado est écartée : ce nom revient à N087
   (rio-san-juan), dont le toponyme Jaillot réel est « Nicaragua ou
@@ -711,7 +837,10 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   au sud sur la Jaillot par rapport aux cartes modernes, ce qui peut
   créer une confusion de zone. À corriger séparément côté code une fois
   le tracé digitalisé ; aucun identifiant N/R ne lui est donc attribué
-  ici.
+  ici. **Recalibration (avec Ronan) :** N043 reclassé de ⚠️ moyen à
+  ✅ fort — séquence côtière dérivée par élimination de l'ordre réel et
+  bien documenté Matina→Pacuare→Parismina→Tortuguero→delta, sans autre
+  candidat plausible pour cette position.
 - **Sources :** Lecture directe de la carte Jaillot (séquence côtière
   Bocas del Toro → delta, proposée par Ronan) ; `js/villes-data.js`
   (entrée `chateau-de-austria`) ; connaissance géographique générale de
@@ -721,16 +850,18 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N051 — r-de-costaricha
 
 - **Toponyme Jaillot :** R. de Costaricha
+- **Nom canonique (harmonisé) :** Rio de Costaricha
 - **Territoire :** nicaragua
 - **Repères proches :** Gracias a Dios/Nicaragua (14,4 NM), Castillo de la Inmaculada Concepción (14,7 NM), Confluent du San Juan (28,3 NM), Mena (35,6 NM). Outlet en jonction directe vers « Rio San Juan ».
 - **Identification proposée / nom moderne :** Río Frío — hypothèse.
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** Le nom « de Costaricha » (« du Costa Rica ») est de toute évidence un nom générique de repérage plutôt qu'un toponyme local — cohérent avec un affluent frontalier venant du territoire costaricien pour rejoindre le San Juan. La note de `villes-data.js` sur `confluent-san-juan-frio` indique explicitly qu'un site proche sur la Jaillot marque la confluence du San Juan avec un « Rio Cambitto », identifié comme probablement le río Frío (actuelle frontière Costa Rica/Nicaragua). R. de Costaricha est le cours le plus proche de ce point de confluence dans notre liste, avec une jonction directe vers Rio San Juan cohérente.
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** Le nom « de Costaricha » (« du Costa Rica ») est de toute évidence un nom générique de repérage plutôt qu'un toponyme local — cohérent avec un affluent frontalier venant du territoire costaricien pour rejoindre le San Juan. La note de `villes-data.js` sur `confluent-san-juan-frio` indique explicitly qu'un site proche sur la Jaillot marque la confluence du San Juan avec un « Rio Cambitto », identifié comme probablement le río Frío (actuelle frontière Costa Rica/Nicaragua). R. de Costaricha est le cours le plus proche de ce point de confluence dans notre liste, avec une jonction directe vers Rio San Juan cohérente. **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — jonction directe et position corroborées par une note indépendante de `villes-data.js`, antérieure à cette identification.
 - **Sources :** `js\villes-data.js` (entrée `confluent-san-juan-frio`) ; inventaire interne.
 
 ### N055 — r-dulce
 
 - **Toponyme Jaillot :** R. Dulce
+- **Nom canonique (harmonisé) :** Rio Dulce
 - **Territoire :** honduras (frontière guatemala)
 - **Repères proches :** Santo Tomás de Castilla (5 NM), Lac Izabal (7 NM), Cobán (10,6 NM), Puerto Caballos (28,3 NM). Cours voisin : R. Pech.
 - **Identification proposée / nom moderne :** Río Dulce (Guatemala), exutoire du lac Izabal vers la mer des Caraïbes.
@@ -741,6 +872,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N059 — r-granda
 
 - **Toponyme Jaillot :** R. Granda
+- **Nom canonique (harmonisé) :** Rio Granda *(possible déformation de « Grande »)*
 - **Territoire :** honduras
 - **Repères proches :** Trujillo (39,2 NM), San Jorge de Olancho (72,5 NM), Nueva Segovia (96,8 NM), Cap Gracias a Dios (143,7 NM). Cours voisin : R. Guaiapo (affluent).
 - **Identification proposée / nom moderne :** Río Sico (aussi appelé Río Tinto / Black River) — hypothèse.
@@ -751,16 +883,18 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N060 — r-guaiapo
 
 - **Toponyme Jaillot :** R. Guaiapo
+- **Nom canonique (harmonisé) :** Rio Guaiapo
 - **Territoire :** honduras
 - **Repères proches :** Trujillo (41,4 NM), San Jorge de Olancho (46,5 NM). `relations` : séparé de R. Granda sur une cellule commune ; outlet en jonction vers R. Granda.
-- **Identification proposée / nom moderne :** Non déterminé avec confiance — éventuellement Río Paulaya, affluent réel du système Sico/Tinto.
-- **Confiance :** ⚠️ faible
-- **Raisonnement :** Se jette directement dans R. Granda selon l'inventaire (outlet type « junction », targetRiverId « R. Granda »), ce qui en fait un affluent de ce dernier plutôt qu'un cours autonome. Si R. Granda correspond au Río Sico, le tributaire réel le plus notable de ce bassin est le Río Paulaya — mais aucun élément toponymique ou cartographique ne permet de confirmer ce rapprochement au-delà d'une hypothèse structurelle.
+- **Identification proposée / nom moderne :** **Río Paulaya** — confirmé principal tributaire réel du système Sico/Tinto (= R. Granda) ; candidats concurrents (Wampú, Sicre) exclus, bassin du Patuca distinct.
+- **Confiance :** ✅ fort *(mise à jour — voir note ci-dessous ; la fiche n'avait pas été resynchronisée avec la table récapitulative lors du dernier passage)*
+- **Raisonnement :** Se jette directement dans R. Granda selon l'inventaire (outlet type « junction », targetRiverId « R. Granda »), ce qui en fait un affluent de ce dernier plutôt qu'un cours autonome. Si R. Granda correspond au Río Sico, le tributaire réel le plus notable de ce bassin est le Río Paulaya. **Synchronisation (avec Ronan) :** la table récapitulative avait déjà été mise à jour vers ✅ fort — Wampú et Sicre, les deux autres candidats plausibles du même bassin, ont été explicitement exclus, laissant le Paulaya comme seul candidat restant — mais cette fiche n'avait pas suivi ; corrigé lors de la passe de recalibration secteur par secteur.
 - **Sources :** Inventaire interne (relation de jonction avec R. Granda).
 
 ### N062 — r-lempa
 
 - **Toponyme Jaillot :** R. Lempa
+- **Nom canonique (harmonisé) :** Rio Lempa
 - **Territoire :** guatemala (étiquette administrative — la Capitainerie générale du Guatemala englobait le Salvador d'aujourd'hui)
 - **Repères proches :** San Miguel de la Frontera (7,5 NM), Amapala (30,3 NM), San Salvador (43,4 NM), La Trinidad/Guatemala (52,8 NM), Gracias/Honduras (67,5 NM).
 - **Identification proposée / nom moderne :** Río Lempa (Salvador).
@@ -771,6 +905,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N066 — r-michataya
 
 - **Toponyme Jaillot :** R Michataya
+- **Nom canonique (harmonisé) :** Rio Michataya
 - **Territoire :** guatemala
 - **Repères proches :** Santiago de Guatemala (7,5 NM — quasi juxtaposé), Volcán de Agua (19,4 NM), Cobán (44,9 NM), Soconusco (71,2 NM).
 - **Identification proposée / nom moderne :** Río Michatoya, exutoire du lac Amatitlán (Guatemala).
@@ -781,6 +916,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N067 — r-pech
 
 - **Toponyme Jaillot :** R. Pech
+- **Nom canonique (harmonisé) :** Rio Pech
 - **Territoire :** honduras
 - **Repères proches :** Gracias/Villa de Gracias a Dios (4,3 NM), Santo Tomás de Castilla (12 NM), Puerto Caballos (13,8 NM), San Pedro Sula (56,1 NM), Lac Izabal (56,7 NM). Cours voisin : R. Dulce.
 - **Identification proposée / nom moderne :** Río Patuca — identification reprise de `js\villes-data.js` (note sur `gratios-o-dios`), avec réserve.
@@ -791,6 +927,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N070 — r-serapique
 
 - **Toponyme Jaillot :** R. Serapique
+- **Nom canonique (harmonisé) :** Rio Serapique *(graphie Jaillot conservée ; forme moderne « Sarapiquí »)*
 - **Territoire :** nicaragua (frontière costa-rica)
 - **Repères proches :** Confluent du San Juan (11,7 NM), Gracias a Dios/Nicaragua (12,9 NM), Castillo de la Inmaculada Concepción (18,7 NM), Castillo de Austria (21,6 NM). Outlet en jonction directe vers « Rio San Juan ».
 - **Identification proposée / nom moderne :** Río Sarapiquí (Costa Rica).
@@ -801,26 +938,29 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N076 — r-yayrepo
 
 - **Toponyme Jaillot :** R Yayrepo
+- **Nom canonique (harmonisé) :** Rio Yayrepo
 - **Territoire :** nicaragua
 - **Repères proches :** Confluent du San Juan (3,8 NM), Castillo de la Inmaculada Concepción (16,7 NM), Gracias a Dios/Nicaragua (22,3 NM). `relations` : fork depuis Rio San Juan, séparé de Boccades R.
 - **Identification proposée / nom moderne :** Probable **bas Río San Juan / San Juan del Norte** — branche nord du delta, distincte du Colorado.
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** *(RÉVISION COLLABORATIVE — avec Ronan)* Fait partie du même enchevêtrement serré de branches deltaïques que Boccades R. et Trigu R. (voir N007), toutes issues par « fork » du tronc principal (N087, désormais Río Colorado) à proximité immédiate du fort de l'Immaculée Conception. Le toponyme « Yayrepo » ne correspond à aucune source identifiée. Mais sa position géométrique est significative : dans l'inventaire, son embouchure (cellule 87_68) est la plus au nord de tout le cluster deltaïque, tandis que celle du tronc principal — qui porte l'étiquette Jaillot « Nicaragua ou Colorado R. » — est la plus au sud. Or c'est exactement la configuration réelle : le Colorado est la branche méridionale du delta (vers le Costa Rica), et le bas San Juan/San Juan del Norte (Greytown) est la branche septentrionale historique. Par élimination géographique et cohérence avec la position de l'étiquette Jaillot, R Yayrepo est donc le candidat le plus probable pour cette branche nord — sans toutefois reposer sur une correspondance toponymique directe, d'où une confiance modérée plutôt que forte.
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** *(RÉVISION COLLABORATIVE — avec Ronan)* Fait partie du même enchevêtrement serré de branches deltaïques que Boccades R. et Trigu R. (voir N007), toutes issues par « fork » du tronc principal (N087, désormais Río Colorado) à proximité immédiate du fort de l'Immaculée Conception. Le toponyme « Yayrepo » ne correspond à aucune source identifiée. Mais sa position géométrique est significative : dans l'inventaire, son embouchure (cellule 87_68) est la plus au nord de tout le cluster deltaïque, tandis que celle du tronc principal — qui porte l'étiquette Jaillot « Nicaragua ou Colorado R. » — est la plus au sud. Or c'est exactement la configuration réelle : le Colorado est la branche méridionale du delta (vers le Costa Rica), et le bas San Juan/San Juan del Norte (Greytown) est la branche septentrionale historique. Par élimination géographique et cohérence avec la position de l'étiquette Jaillot, R Yayrepo est donc le candidat le plus probable pour cette branche nord — sans toutefois reposer sur une correspondance toponymique directe, d'où une confiance modérée plutôt que forte. **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — position exclusive établie par élimination parmi les trois branches historiques connues et closes (Colorado/Taura/San Juan del Norte), même sans appui toponymique direct.
 - **Sources :** Lecture directe de la carte Jaillot (position du cap « P. Iuan » et de l'étiquette « Nicaragua ou Colorado R. », proposée par Ronan) ; derechointernacionalcr.blogspot.com, *El río San Juan y el Río Colorado* (position historique du Nicaragua en 1897 : trois branches Colorado/Taura/San Juan del Norte) ; inventaire interne (coordonnées d'embouchure).
 
 ### N087 — rio-san-juan
 
 - **Toponyme Jaillot :** Rio San Juan *(à corriger — voir révision collaborative ci-dessous : la carte porte en réalité « Nicaragua ou Colorado R. »)*
+- **Nom canonique (harmonisé) :** Nicaragua ou Rio Colorado *(toponyme Jaillot réel, pas la convention de projet « Rio San Juan » — « R. » du suffixe original harmonisé en « Rio »)*
 - **Territoire :** nicaragua (frontière costa-rica)
 - **Repères proches :** Castillo de la Inmaculada Concepción (3,4 NM), Confluent du San Juan (3,8 NM), Gracias a Dios/Nicaragua (4,7 NM). Outlet « sea » à l'embouchure ; jonctions multiples en amont avec Lac Nicaragua, R. Serapique, R. de Costaricha, et les branches Boccades/Trigu/Yayrepo à l'aval.
 - **Identification proposée / nom moderne :** **Río Colorado** — bras principal/méridional du delta du système lac Nicaragua → mer des Caraïbes, reliant toujours le lac Nicaragua à la mer, mais sous le nom de sa branche sud plutôt que celui, générique, de « San Juan ».
-- **Confiance :** ⚠️ moyen
-- **Raisonnement :** *(RÉVISION COLLABORATIVE — avec Ronan)* Le système hydrographique lui-même (exutoire du lac Nicaragua vers la mer des Caraïbes, ponctué par le fort de l'Immaculée Conception, affluents Sarapiquí et Frío/Costaricha) reste identifié avec certitude — c'est la géographie réelle du complexe San Juan/Colorado. Mais le nom « Rio San Juan » attribué à ce tronçon précis dans l'inventaire est une convention du projet, pas une transcription fidèle : la lecture directe de la carte Jaillot (crop haute résolution) montre que le cap à l'embouchure est étiqueté « P. Iuan » (entre Trigu R. et le tronc principal) et que le fleuve lui-même est nommé « **Nicaragua ou Colorado R.** » — jamais « San Juan ». Cette étiquette porte précisément sur le tronc qui aboutit à l'embouchure la plus au sud du cluster deltaïque (cellule 92_69), ce qui correspond exactement à la position réelle du Río Colorado (branche méridionale du delta, côté Costa Rica) par rapport au bas San Juan/San Juan del Norte (branche nord, voir N076). Fleuve historiquement majeur, remonté par les flibustiers lors des raids sur Grenade (1665, 1670 — Henry Morgan et d'autres selon les sources consultées), défendu par jusqu'à douze forts espagnols dont le Castillo de la Inmaculada Concepción (1675). Confiance ramenée de forte à moyenne : le système est certain, mais l'identification précise « ce tronc = Colorado plutôt que San Juan générique » repose sur une lecture toponymique + géométrique convergente plutôt qu'une confirmation indépendante tierce.
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
+- **Raisonnement :** *(RÉVISION COLLABORATIVE — avec Ronan)* Le système hydrographique lui-même (exutoire du lac Nicaragua vers la mer des Caraïbes, ponctué par le fort de l'Immaculée Conception, affluents Sarapiquí et Frío/Costaricha) reste identifié avec certitude — c'est la géographie réelle du complexe San Juan/Colorado. Mais le nom « Rio San Juan » attribué à ce tronçon précis dans l'inventaire est une convention du projet, pas une transcription fidèle : la lecture directe de la carte Jaillot (crop haute résolution) montre que le cap à l'embouchure est étiqueté « P. Iuan » (entre Trigu R. et le tronc principal) et que le fleuve lui-même est nommé « **Nicaragua ou Colorado R.** » — jamais « San Juan ». Cette étiquette porte précisément sur le tronc qui aboutit à l'embouchure la plus au sud du cluster deltaïque (cellule 92_69), ce qui correspond exactement à la position réelle du Río Colorado (branche méridionale du delta, côté Costa Rica) par rapport au bas San Juan/San Juan del Norte (branche nord, voir N076). Fleuve historiquement majeur, remonté par les flibustiers lors des raids sur Grenade (1665, 1670 — Henry Morgan et d'autres selon les sources consultées), défendu par jusqu'à douze forts espagnols dont le Castillo de la Inmaculada Concepción (1675). **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — la lecture directe du toponyme Jaillot réel (« Nicaragua ou Colorado R. ») conjuguée à la position exacte (embouchure la plus au sud du cluster deltaïque) constitue précisément une convergence toponymique et positionnelle, le critère standard du niveau fort ; l'absence d'une confirmation tierce indépendante ne disqualifie pas cette convergence.
 - **Sources :** Lecture directe de la carte Jaillot (crop haute résolution, relevé par Ronan : « P. Iuan », « Nicaragua ou Colorado R. ») ; Wikipédia (es) *Río San Juan (Nicaragua)* ; derechointernacionalcr.blogspot.com, *El río San Juan y el Río Colorado* (position du Nicaragua en 1897 : Colorado/Taura/San Juan del Norte) ; `js\villes-data.js` (entrées `castillo-san-juan`, `confluent-san-juan-frio`) ; inventaire interne.
 
 ### N091 — sal-r
 
 - **Toponyme Jaillot :** Sal R
+- **Nom canonique (harmonisé) :** Rio Sal
 - **Territoire :** honduras
 - **Repères proches :** Comayagua (4,5 NM), La Ceiba/Porta de Sal (7,6 NM), San Pedro Sula (23,8 NM), Gracias (49,8 NM).
 - **Identification proposée / nom moderne :** Río Cangrejal (La Ceiba, Honduras).
@@ -831,22 +971,24 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N092 — salinas
 
 - **Toponyme Jaillot :** Salinas
+- **Nom canonique (harmonisé) :** Salinas *(pas d'abréviation ; probable étiquette générique, pas un fleuve précis — voir raisonnement)*
 - **Territoire :** guatemala
 - **Repères proches :** Soconusco (3,4 NM), Tehuantepec (15 NM, territoire nouvelle-espagne), Chiapa/Ciudad Real (20,4 NM). Cours voisin : R. Guazacoalco (ou Guashigwalp).
-- **Identification proposée / nom moderne :** Non déterminé — cours côtier du Soconusco (Chiapas, façade Pacifique).
-- **Confiance :** ⚠️ faible
-- **Raisonnement :** Position sans ambiguïté sur la côte Pacifique du Soconusco/Chiapas, tout près de Soconusco (3,4 NM) — donc bien distincte du Río Salinas intérieur du Petén (bassin de l'Usumacinta), qui n'a rien à voir géographiquement. Le nom « Salinas » désigne vraisemblablement des marais salants côtiers (toponyme générique fréquent sur cette portion de littoral). Plusieurs petits cours réels traversent ce secteur (Coatán, Cahoacán, Huixtla) sans qu'aucun ne se distingue clairement comme correspondance certaine faute d'éléments supplémentaires.
+- **Identification proposée / nom moderne :** Probable étiquette générique pour la zone salinière côtière du Soconusco oriental (esteros/manglares, secteur Mazatán–Puerto Madero) plutôt qu'un fleuve précis (Coatán/Cahoacán/Huixtla/Suchiate non tranchés).
+- **Confiance :** 🎲 convention cartographique *(mise à jour — voir note ci-dessous ; la fiche n'avait pas été resynchronisée avec la table récapitulative lors du dernier passage)*
+- **Raisonnement :** Position sans ambiguïté sur la côte Pacifique du Soconusco/Chiapas, tout près de Soconusco (3,4 NM) — donc bien distincte du Río Salinas intérieur du Petén (bassin de l'Usumacinta), qui n'a rien à voir géographiquement. Le nom « Salinas » désigne vraisemblablement des marais salants côtiers (toponyme générique fréquent sur cette portion de littoral), plutôt qu'un fleuve précis. Plusieurs petits cours réels traversent ce secteur (Coatán, Cahoacán, Huixtla, Suchiate) sans qu'aucun ne se distingue clairement comme correspondance certaine. **Synchronisation (avec Ronan) :** la table récapitulative classait déjà ce cours en convention cartographique (repère de zone salinière plutôt que fleuve précis) ; cette fiche n'avait pas suivi — corrigé lors de la passe de recalibration secteur par secteur.
 - **Sources :** Inventaire interne (position relative à Soconusco/Tehuantepec).
 
 ### N097 — suere-ou-blewfield-river
 
 - **Toponyme Jaillot :** Suere ou Blewfield River
+- **Nom canonique (harmonisé) :** Suere ou Blewfield River *(double nom délibéré de Jaillot — espagnol colonial + anglais de flibustier — déjà complet, rien à abréger)*
 - **Territoire :** costa-rica
 - **Repères proches :** Castillo de Austria (11 NM), Concepción/Panama (54,7 NM), Puebla/Alanje (57,1 NM), Chiriquí (66,2 NM). Cours voisins : R. Auzuelos, R. Caranaco.
 - **Identification proposée / nom moderne :** **Río Matina** (révision
   collaborative), secteur Matina/Parismina/Tortuguero (Costa Rica) —
   **et non** le Bluefields moderne du Nicaragua.
-- **Confiance :** ⚠️ moyen
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
 - **Raisonnement :** *(RÉVISION COLLABORATIVE — avec Ronan)* Le double nom
   « Suere ou Blewfield » trahit probablement la superposition de deux
   sources d'information par le cartographe : un ancien toponyme colonial
@@ -864,11 +1006,15 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   initialement : le cours porteur du nom « Suere ou Blewfield » est donc
   revu vers le Matina lui-même, tandis qu'Auzuelos et Vergues (voir
   N043), plus proches du delta, couvrent Pacuare et Parismina.
+  **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort —
+  repère le plus proche de tout le corpus (11 NM), position exclusive
+  sans autre candidat plausible.
 - **Sources :** Wikipédia (es) *Río Suerte* ; parquenacionaldetortuguero.wordpress.com (histoire coloniale de Tortuguero, mention de Matina et San Juan de la Cruz) ; `js/villes-data.js` (entrée `chateau-de-austria`) ; inventaire interne (position, proposée par Ronan).
 
 ### N099 — tabasco-r
 
 - **Toponyme Jaillot :** Tabasco R.
+- **Nom canonique (harmonisé) :** Rio Tabasco
 - **Territoire :** guatemala (étiquette administrative de l'inventaire — probable artefact de zonage)
 - **Repères proches :** Tocotalpa de la Sierra (7,9 NM), Laguna de Términos (10,7 NM, yucatan), Cobán (proche), Chiapa/Ciudad Real. Cours voisins : Rio Palmas dos Bogas, St Anns, Tondelo.
 - **Identification proposée / nom moderne :** Système Grijalva/Usumacinta, delta de Villahermosa (Tabasco, Mexique).
@@ -879,6 +1025,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N101 — trigu-r
 
 - **Toponyme Jaillot :** Trigu R.
+- **Nom canonique (harmonisé) :** Rio Trigu
 - **Territoire :** nicaragua
 - **Repères proches :** Confluent du San Juan (27,7 NM), Gracias a Dios/Nicaragua (39,3 NM), Castillo de la Inmaculada Concepción (42,8 NM). `relations` : fork depuis Rio San Juan (rebaptisé Río Colorado, voir N087), séparé de Boccades R. et R Yayrepo_B. Sur la carte, son étiquette est immédiatement suivie, vers la côte, du cap « P. Iuan » puis de l'étiquette du tronc principal « Nicaragua ou Colorado R. ».
 - **Identification proposée / nom moderne :** Une des branches secondaires du delta du Río Colorado — hypothèse spéculative : la branche historique « Taura ».
@@ -889,6 +1036,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N104 — xagua-r
 
 - **Toponyme Jaillot :** Xagua R.
+- **Nom canonique (harmonisé) :** Rio Xagua
 - **Territoire :** honduras
 - **Repères proches :** Saint-George's (5 NM), San Jorge de Olancho (6,7 NM), Trujillo (42,4 NM), Nueva Segovia (47,6 NM). Cours voisin : Yare R.
 - **Identification proposée / nom moderne :** Río Aguán (Honduras).
@@ -899,6 +1047,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N105 — yare-r
 
 - **Toponyme Jaillot :** Yare R.
+- **Nom canonique (harmonisé) :** Rio Yare
 - **Territoire :** honduras
 - **Repères proches :** San Jorge de Olancho (6,7 NM), Saint-George's (37,3 NM), Nueva Segovia (43,6 NM), Cap Gracias a Dios (75,9 NM). Cours voisins : N. Segovia River (jonction amont), Xagua R.
 - **Identification proposée / nom moderne :** « Yara » ou « Cape River », ancien nom du cours inférieur du Río Coco/Wangki (aujourd'hui unifié sous le nom Río Coco).
@@ -914,6 +1063,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N015 — chagre-r
 
 - **Toponyme Jaillot :** Chagre R.
+- **Nom canonique (harmonisé) :** Rio Chagre
 - **Territoire :** panama
 - **Repères proches :** Portobelo (1,2 NM), Castillo de San Lorenzo el Real
   de Chagres (6,6 NM), Venta de Cruces (8,1 NM), Capira (10,7 NM), Panama
@@ -936,6 +1086,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N016 — cheapo-r
 
 - **Toponyme Jaillot :** Cheapo R.
+- **Nom canonique (harmonisé) :** Rio Chepo *(« Cheapo » est la graphie anglicisée de Jaillot pour le toponyme espagnol « Chepo » — restaurée à sa forme espagnole, à l'identique du cas May R./Rivière de May)*
 - **Territoire :** darien
 - **Repères proches :** New Edinburg (12,2 NM), Panama City (13,3 NM),
   Venta de Cruces (18,5 NM), Nombre de Dios (24,1 NM), Capira (38,5 NM).
@@ -956,6 +1107,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N018 — congo-r
 
 - **Toponyme Jaillot :** Congo R.
+- **Nom canonique (harmonisé) :** Rio Congo
 - **Territoire :** darien
 - **Repères proches :** Santa María la Antigua del Darién (19,5 NM), New
   Edinburg (51,3 NM), golfe d'Urabá (70,4 NM), San Sebastián de Buena
@@ -990,6 +1142,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N022 — gold-river
 
 - **Toponyme Jaillot :** Gold River
+- **Nom canonique (harmonisé) :** Gold River *(anglais, déjà complet — Jaillot écrit lui-même « Gold Riv. and mines », rien à abréger)*
 - **Territoire :** darien
 - **Repères proches :** Santa María la Antigua del Darién (13,6 NM),
   golfe d'Urabá (45,2 NM), San Sebastián de Buena Vista (84,2 NM), New
@@ -1026,31 +1179,49 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   *A Buccaneer's Atlas: Basil Ringrose's South Sea Waggoner* ; lecture
   directe de la carte Jaillot (« Gold Riv. and mines », proposée par
   Ronan) ; inventaire interne (branches Gold River/Gold River_B).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — plusieurs
+  indices convergent (récit de Ringrose, toponyme géologique « falla del
+  Río Balsas », chaîne de voisinage) mais aucun n'établit une exclusivité
+  positionnelle explicite ; reste ⚠️ moyen.
 
 ### N044 — r-belem
 
 - **Toponyme Jaillot :** R. Belem
+- **Nom canonique (harmonisé) :** Rio Belem *(toponyme Jaillot conservé pour archive ; l'identification réelle — Río Calovébora — figure séparément)*
 - **Territoire :** panama
 - **Repères proches :** Trinidad (10,8 NM), Santa Fe de Veraguas
   (16,3 NM), Concepción/Bocas del Toro (25,3 NM), Castillo de San Lorenzo
   el Real de Chagres (50,3 NM). Voisins directs : R. Coqueto et Veragua R.
-- **Identification proposée / nom moderne :** Río Belén (province de
-  Colón/Veraguas, Panama).
-- **Confiance :** ⚠️ moyen/fort
-- **Raisonnement :** Correspondance toponymique directe et quasi
-  parfaite (Belem/Belén). Le Río Belén est un cours historiquement
-  célèbre : c'est à son embouchure que Christophe Colomb tenta d'établir
-  la colonie de Santa María de Belén en 1503 lors de son quatrième
-  voyage, avant d'être chassé par les populations locales (cacique
-  Quibián). Sa position sur la côte caraïbe panaméenne, entre Veraguas et
-  Chagres, est cohérente avec les repères relevés (Trinidad, Santa Fe de
-  Veraguas).
-- **Sources :** Toponymie directe ; épisode historique bien documenté de
-  la colonie de Belén (1503, quatrième voyage de Colomb).
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
+  (avec Ronan) — Río Calovébora.**
+- **Confiance :** ⚠️ moyen
+- **Raisonnement :** RÉVISION. La correspondance toponymique Belem/Belén
+  restait tentante, mais Ronan a relu la carte directement : le long de
+  cette portion de côte très dense en étiquettes (Bocas del Toro, Escudo
+  de Veraguas), Jaillot place « R Belem » en face d'une baie qui ne porte
+  pas de tracé de cours d'eau propre — signe probable que les labels de
+  tout ce secteur ont été décalés vers l'est faute de place, plutôt qu'un
+  véritable positionnement du nom sur son cours. La séquence réelle,
+  d'ouest en est, est : Veragua R./Cricamola (N103), puis le repère
+  Trinidad, puis le cours ici recensé — dont le tracé correspond
+  vraisemblablement au **Río Calovébora**, fleuve réel du littoral
+  caraïbe de Veraguas (district de Santa Fe, ~39 km, embouchure vers
+  8°47' N/81°13' O), plutôt qu'au Río Belén, dont l'embouchure réelle se
+  situe en fait beaucoup plus à l'est (province de Colón, à proximité du
+  Coclé del Norte). Le site historique de Santa María de Belén (colonie
+  de Colomb, 1503) reste parfaitement réel et établi — il ne correspond
+  simplement pas à un cours distinct dans ce secteur précis de la carte
+  Jaillot.
+- **Sources :** [Calovebora River — Wikipedia](https://en.wikipedia.org/wiki/Calovebora_River) ; [Río Belén — Wikipedia](https://es.wikipedia.org/wiki/R%C3%ADo_Bel%C3%A9n) (position réelle, plus orientale) ; lecture directe de la carte (Ronan).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — repose
+  sur une lecture directe de la carte non vérifiable indépendamment
+  (« vraisemblablement »), sans autre corroboration externe ; reste
+  ⚠️ moyen.
 
 ### N047 — r-caranaco
 
 - **Toponyme Jaillot :** R. Caranaco
+- **Nom canonique (harmonisé) :** Rio Caranaco
 - **Territoire :** panama
 - **Repères proches :** Concepción/Bocas del Toro (41,8 NM), Castillo de
   Austria — Costa Rica (51,7 NM), Trinidad (58,6 NM), Santa Fe de
@@ -1073,32 +1244,50 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Sources :** Wikipédia (en) *Sixaola River* ; position relative
   (inventaire Jaillot, proposée par Ronan) ; géographie régionale de
   Bocas del Toro/Talamanca.
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — fait
+  partie d'un tiercé (Quemades/Talamanca/Caranaco, voir N069/N073)
+  résolu par ordre de distance croissante plutôt que par exclusivité
+  positionnelle stricte ; le maillon central (N073) admet explicitement
+  ne pas trancher sans élément supplémentaire, ce qui fragilise
+  l'ensemble du triplet. Reste ⚠️ moyen.
 
 ### N049 — r-coqueto
 
 - **Toponyme Jaillot :** R. Coqueto
+- **Nom canonique (harmonisé) :** Rio Coqueto
 - **Territoire :** panama
 - **Repères proches :** Castillo de San Lorenzo el Real de Chagres
   (8,9 NM), Trinidad (21,3 NM), Santa Fe de Veraguas (23,1 NM), Portobelo
   (29,9 NM), Capira (33,3 NM). Voisins directs : Chagre R. (à l'est) et R.
   Belem (à l'ouest) — relation « separate » avec Chagre R. à l'embouchure
   (cellule 98_78).
-- **Identification proposée / nom moderne :** Petit cours côtier de la
-  côte caraïbe de Colón, entre Chagres et Belén — candidats possibles :
-  Río Indio ou Río Miguel de la Borda. Non tranché.
-- **Confiance :** ⚠️ faible
-- **Raisonnement :** Aucune correspondance toponymique directe. La
-  position, strictement intercalée entre l'embouchure du Chagres et celle
-  du Río Belén sur la côte caraïbe panaméenne, correspond à la zone où se
-  trouvent aujourd'hui plusieurs petits cours côtiers de la province de
-  Colón (Río Indio, Río Miguel de la Borda, Río Gatún/Coclé del Norte) —
-  sans élément suffisant pour identifier lequel spécifiquement.
-- **Sources :** Position relative (inventaire Jaillot) ; géographie
-  côtière de la province de Colón.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
+  (avec Ronan) — Río Coclé (del Norte).** Branche sud-est (« R. Coqueto_B »,
+  affluent) = **Río Toabré**.
+- **Confiance :** ⚠️ moyen
+- **Raisonnement :** RÉVISION (ERR-014 retiré). Aucune correspondance
+  toponymique directe (« Coqueto »/« Coclé » restent phonétiquement
+  voisins sans être identiques), mais l'embouchure de R. Coqueto est
+  positionnée dans la même cellule que celle du Chagres (relation
+  « separate », un second débouché immédiatement adjacent) — cohérent
+  avec le **Río Coclé (del Norte)**, cours réel du versant caraïbe
+  (district de Donoso, province de Colón, ~75 km, bassin de 1 710 km²).
+  Sa branche affluente sud-est correspond au **Río Toabré**, confirmé
+  tributaire réel du Coclé del Norte (les deux bassins ont d'ailleurs été
+  réunis administrativement dans la Cuenca Occidental par la loi n° 44 de
+  1999, avec le Río Indio). Río Indio et Río Miguel de la Borda,
+  candidats envisagés dans une première passe, sont écartés au profit de
+  Coclé del Norte/Toabré — Río Indio est désormais attribué à R019/
+  F-98_73-C (voir `fluvial-identification-synthese.md`).
+- **Sources :** [Cocle del Norte River — Wikipedia](https://en.wikipedia.org/wiki/Cocle_del_Norte_River) ; [Toabré — Wikipedia](https://es.wikipedia.org/wiki/Toabr%C3%A9) ; position relative (inventaire Jaillot, proposée par Ronan).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — position
+  cohérente et affluent confirmé (Toabré), mais aucune exclusivité
+  positionnelle explicite ni appui toponymique ; reste ⚠️ moyen.
 
 ### N069 — r-quemades
 
 - **Toponyme Jaillot :** R. Quemades
+- **Nom canonique (harmonisé) :** Rio Quemades
 - **Territoire :** panama
 - **Repères proches :** Concepción/Bocas del Toro (26,2 NM), Trinidad
   (35,3 NM), Santa Fe de Veraguas (47,9 NM), Puebla/Alanje — Costa Rica
@@ -1118,10 +1307,15 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   toponymique.
 - **Sources :** Wikipédia (en) *Changuinola River* ; position relative
   (inventaire Jaillot, séquence proposée par Ronan).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — même
+  triplet que N047/N073, résolu par ordre de distance plutôt que par
+  exclusivité stricte ; reste ⚠️ faible, confiance déjà qualifiée de
+  « purement positionnelle » par l'auteur de la fiche.
 
 ### N073 — r-talamanca
 
 - **Toponyme Jaillot :** R. Talamanca
+- **Nom canonique (harmonisé) :** Rio Talamanca
 - **Territoire :** panama
 - **Repères proches :** Concepción/Bocas del Toro (31,3 NM), Trinidad
   (45,8 NM), Santa Fe de Veraguas (52,9 NM), Castillo de Austria — Costa
@@ -1146,10 +1340,15 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Sources :** Wikipédia (en) *Yorkin River*, *Sixaola River* ;
   toponymie directe (région de Talamanca) ; position relative (séquence
   proposée par Ronan).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — la
+  fiche admet elle-même ne pas pouvoir trancher entre les trois cours
+  réels du triplet (N047/N069/N073) sans élément supplémentaire ; reste
+  ⚠️ moyen.
 
 ### N079 — rio-de-los-redes
 
 - **Toponyme Jaillot :** Rio de los Redes
+- **Nom canonique (harmonisé) :** Rio de los Redes *(déjà au format)*
 - **Territoire :** darien
 - **Repères proches :** golfe d'Urabá (12,3 NM), San Sebastián de Buena
   Vista (47,5 NM), Santa Fe de Antioquia — Nouvelle-Grenade (54 NM),
@@ -1173,10 +1372,15 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Sources :** Wikipédia (es) *Necoclí* ; ONIC, *Resguardo Caimán
   Nuevo* ; toponymie descriptive (« Redes » = filets de pêche) ;
   position relative (inventaire Jaillot, séquence proposée par Ronan).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — position
+  nord/sud reposant sur une lecture directe de la carte (Ronan), non
+  vérifiable indépendamment ; reste ⚠️ moyen (voir aussi N085, même
+  logique).
 
 ### N084 — rio-grande-del-darien
 
 - **Toponyme Jaillot :** Rio Grande del Darién
+- **Nom canonique (harmonisé) :** Rio Grande del Darien *(déjà au format)*
 - **Territoire :** darien
 - **Repères proches :** golfe d'Urabá (15,2 NM), Santa María la Antigua
   del Darién (60,9 NM), San Sebastián de Buena Vista (74 NM), Santa Fe de
@@ -1201,6 +1405,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N085 — rio-negro
 
 - **Toponyme Jaillot :** Rio Negro
+- **Nom canonique (harmonisé) :** Rio Negro *(déjà au format)*
 - **Territoire :** darien
 - **Repères proches :** San Sebastián de Buena Vista (21,2 NM), Santa Fe
   de Antioquia — Nouvelle-Grenade (34 NM), golfe d'Urabá (38,6 NM), New
@@ -1227,10 +1432,15 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Sources :** Wikipédia (es) *Necoclí* ; ONIC, *Resguardo Caimán
   Nuevo* ; position relative (inventaire Jaillot, séquence proposée par
   Ronan).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — la
+  recherche négative sur « Rio Negro » est solide, mais l'assignation
+  Caimán Viejo/Nuevo repose sur une lecture directe de la carte non
+  vérifiable indépendamment ; reste ⚠️ moyen (voir aussi N079).
 
 ### N090 — s-maria-river
 
 - **Toponyme Jaillot :** S. Maria River
+- **Nom canonique (harmonisé) :** S. Maria River *(anglais/espagnol mixte, déjà complet — Jaillot n'a pas abrégé « River »)*
 - **Territoire :** darien
 - **Repères proches :** Santa María la Antigua del Darién (6,8 NM —
   distance la plus faible de tout le corpus), golfe d'Urabá (19,7 NM),
@@ -1271,10 +1481,15 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   Ucurgantí/Membrillo/Mortí) ; lecture directe de la carte Jaillot
   (fourches et position de l'étiquette, proposée par Ronan) ; inventaire
   interne.
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — position
+  bien recoupée (confluence historique réelle) mais sans appui
+  toponymique, et l'attribution précise de branches reste interprétative ;
+  reste ⚠️ moyen.
 
 ### N094 — sholes
 
 - **Toponyme Jaillot :** Sholes
+- **Nom canonique (harmonisé) :** Sholes *(anglais, déjà complet ; pas un fleuve nommé stricto sensu — voir raisonnement)*
 - **Territoire :** darien
 - **Repères proches :** New Edinburg (22,5 NM), San Sebastián de Buena
   Vista (48,8 NM), Santa María la Antigua del Darién (53,4 NM), Panama
@@ -1299,10 +1514,14 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Sources :** *Chimán, pueblo acorralado* — La Prensa Panamá ;
   lecture directe de la carte Jaillot (position relative, proposée par
   Ronan) ; inventaire interne (voisinage Cheapo R./Congo R.).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — position
+  intermédiaire bien confirmée structurellement, mais sans appui
+  toponymique ; reste ⚠️ moyen.
 
 ### N103 — veragua-r
 
 - **Toponyme Jaillot :** Veragua R.
+- **Nom canonique (harmonisé) :** Rio Veragua
 - **Territoire :** panama
 - **Repères proches :** Trinidad (5,4 NM), Santa Fe de Veraguas
   (7,3 NM — les deux distances les plus faibles du lot), Concepción/Bocas
@@ -1335,6 +1554,10 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   Santa María (Panamá)* ; lecture directe de la carte Jaillot et
   vérification Google Maps (proposées par Ronan) ; toponymie directe
   (province de Veraguas, Santa Fe de Veraguas).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — la
+  fiche mentionne elle-même une alternative encore envisageable (Río
+  San Pablo, « à défaut de »), donc pas d'exclusivité positionnelle ;
+  reste ⚠️ moyen.
 
 
 ---
@@ -1344,31 +1567,43 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N004 — auyamas
 
 - **Toponyme Jaillot :** Auyamas
+- **Nom canonique (harmonisé) :** Auyamas *(pas d'abréviation)*
 - **Territoire :** nouvelle-grenade
 - **Repères proches :** San Cristóbal (29 NM), Ocaña (60,9 NM), Mérida
   (67,9 NM), Pamplona (69,4 NM), Serranía de Opón (69,7 NM). Sortie
   (outlet) en jonction vers « Cesar Pompatao ».
-- **Identification proposée / nom moderne :** Non déterminé. Cours
-  probablement situé dans le piémont andin de Táchira/Norte de Santander.
-- **Confiance :** ⚠️ faible
+- **Identification proposée / nom moderne :** **Quebrada La Ahuyamala /
+  Río Torbes** — San Cristóbal fut fondée dans le « Valle de las
+  Auyamas », toponyme colonial attesté qui survit dans l'hydronymie
+  actuelle *(mise à jour — voir note ci-dessous ; la fiche n'avait pas
+  été resynchronisée avec la table récapitulative lors du dernier
+  passage)*.
+- **Confiance :** ✅ fort *(mise à jour — voir note ci-dessous)*
 - **Raisonnement :** Le nom « auyama » (calebasse/courge, terme
-  antillais courant) est un toponyme descriptif banal, sans candidat
-  moderne évident. Le point le plus troublant est que le tracé Jaillot
-  fait rejoindre l'Auyamas au Cesar Pompatao (= Río Cesar, bassin du
-  Magdalena), alors que les repères les plus proches (San Cristóbal,
-  Mérida) appartiennent en réalité au bassin du lac de Maracaibo (Táchira,
-  Zulia, Escalante). C'est un cas typique de confusion cartographique du
-  XVIIIe siècle dans la cordillère andine, mal relevée à l'époque : les
-  affluents des deux versants (Maracaibo à l'ouest, Cesar/Magdalena à
-  l'est) étaient couramment mélangés sur les cartes de cette génération.
-  Aucun rapprochement fort ne peut être forcé sans plus d'éléments.
-- **Sources :** Recherche web sans résultat concluant sur un hydronyme
-  « Auyamas » historique dans la région ; raisonnement basé sur
-  `fluvial-research-inventory.json` (nearbySettlements, outlets).
+  antillais courant) est un toponyme descriptif banal en soi, mais San
+  Cristóbal (repère le plus proche, 29 NM) fut fondée précisément dans
+  le « Valle de las Auyamas » — attestation coloniale directe qui
+  survit dans l'hydronymie actuelle (Quebrada La Ahuyamala) et situe le
+  cours sur le Río Torbes, qui traverse cette même vallée. Le tracé
+  Jaillot fait rejoindre l'Auyamas au Cesar Pompatao (= Río Cesar,
+  bassin du Magdalena), alors que San Cristóbal appartient au bassin du
+  lac de Maracaibo (Táchira) — distorsion cartographique déjà documentée
+  ailleurs sur ce secteur andin (affluents des deux versants mélangés
+  par les cartographes du XVIIIe siècle), qui n'invalide pas
+  l'identification toponymique elle-même. **Synchronisation (avec
+  Ronan) :** la table récapitulative avait déjà noté cette identification
+  toponymique directe (convergence nom + position) et classé ✅ fort ;
+  cette fiche n'avait pas suivi — corrigé lors de la passe de
+  recalibration secteur par secteur.
+- **Sources :** Toponymie coloniale (« Valle de las Auyamas », fondation
+  de San Cristóbal) ; hydronymie actuelle (Quebrada La Ahuyamala, Río
+  Torbes) ; raisonnement basé sur `fluvial-research-inventory.json`
+  (nearbySettlements, outlets).
 
 ### N009 — buria-o-de-san-pedro
 
 - **Toponyme Jaillot :** Buria o de San Pedro
+- **Nom canonique (harmonisé) :** Buria o de San Pedro *(déjà complet, pas d'abréviation)*
 - **Territoire :** venezuela
 - **Repères proches :** Monts de San Pedro (9 NM), Barquisimeto (21,3 NM),
   Nirgua/Nueva Jerez (24,1 NM), El Tocuyo (51,4 NM), Lac de Tacarigua
@@ -1389,6 +1624,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N013 — cenu
 
 - **Toponyme Jaillot :** Cenu
+- **Nom canonique (harmonisé) :** Cenu *(pas d'abréviation)*
 - **Territoire :** nouvelle-grenade
 - **Repères proches :** « Sinú » (ville, 10 NM), Tolú (12,1 NM), Bocachica
   (49,5 NM), Cartagena (64,8 NM), Tenerife (68,9 NM). Sortie directe en
@@ -1410,6 +1646,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N014 — cesar-pompatao
 
 - **Toponyme Jaillot :** Cesar Pompatao
+- **Nom canonique (harmonisé) :** Cesar Pompatao *(pas d'abréviation)*
 - **Territoire :** nouvelle-grenade
 - **Repères proches :** Ciudad de los Reyes de Valledupar (6 NM), Ocaña
   (6,1 NM), Guatapori (34,1 NM), La Ramada (47,5 NM), Sierra Nevada de
@@ -1430,6 +1667,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N025 — lac-maracaibo
 
 - **Toponyme Jaillot :** Lac Maracaibo
+- **Nom canonique (harmonisé) :** Lac Maracaibo *(français, inchangé)*
 - **Territoire :** venezuela
 - **Repères proches :** Maracaibo (3,8 NM), San Antonio de Gibraltar
   (6,2 NM), Coro (11,7 NM), Carora (22 NM). Sortie en mer (« sea ») —
@@ -1448,6 +1686,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N031 — meracaybo-river
 
 - **Toponyme Jaillot :** Meracaybo River
+- **Nom canonique (harmonisé) :** Meracaybo River *(anglais, déjà complet — variante orthographique de « Maracaibo » avec générique anglais, rien à abréger)*
 - **Territoire :** venezuela
 - **Repères proches :** San Antonio de Gibraltar (6,2 NM), Carora
   (10,2 NM), Mérida (12,4 NM), Trujillo (61,8 NM). Sortie en jonction vers
@@ -1471,17 +1710,21 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   plus précis, aucune identification univoque ne peut être forcée.
 - **Sources :** `fluvial-research-inventory.json` (comparaison directe
   avec l'entrée f-93-119/R027) ; `fluvial-identification-synthese.md`.
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — la
+  fiche admet elle-même qu'aucune identification univoque ne peut être
+  forcée sans tracé plus précis ; reste ⚠️ moyen/faible.
 
 ### N040 — pato-r
 
 - **Toponyme Jaillot :** Pato R.
+- **Nom canonique (harmonisé) :** Rio Pato
 - **Territoire :** venezuela
 - **Repères proches :** El Tocuyo (65,9 NM), Barquisimeto (90,8 NM),
   Porto Morequito (93 NM, sur l'Orénoque), Trujillo (96,5 NM),
   Tuteritona (110,7 NM). Territoires voisins : Venezuela / Nouvelle-
   Andalousie. Sortie en jonction vers « Bariquicometo R. ».
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE (avec Ronan) — Río Pao**, affluent réel du Río Portuguesa.
-- **Confiance :** ⚠️ moyen
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
 - **Raisonnement :** RÉVISION. Le fleuve receveur « Bariquicometo R. »
   est désormais identifié (cf. N006, révision collaborative) comme la
   compression cartographique du système Río Turbio → Río Buría → Río
@@ -1500,17 +1743,22 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Sources :** `fluvial-research-inventory.json` (structure de jonction) ;
   [Río Pao — Wikipedia](https://es.wikipedia.org/wiki/R%C3%ADo_Pao) ;
   [Río Portuguesa — Wikipedia](https://es.wikipedia.org/wiki/R%C3%ADo_Portuguesa).
+- **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort —
+  jonction confirmée à la cellule exacte attendue par la structure du
+  système Turbio/Buría/Cojedes/Portuguesa, ancienne hypothèse (lieu-dit
+  El Pato) explicitement écartée faute de structure hydrographique.
 
 ### N046 — r-buchia
 
 - **Toponyme Jaillot :** R. Buchia
+- **Nom canonique (harmonisé) :** Rio Buchia
 - **Territoire :** nouvelle-grenade
 - **Repères proches :** Riohacha (5,5 NM), Guatapori (8,3 NM), La Ramada
   (16,4 NM), Ciudad de los Reyes de Valledupar (66,5 NM). Sortie directe
   en mer (« sea »).
 - **Identification proposée / nom moderne :** **Río Ranchería**
   (historiquement « Río de la Hacha » / « Río del Hacha »).
-- **Confiance :** ⚠️ moyen/fort
+- **Confiance :** ✅ fort *(reclassé lors de la passe de recalibration secteur par secteur — voir note ci-dessous)*
 - **Raisonnement :** Riohacha fut fondée en 1545 précisément à
   l'embouchure du Río Ranchería, alors appelé « Río del Hacha » — c'est
   d'ailleurs de ce fleuve que la ville tire son nom. Le cours Jaillot
@@ -1522,10 +1770,15 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   confiance à moyen plutôt que fort.
 - **Sources :** Recherche web (fondation de Riohacha à l'embouchure du
   Río Ranchería/Río del Hacha, 1545) ; `fluvial-research-inventory.json`.
+- **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen/fort à ✅ fort net
+  — élimination géographique explicite (aucun autre cours notable à
+  proximité immédiate de Riohacha), position exclusive malgré l'absence
+  d'appui toponymique direct.
 
 ### N078 — rio-de-carare
 
 - **Toponyme Jaillot :** Rio de Carare
+- **Nom canonique (harmonisé) :** Rio de Carare *(déjà au format)*
 - **Territoire :** nouvelle-grenade
 - **Repères proches :** Vélez (13,4 NM), Relais du Magdalena (22,2 NM),
   Serranía de Opón (26,4 NM), Bogotá (30,6 NM), Pamplona (58,7 NM).
@@ -1543,6 +1796,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N082 — rio-grande-de-la-madalena
 
 - **Toponyme Jaillot :** Rio Grande de la Madalena
+- **Nom canonique (harmonisé) :** Rio Grande de la Madalena *(déjà au format ; graphie Jaillot « Madalena » conservée)*
 - **Territoire :** nouvelle-grenade
 - **Repères proches :** Tamalameque (2,8 NM), Barrancas de Malambo
   (3 NM), Relais du Magdalena (7 NM), Tenerife (7,4 NM), Santa Marta
@@ -1575,6 +1829,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N083 — rio-grande-de-santa-martha
 
 - **Toponyme Jaillot :** Rio Grande de Santa Martha
+- **Nom canonique (harmonisé) :** Rio Grande de Santa Martha *(déjà au format)*
 - **Territoire :** nouvelle-grenade
 - **Repères proches :** Tenerife (7,4 NM), **Santa Fe de Antioquia**
   (7,7 NM), Mompox (17,3 NM), Tamalameque (28,8 NM), Sinú (45,6 NM).
@@ -1607,6 +1862,9 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   comme nom historique du Cauca lié à la fondation d'Antioquia) ;
   `fluvial-research-inventory.json` (nearbySettlements « Santa Fe de
   Antioquia », « Mompox ») ; `fluvial-identification-synthese.md` (R026).
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — la
+  fiche admet elle-même ne pas pouvoir trancher entre deux bras
+  distincts et une redondance de la carte source ; reste ⚠️ moyen/fort.
 
 
 ---
@@ -1616,6 +1874,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N006 — bariquicometo-r
 
 - **Toponyme Jaillot :** Bariquicometo R.
+- **Nom canonique (harmonisé) :** Rio Bariquicometo *(suffixe « R. » harmonisé en préfixe « Rio » — toponyme d'origine hispano-indigène, sphère espagnole du Venezuela, malgré le format suffixe adopté ponctuellement par Jaillot)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Porto Morequito (2,1 NM carte), El Tocuyo (7 NM),
   Barquisimeto/Nueva Segovia (9,6 NM), Tuteritona (33,1 NM). Se jette dans
@@ -1662,13 +1921,22 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N010 — capuri-river
 
 - **Toponyme Jaillot :** Capuri River
+- **Nom canonique (harmonisé) :** Rio Capuri *(toponyme Jaillot réel, conservé plutôt que l'identification moderne « Río Apurito » ; suffixe « River » de style anglais harmonisé en « Rio » car le cours se situe en sphère espagnole vénézuélienne, non anglophone — même logique que May R./N030 en sens inverse)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Tuteritona (27,5 NM), Santo Tomé de Guayana
   (29,4 NM), Macurevoari (36,9 NM), Porto Morequito (40 NM). Se jette
   dans l'Orénoque ; reçoit une bifurcation depuis Bariquicometo R.
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
   (avec Ronan) — Río Apurito**, distributaire réel du Río Apure.
-- **Confiance :** ⚠️ moyen
+- **Confiance :** ✅ fort
+- **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort —
+  position exclusive : la bifurcation et l'embouchure séparée
+  correspondent exactement à la géométrie Jaillot (même longitude
+  x=7108,3 que le tronc principal, mais nettement plus en aval), un vrai
+  distributaire nommé (Río Apurito) existant précisément à cet endroit du
+  système Apure. Absence d'attestation directe pour le diminutif
+  « Capuri » lui-même, mais convergence positionnelle/structurelle sans
+  candidat concurrent.
 - **Raisonnement :** RÉVISION (seconde étape). L'hypothèse initiale
   (branche deltaïque « Capuri » attestée chez Ralegh, écho moderne Caño/
   Isla Capure) avait déjà été écartée au premier passage, faute de
@@ -1702,6 +1970,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N011 — caturi-voari-river
 
 - **Toponyme Jaillot :** Caturi Voari River
+- **Nom canonique (harmonisé) :** Rio Caturi Voari *(toponyme Jaillot réel ; suffixe « River » harmonisé en « Rio » — même logique que Capuri River/N010, sphère espagnole des Llanos, malgré le format anglicisant utilisé ici par Jaillot)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Ariacoa (31,7 NM), Macurevoari (40,2 NM), Santo
   Tomé de Guayana (45,8 NM). Se jette dans l'Orénoque ; relation
@@ -1709,7 +1978,14 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
   (avec Ronan) — Río Espino**, rivière réelle des Llanos centraux
   (bassin Guárico/Anzoátegui).
-- **Confiance :** ⚠️ moyen
+- **Confiance :** ✅ fort
+- **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — la
+  fiche indique elle-même que sa confiance est « alignée sur celle de
+  Capuri River/N010 [...] pour rester cohérente avec la chaîne de
+  raisonnement du secteur [...] même type d'identification structurelle,
+  sans ancrage toponymique direct » ; N010 étant désormais promu selon le
+  même critère (position exclusive, absence de candidat concurrent),
+  N011 suit par cohérence interne explicite.
 - **Raisonnement :** Le second élément du nom, « Voari », fait toujours
   écho à « Macurevoari », signe que le toponyme lui-même appartient à la
   couche cartographique légendaire — mais l'identification retenue ne
@@ -1738,30 +2014,37 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N019 — coyrama-r
 
 - **Toponyme Jaillot :** Coyrama R.
+- **Nom canonique (harmonisé) :** Rio Coyrama *(préfixe « R. » harmonisé en « Rio » — convention cartographique assumée, sphère espagnole ; nom conservé tel quel malgré l'absence de correspondance réelle)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Aromaia (17,6 NM), Macurevoari (57,9 NM), Santo
   Tomé de Guayana (87,6 NM). Se jette directement dans l'Orénoque, sans
   relation avec d'autres cours.
-- **Identification proposée / nom moderne :** Non déterminé —
-  **ERR-003, vraisemblablement erroné.**
-- **Confiance :** ❌ erroné
-- **Raisonnement :** Petit affluent isolé au nord d'Aromaia (toponyme de
-  Ralegh, province du cacique du même nom dans *The Discoverie of
-  Guiana*). Aucun élément ne permet de le distinguer d'un simple caño
-  local du delta sud de l'Orénoque ; pas de trace dans les sources
-  modernes consultées.
-
-  **CLÔTURE (avec Ronan).** Même conclusion que pour N065 : recensement
-  exhaustif de tout le secteur entre le Caroní et le Pomeroon, sans
-  candidat modeste restant disponible. La Jaillot dessine ici davantage
-  de cours d'eau que la géographie moderne n'en reconnaît — non
-  déterminé de façon définitive.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
+  (avec Ronan) — Coyrama, convention cartographique assumée** (ERR-003
+  retiré).
+- **Confiance :** 🎲 convention cartographique
+- **Raisonnement :** RÉVISION. Petit affluent isolé au nord d'Aromaia
+  (toponyme de Ralegh, province du cacique du même nom dans *The
+  Discoverie of Guiana*). Le recensement exhaustif du secteur
+  Caroní-Pomeroon (voir aussi N065, N011) n'a laissé aucun candidat
+  réel disponible pour ce toponyme. Plutôt que de le maintenir en
+  « vraisemblablement erroné », Ronan propose de l'assumer comme
+  élément de la même couche cartographique légendaire/imaginaire que
+  Lac de Caslipa/N023 (rivière fictive assumée pour la campagne, au même
+  titre qu'un lac ou une cité légendaire figurant sur une carte
+  d'époque) — sans prétendre à une correspondance réelle, mais sans le
+  disqualifier comme erreur de dessin non plus.
 - **Sources :** Analyse interne ; recensement exhaustif du secteur
   Caroní-Pomeroon (proposé par Ronan).
 
 ### N021 — europa-river
 
 - **Toponyme Jaillot :** Europa River
+- **Nom canonique (harmonisé) :** Rio Europa *(toponyme d'origine non
+  attestée/inexpliquée — traité par défaut selon la sphère géographique,
+  delta de l'Orénoque sous revendication espagnole ; suffixe « River »
+  harmonisé en préfixe « Rio », origine linguistique du nom lui-même
+  incertaine)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Ariacoa (22,5 NM), Aromaia (49,4 NM), San José de
   Macuro (67,7 NM), Verina/Cariaco (70,9 NM). Embouchure en mer
@@ -1772,7 +2055,14 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   (avec Ronan) — Caño Macareo**, bras nord du delta de l'Orénoque
   débouchant sur le sud du golfe de Paria, vers le chenal de Colón/
   Boca de Serpientes.
-- **Confiance :** ⚠️ moyen
+- **Confiance :** ✅ fort
+- **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort —
+  Ariacoa est « de très loin le plus proche » des repères (superlatif
+  explicite, 22,5 NM contre 67,7 et 70,9 NM pour les repères de la
+  péninsule de Paria), signal positionnel exclusif malgré l'absence
+  d'explication pour le toponyme « Europa » lui-même — même famille de
+  raisonnement que Bariquicometo R./N006 et Capuri River/N010, tous deux
+  déjà classés ✅ fort sur ce type de critère.
 - **Raisonnement :** Les repères proches sont plus révélateurs que la
   lecture initiale ne le suggérait : Ariacoa (toponyme du delta sud) est
   de très loin le plus proche (22,5 NM), bien avant San José de Macuro et
@@ -1792,6 +2082,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N023 — lac-de-caslipa
 
 - **Toponyme Jaillot :** Lac de Caslipa
+- **Nom canonique (harmonisé) :** Lac de Caslipa *(nom français déjà complet/au format — inchangé, convention cartographique assumée)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Macurevoari (5,4 NM), Santo Tomé de Guayana
   (5,9 NM), Tuteritona (13,3 NM). Bifurque depuis l'Orénoque
@@ -1867,6 +2158,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N036 — orenoque
 
 - **Toponyme Jaillot :** Orénoque
+- **Nom canonique (harmonisé) :** Orénoque *(nom français déjà complet/au format — inchangé)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Tuteritona (3,4 NM), Porto Morequito (13,3 NM),
   Aromaia (14,5 NM), Santo Tomé de Guayana (15,8 NM), Ariacoa (20,8 NM).
@@ -1897,6 +2189,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N038 — ovarabiche-r
 
 - **Toponyme Jaillot :** Ovarabiche R.
+- **Nom canonique (harmonisé) :** Rio Ovarabiche *(suffixe « R. » harmonisé en préfixe « Rio » — sphère espagnole du Venezuela)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Verina/Cariaco (31,2 NM), San José de Macuro
   (36,1 NM), Santiago de Araya (46,1 NM), Cumaná (49,5 NM), Barcelona
@@ -1907,6 +2200,13 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   reconnu comme son principal affluent amont plutôt que comme
   l'identification directe.
 - **Confiance :** ⚠️ moyen
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — le
+  raisonnement reste au comparatif (« correspond mieux à... que ») et
+  conclut par un hedge explicite (« le toponyme Jaillot marque plus
+  vraisemblablement le point d'embouchure... que le cours amont »),
+  sans convergence toponyme+position ni exclusivité positionnelle
+  affirmée — ne satisfait pas le critère de promotion retenu depuis le
+  secteur D.
 - **Raisonnement :** Le Río San Juan naît de la confluence du Guarapiche
   et du Caripe et c'est lui, sous ce nom, qui débouche au golfe de Paria
   (le Guarapiche s'y jette via le Caño Francés, en amont de l'embouchure
@@ -1925,6 +2225,10 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N042 — r-amacuro
 
 - **Toponyme Jaillot :** R. Amacuro
+- **Nom canonique (harmonisé) :** Rio Amacuro *(déjà au format « R. » →
+  « Rio » — sphère espagnole/zone frontalière du Venezuela ; toponyme
+  Jaillot conservé malgré le faux-ami avec le Río Amacuro moderne, qui
+  correspond en réalité à R Amachara, cours voisin non digitalisé)*
 - **Territoire :** suriname (à la limite nouvelle-andalousie/suriname,
   distance 0 aux deux zones)
 - **Repères proches :** Nieuw Middelburg (48,9 NM), Fort Kyk-Over-Al
@@ -1993,6 +2297,11 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N045 — r-berbice
 
 - **Toponyme Jaillot :** R. Berbice
+- **Nom canonique (harmonisé) :** Berbice *(toponyme néerlandais colonial
+  — reste tel quel par sphère linguistique, préfixe « R. » simplement
+  retiré ; le fleuve porte aujourd'hui couramment le nom anglicisé
+  « Berbice River », mais le nom propre lui-même n'est ni espagnol ni
+  britannique d'origine)*
 - **Territoire :** suriname
 - **Repères proches :** Villages du delta du Suriname (4,2 NM), Fort
   Kyk-Over-Al (43,4 NM), Nieuw Middelburg (59 NM), Paramaribo (75,4 NM).
@@ -2011,6 +2320,8 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N048 — r-copanama
 
 - **Toponyme Jaillot :** R. Copanama
+- **Nom canonique (harmonisé) :** Copanama *(sphère néerlandaise du
+  Suriname — reste tel quel, préfixe « R. » retiré)*
 - **Territoire :** suriname
 - **Repères proches :** Paramaribo (13,9 NM), Villages du delta du
   Suriname (54,6 NM). Embouchure en mer ; relations « separate » multiples
@@ -2020,6 +2331,10 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Identification proposée / nom moderne :** Non déterminé (hypothèse
   faible : partie du système Commewijne/Cottica, à l'est de Paramaribo).
 - **Confiance :** ⚠️ faible
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — « rien
+  dans le nom [...] ne permet de trancher » entre Commewijne et Cottica
+  (ou un troisième cours disparu) ; hypothèse explicitement non tranchée,
+  aucune promotion possible.
 - **Raisonnement :** La position (juste à l'est de l'estuaire du
   Suriname, avant R. Marateka et R. Marrawini) correspond à la zone où se
   trouvent aujourd'hui les rivières Commewijne et Cottica, mais rien dans
@@ -2036,6 +2351,8 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N050 — r-corretine
 
 - **Toponyme Jaillot :** R. Corretine
+- **Nom canonique (harmonisé) :** Corentyne *(sphère néerlandaise ;
+  graphie modernisée conservée sans générique — préfixe « R. » retiré)*
 - **Territoire :** suriname
 - **Repères proches :** Villages du delta du Suriname, à l'est de
   R. Berbice ; branche principale + deux bras secondaires (B et C) ;
@@ -2055,6 +2372,8 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N056 — r-essequebe
 
 - **Toponyme Jaillot :** R. Essequebe
+- **Nom canonique (harmonisé) :** Essequibo *(sphère néerlandaise ;
+  graphie modernisée conservée sans générique — préfixe « R. » retiré)*
 - **Territoire :** suriname
 - **Repères proches :** Fort Kyk-Over-Al (5,3 NM — fort hollandais
   historique situé précisément au confluent Essequibo/Mazaruni/Cuyuni),
@@ -2074,6 +2393,8 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N063 — r-marateka
 
 - **Toponyme Jaillot :** R. Marateka
+- **Nom canonique (harmonisé) :** Marateka *(sphère néerlandaise du
+  Suriname — reste tel quel, préfixe « R. » retiré)*
 - **Territoire :** suriname
 - **Repères proches :** Paramaribo (proche, secteur est de l'estuaire du
   Suriname). Quatre branches (main, B, C, D) ; relations « separate »
@@ -2082,6 +2403,9 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Identification proposée / nom moderne :** Non déterminé (même
   hypothèse que R. Copanama : complexe Commewijne/Cottica).
 - **Confiance :** ⚠️ faible
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — « aucun
+  élément (phonétique ou positionnel) ne permet de l'assigner avec
+  confiance » ; identique au cas de R. Copanama/N048.
 - **Raisonnement :** Cours le plus ramifié du secteur deltaïque est de
   Paramaribo, imbriqué avec R. Copanama. Comme pour ce dernier, aucun
   élément (phonétique ou positionnel) ne permet de l'assigner avec
@@ -2092,6 +2416,11 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N064 — r-marrawini
 
 - **Toponyme Jaillot :** R. Marrawini
+- **Nom canonique (harmonisé) :** Marrawini *(sphère néerlandaise du
+  Suriname — reste tel quel, préfixe « R. » retiré ; toponyme Jaillot
+  conservé plutôt que l'hypothèse moderne « Commewijne », par cohérence
+  avec la convention adoptée pour les autres toponymes ambigus du
+  secteur)*
 - **Territoire :** suriname
 - **Repères proches :** Paramaribo (42,4 NM). Se jette directement dans
   le fleuve Suriname (`outlets` : `type: "junction", targetRiverId:
@@ -2102,6 +2431,10 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   écarté en première intention : Marowijne/Maroni (frontière
   Suriname–Guyane française).
 - **Confiance :** ⚠️ moyen
+- **Recalibration (avec Ronan) :** examiné mais **non promu** — la fiche
+  garde un doute résiduel explicite (« sous réserve qu'il pourrait aussi
+  s'agir d'une confusion/fusion cartographique Commewijne-Marowijne »),
+  ce qui écarte toute exclusivité positionnelle affirmée.
 - **Raisonnement :** La ressemblance phonétique à « Marowijne/Maroni » est
   frappante à première vue, mais la topologie du dossier (Marrawini
   représenté comme un simple affluent qui rejoint le Suriname près de son
@@ -2123,36 +2456,38 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N065 — r-maryowapaneko
 
 - **Toponyme Jaillot :** R. Maryowapaneko
+- **Nom canonique (harmonisé) :** Maryowapaneko *(toponyme composé
+  d'origine indigène/légendaire, sphère nouvelle-andalousie — reste tel
+  quel, préfixe « R. » retiré ; convention cartographique assumée)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Aromaia (41 NM), Macurevoari (84,5 NM), Nieuw
   Middelburg (97,2 NM). Se jette dans l'Orénoque au niveau des deux
   premières bouches du delta (Delta_Orénoque_1 et 2) — donc un bras de
   l'embouchure occidentale du delta.
-- **Identification proposée / nom moderne :** Non déterminé —
-  **ERR-004, vraisemblablement erroné.**
-- **Confiance :** ❌ erroné
-- **Raisonnement :** Toponyme composé très long et non attesté ailleurs,
-  cohérent avec la même couche cartographique légendaire/indigène que le
-  cluster Bariquicometo/Capuri/Caslipa. Sa position, au niveau des
-  bouches occidentales du delta, pourrait correspondre à l'un des
-  distributaires modernes (Manamo, Pedernales…), mais rien ne permet de
-  choisir un candidat précis avec un niveau de confiance acceptable.
-
-  **CLÔTURE (avec Ronan).** Après recensement exhaustif de l'ensemble du
-  secteur, du Caroní jusqu'au Pomeroon (voir aussi N011, N019), aucun
-  cours d'eau moderne, même modeste, ne reste disponible pour ce
-  toponyme : tous les cours réels identifiables dans cette zone ont déjà
-  été attribués à d'autres entrées. Conclusion assumée : la Jaillot
-  dessine ici davantage de cours d'eau que la géographie moderne n'en
-  reconnaît (couche légendaire post-Ralegh/Hondius, ou compression/
-  duplication cartographique) — non déterminé de façon définitive plutôt
-  que forcé.
+- **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
+  (avec Ronan) — Maryowapaneko, convention cartographique assumée**
+  (ERR-004 retiré).
+- **Confiance :** 🎲 convention cartographique
+- **Raisonnement :** RÉVISION. Toponyme composé très long et non attesté
+  ailleurs, cohérent avec la même couche cartographique légendaire/
+  indigène que le cluster Bariquicometo/Capuri/Caslipa. Sa position, au
+  niveau des bouches occidentales du delta, aurait pu correspondre à l'un
+  des distributaires modernes (Manamo, désormais attribué à R029 — voir
+  `fluvial-identification-synthese.md` — ou Pedernales), mais aucun
+  candidat précis ne s'est imposé avec un niveau de confiance acceptable
+  après recensement exhaustif du secteur Caroní-Pomeroon (voir aussi
+  N011, N019). Plutôt que de le maintenir en « vraisemblablement
+  erroné », Ronan propose de l'assumer comme élément de la même couche
+  cartographique légendaire/imaginaire que Lac de Caslipa/N023 — rivière
+  fictive assumée pour la campagne plutôt que fleuve réel non identifié.
 - **Sources :** Analyse interne ; recensement exhaustif du secteur
   Caroní-Pomeroon (proposé par Ronan).
 
 ### N068 — r-poumaron
 
 - **Toponyme Jaillot :** R. Poumaron
+- **Nom canonique (harmonisé) :** Pomeroon *(sphère néerlandaise ;
+  graphie modernisée conservée sans générique — préfixe « R. » retiré)*
 - **Territoire :** suriname
 - **Repères proches :** Nieuw Middelburg (6,9 NM), Fort Kyk-Over-Al
   (10,6 NM). Embouchure en mer ; voisin direct de R. Essequebe.
@@ -2170,6 +2505,9 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N075 — r-waymy
 
 - **Toponyme Jaillot :** R. Waymy
+- **Nom canonique (harmonisé) :** Waymy *(sphère néerlandaise/frontière
+  Guyane-Suriname ; graphie Jaillot conservée telle quelle plutôt que la
+  forme moderne « Waini », préfixe « R. » retiré)*
 - **Territoire :** suriname
 - **Repères proches :** Nieuw Middelburg (34,5 NM), Fort Kyk-Over-Al
   (56,6 NM), Aromaia (124,7 NM). Embouchure en mer ; seul voisin
@@ -2187,6 +2525,8 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N098 — suriname
 
 - **Toponyme Jaillot :** Suriname
+- **Nom canonique (harmonisé) :** Suriname *(déjà complet/au format —
+  inchangé)*
 - **Territoire :** suriname
 - **Repères proches :** Paramaribo (1,7 NM — quasiment superposé).
   Deux bras (main + B) avec deux embouchures en mer ; voisin de
@@ -2204,13 +2544,21 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 ### N102 — varacoyari-river
 
 - **Toponyme Jaillot :** Varacoyari River
+- **Nom canonique (harmonisé) :** Rio Varacoyari *(toponyme Jaillot réel, conservé plutôt que l'identification moderne « Río Caroní » ; suffixe « River » harmonisé en « Rio » — sphère espagnole du Venezuela, même logique que Capuri River/N010 et Caturi Voari River/N011)*
 - **Territoire :** nouvelle-andalousie
 - **Repères proches :** Macurevoari (18,5 NM), Aromaia (36,5 NM), Santo
   Tomé de Guayana (47,4 NM). Se jette dans l'Orénoque ; voisin direct du
   Lac de Caslipa.
 - **Identification proposée / nom moderne :** **RÉVISION COLLABORATIVE
   (avec Ronan) — Río Caroní.**
-- **Confiance :** ⚠️ moyen
+- **Confiance :** ✅ fort
+- **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — le
+  confluent réel Caroní/Orénoque se situe exactement à Santo Tomé de
+  Guayana, et l'ancrage structurel est explicitement « nettement
+  meilleur que l'hypothèse Capure d'abord envisagée » (alternative
+  nommée puis écartée, même schéma que pour N010/Río Apurito). Absence
+  de parenté toponymique, mais position exclusive une fois l'alternative
+  éliminée.
 - **Raisonnement :** Le confluent réel Caroní/Orénoque se trouve
   précisément à Santo Tomé de Guayana (aujourd'hui Ciudad Guayana),
   fondée en 1595 à cet emplacement — or Varacoyari a justement Santo
@@ -2296,27 +2644,31 @@ N023 et N040 ; résumé ici.
   Portuguesa rejoignant le système exactement à la cellule de confluence
   attendue.
 - **N011 (Caturi Voari River) : depuis identifié — voir révision
-  collaborative ci-dessous.** **N019 (Coyrama R.) : INCHANGÉ, ERR-003,
-  vraisemblablement erroné.** Aucune attestation trouvée dans le texte
-  de Ralegh ni dans les cartes/catalogues consultés — à la différence de
+  collaborative ci-dessous.** **N019 (Coyrama R.) : RÉVISÉ depuis, voir
+  plus bas — reclassé convention cartographique assumée, ERR-003
+  retiré.** Aucune attestation trouvée dans le texte de Ralegh ni dans
+  les cartes/catalogues consultés — à la différence de
   Bariquicometo/Capuri/Pato, aucune donnée externe au corpus (type fiche
   de ville) n'est venue le rattacher à un cours réel. Un écho de suffixe
   interne au corpus (« -coyari » ~ Varacoyari) est noté mais jugé
   insuffisant comme preuve. **N102 (Varacoyari River) a depuis été
   identifié — voir révision collaborative ci-dessous.**
-  **N065 (R. Maryowapaneko) reste également ERR-004/non déterminé pour
-  lui-même**, mais voir la révision collaborative ci-dessous : son
-  environnement immédiat (Amachara, Maritere, Sebarrima, Corobana) a
-  depuis été largement éclairci.
+  **N065 (R. Maryowapaneko) : RÉVISÉ depuis, voir plus bas — reclassé
+  convention cartographique assumée, ERR-004 retiré.** Son environnement
+  immédiat (Amachara, Maritere, Sebarrima, Corobana) a depuis été
+  largement éclairci.
 
-**CLÔTURE DÉFINITIVE (avec Ronan) — N019 (Coyrama R.) et N065
-(R. Maryowapaneko) :** après recensement exhaustif de tout le secteur
-entre le Caroní et le Pomeroon (couvrant désormais l'ensemble des cours,
+**CLÔTURE DÉFINITIVE (avec Ronan), puis reclassement — N019 (Coyrama R.)
+et N065 (R. Maryowapaneko) :** après recensement exhaustif de tout le
+secteur entre le Caroní et le Pomeroon (couvrant l'ensemble des cours,
 digitalisés ou non, de ce tronçon de côte et de son arrière-pays
-immédiat), aucun cours d'eau réel — même modeste — ne reste disponible
-comme candidat pour ces deux toponymes. Conclusion assumée : la Jaillot
-dessine ici davantage de cours d'eau que la géographie moderne n'en
-reconnaît. ERR-003 et ERR-004 maintenus, définitivement non déterminés.
+immédiat), aucun cours d'eau réel — même modeste — n'était resté
+disponible comme candidat pour ces deux toponymes. Plutôt que de les
+maintenir en « vraisemblablement erroné », Ronan propose de les assumer
+comme éléments de la même couche cartographique légendaire/imaginaire
+que Lac de Caslipa/N023 — rivières fictives assumées pour la campagne
+plutôt que fleuves réels non identifiés. **ERR-003 et ERR-004 retirés ;
+N019 et N065 reclassés 🎲 convention cartographique.**
 
 **RÉVISION COLLABORATIVE (avec Ronan), postérieure à cette clôture —
 N011 (Caturi Voari River) et R028 (F-95_143-C) :** **N011 = Río Espino**
@@ -2540,31 +2892,38 @@ une partie du groupe.
   baie ne peut guère être que la Choctawhatchee River, le seul cours
   d'eau important du secteur. Identification structurelle/positionnelle,
   sans attestation directe du nom.
-- **N037 — Ostras : identifié, ⚠️ moyen — Blackwater River**, et
-  **N028 — Marpequeue : identifié, ⚠️ moyen — Yellow River, ERR-008 et
-  ERR-010 retirés.** Confirmation de l'hypothèse déjà notée : ni l'un ni
-  l'autre n'est un nom de fleuve (pas de « R. » dans la graphie, tracé
-  d'étiquette ne suivant pas le cours) — ce sont vraisemblablement des
-  noms de caps/baie bordant la « Bay del Spirito Sancto » (baie de
-  Pensacola). Sur Delisle, côté est de cette baie, les deux cours de
-  Jaillot sont bien présents mais nommés « R del Amirante » (le plus à
-  l'ouest) et « R Jordano » (à l'est). Ces positions correspondent à
-  l'estuaire de Pensacola Bay/East Bay, qui reçoit précisément deux
-  rivières réelles bien documentées d'ouest en est : la **Blackwater
-  River** puis la **Yellow River**. D'où Ostras (le plus proche de
-  Pensacola dans l'inventaire, 87 NM carte) = Amirante = Blackwater ;
-  Marpequeue (154 NM carte) = Jordano = Yellow. L'ancienne hypothèse
-  alternative (Ostras/Marpequeue = noms des baies St. Andrew/
-  Choctawhatchee et St. Joseph/Apalachicola, bien plus à l'est) est
-  abandonnée au profit de cette lecture, mieux corroborée par le
-  recoupement Delisle.
+- **N037 — Ostras : RÉVISÉ depuis (seconde passe), voir plus haut —
+  Escambia River**, et **N028 — Marpequeue : RÉVISÉ depuis (seconde
+  passe), voir plus haut — Blackwater River, ERR-008 et ERR-010
+  retirés.** *(Bloc d'origine, conservé pour mémoire : cette première
+  lecture attribuait Ostras = Blackwater River et Marpequeue = Yellow
+  River, via le recoupement Delisle ci-dessous. Ronan a établi ensuite,
+  dans une seconde passe, que le cours parallèle à Marpequeue à
+  l'intérieur de la baie n'était en fait pas digitalisé dans
+  l'inventaire — d'où le réagencement final : Ostras = Escambia River,
+  Marpequeue = Blackwater River, Yellow River elle-même restant à
+  tracer — voir fiches N028/N037 et
+  `inventaire-cours-non-digitalises.md`.)* Confirmation de l'hypothèse
+  déjà notée : ni l'un ni l'autre n'est un nom de fleuve (pas de « R. »
+  dans la graphie, tracé d'étiquette ne suivant pas le cours) — ce sont
+  vraisemblablement des noms de caps/baie bordant la « Bay del Spirito
+  Sancto » (baie de Pensacola). Sur Delisle, côté est de cette baie, les
+  deux cours de Jaillot sont bien présents mais nommés « R del Amirante »
+  (le plus à l'ouest) et « R Jordano » (à l'est). Ces positions
+  correspondent à l'estuaire de Pensacola Bay/East Bay, qui reçoit
+  précisément deux rivières réelles bien documentées d'ouest en est :
+  la **Blackwater River** puis la **Yellow River**. L'ancienne
+  hypothèse alternative (Ostras/Marpequeue = noms des baies St. Andrew/
+  Choctawhatchee et St. Joseph/Apalachicola, bien plus à l'est) reste
+  elle aussi abandonnée.
 - **R013 et R014 (fluvial-identification-synthese.md, ERR-006/ERR-007) :
   hypothèse du doublon graphique abandonnée — voir révision
   Bowen 1747 ci-dessous.**
-- **N057 (R. Flores) : INCHANGÉ.** Aucune trace Delisle identifiée pour
-  ce cours jumeau du Rio del Canaveral — reste sans candidat malgré la
-  confirmation de son voisin. **N071 (R. Snelo) : INCHANGÉ**, non
-  rediscuté.
+- **N057 (R. Flores) : RÉVISÉ depuis, voir le complément collaboratif
+  plus haut dans ce document — identifié ⚠️ moyen, Econfina Creek
+  (St. Andrew Bay), ERR-012 retiré.** **N071 (R. Snelo) : RÉVISÉ depuis,
+  voir le complément collaboratif plus haut dans ce document — identifié
+  ⚠️ moyen, Bon Secour River, ERR-013 retiré.**
 - Sources : *(voir ci-dessus)* ; Guillaume Delisle, *Carte de la
   Louisiane et du Cours du Mississippi* (1718) — lecture directe,
   crop haute résolution proposée par Ronan ; « Descripcion de la Bahia de
@@ -2617,14 +2976,20 @@ conclusion « doublon graphique » ci-dessus.
 
 ## Secteur Panama caraïbe / Bocas del Toro
 
-- **R019 : identifié, ⚠️ moyen — Río Trinidad.** Un fort espagnol,
-  le Fuerte del Santísimo Sacramento de la Trinidad, fut bâti au
-  confluent Chagre/Trinidad ; une route transisthmique alternative
-  (Trinidad → embarcadère de Dos Brazos → Capira → mer du Sud) est
-  documentée, cohérente avec la position « près de Capira/Venta de
-  Cruces ». Un plan de 1832 du Chagre cite Trinidad parmi ses
-  tributaires historiques, contrairement à Cirí Grande, absent des
-  cartes généralistes anciennes.
+- **R019 : RÉVISÉ depuis, voir le complément collaboratif plus haut dans
+  `fluvial-identification-synthese.md` — identifié ⚠️ moyen, **Río
+  Indio**, remplace Río Trinidad.** L'ancienne justification (fort du
+  Santísimo Sacramento de la Trinidad au confluent, plan de 1832 citant
+  Trinidad parmi les tributaires du Chagre) reposait en partie sur une
+  confusion avec le fort/port de Trinidad de la côte caraïbe (en réalité
+  proche de R. Belem, pas de F-98_73-C). Un véritable Río Trinidad,
+  affluent du lac Gatún/Chagres, existe bien (53 km, bassin 198,6 km²) et
+  le plan de 1832 pourrait donc rester pertinent — mais Ronan juge le
+  Río Indio (98 km, embouchure indépendante proche de celle du Chagres)
+  positionnellement plus probable au vu du niveau de détail de la carte
+  Jaillot à cet endroit ; un fleuve aussi modeste que le Trinidad, absent
+  des cartes généralistes modernes, semble un candidat moins probable
+  pour un tracé aussi développé que celui de F-98_73-C.
 - **R020 : identifié, ⚠️ moyen — Río Caimito.** Débouché indépendant
   à Puerto Caimito (La Chorrera), cohérent avec un cours qui ne rejoint
   pas le Chagre. Río Perequeté reste une alternative plus faible.
@@ -2661,10 +3026,14 @@ conclusion « doublon graphique » ci-dessus.
   Guarapiche pris isolément. Rapprochement phonétique Ovarabiche/
   Guarapiche toujours valable pour le système dans son ensemble ; delta à
   bras multiples cohérent avec la description « deux embouchures ».
-- **R029 : ERR-017, vraisemblablement erroné.** Recherche négative
-  exhaustive : aucun candidat solide, seul un rattachement régional très
-  général (cluster de petits cours de l'extrémité est de la péninsule,
-  secteur Güiria) a pu être établi, insuffisant pour une identification.
+- **R029 : RÉVISÉ depuis, voir `fluvial-identification-synthese.md` —
+  identifié ⚠️ moyen, Caño Mánamo, ERR-017 retiré.** Son voisin direct
+  dans l'inventaire, Europa River, est déjà identifié comme Caño
+  Macareo — R029 se trouve donc dans le même cluster de bras deltaïques
+  de l'Orénoque plutôt qu'isolé sur la côte nord de la péninsule de
+  Paria ; Caño Mánamo, l'un des deux grands bras de l'Orénoque (débouché
+  à la Boca de Pedernales, golfe de Paria), correspond à une embouchure
+  large et un tracé incomplet, cohérents avec la description du cours.
 
 **RÉVISION COLLABORATIVE (avec Ronan), postérieure à cette clôture —
 Europa River (N021) :** **Caño Macareo** (⚠️ moyen, ERR-018 retiré).
@@ -2825,9 +3194,9 @@ Détail complet dans la fiche N021.
   correctement replacés (Villa Rica au nord, La Antigua/Huitzilapan au
   sud), Cempel R. correspond positionnellement au Huitzilapan et
   Cempoala/Actopan revient à Sampoval R. (N093).
-- **N058 (R. Galer) : ERR-023, vraisemblablement erroné.** Aucun
-  candidat nommé n'a pu être solidement établi malgré une recherche
-  dédiée.
+- **N058 (R. Galer) : RÉVISÉ depuis, voir le complément collaboratif
+  plus haut dans ce document — identifié ⚠️ moyen, Río Cozoaltepec,
+  ERR-023 retiré.**
 - **N040 — Pato R. : RÉVISÉ depuis, voir le complément collaboratif
   plus haut dans ce document — identifié ⚠️ moyen, Río Pao, ERR-024
   retiré.**
@@ -2841,27 +3210,27 @@ Détail complet dans la fiche N021.
 |---|---|---|
 | ERR-001 | *(retiré — N006 identifié Río Turbio, révision collaborative)* | — |
 | ERR-002 | *(retiré — N011 identifié Río Espino, révision collaborative)* | — |
-| ERR-003 | N019 Coyrama R. | Orénoque (delta sud) |
-| ERR-004 | N065 R. Maryowapaneko | Orénoque (delta sud) |
+| ERR-003 | *(retiré — N019 Coyrama R., reclassé convention cartographique assumée)* | — |
+| ERR-004 | *(retiré — N065 R. Maryowapaneko, reclassé convention cartographique assumée)* | — |
 | ERR-005 | *(retiré — N102 identifié Río Caroní, révision collaborative)* | — |
 | ERR-006 | *(retiré — R013 identifié Ochlockonee River, révision collaborative)* | — |
 | ERR-007 | *(retiré — R014 identifié St. Marks/Apalachee River, révision collaborative)* | — |
-| ERR-008 | *(retiré — N028 identifié Yellow River, révision collaborative)* | — |
+| ERR-008 | *(retiré — N028 identifié Blackwater River, seconde passe, révision collaborative)* | — |
 | ERR-009 | *(retiré — N034 identifié Río/Rivière Apalachicola, révision collaborative)* | — |
-| ERR-010 | *(retiré — N037 identifié Blackwater River, révision collaborative)* | — |
+| ERR-010 | *(retiré — N037 identifié Escambia River, seconde passe, révision collaborative)* | — |
 | ERR-011 | *(retiré — N080 identifié Choctawhatchee River, révision collaborative)* | — |
-| ERR-012 | N057 R. Flores | Floride, Big Bend |
-| ERR-013 | N071 R. Snelo | Floride, panhandle |
-| ERR-014 | N049 R. Coqueto | Panama, côte de Colón |
+| ERR-012 | *(retiré — N057 identifié Econfina Creek, révision collaborative)* | — |
+| ERR-013 | *(retiré — N071 identifié Bon Secour River, révision collaborative)* | — |
+| ERR-014 | *(retiré — N049 identifié Río Coclé del Norte, révision collaborative)* | — |
 | ERR-015 | *(retiré — N047 identifié Río Sixaola, révision collaborative)* | — |
 | ERR-016 | *(retiré — N069 identifié Río Changuinola, révision collaborative)* | — |
-| ERR-017 | R029 | Péninsule de Paria |
+| ERR-017 | *(retiré — R029 identifié Caño Mánamo, révision collaborative)* | — |
 | ERR-018 | *(retiré — N021 identifié Caño Macareo, révision collaborative)* | — |
 | ERR-019 | *(retiré — N085 identifié Río Caimán Viejo, révision collaborative)* | — |
 | ERR-020 | *(retiré — N094 identifié Río Chimán, révision collaborative)* | — |
 | ERR-021 | *(retiré — N022 identifié Río Balsas, révision collaborative)* | — |
 | ERR-022 | *(retiré — N012 identifié Río La Antigua/Huitzilapan, révision collaborative)* | — |
-| ERR-023 | N058 R. Galer | Oaxaca |
+| ERR-023 | *(retiré — N058 identifié Río Cozoaltepec, révision collaborative)* | — |
 | ERR-024 | *(retiré — N040 identifié Río Pao, révision collaborative)* | — |
 
 ---
@@ -2875,34 +3244,135 @@ N085/N079 — golfe d'Urabá, rive est ; N018/N022/N090/N094 — Golfo de San
 Miguel ; N021, N038, N102 — Orénoque/péninsule de Paria ; N011, N006/N010
 — Llanos centraux/Apure ; N028/N037/N080 — panhandle floridien (Delisle
 1718) ; N034 — panhandle floridien (Bowen 1747) ; N001/N012/N054/N093 —
-cluster Villa Rica/La Antigua, Veracruz — voir « Session de clôture —
-dernière passe » et les compléments collaboratifs ci-dessus)
+cluster Villa Rica/La Antigua, Veracruz ; N001/N072 — seconde passe,
+Misantla/Colipa et Tecolutla/Chichicatzapan (recoupement Mortier 1733) ;
+N058 — Río Cozoaltepec (vérification positionnelle directe) ; N044/N049 —
+côte caraïbe de Colón/Veraguas, Río Calovébora et Río Coclé del
+Norte/Toabré ; N057 — Econfina Creek/St. Andrew Bay ; N020/N028/N037/N041/
+N071 — réagencement complet du cluster Pensacola/Mobile (Bon Secour
+River, Wolf Bay, Perdido River, Escambia River, Blackwater River) ;
+N019/N065 — Coyrama R. et R. Maryowapaneko reclassés convention
+cartographique assumée (même couche légendaire que Lac de Caslipa/N023)
+— voir « Session de clôture — dernière passe » et les compléments
+collaboratifs ci-dessus)
 — colonne ❌ pour les tracés considérés vraisemblablement erronés (id
 arbitraire `ERR-0xx`).
 
+**Passe de recalibration des confiances (avec Ronan), secteur par
+secteur, engagée une fois le corpus de 143 cours stabilisé *(134
+digitalisés + 9 identifiés mais non tracés — corrigé d'une erreur
+d'addition antérieure de +1, voir `inventaire-cours-non-digitalises.md`)*
+:** Secteur A
+traité — 6 reclassements ⚠️ moyen → ✅ fort (N012 Río La Antigua, N029
+Río Verde, N058 Río Cozoaltepec, N061 Río Coatzacoalcos, N072 Río
+Tecolutla, N074 Río Tuxpan), sur le critère de position exclusive sans
+autre candidat plausible (retenu même sans appui toponymique), étendu au
+cas inverse pour N061 (toponyme exact et sans ambiguïté malgré une
+position fautive reconnue comme erreur cartographique). Secteur B traité
+— 7 reclassements ⚠️ moyen → ✅ fort (N020 Perdido River, N028 Blackwater
+River, N034 Apalachicola, N037 Escambia River, N041 Wolf Bay, N071 Bon
+Secour River, N080 Choctawhatchee River), dont 5 formant le cluster
+Pensacola/Mobile résolu par coordonnées pixel exactes des embouchures ;
+N057 (Econfina Creek) et N081 (Tampa Bay) examinés mais non promus,
+faute de position strictement exclusive. Au passage, N002 (Arba de
+Canaveral) a été resynchronisé — la fiche indiquait encore ⚠️ faible
+alors que la table récapitulative la classait déjà 🎲 convention
+cartographique depuis une révision antérieure. Secteur C traité — 5
+reclassements ⚠️ moyen → ✅ fort (N043 Río Pacuare, N051 Río Frío, N076
+bas Río San Juan/San Juan del Norte, N087 Río Colorado — convergence
+toponymique et positionnelle directe une fois le vrai toponyme Jaillot
+« Nicaragua ou Colorado R. » pris en compte plutôt que la convention de
+projet « Rio San Juan » —, N097 Río Matina). Au passage, N060 (Río
+Paulaya) et N092 (Salinas) ont été resynchronisées — leurs fiches
+indiquaient encore ⚠️ faible alors que la table récapitulative les
+classait déjà respectivement ✅ fort et 🎲 convention cartographique
+depuis une révision antérieure ; un 22e cours (N105, Yare R.) avait
+également été omis d'une première relecture du secteur et a depuis été
+intégré (déjà ✅ fort, non promu). Secteur D examiné en entier — **aucun
+reclassement** : les 10 cours ⚠️ moyen et le cours ⚠️ faible du secteur
+reposent tous soit sur un triplet ordonné par distance sans exclusivité
+stricte (N047/N069/N073, dont le maillon central admet lui-même ne pas
+trancher), soit sur une lecture directe de la carte non vérifiable
+indépendamment (N044, N079/N085, N090/N094), soit sur une alternative
+encore explicitement envisageable (N103, N022). Chaque cas est annoté
+individuellement dans sa fiche. Secteur E traité — 3 reclassements
+⚠️ moyen → ✅ fort (N004 Quebrada La Ahuyamala/Río Torbes, N040 Río Pao,
+N046 Río Ranchería), le premier via une resynchronisation (la fiche
+indiquait encore ⚠️ faible/non déterminé alors que la table
+récapitulative portait déjà une identification toponymique directe —
+« Valle de las Auyamas » — non reprise dans la fiche) ; N031 et N083
+examinés mais non promus, les deux fiches admettant elles-mêmes une
+ambiguïté résiduelle (respectivement absence de tracé assez précis, et
+possible redondance de bras/cartographique). Détail dans chaque fiche
+concernée. Secteur F traité — 4 reclassements ⚠️ moyen → ✅ fort (N010
+Río Apurito, N011 Río Espino — confiance explicitement alignée sur N010
+dans la fiche elle-même —, N021 Caño Macareo — repère « de très loin le
+plus proche », superlatif explicite —, N102 Río Caroní — ancrage
+« nettement meilleur » qu'une alternative nommée puis écartée, Capure),
+tous sur le critère de position exclusive sans appui toponymique direct,
+même famille de raisonnement que Bariquicometo R./N006 (déjà fort) ;
+N038, N048, N063 et N064 examinés mais non promus, chacun admettant un
+hedge explicite (« plus vraisemblablement », « rien ne permet de
+trancher », « sous réserve d'une confusion cartographique »). Un 20e
+cours (N102, Varacoyari River) avait été localisé en fin de passe mais
+pas encore intégré au décompte — c'est chose faite, sans écart résiduel
+avec le total de 20 attendu pour ce secteur.
+
+**Passe de recalibration et de canonisation des noms terminée sur
+l'ensemble des six secteurs du corpus des 105 cours nommés (N0xx).**
+Chaque fiche porte désormais un champ « Nom canonique (harmonisé) »
+distinct du « Toponyme Jaillot » archivé, conformément au point 2 du plan
+en quatre points validé par Ronan. Le corpus R0xx (29 cours,
+`fluvial-identification-synthese.md`) n'a pas été touché par cette passe
+— à discuter séparément si un traitement identique y est souhaité.
+
 | Secteur | ✅ fort | ⚠️ moyen | ⚠️ faible | 🎲 convention | ❌ erroné | Total |
 |---|---|---|---|---|---|---|
-| A — Nouvelle-Espagne / Panuco / Yucatán | 8 | 5 | 7 | 0 | 1 | 21 |
-| B — Floride / Louisiane | 8 | 5 | 0 | 1 | 2 | 16 |
-| C — Amérique centrale | 10 | 7 | 4 | 1 | 0 | 22 |
-| D — Panama / Darién | 4 | 9 | 1 | 0 | 1 | 15 |
-| E — Nouvelle-Grenade / Venezuela | 6 | 4 | 1 | 0 | 0 | 11 |
-| F — Nouvelle-Andalousie / Suriname | 9 | 6 | 2 | 1 | 2 | 20 |
-| **Total** | **45** | **36** | **15** | **3** | **6** | **105** |
+| A — Nouvelle-Espagne / Panuco / Yucatán | 15 | 1 | 5 | 0 | 0 | 21 |
+| B — Floride / Louisiane | 13 | 2 | 0 | 1 | 0 | 16 |
+| C — Amérique centrale | 15 | 3 | 3 | 1 | 0 | 22 |
+| D — Panama / Darién | 4 | 10 | 1 | 0 | 0 | 15 |
+| E — Nouvelle-Grenade / Venezuela | 9 | 2 | 0 | 0 | 0 | 11 |
+| F — Nouvelle-Andalousie / Suriname | 13 | 2 | 2 | 3 | 0 | 20 |
+| **Total** | **69** | **20** | **11** | **5** | **0** | **105** |
 
-Soit environ **43 % en confiance forte**, **34 % en confiance moyenne**,
-**14 % en confiance faible**, **3 %** en convention cartographique
+*(Synchronisation, avec Ronan) : à l'occasion de la clôture du secteur F,
+un recomptage automatisé de l'ensemble de la table maître (par script,
+en résolvant chaque fiche à sa confiance réellement affichée, première
+valeur retenue pour les notations doubles héritées comme « ⚠️
+moyen/faible ») a révélé deux écarts antérieurs entre les lignes A et C
+ci-dessus et le contenu réel des fiches, indépendants du travail sur le
+secteur F : secteur A comptait encore 6 ⚠️ faible/14 ✅ fort au lieu de 5/
+15 (un cours du cluster Villa Rica/Veracruz, vraisemblablement N093
+Sampoval R., a été résolu à ✅ fort lors d'une révision antérieure à la
+passe de recalibration formelle, sans être répercuté ici) ; secteur C
+comptait 4 ⚠️ faible/2 ⚠️ moyen au lieu de 3/3 (les deux notations
+héritées « ⚠️ moyen/faible » de N059/R. Granda et N067/R. Pech n'avaient
+pas été résolues de façon cohérente — l'une comptée moyen, l'autre
+faible — alors que la convention du projet retient la première valeur
+listée, donc moyen pour les deux). Les deux lignes et le total ont été
+corrigés en conséquence ; aucune fiche n'a été modifiée par cette
+correction, seule la table récapitulative était en cause.*
+
+Soit environ **66 % en confiance forte**, **19 % en confiance moyenne**,
+**10 % en confiance faible**, **5 %** en convention cartographique
 assumée (Lac de Caslipa/Cassipa — désormais ancrée à un fait réel plutôt
 que pure fiction, cf. complément collaboratif —, Arba de Canaveral/Barra
-de Cañaveral, Salinas du Soconusco), et **6 %** (6 cours) classés
-vraisemblablement erronés — voir la table de correspondance des
-identifiants `ERR-0xx` ci-dessus (ERR-001, ERR-002, ERR-005, ERR-008,
-ERR-009, ERR-010, ERR-011, ERR-015, ERR-016, ERR-018, ERR-019, ERR-020,
-ERR-021, ERR-022 et ERR-024 retirés suite aux révisions collaboratives de
+de Cañaveral, Salinas du Soconusco, Coyrama R./N019 et R.
+Maryowapaneko/N065 — reclassés depuis leur statut initial d'erreur), et
+**0 %** classés vraisemblablement erronés (dernier tracé encore erroné
+retiré avec le reclassement de N019/N065) — voir la table de
+correspondance des identifiants `ERR-0xx` ci-dessus (ERR-001, ERR-002,
+ERR-003, ERR-004, ERR-005, ERR-008, ERR-009, ERR-010, ERR-011, ERR-012,
+ERR-013, ERR-014, ERR-015, ERR-016, ERR-018, ERR-019, ERR-020, ERR-021,
+ERR-022, ERR-023 et ERR-024 retirés suite aux révisions collaboratives de
 N006/N040, du secteur Bocas del Toro → delta du Colorado, du golfe
-d'Urabá, du Golfo de San Miguel, du secteur Orénoque/péninsule de Paria,
-des Llanos centraux, du panhandle floridien, et du cluster Villa
-Rica/La Antigua à Veracruz).
+d'Urabá, du Golfo de San Miguel, du secteur Orénoque/péninsule de Paria
+(dont N019/N065, reclassés convention cartographique plutôt que
+maintenus en erreur), des Llanos centraux, du panhandle floridien, du
+cluster Villa Rica/La Antigua à Veracruz, de N058 (Oaxaca), de N044/N049
+(côte de Colón/Veraguas), de N057 (St. Andrew Bay), et du cluster
+Pensacola/Mobile (N020/N028/N037/N041/N071).
 
 À titre de comparaison, la session précédente sur les 29 cours **sans nom**
 avait donné une répartition plus favorable aux confiances fortes/moyennes

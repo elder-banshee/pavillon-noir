@@ -52,6 +52,9 @@
     const STYLE_NORMAL = { color: 'rgba(200,151,58,0.7)', weight: 1, fillColor: 'rgba(200,151,58,0.08)', fillOpacity: 1 };
     const STYLE_HOVER = { color: 'rgba(226,185,106,0.9)', weight: 1.5, fillColor: 'rgba(200,151,58,0.18)', fillOpacity: 1 };
     const STYLE_SELECTED = { color: 'rgba(226,185,106,1)', weight: 2, fillColor: 'rgba(200,151,58,0.25)', fillOpacity: 1 };
+    const STYLE_OCEAN_BOUNDS = { color: 'rgba(0,122,255,0.95)', weight: 2, fillColor: 'rgba(0,122,255,0.08)', fillOpacity: 1 };
+    const STYLE_OCEAN_BOUNDS_HOVER = { color: 'rgba(0,174,255,1)', weight: 3, fillColor: 'rgba(0,122,255,0.15)', fillOpacity: 1 };
+    const STYLE_OCEAN_BOUNDS_SELECTED = { color: 'rgba(0,174,255,1)', weight: 3.5, fillColor: 'rgba(0,122,255,0.2)', fillOpacity: 1 };
     const STYLE_DRAW_PREVIEW = { color: 'rgba(80,180,120,0.9)', weight: 1.5, fillColor: 'rgba(80,180,120,0.12)', fillOpacity: 1, dashArray: '6 4' };
 
     // ─── Styles des poignées ──────────────────────────────────────

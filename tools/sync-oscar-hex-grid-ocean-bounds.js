@@ -12,7 +12,6 @@ const ROOT = path.resolve(__dirname, '..');
 const MAP_WIDTH = 8500;
 const MAP_HEIGHT = 5320;
 const EXPECTED_OCEAN_IDS = new Set([
-  'fleuve-bariana',
   'ocean-bounds-atlantique',
   'ocean-bounds-pacifique',
 ]);

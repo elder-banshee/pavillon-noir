@@ -44,7 +44,7 @@ voir `fluvial-identification-complete.md` pour la définition complète).
 | R004 | Costa Grande, voisin « R de los Yopes » | **Río Coyuquilla** (débouché à Catalutla, entre Xihuacan et Petatlán) | ⚠️ moyen |
 | R005 | Acapulco, distinct de Metapec R. | Río de la Sabana | ⚠️ moyen |
 | R006 | Affluent du Mississippi passant par Ovachita/Tanzibao/Maowaya | **Rivière Ouachita** | ✅ fort |
-| R007 | Tansaquilco | Río Tamesí (Guayalejo) | ⚠️ moyen |
+| R007 | Non étiqueté (Tansaquilco = village riverain figuré par Jaillot, pas le nom du cours) | **Río Tamesí (Guayalejo)** — confirmé par recoupement multi-cartes (Maupala chez Chatelain/Delisle, R. de las Nassas chez Moll) | ⚠️ moyen |
 | R008 | Spirito Santo (Villahermosa) | **Río Carrizal** (bras du Grijalva/Mezcalapa encerclant Villahermosa) | ✅ fort |
 | R009 | St Salvador / la Trinidad | Río Jiboa — hypothèse (réserve : San Salvador n'est pas réellement côtière) | ⚠️ moyen |
 | R010 | Entre R. Dulce et Chuckabul | **Río Sarstún** | ✅ fort |
@@ -56,7 +56,7 @@ voir `fluvial-identification-complete.md` pour la définition complète).
 | R016 | « Chiriqui » | **Río Chiriquí** (Nuevo) | ✅ fort |
 | R017 | Est de Puebla (Alanje) | Río David — hypothèse | ⚠️ moyen |
 | R018 | Natá | Río Grande de Coclé (ou Río Chico) | ⚠️ moyen/fort |
-| R019 | Affluent sud du Chagre (Capira) | **Río Trinidad** (fort espagnol au confluent, route transisthmique alternative Trinidad-Dos Brazos-Capira) | ⚠️ moyen |
+| R019 | Affluent sud du Chagre (Capira) | **RÉVISION COLLABORATIVE (avec Ronan) — Río Indio** (remplace Río Trinidad ; embouchure indépendante proche de celle du Chagres, jugée plus probable qu'un affluent aussi modeste que le Río Trinidad réel) | ⚠️ moyen |
 | R020 | Près de Capira / I. Perica | **Río Caimito** (débouché indépendant à Puerto Caimito) | ⚠️ moyen |
 | R021 | 3 bras, 11,1 NM de Charles Town | **Cooper River / Wando River** | ✅ fort |
 | R022 | 4,3 NM de Charles Town | **Ashley River** | ✅ fort |
@@ -66,7 +66,7 @@ voir `fluvial-identification-complete.md` pour la définition complète).
 | R026 | Jonction Rio Grande de la Madalena | **Río Cauca** | ✅ fort |
 | R027 | Jonction Lac Maracaibo | **Río Chama** | ✅ fort |
 | R028 | Jonction Orénoque | **Río Zuata** (révision collaborative — remplace Río Usupamo, hypothèse retirée : simple toponyme du site occupé par Santo Tomé de Guayana 1642-1764, sans existence comme hydronyme indépendant ; F-95_143-C, voisin immédiat de Caturi Voari River/N011=Río Espino, rive nord, tous deux éloignés de Santo Tomé de Guayana — lecture directe de la carte, proposée par Ronan) | ⚠️ moyen |
-| R029 | Près de San José de Macuro | **ERR-017 — vraisemblablement erroné** | ❌ erroné |
+| R029 | Près de San José de Macuro, voisin direct d'Europa River/Caño Macareo | **RÉVISION COLLABORATIVE (avec Ronan) — Caño Mánamo** (ERR-017 retiré ; l'un des deux grands bras de l'Orénoque, débouché à la Boca de Pedernales sur le golfe de Paria — cohérent avec une embouchure large et un tracé incomplet) | ⚠️ moyen |
 
 **N096 (Subutla)** n'appartient pas à cette liste : c'est un village, pas
 un fleuve. Le cours associé (arrosant Cachan, entre Tlaconoa et Subutla)
@@ -257,20 +257,24 @@ pour ce corpus des 29 sans nom :
 
 - **Identifiés/confirmés (8) :** R001 (Río Cihuatlán/Marabasco, ✅ fort),
   R002 (exutoire Laguna de Cuyutlán, ⚠️ moyen), R004 (Río Coyuquilla,
-  ⚠️ moyen), R011 (Río Chiquito, ⚠️ moyen), R019 (Río Trinidad,
-  ⚠️ moyen), R020 (Río Caimito, ⚠️ moyen), R024 (North Edisto River,
-  ✅ fort), R028 (initialement Río Usupamo, ✅ fort, sur la base de la
-  position historique de Santo Tomé de Guayana ; **révisé depuis en
-  Río Zuata, ⚠️ moyen** — voir révision collaborative ci-dessous).
-- **Vraisemblablement erronés à l'origine (1 restant), id arbitraire
-  attribué :** R029 (**ERR-017**) — aucune correspondance trouvée malgré
-  un rattachement régional très général (petits cours de l'extrémité est
-  de la péninsule de Paria, secteur Güiria). R013 (**ERR-006**) et R014
-  (**ERR-007**) — initialement dans ce lot (reclassés géographiquement
-  dans le Big Bend floridien plutôt que sur la côte de Géorgie, et
-  confirmés non étiquetés sur la carte Jaillot elle-même, donc sans
-  ancrage toponymique de départ) — **révisés depuis** : voir révision
-  collaborative ci-dessous (Delisle 1718, puis Bowen 1747).
+  ⚠️ moyen), R011 (Río Chiquito, ⚠️ moyen), R019 (initialement Río
+  Trinidad, ⚠️ moyen ; **révisé depuis en Río Indio, ⚠️ moyen** — voir
+  révision collaborative ci-dessous), R020 (Río Caimito, ⚠️ moyen), R024
+  (North Edisto River, ✅ fort), R028 (initialement Río Usupamo, ✅ fort,
+  sur la base de la position historique de Santo Tomé de Guayana ;
+  **révisé depuis en Río Zuata, ⚠️ moyen** — voir révision collaborative
+  ci-dessous).
+- **Vraisemblablement erronés à l'origine (plus aucun restant), id
+  arbitraire attribué :** R029 (**ERR-017**) — initialement sans
+  correspondance trouvée malgré un rattachement régional très général
+  (petits cours de l'extrémité est de la péninsule de Paria, secteur
+  Güiria) ; **révisé depuis en Caño Mánamo, ⚠️ moyen** — voir révision
+  collaborative ci-dessous. R013 (**ERR-006**) et R014 (**ERR-007**) —
+  initialement dans ce lot (reclassés géographiquement dans le Big Bend
+  floridien plutôt que sur la côte de Géorgie, et confirmés non
+  étiquetés sur la carte Jaillot elle-même, donc sans ancrage toponymique
+  de départ) — **révisés depuis** : voir révision collaborative
+  ci-dessous (Delisle 1718, puis Bowen 1747).
 
 Pour le raisonnement complet, les sources et la table de correspondance
 intégrale des identifiants `ERR-0xx` (incluant les cours N0xx du corpus
@@ -337,3 +341,69 @@ lecture directe (crops haute résolution, proposée par Ronan) ;
 [Apalachicola River — Wikipedia](https://en.wikipedia.org/wiki/Apalachicola_River) ;
 [Apalachee Province — Wikipedia](https://en.wikipedia.org/wiki/Apalachee_Province) ;
 [Apalachicola Province — Wikipedia](https://en.wikipedia.org/wiki/Apalachicola_Province).
+
+**RÉVISION COLLABORATIVE (avec Ronan), postérieure à cette clôture —
+R007 (secteur Pánuco) :** ce tracé, parallèle au Pánuco et débouchant au
+golfe juste au nord de celui-ci (identifiant interne `F-12_4-A`), n'est
+pas lui-même étiqueté sur Jaillot — le nom « Tansaquilco » associé dans
+une première passe désignait en réalité un village riverain figuré sur
+la carte, pas le cours d'eau. L'identification **Río Tamesí
+(Guayalejo)**, posée par position, est confirmée par un recoupement
+multi-cartes mené par Ronan : Chatelain (1719) et Delisle nomment ce
+même cours **Maupala**, tandis que Moll (vers 1720) le nomme **R. de las
+Nassas** et le fait déboucher dans des « Salinas de Famaetla » — une
+baie étirée que Jaillot dessine mais ne nomme pas. Aucun établissement
+n'est recensé le long de son cours chez Moll, cohérent avec une zone
+restée hors de toute colonisation espagnole stable jusqu'à la fondation
+du Nuevo Santander en 1748. Ni « Tansaquilco », ni « Maupala », ni « R.
+de las Nassas » ne trouvent de confirmation indépendante dans les
+sources modernes consultées (« Nassas » n'a pas de lien géographique
+établi avec le Río Nazas de Durango, fleuve intérieur sans rapport) —
+la confiance reste donc ⚠️ moyen : la convergence positionnelle de
+quatre cartes indépendantes (Jaillot, Chatelain, Delisle, Moll) est
+solide, mais aucune n'offre d'ancrage toponymique vérifiable vers le nom
+moderne Tamesí/Guayalejo.
+
+**RÉVISION COLLABORATIVE (avec Ronan), postérieure à cette clôture —
+cluster Chagres/Colón/Veraguas (R019, N044, N049) :** ce secteur très
+dense en cours d'eau et en repères (Chagres, Trinidad, Belem, Coqueto,
+Veragua R., tous à proximité immédiate les uns des autres sur la carte)
+a été réexaminé dans son ensemble. **R019 (F-98_73-C) = Río Indio**
+(remplace Río Trinidad) : la position du fort de Trinidad, invoquée dans
+la précédente identification, s'est révélée en réalité beaucoup plus
+proche de R. Belem (10,8 NM) que de F-98_73-C (absent de ses cinq
+repères les plus proches) — la justification était donc erronée. Un
+véritable Río Trinidad, affluent du lac Gatún/Chagres (53 km), existe
+cependant bel et bien, structurellement cohérent avec F-98_73-C
+(jonction vers le Chagre, cours remontant du sud) ; mais Ronan retient
+Río Indio (98 km, embouchure indépendante proche de celle du Chagres) au
+vu du niveau de détail du tracé Jaillot, jugeant peu probable qu'un
+cours aussi modeste que le Trinidad réel (absent des cartes
+généralistes modernes) y soit représenté aussi développé. **N044 (R.
+Belem) = Río Calovébora** (`fluvial-identification-complete.md`) plutôt
+que Río Belén : le label « R Belem » se trouve en face d'une baie sans
+tracé propre, vraisemblablement décalé par manque de place près des
+étiquettes Bocas del Toro/Escudo de Veraguas — le site historique de
+Belén (colonie de Colomb, 1503) reste réel, mais ne correspond pas à un
+cours distinct dans ce secteur de Jaillot. **N049 (R. Coqueto) = Río
+Coclé (del Norte)**, avec sa branche affluente sud-est identifiée au
+Río Toabré (tributaire réel confirmé du Coclé del Norte) —
+`fluvial-identification-complete.md` pour le détail complet des trois
+fiches.
+
+**RÉVISION COLLABORATIVE (avec Ronan), postérieure à cette clôture —
+R029 (péninsule de Paria) :** ce cours, classé vraisemblablement erroné
+faute de tout candidat (ERR-017), est réexaminé à la lumière de son
+voisinage dans l'inventaire : il est directement voisin d'Europa River,
+déjà identifié comme **Caño Macareo** (N021), l'un des distributaires de
+l'Orénoque. R029 se trouve donc dans le même cluster de bras deltaïques
+plutôt qu'isolé sur la côte nord de la péninsule — ce qui explique
+pourquoi ses repères les plus proches dans l'inventaire (San José de
+Macuro, Cariaco, Araya) sont si éloignés (68 à 89 NM) : la zone
+deltaïque elle-même est restée non peuplée. Nouvelle identification :
+**Caño Mánamo** (⚠️ moyen), l'un des deux grands bras de l'Orénoque
+(avec le Río Grande/Boca Grande), débouchant à la Boca de Pedernales sur
+le golfe de Paria — cohérent avec une embouchure large et un tracé
+incomplet, deux traits notés par Ronan sur la carte. ERR-017 retiré.
+Sources : [Delta del Orinoco — Wikipedia](https://es.wikipedia.org/wiki/Delta_del_Orinoco) ;
+[Aspectos Fisiográficos del Golfo de Paria — Fundación Instituto de Ingeniería](https://fii.gob.ve/aspectos-fisiograficos-del-golfo-de-paria-estado-sucre-conocimiento-del-entorno-ante-potenciales-efectos-ambientales-de-un-derrame-petrolero/).

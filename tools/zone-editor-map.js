@@ -203,6 +203,9 @@
 
     // Retourne les styles Leaflet pour un polygone selon le contexte actuel
     function zoneStyle(zoneId, isSelected) {
+      if (isOceanBoundsId(zoneId)) {
+        return isSelected ? STYLE_OCEAN_BOUNDS_SELECTED : STYLE_OCEAN_BOUNDS;
+      }
       if (isSelected) return STYLE_SELECTED;
 
       if (ctx.isTopoInfo) {
@@ -239,6 +242,7 @@
 
     // Style hover adapté (version plus lumineuse du style de base)
     function zoneStyleHover(zoneId) {
+      if (isOceanBoundsId(zoneId)) return STYLE_OCEAN_BOUNDS_HOVER;
       const c = zoneCouleurMap.get(zoneId);
       if (!c) return STYLE_HOVER;
       return { color: `rgba(${c.rgb},0.95)`, weight: 2, fillColor: `rgba(${c.rgb},0.28)`, fillOpacity: 1 };

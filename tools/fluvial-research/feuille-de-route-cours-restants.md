@@ -241,6 +241,39 @@ moderne : Huixilapan). Détail complet dans
 tableau récapitulatif) et `js/villes-data.js` (entrées `villa-rica`,
 `antigua-huitzilapan`, `xalapa`).
 
+**Révision collaborative (avec Ronan), seconde passe — Almaria et R. St
+Pedro :** en rouvrant N001 (Almaria) et N072 (R. St Pedro) à la lumière
+de la correction Villa Rica ci-dessus (le raisonnement initial de N072
+reposait sur « Almaria = Actopan », devenu caduc), les deux fiches sont
+révisées ensemble. **N072 (R. St Pedro) = Río Tecolutla**, confirmé (et
+non plus simplement supposé) par trois éléments : l'embouchure large
+et proche d'une lagune décrite directement sur la carte ; l'ancrage
+historique du bassin du Tecolutla dans l'Alcaldía Mayor de Papantla et
+le commerce naissant de la vanille totonaque (XVIIe-XVIIIe siècle),
+faisant de ce fleuve le mieux documenté du tronçon face au Cazones
+voisin, resté secondaire ; et un recoupement avec la carte de **Mortier
+(1733)**, coauteur de Jaillot, qui complète le tracé en amont et relie
+R. St Pedro à sa branche B — confirmant que cette dernière est un
+**distributaire interne** (⚠️ moyen) plutôt qu'un fleuve indépendant,
+identifié au **Río Chichicatzapan** (rive sud, estuaire Ostiones, près
+de l'embouchure du Tecolutla). Le Cazones, dont l'embouchure réelle se
+situe au nord du Tecolutla — direction incompatible avec une branche
+sud rejoignant le tronc avant la côte — reste sans correspondant
+identifié sur ce tronçon : hypothèse explorée puis écartée pour raison
+géométrique, non par manque d'importance réelle du fleuve. D'autres
+cartes contemporaines consultées pour trancher (Delisle 1703, Chatelain
+1719, Moll 1720) se sont révélées plus imprécises que Jaillot sur ce
+secteur. Par ricochet, **N001 (Almaria) = système Misantla/Colipa**
+(région de Vega de Alatorre/Alto Lucero, ⚠️ moyen) : en recalant
+l'échelle interne de Jaillot sur les deux ancrages désormais fiables
+(Sampoval R./Actopan au sud, R. St Pedro/Tecolutla au nord), Almaria
+tombe à mi-chemin entre les deux, exactement dans cette zone — où le
+petit Río Santa Ana, réel mais trop mineur, est écarté au profit de
+Misantla (bourg colonial mieux attesté) ou Colipa. L'hypothèse
+Bobos/Filobobos (Nautla) de la première passe est abandonnée. Détail
+complet dans `fluvial-identification-complete.md` (fiches N001 et N072,
+tableau récapitulatif).
+
 Le détail complet (raisonnement, sources, table de correspondance des
 `ERR-0xx`) est dans `fluvial-identification-complete.md` (section
 « Session de clôture — dernière passe ») pour les cours N0xx, et dans
