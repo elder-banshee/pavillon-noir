@@ -159,7 +159,7 @@
             <input id="oscar-session-edits-visible" type="checkbox" checked>
           </label>
           <label>
-            <span>Région</span>
+            <span>Domaine</span>
             <select id="oscar-grid-domain">
               <option value="">Tous</option>
             </select>
@@ -188,6 +188,33 @@
               <label><input type="checkbox" data-oscar-filter-group="fluvialStatus" value="valid" checked>Valide</label>
               <label><input type="checkbox" data-oscar-filter-group="fluvialStatus" value="invalid" checked>Invalide</label>
             </fieldset>
+            <details id="oscar-fluvial-inspector" class="oscar-fluvial-inspector">
+              <summary>Inspecteur fluvial avancé</summary>
+              <div class="oscar-fluvial-inspector-body">
+                <label>
+                  <span>Cours d’eau</span>
+                  <select id="oscar-fluvial-inspector-watercourse">
+                    <option value="">Aucun</option>
+                  </select>
+                </label>
+                <fieldset>
+                  <legend>Connexions à mettre en évidence</legend>
+                  <label class="oscar-inspector-junction"><input type="checkbox" id="oscar-fluvial-inspector-junction">Confluences / jonctions</label>
+                  <label class="oscar-inspector-fork"><input type="checkbox" id="oscar-fluvial-inspector-fork">Bifurcations / fourches</label>
+                  <label><input type="checkbox" id="oscar-fluvial-inspector-overlap" checked>Seulement dans une même cellule</label>
+                </fieldset>
+                <div class="oscar-fluvial-inspector-actions">
+                  <button type="button" id="oscar-fluvial-inspector-fit" class="tool-btn">Cadrer la surbrillance</button>
+                  <button type="button" id="oscar-fluvial-inspector-clear" class="tool-btn">Effacer</button>
+                </div>
+                <div class="oscar-fluvial-inspector-legend">
+                  <span class="river">Cours sélectionné</span>
+                  <span class="junction">Confluence</span>
+                  <span class="fork">Bifurcation</span>
+                </div>
+                <div id="oscar-fluvial-inspector-summary" class="sea-prop"><span>Inspecteur :</span> aucun critère actif</div>
+              </div>
+            </details>
             <button type="button" id="oscar-filter-reset" class="tool-btn">Tout afficher</button>
           </details>
           <div id="oscar-grid-summary" class="sea-prop"><span>OSCAR :</span> grille indisponible</div>

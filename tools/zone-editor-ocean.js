@@ -80,6 +80,59 @@
       return oscarFluvialCurrents(cell).length > 0;
     }
 
+    function oscarFluvialCourseId(current) {
+      return String(current?.courseId || current?.riverId || '').trim();
+    }
+
+    function oscarFluvialCurrentByCourseId(cell, courseId) {
+      return oscarFluvialCurrents(cell)
+        .find(current => oscarFluvialCourseId(current) === String(courseId || ''));
+    }
+
+    function oscarFluvialCourseLabel(cell, courseId) {
+      const current = oscarFluvialCurrentByCourseId(cell, courseId);
+      if (!current) return String(courseId || '');
+      const name = String(current.riverId || courseId || '');
+      const sameNameCount = oscarFluvialCurrents(cell)
+        .filter(item => String(item.riverId || '') === name).length;
+      return sameNameCount > 1 ? `${name} [${oscarFluvialCourseId(current)}]` : name;
+    }
+
+    function nextOscarFluvialCourseId(riverId, grid = getOscarGrid()) {
+      const slug = String(riverId || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'cours';
+      const used = new Set(Object.keys(oscarFluvialCourses(grid)));
+      Object.values(grid?.cells || {}).forEach(cell => {
+        oscarFluvialCurrents(cell).forEach(current => used.add(oscarFluvialCourseId(current)));
+      });
+      const base = `manual:${slug}`;
+      let candidate = base;
+      let suffix = 2;
+      while (used.has(candidate)) {
+        candidate = `${base}:${suffix}`;
+        suffix++;
+      }
+      return candidate;
+    }
+
+    function oscarFluvialCourses(grid = getOscarGrid()) {
+      return grid?.fluvialCourses && typeof grid.fluvialCourses === 'object'
+        ? grid.fluvialCourses
+        : {};
+    }
+
+    function oscarFluvialMouths(grid = getOscarGrid()) {
+      return Array.isArray(grid?.fluvialMouths) ? grid.fluvialMouths : [];
+    }
+
+    function oscarFluvialConnections(grid = getOscarGrid()) {
+      return Array.isArray(grid?.fluvialConnections) ? grid.fluvialConnections : [];
+    }
+
     function oscarFluvialOutlets(cell) {
       return Array.isArray(cell?.fluvialOutlets)
         ? cell.fluvialOutlets.filter(outlet => outlet && typeof outlet === 'object')
@@ -92,19 +145,87 @@
         : [];
     }
 
-    function oscarFluvialPairKey(firstRiverId, secondRiverId) {
-      return [String(firstRiverId || ''), String(secondRiverId || '')]
-        .sort((a, b) => a.localeCompare(b, 'fr'))
-        .join('\u0000');
+    function ensureOscarFluvialSchemaV2(grid) {
+      if (!grid?.cells || grid.fluvialSchemaVersion === 2) return grid;
+      const courses = {};
+      const mouths = [];
+      const connections = [];
+      const terminalEvents = new Map();
+      const addTerminal = (courseId, type) => {
+        if (!terminalEvents.has(courseId)) terminalEvents.set(courseId, []);
+        terminalEvents.get(courseId).push(type);
+      };
+      Object.entries(grid.cells).forEach(([cellKey, cell]) => {
+        oscarFluvialCurrents(cell).forEach(current => {
+          const courseId = oscarFluvialCourseId(current);
+          current.courseId = courseId;
+          courses[courseId] ||= {
+            watercourseId: courseId,
+            riverId: current.riverId || courseId,
+            branch: null,
+          };
+        });
+        oscarFluvialOutlets(cell).forEach(outlet => {
+          if (outlet.type === 'sea') {
+            mouths.push({ courseId: outlet.riverId, cellKey });
+            addTerminal(outlet.riverId, 'sea');
+          } else if (outlet.type === 'junction') {
+            connections.push({
+              type: 'junction',
+              fromCourseId: outlet.riverId,
+              fromCellKey: cellKey,
+              toCourseId: outlet.targetRiverId,
+              toCellKey: cellKey,
+            });
+            addTerminal(outlet.riverId, 'junction');
+          } else if (outlet.type === 'map-edge') {
+            addTerminal(outlet.riverId, 'unresolved');
+          }
+        });
+        oscarFluvialRelations(cell).forEach(relation => {
+          if (relation.type !== 'fork') return;
+          connections.push({
+            type: 'fork',
+            fromCourseId: relation.fromRiverId,
+            fromCellKey: cellKey,
+            toCourseId: relation.toRiverId,
+            toCellKey: cellKey,
+          });
+        });
+        delete cell.fluvialOutlets;
+        delete cell.fluvialRelations;
+      });
+      Object.entries(courses).forEach(([courseId, course]) => {
+        const events = terminalEvents.get(courseId) || [];
+        const type = events[0] || 'unresolved';
+        course.terminalPolicy = type === 'sea'
+          ? { type: 'sea', mouthMode: events.length > 1 ? 'multiple' : 'single' }
+          : type === 'junction'
+            ? { type: 'junction' }
+            : { type: 'unresolved', reason: 'Terminaison non localisée dans cette ancienne grille.' };
+      });
+      grid.fluvialSchemaVersion = 2;
+      grid.fluvialCourses = courses;
+      grid.fluvialMouths = mouths;
+      grid.fluvialConnections = connections;
+      return grid;
     }
 
-    function oscarFluvialCurrentPairs(cell) {
-      const ids = oscarFluvialCurrents(cell).map(current => String(current.riverId || '')).filter(Boolean);
-      const pairs = [];
-      for (let i = 0; i < ids.length; i++) {
-        for (let j = i + 1; j < ids.length; j++) pairs.push([ids[i], ids[j]]);
-      }
-      return pairs;
+    function pruneOscarFluvialTopology(grid = getOscarGrid()) {
+      const present = (courseId, cellKey) => oscarFluvialCurrents(grid?.cells?.[cellKey])
+        .some(current => oscarFluvialCourseId(current) === courseId);
+      const activeCourseIds = new Set();
+      Object.values(grid?.cells || {}).forEach(cell => {
+        oscarFluvialCurrents(cell).forEach(current => activeCourseIds.add(oscarFluvialCourseId(current)));
+      });
+      grid.fluvialMouths = oscarFluvialMouths(grid)
+        .filter(mouth => present(mouth.courseId, mouth.cellKey));
+      grid.fluvialConnections = oscarFluvialConnections(grid)
+        .filter(connection => present(connection.fromCourseId, connection.fromCellKey)
+          && present(connection.toCourseId, connection.toCellKey));
+      Object.keys(oscarFluvialCourses(grid)).forEach(courseId => {
+        if (!activeCourseIds.has(courseId)) delete grid.fluvialCourses[courseId];
+      });
     }
 
     function oscarHexNeighbourKeys(key, cell) {
@@ -120,27 +241,73 @@
     }
 
     function buildOscarFluvialDiagnostics() {
-      const cells = getOscarGrid()?.cells || {};
+      const grid = getOscarGrid();
+      const cells = grid?.cells || {};
+      const courses = oscarFluvialCourses(grid);
+      const mouths = oscarFluvialMouths(grid);
+      const connections = oscarFluvialConnections(grid);
       const occurrences = new Map();
       const invalidCellReasons = new Map();
+      const warningCellReasons = new Map();
       const addReason = (key, reason) => {
         if (!invalidCellReasons.has(key)) invalidCellReasons.set(key, []);
         if (!invalidCellReasons.get(key).includes(reason)) invalidCellReasons.get(key).push(reason);
       };
+      const addWarning = (key, reason) => {
+        if (!warningCellReasons.has(key)) warningCellReasons.set(key, []);
+        if (!warningCellReasons.get(key).includes(reason)) warningCellReasons.get(key).push(reason);
+      };
+      const addCourseReason = (courseId, reason) => {
+        (occurrences.get(courseId) || []).forEach(key => addReason(key, reason));
+      };
       Object.entries(cells).forEach(([key, cell]) => {
+        const cellCourseIds = new Set();
         oscarFluvialCurrents(cell).forEach(current => {
-          const riverId = String(current.riverId || '').trim();
-          if (!riverId) {
+          const courseId = oscarFluvialCourseId(current);
+          if (!String(current.riverId || '').trim()) {
             addReason(key, 'courant sans identifiant');
             return;
           }
-          if (!occurrences.has(riverId)) occurrences.set(riverId, []);
-          occurrences.get(riverId).push(key);
+          if (!courseId) {
+            addReason(key, 'courant sans identifiant de tracé');
+            return;
+          }
+          if (cellCourseIds.has(courseId)) {
+            addReason(key, `identifiant de tracé dupliqué : « ${courseId} »`);
+            return;
+          }
+          cellCourseIds.add(courseId);
+          if (!occurrences.has(courseId)) occurrences.set(courseId, []);
+          occurrences.get(courseId).push(key);
+          const registered = courses[courseId];
+          if (!registered) addReason(key, `tracé non enregistré : « ${courseId} »`);
+          else if (String(registered.riverId || '') !== String(current.riverId || '')) {
+            addWarning(key, `nom différent du registre : « ${current.riverId} » / « ${registered.riverId} »`);
+          }
+        });
+      });
+
+      const namesByWatercourse = new Map();
+      Object.entries(courses).forEach(([courseId, course]) => {
+        if (!occurrences.has(courseId)) return;
+        const watercourseId = String(course.watercourseId || courseId);
+        if (!namesByWatercourse.has(watercourseId)) namesByWatercourse.set(watercourseId, new Map());
+        if (!namesByWatercourse.get(watercourseId).has(course.riverId)) {
+          namesByWatercourse.get(watercourseId).set(course.riverId, []);
+        }
+        namesByWatercourse.get(watercourseId).get(course.riverId).push(courseId);
+      });
+      namesByWatercourse.forEach((names, watercourseId) => {
+        if (names.size < 2) return;
+        [...names.values()].flat().forEach(courseId => {
+          (occurrences.get(courseId) || []).forEach(key => {
+            addWarning(key, `noms divergents entre les bras de « ${watercourseId} »`);
+          });
         });
       });
 
       const disconnectedRiverIds = new Set();
-      occurrences.forEach((keys, riverId) => {
+      occurrences.forEach((keys, courseId) => {
         const remaining = new Set(keys);
         let components = 0;
         while (remaining.size) {
@@ -153,7 +320,7 @@
             oscarHexNeighbourKeys(key, cells[key]).forEach(nextKey => {
               if (!remaining.has(nextKey)) return;
               const present = oscarFluvialCurrents(cells[nextKey])
-                .some(current => current.riverId === riverId);
+                .some(current => oscarFluvialCourseId(current) === courseId);
               if (!present) return;
               remaining.delete(nextKey);
               queue.push(nextKey);
@@ -161,58 +328,127 @@
           }
         }
         if (components > 1) {
-          disconnectedRiverIds.add(riverId);
-          keys.forEach(key => addReason(key, `« ${riverId} » discontinu`));
+          disconnectedRiverIds.add(courseId);
+          keys.forEach(key => addReason(key, `« ${oscarFluvialCourseLabel(cells[key], courseId)} » discontinu`));
+        }
+      });
+
+      const mouthsByCourse = new Map();
+      mouths.forEach(mouth => {
+        const cell = cells[mouth.cellKey];
+        const present = oscarFluvialCurrents(cell)
+          .some(current => oscarFluvialCourseId(current) === mouth.courseId);
+        if (!present) {
+          if (cell) addReason(mouth.cellKey, `embouchure d’un tracé absent : « ${mouth.courseId} »`);
+          else addCourseReason(mouth.courseId, `embouchure dans une cellule absente : ${mouth.cellKey}`);
+          return;
+        }
+        if (!oscarNavigationTypes(cell).includes('cotiere')) {
+          addWarning(mouth.cellKey, `embouchure de « ${oscarFluvialCourseLabel(cell, mouth.courseId)} » hors cellule côtière`);
+        }
+        if (!mouthsByCourse.has(mouth.courseId)) mouthsByCourse.set(mouth.courseId, []);
+        mouthsByCourse.get(mouth.courseId).push(mouth.cellKey);
+      });
+
+      const junctionsByCourse = new Map();
+      const connectionSignatures = new Set();
+      connections.forEach(connection => {
+        const signature = [
+          connection.type,
+          connection.fromCourseId,
+          connection.fromCellKey,
+          connection.toCourseId,
+          connection.toCellKey,
+        ].join('\u0000');
+        if (connectionSignatures.has(signature)) {
+          addReason(connection.fromCellKey, 'connexion fluviale dupliquée');
+          return;
+        }
+        connectionSignatures.add(signature);
+        const fromCell = cells[connection.fromCellKey];
+        const toCell = cells[connection.toCellKey];
+        const fromPresent = oscarFluvialCurrents(fromCell)
+          .some(current => oscarFluvialCourseId(current) === connection.fromCourseId);
+        const toPresent = oscarFluvialCurrents(toCell)
+          .some(current => oscarFluvialCourseId(current) === connection.toCourseId);
+        if (!['fork', 'junction'].includes(connection.type)
+          || !fromPresent || !toPresent || connection.fromCourseId === connection.toCourseId) {
+          if (fromCell) addReason(connection.fromCellKey, 'connexion fluviale invalide');
+          if (toCell) addReason(connection.toCellKey, 'connexion fluviale invalide');
+          return;
+        }
+        const adjacent = connection.fromCellKey === connection.toCellKey
+          || oscarHexNeighbourKeys(connection.fromCellKey, fromCell).includes(connection.toCellKey);
+        if (!adjacent) {
+          addReason(connection.fromCellKey, `connexion non adjacente vers ${connection.toCellKey}`);
+          addReason(connection.toCellKey, `connexion non adjacente depuis ${connection.fromCellKey}`);
+        }
+        if (connection.type === 'junction') {
+          if (!junctionsByCourse.has(connection.fromCourseId)) junctionsByCourse.set(connection.fromCourseId, []);
+          junctionsByCourse.get(connection.fromCourseId).push(connection);
+        }
+      });
+
+      occurrences.forEach((keys, courseId) => {
+        const course = courses[courseId];
+        if (!course) return;
+        const label = oscarFluvialCourseLabel(cells[keys[0]], courseId);
+        const policy = course.terminalPolicy || {};
+        const mouthCount = (mouthsByCourse.get(courseId) || []).length;
+        const junctionCount = (junctionsByCourse.get(courseId) || []).length;
+        if (policy.type === 'sea') {
+          if (junctionCount) addCourseReason(courseId, `« ${label} » combine embouchure et jonction terminale`);
+          if (!['single', 'multiple'].includes(policy.mouthMode)) {
+            addCourseReason(courseId, `mode d’embouchure absent ou inconnu pour « ${label} »`);
+          } else if (policy.mouthMode === 'multiple') {
+            if (mouthCount === 0) addCourseReason(courseId, `« ${label} » sans embouchure malgré le mode multiple`);
+            else if (mouthCount === 1) addCourseReason(courseId, `Une seule embouchure définie mais embouchure multiple déclarée pour « ${label} »`);
+          } else if (mouthCount === 0) {
+            addCourseReason(courseId, `« ${label} » sans embouchure`);
+          } else if (mouthCount > 1) {
+            addCourseReason(courseId, `« ${label} » possède ${mouthCount} embouchures sans mode multiple`);
+          }
+        } else if (policy.type === 'junction') {
+          if (mouthCount) addCourseReason(courseId, `« ${label} » combine embouchure et jonction terminale`);
+          if (junctionCount === 0) addCourseReason(courseId, `« ${label} » sans jonction terminale`);
+          else if (junctionCount > 1) addCourseReason(courseId, `« ${label} » possède ${junctionCount} jonctions terminales`);
+        } else if (policy.type === 'unresolved') {
+          if (mouthCount || junctionCount) addCourseReason(courseId, `« ${label} » est déclaré sans terminaison localisée mais possède une sortie`);
+          if (!String(policy.reason || '').trim()) addCourseReason(courseId, `justification absente pour la terminaison non localisée de « ${label} »`);
+        } else {
+          addCourseReason(courseId, `politique terminale absente pour « ${label} »`);
+        }
+      });
+
+      const junctionTarget = new Map();
+      connections.filter(connection => connection.type === 'junction')
+        .forEach(connection => junctionTarget.set(connection.fromCourseId, connection.toCourseId));
+      junctionTarget.forEach((target, source) => {
+        const visited = new Set([source]);
+        let cursor = target;
+        while (junctionTarget.has(cursor)) {
+          if (visited.has(cursor)) {
+            addCourseReason(source, `cycle de jonctions terminales impliquant « ${source} »`);
+            break;
+          }
+          visited.add(cursor);
+          cursor = junctionTarget.get(cursor);
         }
       });
 
       const outletCounts = new Map();
-      Object.entries(cells).forEach(([key, cell]) => {
-        const ids = new Set(oscarFluvialCurrents(cell).map(current => String(current.riverId || '')));
-        const pairRelations = new Map();
-        oscarFluvialRelations(cell).forEach(relation => {
-          const type = relation.type;
-          const from = String(relation.fromRiverId || relation.riverIds?.[0] || '');
-          const to = String(relation.toRiverId || relation.riverIds?.[1] || '');
-          if (!['separate', 'fork'].includes(type) || !from || !to || from === to || !ids.has(from) || !ids.has(to)) {
-            addReason(key, 'relation fluviale invalide');
-            return;
-          }
-          pairRelations.set(oscarFluvialPairKey(from, to), type);
-        });
-        oscarFluvialOutlets(cell).forEach(outlet => {
-          const riverId = String(outlet.riverId || '');
-          const type = String(outlet.type || '');
-          const targetRiverId = String(outlet.targetRiverId || '');
-          if (!ids.has(riverId) || !['sea', 'junction', 'map-edge'].includes(type)) {
-            addReason(key, 'débouché fluvial invalide');
-            return;
-          }
-          if (type === 'sea' && !oscarNavigationTypes(cell).includes('cotiere')) {
-            addReason(key, `embouchure de « ${riverId} » hors cellule côtière`);
-          }
-          if (type === 'junction') {
-            if (!targetRiverId || targetRiverId === riverId || !ids.has(targetRiverId)) {
-              addReason(key, `jonction invalide pour « ${riverId} »`);
-            } else {
-              pairRelations.set(oscarFluvialPairKey(riverId, targetRiverId), 'junction');
-            }
-          }
-          outletCounts.set(riverId, (outletCounts.get(riverId) || 0) + 1);
-        });
-        oscarFluvialCurrentPairs(cell).forEach(([first, second]) => {
-          if (!pairRelations.has(oscarFluvialPairKey(first, second))) {
-            addReason(key, `relation non renseignée : « ${first} » / « ${second} »`);
-          }
-        });
+      occurrences.forEach((keys, courseId) => {
+        outletCounts.set(courseId,
+          (mouthsByCourse.get(courseId) || []).length + (junctionsByCourse.get(courseId) || []).length);
       });
-
-      occurrences.forEach((keys, riverId) => {
-        const count = outletCounts.get(riverId) || 0;
-        if (count === 0) keys.forEach(key => addReason(key, `« ${riverId} » sans débouché`));
-        else if (count > 1) keys.forEach(key => addReason(key, `« ${riverId} » possède ${count} débouchés`));
-      });
-      return { invalidCellReasons, disconnectedRiverIds, outletCounts };
+      return {
+        invalidCellReasons,
+        warningCellReasons,
+        disconnectedRiverIds,
+        outletCounts,
+        mouthsByCourse,
+        junctionsByCourse,
+      };
     }
 
     function oscarFluvialStatusFilterMatches(key, cell, diagnostics) {
@@ -272,9 +508,9 @@
     }
 
     function getOscarGrid() {
-      if (customOscarGrid?.cells) return customOscarGrid;
-      if (typeof OSCAR_HEX_GRID !== 'undefined' && OSCAR_HEX_GRID?.cells) return OSCAR_HEX_GRID;
-      if (window.OSCAR_HEX_GRID?.cells) return window.OSCAR_HEX_GRID;
+      if (customOscarGrid?.cells) return ensureOscarFluvialSchemaV2(customOscarGrid);
+      if (typeof OSCAR_HEX_GRID !== 'undefined' && OSCAR_HEX_GRID?.cells) return ensureOscarFluvialSchemaV2(OSCAR_HEX_GRID);
+      if (window.OSCAR_HEX_GRID?.cells) return ensureOscarFluvialSchemaV2(window.OSCAR_HEX_GRID);
       throw new Error('OSCAR_HEX_GRID indisponible : ../js/oscar-hex-grid.js doit être chargé avant Zone Editor.');
     }
 
@@ -440,7 +676,8 @@
 
     function inferOscarCellDomain(key) {
       const grid = getOscarGrid();
-      if (!grid?.cells) return oscarGridDomainFilter || 'manual';
+      const filteredDomain = oscarGridDomainFilter === OSCAR_DOMAIN_UNASSIGNED ? '' : oscarGridDomainFilter;
+      if (!grid?.cells) return filteredDomain || 'manual';
       const counts = new Map();
       oscarNeighborKeys(key).forEach(neighborKey => {
         const domain = grid.cells[neighborKey]?.domain;
@@ -448,7 +685,7 @@
         counts.set(domain, (counts.get(domain) || 0) + 1);
       });
       if (counts.size) return [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
-      return oscarGridDomainFilter || 'manual';
+      return filteredDomain || 'manual';
     }
 
     function oscarKeyParts(key) {
@@ -691,15 +928,184 @@
       if (!grid) return [];
       const diagnostics = buildOscarFluvialDiagnostics();
       return Object.entries(grid.cells)
-        .filter(([, cell]) => !oscarGridDomainFilter || cell.domain === oscarGridDomainFilter)
+        .filter(([, cell]) => !oscarGridDomainFilter
+          || (oscarGridDomainFilter === OSCAR_DOMAIN_UNASSIGNED ? !cell.domain : cell.domain === oscarGridDomainFilter))
         .filter(([, cell]) => oscarNatureFilterMatches(cell))
         .filter(([, cell]) => oscarCurrentFilterMatches(cell))
         .filter(([key, cell]) => oscarFluvialStatusFilterMatches(key, cell, diagnostics));
     }
 
+    function oscarFluvialWatercourseCatalog() {
+      const groups = new Map();
+      Object.entries(oscarFluvialCourses()).forEach(([courseId, course]) => {
+        const watercourseId = String(course.watercourseId || courseId);
+        if (!groups.has(watercourseId)) {
+          groups.set(watercourseId, {
+            watercourseId,
+            riverId: String(course.riverId || courseId),
+            courseIds: [],
+          });
+        }
+        groups.get(watercourseId).courseIds.push(courseId);
+      });
+      return [...groups.values()].sort((first, second) => (
+        first.riverId.localeCompare(second.riverId, 'fr')
+        || first.watercourseId.localeCompare(second.watercourseId, 'fr')
+      ));
+    }
+
+    function populateOscarFluvialInspectorSelect() {
+      const select = document.getElementById('oscar-fluvial-inspector-watercourse');
+      if (!select) return;
+      const catalog = oscarFluvialWatercourseCatalog();
+      if (oscarInspectorWatercourseId
+        && !catalog.some(entry => entry.watercourseId === oscarInspectorWatercourseId)) {
+        oscarInspectorWatercourseId = '';
+      }
+      select.innerHTML = '<option value="">Tous les cours / aucun cours ciblé</option>'
+        + catalog.map(entry => {
+          const suffix = entry.courseIds.length > 1 ? ` — ${entry.courseIds.length} tracés` : '';
+          return `<option value="${escapeAttr(entry.watercourseId)}">${escapeHtmlText(`${entry.riverId}${suffix} [${entry.watercourseId}]`)}</option>`;
+        }).join('');
+      select.value = oscarInspectorWatercourseId;
+    }
+
+    function oscarFluvialInspectorData() {
+      const grid = getOscarGrid();
+      const catalogEntry = oscarFluvialWatercourseCatalog()
+        .find(entry => entry.watercourseId === oscarInspectorWatercourseId) || null;
+      const riverCourseIds = new Set(catalogEntry?.courseIds || []);
+      const cells = new Map();
+      const keysByType = {
+        river: new Set(),
+        junction: new Set(),
+        fork: new Set(),
+      };
+      const connectionCounts = { junction: 0, fork: 0 };
+      const flag = (cellKey, type) => {
+        if (!grid.cells[cellKey]) return;
+        if (!cells.has(cellKey)) cells.set(cellKey, new Set());
+        cells.get(cellKey).add(type);
+        keysByType[type].add(cellKey);
+      };
+      if (riverCourseIds.size) {
+        Object.entries(grid.cells).forEach(([cellKey, cell]) => {
+          if (oscarFluvialCurrents(cell)
+            .some(current => riverCourseIds.has(oscarFluvialCourseId(current)))) {
+            flag(cellKey, 'river');
+          }
+        });
+      }
+      oscarFluvialConnections(grid).forEach(connection => {
+        if (!oscarInspectorConnectionTypes.has(connection.type)) return;
+        if (oscarInspectorOverlapOnly && connection.fromCellKey !== connection.toCellKey) return;
+        if (riverCourseIds.size
+          && !riverCourseIds.has(connection.fromCourseId)
+          && !riverCourseIds.has(connection.toCourseId)) return;
+        connectionCounts[connection.type]++;
+        flag(connection.fromCellKey, connection.type);
+        flag(connection.toCellKey, connection.type);
+      });
+      return {
+        catalogEntry,
+        cells,
+        keysByType,
+        connectionCounts,
+        highlightedKeys: [...cells.keys()],
+      };
+    }
+
+    function oscarInspectorWeight(type) {
+      const zoom = Number(map?.getZoom()) || 0;
+      const base = type === 'river' ? 2.8 : 2.2;
+      return Math.max(base, Math.min(type === 'river' ? 6.5 : 5.2, base + (zoom + 2) * 0.58));
+    }
+
+    function updateOscarFluvialInspectorSummary(data = oscarFluvialInspectorData()) {
+      const summary = document.getElementById('oscar-fluvial-inspector-summary');
+      if (!summary) return;
+      const parts = [];
+      const countLabel = (count, singular, plural) => `${count} ${count === 1 ? singular : plural}`;
+      if (data.catalogEntry) {
+        parts.push(`${data.catalogEntry.riverId} : ${countLabel(data.keysByType.river.size, 'cellule', 'cellules')}`);
+      }
+      if (oscarInspectorConnectionTypes.has('junction')) {
+        parts.push(`${countLabel(data.connectionCounts.junction, 'confluence', 'confluences')}, ${countLabel(data.keysByType.junction.size, 'cellule', 'cellules')}`);
+      }
+      if (oscarInspectorConnectionTypes.has('fork')) {
+        parts.push(`${countLabel(data.connectionCounts.fork, 'bifurcation', 'bifurcations')}, ${countLabel(data.keysByType.fork.size, 'cellule', 'cellules')}`);
+      }
+      const scope = oscarInspectorConnectionTypes.size
+        ? (oscarInspectorOverlapOnly ? 'chevauchements uniquement' : 'même cellule et cellules voisines')
+        : '';
+      summary.innerHTML = parts.length
+        ? `<span>Inspecteur :</span> ${escapeHtmlText(parts.join(' — '))}${scope ? ` — ${escapeHtmlText(scope)}` : ''}`
+        : '<span>Inspecteur :</span> aucun critère actif';
+    }
+
+    function renderOscarFluvialInspectorLayer() {
+      if (oscarInspectorLayer) {
+        map.removeLayer(oscarInspectorLayer);
+        oscarInspectorLayer = null;
+      }
+      const data = oscarFluvialInspectorData();
+      updateOscarFluvialInspectorSummary(data);
+      if (!data.cells.size || !map || !ctx.isOcean || !oscarGridVisible) return;
+      const grid = getOscarGrid();
+      oscarInspectorLayer = L.layerGroup([], { pane: 'oscarInspectorPane' }).addTo(map);
+      data.cells.forEach((types, cellKey) => {
+        const cell = grid.cells[cellKey];
+        const addShape = (type, scale, color, fillColor) => {
+          const shape = L.polygon(oscarCellLatLngsFromKey(cellKey, cell, scale), {
+            pane: 'oscarInspectorPane',
+            className: `oscar-grid-inspector oscar-grid-inspector--${type}`,
+            color,
+            weight: oscarInspectorWeight(type),
+            opacity: 0.98,
+            fill: type === 'river',
+            fillColor,
+            fillOpacity: type === 'river' ? 0.22 : 0,
+            dashArray: type === 'river' ? null : '5 3',
+            interactive: false,
+          });
+          shape._oscarInspectorType = type;
+          shape.addTo(oscarInspectorLayer);
+        };
+        if (types.has('river')) addShape('river', 0.96, '#22d3ee', '#0891b2');
+        if (types.has('junction')) addShape('junction', types.has('river') ? 0.72 : 0.82, '#e879f9', '#e879f9');
+        if (types.has('fork')) addShape('fork', types.has('junction') ? 0.48 : 0.64, '#fb923c', '#fb923c');
+      });
+    }
+
+    function fitOscarFluvialInspectorHighlights() {
+      const data = oscarFluvialInspectorData();
+      if (!data.highlightedKeys.length) return;
+      const grid = getOscarGrid();
+      const points = data.highlightedKeys.flatMap(cellKey => (
+        oscarCellLatLngsFromKey(cellKey, grid.cells[cellKey])
+      ));
+      if (points.length) map.fitBounds(L.latLngBounds(points), { padding: [35, 35], maxZoom: 2 });
+    }
+
+    function clearOscarFluvialInspector() {
+      oscarInspectorWatercourseId = '';
+      oscarInspectorConnectionTypes.clear();
+      oscarInspectorOverlapOnly = true;
+      const watercourse = document.getElementById('oscar-fluvial-inspector-watercourse');
+      const junction = document.getElementById('oscar-fluvial-inspector-junction');
+      const fork = document.getElementById('oscar-fluvial-inspector-fork');
+      const overlap = document.getElementById('oscar-fluvial-inspector-overlap');
+      if (watercourse) watercourse.value = '';
+      if (junction) junction.checked = false;
+      if (fork) fork.checked = false;
+      if (overlap) overlap.checked = true;
+      refresh(R.OSCAR_INSPECTOR | R.SEA_PANEL);
+    }
+
     function clearOscarGridLayer() {
       if (oscarGridLayer) { map.removeLayer(oscarGridLayer); oscarGridLayer = null; }
       if (oscarArrowLayer) { map.removeLayer(oscarArrowLayer); oscarArrowLayer = null; }
+      if (oscarInspectorLayer) { map.removeLayer(oscarInspectorLayer); oscarInspectorLayer = null; }
     }
 
     function oscarArrowSvgPath(point, angleDeg, size, className = '') {
@@ -760,68 +1166,88 @@
 
     function renderOscarGridLayer() {
       clearOscarGridLayer();
-      if (!map || !(ctx.isSemaphore || ctx.isOcean) || !oscarGridVisible) return;
+      if (!map || !(ctx.isSemaphore || ctx.isOcean) || !oscarGridVisible) {
+        updateOscarFluvialInspectorSummary();
+        return;
+      }
       const entries = filteredOscarEntries();
-      if (!entries.length) return;
       const fluvialDiagnostics = buildOscarFluvialDiagnostics();
-      oscarGridLayer = L.layerGroup([], { pane: 'oscarGridPane' }).addTo(map);
-      entries.forEach(([key, cell]) => {
-        const latLngs = oscarCellLatLngsFromKey(key, cell);
-        const mainShape = L.polygon(latLngs, oscarCellStyle(cell));
-        mainShape._oscarCell = cell;
-        mainShape.addTo(oscarGridLayer);
-        if (oscarGridFilters.current.size && hasOscarCoastalCurrent(cell)) {
-          const zoom = Number(map?.getZoom()) || 0;
-          const doubleWeight = Math.max(0.35, Math.min(1.8, 0.4 + (zoom + 2) * 0.22));
-          const doubleShape = L.polygon(oscarCellLatLngsFromKey(key, cell, 0.7), {
-            pane: 'oscarGridPane',
-            className: 'oscar-grid-cell oscar-grid-cell--double-current',
-            color: '#55dff2',
-            weight: doubleWeight,
-            fill: false,
-            interactive: false,
-          });
-          doubleShape._oscarDoubleCurrent = true;
-          doubleShape.addTo(oscarGridLayer);
-        }
-        if (oscarGridFilters.current.size && hasOscarFluvialCurrent(cell)) {
-          const zoom = Number(map?.getZoom()) || 0;
-          const fluvialWeight = Math.max(0.45, Math.min(2.1, 0.5 + (zoom + 2) * 0.24));
-          const fluvialShape = L.polygon(oscarCellLatLngsFromKey(key, cell, 0.55), {
-            pane: 'oscarGridPane',
-            className: 'oscar-grid-cell oscar-grid-cell--fluvial-current',
-            color: fluvialDiagnostics.invalidCellReasons.has(key) ? '#fb7185' : '#34d399',
-            weight: fluvialWeight,
-            fill: false,
-            interactive: false,
-          });
-          fluvialShape._oscarFluvialCurrent = true;
-          fluvialShape.addTo(oscarGridLayer);
-        }
-      });
-      renderOscarArrowLayer(entries);
+      if (entries.length) {
+        oscarGridLayer = L.layerGroup([], { pane: 'oscarGridPane' }).addTo(map);
+        entries.forEach(([key, cell]) => {
+          const latLngs = oscarCellLatLngsFromKey(key, cell);
+          const mainShape = L.polygon(latLngs, oscarCellStyle(cell));
+          mainShape._oscarCell = cell;
+          mainShape.addTo(oscarGridLayer);
+          if (oscarGridFilters.current.size && hasOscarCoastalCurrent(cell)) {
+            const zoom = Number(map?.getZoom()) || 0;
+            const doubleWeight = Math.max(0.35, Math.min(1.8, 0.4 + (zoom + 2) * 0.22));
+            const doubleShape = L.polygon(oscarCellLatLngsFromKey(key, cell, 0.7), {
+              pane: 'oscarGridPane',
+              className: 'oscar-grid-cell oscar-grid-cell--double-current',
+              color: '#55dff2',
+              weight: doubleWeight,
+              fill: false,
+              interactive: false,
+            });
+            doubleShape._oscarDoubleCurrent = true;
+            doubleShape.addTo(oscarGridLayer);
+          }
+          if (oscarGridFilters.current.size && hasOscarFluvialCurrent(cell)) {
+            const zoom = Number(map?.getZoom()) || 0;
+            const fluvialWeight = Math.max(0.45, Math.min(2.1, 0.5 + (zoom + 2) * 0.24));
+            const fluvialShape = L.polygon(oscarCellLatLngsFromKey(key, cell, 0.55), {
+              pane: 'oscarGridPane',
+              className: 'oscar-grid-cell oscar-grid-cell--fluvial-current',
+              color: fluvialDiagnostics.invalidCellReasons.has(key) ? '#fb7185' : '#34d399',
+              weight: fluvialWeight,
+              fill: false,
+              interactive: false,
+            });
+            fluvialShape._oscarFluvialCurrent = true;
+            fluvialShape.addTo(oscarGridLayer);
+          }
+        });
+        renderOscarArrowLayer(entries);
+      }
+      renderOscarFluvialInspectorLayer();
     }
 
     function updateOscarGridZoomStyles() {
-      if (!oscarGridLayer) return;
+      if (!oscarGridLayer && !oscarInspectorLayer) return;
       const zoom = Number(map?.getZoom()) || 0;
       const doubleWeight = Math.max(0.35, Math.min(1.8, 0.4 + (zoom + 2) * 0.22));
       const fluvialWeight = Math.max(0.45, Math.min(2.1, 0.5 + (zoom + 2) * 0.24));
-      oscarGridLayer.eachLayer(layer => {
-        if (layer._oscarDoubleCurrent) layer.setStyle({ weight: doubleWeight });
-        else if (layer._oscarFluvialCurrent) layer.setStyle({ weight: fluvialWeight });
-        else if (layer._oscarCell) layer.setStyle(oscarCellStyle(layer._oscarCell));
-      });
+      if (oscarGridLayer) {
+        oscarGridLayer.eachLayer(layer => {
+          if (layer._oscarDoubleCurrent) layer.setStyle({ weight: doubleWeight });
+          else if (layer._oscarFluvialCurrent) layer.setStyle({ weight: fluvialWeight });
+          else if (layer._oscarCell) layer.setStyle(oscarCellStyle(layer._oscarCell));
+        });
+      }
+      if (oscarInspectorLayer) {
+        oscarInspectorLayer.eachLayer(layer => {
+          if (layer._oscarInspectorType) {
+            layer.setStyle({ weight: oscarInspectorWeight(layer._oscarInspectorType) });
+          }
+        });
+      }
     }
 
     function populateOscarDomainSelect() {
       const select = document.getElementById('oscar-grid-domain');
       if (!select) return;
-      const domains = [...new Set(Object.values(getOscarGrid()?.cells || {}).map(cell => cell.domain).filter(Boolean))].sort();
-      select.innerHTML = '<option value="">Tous</option>' + domains
+      const domains = [...new Set([
+        ...Object.values(getOscarGrid()?.cells || {}).map(cell => cell.domain).filter(Boolean),
+        'fluvial',
+      ])].sort();
+      select.innerHTML = '<option value="">Tous</option>'
+        + `<option value="${OSCAR_DOMAIN_UNASSIGNED}">Non renseigné</option>`
+        + domains
         .map(domain => `<option value="${escapeAttr(domain)}">${escapeHtmlText(OSCAR_DOMAIN_LABELS[domain] || domain)}</option>`)
         .join('');
       select.value = oscarGridDomainFilter;
+      populateOscarFluvialInspectorSelect();
     }
 
     function updateOscarSummary() {
@@ -844,7 +1270,9 @@
       const invalidFluvialCount = entries.filter(([key]) => fluvialDiagnostics.invalidCellReasons.has(key)).length;
       const missingCurrentCount = entries.filter(([, cell]) => oscarCurrentCategory(cell) === 'non-renseigne').length;
       const domainLabel = oscarGridDomainFilter
-        ? (OSCAR_DOMAIN_LABELS[oscarGridDomainFilter] || oscarGridDomainFilter)
+        ? (oscarGridDomainFilter === OSCAR_DOMAIN_UNASSIGNED
+          ? 'Non renseigné'
+          : (OSCAR_DOMAIN_LABELS[oscarGridDomainFilter] || oscarGridDomainFilter))
         : 'tous domaines';
       if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
       el.innerHTML = `<span>OSCAR :</span> ${entries.length} cellules hex - ${escapeHtmlText(domainLabel)} - max ${max.toFixed(2)} nd - manuel ${manualCount} - session ${sessionEditedCount} - doubles ${coastalCount} - fluviaux ${fluvialCount} - fluviaux multiples ${multipleFluvialCount} - topologie invalide ${invalidFluvialCount} - courant principal absent ${missingCurrentCount}`;
@@ -868,6 +1296,7 @@
       const fluvialCurrents = oscarFluvialCurrents(cell);
       const fluvialDiagnostics = buildOscarFluvialDiagnostics();
       const fluvialIssues = fluvialDiagnostics.invalidCellReasons.get(oscarKey) || [];
+      const fluvialWarnings = fluvialDiagnostics.warningCellReasons.get(oscarKey) || [];
       const fluvialDetails = fluvialCurrents.length
         ? fluvialCurrents.map(current => {
           const currentSpeed = oscarCellSpeed(current);
@@ -876,14 +1305,24 @@
         }).join('')
         : '<div class="sea-prop"><span>Courant fluvial :</span> aucun</div>';
       const fluvialTopologyDetails = [
-        ...oscarFluvialOutlets(cell).map(outlet => outlet.type === 'sea'
-          ? `<div class="sea-prop"><span>Débouché :</span> ${escapeHtmlText(outlet.riverId)} → mer</div>`
-          : outlet.type === 'map-edge'
-            ? `<div class="sea-prop"><span>Débouché :</span> ${escapeHtmlText(outlet.riverId)} → hors carte</div>`
-            : `<div class="sea-prop"><span>Jonction :</span> ${escapeHtmlText(outlet.riverId)} → ${escapeHtmlText(outlet.targetRiverId)}</div>`),
-        ...oscarFluvialRelations(cell).map(relation => relation.type === 'separate'
-          ? `<div class="sea-prop"><span>Cours séparés :</span> ${escapeHtmlText(relation.riverIds?.[0])} / ${escapeHtmlText(relation.riverIds?.[1])}</div>`
-          : `<div class="sea-prop"><span>Fourche :</span> ${escapeHtmlText(relation.fromRiverId)} → ${escapeHtmlText(relation.toRiverId)}</div>`),
+        ...oscarFluvialMouths(grid)
+          .filter(mouth => mouth.cellKey === oscarKey)
+          .map(mouth => `<div class="sea-prop"><span>Embouchure :</span> ${escapeHtmlText(oscarFluvialCourseLabel(cell, mouth.courseId))} → mer</div>`),
+        ...oscarFluvialConnections(grid)
+          .filter(connection => connection.fromCellKey === oscarKey || connection.toCellKey === oscarKey)
+          .map(connection => {
+            const fromCell = grid.cells[connection.fromCellKey];
+            const toCell = grid.cells[connection.toCellKey];
+            const from = oscarFluvialCourseLabel(fromCell, connection.fromCourseId);
+            const to = oscarFluvialCourseLabel(toCell, connection.toCourseId);
+            const neighbour = connection.fromCellKey === connection.toCellKey
+              ? ''
+              : ` (${connection.fromCellKey} → ${connection.toCellKey})`;
+            return `<div class="sea-prop"><span>${connection.type === 'junction' ? 'Jonction' : 'Fourche'} :</span> ${escapeHtmlText(from)} → ${escapeHtmlText(to)}${escapeHtmlText(neighbour)}</div>`;
+          }),
+        ...fluvialCurrents
+          .filter(current => oscarFluvialCourses(grid)[oscarFluvialCourseId(current)]?.terminalPolicy?.type === 'unresolved')
+          .map(current => `<div class="sea-prop"><span>Terminaison :</span> ${escapeHtmlText(current.riverId)} — non localisée (exception déclarée)</div>`),
       ].join('');
       const badges = [
         `<span class="ocean-cell-badge${isOscarManualCell(cell) ? ' manual' : ''}">${oscarCellSourceLabel(cell)}</span>`,
@@ -891,6 +1330,7 @@
         hasOscarCoastalCurrent(cell) ? '<span class="ocean-cell-badge coastal">courant double</span>' : '',
         hasOscarFluvialCurrent(cell) ? `<span class="ocean-cell-badge fluvial">${fluvialCurrents.length} ${fluvialCurrents.length > 1 ? 'courants fluviaux' : 'courant fluvial'}</span>` : '',
         fluvialIssues.length ? `<span class="ocean-cell-badge fluvial-invalid">topologie invalide</span>` : '',
+        fluvialWarnings.length ? '<span class="ocean-cell-badge">avertissement</span>' : '',
       ].filter(Boolean).join('');
       const actionHtml = oceanCellEditing
         ? formatOscarCellEditForm(cell)
@@ -909,6 +1349,9 @@
         fluvialIssues.length
           ? `<div class="sea-prop ocean-fluvial-issues"><span>Topologie :</span> ${fluvialIssues.map(escapeHtmlText).join(' ; ')}</div>`
           : (hasOscarFluvialCurrent(cell) ? '<div class="sea-prop"><span>Topologie :</span> valide</div>' : ''),
+        fluvialWarnings.length
+          ? `<div class="sea-prop"><span>Avertissements :</span> ${fluvialWarnings.map(escapeHtmlText).join(' ; ')}</div>`
+          : '',
         `<div class="sea-prop"><span>Données source :</span> max observé ${escapeHtmlText(max)} nd - ${escapeHtmlText(sources)} mesure(s)${escapeHtmlText(sourceCells)}</div>`,
         actionHtml,
         '</div>',
@@ -974,30 +1417,150 @@
     function fluvialCurrentFormState(cell) {
       return oscarFluvialCurrents(cell).map(current => ({
         riverId: String(current.riverId || ''),
+        courseId: oscarFluvialCourseId(current),
         speedKnot: Math.round(oscarCellSpeed(current) * 100) / 100,
         dirToDeg: Math.round(normalizeAngle(Number(current.dirToDeg) || 0) * 10) / 10,
       }));
     }
 
+    function fluvialCourseSelectOptions(selectedCourseId = '') {
+      const entries = Object.entries(oscarFluvialCourses())
+        .sort(([, first], [, second]) => (
+          String(first.riverId || '').localeCompare(String(second.riverId || ''), 'fr')
+          || String(first.branch || '').localeCompare(String(second.branch || ''), 'fr')
+        ));
+      return [
+        `<option value=""${selectedCourseId ? '' : ' selected'}>Créer un nouveau tracé technique</option>`,
+        ...entries.map(([courseId, course]) => {
+          const branch = course.branch ? ` — bras ${course.branch}` : '';
+          const label = `${course.riverId || courseId}${branch} [${courseId}]`;
+          return `<option value="${escapeAttr(courseId)}"${courseId === selectedCourseId ? ' selected' : ''}>${escapeHtmlText(label)}</option>`;
+        }),
+      ].join('');
+    }
+
+    function formatFluvialAdvancedFields(current, enabled) {
+      const courseId = oscarFluvialCourseId(current);
+      const course = oscarFluvialCourses()[courseId] || {};
+      const policy = course.terminalPolicy || { type: 'sea', mouthMode: 'single' };
+      const disabled = enabled ? '' : ' disabled';
+      const technicalReadonly = courseId ? ' readonly' : '';
+      const option = (value, label, selected) => (
+        `<option value="${escapeAttr(value)}"${selected ? ' selected' : ''}>${escapeHtmlText(label)}</option>`
+      );
+      return [
+        '<details class="ocean-fluvial-advanced">',
+        '<summary>Options avancées</summary>',
+        '<div class="ocean-fluvial-advanced-grid">',
+        '<label class="ocean-fluvial-advanced-wide">Rattacher cette cellule à un tracé enregistré',
+        `<select data-fluvial-field="attachmentCourseId" data-initial="${escapeAttr(courseId)}"${disabled}>`,
+        fluvialCourseSelectOptions(courseId),
+        '</select>',
+        '</label>',
+        '<label>Identifiant technique (courseId)',
+        `<input type="text" data-fluvial-field="courseId" data-initial="${escapeAttr(courseId)}" value="${escapeAttr(courseId)}" placeholder="Automatique si vide"${technicalReadonly}${disabled}>`,
+        '</label>',
+        '<label>Groupe hydrologique (watercourseId)',
+        `<input type="text" data-fluvial-field="watercourseId" data-initial="${escapeAttr(course.watercourseId || '')}" value="${escapeAttr(course.watercourseId || '')}" placeholder="Automatique si vide"${disabled}>`,
+        '</label>',
+        '<label>Code du bras',
+        `<input type="text" data-fluvial-field="branch" data-initial="${escapeAttr(course.branch || '')}" value="${escapeAttr(course.branch || '')}" placeholder="Ex. main"${disabled}>`,
+        '</label>',
+        '<label>Source du vecteur',
+        `<input type="text" data-fluvial-field="source" data-initial="${escapeAttr(current?.source || 'manual')}" value="${escapeAttr(current?.source || 'manual')}"${disabled}>`,
+        '</label>',
+        '<label>Politique terminale',
+        `<select data-fluvial-field="terminalType" data-initial="${escapeAttr(policy.type || 'sea')}"${disabled}>`,
+        option('sea', 'Embouchure maritime', policy.type === 'sea'),
+        option('junction', 'Jonction dans un autre cours', policy.type === 'junction'),
+        option('unresolved', 'Terminaison non localisée', policy.type === 'unresolved'),
+        '</select>',
+        '</label>',
+        '<label>Mode d’embouchure',
+        `<select data-fluvial-field="mouthMode" data-initial="${escapeAttr(policy.mouthMode || 'single')}"${policy.type === 'sea' && enabled ? '' : ' disabled'}>`,
+        option('single', 'Simple', policy.mouthMode !== 'multiple'),
+        option('multiple', 'Multiple', policy.mouthMode === 'multiple'),
+        '</select>',
+        '</label>',
+        '<label class="ocean-fluvial-advanced-wide">Justification de la terminaison non localisée',
+        `<input type="text" data-fluvial-field="terminalReason" data-initial="${escapeAttr(policy.reason || '')}" value="${escapeAttr(policy.reason || '')}" placeholder="Obligatoire pour une exception"${policy.type === 'unresolved' && enabled ? '' : ' disabled'}>`,
+        '</label>',
+        '<div class="sea-prop ocean-fluvial-advanced-hint"><span>Rattachement :</span> choisir un tracé existant ne modifie que ce vecteur dans la sélection. L’identifiant technique d’un tracé enregistré reste stable ; il est libre uniquement lors de la création.</div>',
+        '</div>',
+        '</details>',
+      ].join('');
+    }
+
+    function updateFluvialTerminalFields(row) {
+      const enabled = row?.querySelector('[data-fluvial-field="enabled"]')?.checked === true;
+      const terminalType = row?.querySelector('[data-fluvial-field="terminalType"]')?.value || 'sea';
+      const mouthMode = row?.querySelector('[data-fluvial-field="mouthMode"]');
+      const reason = row?.querySelector('[data-fluvial-field="terminalReason"]');
+      if (mouthMode) mouthMode.disabled = !enabled || terminalType !== 'sea';
+      if (reason) reason.disabled = !enabled || terminalType !== 'unresolved';
+    }
+
+    function updateFluvialAdvancedCourseSelection(row) {
+      if (!row) return;
+      const selectedCourseId = row.querySelector('[data-fluvial-field="attachmentCourseId"]')?.value || '';
+      const course = oscarFluvialCourses()[selectedCourseId] || null;
+      const courseIdField = row.querySelector('[data-fluvial-field="courseId"]');
+      const riverIdField = row.querySelector('[data-fluvial-field="riverId"]');
+      const watercourseField = row.querySelector('[data-fluvial-field="watercourseId"]');
+      const branchField = row.querySelector('[data-fluvial-field="branch"]');
+      const terminalField = row.querySelector('[data-fluvial-field="terminalType"]');
+      const mouthModeField = row.querySelector('[data-fluvial-field="mouthMode"]');
+      const reasonField = row.querySelector('[data-fluvial-field="terminalReason"]');
+      const multipleMouthField = row.querySelector('[data-fluvial-field="multipleMouth"]');
+      if (course) {
+        if (courseIdField) {
+          courseIdField.value = selectedCourseId;
+          courseIdField.readOnly = true;
+        }
+        if (riverIdField) riverIdField.value = course.riverId || '';
+        if (watercourseField) watercourseField.value = course.watercourseId || '';
+        if (branchField) branchField.value = course.branch || '';
+        if (terminalField) terminalField.value = course.terminalPolicy?.type || 'sea';
+        if (mouthModeField) mouthModeField.value = course.terminalPolicy?.mouthMode || 'single';
+        if (reasonField) reasonField.value = course.terminalPolicy?.reason || '';
+        if (multipleMouthField) {
+          const multiple = course.terminalPolicy?.type === 'sea'
+            && course.terminalPolicy?.mouthMode === 'multiple';
+          multipleMouthField.checked = multiple;
+          multipleMouthField.dataset.initial = String(multiple);
+        }
+      } else if (courseIdField) {
+        courseIdField.readOnly = false;
+        if (row.dataset.originalCourseId) courseIdField.value = '';
+      }
+      updateFluvialTerminalFields(row);
+    }
+
     function formatFluvialCurrentRows(cell) {
+      const grid = getOscarGrid();
       const currents = oscarFluvialCurrents(cell);
-      const terminalOutletTypes = new Map(oscarFluvialOutlets(cell)
-        .filter(outlet => outlet.type === 'sea' || outlet.type === 'map-edge')
-        .map(outlet => [outlet.riverId, outlet.type]));
+      const cellKey = oceanTargetKeys().length === 1 ? oceanTargetKeys()[0] : null;
+      const mouthCourseIds = new Set(oscarFluvialMouths(grid)
+        .filter(mouth => mouth.cellKey === cellKey)
+        .map(mouth => mouth.courseId));
       const rows = [...currents, null].map((current, index) => {
         const enabled = !!current;
+        const courseId = oscarFluvialCourseId(current);
+        const policy = oscarFluvialCourses(grid)[courseId]?.terminalPolicy || null;
+        const isMouth = mouthCourseIds.has(courseId);
+        const multipleMouth = policy?.type === 'sea' && policy?.mouthMode === 'multiple';
         const speed = enabled ? oscarCellSpeed(current) : 0.8;
         const direction = enabled && Number.isFinite(Number(current.dirToDeg))
           ? normalizeAngle(Number(current.dirToDeg))
           : 0;
         return [
-          `<div class="ocean-fluvial-current" data-fluvial-index="${index}" data-original-river-id="${escapeAttr(current?.riverId || '')}">`,
+          `<div class="ocean-fluvial-current" data-fluvial-index="${index}" data-original-course-id="${escapeAttr(oscarFluvialCourseId(current))}">`,
           '<label class="ocean-cell-toggle ocean-fluvial-enable">',
           `<input type="checkbox" data-fluvial-field="enabled" data-initial="${enabled}"${enabled ? ' checked' : ''}>`,
           enabled ? `Tracé ${index + 1}` : 'Ajouter un tracé fluvial',
           '</label>',
           '<label>Identifiant du fleuve',
-          `<input type="text" data-fluvial-field="riverId" data-initial="${escapeAttr(current?.riverId || '')}" value="${escapeAttr(current?.riverId || '')}" placeholder="Ex. F-95_143-A"${enabled ? '' : ' disabled'}>`,
+          `<input type="text" data-fluvial-field="riverId" data-initial="${escapeAttr(current?.riverId || '')}" value="${escapeAttr(current?.riverId || '')}" placeholder="Ex. Río Orénoque"${enabled ? '' : ' disabled'}>`,
           '</label>',
           '<label>Vitesse fluviale (nd)',
           `<input type="number" min="0" step="0.01" data-fluvial-field="speed" data-initial="${escapeAttr(speed.toFixed(2))}" value="${escapeAttr(speed.toFixed(2))}"${enabled ? '' : ' disabled'}>`,
@@ -1005,15 +1568,20 @@
           '<label>Direction fluviale (°)',
           `<input type="number" min="0" max="359.9" step="0.1" data-fluvial-field="direction" data-initial="${escapeAttr(direction.toFixed(1))}" value="${escapeAttr(direction.toFixed(1))}"${enabled ? '' : ' disabled'}>`,
           '</label>',
+          formatFluvialAdvancedFields(current, enabled),
           oceanTargetKeys().length === 1 ? [
-            '<label class="ocean-fluvial-outlet">',
-            '<span>Fin du cours dans cette cellule</span>',
-            `<select data-fluvial-field="terminalOutlet" data-initial="${escapeAttr(terminalOutletTypes.get(current?.riverId) || '')}"${enabled ? '' : ' disabled'}>`,
-            `<option value=""${!terminalOutletTypes.get(current?.riverId) ? ' selected' : ''}>Aucune fin déclarée</option>`,
-            `<option value="sea"${terminalOutletTypes.get(current?.riverId) === 'sea' ? ' selected' : ''}>Embouchure en mer</option>`,
-            `<option value="map-edge"${terminalOutletTypes.get(current?.riverId) === 'map-edge' ? ' selected' : ''}>Sortie hors des limites de la carte</option>`,
-            '</select>',
-            '</label>',
+            policy?.type === 'unresolved'
+              ? '<div class="sea-prop ocean-fluvial-topology-hint"><span>Terminaison :</span> non localisée (exception déclarée)</div>'
+              : [
+                '<label class="ocean-cell-toggle ocean-fluvial-outlet">',
+                `<input type="checkbox" data-fluvial-field="mouth" data-initial="${isMouth}"${isMouth ? ' checked' : ''}${enabled ? '' : ' disabled'}>`,
+                'Embouchure dans cette cellule',
+                '</label>',
+                '<label class="ocean-cell-toggle ocean-fluvial-outlet">',
+                `<input type="checkbox" data-fluvial-field="multipleMouth" data-initial="${multipleMouth}"${multipleMouth ? ' checked' : ''}${enabled ? '' : ' disabled'}>`,
+                'Embouchure multiple',
+                '</label>',
+              ].join(''),
           ].join('') : '',
           '</div>',
         ].join('');
@@ -1026,41 +1594,81 @@
       ].join('');
     }
 
-    function fluvialPairRelationValue(cell, firstRiverId, secondRiverId) {
-      const junction = oscarFluvialOutlets(cell).find(outlet => outlet.type === 'junction'
-        && ((outlet.riverId === firstRiverId && outlet.targetRiverId === secondRiverId)
-          || (outlet.riverId === secondRiverId && outlet.targetRiverId === firstRiverId)));
-      if (junction) return `junction:${junction.riverId}>${junction.targetRiverId}`;
-      const relation = oscarFluvialRelations(cell).find(item => {
-        const from = item.fromRiverId || item.riverIds?.[0];
-        const to = item.toRiverId || item.riverIds?.[1];
-        return oscarFluvialPairKey(from, to) === oscarFluvialPairKey(firstRiverId, secondRiverId);
+    function fluvialTopologyCandidates(cellKey) {
+      const grid = getOscarGrid();
+      const cell = grid.cells[cellKey];
+      const local = oscarFluvialCurrents(cell)
+        .map(current => ({ courseId: oscarFluvialCourseId(current), cellKey }));
+      const candidates = [];
+      for (let firstIdx = 0; firstIdx < local.length; firstIdx++) {
+        for (let secondIdx = firstIdx + 1; secondIdx < local.length; secondIdx++) {
+          if (local[firstIdx].courseId !== local[secondIdx].courseId) {
+            candidates.push({ first: local[firstIdx], second: local[secondIdx] });
+          }
+        }
+      }
+      oscarHexNeighbourKeys(cellKey, cell).forEach(neighbourKey => {
+        oscarFluvialCurrents(grid.cells[neighbourKey]).forEach(current => {
+          const neighbour = { courseId: oscarFluvialCourseId(current), cellKey: neighbourKey };
+          local.forEach(first => {
+            if (first.courseId !== neighbour.courseId) candidates.push({ first, second: neighbour });
+          });
+        });
       });
-      if (!relation) return '';
-      if (relation.type === 'separate') return 'separate';
-      if (relation.type === 'fork') return `fork:${relation.fromRiverId}>${relation.toRiverId}`;
-      return '';
+      const seen = new Set();
+      return candidates.filter(candidate => {
+        const endpoints = [
+          `${candidate.first.cellKey}\u0000${candidate.first.courseId}`,
+          `${candidate.second.cellKey}\u0000${candidate.second.courseId}`,
+        ].sort();
+        const signature = endpoints.join('\u0001');
+        if (seen.has(signature)) return false;
+        seen.add(signature);
+        return true;
+      });
+    }
+
+    function fluvialPairRelationValue(candidate) {
+      const connection = oscarFluvialConnections().find(item => {
+        const direct = item.fromCourseId === candidate.first.courseId
+          && item.fromCellKey === candidate.first.cellKey
+          && item.toCourseId === candidate.second.courseId
+          && item.toCellKey === candidate.second.cellKey;
+        const reverse = item.fromCourseId === candidate.second.courseId
+          && item.fromCellKey === candidate.second.cellKey
+          && item.toCourseId === candidate.first.courseId
+          && item.toCellKey === candidate.first.cellKey;
+        return direct || reverse;
+      });
+      return connection
+        ? `${connection.type}:${connection.fromCourseId}>${connection.toCourseId}`
+        : '';
     }
 
     function formatFluvialTopologyControls(cell) {
       if (oceanTargetKeys().length !== 1) {
         return '<div class="sea-prop ocean-fluvial-topology-hint"><span>Topologie :</span> sélectionner une seule cellule pour renseigner embouchures, fourches et jonctions.</div>';
       }
-      const pairs = oscarFluvialCurrentPairs(cell);
-      if (!pairs.length) return '';
-      const rows = pairs.map(([first, second], index) => {
-        const value = fluvialPairRelationValue(cell, first, second);
+      const cellKey = oceanTargetKeys()[0];
+      const grid = getOscarGrid();
+      const candidates = fluvialTopologyCandidates(cellKey);
+      if (!candidates.length) return '';
+      const rows = candidates.map((candidate, index) => {
+        const { first, second } = candidate;
+        const value = fluvialPairRelationValue(candidate);
+        const firstLabel = oscarFluvialCourseLabel(grid.cells[first.cellKey], first.courseId);
+        const secondLabel = oscarFluvialCourseLabel(grid.cells[second.cellKey], second.courseId);
+        const neighbourSuffix = first.cellKey === second.cellKey ? '' : ` — cellule voisine ${second.cellKey}`;
         const option = (optionValue, label) => `<option value="${escapeAttr(optionValue)}"${value === optionValue ? ' selected' : ''}>${escapeHtmlText(label)}</option>`;
         return [
-          `<label class="ocean-fluvial-relation" data-fluvial-pair-index="${index}" data-first-river-id="${escapeAttr(first)}" data-second-river-id="${escapeAttr(second)}">`,
-          `<span>${escapeHtmlText(first)} / ${escapeHtmlText(second)}</span>`,
+          `<label class="ocean-fluvial-relation" data-fluvial-pair-index="${index}" data-first-course-id="${escapeAttr(first.courseId)}" data-first-cell-key="${escapeAttr(first.cellKey)}" data-second-course-id="${escapeAttr(second.courseId)}" data-second-cell-key="${escapeAttr(second.cellKey)}">`,
+          `<span>${escapeHtmlText(firstLabel)} / ${escapeHtmlText(secondLabel + neighbourSuffix)}</span>`,
           `<select data-fluvial-relation data-initial="${escapeAttr(value)}">`,
-          option('', 'Relation non renseignée'),
-          option('separate', 'Cours strictement séparés'),
-          option(`fork:${first}>${second}`, `Fourche : ${first} → ${second}`),
-          option(`fork:${second}>${first}`, `Fourche : ${second} → ${first}`),
-          option(`junction:${first}>${second}`, `Jonction : ${first} se termine dans ${second}`),
-          option(`junction:${second}>${first}`, `Jonction : ${second} se termine dans ${first}`),
+          option('', 'Aucune connexion'),
+          option(`fork:${first.courseId}>${second.courseId}`, `Fourche : ${firstLabel} → ${secondLabel}`),
+          option(`fork:${second.courseId}>${first.courseId}`, `Fourche : ${secondLabel} → ${firstLabel}`),
+          option(`junction:${first.courseId}>${second.courseId}`, `Jonction : ${firstLabel} se termine dans ${secondLabel}`),
+          option(`junction:${second.courseId}>${first.courseId}`, `Jonction : ${secondLabel} se termine dans ${firstLabel}`),
           '</select>',
           '</label>',
         ].join('');
@@ -1078,6 +1686,7 @@
       const domainOptions = [...new Set([
         ...Object.values(getOscarGrid()?.cells || {}).map(item => item.domain).filter(Boolean),
         'bariana',
+        'fluvial',
       ])].sort();
       const mainSpeed = oscarCellSpeed(cell);
       const navigationValue = oscarNavigationValue(cell);
@@ -1618,18 +2227,29 @@
 
       const fluvialRows = [...document.querySelectorAll('.ocean-fluvial-current')];
       const fluvialOperations = [];
-      const fluvialSeaOutletEdits = [];
+      const fluvialRegistryEdits = [];
+      const fluvialMouthEdits = [];
+      const fluvialMouthModeEdits = [];
       for (const row of fluvialRows) {
         const enabledInput = row.querySelector('[data-fluvial-field="enabled"]');
         const enabled = enabledInput?.checked === true;
         const initiallyEnabled = enabledInput?.dataset.initial === 'true';
-        const originalRiverId = String(row.dataset.originalRiverId || '');
+        const originalCourseId = String(row.dataset.originalCourseId || '');
         const riverIdInput = row.querySelector('[data-fluvial-field="riverId"]');
         const speedField = row.querySelector('[data-fluvial-field="speed"]');
         const directionField = row.querySelector('[data-fluvial-field="direction"]');
-        const terminalOutletField = row.querySelector('[data-fluvial-field="terminalOutlet"]');
+        const attachmentField = row.querySelector('[data-fluvial-field="attachmentCourseId"]');
+        const technicalCourseIdField = row.querySelector('[data-fluvial-field="courseId"]');
+        const watercourseIdField = row.querySelector('[data-fluvial-field="watercourseId"]');
+        const branchField = row.querySelector('[data-fluvial-field="branch"]');
+        const sourceField = row.querySelector('[data-fluvial-field="source"]');
+        const terminalTypeField = row.querySelector('[data-fluvial-field="terminalType"]');
+        const mouthModeField = row.querySelector('[data-fluvial-field="mouthMode"]');
+        const terminalReasonField = row.querySelector('[data-fluvial-field="terminalReason"]');
+        const mouthField = row.querySelector('[data-fluvial-field="mouth"]');
+        const multipleMouthField = row.querySelector('[data-fluvial-field="multipleMouth"]');
         if (initiallyEnabled && !enabled) {
-          fluvialOperations.push({ type: 'remove', originalRiverId });
+          fluvialOperations.push({ type: 'remove', originalCourseId });
           continue;
         }
         if (!enabled) continue;
@@ -1651,23 +2271,89 @@
           directionField?.focus();
           return;
         }
-        if (terminalOutletField && terminalOutletField.value !== terminalOutletField.dataset.initial) {
-          fluvialSeaOutletEdits.push({ originalRiverId, riverId, type: terminalOutletField.value });
+        const attachedCourseId = String(attachmentField?.value || '').trim();
+        const requestedCourseId = String(technicalCourseIdField?.value || '').trim();
+        const effectiveCourseId = attachedCourseId
+          || requestedCourseId
+          || nextOscarFluvialCourseId(riverId);
+        const registeredCourse = oscarFluvialCourses()[effectiveCourseId] || null;
+        if (attachedCourseId && !registeredCourse) {
+          alert(`Le tracé technique « ${attachedCourseId} » n’existe plus dans le registre.`);
+          attachmentField?.focus();
+          return;
+        }
+        const terminalType = terminalTypeField?.value || registeredCourse?.terminalPolicy?.type || 'sea';
+        const mouthMode = mouthModeField?.value || registeredCourse?.terminalPolicy?.mouthMode || 'single';
+        const terminalReason = String(terminalReasonField?.value || '').trim();
+        if (!['sea', 'junction', 'unresolved'].includes(terminalType)) {
+          alert('La politique terminale sélectionnée est inconnue.');
+          terminalTypeField?.focus();
+          return;
+        }
+        if (terminalType === 'unresolved' && !terminalReason) {
+          alert('Une terminaison non localisée doit être justifiée.');
+          terminalReasonField?.focus();
+          return;
+        }
+        const registry = {
+          watercourseId: String(watercourseIdField?.value || '').trim() || effectiveCourseId,
+          riverId,
+          branch: String(branchField?.value || '').trim() || null,
+          terminalPolicy: terminalType === 'sea'
+            ? { type: 'sea', mouthMode: mouthMode === 'multiple' ? 'multiple' : 'single' }
+            : terminalType === 'junction'
+              ? { type: 'junction' }
+              : { type: 'unresolved', reason: terminalReason },
+        };
+        const source = String(sourceField?.value || '').trim() || 'manual';
+        if (registeredCourse) {
+          const comparableRegistered = JSON.stringify({
+            watercourseId: registeredCourse.watercourseId,
+            riverId: registeredCourse.riverId,
+            branch: registeredCourse.branch || null,
+            terminalPolicy: registeredCourse.terminalPolicy,
+          });
+          if (JSON.stringify(registry) !== comparableRegistered) {
+            fluvialRegistryEdits.push({
+              courseId: effectiveCourseId,
+              registry,
+              renameWatercourse: registry.riverId !== registeredCourse.riverId,
+            });
+          }
+        }
+        if (mouthField && String(mouthField.checked) !== mouthField.dataset.initial) {
+          fluvialMouthEdits.push({ courseId: effectiveCourseId, checked: mouthField.checked });
+        }
+        if (multipleMouthField && String(multipleMouthField.checked) !== multipleMouthField.dataset.initial) {
+          fluvialMouthModeEdits.push({ courseId: effectiveCourseId, multiple: multipleMouthField.checked });
         }
         if (!initiallyEnabled) {
-          fluvialOperations.push({ type: 'add', riverId, speedKnot, dirToDeg });
+          fluvialOperations.push({
+            type: 'add',
+            riverId,
+            courseId: effectiveCourseId,
+            speedKnot,
+            dirToDeg,
+            source,
+            registry,
+          });
           continue;
         }
+        const courseReassigned = effectiveCourseId !== originalCourseId;
         const riverIdTouched = riverId !== riverIdInput.dataset.initial;
         const speedTouched = Number(speedField.value) !== Number(speedField.dataset.initial);
         const directionTouched = Number(directionField.value) !== Number(directionField.dataset.initial);
-        if (riverIdTouched || speedTouched || directionTouched) {
+        const sourceTouched = source !== sourceField?.dataset.initial;
+        if (courseReassigned || riverIdTouched || speedTouched || directionTouched || sourceTouched) {
           fluvialOperations.push({
-            type: 'update',
-            originalRiverId,
-            riverId: riverIdTouched ? riverId : null,
+            type: courseReassigned ? 'reassign' : 'update',
+            originalCourseId,
+            courseId: effectiveCourseId,
+            riverId,
             speedKnot: speedTouched ? speedKnot : null,
             dirToDeg: directionTouched ? dirToDeg : null,
+            source,
+            registry,
           });
         }
       }
@@ -1677,8 +2363,10 @@
         .map(select => {
           const row = select.closest('.ocean-fluvial-relation');
           return {
-            firstRiverId: String(row?.dataset.firstRiverId || ''),
-            secondRiverId: String(row?.dataset.secondRiverId || ''),
+            firstCourseId: String(row?.dataset.firstCourseId || ''),
+            firstCellKey: String(row?.dataset.firstCellKey || ''),
+            secondCourseId: String(row?.dataset.secondCourseId || ''),
+            secondCellKey: String(row?.dataset.secondCellKey || ''),
             value: select.value,
           };
         });
@@ -1687,18 +2375,19 @@
         let currents = oscarFluvialCurrents(cell).map(current => ({ ...current }));
         fluvialOperations.forEach(operation => {
           if (operation.type === 'remove') {
-            currents = currents.filter(current => current.riverId !== operation.originalRiverId);
+            currents = currents.filter(current => oscarFluvialCourseId(current) !== operation.originalCourseId);
             return;
           }
           if (operation.type === 'add') {
             currents.push({
               riverId: operation.riverId,
+              courseId: operation.courseId,
               ...oscarVectorFromSpeedDir(operation.speedKnot, operation.dirToDeg),
-              source: 'manual',
+              source: operation.source,
             });
             return;
           }
-          const index = currents.findIndex(current => current.riverId === operation.originalRiverId);
+          const index = currents.findIndex(current => oscarFluvialCourseId(current) === operation.originalCourseId);
           if (index < 0) return;
           const current = currents[index];
           const currentSpeed = oscarCellSpeed(current);
@@ -1707,9 +2396,11 @@
             : normalizeAngle(Math.atan2(Number(current.yKnot) || 0, Number(current.xKnot) || 0) * 180 / Math.PI);
           const updated = {
             ...current,
-            riverId: operation.riverId || current.riverId,
-            source: 'manual',
+            riverId: operation.riverId,
+            courseId: operation.type === 'reassign' ? operation.courseId : oscarFluvialCourseId(current),
+            source: operation.source,
           };
+          delete updated.mouthCellKey;
           if (operation.speedKnot !== null || operation.dirToDeg !== null) {
             Object.assign(updated, oscarVectorFromSpeedDir(
               operation.speedKnot !== null ? operation.speedKnot : currentSpeed,
@@ -1721,68 +2412,130 @@
         return currents;
       };
 
-      const applyFluvialTopology = (cell, resultingCurrents) => {
-        const renameMap = new Map();
-        const removed = new Set();
+      const applyFluvialTopology = () => {
+        const grid = getOscarGrid();
+        const selectedCellKey = oceanTargetKeys()[0] || null;
+        const courses = oscarFluvialCourses(grid);
+
         fluvialOperations.forEach(operation => {
-          if (operation.type === 'remove') removed.add(operation.originalRiverId);
-          else if (operation.type === 'update' && operation.riverId) renameMap.set(operation.originalRiverId, operation.riverId);
-        });
-        const renamed = riverId => renameMap.get(riverId) || riverId;
-        const resultingIds = new Set(resultingCurrents.map(current => current.riverId));
-        let outlets = oscarFluvialOutlets(cell).map(outlet => ({
-          ...outlet,
-          riverId: renamed(outlet.riverId),
-          ...(outlet.targetRiverId ? { targetRiverId: renamed(outlet.targetRiverId) } : {}),
-        })).filter(outlet => !removed.has(outlet.riverId)
-          && resultingIds.has(outlet.riverId)
-          && (outlet.type !== 'junction' || resultingIds.has(outlet.targetRiverId)));
-        let relations = oscarFluvialRelations(cell).map(relation => ({
-          ...relation,
-          ...(relation.fromRiverId ? { fromRiverId: renamed(relation.fromRiverId) } : {}),
-          ...(relation.toRiverId ? { toRiverId: renamed(relation.toRiverId) } : {}),
-          ...(Array.isArray(relation.riverIds) ? { riverIds: relation.riverIds.map(renamed) } : {}),
-        })).filter(relation => {
-          const from = relation.fromRiverId || relation.riverIds?.[0];
-          const to = relation.toRiverId || relation.riverIds?.[1];
-          return resultingIds.has(from) && resultingIds.has(to);
-        });
-        fluvialSeaOutletEdits.forEach(edit => {
-          const riverId = renamed(edit.originalRiverId) || edit.riverId;
-          outlets = outlets.filter(outlet => !(outlet.riverId === riverId
-            && (outlet.type === 'sea' || outlet.type === 'map-edge')));
-          if (edit.type && resultingIds.has(riverId)) outlets.push({ riverId, type: edit.type });
-        });
-        fluvialRelationEdits.forEach(edit => {
-          const first = renamed(edit.firstRiverId);
-          const second = renamed(edit.secondRiverId);
-          const pairKey = oscarFluvialPairKey(first, second);
-          relations = relations.filter(relation => oscarFluvialPairKey(
-            relation.fromRiverId || relation.riverIds?.[0],
-            relation.toRiverId || relation.riverIds?.[1],
-          ) !== pairKey);
-          outlets = outlets.filter(outlet => !(outlet.type === 'junction'
-            && oscarFluvialPairKey(outlet.riverId, outlet.targetRiverId) === pairKey));
-          if (!edit.value) return;
-          if (edit.value === 'separate') {
-            relations.push({ type: 'separate', riverIds: [first, second] });
-            return;
+          if (operation.type === 'add' || operation.type === 'reassign') {
+            courses[operation.courseId] ||= {
+              ...operation.registry,
+            };
           }
+        });
+
+        const renamedCourseIds = new Map();
+        fluvialRegistryEdits.forEach(edit => {
+          if (!courses[edit.courseId]) return;
+          courses[edit.courseId] = {
+            ...courses[edit.courseId],
+            ...edit.registry,
+          };
+          if (edit.renameWatercourse) {
+            const watercourseId = edit.registry.watercourseId;
+            Object.entries(courses)
+              .filter(([, course]) => course.watercourseId === watercourseId)
+              .forEach(([courseId, course]) => {
+                course.riverId = edit.registry.riverId;
+                renamedCourseIds.set(courseId, edit.registry.riverId);
+              });
+          }
+        });
+        renamedCourseIds.forEach((riverId, courseId) => {
+          Object.values(grid.cells).forEach(cell => {
+            oscarFluvialCurrents(cell).forEach(current => {
+              if (oscarFluvialCourseId(current) === courseId) current.riverId = riverId;
+            });
+          });
+        });
+
+        let mouths = oscarFluvialMouths(grid).map(mouth => ({ ...mouth }));
+        let connections = oscarFluvialConnections(grid).map(connection => ({ ...connection }));
+        fluvialRegistryEdits.forEach(edit => {
+          const type = edit.registry.terminalPolicy.type;
+          if (type === 'sea') {
+            connections = connections.filter(connection => !(connection.type === 'junction'
+              && connection.fromCourseId === edit.courseId));
+          } else if (type === 'junction') {
+            mouths = mouths.filter(mouth => mouth.courseId !== edit.courseId);
+          } else if (type === 'unresolved') {
+            mouths = mouths.filter(mouth => mouth.courseId !== edit.courseId);
+            connections = connections.filter(connection => !(connection.type === 'junction'
+              && connection.fromCourseId === edit.courseId));
+          }
+        });
+
+        fluvialMouthEdits.forEach(edit => {
+          mouths = mouths.filter(mouth => !(mouth.courseId === edit.courseId && mouth.cellKey === selectedCellKey));
+          if (edit.checked && selectedCellKey) {
+            mouths.push({ courseId: edit.courseId, cellKey: selectedCellKey });
+            courses[edit.courseId] ||= {
+              watercourseId: edit.courseId,
+              riverId: edit.courseId,
+              branch: null,
+            };
+            courses[edit.courseId].terminalPolicy = {
+              type: 'sea',
+              mouthMode: courses[edit.courseId].terminalPolicy?.mouthMode || 'single',
+            };
+          }
+        });
+        fluvialMouthModeEdits.forEach(edit => {
+          if (!courses[edit.courseId]) return;
+          courses[edit.courseId].terminalPolicy = {
+            type: 'sea',
+            mouthMode: edit.multiple ? 'multiple' : 'single',
+          };
+        });
+
+        const maritimeCourses = new Set(fluvialMouthEdits
+          .filter(edit => edit.checked)
+          .map(edit => edit.courseId));
+        if (maritimeCourses.size) {
+          connections = connections.filter(connection => !(connection.type === 'junction'
+            && maritimeCourses.has(connection.fromCourseId)));
+        }
+        fluvialRelationEdits.forEach(edit => {
+          connections = connections.filter(connection => {
+            const direct = connection.fromCourseId === edit.firstCourseId
+              && connection.fromCellKey === edit.firstCellKey
+              && connection.toCourseId === edit.secondCourseId
+              && connection.toCellKey === edit.secondCellKey;
+            const reverse = connection.fromCourseId === edit.secondCourseId
+              && connection.fromCellKey === edit.secondCellKey
+              && connection.toCourseId === edit.firstCourseId
+              && connection.toCellKey === edit.firstCellKey;
+            return !direct && !reverse;
+          });
+          if (!edit.value) return;
           const [type, direction] = edit.value.split(':');
-          const [rawFrom, rawTo] = String(direction || '').split('>');
-          const fromRiverId = renamed(rawFrom);
-          const toRiverId = renamed(rawTo);
-          if (type === 'fork') relations.push({ type: 'fork', fromRiverId, toRiverId });
-          else if (type === 'junction') outlets.push({ riverId: fromRiverId, type: 'junction', targetRiverId: toRiverId });
+          const [fromCourseId, toCourseId] = String(direction || '').split('>');
+          const fromFirst = fromCourseId === edit.firstCourseId;
+          const connection = {
+            type,
+            fromCourseId,
+            fromCellKey: fromFirst ? edit.firstCellKey : edit.secondCellKey,
+            toCourseId,
+            toCellKey: fromFirst ? edit.secondCellKey : edit.firstCellKey,
+          };
+          connections.push(connection);
+          if (type === 'junction' && courses[fromCourseId]) {
+            courses[fromCourseId].terminalPolicy = { type: 'junction' };
+            mouths = mouths.filter(mouth => mouth.courseId !== fromCourseId);
+          }
         });
-        const outletSeen = new Set();
-        outlets = outlets.filter(outlet => {
-          const signature = `${outlet.riverId}\u0000${outlet.type}\u0000${outlet.targetRiverId || ''}`;
-          if (outletSeen.has(signature)) return false;
-          outletSeen.add(signature);
-          return true;
-        });
-        return { outlets, relations };
+
+        const coursePresent = (courseId, cellKey) => oscarFluvialCurrents(grid.cells[cellKey])
+          .some(current => oscarFluvialCourseId(current) === courseId);
+        mouths = mouths.filter(mouth => coursePresent(mouth.courseId, mouth.cellKey));
+        connections = connections.filter(connection => coursePresent(connection.fromCourseId, connection.fromCellKey)
+          && coursePresent(connection.toCourseId, connection.toCellKey));
+
+        grid.fluvialCourses = courses;
+        grid.fluvialMouths = mouths;
+        grid.fluvialConnections = connections;
+        pruneOscarFluvialTopology(grid);
       };
 
       // Un champ n'est appliqué que s'il a réellement été modifié par
@@ -1806,10 +2559,11 @@
       const domainTouched = !!domainInput && domainInput.dataset.initial !== undefined
         && domainInput.value !== domainInput.dataset.initial;
       const fluvialTouched = fluvialOperations.length > 0;
-      const fluvialTopologyTouched = fluvialSeaOutletEdits.length > 0
+      const fluvialTopologyTouched = fluvialMouthEdits.length > 0
+        || fluvialMouthModeEdits.length > 0
+        || fluvialRegistryEdits.length > 0
         || fluvialRelationEdits.length > 0
-        || fluvialOperations.some(operation => operation.type === 'remove'
-          || (operation.type === 'update' && operation.riverId));
+        || fluvialOperations.some(operation => operation.type === 'remove');
 
       if (!speedTouched && !dirTouched && !mainCalmTouched && !hasCoastalTouched && !coastalSpeedTouched && !coastalDirTouched
         && !fluvialTouched && !fluvialTopologyTouched && !natureNavTouched && !domainTouched) {
@@ -1829,7 +2583,7 @@
       const incompatibleFluvialTarget = targets.some(cell => {
         const resultingCurrents = fluvialTouched ? applyFluvialOperations(cell) : oscarFluvialCurrents(cell);
         const resultingTypes = requestedNavigationTypes || oscarNavigationTypes(cell);
-        const ids = resultingCurrents.map(current => current.riverId);
+        const ids = resultingCurrents.map(oscarFluvialCourseId);
         return (resultingCurrents.length && !resultingTypes.includes('fluviale'))
           || ids.some((id, index) => !id || ids.indexOf(id) !== index);
       });
@@ -1900,16 +2654,6 @@
           if (targetKeys[idx]) sessionEditedOceanCellKeys.add(targetKeys[idx]);
         }
 
-        if (fluvialTopologyTouched) {
-          const resultingCurrents = oscarFluvialCurrents(cell);
-          const topology = applyFluvialTopology(cell, resultingCurrents);
-          if (topology.outlets.length) cell.fluvialOutlets = topology.outlets;
-          else delete cell.fluvialOutlets;
-          if (topology.relations.length) cell.fluvialRelations = topology.relations;
-          else delete cell.fluvialRelations;
-          if (targetKeys[idx]) sessionEditedOceanCellKeys.add(targetKeys[idx]);
-        }
-
         // Nature de navigation : indépendante du vecteur de courant, ne marque
         // pas la cellule "manual" (le bouton Rétablir Copernicus ne doit pas
         // apparaître pour un simple tag de zone — voir REPRISE_74).
@@ -1936,6 +2680,7 @@
           else delete cell.domain;
         }
       });
+      if (fluvialTouched || fluvialTopologyTouched) applyFluvialTopology();
       oceanCellEditing = false;
       refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
     }
@@ -2106,6 +2851,7 @@
       pushUndo('Coller cellules OSCAR');
       if (keys.length === 1 && clipboard.length > 1 && clipboard.some(entry => entry?.offset)) {
         const pastedKeys = pasteOceanBlockFromAnchor(keys[0], clipboard);
+        pruneOscarFluvialTopology(grid);
         selectedOceanCellKeys = new Set(pastedKeys);
         selectedSeaCellKey = keys[0];
         oceanCellEditing = false;
@@ -2118,6 +2864,7 @@
         grid.cells[key] = cloneOscarCellForPasteTarget(key, source);
         sessionEditedOceanCellKeys.add(key);
       });
+      pruneOscarFluvialTopology(grid);
       oceanCellEditing = false;
       refresh(R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.SEA_PANEL);
     }
@@ -2130,6 +2877,7 @@
       if (!confirm(`Supprimer ${keys.length} cellule(s) OSCAR de la grille ?`)) return;
       pushUndo('Supprimer cellules OSCAR');
       keys.forEach(key => delete grid.cells[key]);
+      pruneOscarFluvialTopology(grid);
       keys.forEach(key => sessionEditedOceanCellKeys.delete(key));
       selectedOceanCellKeys = new Set([...selectedOceanCellKeys].filter(key => grid.cells[key]));
       if (selectedSeaCellKey && !grid.cells[selectedSeaCellKey]) selectedSeaCellKey = null;

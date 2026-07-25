@@ -2,9 +2,9 @@
   "grid": "js/oscar-hex-grid.js",
   "zones": "js/zones-data.js",
   "mode": "write",
-  "cellsBefore": 14729,
+  "cellsBefore": 14743,
   "cellsAfter": 14743,
-  "preserved": 14729,
+  "preserved": 14743,
   "preservedOutsideBounds": [
     "48_77",
     "48_78",
@@ -69,22 +69,7 @@
     "88_68"
   ],
   "removed": [],
-  "added": [
-    "12_46",
-    "13_45",
-    "14_45",
-    "15_44",
-    "93_68",
-    "94_68",
-    "101_153",
-    "101_154",
-    "102_153",
-    "102_154",
-    "103_151",
-    "103_153",
-    "104_152",
-    "104_153"
-  ],
+  "added": [],
   "forcedIncluded": [
     {
       "key": "64_123",
@@ -93,8 +78,9 @@
       "action": "preserved"
     }
   ],
+  "changedExistingDomains": [],
   "addedByDomain": {
-    "atlantic": 14,
+    "atlantic": 0,
     "pacific": 0
   }
 }

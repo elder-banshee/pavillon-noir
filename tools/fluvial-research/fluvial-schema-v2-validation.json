@@ -1,0 +1,13 @@
+{
+  "valid": true,
+  "schemaVersion": 2,
+  "courses": 190,
+  "watercourses": 145,
+  "vectors": 1590,
+  "mouths": 122,
+  "connections": 95,
+  "junctions": 79,
+  "forks": 16,
+  "errors": [],
+  "warnings": []
+}

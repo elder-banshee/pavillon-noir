@@ -1,0 +1,33 @@
+{
+  "mode": "dry-run",
+  "database": "tools/fluvial-research/fluvial-database-finale.json",
+  "grid": "js/oscar-hex-grid.js",
+  "databaseWatercourses": 145,
+  "databaseBranches": 204,
+  "gridLegacyRiverIds": 190,
+  "gridCourseIds": 190,
+  "gridCanonicalNames": 145,
+  "renamedCurrents": 0,
+  "currentCount": 1590,
+  "mouthCount": 122,
+  "connectionCount": 95,
+  "junctionCount": 79,
+  "forkCount": 16,
+  "missingGridBranches": [
+    "Rio Grande de la Madalena_B",
+    "Ovarabiche R_B",
+    "Mississippi_B",
+    "Tabasco R_E",
+    "Tabasco R_F",
+    "F-42_14-D2",
+    "F-42_14-D3",
+    "Delta_Orénoque_1",
+    "Delta_Orénoque_2",
+    "Delta_Orénoque_3",
+    "R. Marateka_C",
+    "Suriname_B",
+    "F-8_87-A2",
+    "F-8_87-A3"
+  ],
+  "validationErrors": []
+}

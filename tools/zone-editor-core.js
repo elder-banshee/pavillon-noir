@@ -34,7 +34,9 @@
       bahamas: 'Bahamas',
       florida: 'Floride',
       bariana: 'Fleuve Bariana',
+      fluvial: 'Fluvial',
     };
+    const OSCAR_DOMAIN_UNASSIGNED = '__unassigned__';
     // Outil Amplifier/Atténuer (OCÉANOGRAPHIE) : paliers du curseur linéaire,
     // ratio appliqué aux 6 voisines en mode Halo (facteur réduit + base du
     // plancher d'une voisine sans vecteur), plancher fixe pour une cible
@@ -121,6 +123,7 @@
       UNDO: 1024,
       OSCAR_SELECTION: 2048,
       OSCAR_HEX_GRID: 8192,
+      OSCAR_INSPECTOR: 16384,
     };
 
     function refreshPanel() {
@@ -143,6 +146,7 @@
       if (flags & R.SHOAL_HOVER) renderShoalHoverLayer();
       if (flags & R.OSCAR_SELECTION) renderSeaCells();
       if (flags & R.OSCAR_HEX_GRID) renderOscarGridLayer();
+      else if (flags & R.OSCAR_INSPECTOR) renderOscarFluvialInspectorLayer();
       if (flags & R.HANDLES) refreshHandles();
       if (flags & R.SEGMENTS) renderSegmentMarkers();
       if (flags & R.TOOLS) renderToolButtons();
@@ -247,6 +251,7 @@
     let seaCellLayers = {};
     let oscarGridLayer = null;
     let oscarArrowLayer = null;
+    let oscarInspectorLayer = null;
     let shoalHoverLayer = null;   // L.LayerGroup du survol de risque hauts-fonds (SÉMAPHORE)
 
     // Sélection
@@ -272,6 +277,9 @@
       current: new Set(['renseigne', 'double', 'fluvial', 'non-renseigne']),
       fluvialStatus: new Set(['standard', 'multiple', 'valid', 'invalid']),
     };
+    let oscarInspectorWatercourseId = '';
+    const oscarInspectorConnectionTypes = new Set();
+    let oscarInspectorOverlapOnly = true;
     let oceanCellEditing = false;
     // Réglages de l'outil Accentuer/Estomper — état persistant (pas relu
     // depuis un formulaire recréé à chaque ouverture), pour permettre une

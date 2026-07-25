@@ -261,9 +261,11 @@ function main() {
     const r = Number(cell.r ?? key.split('_')[0]);
     if (!Number.isInteger(q) || !Number.isInteger(r)) throw new Error(`Clé de cellule OSCAR invalide : ${key}`);
     if (FORCE_INCLUDED_CELLS[key] || hexOceanIntersection(q, r, grid, oceans)) {
-      nextCells[key] = cell;
+      // Une synchronisation d'emprise ne doit jamais réinterpréter les
+      // domaines de travail renseignés manuellement (dont `fluvial`).
+      nextCells[key] = { ...cell };
     } else if (preserveExisting) {
-      nextCells[key] = cell;
+      nextCells[key] = { ...cell };
       preservedOutsideBounds.push(key);
     } else {
       removed.push(key);
@@ -299,13 +301,20 @@ function main() {
 
   const nextGrid = { ...grid, cells: nextCells, oceanBoundsSync: {
     source: 'ZONES_OCEAN_BOUNDS',
-    method: 'exact hex/polygon intersection; exceptions topologiques explicites; preserved cells unchanged; missing cells calm',
+    method: 'exact hex/polygon intersection; exceptions topologiques explicites; preserved cells and domains unchanged; missing cells calm',
     updatedAt: new Date().toISOString(),
     preserveExisting,
     removed: removed.length,
     added: added.length,
     forcedIncluded: forcedIncluded.map(entry => entry.key),
   } };
+  const changedExistingDomains = Object.entries(existing)
+    .filter(([key]) => Object.hasOwn(nextCells, key))
+    .filter(([key, cell]) => nextCells[key].domain !== cell.domain)
+    .map(([key, cell]) => ({ key, before: cell.domain ?? null, after: nextCells[key].domain ?? null }));
+  if (changedExistingDomains.length) {
+    throw new Error(`La synchronisation a modifié ${changedExistingDomains.length} domaine(s) existant(s).`);
+  }
   const report = {
     grid: path.relative(ROOT, gridPath).replace(/\\/g, '/'),
     zones: path.relative(ROOT, zonesPath).replace(/\\/g, '/'),
@@ -317,6 +326,7 @@ function main() {
     removed,
     added,
     forcedIncluded,
+    changedExistingDomains,
     addedByDomain: Object.fromEntries(oceans.map(ocean => [ocean.domain, added.filter(key => nextCells[key].domain === ocean.domain).length])),
   };
   fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');

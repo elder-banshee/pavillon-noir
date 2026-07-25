@@ -1,0 +1,14 @@
+{
+  "mode": "write",
+  "courses": 203,
+  "mouths": 123,
+  "multipleMouthCourses": 0,
+  "connections": 103,
+  "junctions": 79,
+  "forks": 24,
+  "unresolvedCourses": [
+    "barania-r-main"
+  ],
+  "discardedSeparateRelations": 65,
+  "validationErrors": []
+}

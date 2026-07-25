@@ -24,7 +24,14 @@ d'éviter de confondre ces cours avec un oubli : il s'agit de fleuves
 réels documentés aujourd'hui mais jugés absents de la source Jaillot
 elle-même, sans aucun trait correspondant sur le scan.
 
-## Cours à tracer depuis le scan
+## Cours tracés (dessin et cellules ajoutés par Ronan)
+
+*(Correction — avec Ronan, 25/07/2026 : les 9 cours ci-dessous sont
+désormais tracés dans `js/oscar-hex-grid.js`, avec cellules de grille et
+cellules d'embouchure. Le titre de cette section a été mis à jour en
+conséquence — ce n'est plus « à tracer ». L'extraction de ces données
+vers une base de données finale reste à faire, voir
+`fluvial-identification-complete.md`.)*
 
 ### Delta sud de l'Orénoque / côte de Guyane (voir fiche N042)
 
@@ -33,26 +40,49 @@ résolution. Repères de calage (déjà digitalisés) : R. Waymy/N075
 (outlet x≈7777, y≈4361) et R. Amacuro/N042=Río Barima (outlet
 x≈7752, y≈4318).
 
-| Nom Jaillot | Identification proposée | Confiance | Position relative |
-|---|---|---|---|
-| Spruyt | Río Moruca | ⚠️ moyen | Premier cours à l'est de R. Waymy/N075 (x > 7777), près d'un « Cap Nassau » non retrouvé ailleurs |
-| R Amachara | Río Amacuro (moderne) | ⚠️ moyen | Immédiatement à l'ouest de R. Amacuro/N042=Barima (x < 7752) |
-| R Maritere | Río Arature | ⚠️ faible | Second groupe, plus au sud/intérieur, descendant vers le delta ; à l'est de Sebarrima |
-| R Sebarrima | Río Aguirre/Aquire | ⚠️ faible | Entre Maritere et Corobana — réserve : pourrait être un écho du Barima plutôt qu'un cours distinct |
-| R Corobana | Río Imataca | ⚠️ faible | Le plus au sud/à l'ouest de ce second groupe, avant R. Maryowapaneko/N065 — réserve : pourrait être un distributaire propre de l'Orénoque (Manamo/Pedernales) plutôt que l'Imataca |
+*(Correction — avec Ronan : le tracé de Spruyt a révélé que la géométrie
+initiale de R. Waymy/N075 (3 cellules) incluait en réalité l'essentiel du
+cours de Spruyt. Dans `js/oscar-hex-grid.js`, Spruyt occupe désormais les
+cellules `101_156` (embouchure, partagée avec Waymy), `102_156`,
+`102_157` et `103_155` ; R. Waymy/N075 ne conserve que la cellule
+`101_156`, marquée en relation `separate` de Spruyt. Détail complet dans
+la fiche N075 de `fluvial-identification-complete.md`. Waymy n'a jamais
+disparu du corpus — seule sa géométrie était surestimée avant le tracé de
+Spruyt.)*
+
+*(Correction — avec Ronan : le nom canonique harmonisé doit toujours
+refléter le toponyme Jaillot, jamais l'identification moderne — même
+règle que pour les 134 cours déjà digitalisés (ex. N042 garde « Rio
+Amacuro » bien qu'identifié au Río Barima réel). Une première version de
+ce tableau utilisait à tort le nom moderne comme nom canonique pour ces
+cinq cours ; corrigé ci-dessous. Orthographe confirmée par Ronan :
+« R Amachara » (avec « ch », pas « ck ») — le riverId
+`js/oscar-hex-grid.js` portait « R Amackara » par erreur de saisie,
+corrigé dans le fichier.)*
+
+| Nom Jaillot | Nom canonique (harmonisé) | Identification proposée | Confiance | Position relative |
+|---|---|---|---|---|
+| Spruyt | Spruyt *(déjà complet — sphère néerlandaise)* | Río Moruca | ⚠️ moyen | Premier cours à l'est de R. Waymy/N075 (x > 7777), près d'un « Cap Nassau » non retrouvé ailleurs — tracé confirmé : cellules `101_156`, `102_156`, `102_157`, `103_155` |
+| R Amachara | Rio Amachara *(préfixe « R » harmonisé en « Rio » — sphère du delta de l'Orénoque, même convention que Bariquicometo/Capuri)* | Río Amacuro (moderne) | ⚠️ moyen | Immédiatement à l'ouest de R. Amacuro/N042=Barima (x < 7752) |
+| R Maritere | Rio Maritere | Río Arature | ⚠️ faible | Second groupe, plus au sud/intérieur, descendant vers le delta ; à l'est de Sebarrima |
+| R Sebarrima | Rio Sebarrima | Río Aguirre/Aquire | ⚠️ faible | Entre Maritere et Corobana — réserve : pourrait être un écho du Barima plutôt qu'un cours distinct |
+| R Corobana | Rio Corobana | Río Imataca | ⚠️ faible | Le plus au sud/à l'ouest de ce second groupe, avant R. Maryowapaneko/N065 — réserve : pourrait être un distributaire propre de l'Orénoque (Manamo/Pedernales) plutôt que l'Imataca |
 
 ### Côte des Caraïbes du Costa Rica (voir fiche N043 — r-auzuelos)
 
-| Nom Jaillot | Identification proposée | Confiance | Position relative |
-|---|---|---|---|
-| R. Vergues | Río Parismina | ⚠️ moyen | Seconde des deux baies accolées après R. Auzuelos/N043=Río Pacuare (outlet x≈3492, y≈4061), donc plus proche du delta du Colorado/N087 |
+| Nom Jaillot | Nom canonique (harmonisé) | Identification proposée | Confiance | Position relative |
+|---|---|---|---|---|
+| R. Vergues | Rio Vergues | Río Parismina | ⚠️ moyen | Seconde des deux baies accolées après R. Auzuelos/N043=Río Pacuare (outlet x≈3492, y≈4061), donc plus proche du delta du Colorado/N087 |
 
 ### Fourche du Río Tuira/Chucunaque, Golfo de San Miguel (voir fiche N090 — s-maria-river)
 
-| Nom Jaillot | Identification proposée | Confiance | Position relative |
-|---|---|---|---|
-| (branche non étiquetée) | Río Chico | ⚠️ faible | Bras Est de la première fourche de S. Maria River/N090 (outlet x≈4210, y≈4619) — réserve : le Chico réel rejoint plutôt le Chucunaque à Yaviza |
-| (branche non étiquetée) | Río Tuquesa | ⚠️ faible | Bifurcation Nord-Est de la même fourche, plus en amont — préférée à Tupisa |
+*(Aucun toponyme Jaillot — branches non étiquetées sur la carte. Tranché
+par Ronan : nom canonique = identification moderne harmonisée.)*
+
+| Nom Jaillot | Nom canonique (harmonisé) | Identification proposée | Confiance | Position relative |
+|---|---|---|---|---|
+| (branche non étiquetée) | Rio Chico | Río Chico | ⚠️ faible | Bras Est de la première fourche de S. Maria River/N090 (outlet x≈4210, y≈4619) — réserve : le Chico réel rejoint plutôt le Chucunaque à Yaviza |
+| (branche non étiquetée) | Rio Tuquesa | Río Tuquesa | ⚠️ faible | Bifurcation Nord-Est de la même fourche, plus en amont — préférée à Tupisa |
 
 ### Baie de Pensacola / Mobile (voir fiches N028 — marpequeue, N037 — ostras)
 
@@ -64,16 +94,50 @@ Perdido River (x≈1783), Ostras/N037=Escambia River (x≈2006),
 Marpequeue/N028=Blackwater River (x≈2154), puis Rio del Canaveral
 (x≈2406-2526) plus à l'est.
 
-| Nom Jaillot | Identification proposée | Confiance | Position relative |
-|---|---|---|---|
-| (non digitalisé) | Yellow River | ⚠️ moyen | Entre l'outlet de Marpequeue/N028 (x≈2154) et celui de Rio del Canaveral (x≈2406-2526) — troisième cours réel de la baie de Pensacola/East Bay, après Blackwater et avant la Choctawhatchee |
+*(Toponyme Jaillot inconnu — l'existence du cours est déduite de la
+position, pas d'une étiquette relevée sur le scan. Tranché par Ronan :
+nom canonique = identification moderne harmonisée, déjà au format
+anglais complet.)*
 
-**Sous-total : 9 cours à tracer.** *(Correction — avec Ronan : une erreur
-d'addition portait ce sous-total à 10 dans une version précédente du
-document, alors que les quatre groupes ci-dessus ne totalisent que
-5+1+2+1 = 9 lignes — Moruca, Amacuro, Arature, Aguirre, Imataca,
-Parismina, Chico, Tuquesa, Yellow River. Le total du corpus ci-dessous
-est corrigé en conséquence.)*
+| Nom Jaillot | Nom canonique (harmonisé) | Identification proposée | Confiance | Position relative |
+|---|---|---|---|---|
+| (non digitalisé) | Yellow River | Yellow River | ⚠️ moyen | Entre l'outlet de Marpequeue/N028 (x≈2154) et celui de Rio del Canaveral (x≈2406-2526) — troisième cours réel de la baie de Pensacola/East Bay, après Blackwater et avant la Choctawhatchee |
+
+### Suriname — Commewijne (voir fiche N064 — r-marrawini, révisée)
+
+Découvert à l'occasion de la correction du tracé de R. Marrawini/N064
+(passe de domaines maritimes, avec Ronan) : Jaillot faisait communiquer à
+tort le Suriname et le Marrawini (identifié depuis Marowijne/Maroni) en
+représentant la zone de l'actuelle réserve naturelle de Wia-Wia comme une
+île. Une fois cette erreur corrigée, le bras qui rejoint réellement le
+Suriname est un cours à part entière — la Commewijne — non prévu dans
+l'inventaire initial des 9 cours à tracer, mais déjà tracé.
+
+*(Toponyme Jaillot incertain — ce bras existait dans le tracé de
+Marrawini avant la correction, mais je ne sais pas si Jaillot le
+distinguait par un nom propre ou s'il faisait simplement partie d'un
+tracé continu non détaillé à cet endroit. Tranché par Ronan : nom
+canonique = identification moderne harmonisée, déjà au format
+néerlandais complet.)*
+
+| Nom Jaillot | Nom canonique (harmonisé) | Identification proposée | Confiance | Position relative |
+|---|---|---|---|---|
+| (non digitalisé, faisait partie du tracé de Marrawini) | Commewijne | Commewijne | ✅ fort | Rejoint le Suriname (`type: junction, targetRiverId: "Suriname"`) à la cellule `106_166`, près de Paramaribo |
+
+**Règle générale (avec Ronan) pour tous les cours sans toponyme Jaillot
+connu ou confirmé** (ces 4 cours, ainsi que les 29 cours R0xx de
+`fluvial-identification-synthese.md`, structurellement dépourvus de
+toponyme Jaillot) : le nom canonique est l'identification moderne
+harmonisée selon les mêmes règles de sphère linguistique que partout
+ailleurs (espagnol → « Rio X », anglais → « X River », néerlandais/
+français inchangé). Pas d'archive de toponyme Jaillot à conserver
+puisqu'il n'y en a pas.
+
+**Sous-total : 10 cours, tous tracés.** *(9 initialement identifiés comme
+« à tracer », plus la Commewijne, révélée après coup par la correction du
+tracé de Marrawini/N064 — pas un oubli du recensement initial, mais un
+cours qui n'existait pas encore comme entité distincte avant cette
+correction. Le total du corpus ci-dessous est ajusté en conséquence.)*
 
 ## Groupe B — hors périmètre, pour mémoire (ne pas confondre avec un oubli)
 
@@ -114,11 +178,12 @@ Bobos/Filobobos.
 
 ## Total du corpus
 
-134 cours digitalisés (`fluvial-research-inventory.json`) + 9 cours
-identifiés mais non digitalisés (ci-dessus) = **143 cours d'eau**, tous
-identifiés — soit avec un équivalent réel (à une confiance ✅ fort/
-⚠️ moyen/⚠️ faible), soit explicitement classés convention
-cartographique assumée ou erreur de la carte le cas échéant.
+134 cours digitalisés (`fluvial-research-inventory.json`) + 10 cours
+identifiés mais non digitalisés (ci-dessus, dont Commewijne, révélée
+après coup) = **144 cours d'eau**, tous identifiés — soit avec un
+équivalent réel (à une confiance ✅ fort/⚠️ moyen/⚠️ faible), soit
+explicitement classés convention cartographique assumée ou erreur de la
+carte le cas échéant.
 
 ---
 

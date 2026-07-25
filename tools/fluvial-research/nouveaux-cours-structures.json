@@ -1,0 +1,1652 @@
+[
+  {
+    "watercourseId": "spruyt",
+    "name": "Spruyt",
+    "mapLabelPresent": true,
+    "mapLabel": "Spruyt",
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "Spruyt",
+        "courseId": "spruyt-main",
+        "branch": "main",
+        "cellKeys": [
+          "101_156",
+          "102_157",
+          "102_156",
+          "103_155"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "101_156",
+      "102_156",
+      "102_157",
+      "103_155"
+    ],
+    "cellCount": 4,
+    "trace": [
+      {
+        "cellKey": "101_156",
+        "x": 7777.03,
+        "y": 4361.37
+      },
+      {
+        "cellKey": "102_157",
+        "x": 7801.8,
+        "y": 4404.27
+      },
+      {
+        "cellKey": "102_156",
+        "x": 7752.26,
+        "y": 4404.27
+      },
+      {
+        "cellKey": "103_155",
+        "x": 7727.5,
+        "y": 4447.17
+      }
+    ],
+    "centroid": {
+      "x": 7764.65,
+      "y": 4404.27
+    },
+    "bbox": {
+      "minX": 7727.5,
+      "minY": 4361.37,
+      "maxX": 7801.8,
+      "maxY": 4447.17
+    },
+    "outlets": [
+      {
+        "cellKey": "101_156",
+        "x": 7777.03,
+        "y": 4361.37,
+        "riverId": "Spruyt",
+        "type": "sea"
+      }
+    ],
+    "relations": [
+      {
+        "cellKey": "101_156",
+        "type": "separate",
+        "riverIds": [
+          "Spruyt",
+          "R. Waymy"
+        ]
+      }
+    ],
+    "nearbySettlements": [
+      {
+        "id": "nieuw-middelburg",
+        "name": "Nieuw Middelburg",
+        "territory": "suriname",
+        "type": "port",
+        "coords": [
+          7817,
+          4513
+        ],
+        "distancePx": 109.8,
+        "distanceNm": 34.1
+      },
+      {
+        "id": "fort-kyk-over-al",
+        "name": "Fort Kyk-Over-Al",
+        "territory": "suriname",
+        "type": "fort",
+        "coords": [
+          7824,
+          4602
+        ],
+        "distancePx": 182.4,
+        "distanceNm": 56.6
+      },
+      {
+        "id": "villages-delta-suriname",
+        "name": "Villages du delta du Suriname",
+        "territory": "suriname",
+        "type": "ville",
+        "coords": [
+          7975,
+          4691
+        ],
+        "distancePx": 335,
+        "distanceNm": 103.9
+      },
+      {
+        "id": "aromaia",
+        "name": "Aromaia",
+        "territory": "nouvelle-andalousie",
+        "type": "ville",
+        "coords": [
+          7326,
+          4462
+        ],
+        "distancePx": 401.8,
+        "distanceNm": 124.7
+      },
+      {
+        "id": "paramaribo",
+        "name": "Paramaribo",
+        "territory": "suriname",
+        "type": "port",
+        "coords": [
+          8218,
+          4616
+        ],
+        "distancePx": 467,
+        "distanceNm": 144.9
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "suriname",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "nouvelle-andalousie",
+        "distancePx": 40.5,
+        "distanceNm": 12.6
+      },
+      {
+        "zoneId": "trinidad",
+        "distancePx": 409,
+        "distanceNm": 126.9
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "r-amacuro",
+        "name": "R. Amacuro"
+      },
+      {
+        "watercourseId": "r-poumaron",
+        "name": "R. Poumaron"
+      },
+      {
+        "watercourseId": "r-waymy",
+        "name": "R. Waymy"
+      }
+    ]
+  },
+  {
+    "watercourseId": "amachara",
+    "name": "R Amachara",
+    "mapLabelPresent": true,
+    "mapLabel": "R Amachara",
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "R Amachara",
+        "courseId": "amachara-main",
+        "branch": "main",
+        "cellKeys": [
+          "100_154",
+          "100_155",
+          "101_154"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "100_154",
+      "100_155",
+      "101_154"
+    ],
+    "cellCount": 3,
+    "trace": [
+      {
+        "cellKey": "100_154",
+        "x": 7653.19,
+        "y": 4318.48
+      },
+      {
+        "cellKey": "100_155",
+        "x": 7702.73,
+        "y": 4318.48
+      },
+      {
+        "cellKey": "101_154",
+        "x": 7677.96,
+        "y": 4361.37
+      }
+    ],
+    "centroid": {
+      "x": 7677.96,
+      "y": 4332.78
+    },
+    "bbox": {
+      "minX": 7653.19,
+      "minY": 4318.48,
+      "maxX": 7702.73,
+      "maxY": 4361.37
+    },
+    "outlets": [
+      {
+        "cellKey": "100_154",
+        "x": 7653.19,
+        "y": 4318.48,
+        "riverId": "R Amachara",
+        "type": "junction",
+        "targetRiverId": "Orénoque"
+      }
+    ],
+    "relations": [],
+    "nearbySettlements": [
+      {
+        "id": "nieuw-middelburg",
+        "name": "Nieuw Middelburg",
+        "territory": "suriname",
+        "type": "port",
+        "coords": [
+          7817,
+          4513
+        ],
+        "distancePx": 205.7,
+        "distanceNm": 63.8
+      },
+      {
+        "id": "fort-kyk-over-al",
+        "name": "Fort Kyk-Over-Al",
+        "territory": "suriname",
+        "type": "fort",
+        "coords": [
+          7824,
+          4602
+        ],
+        "distancePx": 281.5,
+        "distanceNm": 87.3
+      },
+      {
+        "id": "aromaia",
+        "name": "Aromaia",
+        "territory": "nouvelle-andalousie",
+        "type": "ville",
+        "coords": [
+          7326,
+          4462
+        ],
+        "distancePx": 357.3,
+        "distanceNm": 110.9
+      },
+      {
+        "id": "puerto-espana",
+        "name": "Puerto España",
+        "territory": "trinidad",
+        "type": "port",
+        "coords": [
+          7387,
+          3989
+        ],
+        "distancePx": 423.6,
+        "distanceNm": 131.4
+      },
+      {
+        "id": "villages-delta-suriname",
+        "name": "Villages du delta du Suriname",
+        "territory": "suriname",
+        "type": "ville",
+        "coords": [
+          7975,
+          4691
+        ],
+        "distancePx": 443.7,
+        "distanceNm": 137.7
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "nouvelle-andalousie",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "suriname",
+        "distancePx": 39.9,
+        "distanceNm": 12.4
+      },
+      {
+        "zoneId": "trinidad",
+        "distancePx": 291.8,
+        "distanceNm": 90.5
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "orenoque",
+        "name": "Orénoque"
+      },
+      {
+        "watercourseId": "maritere",
+        "name": "R Maritere"
+      },
+      {
+        "watercourseId": "r-amacuro",
+        "name": "R. Amacuro"
+      }
+    ]
+  },
+  {
+    "watercourseId": "maritere",
+    "name": "R Maritere",
+    "mapLabelPresent": true,
+    "mapLabel": "R Maritere",
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "R Maritere",
+        "courseId": "maritere-main",
+        "branch": "main",
+        "cellKeys": [
+          "100_153",
+          "101_153",
+          "102_154"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "100_153",
+      "101_153",
+      "102_154"
+    ],
+    "cellCount": 3,
+    "trace": [
+      {
+        "cellKey": "100_153",
+        "x": 7603.66,
+        "y": 4318.48
+      },
+      {
+        "cellKey": "101_153",
+        "x": 7628.42,
+        "y": 4361.37
+      },
+      {
+        "cellKey": "102_154",
+        "x": 7653.19,
+        "y": 4404.27
+      }
+    ],
+    "centroid": {
+      "x": 7628.42,
+      "y": 4361.37
+    },
+    "bbox": {
+      "minX": 7603.66,
+      "minY": 4318.48,
+      "maxX": 7653.19,
+      "maxY": 4404.27
+    },
+    "outlets": [
+      {
+        "cellKey": "100_153",
+        "x": 7603.66,
+        "y": 4318.48,
+        "riverId": "R Maritere",
+        "type": "junction",
+        "targetRiverId": "Orénoque"
+      }
+    ],
+    "relations": [],
+    "nearbySettlements": [
+      {
+        "id": "nieuw-middelburg",
+        "name": "Nieuw Middelburg",
+        "territory": "suriname",
+        "type": "port",
+        "coords": [
+          7817,
+          4513
+        ],
+        "distancePx": 196.6,
+        "distanceNm": 61
+      },
+      {
+        "id": "fort-kyk-over-al",
+        "name": "Fort Kyk-Over-Al",
+        "territory": "suriname",
+        "type": "fort",
+        "coords": [
+          7824,
+          4602
+        ],
+        "distancePx": 261.3,
+        "distanceNm": 81.1
+      },
+      {
+        "id": "aromaia",
+        "name": "Aromaia",
+        "territory": "nouvelle-andalousie",
+        "type": "ville",
+        "coords": [
+          7326,
+          4462
+        ],
+        "distancePx": 312.6,
+        "distanceNm": 97
+      },
+      {
+        "id": "puerto-espana",
+        "name": "Puerto España",
+        "territory": "trinidad",
+        "type": "port",
+        "coords": [
+          7387,
+          3989
+        ],
+        "distancePx": 394.3,
+        "distanceNm": 122.4
+      },
+      {
+        "id": "villages-delta-suriname",
+        "name": "Villages du delta du Suriname",
+        "territory": "suriname",
+        "type": "ville",
+        "coords": [
+          7975,
+          4691
+        ],
+        "distancePx": 431,
+        "distanceNm": 133.7
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "nouvelle-andalousie",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "suriname",
+        "distancePx": 30,
+        "distanceNm": 9.3
+      },
+      {
+        "zoneId": "trinidad",
+        "distancePx": 263.1,
+        "distanceNm": 81.6
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "orenoque",
+        "name": "Orénoque"
+      },
+      {
+        "watercourseId": "amachara",
+        "name": "R Amachara"
+      },
+      {
+        "watercourseId": "r-amacuro",
+        "name": "R. Amacuro"
+      },
+      {
+        "watercourseId": "sebarrima",
+        "name": "R. Sebarrima"
+      }
+    ]
+  },
+  {
+    "watercourseId": "sebarrima",
+    "name": "R. Sebarrima",
+    "mapLabelPresent": true,
+    "mapLabel": "R. Sebarrima",
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "R. Sebarrima",
+        "courseId": "sebarrima-main",
+        "branch": "main",
+        "cellKeys": [
+          "101_152",
+          "102_153",
+          "103_153",
+          "104_153"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "101_152",
+      "102_153",
+      "103_153",
+      "104_153"
+    ],
+    "cellCount": 4,
+    "trace": [
+      {
+        "cellKey": "101_152",
+        "x": 7578.89,
+        "y": 4361.37
+      },
+      {
+        "cellKey": "102_153",
+        "x": 7603.66,
+        "y": 4404.27
+      },
+      {
+        "cellKey": "103_153",
+        "x": 7628.42,
+        "y": 4447.17
+      },
+      {
+        "cellKey": "104_153",
+        "x": 7603.66,
+        "y": 4490.07
+      }
+    ],
+    "centroid": {
+      "x": 7603.66,
+      "y": 4425.72
+    },
+    "bbox": {
+      "minX": 7578.89,
+      "minY": 4361.37,
+      "maxX": 7628.42,
+      "maxY": 4490.07
+    },
+    "outlets": [
+      {
+        "cellKey": "101_152",
+        "x": 7578.89,
+        "y": 4361.37,
+        "riverId": "R. Sebarrima",
+        "type": "junction",
+        "targetRiverId": "Orénoque"
+      }
+    ],
+    "relations": [],
+    "nearbySettlements": [
+      {
+        "id": "nieuw-middelburg",
+        "name": "Nieuw Middelburg",
+        "territory": "suriname",
+        "type": "port",
+        "coords": [
+          7817,
+          4513
+        ],
+        "distancePx": 199.7,
+        "distanceNm": 62
+      },
+      {
+        "id": "fort-kyk-over-al",
+        "name": "Fort Kyk-Over-Al",
+        "territory": "suriname",
+        "type": "fort",
+        "coords": [
+          7824,
+          4602
+        ],
+        "distancePx": 247.1,
+        "distanceNm": 76.7
+      },
+      {
+        "id": "aromaia",
+        "name": "Aromaia",
+        "territory": "nouvelle-andalousie",
+        "type": "ville",
+        "coords": [
+          7326,
+          4462
+        ],
+        "distancePx": 272.2,
+        "distanceNm": 84.5
+      },
+      {
+        "id": "macurevoari",
+        "name": "Macurevoari",
+        "territory": "nouvelle-andalousie",
+        "type": "ville",
+        "coords": [
+          7224,
+          4634
+        ],
+        "distancePx": 406,
+        "distanceNm": 126
+      },
+      {
+        "id": "puerto-espana",
+        "name": "Puerto España",
+        "territory": "trinidad",
+        "type": "port",
+        "coords": [
+          7387,
+          3989
+        ],
+        "distancePx": 418.9,
+        "distanceNm": 130
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "nouvelle-andalousie",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "suriname",
+        "distancePx": 2.3,
+        "distanceNm": 0.7
+      },
+      {
+        "zoneId": "trinidad",
+        "distancePx": 290.4,
+        "distanceNm": 90.1
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "orenoque",
+        "name": "Orénoque"
+      },
+      {
+        "watercourseId": "maritere",
+        "name": "R Maritere"
+      },
+      {
+        "watercourseId": "corobana",
+        "name": "R. Corobana"
+      }
+    ]
+  },
+  {
+    "watercourseId": "corobana",
+    "name": "R. Corobana",
+    "mapLabelPresent": true,
+    "mapLabel": "R. Corobana",
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "R. Corobana",
+        "courseId": "corobana-main",
+        "branch": "main",
+        "cellKeys": [
+          "101_151",
+          "102_152",
+          "103_151",
+          "104_152"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "101_151",
+      "102_152",
+      "103_151",
+      "104_152"
+    ],
+    "cellCount": 4,
+    "trace": [
+      {
+        "cellKey": "101_151",
+        "x": 7529.35,
+        "y": 4361.37
+      },
+      {
+        "cellKey": "102_152",
+        "x": 7554.12,
+        "y": 4404.27
+      },
+      {
+        "cellKey": "103_151",
+        "x": 7529.35,
+        "y": 4447.17
+      },
+      {
+        "cellKey": "104_152",
+        "x": 7554.12,
+        "y": 4490.07
+      }
+    ],
+    "centroid": {
+      "x": 7541.74,
+      "y": 4425.72
+    },
+    "bbox": {
+      "minX": 7529.35,
+      "minY": 4361.37,
+      "maxX": 7554.12,
+      "maxY": 4490.07
+    },
+    "outlets": [
+      {
+        "cellKey": "101_151",
+        "x": 7529.35,
+        "y": 4361.37,
+        "riverId": "R. Corobana",
+        "type": "junction",
+        "targetRiverId": "Orénoque"
+      }
+    ],
+    "relations": [],
+    "nearbySettlements": [
+      {
+        "id": "aromaia",
+        "name": "Aromaia",
+        "territory": "nouvelle-andalousie",
+        "type": "ville",
+        "coords": [
+          7326,
+          4462
+        ],
+        "distancePx": 203.9,
+        "distanceNm": 63.3
+      },
+      {
+        "id": "nieuw-middelburg",
+        "name": "Nieuw Middelburg",
+        "territory": "suriname",
+        "type": "port",
+        "coords": [
+          7817,
+          4513
+        ],
+        "distancePx": 263.9,
+        "distanceNm": 81.9
+      },
+      {
+        "id": "fort-kyk-over-al",
+        "name": "Fort Kyk-Over-Al",
+        "territory": "suriname",
+        "type": "fort",
+        "coords": [
+          7824,
+          4602
+        ],
+        "distancePx": 292.2,
+        "distanceNm": 90.7
+      },
+      {
+        "id": "macurevoari",
+        "name": "Macurevoari",
+        "territory": "nouvelle-andalousie",
+        "type": "ville",
+        "coords": [
+          7224,
+          4634
+        ],
+        "distancePx": 358,
+        "distanceNm": 111.1
+      },
+      {
+        "id": "puerto-espana",
+        "name": "Puerto España",
+        "territory": "trinidad",
+        "type": "port",
+        "coords": [
+          7387,
+          3989
+        ],
+        "distancePx": 398.7,
+        "distanceNm": 123.7
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "nouvelle-andalousie",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "suriname",
+        "distancePx": 45.6,
+        "distanceNm": 14.1
+      },
+      {
+        "zoneId": "trinidad",
+        "distancePx": 275.3,
+        "distanceNm": 85.4
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "orenoque",
+        "name": "Orénoque"
+      },
+      {
+        "watercourseId": "r-maryowapaneko",
+        "name": "R. Maryowapaneko"
+      },
+      {
+        "watercourseId": "sebarrima",
+        "name": "R. Sebarrima"
+      }
+    ]
+  },
+  {
+    "watercourseId": "vergues",
+    "name": "R. Vergues",
+    "mapLabelPresent": true,
+    "mapLabel": "R. Vergues",
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "R. Vergues",
+        "courseId": "vergues-main",
+        "branch": "main",
+        "cellKeys": [
+          "93_69",
+          "93_68",
+          "94_68"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "93_68",
+      "93_69",
+      "94_68"
+    ],
+    "cellCount": 3,
+    "trace": [
+      {
+        "cellKey": "93_69",
+        "x": 3467.47,
+        "y": 4018.18
+      },
+      {
+        "cellKey": "93_68",
+        "x": 3417.93,
+        "y": 4018.18
+      },
+      {
+        "cellKey": "94_68",
+        "x": 3393.16,
+        "y": 4061.08
+      }
+    ],
+    "centroid": {
+      "x": 3426.19,
+      "y": 4032.48
+    },
+    "bbox": {
+      "minX": 3393.16,
+      "minY": 4018.18,
+      "maxX": 3467.47,
+      "maxY": 4061.08
+    },
+    "outlets": [
+      {
+        "cellKey": "93_69",
+        "x": 3467.47,
+        "y": 4018.18,
+        "riverId": "R. Vergues",
+        "type": "sea"
+      }
+    ],
+    "relations": [],
+    "nearbySettlements": [
+      {
+        "id": "gratates-iuo-dedios-nicaragua",
+        "name": "Gracias a Dios",
+        "territory": "nicaragua",
+        "type": "ville",
+        "coords": [
+          3264,
+          4004
+        ],
+        "distancePx": 141.2,
+        "distanceNm": 43.8
+      },
+      {
+        "id": "chateau-de-austria",
+        "name": "Castillo de Austria",
+        "territory": "costa-rica",
+        "type": "fort",
+        "coords": [
+          3385,
+          4203
+        ],
+        "distancePx": 142.2,
+        "distanceNm": 44.1
+      },
+      {
+        "id": "confluent-san-juan-frio",
+        "name": "Confluent du San Juan",
+        "territory": "nicaragua",
+        "type": "site_geo",
+        "coords": [
+          3273,
+          3944
+        ],
+        "distancePx": 162.8,
+        "distanceNm": 50.5
+      },
+      {
+        "id": "castillo-san-juan",
+        "name": "Castillo de la Inmaculada Concepción",
+        "territory": "nicaragua",
+        "type": "fort",
+        "coords": [
+          3234,
+          3973
+        ],
+        "distancePx": 181.9,
+        "distanceNm": 56.4
+      },
+      {
+        "id": "concepcion-bocas",
+        "name": "Concepción",
+        "territory": "panama",
+        "type": "port",
+        "coords": [
+          3647,
+          4231
+        ],
+        "distancePx": 278.4,
+        "distanceNm": 86.4
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "nicaragua",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "costa-rica",
+        "distancePx": 6.8,
+        "distanceNm": 2.1
+      },
+      {
+        "zoneId": "cote-miskito",
+        "distancePx": 47.9,
+        "distanceNm": 14.9
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "r-auzuelos",
+        "name": "R. Auzuelos"
+      },
+      {
+        "watercourseId": "r-serapique",
+        "name": "R. Serapique"
+      },
+      {
+        "watercourseId": "rio-san-juan",
+        "name": "Rio San Juan"
+      }
+    ]
+  },
+  {
+    "watercourseId": "chico",
+    "name": "R Chico",
+    "mapLabelPresent": false,
+    "mapLabel": null,
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "R Chico",
+        "courseId": "chico-main",
+        "branch": "main",
+        "cellKeys": [
+          "107_88",
+          "106_87",
+          "106_88",
+          "107_86",
+          "107_87"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "106_87",
+      "106_88",
+      "107_86",
+      "107_87",
+      "107_88"
+    ],
+    "cellCount": 5,
+    "trace": [
+      {
+        "cellKey": "107_88",
+        "x": 4408.64,
+        "y": 4618.77
+      },
+      {
+        "cellKey": "106_87",
+        "x": 4334.33,
+        "y": 4575.87
+      },
+      {
+        "cellKey": "106_88",
+        "x": 4383.87,
+        "y": 4575.87
+      },
+      {
+        "cellKey": "107_86",
+        "x": 4309.56,
+        "y": 4618.77
+      },
+      {
+        "cellKey": "107_87",
+        "x": 4359.1,
+        "y": 4618.77
+      }
+    ],
+    "centroid": {
+      "x": 4359.1,
+      "y": 4601.61
+    },
+    "bbox": {
+      "minX": 4309.56,
+      "minY": 4575.87,
+      "maxX": 4408.64,
+      "maxY": 4618.77
+    },
+    "outlets": [
+      {
+        "cellKey": "107_86",
+        "x": 4309.56,
+        "y": 4618.77,
+        "riverId": "R Chico",
+        "type": "junction",
+        "targetRiverId": "S. Maria River"
+      }
+    ],
+    "relations": [
+      {
+        "cellKey": "106_87",
+        "type": "separate",
+        "riverIds": [
+          "S. Maria River",
+          "R Chico"
+        ]
+      }
+    ],
+    "nearbySettlements": [
+      {
+        "id": "santa-maria-darien",
+        "name": "Santa María la Antigua del Darién",
+        "territory": "darien",
+        "type": "site_hist",
+        "coords": [
+          4282,
+          4618
+        ],
+        "distancePx": 27.6,
+        "distanceNm": 8.6
+      },
+      {
+        "id": "golfe-uraba",
+        "name": "golfe d'Urabá",
+        "territory": "darien",
+        "type": "site_geo",
+        "coords": [
+          4472,
+          4614
+        ],
+        "distancePx": 63.5,
+        "distanceNm": 19.7
+      },
+      {
+        "id": "saint-sebastien-darien",
+        "name": "San Sebastián de Buena Vista",
+        "territory": "darien",
+        "type": "fort",
+        "coords": [
+          4465,
+          4424
+        ],
+        "distancePx": 172.2,
+        "distanceNm": 53.4
+      },
+      {
+        "id": "new-edinburg",
+        "name": "New Edinburg",
+        "territory": "darien",
+        "type": "site_hist",
+        "coords": [
+          4348,
+          4369
+        ],
+        "distancePx": 207.3,
+        "distanceNm": 64.3
+      },
+      {
+        "id": "antiochia",
+        "name": "Santa Fe de Antioquia",
+        "territory": "nouvelle-grenade",
+        "type": "ville",
+        "coords": [
+          4756,
+          4570
+        ],
+        "distancePx": 350.8,
+        "distanceNm": 108.8
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "darien",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "panama",
+        "distancePx": 181.6,
+        "distanceNm": 56.4
+      },
+      {
+        "zoneId": "nouvelle-grenade",
+        "distancePx": 210.1,
+        "distanceNm": 65.2
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "gold-river",
+        "name": "Gold River"
+      },
+      {
+        "watercourseId": "tuquesa",
+        "name": "R Tuquesa"
+      },
+      {
+        "watercourseId": "s-maria-river",
+        "name": "S. Maria River"
+      }
+    ]
+  },
+  {
+    "watercourseId": "tuquesa",
+    "name": "R Tuquesa",
+    "mapLabelPresent": false,
+    "mapLabel": null,
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "R Tuquesa",
+        "courseId": "tuquesa-main",
+        "branch": "main",
+        "cellKeys": [
+          "105_87",
+          "105_88"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "105_87",
+      "105_88"
+    ],
+    "cellCount": 2,
+    "trace": [
+      {
+        "cellKey": "105_87",
+        "x": 4359.1,
+        "y": 4532.97
+      },
+      {
+        "cellKey": "105_88",
+        "x": 4408.64,
+        "y": 4532.97
+      }
+    ],
+    "centroid": {
+      "x": 4383.87,
+      "y": 4532.97
+    },
+    "bbox": {
+      "minX": 4359.1,
+      "minY": 4532.97,
+      "maxX": 4408.64,
+      "maxY": 4532.97
+    },
+    "outlets": [
+      {
+        "cellKey": "105_87",
+        "x": 4359.1,
+        "y": 4532.97,
+        "riverId": "R Tuquesa",
+        "type": "junction",
+        "targetRiverId": "S. Maria River"
+      }
+    ],
+    "relations": [],
+    "nearbySettlements": [
+      {
+        "id": "golfe-uraba",
+        "name": "golfe d'Urabá",
+        "territory": "darien",
+        "type": "site_geo",
+        "coords": [
+          4472,
+          4614
+        ],
+        "distancePx": 102.9,
+        "distanceNm": 31.9
+      },
+      {
+        "id": "santa-maria-darien",
+        "name": "Santa María la Antigua del Darién",
+        "territory": "darien",
+        "type": "site_hist",
+        "coords": [
+          4282,
+          4618
+        ],
+        "distancePx": 114.8,
+        "distanceNm": 35.6
+      },
+      {
+        "id": "saint-sebastien-darien",
+        "name": "San Sebastián de Buena Vista",
+        "territory": "darien",
+        "type": "fort",
+        "coords": [
+          4465,
+          4424
+        ],
+        "distancePx": 122.7,
+        "distanceNm": 38.1
+      },
+      {
+        "id": "new-edinburg",
+        "name": "New Edinburg",
+        "territory": "darien",
+        "type": "site_hist",
+        "coords": [
+          4348,
+          4369
+        ],
+        "distancePx": 164.3,
+        "distanceNm": 51
+      },
+      {
+        "id": "antiochia",
+        "name": "Santa Fe de Antioquia",
+        "territory": "nouvelle-grenade",
+        "type": "ville",
+        "coords": [
+          4756,
+          4570
+        ],
+        "distancePx": 349.3,
+        "distanceNm": 108.4
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "darien",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "panama",
+        "distancePx": 168.9,
+        "distanceNm": 52.4
+      },
+      {
+        "zoneId": "nouvelle-grenade",
+        "distancePx": 183.6,
+        "distanceNm": 57
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "chico",
+        "name": "R Chico"
+      },
+      {
+        "watercourseId": "s-maria-river",
+        "name": "S. Maria River"
+      }
+    ]
+  },
+  {
+    "watercourseId": "yellow-river",
+    "name": "Yellow River",
+    "mapLabelPresent": false,
+    "mapLabel": null,
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "Yellow River",
+        "courseId": "yellow-river-main",
+        "branch": "main",
+        "cellKeys": [
+          "15_43",
+          "14_44",
+          "12_46",
+          "13_45",
+          "14_45",
+          "15_44"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "12_46",
+      "13_45",
+      "14_44",
+      "14_45",
+      "15_43",
+      "15_44"
+    ],
+    "cellCount": 6,
+    "trace": [
+      {
+        "cellKey": "15_43",
+        "x": 2179.55,
+        "y": 672.08
+      },
+      {
+        "cellKey": "14_44",
+        "x": 2204.32,
+        "y": 629.18
+      },
+      {
+        "cellKey": "12_46",
+        "x": 2303.39,
+        "y": 543.38
+      },
+      {
+        "cellKey": "13_45",
+        "x": 2278.62,
+        "y": 586.28
+      },
+      {
+        "cellKey": "14_45",
+        "x": 2253.85,
+        "y": 629.18
+      },
+      {
+        "cellKey": "15_44",
+        "x": 2229.09,
+        "y": 672.08
+      }
+    ],
+    "centroid": {
+      "x": 2241.47,
+      "y": 622.03
+    },
+    "bbox": {
+      "minX": 2179.55,
+      "minY": 543.38,
+      "maxX": 2303.39,
+      "maxY": 672.08
+    },
+    "outlets": [
+      {
+        "cellKey": "15_43",
+        "x": 2179.55,
+        "y": 672.08,
+        "riverId": "Yellow River",
+        "type": "sea"
+      }
+    ],
+    "relations": [
+      {
+        "cellKey": "14_44",
+        "type": "separate",
+        "riverIds": [
+          "Marpequeue",
+          "Yellow River"
+        ]
+      }
+    ],
+    "nearbySettlements": [
+      {
+        "id": "pensacola",
+        "name": "Pensacola",
+        "territory": "floride",
+        "type": "fort",
+        "coords": [
+          1718,
+          864
+        ],
+        "distancePx": 499.9,
+        "distanceNm": 155.1
+      },
+      {
+        "id": "mobile",
+        "name": "Mobile",
+        "territory": "louisiane",
+        "type": "fort",
+        "coords": [
+          1495,
+          935
+        ],
+        "distancePx": 733.3,
+        "distanceNm": 227.5
+      },
+      {
+        "id": "la-nouvelle-orleans",
+        "name": "La Nouvelle-Orléans",
+        "territory": "louisiane",
+        "type": "port",
+        "coords": [
+          1297,
+          1314
+        ],
+        "distancePx": 1091.3,
+        "distanceNm": 338.6
+      },
+      {
+        "id": "tampico",
+        "name": "Tampico",
+        "territory": "panuco",
+        "type": "port",
+        "coords": [
+          1153,
+          2032
+        ],
+        "distancePx": 1703.9,
+        "distanceNm": 528.7
+      },
+      {
+        "id": "linchanchy",
+        "name": "Linchanchy",
+        "territory": "yucatan",
+        "type": "ville",
+        "coords": [
+          2546,
+          2370
+        ],
+        "distancePx": 1727.2,
+        "distanceNm": 535.9
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "floride",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "louisiane",
+        "distancePx": 259.8,
+        "distanceNm": 80.6
+      },
+      {
+        "zoneId": "yucatan",
+        "distancePx": 1417.6,
+        "distanceNm": 439.9
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "marpequeue",
+        "name": "Marpequeue"
+      },
+      {
+        "watercourseId": "rio-del-canaveral",
+        "name": "Rio del Canaveral"
+      }
+    ]
+  },
+  {
+    "watercourseId": "commewijne",
+    "name": "Commewijne",
+    "mapLabelPresent": false,
+    "mapLabel": null,
+    "researchStatus": "named-on-map",
+    "branches": [
+      {
+        "riverId": "Commewijne",
+        "courseId": "commewijne-main",
+        "branch": "main",
+        "cellKeys": [
+          "106_166",
+          "107_166",
+          "107_167",
+          "108_167",
+          "108_168"
+        ]
+      }
+    ],
+    "cellKeys": [
+      "106_166",
+      "107_166",
+      "107_167",
+      "108_167",
+      "108_168"
+    ],
+    "cellCount": 5,
+    "trace": [
+      {
+        "cellKey": "106_166",
+        "x": 8247.62,
+        "y": 4575.87
+      },
+      {
+        "cellKey": "107_166",
+        "x": 8272.38,
+        "y": 4618.77
+      },
+      {
+        "cellKey": "107_167",
+        "x": 8321.92,
+        "y": 4618.77
+      },
+      {
+        "cellKey": "108_167",
+        "x": 8297.15,
+        "y": 4661.67
+      },
+      {
+        "cellKey": "108_168",
+        "x": 8346.69,
+        "y": 4661.67
+      }
+    ],
+    "centroid": {
+      "x": 8297.15,
+      "y": 4627.35
+    },
+    "bbox": {
+      "minX": 8247.62,
+      "minY": 4575.87,
+      "maxX": 8346.69,
+      "maxY": 4661.67
+    },
+    "outlets": [
+      {
+        "cellKey": "106_166",
+        "x": 8247.62,
+        "y": 4575.87,
+        "riverId": "Commewijne",
+        "type": "junction",
+        "targetRiverId": "Suriname"
+      }
+    ],
+    "relations": [
+      {
+        "cellKey": "108_168",
+        "type": "fork",
+        "fromRiverId": "R. Marrawini",
+        "toRiverId": "Commewijne"
+      }
+    ],
+    "nearbySettlements": [
+      {
+        "id": "paramaribo",
+        "name": "Paramaribo",
+        "territory": "suriname",
+        "type": "port",
+        "coords": [
+          8218,
+          4616
+        ],
+        "distancePx": 49.9,
+        "distanceNm": 15.5
+      },
+      {
+        "id": "villages-delta-suriname",
+        "name": "Villages du delta du Suriname",
+        "territory": "suriname",
+        "type": "ville",
+        "coords": [
+          7975,
+          4691
+        ],
+        "distancePx": 295.9,
+        "distanceNm": 91.8
+      },
+      {
+        "id": "fort-kyk-over-al",
+        "name": "Fort Kyk-Over-Al",
+        "territory": "suriname",
+        "type": "fort",
+        "coords": [
+          7824,
+          4602
+        ],
+        "distancePx": 424.4,
+        "distanceNm": 131.7
+      },
+      {
+        "id": "nieuw-middelburg",
+        "name": "Nieuw Middelburg",
+        "territory": "suriname",
+        "type": "port",
+        "coords": [
+          7817,
+          4513
+        ],
+        "distancePx": 435.2,
+        "distanceNm": 135
+      },
+      {
+        "id": "matunere-montagnes",
+        "name": "Matunere Montagnes (Tumuc-Humac)",
+        "territory": "suriname",
+        "type": "site_geo",
+        "coords": [
+          7618,
+          4967
+        ],
+        "distancePx": 741.2,
+        "distanceNm": 230
+      }
+    ],
+    "nearbyTerritories": [
+      {
+        "zoneId": "suriname",
+        "distancePx": 0,
+        "distanceNm": 0
+      },
+      {
+        "zoneId": "nouvelle-andalousie",
+        "distancePx": 556.3,
+        "distanceNm": 172.6
+      },
+      {
+        "zoneId": "trinidad",
+        "distancePx": 916.1,
+        "distanceNm": 284.2
+      }
+    ],
+    "neighbouringWatercourses": [
+      {
+        "watercourseId": "r-copanama",
+        "name": "R. Copanama"
+      },
+      {
+        "watercourseId": "r-marrawini",
+        "name": "R. Marrawini"
+      },
+      {
+        "watercourseId": "suriname",
+        "name": "Suriname"
+      }
+    ]
+  }
+]

@@ -1,0 +1,283 @@
+{
+  "mode": "write",
+  "grid": "js/oscar-hex-grid.js",
+  "courseCountBefore": 203,
+  "courseCountAfter": 190,
+  "mouthCountBefore": 123,
+  "mouthCountAfter": 122,
+  "connectionCountBefore": 103,
+  "connectionCountAfter": 95,
+  "results": [
+    {
+      "watercourseId": "cooper",
+      "riverId": "Cooper River",
+      "targetCourseId": "f-8-87-a-main",
+      "removedCourseIds": [
+        "f-8-87-a-a2",
+        "f-8-87-a-a3"
+      ],
+      "mouths": [
+        "11_88",
+        "12_87",
+        "12_88"
+      ],
+      "continuity": {
+        "cells": 8,
+        "components": 1
+      },
+      "mergedCells": [
+        {
+          "cellKey": "11_86",
+          "formerCourseIds": [
+            "f-8-87-a-main",
+            "f-8-87-a-a2"
+          ],
+          "resultSpeedKnot": 0.823,
+          "resultDirToDeg": 37.5
+        },
+        {
+          "cellKey": "11_87",
+          "formerCourseIds": [
+            "f-8-87-a-a2",
+            "f-8-87-a-a3"
+          ],
+          "resultSpeedKnot": 0.823,
+          "resultDirToDeg": 32.5
+        }
+      ]
+    },
+    {
+      "watercourseId": "mississippi",
+      "riverId": "Mississippi",
+      "targetCourseId": "mississippi-main",
+      "removedCourseIds": [
+        "mississippi-b"
+      ],
+      "mouths": [
+        "31_24",
+        "30_25"
+      ],
+      "continuity": {
+        "cells": 52,
+        "components": 1
+      },
+      "mergedCells": [
+        {
+          "cellKey": "29_24",
+          "formerCourseIds": [
+            "mississippi-main",
+            "mississippi-b"
+          ],
+          "resultSpeedKnot": 0.892,
+          "resultDirToDeg": 55
+        },
+        {
+          "cellKey": "30_25",
+          "formerCourseIds": [
+            "mississippi-main",
+            "mississippi-b"
+          ],
+          "resultSpeedKnot": 0.892,
+          "resultDirToDeg": 80
+        },
+        {
+          "cellKey": "28_24",
+          "formerCourseIds": [
+            "mississippi-main",
+            "mississippi-b"
+          ],
+          "resultSpeedKnot": 0.888,
+          "resultDirToDeg": 60
+        }
+      ]
+    },
+    {
+      "watercourseId": "tabasco",
+      "riverId": "Rio Tabasco",
+      "targetCourseId": "tabasco-r-main",
+      "removedCourseIds": [
+        "tabasco-r-e",
+        "tabasco-r-f"
+      ],
+      "mouths": [
+        "66_39",
+        "66_40",
+        "66_41"
+      ],
+      "continuity": {
+        "cells": 20,
+        "components": 1
+      },
+      "mergedCells": [
+        {
+          "cellKey": "67_39",
+          "formerCourseIds": [
+            "tabasco-r-e",
+            "tabasco-r-f"
+          ],
+          "resultSpeedKnot": 0.888,
+          "resultDirToDeg": 302.5
+        },
+        {
+          "cellKey": "68_39",
+          "formerCourseIds": [
+            "tabasco-r-main",
+            "tabasco-r-e"
+          ],
+          "resultSpeedKnot": 0.871,
+          "resultDirToDeg": 277.5
+        }
+      ]
+    },
+    {
+      "watercourseId": "grande-de-la-madalena",
+      "riverId": "Rio Grande de la Madalena",
+      "targetCourseId": "rio-grande-de-la-madalena-main",
+      "removedCourseIds": [
+        "rio-grande-de-la-madalena-b"
+      ],
+      "mouths": [
+        "91_103",
+        "92_100"
+      ],
+      "continuity": {
+        "cells": 42,
+        "components": 1
+      },
+      "mergedCells": [
+        {
+          "cellKey": "95_99",
+          "formerCourseIds": [
+            "rio-grande-de-la-madalena-main",
+            "rio-grande-de-la-madalena-b"
+          ],
+          "resultSpeedKnot": 0.871,
+          "resultDirToDeg": 300
+        }
+      ]
+    },
+    {
+      "watercourseId": "ovarabiche",
+      "riverId": "Rio Ovarabiche",
+      "targetCourseId": "ovarabiche-r-main",
+      "removedCourseIds": [
+        "ovarabiche-r-b"
+      ],
+      "mouths": [
+        "95_144",
+        "96_145"
+      ],
+      "continuity": {
+        "cells": 14,
+        "components": 1
+      },
+      "mergedCells": [
+        {
+          "cellKey": "96_144",
+          "formerCourseIds": [
+            "ovarabiche-r-main",
+            "ovarabiche-r-b"
+          ],
+          "resultSpeedKnot": 0.891,
+          "resultDirToDeg": 325
+        },
+        {
+          "cellKey": "97_142",
+          "formerCourseIds": [
+            "ovarabiche-r-main",
+            "ovarabiche-r-b"
+          ],
+          "resultSpeedKnot": 0.879,
+          "resultDirToDeg": 337.5
+        }
+      ]
+    },
+    {
+      "watercourseId": "orenoque",
+      "riverId": "Orénoque",
+      "targetCourseId": "orenoque-main",
+      "removedCourseIds": [
+        "orenoque-delta-1",
+        "orenoque-delta-2",
+        "orenoque-delta-3"
+      ],
+      "mouths": [
+        "100_150",
+        "100_151",
+        "100_152",
+        "100_153"
+      ],
+      "continuity": {
+        "cells": 38,
+        "components": 1
+      },
+      "mergedCells": [
+        {
+          "cellKey": "101_150",
+          "formerCourseIds": [
+            "orenoque-main",
+            "orenoque-delta-1",
+            "orenoque-delta-2"
+          ],
+          "resultSpeedKnot": 0.89,
+          "resultDirToDeg": 293.8
+        }
+      ]
+    },
+    {
+      "watercourseId": "marateka",
+      "riverId": "Marateka",
+      "targetCourseId": "r-marateka-main",
+      "removedCourseIds": [
+        "r-marateka-c"
+      ],
+      "mouths": [
+        "106_164",
+        "107_162"
+      ],
+      "continuity": {
+        "cells": 15,
+        "components": 1
+      },
+      "mergedCells": []
+    },
+    {
+      "watercourseId": "balsas",
+      "riverId": "Rio Balsas",
+      "targetCourseId": "f-42-14-d-d1",
+      "removedCourseIds": [
+        "f-42-14-d-d2",
+        "f-42-14-d-d3"
+      ],
+      "mouths": [
+        "62_10",
+        "62_11"
+      ],
+      "continuity": {
+        "cells": 24,
+        "components": 1
+      },
+      "mergedCells": [
+        {
+          "cellKey": "62_11",
+          "formerCourseIds": [
+            "f-42-14-d-d3",
+            "f-42-14-d-d2"
+          ],
+          "resultSpeedKnot": 0.89,
+          "resultDirToDeg": 120
+        },
+        {
+          "cellKey": "61_10",
+          "formerCourseIds": [
+            "f-42-14-d-d1",
+            "f-42-14-d-d2"
+          ],
+          "resultSpeedKnot": 0.89,
+          "resultDirToDeg": 75
+        }
+      ]
+    }
+  ],
+  "validationErrors": []
+}

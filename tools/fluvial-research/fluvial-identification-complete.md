@@ -142,7 +142,7 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 | N061 | r-guazacoalco-ou-guashigwalp | R. Guazacoalco - ou Guashigwalp | **Río Coatzacoalcos** (toponyme direct), mais position cartographique douteuse (placé près de Villahermosa/Tabasco plutôt qu'à l'isthme) ; reclassé ✅ fort lors de la passe de recalibration — toponyme exact et sans ambiguïté, le déplacement positionnel étant une erreur cartographique reconnue plutôt qu'une incertitude d'identification | ✅ fort |
 | N062 | r-lempa | R. Lempa | **Río Lempa** (Salvador) | ✅ fort |
 | N063 | r-marateka | R. Marateka | **Maratakka** (rivière réelle du Suriname occidental, morphologie ramifiée concordante) — nom réel mais très probablement mal repositionné par Jaillot près de l'estuaire du Suriname | ⚠️ faible |
-| N064 | r-marrawini | R. Marrawini | **Commewijne** (hypothèse ; forme historique « Camaiwini/Cammawini » très proche) — Marowijne/Maroni écarté en 1er choix malgré la ressemblance phonétique, la topologie (affluent direct du Suriname) ne collant pas | ⚠️ moyen |
+| N064 | r-marrawini | R. Marrawini | **Marowijne / Maroni** (révision — retracé avec embouchure indépendante en mer, l'objection topologique qui écartait cette hypothèse disparaît ; le bras rejoignant le Suriname est en réalité un cours distinct, la Commewijne, faussement relié par Jaillot via une île fictive vers Wia-Wia) | ✅ fort |
 | N065 | r-maryowapaneko | R. Maryowapaneko | **RÉVISION COLLABORATIVE (avec Ronan) — Maryowapaneko, convention cartographique assumée** (ERR-004 retiré ; rivière imaginaire de la même couche légendaire que Lac de Caslipa/N023 et Coyrama R./N019, assumée comme telle plutôt que recherchée comme fleuve réel) | 🎲 convention cartographique |
 | N066 | r-michataya | R Michataya | **Río Michatoya** (exutoire du lac Amatitlán, Guatemala) | ✅ fort |
 | N067 | r-pech | R. Pech | Río Patuca (Honduras) — identification reprise de `villes-data.js`, avec réserve de position | ⚠️ moyen/faible |
@@ -2418,40 +2418,41 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
 - **Toponyme Jaillot :** R. Marrawini
 - **Nom canonique (harmonisé) :** Marrawini *(sphère néerlandaise du
   Suriname — reste tel quel, préfixe « R. » retiré ; toponyme Jaillot
-  conservé plutôt que l'hypothèse moderne « Commewijne », par cohérence
-  avec la convention adoptée pour les autres toponymes ambigus du
-  secteur)*
+  conservé, indépendamment du fleuve moderne identifié — voir révision
+  ci-dessous)*
 - **Territoire :** suriname
-- **Repères proches :** Paramaribo (42,4 NM). Se jette directement dans
-  le fleuve Suriname (`outlets` : `type: "junction", targetRiverId:
-  "Suriname"`), au point le plus proche de la mer du bras « Suriname »
-  principal — donc représenté comme un affluent, pas comme une embouchure
-  indépendante.
-- **Identification proposée / nom moderne :** **Commewijne** (hypothèse) —
-  écarté en première intention : Marowijne/Maroni (frontière
-  Suriname–Guyane française).
-- **Confiance :** ⚠️ moyen
-- **Recalibration (avec Ronan) :** examiné mais **non promu** — la fiche
-  garde un doute résiduel explicite (« sous réserve qu'il pourrait aussi
-  s'agir d'une confusion/fusion cartographique Commewijne-Marowijne »),
-  ce qui écarte toute exclusivité positionnelle affirmée.
-- **Raisonnement :** La ressemblance phonétique à « Marowijne/Maroni » est
-  frappante à première vue, mais la topologie du dossier (Marrawini
-  représenté comme un simple affluent qui rejoint le Suriname près de son
-  embouchure, et non comme un fleuve indépendant avec sa propre bouche à
-  la mer, comme l'est réellement le Marowijne) ne colle pas avec un
-  Marowijne réel — trop éloigné et sans lien hydrographique avec le
-  Suriname dans la réalité. En revanche, les sources indiquent que la
-  Commewijne portait aux XVIe-XVIIe siècles les formes « Camaiwini » et
-  « Cammawini » — très proches de « Marrawini » — et que cette rivière
-  rejoint précisément l'estuaire du Suriname près de Paramaribo, ce qui
-  correspond exactement à la relation topologique du dossier. Hypothèse
-  Commewijne retenue en confiance moyenne, sous réserve qu'il pourrait
-  aussi s'agir d'une confusion/fusion cartographique Commewijne-Marowijne
-  par Jaillot (zone la moins bien relevée du Suriname colonial à
-  l'époque).
-- **Sources :** [Commewijne River - Wikipedia](https://en.wikipedia.org/wiki/Commewijne_River) ;
-  [Marowijne River - Atlas of Mutual Heritage](https://www.atlasofmutualheritage.nl/page/10188/marowijne-river).
+- **Repères proches :** Paramaribo (42,4 NM).
+- **RÉVISION COLLABORATIVE (avec Ronan), postérieure à la passe de
+  domaines maritimes :** la relation `junction` vers le Suriname n'existe
+  plus — Marrawini a été retracé comme un cours indépendant, avec sa
+  propre embouchure en mer (`type: "sea"`, cellule `106_169`), et non
+  plus comme un simple affluent. L'objection qui écartait jusqu'ici
+  l'hypothèse Marowijne/Maroni (« pas de bouche à la mer indépendante,
+  contrairement au Marowijne réel ») disparaît donc entièrement.
+  **Identification proposée / nom moderne :** **Marowijne / Maroni**
+  (frontière Suriname–Guyane française) — hypothèse initiale, un temps
+  écartée, désormais confirmée par la retracé.
+  Le bras qui rejoint réellement le Suriname près de Paramaribo est un
+  cours distinct, la **Commewijne** (nouvellement tracé, voir
+  `inventaire-cours-non-digitalises.md`) — Jaillot faisait à tort
+  communiquer les deux fleuves, en représentant la zone autour de
+  l'actuelle réserve naturelle de Wia-Wia comme une île ; une erreur
+  cartographique classique de ce type de côte deltaïque/marécageuse, déjà
+  rencontrée ailleurs sur cette carte (cf. Bariquicometo/Apure, secteur
+  F). La ressemblance phonétique Camaiwini/Cammawini (formes
+  historiques de la Commewijne) avec « Marrawini », notée dans une
+  précédente version de cette fiche, s'explique donc par la confusion de
+  Jaillot lui-même entre les deux systèmes plutôt que par une identité
+  réelle des deux noms.
+- **Confiance :** ✅ fort
+- **Recalibration (avec Ronan) :** reclassé de ⚠️ moyen à ✅ fort — la
+  ressemblance phonétique à « Marowijne/Maroni », déjà qualifiée de
+  « frappante » dans la version précédente de cette fiche, n'est plus
+  contredite par la topologie une fois le tracé corrigé (embouchure
+  indépendante en mer, comme le Marowijne réel).
+- **Sources :** [Marowijne River - Atlas of Mutual Heritage](https://www.atlasofmutualheritage.nl/page/10188/marowijne-river) ;
+  [Commewijne River - Wikipedia](https://en.wikipedia.org/wiki/Commewijne_River) ;
+  lecture directe du tracé corrigé (proposée par Ronan).
 
 ### N065 — r-maryowapaneko
 
@@ -2519,6 +2520,23 @@ Rappels de méthode (repris de la session précédente, toujours valables) :
   cluster Pomeroon/Essequibo (à l'est), exactement l'ordre géographique
   réel des cours d'eau de l'ouest guyanais (Amacuro → Barima → Waini →
   Pomeroon → Essequibo).
+- **Correction géométrique (avec Ronan), postérieure au tracé de
+  Spruyt/Río Moruca :** le tracé initialement attribué en entier à
+  R. Waymy dans `fluvial-research-inventory.json` (3 cellules :
+  `101_156`, `102_156`, `103_155`) s'est révélé, une fois Spruyt
+  correctement tracé sur le scan, correspondre pour l'essentiel à
+  Spruyt et non à Waymy. Dans `js/oscar-hex-grid.js`, R. Waymy
+  n'occupe désormais qu'**une seule cellule** (`101_156`, embouchure en
+  mer), explicitement marquée en relation `separate` de Spruyt à cet
+  endroit — les deux cours partagent la même cellule d'embouchure sans
+  être le même cours. Spruyt occupe les cellules `101_156` (embouchure
+  partagée), `102_156`, `102_157` et `103_155` — c'est-à-dire les deux
+  cellules qui appartenaient auparavant à Waymy dans l'ancien tracé, plus
+  une nouvelle. L'identification (Río Waini) et la confiance (✅ fort)
+  ne sont pas remises en cause, seule la géométrie change. Le
+  `watercourseId` `r-waymy` dans `fluvial-research-inventory.json` reste
+  à corriger en conséquence (3 → 1 cellule) lors de la construction de la
+  base de données finale.
 - **Sources :** Analyse interne, cohérence positionnelle avec R. Amacuro
   et R. Poumaron/R. Essequebe.
 
@@ -3259,10 +3277,11 @@ collaboratifs ci-dessus)
 arbitraire `ERR-0xx`).
 
 **Passe de recalibration des confiances (avec Ronan), secteur par
-secteur, engagée une fois le corpus de 143 cours stabilisé *(134
+secteur, engagée une fois le corpus de 143 cours stabilisé** *(134
 digitalisés + 9 identifiés mais non tracés — corrigé d'une erreur
-d'addition antérieure de +1, voir `inventaire-cours-non-digitalises.md`)*
-:** Secteur A
+d'addition antérieure de +1, voir `inventaire-cours-non-digitalises.md`;
+depuis complété à 144 par l'ajout de la Commewijne, révélée après coup
+lors de la correction du tracé de N064)* **:** Secteur A
 traité — 6 reclassements ⚠️ moyen → ✅ fort (N012 Río La Antigua, N029
 Río Verde, N058 Río Cozoaltepec, N061 Río Coatzacoalcos, N072 Río
 Tecolutla, N074 Río Tuxpan), sur le critère de position exclusive sans
@@ -3311,12 +3330,23 @@ plus proche », superlatif explicite —, N102 Río Caroní — ancrage
 « nettement meilleur » qu'une alternative nommée puis écartée, Capure),
 tous sur le critère de position exclusive sans appui toponymique direct,
 même famille de raisonnement que Bariquicometo R./N006 (déjà fort) ;
-N038, N048, N063 et N064 examinés mais non promus, chacun admettant un
-hedge explicite (« plus vraisemblablement », « rien ne permet de
-trancher », « sous réserve d'une confusion cartographique »). Un 20e
-cours (N102, Varacoyari River) avait été localisé en fin de passe mais
-pas encore intégré au décompte — c'est chose faite, sans écart résiduel
-avec le total de 20 attendu pour ce secteur.
+N038, N048 et N063 examinés mais non promus, chacun admettant un hedge
+explicite (« plus vraisemblablement », « rien ne permet de trancher »).
+Un 20e cours (N102, Varacoyari River) avait été localisé en fin de passe
+mais pas encore intégré au décompte — c'est chose faite, sans écart
+résiduel avec le total de 20 attendu pour ce secteur.
+
+**Reclassement supplémentaire, postérieur à la clôture du secteur F (avec
+Ronan) :** à l'occasion de sa passe sur les domaines maritimes,
+Ronan a corrigé le tracé de N064 (R. Marrawini) dans `oscar-hex-grid.js`
+— il n'est plus représenté comme un affluent du Suriname mais comme un
+cours indépendant avec sa propre embouchure en mer, ce qui lève l'unique
+objection qui écartait jusque-là l'hypothèse Marowijne/Maroni malgré une
+ressemblance phonétique déjà qualifiée de « frappante ». Le bras qui
+rejoint réellement le Suriname est un cours distinct nouvellement tracé,
+la Commewijne — Jaillot les faisait communiquer à tort en représentant la
+zone de l'actuelle réserve de Wia-Wia comme une île. **N064 reclassé
+⚠️ moyen → ✅ fort.**
 
 **Passe de recalibration et de canonisation des noms terminée sur
 l'ensemble des six secteurs du corpus des 105 cours nommés (N0xx).**
@@ -3333,8 +3363,8 @@ en quatre points validé par Ronan. Le corpus R0xx (29 cours,
 | C — Amérique centrale | 15 | 3 | 3 | 1 | 0 | 22 |
 | D — Panama / Darién | 4 | 10 | 1 | 0 | 0 | 15 |
 | E — Nouvelle-Grenade / Venezuela | 9 | 2 | 0 | 0 | 0 | 11 |
-| F — Nouvelle-Andalousie / Suriname | 13 | 2 | 2 | 3 | 0 | 20 |
-| **Total** | **69** | **20** | **11** | **5** | **0** | **105** |
+| F — Nouvelle-Andalousie / Suriname | 14 | 1 | 2 | 3 | 0 | 20 |
+| **Total** | **70** | **19** | **11** | **5** | **0** | **105** |
 
 *(Synchronisation, avec Ronan) : à l'occasion de la clôture du secteur F,
 un recomptage automatisé de l'ensemble de la table maître (par script,
@@ -3354,7 +3384,7 @@ listée, donc moyen pour les deux). Les deux lignes et le total ont été
 corrigés en conséquence ; aucune fiche n'a été modifiée par cette
 correction, seule la table récapitulative était en cause.*
 
-Soit environ **66 % en confiance forte**, **19 % en confiance moyenne**,
+Soit environ **67 % en confiance forte**, **18 % en confiance moyenne**,
 **10 % en confiance faible**, **5 %** en convention cartographique
 assumée (Lac de Caslipa/Cassipa — désormais ancrée à un fait réel plutôt
 que pure fiction, cf. complément collaboratif —, Arba de Canaveral/Barra

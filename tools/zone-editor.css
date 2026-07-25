@@ -1181,6 +1181,81 @@
       padding: 5px 7px;
     }
 
+    .oscar-fluvial-inspector {
+      margin-top: 8px;
+      padding: 7px;
+      border: 1px solid rgba(34, 211, 238, 0.28);
+      background: rgba(8, 145, 178, 0.055);
+    }
+
+    .oscar-filter-panel .oscar-fluvial-inspector > summary {
+      color: #67e8f9;
+    }
+
+    .oscar-fluvial-inspector-body {
+      display: grid;
+      gap: 7px;
+      padding-top: 7px;
+    }
+
+    .oscar-fluvial-inspector-body > label {
+      display: grid;
+      gap: 5px;
+    }
+
+    .oscar-controls .oscar-fluvial-inspector select {
+      width: 100%;
+      max-width: none;
+    }
+
+    .oscar-fluvial-inspector-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .oscar-fluvial-inspector-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px 10px;
+      color: var(--text-dim);
+      font-size: 0.64rem;
+    }
+
+    .oscar-fluvial-inspector-legend span::before {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 4px;
+      border-radius: 50%;
+      content: '';
+    }
+
+    .oscar-fluvial-inspector-legend .river::before {
+      background: #22d3ee;
+    }
+
+    .oscar-fluvial-inspector-legend .junction::before {
+      background: #e879f9;
+    }
+
+    .oscar-fluvial-inspector-legend .fork::before {
+      background: #fb923c;
+    }
+
+    .oscar-inspector-junction {
+      color: #f0abfc !important;
+    }
+
+    .oscar-inspector-fork {
+      color: #fdba74 !important;
+    }
+
+    #oscar-fluvial-inspector-summary {
+      margin: 0;
+      line-height: 1.45;
+    }
+
     .oscar-grid-loader {
       display: flex;
       flex-wrap: wrap;
@@ -1326,6 +1401,38 @@
 
     .ocean-fluvial-current .ocean-fluvial-enable {
       grid-column: 1 / -1;
+    }
+
+    .ocean-fluvial-advanced {
+      grid-column: 1 / -1;
+      border: 1px solid rgba(125, 211, 252, 0.24);
+      border-radius: 3px;
+      background: rgba(15, 23, 42, 0.28);
+    }
+
+    .ocean-fluvial-advanced > summary {
+      padding: 6px 8px;
+      color: #7dd3fc;
+      font-size: 0.72rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .ocean-fluvial-advanced-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      padding: 2px 8px 9px;
+    }
+
+    .ocean-fluvial-advanced-wide,
+    .ocean-fluvial-advanced-hint {
+      grid-column: 1 / -1;
+    }
+
+    .ocean-fluvial-advanced-hint {
+      margin-top: 2px;
+      line-height: 1.45;
     }
 
     .ocean-fluvial-outlet {

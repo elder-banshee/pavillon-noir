@@ -179,6 +179,26 @@
       });
       refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
     });
+    document.getElementById('oscar-fluvial-inspector-watercourse')?.addEventListener('change', (e) => {
+      oscarInspectorWatercourseId = e.target.value || '';
+      refresh(R.OSCAR_INSPECTOR | R.SEA_PANEL);
+    });
+    document.getElementById('oscar-fluvial-inspector-junction')?.addEventListener('change', (e) => {
+      if (e.target.checked) oscarInspectorConnectionTypes.add('junction');
+      else oscarInspectorConnectionTypes.delete('junction');
+      refresh(R.OSCAR_INSPECTOR | R.SEA_PANEL);
+    });
+    document.getElementById('oscar-fluvial-inspector-fork')?.addEventListener('change', (e) => {
+      if (e.target.checked) oscarInspectorConnectionTypes.add('fork');
+      else oscarInspectorConnectionTypes.delete('fork');
+      refresh(R.OSCAR_INSPECTOR | R.SEA_PANEL);
+    });
+    document.getElementById('oscar-fluvial-inspector-overlap')?.addEventListener('change', (e) => {
+      oscarInspectorOverlapOnly = !!e.target.checked;
+      refresh(R.OSCAR_INSPECTOR | R.SEA_PANEL);
+    });
+    document.getElementById('oscar-fluvial-inspector-fit')?.addEventListener('click', fitOscarFluvialInspectorHighlights);
+    document.getElementById('oscar-fluvial-inspector-clear')?.addEventListener('click', clearOscarFluvialInspector);
     const seaOscarPanel = document.getElementById('sea-oscar');
     if (seaOscarPanel) {
       seaOscarPanel.addEventListener('click', (e) => {
@@ -200,6 +220,19 @@
           row?.querySelectorAll('[data-fluvial-field]:not([data-fluvial-field="enabled"])').forEach(input => {
             input.disabled = !e.target.checked;
           });
+          updateFluvialTerminalFields(row);
+        } else if (e.target?.matches?.('[data-fluvial-field="attachmentCourseId"]')) {
+          updateFluvialAdvancedCourseSelection(e.target.closest('.ocean-fluvial-current'));
+        } else if (e.target?.matches?.('[data-fluvial-field="terminalType"]')) {
+          updateFluvialTerminalFields(e.target.closest('.ocean-fluvial-current'));
+        } else if (e.target?.matches?.('[data-fluvial-field="mouthMode"]')) {
+          const row = e.target.closest('.ocean-fluvial-current');
+          const multiple = row?.querySelector('[data-fluvial-field="multipleMouth"]');
+          if (multiple) multiple.checked = e.target.value === 'multiple';
+        } else if (e.target?.matches?.('[data-fluvial-field="multipleMouth"]')) {
+          const row = e.target.closest('.ocean-fluvial-current');
+          const mode = row?.querySelector('[data-fluvial-field="mouthMode"]');
+          if (mode) mode.value = e.target.checked ? 'multiple' : 'single';
         }
       });
     }

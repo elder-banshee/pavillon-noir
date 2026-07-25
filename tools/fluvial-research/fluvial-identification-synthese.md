@@ -36,43 +36,103 @@ voir `fluvial-identification-complete.md` pour la définition complète).
 
 ## Tableau récapitulatif (29 cours)
 
-| ID | Toponyme Jaillot / repère | Identification proposée | Confiance |
-|---|---|---|---|
-| R001 | À l'ouest de Xiopa/Manzanillo, le plus long des deux | **Río Cihuatlán / Marabasco** — les deux noms usuels désignent le même cours, confirmé | ✅ fort |
-| R002 | Juste à l'est de Xiopa (proche), distinct de Subutla/N096 | **Exutoire de la Laguna de Cuyutlán** (canaux Tepalcates/Ventanas) — « Boca de Pascuales » écarté (= Río Armería = Subutla/N096, doublon évité) | ⚠️ moyen |
-| R003 | Zacatula | **Río Balsas** (Río de Zacatula) | ✅ fort |
-| R004 | Costa Grande, voisin « R de los Yopes » | **Río Coyuquilla** (débouché à Catalutla, entre Xihuacan et Petatlán) | ⚠️ moyen |
-| R005 | Acapulco, distinct de Metapec R. | Río de la Sabana | ⚠️ moyen |
-| R006 | Affluent du Mississippi passant par Ovachita/Tanzibao/Maowaya | **Rivière Ouachita** | ✅ fort |
-| R007 | Non étiqueté (Tansaquilco = village riverain figuré par Jaillot, pas le nom du cours) | **Río Tamesí (Guayalejo)** — confirmé par recoupement multi-cartes (Maupala chez Chatelain/Delisle, R. de las Nassas chez Moll) | ⚠️ moyen |
-| R008 | Spirito Santo (Villahermosa) | **Río Carrizal** (bras du Grijalva/Mezcalapa encerclant Villahermosa) | ✅ fort |
-| R009 | St Salvador / la Trinidad | Río Jiboa — hypothèse (réserve : San Salvador n'est pas réellement côtière) | ⚠️ moyen |
-| R010 | Entre R. Dulce et Chuckabul | **Río Sarstún** | ✅ fort |
-| R011 | « R. Testa », sud de León | **Río Chiquito** (drainage de León, estuaire de Las Peñitas/Isla Juan Venado) | ⚠️ moyen |
-| R012 | Rivière de Valladolid (Yucatán) | Convention cartographique, pas de fleuve réel | 🎲 |
-| R013 | Big Bend floridien, entre Nieves R. et Port Grande — **non étiqueté sur Jaillot** (reclassé : n'est pas sur la côte de Géorgie) | **Ochlockonee River** (révision collaborative — ERR-006 retiré ; hypothèse « doublon graphique de l'Apalachicola » abandonnée après recoupement avec Bowen 1747, qui distingue « Rivière des Canards » à l'ouest et « Rivière des Apalaches » à l'est à cet emplacement ; nom non attesté indépendamment, mais position exactement cohérente) | ⚠️ faible |
-| R014 | Big Bend floridien, même secteur que R013 — **non étiqueté sur Jaillot** | **St. Marks/Apalachee River** (révision collaborative — ERR-007 retiré ; = « Rivière des Apalaches » chez Bowen 1747 ; la rivière St. Marks portait historiquement le nom de « rivière Apalachee », attestation indépendante trouvée) | ⚠️ moyen |
-| R015 | « old Chirique » | **Río Chiriquí Viejo** | ✅ fort |
-| R016 | « Chiriqui » | **Río Chiriquí** (Nuevo) | ✅ fort |
-| R017 | Est de Puebla (Alanje) | Río David — hypothèse | ⚠️ moyen |
-| R018 | Natá | Río Grande de Coclé (ou Río Chico) | ⚠️ moyen/fort |
-| R019 | Affluent sud du Chagre (Capira) | **RÉVISION COLLABORATIVE (avec Ronan) — Río Indio** (remplace Río Trinidad ; embouchure indépendante proche de celle du Chagres, jugée plus probable qu'un affluent aussi modeste que le Río Trinidad réel) | ⚠️ moyen |
-| R020 | Près de Capira / I. Perica | **Río Caimito** (débouché indépendant à Puerto Caimito) | ⚠️ moyen |
-| R021 | 3 bras, 11,1 NM de Charles Town | **Cooper River / Wando River** | ✅ fort |
-| R022 | 4,3 NM de Charles Town | **Ashley River** | ✅ fort |
-| R023 | 14 NM de Charles Town | Stono River | ⚠️ moyen |
-| R024 | 27,2 NM de Charles Town | **North Edisto River** (confirmé — Dawhoo/Wadmalaw sont des connecteurs internes, pas des embouchures distinctes) | ✅ fort |
-| R025 | Golfe d'Urabá | **Río Turbo** (révision collaborative — remplace l'hypothèse Boca Tarena ; cours indépendant, sans lien structurel avec l'Atrato dans l'inventaire) | ⚠️ moyen |
-| R026 | Jonction Rio Grande de la Madalena | **Río Cauca** | ✅ fort |
-| R027 | Jonction Lac Maracaibo | **Río Chama** | ✅ fort |
-| R028 | Jonction Orénoque | **Río Zuata** (révision collaborative — remplace Río Usupamo, hypothèse retirée : simple toponyme du site occupé par Santo Tomé de Guayana 1642-1764, sans existence comme hydronyme indépendant ; F-95_143-C, voisin immédiat de Caturi Voari River/N011=Río Espino, rive nord, tous deux éloignés de Santo Tomé de Guayana — lecture directe de la carte, proposée par Ronan) | ⚠️ moyen |
-| R029 | Près de San José de Macuro, voisin direct d'Europa River/Caño Macareo | **RÉVISION COLLABORATIVE (avec Ronan) — Caño Mánamo** (ERR-017 retiré ; l'un des deux grands bras de l'Orénoque, débouché à la Boca de Pedernales sur le golfe de Paria — cohérent avec une embouchure large et un tracé incomplet) | ⚠️ moyen |
+*(Aucun de ces 29 cours n'est étiqueté par Jaillot — colonne « Toponyme
+Jaillot / repère » = description positionnelle, pas un nom relevé sur la
+carte. Le nom canonique s'applique donc directement à l'identification
+proposée, sans archive de toponyme d'origine.)*
+
+| ID | Toponyme Jaillot / repère | Identification proposée | Nom canonique (harmonisé) | Confiance |
+|---|---|---|---|---|
+| R001 | À l'ouest de Xiopa/Manzanillo, le plus long des deux | **Río Cihuatlán / Marabasco** — les deux noms usuels désignent le même cours, confirmé | Rio Cihuatlán *(alias : Rio Marabasco)* | ✅ fort |
+| R002 | Juste à l'est de Xiopa (proche), distinct de Subutla/N096 | **Exutoire de la Laguna de Cuyutlán** (canaux Tepalcates/Ventanas) — « Boca de Pascuales » écarté (= Río Armería = Subutla/N096, doublon évité) | Laguna de Cuyutlán *(pas un hydronyme simple — exutoire lagunaire à deux chenaux, nom descriptif conservé)* | ⚠️ moyen |
+| R003 | Zacatula | **Río Balsas** (Río de Zacatula) | Rio Balsas | ✅ fort |
+| R004 | Costa Grande, voisin « R de los Yopes » | **Río Coyuquilla** (débouché à Catalutla, entre Xihuacan et Petatlán) | Rio Coyuquilla *(ou Rio Petatlán — tronc/affluent non tranché)* | ⚠️ moyen |
+| R005 | Acapulco, distinct de Metapec R. | Río de la Sabana | Rio de la Sabana | ⚠️ moyen |
+| R006 | Affluent du Mississippi passant par Ovachita/Tanzibao/Maowaya | **Rivière Ouachita** | Rivière Ouachita *(déjà complet/au format — nom français)* | ✅ fort |
+| R007 | Non étiqueté (Tansaquilco = village riverain figuré par Jaillot, pas le nom du cours) | **Río Tamesí (Guayalejo)** — confirmé par recoupement multi-cartes (Maupala chez Chatelain/Delisle, R. de las Nassas chez Moll) | Rio Tamesí *(alias : Rio Guayalejo)* | ✅ fort |
+| R008 | Spirito Santo (Villahermosa) | **Río Carrizal** (bras du Grijalva/Mezcalapa encerclant Villahermosa) | Rio Carrizal | ✅ fort |
+| R009 | St Salvador / la Trinidad | Río Jiboa — hypothèse (réserve : San Salvador n'est pas réellement côtière) | Rio Jiboa | ⚠️ moyen |
+| R010 | Entre R. Dulce et Chuckabul | **Río Sarstún** | Rio Sarstún | ✅ fort |
+| R011 | « R. Testa », sud de León | **Río Chiquito** (drainage de León, estuaire de Las Peñitas/Isla Juan Venado) | Rio Chiquito | ⚠️ moyen |
+| R012 | Rivière de Valladolid (Yucatán) | Convention cartographique, pas de fleuve réel | *(sans objet — pas de fleuve réel à nommer)* | 🎲 |
+| R013 | Big Bend floridien, entre Nieves R. et Port Grande — **non étiqueté sur Jaillot** (reclassé : n'est pas sur la côte de Géorgie) | **Ochlockonee River** (révision collaborative — ERR-006 retiré ; hypothèse « doublon graphique de l'Apalachicola » abandonnée après recoupement avec Bowen 1747, qui distingue « Rivière des Canards » à l'ouest et « Rivière des Apalaches » à l'est à cet emplacement ; nom non attesté indépendamment, mais position exactement cohérente) | Ochlockonee River *(déjà complet/au format)* | ⚠️ moyen |
+| R014 | Big Bend floridien, même secteur que R013 — **non étiqueté sur Jaillot** | **St. Marks/Apalachee River** (révision collaborative — ERR-007 retiré ; = « Rivière des Apalaches » chez Bowen 1747 ; la rivière St. Marks portait historiquement le nom de « rivière Apalachee », attestation indépendante trouvée) | St Marks River *(alias : Apalachee River — « St » conservé, origine anglaise)* | ✅ fort |
+| R015 | « old Chirique » | **Río Chiriquí Viejo** | Rio Chiriquí Viejo | ✅ fort |
+| R016 | « Chiriqui » | **Río Chiriquí** (Nuevo) | Rio Chiriquí | ✅ fort |
+| R017 | Est de Puebla (Alanje) | Río David — hypothèse | Rio David | ⚠️ moyen |
+| R018 | Natá | Río Grande de Coclé (ou Río Chico) | Rio Grande de Coclé *(alias : Rio Chico)* | ✅ fort |
+| R019 | Affluent sud du Chagre (Capira) | **RÉVISION COLLABORATIVE (avec Ronan) — Río Indio** (remplace Río Trinidad ; embouchure indépendante proche de celle du Chagres, jugée plus probable qu'un affluent aussi modeste que le Río Trinidad réel) | Rio Indio | ⚠️ moyen |
+| R020 | Près de Capira / I. Perica | **Río Caimito** (débouché indépendant à Puerto Caimito) | Rio Caimito | ⚠️ moyen |
+| R021 | 3 bras, 11,1 NM de Charles Town | **Cooper River / Wando River** | Cooper River *(note : le Wando est un second cours réel distinct rejoignant le Cooper près de son embouchure, pas un simple alias)* | ✅ fort |
+| R022 | 4,3 NM de Charles Town | **Ashley River** | Ashley River | ✅ fort |
+| R023 | 14 NM de Charles Town | Stono River | Stono River | ⚠️ moyen |
+| R024 | 27,2 NM de Charles Town | **North Edisto River** (confirmé — Dawhoo/Wadmalaw sont des connecteurs internes, pas des embouchures distinctes) | North Edisto River | ✅ fort |
+| R025 | Golfe d'Urabá | **Río Turbo** (révision collaborative — remplace l'hypothèse Boca Tarena ; cours indépendant, sans lien structurel avec l'Atrato dans l'inventaire) | Rio Turbo | ⚠️ moyen |
+| R026 | Jonction Rio Grande de la Madalena | **Río San Jorge** *(correction — voir note de synchronisation ci-dessous : cette ligne indiquait encore « Río Cauca », conclusion abandonnée lors de la résolution du conflit 2)* | Rio San Jorge | ✅ fort |
+| R027 | Jonction Lac Maracaibo | **Río Chama** | Rio Chama | ✅ fort |
+| R028 | Jonction Orénoque | **Río Zuata** (révision collaborative — remplace Río Usupamo, hypothèse retirée : simple toponyme du site occupé par Santo Tomé de Guayana 1642-1764, sans existence comme hydronyme indépendant ; F-95_143-C, voisin immédiat de Caturi Voari River/N011=Río Espino, rive nord, tous deux éloignés de Santo Tomé de Guayana — lecture directe de la carte, proposée par Ronan) | Rio Zuata | ✅ fort |
+| R029 | Près de San José de Macuro, voisin direct d'Europa River/Caño Macareo | **RÉVISION COLLABORATIVE (avec Ronan) — Caño Mánamo** (ERR-017 retiré ; l'un des deux grands bras de l'Orénoque, débouché à la Boca de Pedernales sur le golfe de Paria — cohérent avec une embouchure large et un tracé incomplet) | Caño Mánamo *(générique « Caño » conservé — désigne un chenal/distributaire, distinct de « Rio »)* | ⚠️ moyen |
 
 **N096 (Subutla)** n'appartient pas à cette liste : c'est un village, pas
 un fleuve. Le cours associé (arrosant Cachan, entre Tlaconoa et Subutla)
 est distinct de R001 et R002 et reste à documenter séparément dans le
 corpus des 105 cours nommés — candidat Río Armería (Boca de Apiza),
 ⚠️ faible.
+
+## Noms canoniques et recalibration des confiances (avec Ronan)
+
+Passe complète sur les 29 cours R0xx, miroir de celle menée sur les 105
+cours N0xx (mêmes critères : nom canonique harmonisé par sphère
+linguistique — espagnol → « Rio X », anglais → « X River », français/
+néerlandais inchangé —, promotion de confiance réservée aux cas
+d'exclusivité positionnelle explicite, de convergence toponyme+position,
+ou de sources indépendantes multiples convergentes). Contrairement aux
+N0xx, ces 29 cours n'ont pas de toponyme Jaillot à archiver puisqu'ils ne
+sont pas étiquetés sur la carte — seul un nom canonique est ajouté.
+
+**6 reclassements ⚠️/🎲 → tier supérieur :**
+
+- **R007 (Río Tamesí/Guayalejo) :** ⚠️ moyen → ✅ fort. Convergence de
+  quatre cartes indépendantes (Jaillot, Chatelain 1719, Delisle 1718,
+  Moll ~1720) sur la même position, malgré l'absence d'ancrage
+  toponymique vérifiable — critère des « sources indépendantes
+  multiples convergentes ».
+- **R013 (Ochlockonee River) :** ⚠️ faible → ⚠️ moyen. Position
+  « exactement cohérente » entre deux repères nommés, alternative
+  (doublon graphique de l'Apalachicola) explicitement examinée puis
+  abandonnée après recoupement Bowen 1747 — promu d'un cran seulement,
+  faute d'attestation toponymique indépendante (contrairement à R014).
+- **R014 (St Marks/Apalachee River) :** ⚠️ moyen → ✅ fort. Convergence
+  position + attestation toponymique historique indépendante (la
+  rivière St. Marks portait historiquement le nom « rivière Apalachee »).
+- **R018 (Río Grande de Coclé) :** ⚠️ moyen/fort (notation double
+  héritée) → ✅ fort, tranché. Superlatif explicite dans le raisonnement
+  de Ronan (« tracé de loin le plus long débouchant sur la façade
+  Pacifique »).
+- **R026 (correction + promotion) :** la ligne du tableau indiquait
+  encore « Río Cauca », identification abandonnée lors de la résolution
+  du conflit 2 (voir section dédiée plus bas) au profit du **Río San
+  Jorge** — la confiance associée à cette résolution était déjà « forte
+  des deux côtés », non répercutée dans le tableau récapitulatif. Corrigé
+  ici : ✅ fort, contenu et confiance.
+- **R028 (Río Zuata) :** ⚠️ moyen → ✅ fort. La fiche indique elle-même
+  une confiance « alignée sur celle de Capuri River/N010 = Río Apurito » ;
+  N010 étant désormais promu ✅ fort dans `fluvial-identification-complete.md`
+  (secteur F, même critère de position exclusive sans ancrage
+  toponymique), R028 suit par la même cohérence interne explicite que
+  Caturi Voari River/N011.
+
+**Examinés mais non promus** (hedge explicite ou absence d'exclusivité
+positionnelle) : R002, R004 (tronc/affluent non tranché), R005 (simple
+hypothèse), R009 (réserve explicite sur la position de San Salvador),
+R011, R017 (hypothèse), R019 (jugement de Ronan explicitement hedgé —
+alternative Río Trinidad reste structurellement plausible), R020, R023,
+R025, R029.
+
+**Bilan des 29 R0xx après cette passe :** 16 ✅ fort / 12 ⚠️ moyen /
+0 ⚠️ faible / 1 🎲 convention cartographique (R012, inchangé). Contre
+12 fort / 14 moyen / 1 faible / 1 convention / 1 moyen-fort non tranché
+avant la passe.
 
 ## Changelog — erreurs corrigées lors de la réécriture
 

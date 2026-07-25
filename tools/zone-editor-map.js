@@ -50,6 +50,8 @@
       map.getPane('oscarGridPane').style.zIndex = 435;
       map.createPane('oscarArrowPane');
       map.getPane('oscarArrowPane').style.zIndex = 438;
+      map.createPane('oscarInspectorPane');
+      map.getPane('oscarInspectorPane').style.zIndex = 439;
       map.createPane('seaCellPane');
       map.getPane('seaCellPane').style.zIndex = 440;
       seaCellLayer = L.layerGroup().addTo(map);
