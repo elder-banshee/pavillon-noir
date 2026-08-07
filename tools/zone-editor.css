@@ -1456,6 +1456,21 @@
       font-size: 0.72rem;
     }
 
+    .ocean-fluvial-relation > span code {
+      display: block;
+      margin-top: 3px;
+      color: rgba(216, 225, 232, 0.7);
+      font-size: 0.68rem;
+      overflow-wrap: anywhere;
+    }
+
+    .ocean-fluvial-course-id {
+      display: inline-block;
+      max-width: 100%;
+      color: rgba(216, 225, 232, 0.72);
+      overflow-wrap: anywhere;
+    }
+
     .ocean-fluvial-topology-hint {
       margin-top: 7px;
     }

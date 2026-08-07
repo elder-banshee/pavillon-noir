@@ -89,13 +89,33 @@
         .find(current => oscarFluvialCourseId(current) === String(courseId || ''));
     }
 
-    function oscarFluvialCourseLabel(cell, courseId) {
-      const current = oscarFluvialCurrentByCourseId(cell, courseId);
-      if (!current) return String(courseId || '');
-      const name = String(current.riverId || courseId || '');
+    function oscarFluvialBranchLabel(branch) {
+      const value = String(branch || '').trim();
+      return /^[a-z]$/i.test(value) ? value.toUpperCase() : value;
+    }
+
+    function oscarFluvialCourseIdentity(cell, courseId, grid = getOscarGrid()) {
+      const stableId = String(courseId || '').trim();
+      const current = oscarFluvialCurrentByCourseId(cell, stableId);
+      const courses = oscarFluvialCourses(grid);
+      const registered = courses[stableId] || null;
+      const name = String(registered?.riverId || current?.riverId || stableId);
+      const watercourseId = String(registered?.watercourseId || stableId);
+      const branch = oscarFluvialBranchLabel(registered?.branch);
+      const siblingCount = Object.entries(courses)
+        .filter(([, course]) => String(course?.watercourseId || '') === watercourseId)
+        .length;
       const sameNameCount = oscarFluvialCurrents(cell)
         .filter(item => String(item.riverId || '') === name).length;
-      return sameNameCount > 1 ? `${name} [${oscarFluvialCourseId(current)}]` : name;
+      const qualifier = branch || stableId;
+      const label = qualifier && (siblingCount > 1 || sameNameCount > 1)
+        ? `${name} [${qualifier}]`
+        : name;
+      return { courseId: stableId, name, watercourseId, branch, label };
+    }
+
+    function oscarFluvialCourseLabel(cell, courseId, grid = getOscarGrid()) {
+      return oscarFluvialCourseIdentity(cell, courseId, grid).label;
     }
 
     function nextOscarFluvialCourseId(riverId, grid = getOscarGrid()) {
@@ -1300,8 +1320,14 @@
       const fluvialDetails = fluvialCurrents.length
         ? fluvialCurrents.map(current => {
           const currentSpeed = oscarCellSpeed(current);
-          const riverId = current.riverId || 'tracé sans identifiant';
-          return `<div class="sea-prop"><span>Courant fluvial — ${escapeHtmlText(riverId)} :</span> ${currentSpeed.toFixed(2)} nd (${(currentSpeed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h), direction ${formatMaybeNumber(current.dirToDeg, 1, '°')}</div>`;
+          const courseId = oscarFluvialCourseId(current);
+          const courseLabel = courseId
+            ? oscarFluvialCourseLabel(cell, courseId, grid)
+            : 'tracé sans identifiant';
+          const technicalId = courseId
+            ? ` <small class="ocean-fluvial-course-id">tracé <code>${escapeHtmlText(courseId)}</code></small>`
+            : '';
+          return `<div class="sea-prop"><span>Courant fluvial — ${escapeHtmlText(courseLabel)} :</span> ${currentSpeed.toFixed(2)} nd (${(currentSpeed * SEA_KNOTS_TO_KMH_EDITOR).toFixed(1)} km/h), direction ${formatMaybeNumber(current.dirToDeg, 1, '°')}${technicalId}</div>`;
         }).join('')
         : '<div class="sea-prop"><span>Courant fluvial :</span> aucun</div>';
       const fluvialTopologyDetails = [
@@ -1659,10 +1685,11 @@
         const firstLabel = oscarFluvialCourseLabel(grid.cells[first.cellKey], first.courseId);
         const secondLabel = oscarFluvialCourseLabel(grid.cells[second.cellKey], second.courseId);
         const neighbourSuffix = first.cellKey === second.cellKey ? '' : ` — cellule voisine ${second.cellKey}`;
+        const technicalSummary = `${first.courseId} (${first.cellKey}) ↔ ${second.courseId} (${second.cellKey})`;
         const option = (optionValue, label) => `<option value="${escapeAttr(optionValue)}"${value === optionValue ? ' selected' : ''}>${escapeHtmlText(label)}</option>`;
         return [
           `<label class="ocean-fluvial-relation" data-fluvial-pair-index="${index}" data-first-course-id="${escapeAttr(first.courseId)}" data-first-cell-key="${escapeAttr(first.cellKey)}" data-second-course-id="${escapeAttr(second.courseId)}" data-second-cell-key="${escapeAttr(second.cellKey)}">`,
-          `<span>${escapeHtmlText(firstLabel)} / ${escapeHtmlText(secondLabel + neighbourSuffix)}</span>`,
+          `<span>${escapeHtmlText(firstLabel)} / ${escapeHtmlText(secondLabel + neighbourSuffix)}<code>${escapeHtmlText(technicalSummary)}</code></span>`,
           `<select data-fluvial-relation data-initial="${escapeAttr(value)}">`,
           option('', 'Aucune connexion'),
           option(`fork:${first.courseId}>${second.courseId}`, `Fourche : ${firstLabel} → ${secondLabel}`),
