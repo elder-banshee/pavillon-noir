@@ -3,7 +3,7 @@
 
 // Génère js/fleuves-data.js à partir de fluvial-research-inventory.json.
 //
-// Ce script ne relit jamais oscar-hex-grid.js directement : l'inventaire de
+// Ce script ne relit jamais ocean-hex-grid.js directement : l'inventaire de
 // recherche fait déjà ce travail (groupement des riverId, calcul de
 // courseId, détection des outlets/relations). generate-fleuves-data.js se
 // contente de projeter, pour chaque cours d'eau, les seuls champs utiles à
@@ -11,7 +11,7 @@
 // qu'au chantier d'identification (mapLabel, researchStatus, trace, centroid,
 // bbox, nearbySettlements, nearbyTerritories, neighbouringWatercourses...) et
 // toute coordonnée pixel brute, qui reste la responsabilité de
-// oscar-hex-grid.js et zones-data.js.
+// ocean-hex-grid.js et zones-data.js.
 //
 // courseId (et non riverId) est la clé stable utilisée ici : riverId reste
 // un identifiant technique hérité de la grille, mêlant parfois bras d'un
@@ -69,20 +69,20 @@ const header = `// ════════════════════�
 //   name       : nom d'affichage commun ; null si non identifié sur la carte
 //   branches   : bras du cours — courseId (identifiant stable, à utiliser
 //                comme clé de référence), riverId (identifiant technique
-//                hérité, sert de jointure vers oscar-hex-grid.js), branch
+//                hérité, sert de jointure vers ocean-hex-grid.js), branch
 //                (code de bras : 'main', 'delta-1', 'bras-2'...), cellCount
 //   cellCount  : nombre total de cellules occupées par le cours (tous bras
 //                confondus), utilisable comme proxy de taille
 //   outlets    : terminaisons de chaque bras — riverId, type ('sea' :
 //                embouchure en mer, 'map-edge' : sort de la carte,
 //                'junction' : rejoint un autre cours via targetRiverId)
-//   relations  : liens hydrologiques déclarés dans oscar-hex-grid.js
+//   relations  : liens hydrologiques déclarés dans ocean-hex-grid.js
 //                (ex. type 'fork' : bifurcation/confluence entre deux bras)
 //
 // La géométrie (contours, coordonnées pixel) reste dans zones-data.js et
-// oscar-hex-grid.js ; ce fichier ne documente que l'identité et la
+// ocean-hex-grid.js ; ce fichier ne documente que l'identité et la
 // topologie. Les vecteurs de courant et vitesses par cellule restent dans
-// oscar-hex-grid.js. Pas encore chargé par index.html/carte.html — à
+// ocean-hex-grid.js. Pas encore chargé par index.html/carte.html — à
 // intégrer une fois sa consommation implémentée (ex. futur schéma de
 // vitesses générique/détaillé par cours).
 // ═══════════════════════════════════════════════════════════

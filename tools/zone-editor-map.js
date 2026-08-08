@@ -21,13 +21,13 @@
       // Image de fond
       const bounds = L.latLngBounds(pxToLatLng(0, IMG_H), pxToLatLng(IMG_W, 0));
       L.imageOverlay(IMG_SRC, bounds).addTo(map);
-      recomputeOscarSpeedColorCap(getOscarGrid());
-      populateOscarDomainSelect();
+      recomputeOceanSpeedColorCap(getOceanGrid());
+      populateOceanDomainSelect();
       updateOceanClipboardStatus();
       window.addEventListener('storage', (e) => {
         if (e.key === 'pn-ocean-clipboard') {
           updateOceanClipboardStatus();
-          if (ctx.isOcean) updateInfosMersOscarPanel();
+          if (ctx.isOcean) updateInfosMersOceanPanel();
         }
       });
       // Désactiver le panoramique de Leaflet DÈS l'appui sur Shift en OCÉANOGRAPHIE,
@@ -46,12 +46,12 @@
       map.getContainer().addEventListener('mousedown', oceanPaintOnDown, true);
       map.getContainer().addEventListener('mousedown', oceanLassoOnDown, true);
       map.getContainer().addEventListener('mousedown', handleLassoOnDown, true);
-      map.createPane('oscarGridPane');
-      map.getPane('oscarGridPane').style.zIndex = 435;
-      map.createPane('oscarArrowPane');
-      map.getPane('oscarArrowPane').style.zIndex = 438;
-      map.createPane('oscarInspectorPane');
-      map.getPane('oscarInspectorPane').style.zIndex = 439;
+      map.createPane('oceanGridPane');
+      map.getPane('oceanGridPane').style.zIndex = 435;
+      map.createPane('oceanArrowPane');
+      map.getPane('oceanArrowPane').style.zIndex = 438;
+      map.createPane('oceanInspectorPane');
+      map.getPane('oceanInspectorPane').style.zIndex = 439;
       map.createPane('seaCellPane');
       map.getPane('seaCellPane').style.zIndex = 440;
       seaCellLayer = L.layerGroup().addTo(map);
@@ -85,7 +85,7 @@
       document.addEventListener('touchend', onTouchDragEnd);
       map.on('zoomend', () => {
         if (ctx.isSemaphore || ctx.isOcean) {
-          updateOscarGridZoomStyles();
+          updateOceanGridZoomStyles();
           renderSeaCells();
         }
       });

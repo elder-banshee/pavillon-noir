@@ -2,7 +2,7 @@
 'use strict';
 
 /*
- * Migre les identifiants fluviaux de la grille OSCAR à partir de
+ * Migre les identifiants fluviaux de la grille OCEAN à partir de
  * fluvial-database-finale.json.
  *
  * - riverId devient le nomCanonique visible dans Zone Editor ;
@@ -12,7 +12,7 @@
  * - aucun vecteur, domaine ou autre attribut cellulaire n'est recalculé.
  *
  * Par défaut, le script effectue uniquement un audit. Utiliser --write pour
- * remplacer js/oscar-hex-grid.js après validation et écrire le rapport.
+ * remplacer js/ocean-hex-grid.js après validation et écrire le rapport.
  */
 
 const fs = require('fs');
@@ -21,20 +21,20 @@ const vm = require('vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const DATABASE_PATH = path.join(__dirname, 'fluvial-database-finale.json');
-const GRID_PATH = path.join(ROOT, 'js', 'oscar-hex-grid.js');
+const GRID_PATH = path.join(ROOT, 'js', 'ocean-hex-grid.js');
 const REPORT_PATH = path.join(__dirname, 'fluvial-canonical-names-report.json');
 const write = process.argv.includes('--write');
 
 function loadGrid(filePath) {
-  const source = `${fs.readFileSync(filePath, 'utf8')}\nglobalThis.__grid = OSCAR_HEX_GRID;`;
+  const source = `${fs.readFileSync(filePath, 'utf8')}\nglobalThis.__grid = OCEAN_HEX_GRID;`;
   const context = { globalThis: {}, window: {} };
   vm.runInNewContext(source, context, { filename: filePath, timeout: 30000 });
-  if (!context.globalThis.__grid?.cells) throw new Error('OSCAR_HEX_GRID.cells introuvable.');
+  if (!context.globalThis.__grid?.cells) throw new Error('OCEAN_HEX_GRID.cells introuvable.');
   return context.globalThis.__grid;
 }
 
 function serializeGrid(grid) {
-  return `// oscar-hex-grid.js — grille canonique OSCAR\nconst OSCAR_HEX_GRID = ${JSON.stringify(grid)};\nif (typeof window !== 'undefined') window.OSCAR_HEX_GRID = OSCAR_HEX_GRID;\n`;
+  return `// ocean-hex-grid.js — grille canonique OCEAN\nconst OCEAN_HEX_GRID = ${JSON.stringify(grid)};\nif (typeof window !== 'undefined') window.OCEAN_HEX_GRID = OCEAN_HEX_GRID;\n`;
 }
 
 function buildMappings(database) {

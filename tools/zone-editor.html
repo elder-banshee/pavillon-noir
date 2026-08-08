@@ -135,91 +135,91 @@
         </div>
       </div>
 
-      <!-- Section : OCÉANOGRAPHIE (contrôle grille OSCAR + inspection cellule) -->
+      <!-- Section : OCÉANOGRAPHIE (contrôle grille OCEAN + inspection cellule) -->
       <div id="section-ocean" style="display:none">
-        <div class="panel-title">Grille OSCAR</div>
-        <div class="oscar-controls">
-          <div class="oscar-grid-loader">
-            <button type="button" id="oscar-grid-load-btn" class="tool-btn">Charger une grille…</button>
-            <button type="button" id="oscar-grid-reset-btn" class="tool-btn" title="Revenir à js/oscar-hex-grid.js">Réinitialiser</button>
-            <input id="oscar-grid-load-input" type="file" accept=".js" style="display:none">
-            <div id="oscar-grid-loaded-label" class="sea-prop"><span>Source :</span> grille du dépôt (js/oscar-hex-grid.js)</div>
-            <div id="oscar-clipboard-status" class="sea-prop"><span>Presse-papiers :</span> vide</div>
+        <div class="panel-title">Grille OCEAN</div>
+        <div class="ocean-controls">
+          <div class="ocean-grid-loader">
+            <button type="button" id="ocean-grid-load-btn" class="tool-btn">Charger une grille…</button>
+            <button type="button" id="ocean-grid-reset-btn" class="tool-btn" title="Revenir à js/ocean-hex-grid.js">Réinitialiser</button>
+            <input id="ocean-grid-load-input" type="file" accept=".js" style="display:none">
+            <div id="ocean-grid-loaded-label" class="sea-prop"><span>Source :</span> grille du dépôt (js/ocean-hex-grid.js)</div>
+            <div id="ocean-clipboard-status" class="sea-prop"><span>Presse-papiers :</span> vide</div>
           </div>
           <label>
-            <span>Grille OSCAR</span>
-            <input id="oscar-grid-visible" type="checkbox" checked>
+            <span>Grille OCEAN</span>
+            <input id="ocean-grid-visible" type="checkbox" checked>
           </label>
           <label>
             <span>Flèches</span>
-            <input id="oscar-grid-arrows" type="checkbox" checked>
+            <input id="ocean-grid-arrows" type="checkbox" checked>
           </label>
           <label>
             <span>Édition courante</span>
-            <input id="oscar-session-edits-visible" type="checkbox" checked>
+            <input id="ocean-session-edits-visible" type="checkbox" checked>
           </label>
           <label>
             <span>Domaine</span>
-            <select id="oscar-grid-domain">
+            <select id="ocean-grid-domain">
               <option value="">Tous</option>
             </select>
           </label>
-          <details class="oscar-filter-panel" open>
+          <details class="ocean-filter-panel" open>
             <summary>Filtres d’affichage</summary>
             <fieldset>
               <legend>1 — Nature</legend>
-              <label><input type="checkbox" data-oscar-filter-group="nature" value="hauturiere" checked>Haute-mer</label>
-              <label><input type="checkbox" data-oscar-filter-group="nature" value="fluviale" checked>Fluviale</label>
-              <label><input type="checkbox" data-oscar-filter-group="nature" value="cotiere" checked>Côtière</label>
-              <label><input type="checkbox" data-oscar-filter-group="nature" value="multiple" checked>Multiple</label>
-              <label><input type="checkbox" data-oscar-filter-group="nature" value="non-renseigne" checked>Non renseignée</label>
+              <label><input type="checkbox" data-ocean-filter-group="nature" value="hauturiere" checked>Haute-mer</label>
+              <label><input type="checkbox" data-ocean-filter-group="nature" value="fluviale" checked>Fluviale</label>
+              <label><input type="checkbox" data-ocean-filter-group="nature" value="cotiere" checked>Côtière</label>
+              <label><input type="checkbox" data-ocean-filter-group="nature" value="multiple" checked>Multiple</label>
+              <label><input type="checkbox" data-ocean-filter-group="nature" value="non-renseigne" checked>Non renseignée</label>
             </fieldset>
             <fieldset>
               <legend>2 — Courants</legend>
-              <label><input type="checkbox" data-oscar-filter-group="current" value="renseigne" checked>Renseigné</label>
-              <label><input type="checkbox" data-oscar-filter-group="current" value="double" checked>Double</label>
-              <label><input type="checkbox" data-oscar-filter-group="current" value="fluvial" checked>Fluvial</label>
-              <label><input type="checkbox" data-oscar-filter-group="current" value="non-renseigne" checked>Non renseigné</label>
+              <label><input type="checkbox" data-ocean-filter-group="current" value="renseigne" checked>Renseigné</label>
+              <label><input type="checkbox" data-ocean-filter-group="current" value="double" checked>Double</label>
+              <label><input type="checkbox" data-ocean-filter-group="current" value="fluvial" checked>Fluvial</label>
+              <label><input type="checkbox" data-ocean-filter-group="current" value="non-renseigne" checked>Non renseigné</label>
             </fieldset>
             <fieldset>
               <legend>3 — Topologie fluviale</legend>
-              <label><input type="checkbox" data-oscar-filter-group="fluvialStatus" value="standard" checked>0–1 courant fluvial</label>
-              <label><input type="checkbox" data-oscar-filter-group="fluvialStatus" value="multiple" checked>Plusieurs courants</label>
-              <label><input type="checkbox" data-oscar-filter-group="fluvialStatus" value="valid" checked>Valide</label>
-              <label><input type="checkbox" data-oscar-filter-group="fluvialStatus" value="invalid" checked>Invalide</label>
+              <label><input type="checkbox" data-ocean-filter-group="fluvialStatus" value="standard" checked>0–1 courant fluvial</label>
+              <label><input type="checkbox" data-ocean-filter-group="fluvialStatus" value="multiple" checked>Plusieurs courants</label>
+              <label><input type="checkbox" data-ocean-filter-group="fluvialStatus" value="valid" checked>Valide</label>
+              <label><input type="checkbox" data-ocean-filter-group="fluvialStatus" value="invalid" checked>Invalide</label>
             </fieldset>
-            <details id="oscar-fluvial-inspector" class="oscar-fluvial-inspector">
+            <details id="ocean-fluvial-inspector" class="ocean-fluvial-inspector">
               <summary>Inspecteur fluvial avancé</summary>
-              <div class="oscar-fluvial-inspector-body">
+              <div class="ocean-fluvial-inspector-body">
                 <label>
                   <span>Cours d’eau</span>
-                  <select id="oscar-fluvial-inspector-watercourse">
+                  <select id="ocean-fluvial-inspector-watercourse">
                     <option value="">Aucun</option>
                   </select>
                 </label>
                 <fieldset>
                   <legend>Connexions à mettre en évidence</legend>
-                  <label class="oscar-inspector-junction"><input type="checkbox" id="oscar-fluvial-inspector-junction">Confluences / jonctions</label>
-                  <label class="oscar-inspector-fork"><input type="checkbox" id="oscar-fluvial-inspector-fork">Bifurcations / fourches</label>
-                  <label><input type="checkbox" id="oscar-fluvial-inspector-overlap" checked>Seulement dans une même cellule</label>
+                  <label class="ocean-inspector-junction"><input type="checkbox" id="ocean-fluvial-inspector-junction">Confluences / jonctions</label>
+                  <label class="ocean-inspector-fork"><input type="checkbox" id="ocean-fluvial-inspector-fork">Bifurcations / fourches</label>
+                  <label><input type="checkbox" id="ocean-fluvial-inspector-overlap" checked>Seulement dans une même cellule</label>
                 </fieldset>
-                <div class="oscar-fluvial-inspector-actions">
-                  <button type="button" id="oscar-fluvial-inspector-fit" class="tool-btn">Cadrer la surbrillance</button>
-                  <button type="button" id="oscar-fluvial-inspector-clear" class="tool-btn">Effacer</button>
+                <div class="ocean-fluvial-inspector-actions">
+                  <button type="button" id="ocean-fluvial-inspector-fit" class="tool-btn">Cadrer la surbrillance</button>
+                  <button type="button" id="ocean-fluvial-inspector-clear" class="tool-btn">Effacer</button>
                 </div>
-                <div class="oscar-fluvial-inspector-legend">
+                <div class="ocean-fluvial-inspector-legend">
                   <span class="river">Cours sélectionné</span>
                   <span class="junction">Confluence</span>
                   <span class="fork">Bifurcation</span>
                 </div>
-                <div id="oscar-fluvial-inspector-summary" class="sea-prop"><span>Inspecteur :</span> aucun critère actif</div>
+                <div id="ocean-fluvial-inspector-summary" class="sea-prop"><span>Inspecteur :</span> aucun critère actif</div>
               </div>
             </details>
-            <button type="button" id="oscar-filter-reset" class="tool-btn">Tout afficher</button>
+            <button type="button" id="ocean-filter-reset" class="tool-btn">Tout afficher</button>
           </details>
-          <div id="oscar-grid-summary" class="sea-prop"><span>OSCAR :</span> grille indisponible</div>
+          <div id="ocean-grid-summary" class="sea-prop"><span>OCEAN :</span> grille indisponible</div>
         </div>
-        <div id="sea-oscar" class="sea-prop"><span>Cellule OSCAR :</span> non sélectionnée</div>
+        <div id="sea-ocean" class="sea-prop"><span>Cellule OCEAN :</span> non sélectionnée</div>
       </div>
 
       <!-- Coordonnées contours (TOPOGRAPHIE — Géo uniquement) -->
@@ -263,7 +263,7 @@
   <script src="../js/zones-data.js"></script>
   <script src="../js/ships-data.js"></script>
   <script src="../js/recherche-commune.js"></script>
-  <script src="../js/oscar-hex-grid.js"></script>
+  <script src="../js/ocean-hex-grid.js"></script>
   <script src="../js/navigation-jaillot.js"></script>
 
   <!-- Zone Editor reste volontairement en scripts classiques : l'ordre ci-dessous

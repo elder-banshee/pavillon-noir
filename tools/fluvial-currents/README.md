@@ -1,7 +1,7 @@
 # Identification des composantes fluviales
 
 Cet outil regroupe les cellules portant la nature `fluviale` par connexité
-hexagonale. Il ne modifie jamais `js/oscar-hex-grid.js`.
+hexagonale. Il ne modifie jamais `js/ocean-hex-grid.js`.
 
 ```powershell
 node .\tools\fluvial-currents\identify-fluvial-components.js

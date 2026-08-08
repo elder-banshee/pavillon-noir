@@ -44,12 +44,12 @@
         refresh(R.SHOAL_HOVER | R.SEA_PANEL);
       });
     }
-    function extractOscarGridFromSource(text) {
-      const marker = 'const OSCAR_HEX_GRID = ';
+    function extractOceanGridFromSource(text) {
+      const marker = 'const OCEAN_HEX_GRID = ';
       const start = text.indexOf(marker);
-      if (start < 0) throw new Error('Fichier invalide : "const OSCAR_HEX_GRID = " introuvable.');
+      if (start < 0) throw new Error('Fichier invalide : "const OCEAN_HEX_GRID = " introuvable.');
       const braceStart = text.indexOf('{', start);
-      if (braceStart < 0) throw new Error('Fichier invalide : objet OSCAR_HEX_GRID introuvable.');
+      if (braceStart < 0) throw new Error('Fichier invalide : objet OCEAN_HEX_GRID introuvable.');
       let depth = 0, i = braceStart, quote = null, escaped = false;
       for (; i < text.length; i++) {
         const char = text[i];
@@ -73,12 +73,12 @@
       return grid;
     }
 
-    function describeOscarGridSource(grid, filename) {
+    function describeOceanGridSource(grid, filename) {
       const n = Object.keys(grid.cells).length;
       const method = grid.speedCorrection?.method || grid.speedCorrection?.factor
         ? (grid.speedCorrection.method || `facteur ×${grid.speedCorrection.factor}`)
         : 'aucune correction';
-      return `${filename} — v${grid.version ?? '?'}, ${n} cellules, ${method}, plafond dégradé ${oscarSpeedColorCap} nd`;
+      return `${filename} — v${grid.version ?? '?'}, ${n} cellules, ${method}, plafond dégradé ${oceanSpeedColorCap} nd`;
     }
 
     function confirmDiscardOceanSessionEdits(actionLabel) {
@@ -87,126 +87,126 @@
       return confirm(`${count} cellule(s) modifiée(s) dans cette instance ne seront plus signalées comme édition de session. Continuer : ${actionLabel} ?`);
     }
 
-    const oscarGridLoadBtn = document.getElementById('oscar-grid-load-btn');
-    const oscarGridLoadInput = document.getElementById('oscar-grid-load-input');
-    const oscarGridResetBtn = document.getElementById('oscar-grid-reset-btn');
-    const oscarGridLoadedLabel = document.getElementById('oscar-grid-loaded-label');
-    if (oscarGridLoadBtn && oscarGridLoadInput) {
-      oscarGridLoadBtn.addEventListener('click', () => oscarGridLoadInput.click());
-      oscarGridLoadInput.addEventListener('change', async (e) => {
+    const oceanGridLoadBtn = document.getElementById('ocean-grid-load-btn');
+    const oceanGridLoadInput = document.getElementById('ocean-grid-load-input');
+    const oceanGridResetBtn = document.getElementById('ocean-grid-reset-btn');
+    const oceanGridLoadedLabel = document.getElementById('ocean-grid-loaded-label');
+    if (oceanGridLoadBtn && oceanGridLoadInput) {
+      oceanGridLoadBtn.addEventListener('click', () => oceanGridLoadInput.click());
+      oceanGridLoadInput.addEventListener('change', async (e) => {
         const file = e.target.files?.[0];
         e.target.value = '';
         if (!file) return;
         if (!confirmDiscardOceanSessionEdits('charger une autre grille')) return;
         try {
           const text = await file.text();
-          const grid = extractOscarGridFromSource(text);
-          customOscarGrid = grid;
-          customOscarGridLabel = file.name;
+          const grid = extractOceanGridFromSource(text);
+          customOceanGrid = grid;
+          customOceanGridLabel = file.name;
           sessionEditedOceanCellKeys.clear();
-          recomputeOscarSpeedColorCap(grid);
-          clearOscarGridLayer();
-          populateOscarDomainSelect();
-          if (oscarGridLoadedLabel) {
-            oscarGridLoadedLabel.innerHTML = `<span>Source :</span> ${escapeHtmlText(describeOscarGridSource(grid, file.name))}`;
+          recomputeOceanSpeedColorCap(grid);
+          clearOceanGridLayer();
+          populateOceanDomainSelect();
+          if (oceanGridLoadedLabel) {
+            oceanGridLoadedLabel.innerHTML = `<span>Source :</span> ${escapeHtmlText(describeOceanGridSource(grid, file.name))}`;
           }
-          refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+          refresh(R.OCEAN_HEX_GRID | R.SEA_PANEL);
         } catch (err) {
           alert('Échec du chargement de la grille : ' + err.message);
         }
       });
     }
-    if (oscarGridResetBtn) {
-      oscarGridResetBtn.addEventListener('click', () => {
+    if (oceanGridResetBtn) {
+      oceanGridResetBtn.addEventListener('click', () => {
         if (!confirmDiscardOceanSessionEdits('réinitialiser vers la grille du dépôt')) return;
-        customOscarGrid = null;
-        customOscarGridLabel = '';
+        customOceanGrid = null;
+        customOceanGridLabel = '';
         sessionEditedOceanCellKeys.clear();
-        recomputeOscarSpeedColorCap(getOscarGrid());
-        clearOscarGridLayer();
-        populateOscarDomainSelect();
-        if (oscarGridLoadedLabel) {
-          oscarGridLoadedLabel.innerHTML = '<span>Source :</span> grille du dépôt (js/oscar-hex-grid.js)';
+        recomputeOceanSpeedColorCap(getOceanGrid());
+        clearOceanGridLayer();
+        populateOceanDomainSelect();
+        if (oceanGridLoadedLabel) {
+          oceanGridLoadedLabel.innerHTML = '<span>Source :</span> grille du dépôt (js/ocean-hex-grid.js)';
         }
-        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+        refresh(R.OCEAN_HEX_GRID | R.SEA_PANEL);
       });
     }
-    const oscarGridVisibleInput = document.getElementById('oscar-grid-visible');
-    if (oscarGridVisibleInput) {
-      oscarGridVisibleInput.checked = oscarGridVisible;
-      oscarGridVisibleInput.addEventListener('change', (e) => {
-        oscarGridVisible = !!e.target.checked;
-        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+    const oceanGridVisibleInput = document.getElementById('ocean-grid-visible');
+    if (oceanGridVisibleInput) {
+      oceanGridVisibleInput.checked = oceanGridVisible;
+      oceanGridVisibleInput.addEventListener('change', (e) => {
+        oceanGridVisible = !!e.target.checked;
+        refresh(R.OCEAN_HEX_GRID | R.SEA_PANEL);
       });
     }
-    const oscarGridArrowsInput = document.getElementById('oscar-grid-arrows');
-    if (oscarGridArrowsInput) {
-      oscarGridArrowsInput.checked = oscarGridArrowsVisible;
-      oscarGridArrowsInput.addEventListener('change', (e) => {
-        oscarGridArrowsVisible = !!e.target.checked;
-        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+    const oceanGridArrowsInput = document.getElementById('ocean-grid-arrows');
+    if (oceanGridArrowsInput) {
+      oceanGridArrowsInput.checked = oceanGridArrowsVisible;
+      oceanGridArrowsInput.addEventListener('change', (e) => {
+        oceanGridArrowsVisible = !!e.target.checked;
+        refresh(R.OCEAN_HEX_GRID | R.SEA_PANEL);
       });
     }
-    const oscarSessionEditsVisibleInput = document.getElementById('oscar-session-edits-visible');
-    if (oscarSessionEditsVisibleInput) {
-      oscarSessionEditsVisibleInput.checked = oscarSessionEditsVisible;
-      oscarSessionEditsVisibleInput.addEventListener('change', (e) => {
-        oscarSessionEditsVisible = !!e.target.checked;
-        refresh(R.OSCAR_SELECTION | R.SEA_PANEL);
+    const oceanSessionEditsVisibleInput = document.getElementById('ocean-session-edits-visible');
+    if (oceanSessionEditsVisibleInput) {
+      oceanSessionEditsVisibleInput.checked = oceanSessionEditsVisible;
+      oceanSessionEditsVisibleInput.addEventListener('change', (e) => {
+        oceanSessionEditsVisible = !!e.target.checked;
+        refresh(R.OCEAN_SELECTION | R.SEA_PANEL);
       });
     }
-    const oscarGridDomainSelect = document.getElementById('oscar-grid-domain');
-    if (oscarGridDomainSelect) {
-      oscarGridDomainSelect.addEventListener('change', (e) => {
-        oscarGridDomainFilter = e.target.value || '';
-        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+    const oceanGridDomainSelect = document.getElementById('ocean-grid-domain');
+    if (oceanGridDomainSelect) {
+      oceanGridDomainSelect.addEventListener('change', (e) => {
+        oceanGridDomainFilter = e.target.value || '';
+        refresh(R.OCEAN_HEX_GRID | R.SEA_PANEL);
       });
     }
-    document.querySelectorAll('[data-oscar-filter-group]').forEach(input => {
+    document.querySelectorAll('[data-ocean-filter-group]').forEach(input => {
       input.addEventListener('change', (e) => {
-        const group = e.target.dataset.oscarFilterGroup;
-        const values = oscarGridFilters[group];
+        const group = e.target.dataset.oceanFilterGroup;
+        const values = oceanGridFilters[group];
         if (!values) return;
         if (e.target.checked) values.add(e.target.value);
         else values.delete(e.target.value);
-        refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+        refresh(R.OCEAN_HEX_GRID | R.SEA_PANEL);
       });
     });
-    document.getElementById('oscar-filter-reset')?.addEventListener('click', () => {
-      document.querySelectorAll('[data-oscar-filter-group]').forEach(input => {
+    document.getElementById('ocean-filter-reset')?.addEventListener('click', () => {
+      document.querySelectorAll('[data-ocean-filter-group]').forEach(input => {
         input.checked = true;
-        oscarGridFilters[input.dataset.oscarFilterGroup]?.add(input.value);
+        oceanGridFilters[input.dataset.oceanFilterGroup]?.add(input.value);
       });
-      refresh(R.OSCAR_HEX_GRID | R.SEA_PANEL);
+      refresh(R.OCEAN_HEX_GRID | R.SEA_PANEL);
     });
-    document.getElementById('oscar-fluvial-inspector-watercourse')?.addEventListener('change', (e) => {
-      oscarInspectorWatercourseId = e.target.value || '';
-      refresh(R.OSCAR_INSPECTOR | R.SEA_PANEL);
+    document.getElementById('ocean-fluvial-inspector-watercourse')?.addEventListener('change', (e) => {
+      oceanInspectorWatercourseId = e.target.value || '';
+      refresh(R.OCEAN_INSPECTOR | R.SEA_PANEL);
     });
-    document.getElementById('oscar-fluvial-inspector-junction')?.addEventListener('change', (e) => {
-      if (e.target.checked) oscarInspectorConnectionTypes.add('junction');
-      else oscarInspectorConnectionTypes.delete('junction');
-      refresh(R.OSCAR_INSPECTOR | R.SEA_PANEL);
+    document.getElementById('ocean-fluvial-inspector-junction')?.addEventListener('change', (e) => {
+      if (e.target.checked) oceanInspectorConnectionTypes.add('junction');
+      else oceanInspectorConnectionTypes.delete('junction');
+      refresh(R.OCEAN_INSPECTOR | R.SEA_PANEL);
     });
-    document.getElementById('oscar-fluvial-inspector-fork')?.addEventListener('change', (e) => {
-      if (e.target.checked) oscarInspectorConnectionTypes.add('fork');
-      else oscarInspectorConnectionTypes.delete('fork');
-      refresh(R.OSCAR_INSPECTOR | R.SEA_PANEL);
+    document.getElementById('ocean-fluvial-inspector-fork')?.addEventListener('change', (e) => {
+      if (e.target.checked) oceanInspectorConnectionTypes.add('fork');
+      else oceanInspectorConnectionTypes.delete('fork');
+      refresh(R.OCEAN_INSPECTOR | R.SEA_PANEL);
     });
-    document.getElementById('oscar-fluvial-inspector-overlap')?.addEventListener('change', (e) => {
-      oscarInspectorOverlapOnly = !!e.target.checked;
-      refresh(R.OSCAR_INSPECTOR | R.SEA_PANEL);
+    document.getElementById('ocean-fluvial-inspector-overlap')?.addEventListener('change', (e) => {
+      oceanInspectorOverlapOnly = !!e.target.checked;
+      refresh(R.OCEAN_INSPECTOR | R.SEA_PANEL);
     });
-    document.getElementById('oscar-fluvial-inspector-fit')?.addEventListener('click', fitOscarFluvialInspectorHighlights);
-    document.getElementById('oscar-fluvial-inspector-clear')?.addEventListener('click', clearOscarFluvialInspector);
-    const seaOscarPanel = document.getElementById('sea-oscar');
-    if (seaOscarPanel) {
-      seaOscarPanel.addEventListener('click', (e) => {
+    document.getElementById('ocean-fluvial-inspector-fit')?.addEventListener('click', fitOceanFluvialInspectorHighlights);
+    document.getElementById('ocean-fluvial-inspector-clear')?.addEventListener('click', clearOceanFluvialInspector);
+    const seaOceanPanel = document.getElementById('sea-ocean');
+    if (seaOceanPanel) {
+      seaOceanPanel.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-ocean-action]');
         if (!btn) return;
         handleOceanCellAction(btn.dataset.oceanAction);
       });
-      seaOscarPanel.addEventListener('change', (e) => {
+      seaOceanPanel.addEventListener('change', (e) => {
         if (e.target?.matches?.('[data-fluvial-relation]')) {
           const row = e.target.closest('.ocean-fluvial-relation');
           const multicell = row?.querySelector('[data-fluvial-multicell]');
@@ -237,7 +237,7 @@
           const renaming = row?.querySelector('[data-fluvial-field="renameCourseId"]')?.checked === true;
           if (attachment && !renaming) {
             const courseId = String(e.target.value || '').trim();
-            attachment.value = oscarFluvialCourses()[courseId] ? courseId : '';
+            attachment.value = oceanFluvialCourses()[courseId] ? courseId : '';
             if (attachment.value) updateFluvialAdvancedCourseSelection(row);
           }
         } else if (e.target?.matches?.('[data-fluvial-field="renameCourseId"]')) {
@@ -261,7 +261,7 @@
     // vivent dans #tool-group
     // (barre supérieure), reconstruits à chaque refresh(R.TOOLS) — délégation
     // sur le conteneur stable plutôt que sur les contrôles, mêmes principes
-    // que la délégation #sea-oscar ci-dessus. Mettent à jour l'état persistant
+    // que la délégation #sea-ocean ci-dessus. Mettent à jour l'état persistant
     // directement (pas de lecture DOM différée à l'application).
     const toolGroupPanel = document.getElementById('tool-group');
     if (toolGroupPanel) {
@@ -276,7 +276,7 @@
           const customInput = document.getElementById('ocean-adjust-custom-factor');
           if (customInput) customInput.value = '';
           const label = document.getElementById('ocean-adjust-factor-label');
-          const factor = OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] ?? OSCAR_ADJUST_FACTORS[1];
+          const factor = OCEAN_ADJUST_FACTORS[oceanAdjustFactorIdx] ?? OCEAN_ADJUST_FACTORS[1];
           if (label) label.textContent = `${Math.round(factor * 100)} %`;
           return;
         }
@@ -289,14 +289,14 @@
           oceanEqTargetSpeed = Number(e.target.value);
           const label = document.getElementById('ocean-eq-target-label');
           if (label) label.textContent = `${oceanEqTargetSpeed.toFixed(2)} nd`;
-          if (oceanEqActive) refresh(R.OSCAR_HEX_GRID);
+          if (oceanEqActive) refresh(R.OCEAN_HEX_GRID);
           return;
         }
         if (e.target?.id === 'ocean-eq-bandwidth') {
           oceanEqBandwidth = Number(e.target.value);
           const label = document.getElementById('ocean-eq-band-label');
           if (label) label.textContent = `${oceanEqBandwidth.toFixed(2)} nd`;
-          if (oceanEqActive) refresh(R.OSCAR_HEX_GRID);
+          if (oceanEqActive) refresh(R.OCEAN_HEX_GRID);
           return;
         }
       });

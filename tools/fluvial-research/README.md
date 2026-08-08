@@ -19,7 +19,7 @@ Le générateur relit la grille canonique, les territoires et les villes, puis
 Le SVG incorpore son fond cartographique en base64. Il peut donc être transmis
 ouvert et affiché seul, sans joindre séparément `jaillot-1708.jpg`.
 
-Le générateur historique ne modifie jamais `js/oscar-hex-grid.js`.
+Le générateur historique ne modifie jamais `js/ocean-hex-grid.js`.
 
 ## Application de la base finale
 

@@ -33,7 +33,7 @@
       if (!oceanPaintSelecting) return;
       const { x, y } = oceanPointFromNativeEvent(nativeEvent);
       if (!isPxInsideImage([x, y])) return;
-      const key = oscarKeyFromPoint({ x, y });
+      const key = oceanKeyFromPoint({ x, y });
       if (key && key !== oceanPaintLastKey) {
         oceanPaintLastKey = key;
         oceanPaintDidExtend = true;
@@ -42,7 +42,7 @@
         else selectedOceanCellKeys.delete(key);
         selectedSeaCellKey = key;
         renderSeaCells();
-        updateInfosMersOscarPanel();
+        updateInfosMersOceanPanel();
       }
     }
 
@@ -58,7 +58,7 @@
       if (!ctx.isOcean || currentTool !== 'select' || nativeEvent.button !== 0 || !nativeEvent.shiftKey) return;
       const { x, y } = oceanPointFromNativeEvent(nativeEvent);
       if (!isPxInsideImage([x, y])) return;
-      const key = oscarKeyFromPoint({ x, y });
+      const key = oceanKeyFromPoint({ x, y });
       if (!key) return;
       nativeEvent.preventDefault();
       nativeEvent.stopPropagation();
@@ -115,8 +115,8 @@
     function applyOceanLassoSelection() {
       if (oceanLassoPoints.length < 3) return;
       let lastAdded = null;
-      filteredOscarEntries().forEach(([key, cell]) => {
-        const center = oscarCellCenterFromKey(key, cell);
+      filteredOceanEntries().forEach(([key, cell]) => {
+        const center = oceanCellCenterFromKey(key, cell);
         if (!pointInPolygon(center, oceanLassoPoints)) return;
         selectedOceanCellKeys.add(key);
         lastAdded = key;
@@ -125,7 +125,7 @@
         selectedSeaCellKey = lastAdded;
         oceanCellEditing = false;
         renderSeaCells();
-        updateInfosMersOscarPanel();
+        updateInfosMersOceanPanel();
       }
     }
 
@@ -242,7 +242,7 @@
         const pt = latLngToPx(e.latlng);
         if (isPxInsideImage(pt)) {
           selectedSemaphorePoint = pt;
-          selectedSeaCellKey = oscarKeyFromPoint({ x: pt[0], y: pt[1] });
+          selectedSeaCellKey = oceanKeyFromPoint({ x: pt[0], y: pt[1] });
           renderSeaCells();
           updateSeaPanel();
         }
@@ -262,7 +262,7 @@
         if (currentTool === 'ocean-adjust') {
           const pt = latLngToPx(e.latlng);
           if (isPxInsideImage(pt)) {
-            const clickedKey = oscarKeyFromPoint({ x: pt[0], y: pt[1] });
+            const clickedKey = oceanKeyFromPoint({ x: pt[0], y: pt[1] });
             if (clickedKey) applyOceanCellAdjustAt(clickedKey);
           }
           if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
@@ -276,7 +276,7 @@
         const pt = latLngToPx(e.latlng);
         if (isPxInsideImage(pt)) {
           const point = { x: pt[0], y: pt[1] };
-          const nextSeaCellKey = oscarKeyFromPoint(point);
+          const nextSeaCellKey = oceanKeyFromPoint(point);
           const multiSelect = !!e.originalEvent?.shiftKey;
           if (multiSelect && nextSeaCellKey) {
             oceanCellEditing = false;
@@ -298,7 +298,7 @@
             selectedOceanCellKeys.clear();
           }
           renderSeaCells();
-          updateInfosMersOscarPanel();
+          updateInfosMersOceanPanel();
         }
         if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
         return;
@@ -364,7 +364,7 @@
         document.getElementById('draw-controls').style.display = 'none';
         clearHandles();
         clearSegmentMarkers();
-        refresh(R.OSCAR_SELECTION | R.EXPORT | R.TOOLS);
+        refresh(R.OCEAN_SELECTION | R.EXPORT | R.TOOLS);
         return;
       }
 

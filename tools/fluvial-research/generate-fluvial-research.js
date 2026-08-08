@@ -6,7 +6,7 @@ const path = require('path');
 const vm = require('vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const GRID_PATH = path.join(ROOT, 'js', 'oscar-hex-grid.js');
+const GRID_PATH = path.join(ROOT, 'js', 'ocean-hex-grid.js');
 const ZONES_PATH = path.join(ROOT, 'js', 'zones-data.js');
 const CITIES_PATH = path.join(ROOT, 'js', 'villes-data.js');
 const MAP_PATH = path.join(ROOT, 'medias', 'cartes', 'jaillot-1708.jpg');
@@ -131,7 +131,7 @@ function distanceToTrace(point, trace) {
   return trace.reduce((minimum, cell) => Math.min(minimum, Math.hypot(point.x - cell.x, point.y - cell.y)), Infinity);
 }
 
-const { OSCAR_HEX_GRID: grid } = loadConst(GRID_PATH, ['OSCAR_HEX_GRID']);
+const { OCEAN_HEX_GRID: grid } = loadConst(GRID_PATH, ['OCEAN_HEX_GRID']);
 const { ZONES_DATA: zones } = loadConst(ZONES_PATH, ['ZONES_DATA']);
 const { VILLES: cities } = loadConst(CITIES_PATH, ['VILLES']);
 const cells = grid.cells;
@@ -271,7 +271,7 @@ const inventory = {
   schemaVersion: 1,
   description: 'Inventaire de recherche des cours d’eau de la carte Jaillot 1708. Les noms sont séparés des identifiants techniques de bras.',
   coordinateSystem: { unit: 'pixel', width: 8500, height: 5320, nauticalMilesPerPixel: NM_PER_PIXEL },
-  sources: ['js/oscar-hex-grid.js', 'js/zones-data.js', 'js/villes-data.js'],
+  sources: ['js/ocean-hex-grid.js', 'js/zones-data.js', 'js/villes-data.js'],
   conventions: {
     riverId: 'Identifiant technique actuel du bras dans la grille.',
     courseId: 'Proposition d’identifiant technique stable et unique du bras.',

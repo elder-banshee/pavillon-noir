@@ -294,16 +294,16 @@
       if (debugEl) debugEl.innerHTML = renderJaillotInspector(inspectSemaphorePoint(center), center);
     }
 
-    // Panneau OSCAR déplacé en Infos — Mers (contrôle case par case).
-    function updateInfosMersOscarPanel() {
-      updateOscarSummary();
-      const oscarEl = document.getElementById('sea-oscar');
-      if (oscarEl) {
-        oscarEl.innerHTML = isOceanBatchSelection()
+    // Panneau OCEAN déplacé en Infos — Mers (contrôle case par case).
+    function updateInfosMersOceanPanel() {
+      updateOceanSummary();
+      const oceanEl = document.getElementById('sea-ocean');
+      if (oceanEl) {
+        oceanEl.innerHTML = isOceanBatchSelection()
           ? formatOceanBatchPanel()
           : selectedSeaCellKey
-            ? formatOscarCellForPanel(selectedSeaCellKey)
-            : '<span>Cellule OSCAR :</span> non sélectionnée';
+            ? formatOceanCellForPanel(selectedSeaCellKey)
+            : '<span>Cellule OCEAN :</span> non sélectionnée';
       }
       updateOceanToolbarActionState();
     }

@@ -12,7 +12,7 @@ const path = require('path');
 const vm = require('vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const GRID_PATH = path.join(ROOT, 'js', 'oscar-hex-grid.js');
+const GRID_PATH = path.join(ROOT, 'js', 'ocean-hex-grid.js');
 const REPORT_PATH = path.join(__dirname, 'fluvial-multiple-mouths-consolidation-report.json');
 const write = process.argv.includes('--write');
 
@@ -60,15 +60,15 @@ const MERGES = [
 ];
 
 function loadGrid() {
-  const source = `${fs.readFileSync(GRID_PATH, 'utf8')}\nglobalThis.__grid = OSCAR_HEX_GRID;`;
+  const source = `${fs.readFileSync(GRID_PATH, 'utf8')}\nglobalThis.__grid = OCEAN_HEX_GRID;`;
   const context = { globalThis: {}, window: {} };
   vm.runInNewContext(source, context, { filename: GRID_PATH, timeout: 30000 });
-  if (!context.globalThis.__grid?.cells) throw new Error('OSCAR_HEX_GRID.cells introuvable.');
+  if (!context.globalThis.__grid?.cells) throw new Error('OCEAN_HEX_GRID.cells introuvable.');
   return context.globalThis.__grid;
 }
 
 function serializeGrid(grid) {
-  return `// oscar-hex-grid.js — grille canonique OSCAR\nconst OSCAR_HEX_GRID = ${JSON.stringify(grid)};\nif (typeof window !== 'undefined') window.OSCAR_HEX_GRID = OSCAR_HEX_GRID;\n`;
+  return `// ocean-hex-grid.js — grille canonique OCEAN\nconst OCEAN_HEX_GRID = ${JSON.stringify(grid)};\nif (typeof window !== 'undefined') window.OCEAN_HEX_GRID = OCEAN_HEX_GRID;\n`;
 }
 
 function speedOf(current) {

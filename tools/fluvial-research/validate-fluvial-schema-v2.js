@@ -6,11 +6,11 @@ const path = require('path');
 const vm = require('vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const GRID_PATH = path.join(ROOT, 'js', 'oscar-hex-grid.js');
+const GRID_PATH = path.join(ROOT, 'js', 'ocean-hex-grid.js');
 const REPORT_PATH = path.join(__dirname, 'fluvial-schema-v2-validation.json');
 
 function loadGrid() {
-  const source = `${fs.readFileSync(GRID_PATH, 'utf8')}\nglobalThis.__grid = OSCAR_HEX_GRID;`;
+  const source = `${fs.readFileSync(GRID_PATH, 'utf8')}\nglobalThis.__grid = OCEAN_HEX_GRID;`;
   const context = { globalThis: {}, window: {} };
   vm.runInNewContext(source, context, { filename: GRID_PATH, timeout: 30000 });
   return context.globalThis.__grid;

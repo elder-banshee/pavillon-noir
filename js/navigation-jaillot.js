@@ -67,13 +67,13 @@
     return `${Math.round(point.x)},${Math.round(point.y)}`;
   }
 
-  function sourceOscarGrid() {
-    if (typeof OSCAR_HEX_GRID !== 'undefined' && OSCAR_HEX_GRID?.cells) return OSCAR_HEX_GRID;
-    if (typeof window !== 'undefined' && window.OSCAR_HEX_GRID?.cells) return window.OSCAR_HEX_GRID;
-    throw new Error('OSCAR_HEX_GRID indisponible : js/oscar-hex-grid.js doit être chargé avant navigation-jaillot.js.');
+  function sourceOceanGrid() {
+    if (typeof OCEAN_HEX_GRID !== 'undefined' && OCEAN_HEX_GRID?.cells) return OCEAN_HEX_GRID;
+    if (typeof window !== 'undefined' && window.OCEAN_HEX_GRID?.cells) return window.OCEAN_HEX_GRID;
+    throw new Error('OCEAN_HEX_GRID indisponible : js/ocean-hex-grid.js doit être chargé avant navigation-jaillot.js.');
   }
 
-  function oscarHexCenter(q, r, grid) {
+  function oceanHexCenter(q, r, grid) {
     const width = Number(grid.widthPx);
     const radius = Number(grid.radiusPx);
     const spacingY = Number(grid.centerSpacingPx?.y);
@@ -85,7 +85,7 @@
     };
   }
 
-  function oscarHexCellKey(point, grid) {
+  function oceanHexCellKey(point, grid) {
     const width = Number(grid.widthPx);
     const radius = Number(grid.radiusPx);
     const spacingY = Number(grid.centerSpacingPx?.y);
@@ -102,7 +102,7 @@
         if (q < 0) continue;
         const key = `${r}_${q}`;
         if (!grid.cells[key]) continue;
-        const center = oscarHexCenter(q, r, grid);
+        const center = oceanHexCenter(q, r, grid);
         if (!center) continue;
         const distanceCentre = distance(point, center);
         if (!best || distanceCentre < best.distanceCentre) best = { key, distanceCentre };
@@ -111,10 +111,10 @@
     return best?.key || null;
   }
 
-  function oscarCellKey(point) {
-    const grid = sourceOscarGrid();
-    if (grid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est supportée.');
-    return oscarHexCellKey(point, grid);
+  function oceanCellKey(point) {
+    const grid = sourceOceanGrid();
+    if (grid.topology !== 'hex') throw new Error('Grille OCEAN invalide : seule la topologie hex est supportée.');
+    return oceanHexCellKey(point, grid);
   }
 
   function memePoint(a, b) {
@@ -670,15 +670,15 @@
   }
 
   // ── Restrictions de navigation par type de zone (fluviale/côtière/hauturière) ──
-  // Classification géographique par cellule OSCAR (natureNav, éditable en
+  // Classification géographique par cellule OCEAN (natureNav, éditable en
   // OCÉANOGRAPHIE — voir tools/zone-editor.js). Une cellule non taguée est
   // considérée hauturière par défaut : c'est le cas de l'immense majorité
   // d'entre elles, seules les zones fluviales et côtières sont marquées
   // explicitement (session 74, REPRISE_74).
   function typesZoneNavigationEnPoint(point) {
     if (!point) return null;
-    const grid = sourceOscarGrid();
-    const cellKey = grid ? oscarCellKey(point) : null;
+    const grid = sourceOceanGrid();
+    const cellKey = grid ? oceanCellKey(point) : null;
     const cell = cellKey ? grid.cells[cellKey] : null;
     const multiples = Array.isArray(cell?.naturesNav)
       ? [...new Set(cell.naturesNav.filter(type => type === 'fluviale' || type === 'cotiere' || type === 'hauturiere'))]
@@ -782,7 +782,7 @@
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // Sources environnementales : courant OSCAR, vent dominant et déventement
+  // Sources environnementales : courant OCEAN, vent dominant et déventement
   // ═══════════════════════════════════════════════════════════════════════════
 
   function directionVersVecteur(direction, force = 1) {
@@ -921,12 +921,12 @@
       courantPointCache.set(cacheKey, null);
       return null;
     }
-    const grid = sourceOscarGrid();
+    const grid = sourceOceanGrid();
     if (!grid) {
       courantPointCache.set(cacheKey, null);
       return null;
     }
-    const cellKey = oscarCellKey(point);
+    const cellKey = oceanCellKey(point);
     const cell = cellKey ? grid.cells[cellKey] : null;
     if (!cell) {
       courantPointCache.set(cacheKey, null);
@@ -943,7 +943,7 @@
     const vecteur = { x, y };
     const resultat = {
       zoneId: null,
-      zoneNom: 'OSCAR',
+      zoneNom: 'OCEAN',
       typeZone: 'haute-mer',
       cellKey,
       speedKnot: vitesseNoeudsResultat,
@@ -955,7 +955,7 @@
       vecteur,
       courants: [{
         id: cellKey,
-        nom: `OSCAR ${cellKey}`,
+        nom: `OCEAN ${cellKey}`,
         speedKnot: vitesseNoeudsResultat,
         speedKnots: vitesseNoeudsResultat, // TODO PN-SEA-EXPLICIT: alias legacy UI, supprimer apres migration.
         maxSpeedKnot: Number.isFinite(Number(cell.maxSpeedKnot)) ? Number(cell.maxSpeedKnot) : null,

@@ -7,7 +7,7 @@ const vm = require('vm');
 const config = require('./config.js');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const GRID_PATH = path.join(ROOT, 'js', 'oscar-hex-grid.js');
+const GRID_PATH = path.join(ROOT, 'js', 'ocean-hex-grid.js');
 const REPORT_PATH = path.join(__dirname, 'fluvial-components-report.json');
 const PREVIEW_PATH = path.join(__dirname, 'fluvial-components-preview.svg');
 
@@ -112,7 +112,7 @@ function escapeXml(value) {
     .replaceAll('"', '&quot;');
 }
 
-const grid = loadConst(GRID_PATH, 'OSCAR_HEX_GRID');
+const grid = loadConst(GRID_PATH, 'OCEAN_HEX_GRID');
 const cells = grid.cells || {};
 const fluvialKeys = Object.keys(cells).filter(key => isFluvial(cells[key])).sort(numericKeySort);
 const fluvialSet = new Set(fluvialKeys);

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * Synchronise la maille OSCAR avec ZONES_OCEAN_BOUNDS, sans recalculer les
+ * Synchronise la maille OCEAN avec ZONES_OCEAN_BOUNDS, sans recalculer les
  * courants. Par défaut le script est en simulation ; --write remplace la
  * grille cible après avoir écrit un rapport JSON.
  */
@@ -42,9 +42,9 @@ function option(name, fallback = null) {
 
 const write = process.argv.includes('--write');
 const preserveExisting = process.argv.includes('--preserve-existing');
-const gridPath = path.resolve(option('--grid', path.join(ROOT, 'js', 'oscar-hex-grid.js')));
+const gridPath = path.resolve(option('--grid', path.join(ROOT, 'js', 'ocean-hex-grid.js')));
 const zonesPath = path.resolve(option('--zones', path.join(ROOT, 'js', 'zones-data.js')));
-const reportPath = path.resolve(option('--report', path.join(ROOT, 'tools', 'oscar-hex-grid-ocean-bounds-report.json')));
+const reportPath = path.resolve(option('--report', path.join(ROOT, 'tools', 'ocean-hex-grid-ocean-bounds-report.json')));
 const outputPath = option('--output') ? path.resolve(option('--output')) : null;
 
 function loadConst(filePath, name) {
@@ -181,7 +181,7 @@ function hexIntersectsPolygon(hex, polygon) {
   return ringIntersectsHex(polygon.exterior, hex);
 }
 
-function oscarHexCenter(q, r, grid) {
+function oceanHexCenter(q, r, grid) {
   const width = Number(grid.widthPx);
   const radius = Number(grid.radiusPx);
   const spacingY = Number(grid.centerSpacingPx?.y);
@@ -189,8 +189,8 @@ function oscarHexCenter(q, r, grid) {
   return { x: width / 2 + offset + q * width, y: radius + r * spacingY };
 }
 
-function oscarHexVertices(q, r, grid) {
-  const center = oscarHexCenter(q, r, grid);
+function oceanHexVertices(q, r, grid) {
+  const center = oceanHexCenter(q, r, grid);
   const radius = Number(grid.radiusPx);
   return Array.from({ length: 6 }, (_, index) => {
     const angle = (-90 + index * 60) * Math.PI / 180;
@@ -203,7 +203,7 @@ function oceanDomain(id) {
 }
 
 function hexOceanIntersection(q, r, grid, oceans) {
-  const hex = oscarHexVertices(q, r, grid);
+  const hex = oceanHexVertices(q, r, grid);
   for (const ocean of oceans) {
     if (ocean.polygons.some(polygon => hexIntersectsPolygon(hex, polygon))) return ocean;
   }
@@ -211,7 +211,7 @@ function hexOceanIntersection(q, r, grid, oceans) {
 }
 
 function createCalmCell(q, r, grid, domain) {
-  const center = oscarHexCenter(q, r, grid);
+  const center = oceanHexCenter(q, r, grid);
   return {
     q,
     r,
@@ -238,11 +238,11 @@ function candidateRange(grid) {
 }
 
 function serializeGrid(grid) {
-  return `// oscar-hex-grid.js — synchronisé par sync-oscar-hex-grid-ocean-bounds.js\nconst OSCAR_HEX_GRID = ${JSON.stringify(grid)};\nif (typeof window !== 'undefined') window.OSCAR_HEX_GRID = OSCAR_HEX_GRID;\n`;
+  return `// ocean-hex-grid.js — synchronisé par sync-ocean-hex-grid-ocean-bounds.js\nconst OCEAN_HEX_GRID = ${JSON.stringify(grid)};\nif (typeof window !== 'undefined') window.OCEAN_HEX_GRID = OCEAN_HEX_GRID;\n`;
 }
 
 function main() {
-  const grid = loadConst(gridPath, 'OSCAR_HEX_GRID');
+  const grid = loadConst(gridPath, 'OCEAN_HEX_GRID');
   const bounds = loadConst(zonesPath, 'ZONES_OCEAN_BOUNDS');
   if (grid.topology !== 'hex') throw new Error('La grille active n’est pas hexagonale.');
   const oceans = Object.entries(bounds).map(([id, entry]) => ({ id, domain: oceanDomain(id), polygons: zonePolygons(entry?.zone) }))
@@ -264,7 +264,7 @@ function main() {
   for (const [key, cell] of Object.entries(existing)) {
     const q = Number(cell.q ?? key.split('_')[1]);
     const r = Number(cell.r ?? key.split('_')[0]);
-    if (!Number.isInteger(q) || !Number.isInteger(r)) throw new Error(`Clé de cellule OSCAR invalide : ${key}`);
+    if (!Number.isInteger(q) || !Number.isInteger(r)) throw new Error(`Clé de cellule OCEAN invalide : ${key}`);
     if (FORCE_INCLUDED_CELLS[key] || hexOceanIntersection(q, r, grid, oceans)) {
       // Une synchronisation d'emprise ne doit jamais réinterpréter les
       // domaines de travail renseignés manuellement (dont `fluvial`).
@@ -283,7 +283,7 @@ function main() {
     for (let q = 0; q <= maxQ; q += 1) {
       const key = `${r}_${q}`;
       if (nextCells[key]) continue;
-      const center = oscarHexCenter(q, r, grid);
+      const center = oceanHexCenter(q, r, grid);
       if (center.x < -grid.widthPx || center.x > MAP_WIDTH + grid.widthPx || center.y < -grid.heightPx || center.y > MAP_HEIGHT + grid.heightPx) continue;
       const ocean = hexOceanIntersection(q, r, grid, oceans);
       if (!ocean) continue;

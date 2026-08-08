@@ -7,7 +7,7 @@ const vm = require('vm');
 const config = require('./config.js');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const GRID_PATH = path.join(ROOT, 'js', 'oscar-hex-grid.js');
+const GRID_PATH = path.join(ROOT, 'js', 'ocean-hex-grid.js');
 const COMPONENTS_PATH = path.join(__dirname, 'fluvial-components-report.json');
 const REPORT_PATH = path.join(__dirname, 'fluvial-currents-report.json');
 const PREVIEW_PATH = path.join(__dirname, 'fluvial-currents-preview.svg');
@@ -119,7 +119,7 @@ function vectorForCell(key, seedKey, riverId, distances, componentSet, cells, pr
   };
 }
 
-const grid = loadConst(GRID_PATH, 'OSCAR_HEX_GRID');
+const grid = loadConst(GRID_PATH, 'OCEAN_HEX_GRID');
 if (!fs.existsSync(COMPONENTS_PATH)) {
   throw new Error('Rapport des composantes absent ; lancer identify-fluvial-components.js.');
 }
@@ -177,9 +177,9 @@ if (write) {
     writtenCells++;
   });
   const original = fs.readFileSync(GRID_PATH, 'utf8');
-  const replacement = `const OSCAR_HEX_GRID = ${JSON.stringify(grid)};`;
-  const updated = original.replace(/const OSCAR_HEX_GRID\s*=\s*[\s\S]*;\s*$/, replacement);
-  if (updated === original) throw new Error('Bloc OSCAR_HEX_GRID introuvable.');
+  const replacement = `const OCEAN_HEX_GRID = ${JSON.stringify(grid)};`;
+  const updated = original.replace(/const OCEAN_HEX_GRID\s*=\s*[\s\S]*;\s*$/, replacement);
+  if (updated === original) throw new Error('Bloc OCEAN_HEX_GRID introuvable.');
   fs.writeFileSync(GRID_PATH, `${updated.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trimEnd()}\n`, 'utf8');
 }
 

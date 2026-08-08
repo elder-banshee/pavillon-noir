@@ -8,7 +8,7 @@ const config = require('./config.js');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const ZONES_PATH = path.join(ROOT, 'js', 'zones-data.js');
-const GRID_PATH = path.join(ROOT, 'js', 'oscar-hex-grid.js');
+const GRID_PATH = path.join(ROOT, 'js', 'ocean-hex-grid.js');
 const REPORT_PATH = path.join(__dirname, 'coastal-navigation-report.json');
 const PREVIEW_PATH = path.join(__dirname, 'coastal-navigation-preview.svg');
 const write = process.argv.includes('--write');
@@ -58,7 +58,7 @@ function svgPath(ring) {
 }
 
 const zones = loadConst(ZONES_PATH, 'ZONES_DATA');
-const grid = loadConst(GRID_PATH, 'OSCAR_HEX_GRID');
+const grid = loadConst(GRID_PATH, 'OCEAN_HEX_GRID');
 const referenceRings = rings(zones[config.automaticLand.referenceZoneId]);
 if (!referenceRings.length) throw new Error(`Zone de référence absente : ${config.automaticLand.referenceZoneId}`);
 
@@ -185,9 +185,9 @@ if (write || writeForcedCellsOnly) {
     delete cell.natureNavSource;
   }
   const original = fs.readFileSync(GRID_PATH, 'utf8');
-  const replacement = `const OSCAR_HEX_GRID = ${JSON.stringify(grid)};`;
-  const updated = original.replace(/const OSCAR_HEX_GRID\s*=\s*[\s\S]*;\s*$/, replacement);
-  if (updated === original) throw new Error('Bloc OSCAR_HEX_GRID introuvable.');
+  const replacement = `const OCEAN_HEX_GRID = ${JSON.stringify(grid)};`;
+  const updated = original.replace(/const OCEAN_HEX_GRID\s*=\s*[\s\S]*;\s*$/, replacement);
+  if (updated === original) throw new Error('Bloc OCEAN_HEX_GRID introuvable.');
   fs.writeFileSync(GRID_PATH, `${updated.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trimEnd()}\n`, 'utf8');
 }
 

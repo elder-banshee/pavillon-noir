@@ -1079,16 +1079,16 @@
       letter-spacing: 0.02em;
     }
 
-    .oscar-grid-cell {
+    .ocean-grid-cell {
       pointer-events: none;
     }
 
-    .oscar-arrow-svg {
+    .ocean-arrow-svg {
       pointer-events: none;
       overflow: visible;
     }
 
-    .oscar-arrow path {
+    .ocean-arrow path {
       fill: none;
       stroke: #f4c86d;
       stroke-width: 2.2;
@@ -1098,18 +1098,18 @@
       filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.95));
     }
 
-    .oscar-arrow.coastal path {
+    .ocean-arrow.coastal path {
       stroke: #5eead4;
       filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 4px rgba(14, 165, 233, 0.7));
     }
 
-    .oscar-arrow.fluvial path {
+    .ocean-arrow.fluvial path {
       stroke: #34d399;
       stroke-width: 2.6;
       filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 4px rgba(16, 185, 129, 0.75));
     }
 
-    .oscar-controls {
+    .ocean-controls {
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -1119,7 +1119,7 @@
       border-bottom: 1px solid rgba(200, 151, 58, 0.18);
     }
 
-    .oscar-controls label {
+    .ocean-controls label {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1128,22 +1128,22 @@
       font-size: 0.72rem;
     }
 
-    .oscar-controls input[type="checkbox"] {
+    .ocean-controls input[type="checkbox"] {
       accent-color: var(--gold);
     }
 
-    .oscar-controls select {
+    .ocean-controls select {
       max-width: 140px;
     }
 
-    .oscar-filter-panel {
+    .ocean-filter-panel {
       margin-top: 4px;
       padding: 7px 8px 8px;
       border: 1px solid rgba(200, 151, 58, 0.28);
       background: rgba(200, 151, 58, 0.035);
     }
 
-    .oscar-filter-panel summary {
+    .ocean-filter-panel summary {
       cursor: pointer;
       color: var(--gold-light);
       font-family: 'Cinzel', serif;
@@ -1152,7 +1152,7 @@
       user-select: none;
     }
 
-    .oscar-filter-panel fieldset {
+    .ocean-filter-panel fieldset {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 4px 8px;
@@ -1161,7 +1161,7 @@
       border: 1px solid rgba(200, 151, 58, 0.18);
     }
 
-    .oscar-filter-panel legend {
+    .ocean-filter-panel legend {
       padding: 0 5px;
       color: var(--gold);
       font-family: 'Cinzel', serif;
@@ -1170,53 +1170,53 @@
       text-transform: uppercase;
     }
 
-    .oscar-filter-panel label {
+    .ocean-filter-panel label {
       justify-content: flex-start;
       gap: 5px;
       min-width: 0;
       font-size: 0.68rem;
     }
 
-    .oscar-filter-panel #oscar-filter-reset {
+    .ocean-filter-panel #ocean-filter-reset {
       width: 100%;
       margin-top: 7px;
       padding: 5px 7px;
     }
 
-    .oscar-fluvial-inspector {
+    .ocean-fluvial-inspector {
       margin-top: 8px;
       padding: 7px;
       border: 1px solid rgba(34, 211, 238, 0.28);
       background: rgba(8, 145, 178, 0.055);
     }
 
-    .oscar-filter-panel .oscar-fluvial-inspector > summary {
+    .ocean-filter-panel .ocean-fluvial-inspector > summary {
       color: #67e8f9;
     }
 
-    .oscar-fluvial-inspector-body {
+    .ocean-fluvial-inspector-body {
       display: grid;
       gap: 7px;
       padding-top: 7px;
     }
 
-    .oscar-fluvial-inspector-body > label {
+    .ocean-fluvial-inspector-body > label {
       display: grid;
       gap: 5px;
     }
 
-    .oscar-controls .oscar-fluvial-inspector select {
+    .ocean-controls .ocean-fluvial-inspector select {
       width: 100%;
       max-width: none;
     }
 
-    .oscar-fluvial-inspector-actions {
+    .ocean-fluvial-inspector-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 6px;
     }
 
-    .oscar-fluvial-inspector-legend {
+    .ocean-fluvial-inspector-legend {
       display: flex;
       flex-wrap: wrap;
       gap: 5px 10px;
@@ -1224,7 +1224,7 @@
       font-size: 0.64rem;
     }
 
-    .oscar-fluvial-inspector-legend span::before {
+    .ocean-fluvial-inspector-legend span::before {
       display: inline-block;
       width: 8px;
       height: 8px;
@@ -1233,32 +1233,32 @@
       content: '';
     }
 
-    .oscar-fluvial-inspector-legend .river::before {
+    .ocean-fluvial-inspector-legend .river::before {
       background: #22d3ee;
     }
 
-    .oscar-fluvial-inspector-legend .junction::before {
+    .ocean-fluvial-inspector-legend .junction::before {
       background: #e879f9;
     }
 
-    .oscar-fluvial-inspector-legend .fork::before {
+    .ocean-fluvial-inspector-legend .fork::before {
       background: #fb923c;
     }
 
-    .oscar-inspector-junction {
+    .ocean-inspector-junction {
       color: #f0abfc !important;
     }
 
-    .oscar-inspector-fork {
+    .ocean-inspector-fork {
       color: #fdba74 !important;
     }
 
-    #oscar-fluvial-inspector-summary {
+    #ocean-fluvial-inspector-summary {
       margin: 0;
       line-height: 1.45;
     }
 
-    .oscar-grid-loader {
+    .ocean-grid-loader {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -1268,7 +1268,7 @@
       border-bottom: 1px solid rgba(200, 151, 58, 0.12);
     }
 
-    .oscar-grid-loader .sea-prop {
+    .ocean-grid-loader .sea-prop {
       flex-basis: 100%;
       margin: 0;
       font-size: 0.68rem;

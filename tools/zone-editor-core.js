@@ -17,16 +17,16 @@
       { id: 'split', label: 'Scinder', icon: '⌥', title: 'Scinder un contour en deux (1 point commun ou 2 points de coupe)' },
     ];
     const OCEAN_TOOLS = [
-      { id: 'select', label: 'Sélection', icon: '◈', title: 'Sélectionner une cellule OSCAR' },
+      { id: 'select', label: 'Sélection', icon: '◈', title: 'Sélectionner une cellule OCEAN' },
       { id: 'ocean-lasso', label: 'Lasso', icon: '⌁', title: 'Ajouter au lot les cellules entourées' },
       { id: 'ocean-adjust', label: 'Accentuer/Estomper', icon: '⇕', title: 'Cliquer une cellule (ou un groupe déjà sélectionné) pour amplifier/atténuer sa vitesse' },
     ];
     const OCEAN_TOOL_ACTIONS = [
       { id: 'copy', label: 'Copier', icon: '⎘', title: 'Copier les vecteurs des cellules sélectionnées' },
       { id: 'paste', label: 'Coller', icon: '↧', title: 'Coller les vecteurs copiés sur la sélection ou depuis la cellule active' },
-      { id: 'delete', label: 'Supprimer', icon: '⊗', title: 'Supprimer les cellules OSCAR sélectionnées' },
+      { id: 'delete', label: 'Supprimer', icon: '⊗', title: 'Supprimer les cellules OCEAN sélectionnées' },
     ];
-    const OSCAR_DOMAIN_LABELS = {
+    const OCEAN_DOMAIN_LABELS = {
       atlantic: 'Atlantique',
       pacific: 'Pacifique',
       caribbean: 'Caraïbes',
@@ -36,19 +36,19 @@
       bariana: 'Fleuve Bariana',
       fluvial: 'Fluvial',
     };
-    const OSCAR_DOMAIN_UNASSIGNED = '__unassigned__';
+    const OCEAN_DOMAIN_UNASSIGNED = '__unassigned__';
     // Outil Amplifier/Atténuer (OCÉANOGRAPHIE) : paliers du curseur linéaire,
     // ratio appliqué aux 6 voisines en mode Halo (facteur réduit + base du
     // plancher d'une voisine sans vecteur), plancher fixe pour une cible
     // elle-même sans vecteur.
-    const OSCAR_ADJUST_FACTORS = [0.05, 0.10, 0.15];
-    const OSCAR_ADJUST_HALO_RATIO = 0.5;
-    const OSCAR_ADJUST_TARGET_FLOOR = 0.01;
+    const OCEAN_ADJUST_FACTORS = [0.05, 0.10, 0.15];
+    const OCEAN_ADJUST_HALO_RATIO = 0.5;
+    const OCEAN_ADJUST_TARGET_FLOOR = 0.01;
     // Couleur plancher du dégradé de vitesse (t=0), également utilisée comme
     // teinte plancher du dégradé. Ce n'est plus une couleur dédiée aux cellules
-    // sans donnée : oscarSpeedColor s'y ancre pour toute
+    // sans donnée : oceanSpeedColor s'y ancre pour toute
     // cellule à vitesse nulle, quelle que soit son origine (cf. session 72).
-    const OSCAR_CALM_COLOR = [10, 16, 30];
+    const OCEAN_CALM_COLOR = [10, 16, 30];
 
     // ─── Couleurs des polygones par état ─────────────────────────
     const STYLE_NORMAL = { color: 'rgba(200,151,58,0.7)', weight: 1, fillColor: 'rgba(200,151,58,0.08)', fillOpacity: 1 };
@@ -121,16 +121,16 @@
       EDITOR: 256,
       TOOLS: 512,
       UNDO: 1024,
-      OSCAR_SELECTION: 2048,
-      OSCAR_HEX_GRID: 8192,
-      OSCAR_INSPECTOR: 16384,
+      OCEAN_SELECTION: 2048,
+      OCEAN_HEX_GRID: 8192,
+      OCEAN_INSPECTOR: 16384,
     };
 
     function refreshPanel() {
       if (ctx.isZoneEditTab) updatePanel();
       else if (ctx.isTopoInfo) updateTopoInfoDetail();
       else if (ctx.isSemaphore) updateSeaPanel();
-      if (ctx.isOcean) updateInfosMersOscarPanel();
+      if (ctx.isOcean) updateInfosMersOceanPanel();
     }
 
     function refreshHandles() {
@@ -144,9 +144,9 @@
         if (zoneId) renderZone(zoneId);
       }
       if (flags & R.SHOAL_HOVER) renderShoalHoverLayer();
-      if (flags & R.OSCAR_SELECTION) renderSeaCells();
-      if (flags & R.OSCAR_HEX_GRID) renderOscarGridLayer();
-      else if (flags & R.OSCAR_INSPECTOR) renderOscarFluvialInspectorLayer();
+      if (flags & R.OCEAN_SELECTION) renderSeaCells();
+      if (flags & R.OCEAN_HEX_GRID) renderOceanGridLayer();
+      else if (flags & R.OCEAN_INSPECTOR) renderOceanFluvialInspectorLayer();
       if (flags & R.HANDLES) refreshHandles();
       if (flags & R.SEGMENTS) renderSegmentMarkers();
       if (flags & R.TOOLS) renderToolButtons();
@@ -154,7 +154,7 @@
       if (flags & R.PANEL) refreshPanel();
       if (flags & R.SEA_PANEL) {
         if (ctx.isSemaphore) updateSeaPanel();
-        if (ctx.isOcean) updateInfosMersOscarPanel();
+        if (ctx.isOcean) updateInfosMersOceanPanel();
       }
       if (flags & R.EXPORT) updateExport();
       if (flags & R.UNDO) updateUndoButton();
@@ -165,7 +165,7 @@
     }
 
     function refreshAfterModeChange() {
-      refresh(R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.OSCAR_HEX_GRID | R.EXPORT | R.UNDO);
+      refresh(R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.OCEAN_HEX_GRID | R.EXPORT | R.UNDO);
     }
 
     // Un polygone est un polygone : territoire et haut-fond partagent le même
@@ -249,15 +249,15 @@
     let oceanMaskLayer = null;
     let seaCellLayer = null;
     let seaCellLayers = {};
-    let oscarGridLayer = null;
-    let oscarArrowLayer = null;
-    let oscarInspectorLayer = null;
+    let oceanGridLayer = null;
+    let oceanArrowLayer = null;
+    let oceanInspectorLayer = null;
     let shoalHoverLayer = null;   // L.LayerGroup du survol de risque hauts-fonds (SÉMAPHORE)
 
     // Sélection
     let selectedZoneId = null;
     let selectedContourIdx = 0;  // index dans zonesEdit[selectedZoneId]
-    let selectedSeaCellKey = null; // clé de cellule OSCAR inspectée (Sémaphore / Infos-Mers)
+    let selectedSeaCellKey = null; // clé de cellule OCEAN inspectée (Sémaphore / Infos-Mers)
     let selectedOceanCellKeys = new Set(); // sélection multiple OCÉANOGRAPHIE
     let selectedSemaphorePoint = null; // point pixel [x,y] exact du dernier clic Sémaphore
 
@@ -268,24 +268,24 @@
     let drawPoints = []; // [[x,y], ...]
     let semaphoreNavLevel = Number.isFinite(Number(window.niveauNavigation)) ? Number(window.niveauNavigation) : 0;
     window.niveauNavigation = semaphoreNavLevel;
-    let oscarGridVisible = true;
-    let oscarGridArrowsVisible = true;
-    let oscarSessionEditsVisible = true;
-    let oscarGridDomainFilter = '';
-    const oscarGridFilters = {
+    let oceanGridVisible = true;
+    let oceanGridArrowsVisible = true;
+    let oceanSessionEditsVisible = true;
+    let oceanGridDomainFilter = '';
+    const oceanGridFilters = {
       nature: new Set(['hauturiere', 'fluviale', 'cotiere', 'multiple', 'non-renseigne']),
       current: new Set(['renseigne', 'double', 'fluvial', 'non-renseigne']),
       fluvialStatus: new Set(['standard', 'multiple', 'valid', 'invalid']),
     };
-    let oscarInspectorWatercourseId = '';
-    const oscarInspectorConnectionTypes = new Set();
-    let oscarInspectorOverlapOnly = true;
+    let oceanInspectorWatercourseId = '';
+    const oceanInspectorConnectionTypes = new Set();
+    let oceanInspectorOverlapOnly = true;
     let oceanCellEditing = false;
     // Réglages de l'outil Accentuer/Estomper — état persistant (pas relu
     // depuis un formulaire recréé à chaque ouverture), pour permettre une
     // application répétée sans reconfigurer à chaque cellule.
     let oceanAdjustAttenuate = false;
-    let oceanAdjustFactorIdx = 1; // index dans OSCAR_ADJUST_FACTORS (curseur 5/10/15%)
+    let oceanAdjustFactorIdx = 1; // index dans OCEAN_ADJUST_FACTORS (curseur 5/10/15%)
     let oceanAdjustCustomFactor = null; // % personnalisé (nombre) — prévaut sur le curseur si renseigné
     let oceanAdjustHalo = false;
     // Égaliseur — mode d'affichage temporaire (pas un outil de clic) qui
@@ -305,12 +305,12 @@
     let oceanLassoPoints = [];
     let oceanLassoLayer = null;
     let oceanLassoDidComplete = false;
-    // Grille OSCAR chargée manuellement (comparaison de checkpoints) — prioritaire
-    // sur OSCAR_HEX_GRID si présente. Plafond de dégradé recalculé à chaque
+    // Grille OCEAN chargée manuellement (comparaison de checkpoints) — prioritaire
+    // sur OCEAN_HEX_GRID si présente. Plafond de dégradé recalculé à chaque
     // chargement, car chaque checkpoint a sa propre distribution de vitesses.
-    let customOscarGrid = null;
-    let customOscarGridLabel = '';
-    let oscarSpeedColorCap = 2.9;
+    let customOceanGrid = null;
+    let customOceanGridLabel = '';
+    let oceanSpeedColorCap = 2.9;
 
     // ═══════════════════════════════════════════════════════════
     // UTILITAIRES — coordonnées
@@ -364,28 +364,28 @@
         currentTool,
       };
       if (ctx.isOcean) {
-        snapshot.oscarGrid = cloneJSON(getOscarGrid());
-        snapshot.usingCustomOscarGrid = !!customOscarGrid;
-        snapshot.customOscarGridLabel = customOscarGridLabel;
+        snapshot.oceanGrid = cloneJSON(getOceanGrid());
+        snapshot.usingCustomOceanGrid = !!customOceanGrid;
+        snapshot.customOceanGridLabel = customOceanGridLabel;
       }
       undoStack.push(snapshot);
       if (undoStack.length > 30) undoStack.shift();
       updateUndoButton();
     }
 
-    function restoreOscarGridSnapshot(snapshot) {
-      if (!snapshot?.oscarGrid) return;
-      if (snapshot.usingCustomOscarGrid) {
-        customOscarGrid = cloneJSON(snapshot.oscarGrid);
-        customOscarGridLabel = snapshot.customOscarGridLabel || '';
+    function restoreOceanGridSnapshot(snapshot) {
+      if (!snapshot?.oceanGrid) return;
+      if (snapshot.usingCustomOceanGrid) {
+        customOceanGrid = cloneJSON(snapshot.oceanGrid);
+        customOceanGridLabel = snapshot.customOceanGridLabel || '';
         return;
       }
-      customOscarGrid = null;
-      customOscarGridLabel = '';
-      const target = typeof OSCAR_HEX_GRID !== 'undefined' && OSCAR_HEX_GRID?.cells
-        ? OSCAR_HEX_GRID
-        : window.OSCAR_HEX_GRID;
-      if (target?.cells) replaceObjectContents(target, snapshot.oscarGrid);
+      customOceanGrid = null;
+      customOceanGridLabel = '';
+      const target = typeof OCEAN_HEX_GRID !== 'undefined' && OCEAN_HEX_GRID?.cells
+        ? OCEAN_HEX_GRID
+        : window.OCEAN_HEX_GRID;
+      if (target?.cells) replaceObjectContents(target, snapshot.oceanGrid);
     }
 
     function undoLastOperation() {
@@ -401,16 +401,16 @@
       oceanCellEditing = !!snapshot.oceanCellEditing;
       activeMode = snapshot.activeMode;
       currentTool = snapshot.currentTool;
-      restoreOscarGridSnapshot(snapshot);
+      restoreOceanGridSnapshot(snapshot);
       refreshCtx();
       clearHandles();
       clearSegmentMarkers();
-      if (snapshot.oscarGrid) {
-        recomputeOscarSpeedColorCap(getOscarGrid());
-        clearOscarGridLayer();
-        populateOscarDomainSelect();
+      if (snapshot.oceanGrid) {
+        recomputeOceanSpeedColorCap(getOceanGrid());
+        clearOceanGridLayer();
+        populateOceanDomainSelect();
       }
-      refresh(R.ZONES | R.HANDLES | R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.OSCAR_HEX_GRID | R.OSCAR_SELECTION | R.EXPORT | R.UNDO);
+      refresh(R.ZONES | R.HANDLES | R.TOOLS | R.EDITOR | R.PANEL | R.SEA_PANEL | R.OCEAN_HEX_GRID | R.OCEAN_SELECTION | R.EXPORT | R.UNDO);
     }
 
     function updateUndoButton() {
@@ -448,8 +448,8 @@
         ? `<div class="tb-sep"></div>
     <div class="ocean-adjust-settings">
       <label class="ocean-adjust-inline"><input type="checkbox" id="ocean-adjust-attenuate"${oceanAdjustAttenuate ? ' checked' : ''}> Atténuer</label>
-      <label class="ocean-adjust-inline">Facteur <span id="ocean-adjust-factor-label">${Math.round(OSCAR_ADJUST_FACTORS[oceanAdjustFactorIdx] * 100)} %</span>
-        <input type="range" id="ocean-adjust-factor" min="0" max="${OSCAR_ADJUST_FACTORS.length - 1}" step="1" value="${oceanAdjustFactorIdx}">
+      <label class="ocean-adjust-inline">Facteur <span id="ocean-adjust-factor-label">${Math.round(OCEAN_ADJUST_FACTORS[oceanAdjustFactorIdx] * 100)} %</span>
+        <input type="range" id="ocean-adjust-factor" min="0" max="${OCEAN_ADJUST_FACTORS.length - 1}" step="1" value="${oceanAdjustFactorIdx}">
       </label>
       <label class="ocean-adjust-inline" title="Prévaut sur le curseur si renseigné">ou %
         <input type="number" id="ocean-adjust-custom-factor" min="1" max="1000" step="1" placeholder="ex : 40" value="${oceanAdjustCustomFactor ?? ''}" style="width:56px;">
@@ -473,7 +473,7 @@
       ${oceanEqActive ? `
       <label class="ocean-adjust-inline">Cible <span id="ocean-eq-target-label">${oceanEqTargetSpeed.toFixed(2)} nd</span>
         <button type="button" class="tool-btn ocean-eq-step" data-ocean-toolbar-action="eq-target-minus">−</button>
-        <input type="range" id="ocean-eq-target" min="0" max="${oscarSpeedColorCap}" step="0.01" value="${oceanEqTargetSpeed}">
+        <input type="range" id="ocean-eq-target" min="0" max="${oceanSpeedColorCap}" step="0.01" value="${oceanEqTargetSpeed}">
         <button type="button" class="tool-btn ocean-eq-step" data-ocean-toolbar-action="eq-target-plus">+</button>
       </label>
       <label class="ocean-adjust-inline">Largeur ± <span id="ocean-eq-band-label">${oceanEqBandwidth.toFixed(2)} nd</span>
@@ -577,14 +577,14 @@
 
       renderAllZones();
 
-      // La grille OSCAR (et le contour de sélection) est pilotée depuis
+      // La grille OCEAN (et le contour de sélection) est pilotée depuis
       // OCÉANOGRAPHIE autant que SÉMAPHORE.
       if (ctx.isSemaphore || ctx.isOcean) {
         if (seaCellLayer && !map.hasLayer(seaCellLayer)) seaCellLayer.addTo(map);
-        renderOscarGridLayer();
+        renderOceanGridLayer();
         renderSeaCells();
       } else {
-        clearOscarGridLayer();
+        clearOceanGridLayer();
         if (seaCellLayer && map.hasLayer(seaCellLayer)) map.removeLayer(seaCellLayer);
         selectedSeaCellKey = null;
         selectedOceanCellKeys.clear();
@@ -601,7 +601,7 @@
         clearShoalHoverLayer();
       }
 
-      if (ctx.isOcean) updateInfosMersOscarPanel();
+      if (ctx.isOcean) updateInfosMersOceanPanel();
     }
 
     function updateMapToolClass() {
@@ -617,7 +617,7 @@
       } else if (ctx.isTopoOceanBounds) {
         hint.innerHTML = 'Génère <code>zones-ocean-bounds.js</code> (extérieur + trous, séparé). À coller dans le bloc <code>ZONES_OCEAN_BOUNDS</code> de <code>zones-data.js</code>.';
       } else if (ctx.isOcean) {
-        hint.innerHTML = 'Génère <code>oscar-hex-grid.js</code> (cellules éditées manuellement). Remplacer dans le dépôt.';
+        hint.innerHTML = 'Génère <code>ocean-hex-grid.js</code> (cellules éditées manuellement). Remplacer dans le dépôt.';
       }
     }
 

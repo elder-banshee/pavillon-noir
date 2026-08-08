@@ -154,11 +154,11 @@
       } else if (ctx.isTopoOceanBounds) {
         exportOceanBounds();
       } else if (ctx.isOcean) {
-        exportOscarGrid();
+        exportOceanGrid();
       }
     }
 
-    function serializableOscarCell(cell) {
+    function serializableOceanCell(cell) {
       const out = {};
       Object.entries(cell || {}).forEach(([key, value]) => {
         if (key.startsWith('_')) return;
@@ -167,10 +167,10 @@
       return out;
     }
 
-    function exportOscarGrid() {
-      const grid = getOscarGrid();
+    function exportOceanGrid() {
+      const grid = getOceanGrid();
       if (!grid?.cells) {
-        alert('Grille OSCAR indisponible.');
+        alert('Grille OCEAN indisponible.');
         return;
       }
       const exportGrid = {};
@@ -180,13 +180,13 @@
       });
       exportGrid.cells = {};
       Object.entries(grid.cells).forEach(([key, cell]) => {
-        exportGrid.cells[key] = serializableOscarCell(cell);
+        exportGrid.cells[key] = serializableOceanCell(cell);
       });
-      if (exportGrid.topology !== 'hex') throw new Error('Grille OSCAR invalide : seule la topologie hex est exportable.');
-      let out = '// oscar-hex-grid.js - genere par Zone Editor depuis la grille OSCAR hex courante\n\n';
-      out += `const OSCAR_HEX_GRID = ${JSON.stringify(exportGrid)};\n`;
-      out += "if (typeof window !== 'undefined') window.OSCAR_HEX_GRID = OSCAR_HEX_GRID;\n";
-      downloadBlob('oscar-hex-grid.js', out);
+      if (exportGrid.topology !== 'hex') throw new Error('Grille OCEAN invalide : seule la topologie hex est exportable.');
+      let out = '// ocean-hex-grid.js - genere par Zone Editor depuis la grille OCEAN hex courante\n\n';
+      out += `const OCEAN_HEX_GRID = ${JSON.stringify(exportGrid)};\n`;
+      out += "if (typeof window !== 'undefined') window.OCEAN_HEX_GRID = OCEAN_HEX_GRID;\n";
+      downloadBlob('ocean-hex-grid.js', out);
     }
 
     function exportZonesData() {
