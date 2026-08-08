@@ -32,6 +32,33 @@ function neighbourKeys(key, cell) {
   ];
 }
 
+function connectionEventId(connection) {
+  return String(connection?.eventId || '').trim();
+}
+
+function connectionAnchorSignature(connection) {
+  return [
+    connection?.type,
+    connection?.fromCourseId,
+    connection?.fromCellKey,
+    connection?.toCourseId,
+    connection?.toCellKey,
+  ].join('\u0000');
+}
+
+function connectionEventKey(connection) {
+  const eventId = connectionEventId(connection);
+  return eventId ? `event:${eventId}` : `anchor:${connectionAnchorSignature(connection)}`;
+}
+
+function connectionAnchorsTouch(first, second, cells) {
+  const firstKeys = [...new Set([first?.fromCellKey, first?.toCellKey].filter(Boolean))];
+  const secondKeys = [...new Set([second?.fromCellKey, second?.toCellKey].filter(Boolean))];
+  return firstKeys.some(firstKey => secondKeys.some(secondKey => (
+    firstKey === secondKey || neighbourKeys(firstKey, cells[firstKey]).includes(secondKey)
+  )));
+}
+
 function main() {
   const grid = loadGrid();
   const errors = [];
@@ -107,12 +134,19 @@ function main() {
   });
 
   const junctionsByCourse = new Map();
+  const junctionEventKeysByCourse = new Map();
+  const connectionEvents = new Map();
   const connectionSeen = new Set();
   const endpointPairSeen = new Map();
   (grid.fluvialConnections || []).forEach(connection => {
-    const signature = JSON.stringify(connection);
+    const signature = connectionAnchorSignature(connection);
     if (connectionSeen.has(signature)) errors.push(`Connexion dupliquée : ${signature}.`);
     connectionSeen.add(signature);
+    const eventId = connectionEventId(connection);
+    if (eventId) {
+      if (!connectionEvents.has(eventId)) connectionEvents.set(eventId, []);
+      connectionEvents.get(eventId).push(connection);
+    }
     const endpointPair = [
       `${connection.fromCourseId}\u0000${connection.fromCellKey}`,
       `${connection.toCourseId}\u0000${connection.toCellKey}`,
@@ -142,8 +176,36 @@ function main() {
     }
     if (connection.type === 'junction') {
       if (!junctionsByCourse.has(connection.fromCourseId)) junctionsByCourse.set(connection.fromCourseId, []);
-      junctionsByCourse.get(connection.fromCourseId).push(connection);
+      if (!junctionEventKeysByCourse.has(connection.fromCourseId)) {
+        junctionEventKeysByCourse.set(connection.fromCourseId, new Set());
+      }
+      const eventKey = connectionEventKey(connection);
+      if (!junctionEventKeysByCourse.get(connection.fromCourseId).has(eventKey)) {
+        junctionEventKeysByCourse.get(connection.fromCourseId).add(eventKey);
+        junctionsByCourse.get(connection.fromCourseId).push(connection);
+      }
     }
+  });
+
+  connectionEvents.forEach((anchors, eventId) => {
+    if (anchors.length < 2) errors.push(`Connexion multicellulaire ${eventId} avec un seul ancrage.`);
+    const definitions = new Set(anchors.map(connection => [
+      connection.type,
+      connection.fromCourseId,
+      connection.toCourseId,
+    ].join('\u0000')));
+    if (definitions.size > 1) errors.push(`Événement de connexion incohérent : ${eventId}.`);
+    const remaining = new Set(anchors.slice(1));
+    const connected = [anchors[0]];
+    while (remaining.size) {
+      const next = [...remaining].find(candidate => (
+        connected.some(anchor => connectionAnchorsTouch(anchor, candidate, grid.cells || {}))
+      ));
+      if (!next) break;
+      remaining.delete(next);
+      connected.push(next);
+    }
+    if (remaining.size) errors.push(`Ancrages discontinus pour la connexion multicellulaire ${eventId}.`);
   });
 
   const junctionTarget = new Map();
@@ -217,6 +279,13 @@ function main() {
     if (names.size > 1) warnings.push(`${watercourseId}: noms divergents ${[...names].join(' / ')}.`);
   });
 
+  const logicalConnections = new Map();
+  (grid.fluvialConnections || []).forEach(connection => {
+    const key = connectionEventKey(connection);
+    if (!logicalConnections.has(key)) logicalConnections.set(key, connection);
+  });
+  const logicalConnectionList = [...logicalConnections.values()];
+
   const report = {
     valid: errors.length === 0,
     schemaVersion: grid.fluvialSchemaVersion,
@@ -224,9 +293,11 @@ function main() {
     watercourses: namesByWatercourse.size,
     vectors: vectorCount,
     mouths: (grid.fluvialMouths || []).length,
-    connections: (grid.fluvialConnections || []).length,
-    junctions: (grid.fluvialConnections || []).filter(item => item.type === 'junction').length,
-    forks: (grid.fluvialConnections || []).filter(item => item.type === 'fork').length,
+    connectionAnchors: (grid.fluvialConnections || []).length,
+    connections: logicalConnectionList.length,
+    multicellConnections: connectionEvents.size,
+    junctions: logicalConnectionList.filter(item => item.type === 'junction').length,
+    forks: logicalConnectionList.filter(item => item.type === 'fork').length,
     errors,
     warnings,
   };

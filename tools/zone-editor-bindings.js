@@ -207,7 +207,14 @@
         handleOceanCellAction(btn.dataset.oceanAction);
       });
       seaOscarPanel.addEventListener('change', (e) => {
-        if (e.target?.id === 'ocean-has-coastal') {
+        if (e.target?.matches?.('[data-fluvial-relation]')) {
+          const row = e.target.closest('.ocean-fluvial-relation');
+          const multicell = row?.querySelector('[data-fluvial-multicell]');
+          if (multicell) {
+            multicell.disabled = !e.target.value;
+            if (!e.target.value) multicell.checked = false;
+          }
+        } else if (e.target?.id === 'ocean-has-coastal') {
           const fields = document.getElementById('ocean-coastal-fields');
           if (fields) fields.style.display = e.target.checked ? 'contents' : 'none';
         } else if (e.target?.id === 'ocean-main-calm') {
@@ -220,9 +227,23 @@
           row?.querySelectorAll('[data-fluvial-field]:not([data-fluvial-field="enabled"])').forEach(input => {
             input.disabled = !e.target.checked;
           });
+          updateFluvialCourseIdRenameState(row);
           updateFluvialTerminalFields(row);
         } else if (e.target?.matches?.('[data-fluvial-field="attachmentCourseId"]')) {
           updateFluvialAdvancedCourseSelection(e.target.closest('.ocean-fluvial-current'));
+        } else if (e.target?.matches?.('[data-fluvial-field="courseId"]')) {
+          const row = e.target.closest('.ocean-fluvial-current');
+          const attachment = row?.querySelector('[data-fluvial-field="attachmentCourseId"]');
+          const renaming = row?.querySelector('[data-fluvial-field="renameCourseId"]')?.checked === true;
+          if (attachment && !renaming) {
+            const courseId = String(e.target.value || '').trim();
+            attachment.value = oscarFluvialCourses()[courseId] ? courseId : '';
+            if (attachment.value) updateFluvialAdvancedCourseSelection(row);
+          }
+        } else if (e.target?.matches?.('[data-fluvial-field="renameCourseId"]')) {
+          const row = e.target.closest('.ocean-fluvial-current');
+          updateFluvialCourseIdRenameState(row);
+          if (e.target.checked) row?.querySelector('[data-fluvial-field="courseId"]')?.focus();
         } else if (e.target?.matches?.('[data-fluvial-field="terminalType"]')) {
           updateFluvialTerminalFields(e.target.closest('.ocean-fluvial-current'));
         } else if (e.target?.matches?.('[data-fluvial-field="mouthMode"]')) {

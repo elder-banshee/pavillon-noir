@@ -79,6 +79,36 @@ fluvialConnections: [
 ]
 ```
 
+Une connexion dont l'emprise couvre plusieurs cellules conserve un enregistrement
+par ancrage navigable. Tous les ancrages du même événement partagent un
+`eventId` généré automatiquement :
+
+```js
+fluvialConnections: [
+  {
+    type: "fork",
+    fromCourseId: "cours-principal",
+    fromCellKey: "107_168",
+    toCourseId: "bras-secondaire",
+    toCellKey: "107_168",
+    eventId: "connection-event-1"
+  },
+  {
+    type: "fork",
+    fromCourseId: "cours-principal",
+    fromCellKey: "108_168",
+    toCourseId: "bras-secondaire",
+    toCellKey: "108_168",
+    eventId: "connection-event-1"
+  }
+]
+```
+
+Le pilote peut utiliser chaque ancrage comme point de transition, tandis que
+le validateur compte l'ensemble comme une seule fourche ou jonction logique.
+Les ancrages d'un même événement doivent être adjacents et décrire le même
+type de relation entre les mêmes tracés.
+
 L’absence de connexion signifie que deux tracés qui partagent une cellule ou
 des cellules voisines sont strictement séparés. Il n’existe donc plus de
 relation `separate`.
@@ -97,7 +127,8 @@ l’embouchure ne peut pas être localisée dans l’emprise de la carte. Elle
 remplace l’ancienne règle `map-edge`.
 
 Les fourches décrivent une connexion dirigée mais ne constituent pas une
-terminaison. Les chaînes de jonctions terminales doivent être acycliques.
+terminaison. Les chaînes de jonctions terminales doivent être acycliques. Une
+jonction terminale multicellulaire compte comme une seule terminaison logique.
 
 Un delta dont plusieurs cellules appartiennent au même réseau conserve un seul
 `courseId` dans toute sa composante. Ses différentes cellules terminales sont

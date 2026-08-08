@@ -108,7 +108,8 @@
       const sameNameCount = oscarFluvialCurrents(cell)
         .filter(item => String(item.riverId || '') === name).length;
       const qualifier = branch || stableId;
-      const label = qualifier && (siblingCount > 1 || sameNameCount > 1)
+      const explicitBranch = branch && branch.toLowerCase() !== 'main';
+      const label = qualifier && (explicitBranch || siblingCount > 1 || sameNameCount > 1)
         ? `${name} [${qualifier}]`
         : name;
       return { courseId: stableId, name, watercourseId, branch, label };
@@ -151,6 +152,41 @@
 
     function oscarFluvialConnections(grid = getOscarGrid()) {
       return Array.isArray(grid?.fluvialConnections) ? grid.fluvialConnections : [];
+    }
+
+    function oscarFluvialConnectionEventId(connection) {
+      return String(connection?.eventId || '').trim();
+    }
+
+    function oscarFluvialConnectionAnchorSignature(connection) {
+      return [
+        connection?.type,
+        connection?.fromCourseId,
+        connection?.fromCellKey,
+        connection?.toCourseId,
+        connection?.toCellKey,
+      ].join('\u0000');
+    }
+
+    function oscarFluvialConnectionEventKey(connection) {
+      const eventId = oscarFluvialConnectionEventId(connection);
+      return eventId ? `event:${eventId}` : `anchor:${oscarFluvialConnectionAnchorSignature(connection)}`;
+    }
+
+    function nextOscarFluvialConnectionEventId(connections = oscarFluvialConnections()) {
+      const used = new Set(connections.map(oscarFluvialConnectionEventId).filter(Boolean));
+      let index = 1;
+      while (used.has(`connection-event-${index}`)) index++;
+      return `connection-event-${index}`;
+    }
+
+    function oscarFluvialConnectionAnchorsTouch(first, second, cells = getOscarGrid()?.cells || {}) {
+      const firstKeys = [...new Set([first?.fromCellKey, first?.toCellKey].filter(Boolean))];
+      const secondKeys = [...new Set([second?.fromCellKey, second?.toCellKey].filter(Boolean))];
+      return firstKeys.some(firstKey => secondKeys.some(secondKey => (
+        firstKey === secondKey
+        || oscarHexNeighbourKeys(firstKey, cells[firstKey]).includes(secondKey)
+      )));
     }
 
     function oscarFluvialOutlets(cell) {
@@ -371,6 +407,8 @@
       });
 
       const junctionsByCourse = new Map();
+      const junctionEventKeysByCourse = new Map();
+      const connectionEvents = new Map();
       const connectionSignatures = new Set();
       connections.forEach(connection => {
         const signature = [
@@ -385,6 +423,11 @@
           return;
         }
         connectionSignatures.add(signature);
+        const eventId = oscarFluvialConnectionEventId(connection);
+        if (eventId) {
+          if (!connectionEvents.has(eventId)) connectionEvents.set(eventId, []);
+          connectionEvents.get(eventId).push(connection);
+        }
         const fromCell = cells[connection.fromCellKey];
         const toCell = cells[connection.toCellKey];
         const fromPresent = oscarFluvialCurrents(fromCell)
@@ -405,7 +448,50 @@
         }
         if (connection.type === 'junction') {
           if (!junctionsByCourse.has(connection.fromCourseId)) junctionsByCourse.set(connection.fromCourseId, []);
-          junctionsByCourse.get(connection.fromCourseId).push(connection);
+          if (!junctionEventKeysByCourse.has(connection.fromCourseId)) {
+            junctionEventKeysByCourse.set(connection.fromCourseId, new Set());
+          }
+          const eventKey = oscarFluvialConnectionEventKey(connection);
+          if (!junctionEventKeysByCourse.get(connection.fromCourseId).has(eventKey)) {
+            junctionEventKeysByCourse.get(connection.fromCourseId).add(eventKey);
+            junctionsByCourse.get(connection.fromCourseId).push(connection);
+          }
+        }
+      });
+
+      connectionEvents.forEach((anchors, eventId) => {
+        const definitionSignatures = new Set(anchors.map(connection => [
+          connection.type,
+          connection.fromCourseId,
+          connection.toCourseId,
+        ].join('\u0000')));
+        if (anchors.length < 2) {
+          anchors.forEach(connection => {
+            addReason(connection.fromCellKey, `connexion multicellulaire « ${eventId} » avec un seul ancrage`);
+            addReason(connection.toCellKey, `connexion multicellulaire « ${eventId} » avec un seul ancrage`);
+          });
+        }
+        if (definitionSignatures.size > 1) {
+          anchors.forEach(connection => {
+            addReason(connection.fromCellKey, `événement de connexion incohérent : « ${eventId} »`);
+            addReason(connection.toCellKey, `événement de connexion incohérent : « ${eventId} »`);
+          });
+        }
+        const remaining = new Set(anchors.slice(1));
+        const connected = [anchors[0]];
+        while (remaining.size) {
+          const next = [...remaining].find(candidate => (
+            connected.some(anchor => oscarFluvialConnectionAnchorsTouch(anchor, candidate, cells))
+          ));
+          if (!next) break;
+          remaining.delete(next);
+          connected.push(next);
+        }
+        if (remaining.size) {
+          anchors.forEach(connection => {
+            addReason(connection.fromCellKey, `ancrages discontinus pour la connexion multicellulaire « ${eventId} »`);
+            addReason(connection.toCellKey, `ancrages discontinus pour la connexion multicellulaire « ${eventId} »`);
+          });
         }
       });
 
@@ -1470,7 +1556,14 @@
       const course = oscarFluvialCourses()[courseId] || {};
       const policy = course.terminalPolicy || { type: 'sea', mouthMode: 'single' };
       const disabled = enabled ? '' : ' disabled';
-      const technicalReadonly = courseId ? ' readonly' : '';
+      const technicalRenameControl = courseId
+        ? [
+          '<label class="ocean-cell-toggle ocean-fluvial-advanced-wide ocean-fluvial-course-rename">',
+          `<input type="checkbox" data-fluvial-field="renameCourseId" data-initial="false"${disabled}>`,
+          'Renommer cet identifiant technique partout (opération globale)',
+          '</label>',
+        ].join('')
+        : '';
       const option = (value, label, selected) => (
         `<option value="${escapeAttr(value)}"${selected ? ' selected' : ''}>${escapeHtmlText(label)}</option>`
       );
@@ -1478,14 +1571,15 @@
         '<details class="ocean-fluvial-advanced">',
         '<summary>Options avancées</summary>',
         '<div class="ocean-fluvial-advanced-grid">',
-        '<label class="ocean-fluvial-advanced-wide">Rattacher cette cellule à un tracé enregistré',
+        '<label class="ocean-fluvial-advanced-wide">Choisir un tracé existant (raccourci facultatif)',
         `<select data-fluvial-field="attachmentCourseId" data-initial="${escapeAttr(courseId)}"${disabled}>`,
         fluvialCourseSelectOptions(courseId),
         '</select>',
         '</label>',
         '<label>Identifiant technique (courseId)',
-        `<input type="text" data-fluvial-field="courseId" data-initial="${escapeAttr(courseId)}" value="${escapeAttr(courseId)}" placeholder="Automatique si vide"${technicalReadonly}${disabled}>`,
+        `<input type="text" data-fluvial-field="courseId" data-initial="${escapeAttr(courseId)}" value="${escapeAttr(courseId)}" placeholder="Automatique si vide"${disabled}>`,
         '</label>',
+        technicalRenameControl,
         '<label>Groupe hydrologique (watercourseId)',
         `<input type="text" data-fluvial-field="watercourseId" data-initial="${escapeAttr(course.watercourseId || '')}" value="${escapeAttr(course.watercourseId || '')}" placeholder="Automatique si vide"${disabled}>`,
         '</label>',
@@ -1511,7 +1605,7 @@
         '<label class="ocean-fluvial-advanced-wide">Justification de la terminaison non localisée',
         `<input type="text" data-fluvial-field="terminalReason" data-initial="${escapeAttr(policy.reason || '')}" value="${escapeAttr(policy.reason || '')}" placeholder="Obligatoire pour une exception"${policy.type === 'unresolved' && enabled ? '' : ' disabled'}>`,
         '</label>',
-        '<div class="sea-prop ocean-fluvial-advanced-hint"><span>Rattachement :</span> choisir un tracé existant ne modifie que ce vecteur dans la sélection. L’identifiant technique d’un tracé enregistré reste stable ; il est libre uniquement lors de la création.</div>',
+        '<div class="sea-prop ocean-fluvial-advanced-hint"><span>Identifiant technique :</span> le modifier réaffecte uniquement ce tracé dans la sélection. Un identifiant existant rattache les cellules à ce tracé ; un identifiant inédit crée un nouveau tracé avec les métadonnées affichées. Seule la case de renommage ci-dessus agit globalement.</div>',
         '</div>',
         '</details>',
       ].join('');
@@ -1538,10 +1632,11 @@
       const mouthModeField = row.querySelector('[data-fluvial-field="mouthMode"]');
       const reasonField = row.querySelector('[data-fluvial-field="terminalReason"]');
       const multipleMouthField = row.querySelector('[data-fluvial-field="multipleMouth"]');
+      const renameCourseIdField = row.querySelector('[data-fluvial-field="renameCourseId"]');
+      if (renameCourseIdField) renameCourseIdField.checked = false;
       if (course) {
         if (courseIdField) {
           courseIdField.value = selectedCourseId;
-          courseIdField.readOnly = true;
         }
         if (riverIdField) riverIdField.value = course.riverId || '';
         if (watercourseField) watercourseField.value = course.watercourseId || '';
@@ -1555,11 +1650,24 @@
           multipleMouthField.checked = multiple;
           multipleMouthField.dataset.initial = String(multiple);
         }
-      } else if (courseIdField) {
-        courseIdField.readOnly = false;
-        if (row.dataset.originalCourseId) courseIdField.value = '';
-      }
+      } else if (courseIdField && row.dataset.originalCourseId) courseIdField.value = '';
+      updateFluvialCourseIdRenameState(row);
       updateFluvialTerminalFields(row);
+    }
+
+    function updateFluvialCourseIdRenameState(row) {
+      if (!row) return;
+      const enabled = row.querySelector('[data-fluvial-field="enabled"]')?.checked === true;
+      const renameField = row.querySelector('[data-fluvial-field="renameCourseId"]');
+      const attachmentField = row.querySelector('[data-fluvial-field="attachmentCourseId"]');
+      const courseIdField = row.querySelector('[data-fluvial-field="courseId"]');
+      const renaming = enabled && renameField?.checked === true;
+      if (attachmentField) attachmentField.disabled = !enabled || renaming;
+      if (!courseIdField) return;
+      courseIdField.disabled = !enabled;
+      if (!renaming && row.dataset.originalCourseId) {
+        courseIdField.value ||= attachmentField?.value || row.dataset.originalCourseId;
+      }
     }
 
     function formatFluvialCurrentRows(cell) {
@@ -1626,10 +1734,18 @@
       const local = oscarFluvialCurrents(cell)
         .map(current => ({ courseId: oscarFluvialCourseId(current), cellKey }));
       const candidates = [];
+      const localCoursePairs = new Set();
+      const coursePairSignature = (firstCourseId, secondCourseId) => (
+        [firstCourseId, secondCourseId].sort().join('\u0000')
+      );
       for (let firstIdx = 0; firstIdx < local.length; firstIdx++) {
         for (let secondIdx = firstIdx + 1; secondIdx < local.length; secondIdx++) {
           if (local[firstIdx].courseId !== local[secondIdx].courseId) {
             candidates.push({ first: local[firstIdx], second: local[secondIdx] });
+            localCoursePairs.add(coursePairSignature(
+              local[firstIdx].courseId,
+              local[secondIdx].courseId,
+            ));
           }
         }
       }
@@ -1637,7 +1753,13 @@
         oscarFluvialCurrents(grid.cells[neighbourKey]).forEach(current => {
           const neighbour = { courseId: oscarFluvialCourseId(current), cellKey: neighbourKey };
           local.forEach(first => {
-            if (first.courseId !== neighbour.courseId) candidates.push({ first, second: neighbour });
+            if (first.courseId === neighbour.courseId) return;
+            // Si les deux tracés cohabitent dans la cellule éditée, leur
+            // relation doit être ancrée ici. Proposer aussi leurs occurrences
+            // voisines créerait plusieurs emplacements indiscernables pour
+            // une même naissance ou confluence.
+            if (localCoursePairs.has(coursePairSignature(first.courseId, neighbour.courseId))) return;
+            candidates.push({ first, second: neighbour });
           });
         });
       });
@@ -1654,8 +1776,8 @@
       });
     }
 
-    function fluvialPairRelationValue(candidate) {
-      const connection = oscarFluvialConnections().find(item => {
+    function fluvialPairConnection(candidate) {
+      return oscarFluvialConnections().find(item => {
         const direct = item.fromCourseId === candidate.first.courseId
           && item.fromCellKey === candidate.first.cellKey
           && item.toCourseId === candidate.second.courseId
@@ -1666,6 +1788,10 @@
           && item.toCellKey === candidate.first.cellKey;
         return direct || reverse;
       });
+    }
+
+    function fluvialPairRelationValue(candidate) {
+      const connection = fluvialPairConnection(candidate);
       return connection
         ? `${connection.type}:${connection.fromCourseId}>${connection.toCourseId}`
         : '';
@@ -1681,14 +1807,16 @@
       if (!candidates.length) return '';
       const rows = candidates.map((candidate, index) => {
         const { first, second } = candidate;
+        const connection = fluvialPairConnection(candidate);
         const value = fluvialPairRelationValue(candidate);
+        const multicell = !!oscarFluvialConnectionEventId(connection);
         const firstLabel = oscarFluvialCourseLabel(grid.cells[first.cellKey], first.courseId);
         const secondLabel = oscarFluvialCourseLabel(grid.cells[second.cellKey], second.courseId);
         const neighbourSuffix = first.cellKey === second.cellKey ? '' : ` — cellule voisine ${second.cellKey}`;
         const technicalSummary = `${first.courseId} (${first.cellKey}) ↔ ${second.courseId} (${second.cellKey})`;
         const option = (optionValue, label) => `<option value="${escapeAttr(optionValue)}"${value === optionValue ? ' selected' : ''}>${escapeHtmlText(label)}</option>`;
         return [
-          `<label class="ocean-fluvial-relation" data-fluvial-pair-index="${index}" data-first-course-id="${escapeAttr(first.courseId)}" data-first-cell-key="${escapeAttr(first.cellKey)}" data-second-course-id="${escapeAttr(second.courseId)}" data-second-cell-key="${escapeAttr(second.cellKey)}">`,
+          `<div class="ocean-fluvial-relation" data-fluvial-pair-index="${index}" data-first-course-id="${escapeAttr(first.courseId)}" data-first-cell-key="${escapeAttr(first.cellKey)}" data-second-course-id="${escapeAttr(second.courseId)}" data-second-cell-key="${escapeAttr(second.cellKey)}">`,
           `<span>${escapeHtmlText(firstLabel)} / ${escapeHtmlText(secondLabel + neighbourSuffix)}<code>${escapeHtmlText(technicalSummary)}</code></span>`,
           `<select data-fluvial-relation data-initial="${escapeAttr(value)}">`,
           option('', 'Aucune connexion'),
@@ -1697,7 +1825,11 @@
           option(`junction:${first.courseId}>${second.courseId}`, `Jonction : ${firstLabel} se termine dans ${secondLabel}`),
           option(`junction:${second.courseId}>${first.courseId}`, `Jonction : ${secondLabel} se termine dans ${firstLabel}`),
           '</select>',
+          '<label class="ocean-cell-toggle ocean-fluvial-multicell">',
+          `<input type="checkbox" data-fluvial-multicell data-initial="${multicell}"${multicell ? ' checked' : ''}${value ? '' : ' disabled'}>`,
+          'Connexion répartie sur plusieurs cellules',
           '</label>',
+          '</div>',
         ].join('');
       }).join('');
       return [
@@ -2255,6 +2387,7 @@
       const fluvialRows = [...document.querySelectorAll('.ocean-fluvial-current')];
       const fluvialOperations = [];
       const fluvialRegistryEdits = [];
+      const fluvialCourseIdRenames = [];
       const fluvialMouthEdits = [];
       const fluvialMouthModeEdits = [];
       for (const row of fluvialRows) {
@@ -2267,6 +2400,7 @@
         const directionField = row.querySelector('[data-fluvial-field="direction"]');
         const attachmentField = row.querySelector('[data-fluvial-field="attachmentCourseId"]');
         const technicalCourseIdField = row.querySelector('[data-fluvial-field="courseId"]');
+        const renameCourseIdField = row.querySelector('[data-fluvial-field="renameCourseId"]');
         const watercourseIdField = row.querySelector('[data-fluvial-field="watercourseId"]');
         const branchField = row.querySelector('[data-fluvial-field="branch"]');
         const sourceField = row.querySelector('[data-fluvial-field="source"]');
@@ -2300,18 +2434,56 @@
         }
         const attachedCourseId = String(attachmentField?.value || '').trim();
         const requestedCourseId = String(technicalCourseIdField?.value || '').trim();
-        const effectiveCourseId = attachedCourseId
-          || requestedCourseId
+        const renameCourseId = initiallyEnabled && renameCourseIdField?.checked === true;
+        const effectiveCourseId = requestedCourseId
+          || attachedCourseId
           || nextOscarFluvialCourseId(riverId);
-        const registeredCourse = oscarFluvialCourses()[effectiveCourseId] || null;
-        if (attachedCourseId && !registeredCourse) {
+        const originalRegisteredCourse = oscarFluvialCourses()[originalCourseId] || null;
+        const registeredCourse = renameCourseId
+          ? originalRegisteredCourse
+          : (oscarFluvialCourses()[effectiveCourseId] || null);
+        const courseReassigned = initiallyEnabled
+          && !renameCourseId
+          && effectiveCourseId !== originalCourseId;
+        const attachingExistingCourse = !renameCourseId
+          && !!registeredCourse
+          && effectiveCourseId !== originalCourseId;
+        if (renameCourseId) {
+          if (!originalRegisteredCourse) {
+            alert(`Le tracé technique « ${originalCourseId} » n’existe plus dans le registre.`);
+            technicalCourseIdField?.focus();
+            return;
+          }
+          if (!requestedCourseId || requestedCourseId === originalCourseId) {
+            alert('Saisir un nouvel identifiant technique différent de l’identifiant actuel.');
+            technicalCourseIdField?.focus();
+            return;
+          }
+          if (oscarFluvialCourses()[requestedCourseId]) {
+            alert(`L’identifiant technique « ${requestedCourseId} » est déjà utilisé. Utiliser le menu de rattachement pour rejoindre ce tracé.`);
+            technicalCourseIdField?.focus();
+            return;
+          }
+          if (fluvialCourseIdRenames.some(edit => edit.toCourseId === requestedCourseId)) {
+            alert(`Plusieurs tracés ne peuvent pas être renommés « ${requestedCourseId} » en même temps.`);
+            technicalCourseIdField?.focus();
+            return;
+          }
+        }
+        if (!renameCourseId && !requestedCourseId && attachedCourseId && !registeredCourse) {
           alert(`Le tracé technique « ${attachedCourseId} » n’existe plus dans le registre.`);
           attachmentField?.focus();
           return;
         }
-        const terminalType = terminalTypeField?.value || registeredCourse?.terminalPolicy?.type || 'sea';
-        const mouthMode = mouthModeField?.value || registeredCourse?.terminalPolicy?.mouthMode || 'single';
-        const terminalReason = String(terminalReasonField?.value || '').trim();
+        const terminalType = attachingExistingCourse
+          ? (registeredCourse.terminalPolicy?.type || 'sea')
+          : (terminalTypeField?.value || registeredCourse?.terminalPolicy?.type || 'sea');
+        const mouthMode = attachingExistingCourse
+          ? (registeredCourse.terminalPolicy?.mouthMode || 'single')
+          : (mouthModeField?.value || registeredCourse?.terminalPolicy?.mouthMode || 'single');
+        const terminalReason = attachingExistingCourse
+          ? String(registeredCourse.terminalPolicy?.reason || '').trim()
+          : String(terminalReasonField?.value || '').trim();
         if (!['sea', 'junction', 'unresolved'].includes(terminalType)) {
           alert('La politique terminale sélectionnée est inconnue.');
           terminalTypeField?.focus();
@@ -2322,17 +2494,30 @@
           terminalReasonField?.focus();
           return;
         }
-        const registry = {
-          watercourseId: String(watercourseIdField?.value || '').trim() || effectiveCourseId,
-          riverId,
-          branch: String(branchField?.value || '').trim() || null,
-          terminalPolicy: terminalType === 'sea'
-            ? { type: 'sea', mouthMode: mouthMode === 'multiple' ? 'multiple' : 'single' }
-            : terminalType === 'junction'
-              ? { type: 'junction' }
-              : { type: 'unresolved', reason: terminalReason },
-        };
+        const effectiveRiverId = attachingExistingCourse
+          ? String(registeredCourse.riverId || effectiveCourseId)
+          : riverId;
+        const registry = attachingExistingCourse
+          ? cloneJSON(registeredCourse)
+          : {
+            watercourseId: String(watercourseIdField?.value || '').trim() || effectiveCourseId,
+            riverId: effectiveRiverId,
+            branch: String(branchField?.value || '').trim() || null,
+            terminalPolicy: terminalType === 'sea'
+              ? { type: 'sea', mouthMode: mouthMode === 'multiple' ? 'multiple' : 'single' }
+              : terminalType === 'junction'
+                ? { type: 'junction' }
+                : { type: 'unresolved', reason: terminalReason },
+          };
         const source = String(sourceField?.value || '').trim() || 'manual';
+        if (renameCourseId) {
+          fluvialCourseIdRenames.push({
+            fromCourseId: originalCourseId,
+            toCourseId: effectiveCourseId,
+            registry,
+            renameWatercourse: registry.riverId !== registeredCourse.riverId,
+          });
+        }
         if (registeredCourse) {
           const comparableRegistered = JSON.stringify({
             watercourseId: registeredCourse.watercourseId,
@@ -2340,7 +2525,7 @@
             branch: registeredCourse.branch || null,
             terminalPolicy: registeredCourse.terminalPolicy,
           });
-          if (JSON.stringify(registry) !== comparableRegistered) {
+          if (!renameCourseId && JSON.stringify(registry) !== comparableRegistered) {
             fluvialRegistryEdits.push({
               courseId: effectiveCourseId,
               registry,
@@ -2357,7 +2542,7 @@
         if (!initiallyEnabled) {
           fluvialOperations.push({
             type: 'add',
-            riverId,
+            riverId: effectiveRiverId,
             courseId: effectiveCourseId,
             speedKnot,
             dirToDeg,
@@ -2366,8 +2551,7 @@
           });
           continue;
         }
-        const courseReassigned = effectiveCourseId !== originalCourseId;
-        const riverIdTouched = riverId !== riverIdInput.dataset.initial;
+        const riverIdTouched = effectiveRiverId !== riverIdInput.dataset.initial;
         const speedTouched = Number(speedField.value) !== Number(speedField.dataset.initial);
         const directionTouched = Number(directionField.value) !== Number(directionField.dataset.initial);
         const sourceTouched = source !== sourceField?.dataset.initial;
@@ -2376,7 +2560,7 @@
             type: courseReassigned ? 'reassign' : 'update',
             originalCourseId,
             courseId: effectiveCourseId,
-            riverId,
+            riverId: effectiveRiverId,
             speedKnot: speedTouched ? speedKnot : null,
             dirToDeg: directionTouched ? dirToDeg : null,
             source,
@@ -2385,18 +2569,22 @@
         }
       }
 
-      const fluvialRelationEdits = [...document.querySelectorAll('[data-fluvial-relation]')]
-        .filter(select => select.value !== select.dataset.initial)
-        .map(select => {
-          const row = select.closest('.ocean-fluvial-relation');
+      const fluvialRelationEdits = [...document.querySelectorAll('.ocean-fluvial-relation')]
+        .map(row => {
+          const select = row.querySelector('[data-fluvial-relation]');
+          const multicell = row.querySelector('[data-fluvial-multicell]');
           return {
             firstCourseId: String(row?.dataset.firstCourseId || ''),
             firstCellKey: String(row?.dataset.firstCellKey || ''),
             secondCourseId: String(row?.dataset.secondCourseId || ''),
             secondCellKey: String(row?.dataset.secondCellKey || ''),
-            value: select.value,
+            value: select?.value || '',
+            multicell: multicell?.checked === true,
+            touched: select?.value !== select?.dataset.initial
+              || String(multicell?.checked === true) !== multicell?.dataset.initial,
           };
-        });
+        })
+        .filter(edit => edit.touched);
 
       const applyFluvialOperations = (cell) => {
         let currents = oscarFluvialCurrents(cell).map(current => ({ ...current }));
@@ -2443,17 +2631,113 @@
         const grid = getOscarGrid();
         const selectedCellKey = oceanTargetKeys()[0] || null;
         const courses = oscarFluvialCourses(grid);
+        const localReassignments = fluvialOperations
+          .filter(operation => operation.type === 'reassign');
+        const newlyCreatedLocalCourseIds = new Set(localReassignments
+          .filter(operation => !courses[operation.courseId])
+          .map(operation => operation.courseId));
+        const courseIdRenameMap = new Map(fluvialCourseIdRenames
+          .map(edit => [edit.fromCourseId, edit.toCourseId]));
+        const remapCourseId = courseId => courseIdRenameMap.get(courseId) || courseId;
+        const coursePresent = (courseId, cellKey) => oscarFluvialCurrents(grid.cells[cellKey])
+          .some(current => oscarFluvialCourseId(current) === courseId);
+        const remapCourseAtCell = (courseId, cellKey) => {
+          const globallyMapped = remapCourseId(courseId);
+          const localEdit = localReassignments.find(operation => (
+            remapCourseId(operation.originalCourseId) === globallyMapped
+            && targetKeys.includes(cellKey)
+            && !coursePresent(globallyMapped, cellKey)
+            && coursePresent(remapCourseId(operation.courseId), cellKey)
+          ));
+          return localEdit ? remapCourseId(localEdit.courseId) : globallyMapped;
+        };
+        let mouths = oscarFluvialMouths(grid).map(mouth => ({ ...mouth }));
+        let connections = oscarFluvialConnections(grid).map(connection => ({ ...connection }));
 
         fluvialOperations.forEach(operation => {
           if (operation.type === 'add' || operation.type === 'reassign') {
-            courses[operation.courseId] ||= {
-              ...operation.registry,
-            };
+            if (!courses[operation.courseId]) {
+              const registry = cloneJSON(operation.registry);
+              if (operation.type === 'reassign' && registry.terminalPolicy?.type === 'sea') {
+                registry.terminalPolicy = { type: 'sea', mouthMode: 'single' };
+              }
+              courses[operation.courseId] = registry;
+            }
           }
         });
 
         const renamedCourseIds = new Map();
-        fluvialRegistryEdits.forEach(edit => {
+        fluvialCourseIdRenames.forEach(edit => {
+          const sourceCourse = courses[edit.fromCourseId];
+          if (!sourceCourse || courses[edit.toCourseId]) return;
+          courses[edit.toCourseId] = {
+            ...sourceCourse,
+            ...edit.registry,
+          };
+          delete courses[edit.fromCourseId];
+          Object.entries(grid.cells).forEach(([cellKey, cell]) => {
+            let touched = false;
+            oscarFluvialCurrents(cell).forEach(current => {
+              if (oscarFluvialCourseId(current) !== edit.fromCourseId) return;
+              current.courseId = edit.toCourseId;
+              current.riverId = edit.registry.riverId;
+              touched = true;
+            });
+            if (touched) sessionEditedOceanCellKeys.add(cellKey);
+          });
+          mouths.forEach(mouth => {
+            if (mouth.courseId === edit.fromCourseId) mouth.courseId = edit.toCourseId;
+          });
+          connections.forEach(connection => {
+            if (connection.fromCourseId === edit.fromCourseId) connection.fromCourseId = edit.toCourseId;
+            if (connection.toCourseId === edit.fromCourseId) connection.toCourseId = edit.toCourseId;
+          });
+          if (edit.renameWatercourse) {
+            Object.entries(courses)
+              .filter(([, course]) => course.watercourseId === edit.registry.watercourseId)
+              .forEach(([courseId, course]) => {
+                course.riverId = edit.registry.riverId;
+                renamedCourseIds.set(courseId, edit.registry.riverId);
+              });
+          }
+        });
+        const locallyAffectedCourseIds = new Set();
+        localReassignments.forEach(operation => {
+          const fromCourseId = remapCourseId(operation.originalCourseId);
+          const toCourseId = remapCourseId(operation.courseId);
+          targetKeys.forEach(cellKey => {
+            // Les courants ont déjà été réécrits dans les cellules. Une
+            // extrémité topologique ne suit le nouvel identifiant que si
+            // l'ancien tracé a réellement disparu de cette cellule.
+            if (coursePresent(fromCourseId, cellKey) || !coursePresent(toCourseId, cellKey)) return;
+            mouths.forEach(mouth => {
+              if (mouth.courseId === fromCourseId && mouth.cellKey === cellKey) {
+                mouth.courseId = toCourseId;
+              }
+            });
+            connections.forEach(connection => {
+              if (connection.fromCourseId === fromCourseId && connection.fromCellKey === cellKey) {
+                connection.fromCourseId = toCourseId;
+              }
+              if (connection.toCourseId === fromCourseId && connection.toCellKey === cellKey) {
+                connection.toCourseId = toCourseId;
+              }
+            });
+          });
+          locallyAffectedCourseIds.add(fromCourseId);
+          locallyAffectedCourseIds.add(toCourseId);
+        });
+        if (localReassignments.length) {
+          connections = connections.filter(connection => connection.fromCourseId !== connection.toCourseId);
+        }
+        const terminalRegistryEdits = [
+          ...fluvialRegistryEdits,
+          ...fluvialCourseIdRenames.map(edit => ({
+            courseId: edit.toCourseId,
+            registry: edit.registry,
+          })),
+        ];
+        terminalRegistryEdits.forEach(edit => {
           if (!courses[edit.courseId]) return;
           courses[edit.courseId] = {
             ...courses[edit.courseId],
@@ -2477,9 +2761,7 @@
           });
         });
 
-        let mouths = oscarFluvialMouths(grid).map(mouth => ({ ...mouth }));
-        let connections = oscarFluvialConnections(grid).map(connection => ({ ...connection }));
-        fluvialRegistryEdits.forEach(edit => {
+        terminalRegistryEdits.forEach(edit => {
           const type = edit.registry.terminalPolicy.type;
           if (type === 'sea') {
             connections = connections.filter(connection => !(connection.type === 'junction'
@@ -2524,21 +2806,36 @@
             && maritimeCourses.has(connection.fromCourseId)));
         }
         fluvialRelationEdits.forEach(edit => {
-          connections = connections.filter(connection => {
-            const direct = connection.fromCourseId === edit.firstCourseId
+          const firstCourseId = remapCourseAtCell(edit.firstCourseId, edit.firstCellKey);
+          const secondCourseId = remapCourseAtCell(edit.secondCourseId, edit.secondCellKey);
+          const anchoredConnections = connections.filter(connection => {
+            const direct = connection.fromCourseId === firstCourseId
               && connection.fromCellKey === edit.firstCellKey
-              && connection.toCourseId === edit.secondCourseId
+              && connection.toCourseId === secondCourseId
               && connection.toCellKey === edit.secondCellKey;
-            const reverse = connection.fromCourseId === edit.secondCourseId
+            const reverse = connection.fromCourseId === secondCourseId
               && connection.fromCellKey === edit.secondCellKey
-              && connection.toCourseId === edit.firstCourseId
+              && connection.toCourseId === firstCourseId
+              && connection.toCellKey === edit.firstCellKey;
+            return direct || reverse;
+          });
+          connections = connections.filter(connection => {
+            const direct = connection.fromCourseId === firstCourseId
+              && connection.fromCellKey === edit.firstCellKey
+              && connection.toCourseId === secondCourseId
+              && connection.toCellKey === edit.secondCellKey;
+            const reverse = connection.fromCourseId === secondCourseId
+              && connection.fromCellKey === edit.secondCellKey
+              && connection.toCourseId === firstCourseId
               && connection.toCellKey === edit.firstCellKey;
             return !direct && !reverse;
           });
           if (!edit.value) return;
           const [type, direction] = edit.value.split(':');
-          const [fromCourseId, toCourseId] = String(direction || '').split('>');
-          const fromFirst = fromCourseId === edit.firstCourseId;
+          const [rawFromCourseId] = String(direction || '').split('>');
+          const fromFirst = rawFromCourseId === edit.firstCourseId;
+          const fromCourseId = fromFirst ? firstCourseId : secondCourseId;
+          const toCourseId = fromFirst ? secondCourseId : firstCourseId;
           const connection = {
             type,
             fromCourseId,
@@ -2546,6 +2843,48 @@
             toCourseId,
             toCellKey: fromFirst ? edit.secondCellKey : edit.firstCellKey,
           };
+          if (edit.multicell) {
+            const compatible = candidate => candidate.type === type
+              && candidate.fromCourseId === fromCourseId
+              && candidate.toCourseId === toCourseId;
+            const candidates = connections.filter(compatible);
+            const cluster = [];
+            let expanded = true;
+            while (expanded) {
+              expanded = false;
+              candidates.forEach(candidate => {
+                if (cluster.includes(candidate)) return;
+                const touches = oscarFluvialConnectionAnchorsTouch(candidate, connection)
+                  || cluster.some(anchor => oscarFluvialConnectionAnchorsTouch(candidate, anchor));
+                if (!touches) return;
+                cluster.push(candidate);
+                expanded = true;
+              });
+            }
+            const priorEventIds = anchoredConnections
+              .filter(compatible)
+              .map(oscarFluvialConnectionEventId)
+              .filter(Boolean);
+            const clusterEventIds = cluster
+              .map(oscarFluvialConnectionEventId)
+              .filter(Boolean);
+            const eventId = priorEventIds[0]
+              || clusterEventIds[0]
+              || nextOscarFluvialConnectionEventId(connections);
+            cluster.forEach(anchor => { anchor.eventId = eventId; });
+            connection.eventId = eventId;
+          } else if (type === 'fork') {
+            // Sans mode multicellulaire, placer la naissance d'un bras la
+            // déplace vers le nouvel ancrage.
+            connections = connections.filter(candidate => !(candidate.type === 'fork'
+              && candidate.fromCourseId === fromCourseId
+              && candidate.toCourseId === toCourseId));
+          } else if (type === 'junction') {
+            // Sans mode multicellulaire, une jonction terminale conserve un
+            // seul ancrage.
+            connections = connections.filter(candidate => !(candidate.type === 'junction'
+              && candidate.fromCourseId === fromCourseId));
+          }
           connections.push(connection);
           if (type === 'junction' && courses[fromCourseId]) {
             courses[fromCourseId].terminalPolicy = { type: 'junction' };
@@ -2553,8 +2892,25 @@
           }
         });
 
-        const coursePresent = (courseId, cellKey) => oscarFluvialCurrents(grid.cells[cellKey])
-          .some(current => oscarFluvialCourseId(current) === courseId);
+        locallyAffectedCourseIds.forEach(courseId => {
+          const course = courses[courseId];
+          if (!course) return;
+          const mouthCount = mouths.filter(mouth => mouth.courseId === courseId).length;
+          const junctionCount = connections.filter(connection => connection.type === 'junction'
+            && connection.fromCourseId === courseId).length;
+          if (mouthCount && !junctionCount) {
+            course.terminalPolicy = {
+              type: 'sea',
+              mouthMode: mouthCount > 1 ? 'multiple' : 'single',
+            };
+          } else if (junctionCount && !mouthCount) {
+            course.terminalPolicy = { type: 'junction' };
+          } else if (!mouthCount && !junctionCount
+            && newlyCreatedLocalCourseIds.has(courseId)
+            && course.terminalPolicy?.type === 'sea') {
+            course.terminalPolicy = { type: 'sea', mouthMode: 'single' };
+          }
+        });
         mouths = mouths.filter(mouth => coursePresent(mouth.courseId, mouth.cellKey));
         connections = connections.filter(connection => coursePresent(connection.fromCourseId, connection.fromCellKey)
           && coursePresent(connection.toCourseId, connection.toCellKey));
@@ -2563,6 +2919,7 @@
         grid.fluvialMouths = mouths;
         grid.fluvialConnections = connections;
         pruneOscarFluvialTopology(grid);
+        if (fluvialCourseIdRenames.length || localReassignments.length) populateOscarFluvialInspectorSelect();
       };
 
       // Un champ n'est appliqué que s'il a réellement été modifié par
@@ -2589,6 +2946,7 @@
       const fluvialTopologyTouched = fluvialMouthEdits.length > 0
         || fluvialMouthModeEdits.length > 0
         || fluvialRegistryEdits.length > 0
+        || fluvialCourseIdRenames.length > 0
         || fluvialRelationEdits.length > 0
         || fluvialOperations.some(operation => operation.type === 'remove');
 
@@ -2600,6 +2958,15 @@
       }
 
       const targetKeys = oceanTargetKeys();
+      const missingReassignedCourse = fluvialOperations
+        .filter(operation => operation.type === 'reassign')
+        .find(operation => targets.some(cell => (
+          !oscarFluvialCurrentByCourseId(cell, operation.originalCourseId)
+        )));
+      if (missingReassignedCourse) {
+        alert(`Le tracé « ${missingReassignedCourse.originalCourseId} » doit être présent dans toutes les cellules sélectionnées pour modifier son courseId par lot.`);
+        return;
+      }
       const requestedNavigationTypes = natureNavTouched
         ? natureNavInput.value.split('+').filter(Boolean)
         : null;

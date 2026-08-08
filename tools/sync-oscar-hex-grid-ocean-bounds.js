@@ -26,6 +26,11 @@ const FORCE_INCLUDED_CELLS = {
     domain: 'caribbean',
     reason: 'Chenal maritime très fin, important pour la continuité locale.',
   },
+  '93_101': {
+    domain: 'fluvial',
+    natureNav: 'fluviale',
+    reason: 'Cellule navigable du delta du Rio Grande de la Madalena, hors emprise océanique.',
+  },
 };
 
 function option(name, fallback = null) {
@@ -296,6 +301,10 @@ function main() {
     const [r, q] = key.split('_').map(Number);
     if (!Number.isInteger(q) || !Number.isInteger(r)) throw new Error(`Exception de cellule invalide : ${key}`);
     nextCells[key] = createCalmCell(q, r, grid, override.domain);
+    if (override.natureNav) {
+      nextCells[key].natureNav = override.natureNav;
+      nextCells[key].natureNavSource = 'manual';
+    }
     forcedIncluded.push({ key, ...override, action: 'added' });
   }
 

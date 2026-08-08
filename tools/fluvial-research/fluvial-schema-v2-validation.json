@@ -1,12 +1,14 @@
 {
   "valid": true,
   "schemaVersion": 2,
-  "courses": 190,
+  "courses": 192,
   "watercourses": 145,
-  "vectors": 1590,
+  "vectors": 1594,
   "mouths": 122,
-  "connections": 95,
-  "junctions": 79,
+  "connectionAnchors": 97,
+  "connections": 96,
+  "multicellConnections": 1,
+  "junctions": 80,
   "forks": 16,
   "errors": [],
   "warnings": []

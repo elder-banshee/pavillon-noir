@@ -21,7 +21,7 @@
       --col-erase: rgba(180, 60, 60, 0.85);
       --col-insert: rgba(80, 140, 220, 0.85);
 
-      --panel-w: 320px;
+      --panel-w: 640px;
       --toolbar-h: 48px;
     }
 
@@ -418,6 +418,7 @@
       position: relative;
     }
 
+
     .ze-modal-title {
       font-family: 'Cinzel', serif;
       font-size: 0.78rem;
@@ -650,6 +651,7 @@
       display: flex;
       flex-direction: column;
       overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .panel-section {
@@ -1347,8 +1349,10 @@
       font-size: 0.72rem;
     }
 
-    .ocean-cell-form input {
+    .ocean-cell-form input,
+    .ocean-cell-form select {
       width: 100%;
+      min-width: 0;
       box-sizing: border-box;
       background: var(--bg);
       color: var(--text);
@@ -1435,6 +1439,11 @@
       line-height: 1.45;
     }
 
+    .ocean-fluvial-course-rename {
+      color: #fbbf24;
+      font-size: 0.72rem;
+    }
+
     .ocean-fluvial-outlet {
       grid-column: 1 / -1;
       display: grid;
@@ -1462,6 +1471,11 @@
       color: rgba(216, 225, 232, 0.7);
       font-size: 0.68rem;
       overflow-wrap: anywhere;
+    }
+
+    .ocean-fluvial-multicell {
+      margin-top: 1px;
+      color: #7dd3fc;
     }
 
     .ocean-fluvial-course-id {

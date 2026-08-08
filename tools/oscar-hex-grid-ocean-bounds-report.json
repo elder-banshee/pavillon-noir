@@ -3,7 +3,7 @@
   "zones": "js/zones-data.js",
   "mode": "write",
   "cellsBefore": 14743,
-  "cellsAfter": 14743,
+  "cellsAfter": 14744,
   "preserved": 14743,
   "preservedOutsideBounds": [
     "48_77",
@@ -76,6 +76,13 @@
       "domain": "caribbean",
       "reason": "Chenal maritime très fin, important pour la continuité locale.",
       "action": "preserved"
+    },
+    {
+      "key": "93_101",
+      "domain": "fluvial",
+      "natureNav": "fluviale",
+      "reason": "Cellule navigable du delta du Rio Grande de la Madalena, hors emprise océanique.",
+      "action": "added"
     }
   ],
   "changedExistingDomains": [],
