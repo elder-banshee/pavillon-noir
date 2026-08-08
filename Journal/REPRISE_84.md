@@ -216,3 +216,25 @@ largeur défilable identiques à 633 px, donc aucun défilement horizontal.
 - décocher l’option revient à un ancrage unique et supprime l’autre ancrage ;
 - après rechargement depuis le fichier du dépôt, les deux cellules du
   Commewijne affichent la fourche et la case multicellulaire cochée.
+
+## État de fin de session — 8 août 2026
+
+La session s’achève sur une grille fluviale v2 valide. Le validateur recense
+192 tracés, 1 594 vecteurs, 122 embouchures, 97 ancrages de connexion formant
+96 connexions logiques, dont un événement multicellulaire. Les 80 jonctions et
+16 fourches logiques ne produisent aucune erreur ni aucun avertissement.
+
+Les contrôles syntaxiques passent pour Zone Editor, le synchroniseur Ocean
+Bounds, `carte.js`, `navigation-jaillot.js` et `carte-mobile.js`.
+`git diff --check` et l’audit d’intégrité textuelle passent également. Le seul
+avertissement restant est antérieur à cette session : absence de fin de ligne
+dans `tools/fluvial-research/staging/_master_table.txt`.
+
+### Point de reprise recommandé
+
+La prochaine session pourra reprendre la révision générale des filtres
+d’affichage d’OCÉANOGRAPHIE, laissée volontairement en attente pendant les
+corrections prioritaires du modèle fluvial et de son interface. Le futur pilote
+devra considérer `ZONES_OCEAN_BOUNDS` comme masque géométrique navigable, puis
+utiliser les tracés, ancrages et vecteurs OSCAR comme couche hydrodynamique et
+de désambiguïsation.
