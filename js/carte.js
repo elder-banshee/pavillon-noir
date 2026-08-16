@@ -38,7 +38,9 @@ let isolationLayer = null;             // couche Leaflet du contour doré
 let isolationVilleId = null;           // ville actuellement zoomée
 
 // ─── Mode MJ ─────────────────────────────────────────────────
-let modeMJ = false;
+const FORCER_MODE_MJ = true; // Temporaire sur dev : false restaure la séquence secrète.
+let modeMJ = FORCER_MODE_MJ;
+window.modeMJ = modeMJ;
 
 // ─── Niveau de Navigation ─────────────────────────────────────
 // 0 = aucune compétence ; 1–5 = niveaux progressifs du livre de règles.
@@ -496,6 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPanneauGauche();
     initRecherche();
     initFiltresMarqueurs();
+    if (FORCER_MODE_MJ) confirmerModeMJ();
     masquerEcranChargement();
     setTimeout(planifierPrechauffageDesktop, 180);
     window.setNiveauNavigation = setNiveauNavigation;

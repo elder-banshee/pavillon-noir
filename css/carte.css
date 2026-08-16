@@ -1945,6 +1945,27 @@ path.leaflet-interactive:focus-visible {
 }
 .nav-jaillot-test-mj-ctrl input[type=number]::-webkit-inner-spin-button { display: none; }
 
+.nav-jaillot-test-mj-ligne--grille {
+  flex-wrap: wrap;
+  padding-top: 0.35rem;
+  border-top: 1px solid rgba(200,151,58,0.2);
+}
+.nav-jaillot-test-mj-ligne--grille select,
+.nav-jaillot-test-mj-ligne--grille button {
+  min-height: 24px;
+  border: 1px solid rgba(200,151,58,0.35);
+  border-radius: 3px;
+  background: rgba(0,0,0,0.3);
+  color: var(--gold-light);
+  font: 0.68rem 'Cinzel', serif;
+}
+.nav-jaillot-test-mj-ligne--grille select { padding: 2px 4px; }
+.nav-jaillot-test-mj-ligne--grille button {
+  flex-basis: 100%;
+  cursor: pointer;
+}
+.nav-jaillot-test-mj-ligne--grille button:hover { background: rgba(200,151,58,0.2); }
+
 /* Panneau gauche : marge au-dessus */
 #nav-jaillot-test-mj { margin-top: 0.4rem; }
 /* Modale : pas de marge (dans le footer) */

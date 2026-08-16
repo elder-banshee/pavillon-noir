@@ -45,7 +45,10 @@
   let terresCache = null;
   let terresIndexCache = null;
   let hautsFondsIndexCache = null;
-  let grilleCache = null;
+  const grillesMacroCache = { carree: null, ocean: null };
+  let moteurGrilleMacro = 'carree';
+  let mesureRouteActive = null;
+  let derniereComparaisonGrilles = null;
   const navigabiliteCache = new Map();
   const distanceCoteCache = new Map();
   const courantPointCache = new Map();
@@ -65,6 +68,12 @@
 
   function pointCle(point) {
     return `${Math.round(point.x)},${Math.round(point.y)}`;
+  }
+
+  function maintenantMs() {
+    return typeof performance !== 'undefined' && typeof performance.now === 'function'
+      ? performance.now()
+      : Date.now();
   }
 
   function sourceOceanGrid() {
@@ -2416,8 +2425,12 @@
   // Pathfinding et calcul de route
   // ═══════════════════════════════════════════════════════════════════════════
 
-  function getGrille() {
-    if (grilleCache) return grilleCache;
+  function getGrilleCarree() {
+    if (grillesMacroCache.carree) {
+      if (mesureRouteActive) mesureRouteActive.grilleCache = true;
+      return grillesMacroCache.carree;
+    }
+    const debut = maintenantMs();
     const step = CONFIG.grillePx;
     const cols = Math.floor(CARTE_IMAGE.width / step) + 1;
     const rows = Math.floor(CARTE_IMAGE.height / step) + 1;
@@ -2435,12 +2448,74 @@
       }
     }
 
-    grilleCache = { step, cols, rows, nodes };
-    return grilleCache;
+    grillesMacroCache.carree = { moteur: 'carree', step, cols, rows, nodes };
+    if (mesureRouteActive) {
+      mesureRouteActive.constructionGrilleMs += maintenantMs() - debut;
+      mesureRouteActive.noeudsGrille = nodes.size;
+    }
+    return grillesMacroCache.carree;
+  }
+
+  function getGrilleOcean() {
+    if (grillesMacroCache.ocean) {
+      if (mesureRouteActive) mesureRouteActive.grilleCache = true;
+      return grillesMacroCache.ocean;
+    }
+    const debut = maintenantMs();
+    const source = sourceOceanGrid();
+    const nodes = new Map();
+    Object.entries(source.cells).forEach(([key, cell]) => {
+      const p = {
+        key,
+        q: Number(cell.q),
+        r: Number(cell.r),
+        gx: Number(cell.q),
+        gy: Number(cell.r),
+        x: Number(cell.x),
+        y: Number(cell.y),
+        cell,
+      };
+      if (Number.isFinite(p.x) && Number.isFinite(p.y) && pointNavigable(p)) nodes.set(key, p);
+    });
+    grillesMacroCache.ocean = {
+      moteur: 'ocean',
+      step: Number(source.widthPx) || CONFIG.grillePx,
+      nodes,
+    };
+    if (mesureRouteActive) {
+      mesureRouteActive.constructionGrilleMs += maintenantMs() - debut;
+      mesureRouteActive.noeudsGrille = nodes.size;
+    }
+    return grillesMacroCache.ocean;
+  }
+
+  function getGrille() {
+    return moteurGrilleMacro === 'ocean' ? getGrilleOcean() : getGrilleCarree();
+  }
+
+  function clesVoisinesOcean(node) {
+    const q = node.q;
+    const r = node.r;
+    const diagonales = r & 1 ? [q, q + 1] : [q - 1, q];
+    return [
+      `${r}_${q - 1}`, `${r}_${q + 1}`,
+      `${r - 1}_${diagonales[0]}`, `${r - 1}_${diagonales[1]}`,
+      `${r + 1}_${diagonales[0]}`, `${r + 1}_${diagonales[1]}`,
+    ];
   }
 
   function voisins(node, foyers = []) {
     const grille = getGrille();
+    if (grille.moteur === 'ocean') {
+      const out = [];
+      clesVoisinesOcean(node).forEach(key => {
+        const voisin = grille.nodes.get(key);
+        if (!voisin) return;
+        const cout = coutSegmentGrille(node, voisin, foyers);
+        if (Number.isFinite(cout)) out.push({ node: voisin, cout });
+      });
+      return out;
+    }
     const deltas = deltasNavigation();
     const out = [];
     deltas.forEach(([dx, dy]) => {
@@ -2920,11 +2995,13 @@
 
     let iterations = 0;
     while (open.items.length && iterations++ < CONFIG.limiteIterations) {
+      if (mesureRouteActive) mesureRouteActive.iterationsMacro = iterations;
       const current = open.pop();
       if (!current) break;
       if (closed.has(current.key)) continue;
       closed.add(current.key);
       if (goalKeys.has(current.key)) {
+        if (mesureRouteActive) mesureRouteActive.noeudsVisitesMacro = closed.size;
         let route = reconstruire(cameFrom, current.key, nodesByKey);
         const approcheDepart = approchesDepart.get(pointCle(route[0]));
         const approcheArrivee = approchesArrivee.get(pointCle(route[route.length - 1]));
@@ -2965,6 +3042,7 @@
       });
     }
 
+    if (mesureRouteActive) mesureRouteActive.noeudsVisitesMacro = closed.size;
     throw new Error('Aucune route maritime trouvee avec la grille actuelle.');
   }
 
@@ -3366,7 +3444,8 @@
     hautsFondsIndexCache = null;
     zonesNavigationIndexCache = null;
     oceanBoundsIndexCache = null;
-    grilleCache = null;        // la grille filtre les nodes selon les hauts-fonds
+    grillesMacroCache.carree = null; // les grilles filtrent les nœuds selon les hauts-fonds
+    grillesMacroCache.ocean = null;
     navigabiliteCache.clear(); // les segments bloques/libres dependent du niveau Nav et de la categorie
     ventPointCache.clear();    // le vent est conditionne par modificateurActif(2)
     courantPointCache.clear(); // les courants sont conditionnes par modificateurActif(1)
@@ -3535,6 +3614,14 @@
             <button type="button" id="nav-jaillot-cat-plus" aria-label="Augmenter">+</button>
           </div>
         </div>
+        <div class="nav-jaillot-test-mj-ligne nav-jaillot-test-mj-ligne--grille">
+          <label class="nav-jaillot-test-mj-label" for="nav-jaillot-moteur-grille">Grille macro</label>
+          <select id="nav-jaillot-moteur-grille">
+            <option value="carree">Carrée 50 px</option>
+            <option value="ocean">OCEAN hex</option>
+          </select>
+          <button type="button" id="nav-jaillot-comparer-grilles">Comparer</button>
+        </div>
       </div>
     `;
     L.DomEvent.disableClickPropagation(panneau);
@@ -3555,6 +3642,12 @@
 
     initChampPort(inputA, panneau.querySelector('#nav-jaillot-a-fantome'), panneau.querySelector('#nav-jaillot-a-suggestions'));
     initChampPort(inputB, panneau.querySelector('#nav-jaillot-b-fantome'), panneau.querySelector('#nav-jaillot-b-suggestions'));
+
+    const selecteurMoteur = panneau.querySelector('#nav-jaillot-moteur-grille');
+    if (selecteurMoteur) {
+      selecteurMoteur.value = moteurGrilleMacro;
+      selecteurMoteur.addEventListener('change', () => setMoteurGrilleMacro(selecteurMoteur.value));
+    }
 
     panneau.querySelector('#nav-jaillot-swap').addEventListener('click', () => {
       [inputA.value, inputB.value] = [inputB.value, inputA.value];
@@ -3590,6 +3683,27 @@
           resultat.textContent = `${formatDureeHeures(duree)} · ${formatDistanceMilles(distance)}`;
         } catch (err) {
           resultat.textContent = err.message || 'Route impossible.';
+        }
+      }, 20);
+    });
+
+    panneau.querySelector('#nav-jaillot-comparer-grilles')?.addEventListener('click', () => {
+      const a = trouverPort(inputA.dataset.portId || inputA.value);
+      const b = trouverPort(inputB.dataset.portId || inputB.value);
+      if (!a || !b) {
+        resultat.textContent = 'Port introuvable.';
+        return;
+      }
+      resultat.textContent = 'Comparaison des grilles…';
+      setTimeout(() => {
+        try {
+          const comparaison = comparerGrilles(pointRoutePort(a), pointRoutePort(b));
+          const resume = mesure => mesure.succes
+            ? `${Math.round(mesure.dureeTotaleMs)} ms · ${mesure.iterationsMacro} it. · ${mesure.noeudsVisitesMacro} nœuds`
+            : `échec · ${mesure.erreur}`;
+          resultat.textContent = `Carrée : ${resume(comparaison.carree)} | OCEAN : ${resume(comparaison.ocean)}`;
+        } catch (err) {
+          resultat.textContent = err?.message || 'Comparaison impossible.';
         }
       }, 20);
     });
@@ -4176,6 +4290,98 @@
     });
   }
 
+  function setMoteurGrilleMacro(moteur) {
+    if (moteur !== 'carree' && moteur !== 'ocean') {
+      throw new Error(`Moteur de grille macro inconnu : ${moteur}.`);
+    }
+    moteurGrilleMacro = moteur;
+    return moteurGrilleMacro;
+  }
+
+  function viderCachesMesure(moteur, reconstruireGrille) {
+    navigabiliteCache.clear();
+    distanceCoteCache.clear();
+    courantPointCache.clear();
+    ventPointCache.clear();
+    tempsSegmentCache.clear();
+    if (reconstruireGrille) grillesMacroCache[moteur] = null;
+  }
+
+  function mesurerRouteAvecMoteur(moteur, depart, arrivee, options = {}) {
+    const precedent = moteurGrilleMacro;
+    setMoteurGrilleMacro(moteur);
+    if (options.viderCaches !== false) viderCachesMesure(moteur, options.reconstruireGrille !== false);
+    const mesure = {
+      moteur,
+      succes: false,
+      dureeTotaleMs: 0,
+      constructionGrilleMs: 0,
+      grilleCache: false,
+      noeudsGrille: grillesMacroCache[moteur]?.nodes.size || 0,
+      iterationsMacro: 0,
+      noeudsVisitesMacro: 0,
+      pointsRoute: 0,
+      distanceNm: null,
+      dureeNavigationHeures: null,
+      erreur: null,
+    };
+    mesureRouteActive = mesure;
+    const debut = maintenantMs();
+    try {
+      const route = calculerRoute(depart, arrivee);
+      mesure.succes = true;
+      mesure.pointsRoute = route.length;
+      mesure.distanceNm = distanceRouteNm(route);
+      mesure.dureeNavigationHeures = dureeRouteHeures(route);
+      mesure.route = route;
+    } catch (err) {
+      mesure.erreur = err?.message || String(err);
+    } finally {
+      mesure.dureeTotaleMs = maintenantMs() - debut;
+      mesureRouteActive = null;
+      setMoteurGrilleMacro(precedent);
+    }
+    return mesure;
+  }
+
+  function comparerGrilles(depart, arrivee, options = {}) {
+    const pointDepart = { x: Number(depart?.x), y: Number(depart?.y) };
+    const pointArrivee = { x: Number(arrivee?.x), y: Number(arrivee?.y) };
+    if (![pointDepart.x, pointDepart.y, pointArrivee.x, pointArrivee.y].every(Number.isFinite)) {
+      throw new Error('Points de comparaison invalides.');
+    }
+    // Les deux moteurs partagent ces sources : les préparer hors chronométrage
+    // évite que le premier exécuté paie seul le warmup géométrique commun.
+    getIndexTerres();
+    getIndexHautsFonds();
+    getOceanBoundsIndex();
+    getZonesNavigationIndex();
+    getDeventementsIndex();
+    const carree = mesurerRouteAvecMoteur('carree', pointDepart, pointArrivee, options);
+    const ocean = mesurerRouteAvecMoteur('ocean', pointDepart, pointArrivee, options);
+    derniereComparaisonGrilles = {
+      depart: pointDepart,
+      arrivee: pointArrivee,
+      options: {
+        viderCaches: options.viderCaches !== false,
+        reconstruireGrille: options.reconstruireGrille !== false,
+      },
+      carree,
+      ocean,
+    };
+    return derniereComparaisonGrilles;
+  }
+
+  function comparerGrillesEntrePorts(depart, arrivee, options = {}) {
+    const portDepart = trouverPort(depart);
+    const portArrivee = trouverPort(arrivee);
+    if (!portDepart || !portArrivee) throw new Error('Port de départ ou d’arrivée introuvable.');
+    return {
+      ports: { depart: portDepart.nom, arrivee: portArrivee.nom },
+      ...comparerGrilles(pointRoutePort(portDepart), pointRoutePort(portArrivee), options),
+    };
+  }
+
   function init(options) {
     carte = options.carte;
     pixelToLatLngFn = options.pixelToLatLng;
@@ -4245,6 +4451,12 @@
   window.NavigationJaillot = {
     init,
     calculerRoute,
+    comparerGrilles,
+    comparerGrillesEntrePorts,
+    mesurerRouteAvecMoteur,
+    setMoteurGrilleMacro,
+    getMoteurGrilleMacro: () => moteurGrilleMacro,
+    getDerniereComparaisonGrilles: () => derniereComparaisonGrilles,
     inspecterPointNavigation,
     modeNavigationMaritime,
     segmentNavigable,
